@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    padding: 40px;
+    margin: 0;
+}
+.container {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+h1 {
+    text-align: center;
+    color: #2d3748;
+    font-size: 42px;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+.subtitle {
+    text-align: center;
+    color: #718096;
+    font-size: 18px;
+    margin-bottom: 40px;
+}
+.balance-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 40px;
+    align-items: stretch;
+}
+.team {
+    flex: 1;
+    border-radius: 15px;
+    padding: 35px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+.team-a {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    color: white;
+}
+.team-b {
+    background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+    color: white;
+}
+.team h2 {
+    font-size: 32px;
+    margin-bottom: 25px;
+    text-align: center;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.team-a h2:before { content: "⚖️"; margin-right: 15px; font-size: 40px; }
+.team-b h2:before { content: "🎯"; margin-right: 15px; font-size: 40px; }
+.team h3 {
+    font-size: 20px;
+    margin: 25px 0 15px 0;
+    font-weight: 600;
+    border-bottom: 2px solid rgba(255,255,255,0.3);
+    padding-bottom: 10px;
+}
+.team ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.team li {
+    padding: 12px 0;
+    font-size: 17px;
+    line-height: 1.6;
+    display: flex;
+    align-items: flex-start;
+}
+.team li:before {
+    content: "▸";
+    margin-right: 12px;
+    font-weight: bold;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+.formato {
+    background: #f7fafc;
+    border-radius: 15px;
+    padding: 30px;
+    border-left: 6px solid #4299e1;
+}
+.formato h3 {
+    color: #2d3748;
+    font-size: 26px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+.formato h3:before {
+    content: "📋";
+    margin-right: 15px;
+    font-size: 30px;
+}
+.formato ol {
+    color: #4a5568;
+    font-size: 18px;
+    line-height: 2;
+    margin: 0;
+    padding-left: 25px;
+}
+.formato li {
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+.balance-icon {
+    text-align: center;
+    font-size: 80px;
+    margin: 30px 0;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>La Balanza de la Protección</h1>
+    <div class="subtitle">Debate: ¿Generosa o Escasa?</div>
+    
+    <div class="balance-icon">⚖️</div>
+    
+    <div class="balance-container">
+        <div class="team team-a">
+            <h2>EQUIPO A</h2>
+            <h3>POSICIÓN: Protección GENEROSA</h3>
+            
+            <h3>Argumentos a defender:</h3>
+            <ul>
+                <li><strong>Dignidad humana:</strong> Toda persona merece vivir con dignidad mientras busca empleo</li>
+                <li><strong>Motor económico:</strong> El poder de compra de los desempleados mantiene la economía activa</li>
+                <li><strong>Búsqueda de calidad:</strong> Permite encontrar empleos que aprovechen las capacidades</li>
+                <li><strong>Protección infantil:</strong> Previene pobreza y exclusión de los hijos</li>
+                <li><strong>Inversión social:</strong> Reduce costes sanitarios, sociales y de criminalidad</li>
+            </ul>
+        </div>
+        
+        <div class="team team-b">
+            <h2>EQUIPO B</h2>
+            <h3>POSICIÓN: Protección ESCASA</h3>
+            
+            <h3>Argumentos a defender:</h3>
+            <ul>
+                <li><strong>Incentivo a trabajar:</strong> Protección muy alta reduce urgencia de buscar empleo</li>
+                <li><strong>Sostenibilidad fiscal:</strong> El Estado tiene recursos limitados a repartir</li>
+                <li><strong>Evita dependencia:</strong> No crear cultura de prestaciones permanentes</li>
+                <li><strong>Economía sumergida:</strong> Menos riesgo de cobrar prestación + trabajar en negro</li>
+                <li><strong>Competitividad:</strong> Salarios de reserva muy altos dificultan contratación</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="formato">
+        <h3>Formato del Debate</h3>
+        <ol>
+            <li><strong>7 minutos:</strong> Preparación en equipos (asignar portavoces, distribuir argumentos)</li>
+            <li><strong>3 minutos:</strong> Exposición inicial por cada equipo (presentar posición)</li>
+            <li><strong>2 minutos:</strong> Réplica cruzada (cada equipo responde al otro)</li>
+            <li><strong>Votación:</strong> Clase vota qué argumentos resultaron más convincentes</li>
+            <li><strong>Cierre profesor:</strong> "Por eso es un EQUILIBRIO, no blanco o negro"</li>
+        </ol>
+    </div>
+</div>
+</body>
+</html>

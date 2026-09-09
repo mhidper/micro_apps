@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #3a1c71 0%, #d76d77 50%, #ffaf7b 100%);
+    padding: 40px;
+    margin: 0;
+}
+.container {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+h1 {
+    text-align: center;
+    color: #2d3748;
+    font-size: 42px;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+.subtitle {
+    text-align: center;
+    color: #718096;
+    font-size: 18px;
+    margin-bottom: 40px;
+}
+.casos-debate {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    margin-bottom: 30px;
+}
+.caso-debate {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+    padding: 25px;
+    color: white;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+.caso-debate h3 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid rgba(255,255,255,0.3);
+    padding-bottom: 10px;
+}
+.caso-debate p {
+    font-size: 16px;
+    line-height: 1.7;
+    margin: 10px 0;
+}
+.debate-question {
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 15px;
+    font-weight: 600;
+    font-size: 17px;
+}
+.factores {
+    background: #f7fafc;
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+}
+.factores h3 {
+    color: #2d3748;
+    font-size: 26px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+.factores h3:before {
+    content: "⚖️";
+    margin-right: 15px;
+    font-size: 30px;
+}
+.factores-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+.factor {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+}
+.factor-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+.factor-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 8px;
+}
+.factor-desc {
+    font-size: 14px;
+    color: #718096;
+    line-height: 1.5;
+}
+.dinamica-debate {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    border-radius: 15px;
+    padding: 30px;
+    color: white;
+}
+.dinamica-debate h3 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+.dinamica-debate ol {
+    font-size: 18px;
+    line-height: 2;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>💼 ¿Colocación Adecuada o No?</h1>
+    <div class="subtitle">Casos Límite para Debatir en Clase</div>
+    
+    <div class="factores">
+        <h3>Factores a Considerar Siempre</h3>
+        <div class="factores-grid">
+            <div class="factor">
+                <div class="factor-icon">📍</div>
+                <div class="factor-title">Distancia</div>
+                <div class="factor-desc">Tiempo y coste de desplazamiento desde el domicilio</div>
+            </div>
+            <div class="factor">
+                <div class="factor-icon">💰</div>
+                <div class="factor-title">Salario</div>
+                <div class="factor-desc">Comparación con el último empleo y media del sector</div>
+            </div>
+            <div class="factor">
+                <div class="factor-icon">🎯</div>
+                <div class="factor-title">Cualificación</div>
+                <div class="factor-desc">Relación con formación y experiencia previa</div>
+            </div>
+            <div class="factor">
+                <div class="factor-icon">⏰</div>
+                <div class="factor-title">Tiempo en Paro</div>
+                <div class="factor-desc">Primer año: empleo similar | Después: más flexible</div>
+            </div>
+            <div class="factor">
+                <div class="factor-icon">👨‍👩‍👧‍👦</div>
+                <div class="factor-title">Circunstancias</div>
+                <div class="factor-desc">Cargas familiares, dependientes, situación personal</div>
+            </div>
+            <div class="factor">
+                <div class="factor-icon">🕐</div>
+                <div class="factor-title">Jornada</div>
+                <div class="factor-desc">Completa/parcial, turnos, horarios especiales</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="casos-debate">
+        <div class="caso-debate" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+            <h3>CASO 1: La Ingeniera</h3>
+            <p><strong>Perfil:</strong> Ingeniera industrial, 15 años experiencia, último salario 3.500€</p>
+            <p><strong>Oferta:</strong> Administrativa en una fábrica a 25km, salario 1.800€, jornada completa</p>
+            <p><strong>Situación:</strong> 4 meses en paro, tiene un hijo de 3 años en guardería cerca de casa</p>
+            <div class="debate-question">
+                ¿Puede rechazarla? ¿Y si llevara 14 meses en paro? ¿Qué peso tiene la guardería?
+            </div>
+        </div>
+        
+        <div class="caso-debate" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+            <h3>CASO 2: El Comercial</h3>
+            <p><strong>Perfil:</strong> Comercial, 8 años experiencia, último salario 2.200€ + comisiones</p>
+            <p><strong>Oferta:</strong> Comercial en otra empresa, 1.600€ fijos + comisiones variables, a 15km</p>
+            <p><strong>Situación:</strong> 2 meses en paro, sin cargas familiares</p>
+            <div class="debate-question">
+                ¿Es adecuada? El puesto es similar pero salario base menor. ¿Importan las comisiones?
+            </div>
+        </div>
+        
+        <div class="caso-debate" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+            <h3>CASO 3: La Dependienta Senior</h3>
+            <p><strong>Perfil:</strong> Dependienta, 58 años, 30 años experiencia, último salario 1.400€</p>
+            <p><strong>Oferta:</strong> Reponedora nocturna en almacén, 1.500€, a 40km</p>
+            <p><strong>Situación:</strong> 7 meses en paro, cuida a su madre de 85 años</p>
+            <div class="debate-question">
+                ¿Puede rechazarla? ¿Pesan la edad, el horario nocturno y el cuidado de la madre?
+            </div>
+        </div>
+        
+        <div class="caso-debate" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+            <h3>CASO 4: El Joven Temporal</h3>
+            <p><strong>Perfil:</strong> Graduado ADE, 24 años, 6 meses experiencia, último salario 1.100€</p>
+            <p><strong>Oferta:</strong> Contrato temporal 3 meses, administrativa, 1.050€, a 60km</p>
+            <p><strong>Situación:</strong> 1 mes en paro, vive con padres</p>
+            <div class="debate-question">
+                ¿Es adecuada? Salario similar, distancia grande, contrato muy corto. ¿Puede rechazarlo?
+            </div>
+        </div>
+    </div>
+    
+    <div class="dinamica-debate">
+        <h3>🎯 Dinámica de Debate en Clase</h3>
+        <ol>
+            <li><strong>Dividir en 4 grupos</strong>, cada uno analiza un caso diferente</li>
+            <li><strong>10 minutos:</strong> Decidir si la oferta es "adecuada" y justificar con la normativa</li>
+            <li><strong>3 minutos por grupo:</strong> Exponer su decisión y argumentos</li>
+            <li><strong>Clase vota:</strong> ¿Están de acuerdo con cada decisión?</li>
+            <li><strong>Profesor cierra:</strong> Explicar qué dice realmente la normativa para cada caso</li>
+        </ol>
+    </div>
+</div>
+</body>
+</html>

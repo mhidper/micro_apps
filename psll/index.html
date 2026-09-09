@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PolicyLab PSLL · Laboratorio Interactivo de Políticas Sociolaborales y de Empleo | UPO</title>
+  <meta name="description" content="Laboratorio de micro-apps interactivas y simuladores para la asignatura Políticas Sociolaborales y de Empleo (PSLL) de la Universidad Pablo de Olavide.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --psll-pine: #113927;
+      --psll-sage: #76927A;
+      --psll-coral: #E98F71;
+      --psll-mint-soft: #F4F8F5;
+      --psll-mint-card: #EAF4EE;
+      --psll-ink: #2F3A30;
+      --psll-border: #DDE8E0;
+      --white: #FFFFFF;
+      --upo-navy: #0B1C36;
+      --shadow-sm: 0 4px 6px -1px rgba(17, 57, 39, 0.05);
+      --shadow-md: 0 12px 24px -4px rgba(17, 57, 39, 0.08);
+      --shadow-lg: 0 20px 35px -6px rgba(17, 57, 39, 0.12);
+      --radius-lg: 20px;
+      --radius-md: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #F8FAF9;
+      color: var(--psll-ink);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Institutional Bar */
+    .top-bar {
+      background: var(--psll-pine);
+      color: rgba(255, 255, 255, 0.85);
+      padding: 8px 24px;
+      font-size: 0.82rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      letter-spacing: 0.5px;
+    }
+
+    .top-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .top-bar-badge {
+      background: rgba(233, 143, 113, 0.25);
+      color: var(--psll-coral);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 0.75rem;
+    }
+
+    /* Main Header */
+    header {
+      background: var(--white);
+      border-bottom: 1px solid var(--psll-border);
+      padding: 28px 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-content {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .brand-block {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .brand-logo {
+      height: 64px;
+      width: auto;
+      border-radius: 12px;
+      padding: 4px;
+      background: var(--white);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .brand-text h1 {
+      font-family: 'Outfit', sans-serif;
+      color: var(--psll-pine);
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      line-height: 1.15;
+    }
+
+    .brand-text p {
+      color: var(--psll-sage);
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .badge-course {
+      background: var(--psll-mint-soft);
+      border: 1px solid var(--psll-sage);
+      color: var(--psll-pine);
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(180deg, var(--white) 0%, #F1F7F3 100%);
+      padding: 40px 24px 32px;
+      border-bottom: 1px solid var(--psll-border);
+    }
+
+    .hero-container {
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(233, 143, 113, 0.15);
+      color: #D36C4A;
+      border: 1px solid rgba(233, 143, 113, 0.3);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .hero h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.2rem;
+      color: var(--psll-pine);
+      font-weight: 800;
+      max-width: 860px;
+      line-height: 1.25;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      color: #4A5B4D;
+      max-width: 780px;
+      line-height: 1.6;
+    }
+
+    /* Main Catalog */
+    main {
+      flex: 1;
+      max-width: 1240px;
+      width: 100%;
+      margin: 36px auto;
+      padding: 0 24px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 24px;
+      border-bottom: 2px solid var(--psll-border);
+      padding-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      color: var(--psll-pine);
+      font-size: 1.4rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-tag {
+      font-size: 0.85rem;
+      color: var(--psll-sage);
+      font-weight: 600;
+    }
+
+    /* Grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 26px;
+      margin-bottom: 48px;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--psll-border);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s, border-color 0.25s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--psll-sage);
+    }
+
+    .card-top {
+      padding: 24px 26px 16px;
+      border-bottom: 1px solid #F0F5F2;
+      position: relative;
+    }
+
+    .card-badges {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .badge-session {
+      background: var(--psll-pine);
+      color: var(--white);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-time {
+      color: var(--psll-sage);
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--psll-pine);
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+
+    .card-topic {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--psll-sage);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .card-body {
+      padding: 18px 26px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-description {
+      font-size: 0.92rem;
+      color: #4A5B4D;
+      line-height: 1.55;
+      margin-bottom: 20px;
+    }
+
+    .card-meta-list {
+      list-style: none;
+      font-size: 0.82rem;
+      color: #5D7260;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 20px;
+      background: var(--psll-mint-soft);
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      border-left: 3px solid var(--psll-coral);
+    }
+
+    .card-meta-list li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-launch {
+      flex: 1;
+      background: var(--psll-pine);
+      color: var(--white);
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: var(--radius-md);
+      font-weight: 700;
+      font-size: 0.92rem;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-launch:hover {
+      background: #184D35;
+      box-shadow: 0 4px 12px rgba(17, 57, 39, 0.25);
+    }
+
+    .btn-qr-modal {
+      background: var(--white);
+      border: 1.5px solid var(--psll-border);
+      color: var(--psll-pine);
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .btn-qr-modal:hover {
+      background: var(--psll-mint-soft);
+      border-color: var(--psll-sage);
+    }
+
+    /* Modal for QR projection in class */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 28, 54, 0.7);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 36px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.35);
+      border: 2px solid var(--psll-sage);
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 18px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: #888;
+    }
+
+    .modal-qr-img {
+      width: 240px;
+      height: 240px;
+      margin: 16px auto;
+      border-radius: 12px;
+      padding: 8px;
+      border: 1px solid #E0E0E0;
+    }
+
+    .modal-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.3rem;
+      color: var(--psll-pine);
+      font-weight: 800;
+    }
+
+    .modal-url {
+      word-break: break-all;
+      font-size: 0.85rem;
+      color: var(--psll-coral);
+      font-family: monospace;
+      margin-top: 8px;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--white);
+      border-top: 1px solid var(--psll-border);
+      padding: 30px 24px;
+      margin-top: auto;
+    }
+
+    .footer-content {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 0.88rem;
+      color: #66796A;
+    }
+
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .hero h2 {
+        font-size: 1.7rem;
+      }
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <span>🏛️ <strong>Universidad Pablo de Olavide</strong> · Facultad de Ciencias del Trabajo</span>
+      <span class="top-bar-badge">CURSO 2026-2027</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <a href="../" style="color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.8rem; border: 1px solid rgba(255,255,255,0.3); padding: 2px 10px; border-radius: 6px; transition: all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='transparent'">← Todas las Asignaturas</a>
+      <span>Prof. Manuel A. Hidalgo Pérez</span>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <div class="brand-block">
+        <img src="assets/isotipo_psll_upo.png" alt="PSLL Símbolo Oficial" class="brand-logo">
+        <div class="brand-text">
+          <h1>PolicyLab PSLL</h1>
+          <p>Políticas Sociolaborales y de Empleo · Grado en RRLL y RRHH</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="badge-course">Aula Invertida & Métodos Cuantitativos</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-container">
+      <div class="hero-pill">
+        <span>⚡</span> Laboratorio de Simulación Interactiva y Diagnóstico Empírico
+      </div>
+      <h2>Experimenta los mecanismos del mercado laboral en tiempo real</h2>
+      <p>
+        Las micro-apps del PolicyLab están diseñadas para las dinámicas activas de clase (sesiones teóricas EB y prácticas EPD). 
+        Permiten contrastar intuiciones con modelos cuantitativos y datos reales de la EPA, Eurostat y la OCDE.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main>
+    
+    <!-- Bloque 1: Tema 1 -->
+    <div class="section-header">
+      <div class="section-title">
+        <span>📊</span> Tema 1: Productividad, Salarios y el Mercado de Trabajo
+      </div>
+      <div class="section-tag">Sesión EB 2 & EPD 1</div>
+    </div>
+
+    <div class="cards-grid">
+      <!-- App 1: Simulador CLU -->
+      <div class="card">
+        <div class="card-top">
+          <div class="card-badges">
+            <span class="badge-session">SESIÓN EB 2</span>
+            <span class="badge-time">⏱️ 25-30 min</span>
+          </div>
+          <div class="card-topic">Diagnóstico Sectorial & Costes Unitarios</div>
+          <h3 class="card-title">Simulador CLU (Coste Laboral Unitario)</h3>
+        </div>
+        <div class="card-body">
+          <p class="card-description">
+            Experimenta el principio fundamental de la sesión: <em>la productividad es el techo real de los salarios</em>. Aplica shocks salariales (+8%) en sectores críticos (Hostelería vs. TIC) y comprueba el impacto en competitividad y empleo.
+          </p>
+          <ul class="card-meta-list">
+            <li><span>🎯</span> <strong>Mecánica:</strong> Velocímetro de estrés laboral y semáforos de riesgo.</li>
+            <li><span>💡</span> <strong>Dilema:</strong> Subvención temporal vs. inversión en productividad (+25%).</li>
+            <li><span>🏛️</span> <strong>Rol:</strong> Analista de Políticas de Empleo.</li>
+          </ul>
+          <div class="card-actions">
+            <a href="simulador_clu.html" class="btn-launch">
+              <span>🚀</span> Abrir Simulador
+            </a>
+            <button class="btn-qr-modal" onclick="openQrModal('Simulador CLU (Sesión 2)', 'simulador_clu.html')" title="Proyectar QR para clase">
+              📱
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bloque 2: Tema 3 -->
+    <div class="section-header">
+      <div class="section-title">
+        <span>⚖️</span> Tema 3: Políticas Pasivas y Protección Social
+      </div>
+      <div class="section-tag">Dinámicas Activas & Casos de Debate</div>
+    </div>
+
+    <div class="cards-grid">
+      <!-- App 2: Balanza Protección -->
+      <div class="card">
+        <div class="card-top">
+          <div class="card-badges">
+            <span class="badge-session">TEMA 3 · DEBATE</span>
+            <span class="badge-time">⏱️ 20 min</span>
+          </div>
+          <div class="card-topic">Dilemas de Protección Social</div>
+          <h3 class="card-title">La Balanza de la Protección</h3>
+        </div>
+        <div class="card-body">
+          <p class="card-description">
+            Analiza en tiempo real los contrapesos entre desincentivo al trabajo / trampa del desempleo y la garantía de una red de seguridad digna para los trabajadores.
+          </p>
+          <ul class="card-meta-list">
+            <li><span>⚖️</span> <strong>Mecánica:</strong> Contrapeso dinámico entre generosidad y activación.</li>
+            <li><span>👥</span> <strong>Dinámica:</strong> Trabajo en parejas y resolución de dilemas normativos.</li>
+          </ul>
+          <div class="card-actions">
+            <a href="balanza_proteccion.html" class="btn-launch">
+              <span>🚀</span> Abrir Dinámica
+            </a>
+            <button class="btn-qr-modal" onclick="openQrModal('La Balanza de la Protección', 'balanza_proteccion.html')" title="Proyectar QR para clase">
+              📱
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- App 3: Viaje del Desempleado -->
+      <div class="card">
+        <div class="card-top">
+          <div class="card-badges">
+            <span class="badge-session">TEMA 3 · ITINERARIOS</span>
+            <span class="badge-time">⏱️ 15 min</span>
+          </div>
+          <div class="card-topic">Itinerarios y Prestaciones</div>
+          <h3 class="card-title">El Viaje del Desempleado</h3>
+        </div>
+        <div class="card-body">
+          <p class="card-description">
+            Cronología interactiva paso a paso a través de las diferentes fases que atraviesa un trabajador en situación de desempleo en el sistema de seguridad social español.
+          </p>
+          <ul class="card-meta-list">
+            <li><span>🗺️</span> <strong>Mecánica:</strong> Timeline interactivo con hitos de prestación contributiva y asistencial.</li>
+            <li><span>🔍</span> <strong>Objetivo:</strong> Mapear requisitos de cotización y compromisos de actividad.</li>
+          </ul>
+          <div class="card-actions">
+            <a href="viaje_desempleado.html" class="btn-launch">
+              <span>🚀</span> Abrir Cronología
+            </a>
+            <button class="btn-qr-modal" onclick="openQrModal('El Viaje del Desempleado', 'viaje_desempleado.html')" title="Proyectar QR para clase">
+              📱
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- App 4: Mitos vs Realidades -->
+      <div class="card">
+        <div class="card-top">
+          <div class="card-badges">
+            <span class="badge-session">TEMA 3 · SONDEO</span>
+            <span class="badge-time">⏱️ 15 min</span>
+          </div>
+          <div class="card-topic">Choque Cognitivo Empírico</div>
+          <h3 class="card-title">Mitos vs. Realidades</h3>
+        </div>
+        <div class="card-body">
+          <p class="card-description">
+            Cuestionario interactivo diseñado para desmontar prejuicios sociales populares sobre el subsidio por desempleo mediante datos empíricos contrastados.
+          </p>
+          <ul class="card-meta-list">
+            <li><span>💥</span> <strong>Mecánica:</strong> Tarjetas desplegables con evidencia empírica.</li>
+            <li><span>📚</span> <strong>Objetivo:</strong> Desarrollar pensamiento crítico fundamentado en datos.</li>
+          </ul>
+          <div class="card-actions">
+            <a href="mitos_realidades.html" class="btn-launch">
+              <span>🚀</span> Abrir Cuestionario
+            </a>
+            <button class="btn-qr-modal" onclick="openQrModal('Mitos vs Realidades', 'mitos_realidades.html')" title="Proyectar QR para clase">
+              📱
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- App 5: Colocación Adecuada -->
+      <div class="card">
+        <div class="card-top">
+          <div class="card-badges">
+            <span class="badge-session">TEMA 3 · CASOS</span>
+            <span class="badge-time">⏱️ 25 min</span>
+          </div>
+          <div class="card-topic">Jurisprudencia y Criterios</div>
+          <h3 class="card-title">Colocación Adecuada</h3>
+        </div>
+        <div class="card-body">
+          <p class="card-description">
+            Casos prácticos de toma de decisiones donde los estudiantes evalúan si una oferta de trabajo cumple los criterios legales de colocación adecuada o justifica sanción.
+          </p>
+          <ul class="card-meta-list">
+            <li><span>⚖️</span> <strong>Mecánica:</strong> Casos de dilema con votación y argumentación.</li>
+            <li><span>🏛️</span> <strong>Rol:</strong> Técnico de los Servicios Públicos de Empleo (SEPE/SAE).</li>
+          </ul>
+          <div class="card-actions">
+            <a href="colocacion_adecuada.html" class="btn-launch">
+              <span>🚀</span> Abrir Casos
+            </a>
+            <button class="btn-qr-modal" onclick="openQrModal('Colocación Adecuada', 'colocacion_adecuada.html')" title="Proyectar QR para clase">
+              📱
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Modal QR para Proyección en Aula -->
+  <div class="modal-backdrop" id="qrModal" onclick="if(event.target===this) closeQrModal()">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeQrModal()">✕</button>
+      <div style="font-size: 0.8rem; color: var(--psll-sage); font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Escanear para acceder en clase</div>
+      <h3 class="modal-title" id="modalTitle">Simulador CLU</h3>
+      <div id="modalQrContainer"></div>
+      <p style="font-size: 0.88rem; color: #555;">Apunta con la cámara de tu móvil para abrir directamente la micro-app.</p>
+      <div class="modal-url" id="modalUrl"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div>
+        <strong>Políticas Sociolaborales y de Empleo (PSLL)</strong> · Universidad Pablo de Olavide (2026-2027)<br>
+        Departamento de Economía, Métodos Cuantitativos e Historia Económica
+      </div>
+      <div>
+        Línea de Innovación Docente & Análisis Empírico
+      </div>
+    </div>
+  </footer>
+
+  <!-- QR Generator Script (Offline / CDN fallback) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    function openQrModal(title, relativePath) {
+      document.getElementById('modalTitle').innerText = title;
+      
+      // Determine full target URL (current base or future GitHub Pages)
+      var baseUrl = window.location.href.split('?')[0].split('#')[0];
+      if (baseUrl.endsWith('index.html')) {
+        baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf('index.html'));
+      }
+      if (!baseUrl.endsWith('/')) {
+        baseUrl += '/';
+      }
+      var fullUrl = baseUrl + relativePath;
+      
+      document.getElementById('modalUrl').innerText = fullUrl;
+      var container = document.getElementById('modalQrContainer');
+      container.innerHTML = '';
+      
+      if (typeof QRCode !== 'undefined') {
+        new QRCode(container, {
+          text: fullUrl,
+          width: 220,
+          height: 220,
+          colorDark: "#113927",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      } else {
+        // Fallback using Google Charts API if offline
+        var img = document.createElement('img');
+        img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(fullUrl);
+        img.className = 'modal-qr-img';
+        container.appendChild(img);
+      }
+      
+      document.getElementById('qrModal').classList.add('active');
+    }
+
+    function closeQrModal() {
+      document.getElementById('qrModal').classList.remove('active');
+    }
+  </script>
+</body>
+</html>

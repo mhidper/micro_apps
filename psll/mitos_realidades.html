@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #134e5e 0%, #71b280 100%);
+    padding: 40px;
+    margin: 0;
+}
+.container {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+h1 {
+    text-align: center;
+    color: #2d3748;
+    font-size: 42px;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+.subtitle {
+    text-align: center;
+    color: #718096;
+    font-size: 18px;
+    margin-bottom: 40px;
+}
+.instrucciones {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+}
+.instrucciones span {
+    display: block;
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: 400;
+}
+.mito {
+    background: #f7fafc;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 20px;
+    border-left: 6px solid #e53e3e;
+    transition: all 0.3s;
+}
+.mito:hover {
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    transform: translateX(5px);
+}
+.mito-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.mito-numero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+.mito-texto {
+    font-size: 20px;
+    color: #2d3748;
+    font-weight: 600;
+    flex: 1;
+}
+.respuesta {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 15px;
+}
+.badge {
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 16px;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+.falso {
+    background: #fed7d7;
+    color: #c53030;
+}
+.verdadero {
+    background: #c6f6d5;
+    color: #22543d;
+}
+.explicacion {
+    color: #4a5568;
+    font-size: 17px;
+    line-height: 1.6;
+}
+.debate-box {
+    background: #fff5f5;
+    border: 2px dashed #fc8181;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 10px;
+    font-size: 15px;
+    color: #742a2a;
+    font-style: italic;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>🔍 Mitos vs Realidades</h1>
+    <div class="subtitle">Ejercicio Rápido: Verdadero o Falso</div>
+    
+    <div class="instrucciones">
+        👆 MANO ARRIBA = Verdadero | 👇 MANO ABAJO = Falso
+        <span>Vota rápido con tus manos cuando aparezca cada afirmación</span>
+    </div>
+    
+    <div class="mito">
+        <div class="mito-header">
+            <div class="mito-numero">1</div>
+            <div class="mito-texto">"Las prestaciones por desempleo son un 'premio' por no trabajar"</div>
+        </div>
+        <div class="respuesta">
+            <div class="badge falso">❌ FALSO</div>
+            <div class="explicacion">
+                Son un <strong>derecho contributivo</strong> ganado con cotizaciones previas durante años de trabajo. 
+                Es como un seguro: pagas cuando trabajas, cobras cuando lo necesitas.
+            </div>
+        </div>
+        <div class="debate-box">
+            💬 Debate 1 min: ¿Por qué existe este mito tan extendido?
+        </div>
+    </div>
+    
+    <div class="mito">
+        <div class="mito-header">
+            <div class="mito-numero">2</div>
+            <div class="mito-texto">"Las prestaciones reducen la desigualdad social"</div>
+        </div>
+        <div class="respuesta">
+            <div class="badge verdadero">✅ VERDADERO</div>
+            <div class="explicacion">
+                Redistribuyen renta de periodos de ocupación a periodos de desempleo. 
+                Los topes máximos y mínimos protegen más a <strong>salarios bajos</strong> que a altos.
+            </div>
+        </div>
+        <div class="debate-box">
+            💬 Debate 1 min: ¿Es suficiente esta redistribución?
+        </div>
+    </div>
+    
+    <div class="mito">
+        <div class="mito-header">
+            <div class="mito-numero">3</div>
+            <div class="mito-texto">"Todos los desempleados en España reciben prestación"</div>
+        </div>
+        <div class="respuesta">
+            <div class="badge falso">❌ FALSO</div>
+            <div class="explicacion">
+                Solo un <strong>25% aproximadamente</strong> recibe prestación contributiva. 
+                El resto: o no tiene cotización suficiente, o ya agotó su prestación, o trabaja temporalmente.
+            </div>
+        </div>
+        <div class="debate-box">
+            💬 Debate 1 min: ¿Por qué la cobertura es tan baja?
+        </div>
+    </div>
+    
+    <div class="mito">
+        <div class="mito-header">
+            <div class="mito-numero">4</div>
+            <div class="mito-texto">"Las prestaciones protegen a las familias y especialmente a los niños"</div>
+        </div>
+        <div class="respuesta">
+            <div class="badge verdadero">✅ VERDADERO</div>
+            <div class="explicacion">
+                Evitan <strong>pobreza infantil</strong>, mantienen acceso a vivienda, salud y educación. 
+                Los hijos no son responsables del desempleo de sus padres.
+            </div>
+        </div>
+        <div class="debate-box">
+            💬 Debate 1 min: ¿Deberían ser más generosas con familias?
+        </div>
+    </div>
+    
+    <div class="mito">
+        <div class="mito-header">
+            <div class="mito-numero">5</div>
+            <div class="mito-texto">"Dar dinero a desempleados perjudica la economía"</div>
+        </div>
+        <div class="respuesta">
+            <div class="badge falso">❌ FALSO</div>
+            <div class="explicacion">
+                Actúan como <strong>estabilizadores automáticos</strong>: mantienen demanda agregada y consumo en crisis. 
+                Sin ellas, las recesiones serían más profundas y largas.
+            </div>
+        </div>
+        <div class="debate-box">
+            💬 Debate 1 min: ¿Cómo funcionan como estabilizadores?
+        </div>
+    </div>
+</div>
+</body>
+</html>

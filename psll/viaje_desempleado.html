@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #232526 0%, #414345 100%);
+    padding: 40px;
+    margin: 0;
+}
+.container {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+h1 {
+    text-align: center;
+    color: #2d3748;
+    font-size: 42px;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+.subtitle {
+    text-align: center;
+    color: #718096;
+    font-size: 18px;
+    margin-bottom: 40px;
+}
+.timeline {
+    position: relative;
+    padding: 20px 0;
+}
+.timeline:before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+}
+.step {
+    position: relative;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+}
+.step:nth-child(odd) {
+    flex-direction: row;
+}
+.step:nth-child(even) {
+    flex-direction: row-reverse;
+}
+.step-content {
+    width: 45%;
+    background: #f7fafc;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    position: relative;
+}
+.step:nth-child(odd) .step-content {
+    margin-right: auto;
+    margin-left: 0;
+}
+.step:nth-child(even) .step-content {
+    margin-left: auto;
+    margin-right: 0;
+}
+.step-number {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: 5px solid white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+    z-index: 10;
+}
+.step-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 10px;
+}
+.step-description {
+    font-size: 16px;
+    color: #4a5568;
+    line-height: 1.6;
+}
+.step-question {
+    background: #fff5f5;
+    border-left: 4px solid #fc8181;
+    padding: 10px 15px;
+    margin-top: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #742a2a;
+    font-style: italic;
+}
+.instruccion {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+.instruccion h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+.instruccion p {
+    font-size: 17px;
+    margin: 5px 0;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>🚶 El Viaje del Desempleado</h1>
+    <div class="subtitle">Diagrama de Flujo Interactivo: Construyamos el camino juntos</div>
+    
+    <div class="instruccion">
+        <h3>📋 Instrucciones para la Actividad</h3>
+        <p>Vamos a construir este diagrama PASO A PASO en la pizarra</p>
+        <p>Después de cada paso, preguntad: <strong>"¿Qué crees que pasa después?"</strong></p>
+        <p>Anotad dudas, aclarad mitos, conectad con los contenidos teóricos</p>
+    </div>
+    
+    <div class="timeline">
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <div class="step-title">📅 DÍA 1: Me despiden</div>
+                <div class="step-description">
+                    Recibo la carta de despido. La empresa comunica mi baja en la Seguridad Social.
+                </div>
+                <div class="step-question">
+                    ❓ ¿Qué hago PRIMERO? ¿Tengo que hacer algo ese mismo día?
+                </div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <div class="step-title">📝 DÍAS 2-15: Me inscribo en el SEPE</div>
+                <div class="step-description">
+                    Tengo un plazo de <strong>15 días hábiles</strong> desde el cese para inscribirme como demandante de empleo.
+                </div>
+                <div class="step-question">
+                    ❓ ¿Qué documentos necesito llevar? ¿Puedo hacerlo online?
+                </div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <div class="step-title">🏢 DÍA 16: Cita en el SEPE</div>
+                <div class="step-description">
+                    Primera entrevista. Verifican requisitos, calculan mi prestación y explican obligaciones.
+                </div>
+                <div class="step-question">
+                    ❓ ¿Qué me van a preguntar? ¿Puedo rechazar alguna pregunta?
+                </div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <div class="step-title">✅ DÍA 20: Aprueban mi prestación</div>
+                <div class="step-description">
+                    Recibo notificación de que mi solicitud está aprobada. Me dan número de expediente.
+                </div>
+                <div class="step-question">
+                    ❓ ¿Cuándo cobro el primer mes? ¿Es retroactivo desde el despido?
+                </div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">5</div>
+            <div class="step-content">
+                <div class="step-title">💰 MES 1: Primera prestación</div>
+                <div class="step-description">
+                    Recibo mi primera transferencia. Debo seguir inscrito como demandante y disponible.
+                </div>
+                <div class="step-question">
+                    ❓ ¿Qué obligaciones tengo cada mes? ¿Tengo que ir al SEPE?
+                </div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">6</div>
+            <div class="step-content">
+                <div class="step-title">📞 MES 3: Me llaman del SEPE</div>
+                <div class="step-description">
+                    Citación obligatoria para revisar mi situación y plan de búsqueda activa de empleo.
+                </div>
+                <div class="step-question">
+                    ❓ ¿Para qué es esta cita? ¿Qué pasa si no voy?
+                </div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">7</div>
+            <div class="step-content">
+                <div class="step-title">🎓 MES 6: Me ofrecen un curso</div>
+                <div class="step-description">
+                    Curso de formación relacionado con mi perfil profesional. Duración: 3 meses.
+                </div>
+                <div class="step-question">
+                    ❓ ¿Puedo rechazarlo? ¿Me sancionan si digo que no?
+                </div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">8</div>
+            <div class="step-content">
+                <div class="step-title">💼 MES 8: Me ofrecen un trabajo</div>
+                <div class="step-description">
+                    Oferta de trabajo a 80km de mi casa, salario 20% inferior al que tenía.
+                </div>
+                <div class="step-question">
+                    ❓ ¿Puedo rechazarlo? ¿Es "colocación adecuada"? ¿Depende del tiempo que llevo en paro?
+                </div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">9</div>
+            <div class="step-content">
+                <div class="step-title">⏱️ MES 12: Se acaba mi prestación contributiva</div>
+                <div class="step-description">
+                    He agotado los meses que me correspondían según mis días cotizados.
+                </div>
+                <div class="step-question">
+                    ❓ ¿Y ahora qué? ¿Tengo alguna otra opción? ¿Subsidio asistencial?
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="instruccion" style="margin-top: 40px;">
+        <h3>🎯 Objetivo de la Actividad</h3>
+        <p>✓ Visualizar el proceso completo desde el despido hasta el fin de prestación</p>
+        <p>✓ Identificar puntos críticos donde surgen dudas</p>
+        <p>✓ Entender las obligaciones del beneficiario</p>
+        <p>✓ Conectar teoría con casos reales</p>
+    </div>
+</div>
+</body>
+</html>

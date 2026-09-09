@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laboratorio Docente de Micro-Apps Interactivas | UPO</title>
+  <meta name="description" content="Portal de micro-apps y simuladores interactivos de docencia universitaria para el Departamento de Economía, Métodos Cuantitativos e Historia Económica de la Universidad Pablo de Olavide.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --upo-navy: #0B1C36;
+      --psll-pine: #113927;
+      --psll-sage: #76927A;
+      --psll-coral: #E98F71;
+      --macro-blue: #1A365D;
+      --macro-accent: #2B6CB0;
+      --macro-gold: #D69E2E;
+      --bg-canvas: #F8FAF9;
+      --text-main: #1A202C;
+      --text-muted: #4A5568;
+      --border-subtle: #E2E8F0;
+      --card-bg: #FFFFFF;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-canvas);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-bar {
+      background: var(--upo-navy);
+      color: rgba(255, 255, 255, 0.85);
+      padding: 10px 24px;
+      font-size: 0.85rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .top-bar span { font-weight: 500; }
+    .badge-year {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0B1C36 0%, #152E52 50%, #113927 100%);
+      color: white;
+      padding: 56px 24px 64px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(circle at 50% 20%, rgba(233, 143, 113, 0.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-content {
+      max-width: 860px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--psll-coral);
+      margin-bottom: 12px;
+    }
+    .hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    .hero p {
+      font-size: 1.12rem;
+      color: rgba(255, 255, 255, 0.88);
+      max-width: 680px;
+      margin: 0 auto;
+      font-weight: 400;
+    }
+
+    .main-container {
+      max-width: 1100px;
+      margin: -36px auto 60px;
+      padding: 0 20px;
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      width: 100%;
+    }
+
+    .grid-subjects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+    }
+
+    .subject-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 10px 30px rgba(11, 28, 54, 0.06);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+    .subject-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(11, 28, 54, 0.12);
+    }
+
+    .subject-card.psll {
+      border-top: 5px solid var(--psll-pine);
+    }
+    .subject-card.psll:hover {
+      border-color: var(--psll-pine);
+    }
+    .subject-card.macro {
+      border-top: 5px solid var(--macro-accent);
+    }
+    .subject-card.macro:hover {
+      border-color: var(--macro-accent);
+    }
+
+    .card-body {
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .subject-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .subject-icon-box {
+      width: 58px;
+      height: 58px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.7rem;
+      flex-shrink: 0;
+    }
+    .psll .subject-icon-box {
+      background: #EAF4EE;
+      color: var(--psll-pine);
+    }
+    .macro .subject-icon-box {
+      background: #EBF8FF;
+      color: var(--macro-accent);
+    }
+
+    .subject-title-wrap h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.25;
+    }
+    .subject-title-wrap .degree-badge {
+      display: inline-block;
+      margin-top: 4px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .card-desc {
+      font-size: 0.96rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .features-list {
+      list-style: none;
+      margin-bottom: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .features-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: #334155;
+    }
+    .features-list li svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+    .psll .features-list li svg { color: var(--psll-pine); }
+    .macro .features-list li svg { color: var(--macro-accent); }
+
+    .card-action {
+      margin-top: auto;
+    }
+    .btn-enter {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .psll .btn-enter {
+      background: var(--psll-pine);
+      color: white;
+    }
+    .psll .btn-enter:hover {
+      background: #0d2a1d;
+      box-shadow: 0 8px 18px rgba(17, 57, 39, 0.25);
+    }
+    .macro .btn-enter {
+      background: var(--macro-accent);
+      color: white;
+    }
+    .macro .btn-enter:hover {
+      background: #23568c;
+      box-shadow: 0 8px 18px rgba(43, 108, 176, 0.25);
+    }
+
+    footer {
+      background: white;
+      border-top: 1px solid var(--border-subtle);
+      padding: 28px 24px;
+      text-align: center;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+    footer strong { color: var(--upo-navy); }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <div><strong>Universidad Pablo de Olavide</strong> · Departamento de Economía, Métodos Cuantitativos e Historia Económica</div>
+    <div class="badge-year">Curso 2026-2027</div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-content">
+      <div class="hero-tag">Innovación Docente & Recursos Digitales</div>
+      <h1>Laboratorio de Micro-Apps Interactivas</h1>
+      <p>Simuladores, modelos computacionales y talleres empíricos para el aprendizaje activo en el aula universitaria.</p>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <div class="grid-subjects">
+
+      <!-- PSLL -->
+      <article class="subject-card psll">
+        <div class="card-body">
+          <div class="subject-header">
+            <div class="subject-icon-box">📊</div>
+            <div class="subject-title-wrap">
+              <h2>Políticas Sociolaborales y de Empleo</h2>
+              <span class="degree-badge">Grado en RRLyRRHH & Doble Grado Derecho-RRLyRRHH</span>
+            </div>
+          </div>
+          <p class="card-desc">
+            Portal interactivo con simuladores empíricos del mercado de trabajo, análisis de costes laborales y políticas activas y pasivas de empleo.
+          </p>
+          <ul class="features-list">
+            <li>
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+              <span><strong>Simulador CLU:</strong> Sensibilidad interactiva salarios, cotizaciones y productividad.</span>
+            </li>
+            <li>
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+              <span><strong>Módulos Tema 3:</strong> Balanza de protección, el viaje del desempleado y dilemas laborales.</span>
+            </li>
+            <li>
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+              <span><strong>Acceso móvil instantáneo:</strong> Códigos QR integrados para proyección en el aula.</span>
+            </li>
+          </ul>
+          <div class="card-action">
+            <a href="psll/" class="btn-enter">
+              <span>Entrar en PSLL PolicyLab</span>
+              <span>→</span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- MACROECONOMÍA -->
+      <article class="subject-card macro">
+        <div class="card-body">
+          <div class="subject-header">
+            <div class="subject-icon-box">📈</div>
+            <div class="subject-title-wrap">
+              <h2>Macroeconomía</h2>
+              <span class="degree-badge">Grado en Administración y Dirección de Empresas (ADE)</span>
+            </div>
+          </div>
+          <p class="card-desc">
+            Espacio computacional para la simulación de equilibrio macroeconómico, perturbaciones de oferta/demanda y políticas de estabilización.
+          </p>
+          <ul class="features-list">
+            <li>
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+              <span><strong>Modelos Macroeconómicos:</strong> Mercado de bienes, dinero y equilibrio general.</span>
+            </li>
+            <li>
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+              <span><strong>Simuladores de Shock:</strong> Impacto dinámico de shocks fiscales, energéticos y monetarios.</span>
+            </li>
+            <li>
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+              <span><strong>Gráficos de Coyuntura:</strong> Indicadores macroeconómicos y datos en tiempo real.</span>
+            </li>
+          </ul>
+          <div class="card-action">
+            <a href="macro/" class="btn-enter">
+              <span>Entrar en Macro Lab</span>
+              <span>→</span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <footer>
+    <div style="max-width: 900px; margin: 0 auto;">
+      <p><strong>Universidad Pablo de Olavide (UPO)</strong> · Sevilla, España</p>
+      <p style="margin-top: 4px; font-size: 0.82rem;">Prof. Manuel Hidalgo Pérez · Área de Fundamentos del Análisis Económico</p>
+    </div>
+  </footer>
+
+</body>
+</html>
