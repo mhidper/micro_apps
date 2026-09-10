@@ -111,82 +111,86 @@
        PANTALLA 1: ONBOARDING & SELECTOR DE ASIGNATURA
        ============================================================ */
     .view-welcome {
-      padding: 28px 24px 36px;
+      padding: 18px 20px 22px;
       flex-direction: column;
       justify-content: space-between;
-      min-height: 100vh;
+      height: 100dvh;
+      max-height: 100dvh;
       position: relative;
-      overflow: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      box-sizing: border-box;
     }
 
     .welcome-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 24px;
+      margin-bottom: 12px;
     }
     .welcome-brand-logo {
-      height: 38px;
+      height: 34px;
       width: auto;
     }
     .welcome-author-tag {
-      font-size: 0.76rem;
+      font-size: 0.74rem;
       font-weight: 700;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       color: var(--brand-brick);
       background: rgba(163, 51, 39, 0.08);
-      padding: 4px 12px;
+      padding: 4px 10px;
       border-radius: var(--radius-pill);
     }
 
     .welcome-headings {
-      margin-bottom: 24px;
+      margin-bottom: 12px;
     }
     .welcome-headings h1 {
       font-family: 'Outfit', sans-serif;
-      font-size: 2.5rem;
+      font-size: clamp(1.75rem, 5vw, 2.2rem);
       font-weight: 800;
-      line-height: 1.12;
+      line-height: 1.15;
       color: var(--text-espresso);
       letter-spacing: -0.02em;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
     .welcome-headings .welcome-tagline {
-      font-size: 1.05rem;
+      font-size: 0.92rem;
       color: var(--text-muted);
-      line-height: 1.45;
+      line-height: 1.35;
     }
 
     /* Selector de Asignaturas con Logos Oficiales */
     .subject-selector-wrap {
-      margin: 10px 0 20px;
+      margin: 6px 0 10px;
     }
     .subject-selector-title {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
       color: var(--text-light);
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
     .subject-options {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
     }
     .subject-btn {
       background: var(--bg-card);
       border: 2px solid var(--border-subtle);
       border-radius: var(--radius-md);
-      padding: 14px 16px;
+      padding: 10px 14px;
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 12px;
       cursor: pointer;
       text-align: left;
       transition: all 0.2s ease;
       box-shadow: var(--shadow-sm);
+      -webkit-tap-highlight-color: transparent;
     }
     .subject-btn:hover {
       border-color: var(--brand-terracotta);
@@ -198,15 +202,15 @@
       box-shadow: 0 4px 16px rgba(163, 51, 39, 0.12);
     }
     .subject-logo-box {
-      width: 54px;
-      height: 54px;
-      border-radius: 12px;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
       background: #FAF8F5;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      padding: 6px;
+      padding: 4px;
       border: 1px solid var(--border-light);
     }
     .subject-logo-img {
@@ -214,82 +218,96 @@
       max-height: 100%;
       object-fit: contain;
     }
+    .subject-info {
+      flex: 1;
+      min-width: 0;
+    }
     .subject-info h3 {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.05rem;
+      font-size: 0.96rem;
       font-weight: 700;
       color: var(--text-espresso);
-      line-height: 1.25;
+      line-height: 1.2;
     }
     .subject-info p {
-      font-size: 0.78rem;
+      font-size: 0.74rem;
       color: var(--text-muted);
-      margin-top: 3px;
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .subject-enter-arrow {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--brand-brick);
+      margin-left: 6px;
     }
 
     /* Gráfico Ilustrativo Inferior Fiel al Mockup */
     .welcome-art {
       position: relative;
       width: 100%;
-      height: 140px;
-      margin: 10px 0 20px;
+      height: clamp(55px, 10vh, 85px);
+      margin: 4px 0 10px;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
     }
     .welcome-art-card {
-      width: 130px;
+      width: 110px;
       background: white;
-      border-radius: 14px;
-      padding: 14px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      border-radius: 12px;
+      padding: 10px 12px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.06);
       border: 1.5px solid var(--border-subtle);
-      transform: rotate(-5deg);
+      transform: rotate(-4deg);
       z-index: 2;
     }
     .art-check-line {
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 8px;
+      gap: 6px;
+      margin-bottom: 6px;
     }
     .art-checkbox {
-      width: 16px;
-      height: 16px;
+      width: 14px;
+      height: 14px;
       border-radius: 4px;
       border: 2px solid var(--brand-brick);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 10px;
+      font-size: 9px;
       color: white;
       background: var(--brand-brick);
     }
     .art-line {
-      height: 6px;
+      height: 5px;
       background: #EAE3D9;
       border-radius: 3px;
       flex: 1;
     }
     .art-shape-bg1 {
       position: absolute;
-      width: 150px;
-      height: 150px;
+      width: 110px;
+      height: 110px;
       border-radius: 50%;
       background: #EAE3D9;
       opacity: 0.6;
-      bottom: -40px;
+      bottom: -30px;
       right: 20px;
       z-index: 1;
     }
     .art-shape-bg2 {
       position: absolute;
-      width: 120px;
-      height: 120px;
+      width: 90px;
+      height: 90px;
       border-radius: 50%;
       background: #D47B5A;
       opacity: 0.2;
-      bottom: -20px;
+      bottom: -15px;
       left: 30px;
       z-index: 1;
     }
@@ -431,7 +449,7 @@
 
     /* Lista de Tarjetas de Micro-Apps Fiel al Mockup */
     .apps-list {
-      padding: 10px 20px 24px;
+      padding: 10px 20px 140px;
       display: flex;
       flex-direction: column;
       gap: 14px;
@@ -552,14 +570,28 @@
        PANTALLA 3: MOTOR INTERACTIVO DE LA MICRO-APP (TEST / QUIZ)
        ============================================================ */
     .view-quiz {
-      min-height: 100vh;
+      height: 100dvh;
+      max-height: 100dvh;
+      overflow: hidden;
       flex-direction: column;
-      justify-content: space-between;
-      padding: 20px 20px 32px;
+    }
+    .quiz-scroll-area {
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 16px 20px 24px;
+    }
+    .quiz-bottom-dock {
+      padding: 12px 20px 16px;
+      background: var(--bg-cream);
+      border-top: 1px solid var(--border-light);
+      box-shadow: 0 -4px 16px rgba(74, 59, 50, 0.06);
+      flex-shrink: 0;
+      z-index: 30;
     }
 
     .quiz-header {
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
     .quiz-top-bar {
       display: flex;
@@ -732,36 +764,54 @@
        PANTALLA 3B: VISOR DE SIMULADORES INTEGRADOS
        ============================================================ */
     .view-simulator {
-      min-height: 100vh;
+      height: 100dvh;
+      max-height: 100dvh;
+      overflow: hidden;
       flex-direction: column;
     }
     .simulator-top-bar {
-      padding: 14px 20px;
+      padding: 8px 16px;
+      height: 48px;
       background: var(--bg-card);
       border-bottom: 1px solid var(--border-subtle);
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+    .btn-sim-external {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--brand-brick);
+      text-decoration: none;
+      background: rgba(163, 51, 39, 0.08);
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(163, 51, 39, 0.2);
     }
     .sim-iframe-container {
       flex: 1;
       width: 100%;
-      height: calc(100vh - 65px);
+      height: calc(100dvh - 48px);
       border: none;
       background: white;
+      -webkit-overflow-scrolling: touch;
     }
 
     /* ============================================================
        PANTALLA 4: FINALIZACIÓN & FEEDBACK DE ÉXITO
        ============================================================ */
     .view-result {
-      min-height: 100vh;
+      height: 100dvh;
+      max-height: 100dvh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
       flex-direction: column;
       justify-content: space-between;
-      padding: 40px 24px 36px;
+      padding: 32px 20px 28px;
       text-align: center;
       position: relative;
-      overflow: hidden;
     }
 
     .result-center-content {
@@ -925,7 +975,7 @@
           <div class="subject-options">
             
             <!-- Opción PSLL -->
-            <div class="subject-btn selected" id="optPsll" onclick="selectSubjectOption('psll')">
+            <div class="subject-btn selected" id="optPsll" onclick="selectAndEnterSubject('psll')">
               <div class="subject-logo-box">
                 <img src="assets/isotipo_psll_upo.png" alt="PSLL" class="subject-logo-img">
               </div>
@@ -933,10 +983,11 @@
                 <h3>Políticas Sociolaborales y de Empleo</h3>
                 <p>Grado en Relaciones Laborales y Recursos Humanos</p>
               </div>
+              <div class="subject-enter-arrow">›</div>
             </div>
 
             <!-- Opción Macroeconomía -->
-            <div class="subject-btn" id="optMacro" onclick="selectSubjectOption('macro')">
+            <div class="subject-btn" id="optMacro" onclick="selectAndEnterSubject('macro')">
               <div class="subject-logo-box">
                 <img src="assets/isotipo_macro_upo.png" alt="Macroeconomía" class="subject-logo-img">
               </div>
@@ -944,6 +995,7 @@
                 <h3>Macroeconomía</h3>
                 <p>Grado en Administración y Dirección de Empresas</p>
               </div>
+              <div class="subject-enter-arrow">›</div>
             </div>
 
           </div>
@@ -1031,7 +1083,7 @@
          PANTALLA 3: MOTOR DE PREGUNTAS (QUIZ)
          ============================================================ -->
     <section id="viewQuiz" class="view view-quiz">
-      <div>
+      <div class="quiz-scroll-area" id="quizScrollArea">
         <div class="quiz-header">
           <div class="quiz-top-bar">
             <button class="btn-quiz-back" onclick="exitToDashboard()">‹</button>
@@ -1055,9 +1107,9 @@
         </div>
       </div>
 
-      <div style="padding-top: 20px;">
+      <div class="quiz-bottom-dock">
         <button class="btn-pill-primary" id="btnNextQuiz" onclick="handleNextQuestion()">
-          <span>Siguiente</span>
+          <span>Comprobar respuesta</span>
           <span>→</span>
         </button>
       </div>
@@ -1071,7 +1123,7 @@
       <div class="simulator-top-bar">
         <button class="btn-quiz-back" onclick="exitToDashboard()">‹ Volver</button>
         <div class="quiz-app-title" id="simTitle">Simulador CLU</div>
-        <div style="width: 40px;"></div>
+        <a id="simExternalLink" href="#" target="_blank" class="btn-sim-external">↗ Pantalla completa</a>
       </div>
       <iframe id="simIframe" class="sim-iframe-container" src=""></iframe>
     </section>
@@ -1158,6 +1210,14 @@
     function selectSubjectOption(key) {
       currentSubjectKey = key;
       updateWelcomeSubjectSelection();
+    }
+
+    function selectAndEnterSubject(key) {
+      currentSubjectKey = key;
+      updateWelcomeSubjectSelection();
+      setTimeout(function() {
+        launchDashboard();
+      }, 80);
     }
 
     function updateWelcomeSubjectSelection() {
@@ -1251,6 +1311,8 @@
         // Abrir visor de simulador
         document.getElementById('simTitle').innerText = app.title;
         document.getElementById('simIframe').src = app.url;
+        var extLink = document.getElementById('simExternalLink');
+        if (extLink) extLink.href = app.url;
         showView('viewSimulator');
       } else if (app.type === 'quiz') {
         // Iniciar cuestionario interactivo
@@ -1259,6 +1321,8 @@
         currentAnswers = new Array(app.questions.length).fill(null);
         renderCurrentQuestion();
         showView('viewQuiz');
+        var scrollArea = document.getElementById('quizScrollArea');
+        if (scrollArea) scrollArea.scrollTop = 0;
       }
     }
 
@@ -1363,6 +1427,11 @@
         fbBox.className = 'feedback-box ' + (isCorrect ? 'correct' : 'wrong');
         fbBox.style.display = 'block';
 
+        // Auto-scroll al feedback si es necesario
+        setTimeout(function() {
+          fbBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 50);
+
         var btnNext = document.getElementById('btnNextQuiz');
         btnNext.innerHTML = (currentQuestionIdx === total - 1) ? '<span>Ver Resultados</span> <span>→</span>' : '<span>Siguiente Pregunta</span> <span>→</span>';
       } else {
@@ -1370,6 +1439,8 @@
         if (currentQuestionIdx < total - 1) {
           currentQuestionIdx++;
           renderCurrentQuestion();
+          var scrollArea = document.getElementById('quizScrollArea');
+          if (scrollArea) scrollArea.scrollTop = 0;
         } else {
           // Finalizar y mostrar Pantalla de Resultados
           showResultsScreen();
