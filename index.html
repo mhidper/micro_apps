@@ -2,369 +2,1448 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Laboratorio Docente de Micro-Apps Interactivas | UPO</title>
-  <meta name="description" content="Portal de micro-apps y simuladores interactivos de docencia universitaria para el Departamento de Economía, Métodos Cuantitativos e Historia Económica de la Universidad Pablo de Olavide.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Micro-Apps Docentes · Manuel Hidalgo</title>
+  <meta name="description" content="Laboratorio de micro-apps y simuladores interactivos para docencia universitaria en Economía y Políticas Sociolaborales. Prof. Manuel Hidalgo Pérez.">
+  <meta name="theme-color" content="#FDFBF7">
+  
+  <!-- Tipografías Google Fonts: Outfit (Titulares & Números) + Inter (Lectura & Botones) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
   <style>
+    /* ============================================================
+       SISTEMA DE DISEÑO: MARCA PERSONAL MANUEL HIDALGO (SUBSTACK)
+       ============================================================ */
     :root {
-      --upo-navy: #0B1C36;
+      --bg-cream: #FDFBF7;
+      --bg-cream-darker: #FAF6F0;
+      --bg-card: #FFFFFF;
+      --border-subtle: #E3DCD2;
+      --border-light: #EFE9E0;
+      
+      --text-espresso: #4A3B32;
+      --text-main: #2C2019;
+      --text-muted: #8C7B70;
+      --text-light: #A49080;
+      
+      --brand-brick: #A33327;
+      --brand-terracotta: #D47B5A;
+      --brand-amber: #C68B59;
+      --brand-dark: #5C2317;
+      
       --psll-pine: #113927;
       --psll-sage: #76927A;
       --psll-coral: #E98F71;
-      --macro-blue: #1A365D;
-      --macro-accent: #2B6CB0;
-      --macro-gold: #D69E2E;
-      --bg-canvas: #F8FAF9;
-      --text-main: #1A202C;
-      --text-muted: #4A5568;
-      --border-subtle: #E2E8F0;
-      --card-bg: #FFFFFF;
+      
+      --macro-navy: #0B1C36;
+      --macro-cobalt: #056CAA;
+      --macro-azure: #0776B5;
+      
+      --state-correct-bg: #ECFDF5;
+      --state-correct-border: #10B981;
+      --state-correct-text: #065F46;
+      --state-wrong-bg: #FEF2F2;
+      --state-wrong-border: #EF4444;
+      --state-wrong-text: #991B1B;
+      
+      --shadow-sm: 0 2px 8px rgba(74, 59, 50, 0.05);
+      --shadow-md: 0 8px 24px rgba(74, 59, 50, 0.08);
+      --shadow-lg: 0 16px 36px rgba(74, 59, 50, 0.12);
+      
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-pill: 999px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      background: var(--bg-canvas);
-      color: var(--text-main);
-      line-height: 1.6;
+      background: var(--bg-cream);
+      color: var(--text-espresso);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      overflow-x: hidden;
+    }
+
+    /* Contenedor central móvil (Mobile Device Frame & Responsive Wrapper) */
+    .app-viewport {
+      width: 100%;
+      max-width: 520px;
+      min-height: 100vh;
+      background: var(--bg-cream);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 0 50px rgba(74, 59, 50, 0.08);
+    }
+
+    /* ============================================================
+       SISTEMA DE VISTAS (SPA ROUTING)
+       ============================================================ */
+    .view {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      animation: fadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .view.active {
+      display: flex;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================================
+       PANTALLA 1: ONBOARDING & SELECTOR DE ASIGNATURA
+       ============================================================ */
+    .view-welcome {
+      padding: 28px 24px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .welcome-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .welcome-brand-logo {
+      height: 38px;
+      width: auto;
+    }
+    .welcome-author-tag {
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--brand-brick);
+      background: rgba(163, 51, 39, 0.08);
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+    }
+
+    .welcome-headings {
+      margin-bottom: 24px;
+    }
+    .welcome-headings h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1.12;
+      color: var(--text-espresso);
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .welcome-headings .welcome-tagline {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    /* Selector de Asignaturas con Logos Oficiales */
+    .subject-selector-wrap {
+      margin: 10px 0 20px;
+    }
+    .subject-selector-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-light);
+      margin-bottom: 12px;
+    }
+    .subject-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .subject-btn {
+      background: var(--bg-card);
+      border: 2px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    .subject-btn:hover {
+      border-color: var(--brand-terracotta);
+      transform: translateY(-2px);
+    }
+    .subject-btn.selected {
+      border-color: var(--brand-brick);
+      background: #FFFDF9;
+      box-shadow: 0 4px 16px rgba(163, 51, 39, 0.12);
+    }
+    .subject-logo-box {
+      width: 54px;
+      height: 54px;
+      border-radius: 12px;
+      background: #FAF8F5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      padding: 6px;
+      border: 1px solid var(--border-light);
+    }
+    .subject-logo-img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .subject-info h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-espresso);
+      line-height: 1.25;
+    }
+    .subject-info p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    /* Gráfico Ilustrativo Inferior Fiel al Mockup */
+    .welcome-art {
+      position: relative;
+      width: 100%;
+      height: 140px;
+      margin: 10px 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .welcome-art-card {
+      width: 130px;
+      background: white;
+      border-radius: 14px;
+      padding: 14px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      border: 1.5px solid var(--border-subtle);
+      transform: rotate(-5deg);
+      z-index: 2;
+    }
+    .art-check-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .art-checkbox {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      border: 2px solid var(--brand-brick);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: white;
+      background: var(--brand-brick);
+    }
+    .art-line {
+      height: 6px;
+      background: #EAE3D9;
+      border-radius: 3px;
+      flex: 1;
+    }
+    .art-shape-bg1 {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: #EAE3D9;
+      opacity: 0.6;
+      bottom: -40px;
+      right: 20px;
+      z-index: 1;
+    }
+    .art-shape-bg2 {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: #D47B5A;
+      opacity: 0.2;
+      bottom: -20px;
+      left: 30px;
+      z-index: 1;
+    }
+
+    /* Botón Primario Fiel al Mockup */
+    .btn-pill-primary {
+      width: 100%;
+      padding: 16px 24px;
+      background: var(--text-espresso);
+      color: var(--bg-cream);
+      border: none;
+      border-radius: var(--radius-pill);
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(74, 59, 50, 0.2);
+    }
+    .btn-pill-primary:hover {
+      background: var(--brand-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(74, 59, 50, 0.25);
+    }
+    .btn-pill-primary:active {
+      transform: translateY(0);
+    }
+
+    .welcome-footer-link {
+      text-align: center;
+      margin-top: 14px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    /* ============================================================
+       PANTALLA 2: DASHBOARD DE LA ASIGNATURA
+       ============================================================ */
+    .view-dashboard {
+      padding-bottom: 84px; /* espacio para la bottom nav */
+    }
+
+    .dashboard-header {
+      padding: 24px 20px 16px;
+      background: var(--bg-cream);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .dashboard-top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .subject-pill-switcher {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-espresso);
+      box-shadow: var(--shadow-sm);
+    }
+    .subject-pill-logo {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+    }
+    .btn-user-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+
+    .dashboard-greeting h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--text-espresso);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+    .dashboard-greeting p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Filtros Horizontales (Pills Fieles al Mockup) */
+    .filter-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 12px 20px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .filter-scroll::-webkit-scrollbar { display: none; }
+    
+    .filter-pill {
+      background: var(--bg-card);
+      color: var(--text-espresso);
+      border: 1.5px solid var(--border-subtle);
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      font-size: 0.85rem;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .filter-pill:hover {
+      border-color: var(--brand-terracotta);
+    }
+    .filter-pill.active {
+      background: var(--text-espresso);
+      color: var(--bg-cream);
+      border-color: var(--text-espresso);
+    }
+
+    /* Lista de Tarjetas de Micro-Apps Fiel al Mockup */
+    .apps-list {
+      padding: 10px 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .app-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      padding: 18px 16px;
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    .app-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--brand-terracotta);
+    }
+    .app-card:active {
+      transform: translateY(0);
+    }
+
+    .app-icon-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      flex-shrink: 0;
+    }
+    .app-content {
+      flex: 1;
+      min-width: 0;
+    }
+    .app-content h4 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-espresso);
+      margin-bottom: 2px;
+      line-height: 1.25;
+    }
+    .app-content p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+    .app-meta {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .app-chevron {
+      color: #A49080;
+      font-size: 1.2rem;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+    .app-card:hover .app-chevron {
+      transform: translateX(4px);
+      color: var(--brand-brick);
+    }
+
+    /* Barra Inferior de Navegación (Bottom Nav) */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 520px;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 0 12px;
+      z-index: 100;
+      box-shadow: 0 -4px 16px rgba(74, 59, 50, 0.05);
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-light);
+      cursor: pointer;
+      text-decoration: none;
+      transition: color 0.2s;
+      flex: 1;
+    }
+    .nav-item svg {
+      width: 22px;
+      height: 22px;
+      stroke-width: 2;
+    }
+    .nav-item.active {
+      color: var(--text-espresso);
+      font-weight: 700;
+    }
+
+    /* ============================================================
+       PANTALLA 3: MOTOR INTERACTIVO DE LA MICRO-APP (TEST / QUIZ)
+       ============================================================ */
+    .view-quiz {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px 20px 32px;
+    }
+
+    .quiz-header {
+      margin-bottom: 24px;
+    }
+    .quiz-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .btn-quiz-back {
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      color: var(--text-espresso);
+      cursor: pointer;
+      padding: 4px 8px 4px 0;
+    }
+    .quiz-app-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-espresso);
+    }
+    .quiz-progress-badge {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-light);
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      height: 5px;
+      background: var(--border-subtle);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--text-espresso);
+      border-radius: var(--radius-pill);
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .quiz-body {
+      flex: 1;
+    }
+    .question-tag {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--brand-brick);
+      background: rgba(163, 51, 39, 0.08);
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 14px;
+    }
+    .question-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-espresso);
+      line-height: 1.35;
+      margin-bottom: 24px;
+    }
+
+    /* Opciones de respuesta */
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .option-card {
+      background: var(--bg-card);
+      border: 2px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .option-card:hover {
+      border-color: var(--brand-terracotta);
+    }
+    .option-radio-circle {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--border-subtle);
+      flex-shrink: 0;
+      margin-top: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .option-radio-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: transparent;
+      transition: all 0.2s;
+    }
+    .option-label {
+      font-size: 0.95rem;
+      color: var(--text-espresso);
+      line-height: 1.45;
+      font-weight: 500;
+    }
+
+    /* Estados de selección y feedback */
+    .option-card.selected {
+      border-color: var(--text-espresso);
+      background: #FAF8F5;
+    }
+    .option-card.selected .option-radio-circle {
+      border-color: var(--text-espresso);
+    }
+    .option-card.selected .option-radio-dot {
+      background: var(--text-espresso);
+    }
+
+    .option-card.correct-answer {
+      border-color: var(--state-correct-border) !important;
+      background: var(--state-correct-bg) !important;
+    }
+    .option-card.correct-answer .option-radio-circle {
+      border-color: var(--state-correct-border);
+      background: var(--state-correct-border);
+    }
+    .option-card.correct-answer .option-radio-dot {
+      background: white;
+    }
+
+    .option-card.wrong-answer {
+      border-color: var(--state-wrong-border) !important;
+      background: var(--state-wrong-bg) !important;
+    }
+    .option-card.wrong-answer .option-radio-circle {
+      border-color: var(--state-wrong-border);
+      background: var(--state-wrong-border);
+    }
+    .option-card.wrong-answer .option-radio-dot {
+      background: white;
+    }
+
+    .feedback-box {
+      padding: 14px 16px;
+      border-radius: 12px;
+      margin-top: 16px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      display: none;
+      animation: fadeIn 0.2s ease;
+    }
+    .feedback-box.correct {
+      display: block;
+      background: var(--state-correct-bg);
+      border: 1px solid var(--state-correct-border);
+      color: var(--state-correct-text);
+    }
+    .feedback-box.wrong {
+      display: block;
+      background: var(--state-wrong-bg);
+      border: 1px solid var(--state-wrong-border);
+      color: var(--state-wrong-text);
+    }
+
+    /* ============================================================
+       PANTALLA 3B: VISOR DE SIMULADORES INTEGRADOS
+       ============================================================ */
+    .view-simulator {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
-
-    .top-bar {
-      background: var(--upo-navy);
-      color: rgba(255, 255, 255, 0.85);
-      padding: 10px 24px;
-      font-size: 0.85rem;
+    .simulator-top-bar {
+      padding: 14px 20px;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-subtle);
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      justify-content: space-between;
     }
-    .top-bar span { font-weight: 500; }
-    .badge-year {
-      background: rgba(255, 255, 255, 0.15);
-      padding: 3px 10px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      font-weight: 600;
+    .sim-iframe-container {
+      flex: 1;
+      width: 100%;
+      height: calc(100vh - 65px);
+      border: none;
+      background: white;
     }
 
-    .hero {
-      background: linear-gradient(135deg, #0B1C36 0%, #152E52 50%, #113927 100%);
-      color: white;
-      padding: 56px 24px 64px;
+    /* ============================================================
+       PANTALLA 4: FINALIZACIÓN & FEEDBACK DE ÉXITO
+       ============================================================ */
+    .view-result {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 40px 24px 36px;
       text-align: center;
       position: relative;
       overflow: hidden;
     }
-    .hero::after {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(circle at 50% 20%, rgba(233, 143, 113, 0.15) 0%, transparent 60%);
-      pointer-events: none;
-    }
-    .hero-content {
-      max-width: 860px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-    }
-    .hero-tag {
-      display: inline-block;
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--psll-coral);
-      margin-bottom: 12px;
-    }
-    .hero h1 {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(2rem, 4.5vw, 3rem);
-      font-weight: 800;
-      line-height: 1.2;
-      margin-bottom: 16px;
-      letter-spacing: -0.02em;
-    }
-    .hero p {
-      font-size: 1.12rem;
-      color: rgba(255, 255, 255, 0.88);
-      max-width: 680px;
-      margin: 0 auto;
-      font-weight: 400;
+
+    .result-center-content {
+      margin: auto 0;
     }
 
-    .main-container {
-      max-width: 1100px;
-      margin: -36px auto 60px;
-      padding: 0 20px;
-      position: relative;
-      z-index: 2;
-      flex: 1;
-      width: 100%;
-    }
-
-    .grid-subjects {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 28px;
-    }
-
-    .subject-card {
-      background: var(--card-bg);
-      border-radius: 20px;
-      border: 1px solid var(--border-subtle);
-      box-shadow: 0 10px 30px rgba(11, 28, 54, 0.06);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-    }
-    .subject-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 40px rgba(11, 28, 54, 0.12);
-    }
-
-    .subject-card.psll {
-      border-top: 5px solid var(--psll-pine);
-    }
-    .subject-card.psll:hover {
-      border-color: var(--psll-pine);
-    }
-    .subject-card.macro {
-      border-top: 5px solid var(--macro-accent);
-    }
-    .subject-card.macro:hover {
-      border-color: var(--macro-accent);
-    }
-
-    .card-body {
-      padding: 32px;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-    }
-
-    .subject-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-    .subject-icon-box {
-      width: 58px;
-      height: 58px;
-      border-radius: 14px;
+    /* Icono de check con destellos fiel al mockup */
+    .check-hero-wrap {
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      background: var(--text-espresso);
+      color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.7rem;
-      flex-shrink: 0;
+      font-size: 2.2rem;
+      margin: 0 auto 24px;
+      position: relative;
+      box-shadow: 0 10px 25px rgba(74, 59, 50, 0.2);
     }
-    .psll .subject-icon-box {
-      background: #EAF4EE;
-      color: var(--psll-pine);
+    .check-rays {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 2px dashed rgba(74, 59, 50, 0.3);
+      animation: rotateRays 20s linear infinite;
     }
-    .macro .subject-icon-box {
-      background: #EBF8FF;
-      color: var(--macro-accent);
+    @keyframes rotateRays {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
-    .subject-title-wrap h2 {
+    .result-title {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.45rem;
-      font-weight: 700;
-      color: var(--text-main);
-      line-height: 1.25;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--text-espresso);
+      margin-bottom: 6px;
     }
-    .subject-title-wrap .degree-badge {
-      display: inline-block;
-      margin-top: 4px;
+    .result-subtitle {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      max-width: 320px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Tarjetas de Métricas Fieles al Mockup */
+    .result-metrics-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-sm);
+    }
+    .metric-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .metric-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text-espresso);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .metric-label {
       font-size: 0.78rem;
       font-weight: 600;
-      color: var(--text-muted);
+      color: var(--text-light);
+    }
+    .metric-divider {
+      position: absolute;
+      width: 1px;
+      height: 40px;
+      background: var(--border-light);
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
     }
 
-    .card-desc {
-      font-size: 0.96rem;
-      color: var(--text-muted);
-      margin-bottom: 24px;
-      line-height: 1.6;
-    }
-
-    .features-list {
-      list-style: none;
-      margin-bottom: 32px;
+    .result-actions {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
     }
-    .features-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      font-size: 0.88rem;
-      color: #334155;
-    }
-    .features-list li svg {
-      width: 18px;
-      height: 18px;
-      flex-shrink: 0;
-      margin-top: 3px;
-    }
-    .psll .features-list li svg { color: var(--psll-pine); }
-    .macro .features-list li svg { color: var(--macro-accent); }
-
-    .card-action {
-      margin-top: auto;
-    }
-    .btn-enter {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
+    .btn-pill-secondary {
       width: 100%;
-      padding: 14px 20px;
-      border-radius: 12px;
+      padding: 15px 24px;
+      background: transparent;
+      color: var(--text-espresso);
+      border: 2px solid var(--border-subtle);
+      border-radius: var(--radius-pill);
       font-family: 'Outfit', sans-serif;
       font-size: 1rem;
-      font-weight: 600;
-      text-decoration: none;
+      font-weight: 700;
+      cursor: pointer;
       transition: all 0.2s ease;
     }
-    .psll .btn-enter {
-      background: var(--psll-pine);
-      color: white;
-    }
-    .psll .btn-enter:hover {
-      background: #0d2a1d;
-      box-shadow: 0 8px 18px rgba(17, 57, 39, 0.25);
-    }
-    .macro .btn-enter {
-      background: var(--macro-accent);
-      color: white;
-    }
-    .macro .btn-enter:hover {
-      background: #23568c;
-      box-shadow: 0 8px 18px rgba(43, 108, 176, 0.25);
+    .btn-pill-secondary:hover {
+      border-color: var(--text-espresso);
+      background: white;
     }
 
-    footer {
-      background: white;
-      border-top: 1px solid var(--border-subtle);
-      padding: 28px 24px;
-      text-align: center;
-      font-size: 0.88rem;
-      color: var(--text-muted);
+    /* Formas orgánicas decorativas al fondo */
+    .decor-curve-left {
+      position: absolute;
+      bottom: -40px;
+      left: -40px;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: var(--brand-brick);
+      opacity: 0.15;
+      pointer-events: none;
     }
-    footer strong { color: var(--upo-navy); }
+    .decor-curve-right {
+      position: absolute;
+      bottom: -60px;
+      right: -40px;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: var(--brand-terracotta);
+      opacity: 0.2;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
 
-  <div class="top-bar">
-    <div><strong>Universidad Pablo de Olavide</strong> · Departamento de Economía, Métodos Cuantitativos e Historia Económica</div>
-    <div class="badge-year">Curso 2026-2027</div>
+  <div class="app-viewport">
+
+    <!-- ============================================================
+         PANTALLA 1: BIENVENIDA & SELECTOR DE ASIGNATURA
+         ============================================================ -->
+    <section id="viewWelcome" class="view view-welcome active">
+      <div>
+        <div class="welcome-top">
+          <img src="assets/isotipo_mh.svg" alt="MH Docencia" class="welcome-brand-logo">
+          <div class="welcome-author-tag">Manuel Hidalgo · UPO</div>
+        </div>
+
+        <div class="welcome-headings">
+          <h1>Micro apps<br>docentes</h1>
+          <p class="welcome-tagline">Pequeñas preguntas, grandes aprendizajes.</p>
+        </div>
+
+        <!-- Selector de Asignatura con Logos Oficiales de Cada Una -->
+        <div class="subject-selector-wrap">
+          <div class="subject-selector-title">Selecciona tu asignatura:</div>
+          <div class="subject-options">
+            
+            <!-- Opción PSLL -->
+            <div class="subject-btn selected" id="optPsll" onclick="selectSubjectOption('psll')">
+              <div class="subject-logo-box">
+                <img src="assets/isotipo_psll_upo.png" alt="PSLL" class="subject-logo-img">
+              </div>
+              <div class="subject-info">
+                <h3>Políticas Sociolaborales y de Empleo</h3>
+                <p>Grado en Relaciones Laborales y Recursos Humanos</p>
+              </div>
+            </div>
+
+            <!-- Opción Macroeconomía -->
+            <div class="subject-btn" id="optMacro" onclick="selectSubjectOption('macro')">
+              <div class="subject-logo-box">
+                <img src="assets/isotipo_macro_upo.png" alt="Macroeconomía" class="subject-logo-img">
+              </div>
+              <div class="subject-info">
+                <h3>Macroeconomía</h3>
+                <p>Grado en Administración y Dirección de Empresas</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Ilustración Gráfica de Portada Fiel al Mockup -->
+      <div class="welcome-art">
+        <div class="art-shape-bg1"></div>
+        <div class="art-shape-bg2"></div>
+        <div class="welcome-art-card">
+          <div class="art-check-line">
+            <div class="art-checkbox">✓</div>
+            <div class="art-line"></div>
+          </div>
+          <div class="art-check-line">
+            <div class="art-checkbox" style="background: transparent; border-color: #A49080;"></div>
+            <div class="art-line" style="width: 50%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botón de Inicio Fiel al Mockup -->
+      <div>
+        <button class="btn-pill-primary" onclick="launchDashboard()">
+          <span>Comenzar</span>
+          <span>→</span>
+        </button>
+        <div class="welcome-footer-link" onclick="launchDashboard()">Acceder como estudiante invitado</div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         PANTALLA 2: DASHBOARD DE LA ASIGNATURA
+         ============================================================ -->
+    <section id="viewDashboard" class="view view-dashboard">
+      
+      <!-- Cabecera de la Asignatura -->
+      <div class="dashboard-header">
+        <div class="dashboard-top-nav">
+          <div class="subject-pill-switcher" onclick="switchSubjectModal()">
+            <img id="dashSubjectLogo" src="assets/isotipo_psll_upo.png" alt="Logo" class="subject-pill-logo">
+            <span id="dashSubjectShortName">PSLL</span>
+            <span style="font-size: 0.7rem; color: #A49080;">▼</span>
+          </div>
+          <div class="btn-user-avatar" onclick="showProgressSummary()">👤</div>
+        </div>
+
+        <div class="dashboard-greeting">
+          <h2>Hola, estudiante</h2>
+          <p>Elige una micro app y responde a las cuestiones de clase.</p>
+        </div>
+      </div>
+
+      <!-- Filtros Horizontales (Pills) -->
+      <div class="filter-scroll" id="filterScrollContainer">
+        <!-- Renderizado dinámicamente según asignatura -->
+      </div>
+
+      <!-- Catálogo de Micro-Apps -->
+      <div class="apps-list" id="appsListContainer">
+        <!-- Renderizado dinámicamente con las tarjetas tipo mockup -->
+      </div>
+
+      <!-- Barra de Navegación Inferior (Bottom Nav) -->
+      <nav class="bottom-nav">
+        <div class="nav-item" onclick="goToWelcome()">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+          <span>Inicio</span>
+        </div>
+        <div class="nav-item active" onclick="showDashboardView()">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          <span>Mis apps</span>
+        </div>
+        <div class="nav-item" onclick="showProgressSummary()">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+          <span>Progreso</span>
+        </div>
+      </nav>
+    </section>
+
+
+    <!-- ============================================================
+         PANTALLA 3: MOTOR DE PREGUNTAS (QUIZ)
+         ============================================================ -->
+    <section id="viewQuiz" class="view view-quiz">
+      <div>
+        <div class="quiz-header">
+          <div class="quiz-top-bar">
+            <button class="btn-quiz-back" onclick="exitToDashboard()">‹</button>
+            <div class="quiz-app-title" id="quizHeaderTitle">Mercado de trabajo</div>
+            <div class="quiz-progress-badge" id="quizCounter">1/5</div>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="quizProgressBar" style="width: 20%;"></div>
+          </div>
+        </div>
+
+        <div class="quiz-body">
+          <div class="question-tag" id="questionTag">Pregunta 1</div>
+          <div class="question-text" id="questionText">¿Cuál de las siguientes opciones define mejor el concepto de desempleo estructural?</div>
+
+          <div class="options-list" id="optionsContainer">
+            <!-- Opciones renderizadas con radio buttons dinámicamente -->
+          </div>
+
+          <div class="feedback-box" id="feedbackBox"></div>
+        </div>
+      </div>
+
+      <div style="padding-top: 20px;">
+        <button class="btn-pill-primary" id="btnNextQuiz" onclick="handleNextQuestion()">
+          <span>Siguiente</span>
+          <span>→</span>
+        </button>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         PANTALLA 3B: VISOR DE SIMULADOR INTERACTIVO
+         ============================================================ -->
+    <section id="viewSimulator" class="view view-simulator">
+      <div class="simulator-top-bar">
+        <button class="btn-quiz-back" onclick="exitToDashboard()">‹ Volver</button>
+        <div class="quiz-app-title" id="simTitle">Simulador CLU</div>
+        <div style="width: 40px;"></div>
+      </div>
+      <iframe id="simIframe" class="sim-iframe-container" src=""></iframe>
+    </section>
+
+
+    <!-- ============================================================
+         PANTALLA 4: FINALIZACIÓN Y PANTALLA DE LOGRO
+         ============================================================ -->
+    <section id="viewResult" class="view view-result">
+      <div class="decor-curve-left"></div>
+      <div class="decor-curve-right"></div>
+
+      <div class="result-center-content">
+        <!-- Checkmark Hero con Rayos según Mockup -->
+        <div class="check-hero-wrap">
+          <div class="check-rays"></div>
+          <span>✓</span>
+        </div>
+
+        <h2 class="result-title">¡Muy bien!</h2>
+        <p class="result-subtitle" id="resultAppSubtitle">Has completado la micro app Mercado de trabajo.</p>
+
+        <!-- Tarjetas de Métricas -->
+        <div class="result-metrics-grid">
+          <div class="metric-item">
+            <div class="metric-value" id="resultCorrectScore">5/5</div>
+            <div class="metric-label">Respuestas correctas</div>
+          </div>
+          <div class="metric-item" style="border-left: 1px solid var(--border-light);">
+            <div class="metric-value" id="resultPercentage">100%</div>
+            <div class="metric-label">Puntuación</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-actions">
+        <button class="btn-pill-primary" onclick="showDashboardView()">
+          <span>Completar y volver</span>
+          <span>→</span>
+        </button>
+        <button class="btn-pill-secondary" onclick="restartCurrentQuiz()">
+          <span>Repetir actividad</span>
+        </button>
+      </div>
+    </section>
+
   </div>
 
-  <header class="hero">
-    <div class="hero-content">
-      <div class="hero-tag">Innovación Docente & Recursos Digitales</div>
-      <h1>Laboratorio de Micro-Apps Interactivas</h1>
-      <p>Simuladores, modelos computacionales y talleres empíricos para el aprendizaje activo en el aula universitaria.</p>
-    </div>
-  </header>
+  <!-- Banco de Datos de Micro-Apps -->
+  <script src="data/apps_data.js"></script>
 
-  <main class="main-container">
-    <div class="grid-subjects">
+  <!-- Lógica de Control y Navegación de la Aplicación -->
+  <script>
+    // Estado Global de la App
+    var currentSubjectKey = 'psll';
+    var currentFilter = 'todas';
+    var activeQuizApp = null;
+    var currentQuestionIdx = 0;
+    var currentAnswers = [];
+    var isAnswerSubmitted = false;
 
-      <!-- PSLL -->
-      <article class="subject-card psll">
-        <div class="card-body">
-          <div class="subject-header">
-            <div class="subject-icon-box">📊</div>
-            <div class="subject-title-wrap">
-              <h2>Políticas Sociolaborales y de Empleo</h2>
-              <span class="degree-badge">Grado en RRLyRRHH & Doble Grado Derecho-RRLyRRHH</span>
+    // Inicialización al cargar la página
+    document.addEventListener('DOMContentLoaded', function() {
+      // 1. Leer parámetros URL para Deep-Linking directo (ej. ?subject=psll&app=psll_clu_sim)
+      var params = new URLSearchParams(window.location.search);
+      var sub = params.get('subject') || params.get('asignatura');
+      var appId = params.get('app');
+
+      if (sub && window.DOCENCIA_APPS[sub]) {
+        currentSubjectKey = sub;
+      }
+
+      if (appId) {
+        // Acceso directo a una micro-app desde QR
+        launchAppById(appId);
+      } else {
+        // Iniciar en bienvenida
+        updateWelcomeSubjectSelection();
+      }
+    });
+
+    // Gestión del Selector de Asignaturas en Portada
+    function selectSubjectOption(key) {
+      currentSubjectKey = key;
+      updateWelcomeSubjectSelection();
+    }
+
+    function updateWelcomeSubjectSelection() {
+      document.getElementById('optPsll').classList.toggle('selected', currentSubjectKey === 'psll');
+      document.getElementById('optMacro').classList.toggle('selected', currentSubjectKey === 'macro');
+    }
+
+    function launchDashboard() {
+      renderDashboard();
+      showView('viewDashboard');
+    }
+
+    function goToWelcome() {
+      showView('viewWelcome');
+    }
+
+    function showDashboardView() {
+      renderDashboard();
+      showView('viewDashboard');
+    }
+
+    function switchSubjectModal() {
+      currentSubjectKey = (currentSubjectKey === 'psll') ? 'macro' : 'psll';
+      renderDashboard();
+    }
+
+    // Renderizar Dashboard según Asignatura Activa
+    function renderDashboard() {
+      var subject = window.DOCENCIA_APPS[currentSubjectKey];
+      if (!subject) return;
+
+      // Actualizar cabecera
+      document.getElementById('dashSubjectLogo').src = subject.isotipo;
+      document.getElementById('dashSubjectShortName').innerText = subject.shortName;
+
+      // Renderizar Píldoras de Filtro
+      var filterContainer = document.getElementById('filterScrollContainer');
+      filterContainer.innerHTML = '';
+      subject.categories.forEach(function(cat) {
+        var pill = document.createElement('button');
+        pill.className = 'filter-pill' + (currentFilter === cat.id ? ' active' : '');
+        pill.innerText = cat.name;
+        pill.onclick = function() {
+          currentFilter = cat.id;
+          renderDashboard();
+        };
+        filterContainer.appendChild(pill);
+      });
+
+      // Renderizar Lista de Tarjetas de Micro-Apps
+      var listContainer = document.getElementById('appsListContainer');
+      listContainer.innerHTML = '';
+
+      var filteredApps = subject.apps.filter(function(app) {
+        if (currentFilter === 'todas') return true;
+        return app.category === currentFilter;
+      });
+
+      if (filteredApps.length === 0) {
+        listContainer.innerHTML = '<div style="text-align: center; padding: 40px 20px; color: #8C7B70;">No hay micro-apps en esta categoría actualmente.</div>';
+        return;
+      }
+
+      filteredApps.forEach(function(app) {
+        var card = document.createElement('div');
+        card.className = 'app-card';
+        card.onclick = function() {
+          openApp(app);
+        };
+
+        card.innerHTML = `
+          <div class="app-icon-circle" style="background: ${app.iconBg}; color: ${app.iconColor};">
+            ${app.icon}
+          </div>
+          <div class="app-content">
+            <h4>${app.title}</h4>
+            <p>${app.desc}</p>
+            <div class="app-meta">
+              <span>${app.meta}</span>
             </div>
           </div>
-          <p class="card-desc">
-            Portal interactivo con simuladores empíricos del mercado de trabajo, análisis de costes laborales y políticas activas y pasivas de empleo.
-          </p>
-          <ul class="features-list">
-            <li>
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-              <span><strong>Simulador CLU:</strong> Sensibilidad interactiva salarios, cotizaciones y productividad.</span>
-            </li>
-            <li>
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-              <span><strong>Módulos Tema 3:</strong> Balanza de protección, el viaje del desempleado y dilemas laborales.</span>
-            </li>
-            <li>
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-              <span><strong>Acceso móvil instantáneo:</strong> Códigos QR integrados para proyección en el aula.</span>
-            </li>
-          </ul>
-          <div class="card-action">
-            <a href="psll/" class="btn-enter">
-              <span>Entrar en PSLL PolicyLab</span>
-              <span>→</span>
-            </a>
+          <div class="app-chevron">›</div>
+        `;
+        listContainer.appendChild(card);
+      });
+    }
+
+    // Apertura de una Micro-App
+    function openApp(app) {
+      if (app.type === 'simulator') {
+        // Abrir visor de simulador
+        document.getElementById('simTitle').innerText = app.title;
+        document.getElementById('simIframe').src = app.url;
+        showView('viewSimulator');
+      } else if (app.type === 'quiz') {
+        // Iniciar cuestionario interactivo
+        activeQuizApp = app;
+        currentQuestionIdx = 0;
+        currentAnswers = new Array(app.questions.length).fill(null);
+        renderCurrentQuestion();
+        showView('viewQuiz');
+      }
+    }
+
+    function launchAppById(appId) {
+      for (var subKey in window.DOCENCIA_APPS) {
+        var sub = window.DOCENCIA_APPS[subKey];
+        var match = sub.apps.find(function(a) { return a.id === appId; });
+        if (match) {
+          currentSubjectKey = subKey;
+          openApp(match);
+          return;
+        }
+      }
+      // Fallback
+      launchDashboard();
+    }
+
+    // Motor de Preguntas (Quiz Engine)
+    function renderCurrentQuestion() {
+      if (!activeQuizApp) return;
+      var q = activeQuizApp.questions[currentQuestionIdx];
+      var total = activeQuizApp.questions.length;
+      isAnswerSubmitted = false;
+
+      // Actualizar cabecera
+      document.getElementById('quizHeaderTitle').innerText = activeQuizApp.title;
+      document.getElementById('quizCounter').innerText = (currentQuestionIdx + 1) + '/' + total;
+      document.getElementById('quizProgressBar').style.width = ((currentQuestionIdx + 1) / total * 100) + '%';
+      
+      document.getElementById('questionTag').innerText = q.tag;
+      document.getElementById('questionText').innerText = q.text;
+
+      // Ocultar feedback
+      var fbBox = document.getElementById('feedbackBox');
+      fbBox.className = 'feedback-box';
+      fbBox.style.display = 'none';
+
+      // Botón Siguiente
+      var btnNext = document.getElementById('btnNextQuiz');
+      btnNext.innerHTML = (currentQuestionIdx === total - 1) ? '<span>Comprobar y Finalizar</span> <span>→</span>' : '<span>Comprobar respuesta</span> <span>→</span>';
+      btnNext.disabled = true;
+      btnNext.style.opacity = '0.5';
+
+      // Opciones
+      var optContainer = document.getElementById('optionsContainer');
+      optContainer.innerHTML = '';
+
+      q.options.forEach(function(optText, idx) {
+        var optCard = document.createElement('div');
+        optCard.className = 'option-card';
+        optCard.id = 'opt_' + idx;
+        optCard.onclick = function() {
+          if (isAnswerSubmitted) return;
+          selectQuizOption(idx);
+        };
+
+        optCard.innerHTML = `
+          <div class="option-radio-circle">
+            <div class="option-radio-dot"></div>
           </div>
-        </div>
-      </article>
+          <div class="option-label">${optText}</div>
+        `;
+        optContainer.appendChild(optCard);
+      });
+    }
 
-      <!-- MACROECONOMÍA -->
-      <article class="subject-card macro">
-        <div class="card-body">
-          <div class="subject-header">
-            <div class="subject-icon-box">📈</div>
-            <div class="subject-title-wrap">
-              <h2>Macroeconomía</h2>
-              <span class="degree-badge">Grado en Administración y Dirección de Empresas (ADE)</span>
-            </div>
-          </div>
-          <p class="card-desc">
-            Espacio computacional para la simulación de equilibrio macroeconómico, perturbaciones de oferta/demanda y políticas de estabilización.
-          </p>
-          <ul class="features-list">
-            <li>
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-              <span><strong>Modelos Macroeconómicos:</strong> Mercado de bienes, dinero y equilibrio general.</span>
-            </li>
-            <li>
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-              <span><strong>Simuladores de Shock:</strong> Impacto dinámico de shocks fiscales, energéticos y monetarios.</span>
-            </li>
-            <li>
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-              <span><strong>Gráficos de Coyuntura:</strong> Indicadores macroeconómicos y datos en tiempo real.</span>
-            </li>
-          </ul>
-          <div class="card-action">
-            <a href="macro/" class="btn-enter">
-              <span>Entrar en Macro Lab</span>
-              <span>→</span>
-            </a>
-          </div>
-        </div>
-      </article>
+    function selectQuizOption(idx) {
+      currentAnswers[currentQuestionIdx] = idx;
+      var cards = document.querySelectorAll('.option-card');
+      cards.forEach(function(c, i) {
+        c.classList.toggle('selected', i === idx);
+      });
 
-    </div>
-  </main>
+      var btnNext = document.getElementById('btnNextQuiz');
+      btnNext.disabled = false;
+      btnNext.style.opacity = '1';
+    }
 
-  <footer>
-    <div style="max-width: 900px; margin: 0 auto;">
-      <p><strong>Universidad Pablo de Olavide (UPO)</strong> · Sevilla, España</p>
-      <p style="margin-top: 4px; font-size: 0.82rem;">Prof. Manuel Hidalgo Pérez · Área de Fundamentos del Análisis Económico</p>
-    </div>
-  </footer>
+    function handleNextQuestion() {
+      var selectedIdx = currentAnswers[currentQuestionIdx];
+      if (selectedIdx === null || selectedIdx === undefined) return;
 
+      var q = activeQuizApp.questions[currentQuestionIdx];
+      var total = activeQuizApp.questions.length;
+
+      if (!isAnswerSubmitted) {
+        // Paso 1: Mostrar Feedback didáctico
+        isAnswerSubmitted = true;
+        var cards = document.querySelectorAll('.option-card');
+        var isCorrect = (selectedIdx === q.correct);
+
+        cards.forEach(function(c, i) {
+          if (i === q.correct) {
+            c.classList.add('correct-answer');
+          } else if (i === selectedIdx && !isCorrect) {
+            c.classList.add('wrong-answer');
+          }
+        });
+
+        var fbBox = document.getElementById('feedbackBox');
+        fbBox.innerHTML = `<strong>${isCorrect ? '¡Correcto!' : 'Respuesta incorrecta.'}</strong> ${q.explanation}`;
+        fbBox.className = 'feedback-box ' + (isCorrect ? 'correct' : 'wrong');
+        fbBox.style.display = 'block';
+
+        var btnNext = document.getElementById('btnNextQuiz');
+        btnNext.innerHTML = (currentQuestionIdx === total - 1) ? '<span>Ver Resultados</span> <span>→</span>' : '<span>Siguiente Pregunta</span> <span>→</span>';
+      } else {
+        // Paso 2: Avanzar
+        if (currentQuestionIdx < total - 1) {
+          currentQuestionIdx++;
+          renderCurrentQuestion();
+        } else {
+          // Finalizar y mostrar Pantalla de Resultados
+          showResultsScreen();
+        }
+      }
+    }
+
+    function showResultsScreen() {
+      var correctCount = 0;
+      var total = activeQuizApp.questions.length;
+      activeQuizApp.questions.forEach(function(q, idx) {
+        if (currentAnswers[idx] === q.correct) {
+          correctCount++;
+        }
+      });
+
+      var percentage = Math.round((correctCount / total) * 100);
+
+      document.getElementById('resultAppSubtitle').innerText = 'Has completado la micro app ' + activeQuizApp.title + '.';
+      document.getElementById('resultCorrectScore').innerText = correctCount + '/' + total;
+      document.getElementById('resultPercentage').innerText = percentage + '%';
+
+      // Guardar en localStorage
+      try {
+        var history = JSON.parse(localStorage.getItem('mh_docencia_progress') || '{}');
+        history[activeQuizApp.id] = {
+          score: correctCount,
+          total: total,
+          pct: percentage,
+          date: new Date().toISOString()
+        };
+        localStorage.setItem('mh_docencia_progress', JSON.stringify(history));
+      } catch (e) {
+        console.warn('LocalStorage error:', e);
+      }
+
+      showView('viewResult');
+    }
+
+    function restartCurrentQuiz() {
+      currentQuestionIdx = 0;
+      currentAnswers = new Array(activeQuizApp.questions.length).fill(null);
+      renderCurrentQuestion();
+      showView('viewQuiz');
+    }
+
+    function exitToDashboard() {
+      document.getElementById('simIframe').src = '';
+      showDashboardView();
+    }
+
+    function showProgressSummary() {
+      try {
+        var history = JSON.parse(localStorage.getItem('mh_docencia_progress') || '{}');
+        var count = Object.keys(history).length;
+        alert('📊 Resumen de Actividad:\nHas completado ' + count + ' micro-apps interactivas.');
+      } catch (e) {
+        alert('No hay registros de actividad previa en este dispositivo.');
+      }
+    }
+
+    // Función de Transición entre Vistas
+    function showView(viewId) {
+      var views = document.querySelectorAll('.view');
+      views.forEach(function(v) {
+        v.classList.remove('active');
+      });
+      var target = document.getElementById(viewId);
+      if (target) {
+        target.classList.add('active');
+        window.scrollTo(0, 0);
+      }
+    }
+  </script>
 </body>
 </html>

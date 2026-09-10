@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 140" width="540" height="140" fill="none">
+  <defs>
+    <linearGradient id="mhGradPrimaryLock" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8C271E"/>
+      <stop offset="100%" stop-color="#A33327"/>
+    </linearGradient>
+    <linearGradient id="mhGradSecondaryLock" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D47B5A"/>
+      <stop offset="100%" stop-color="#E29272"/>
+    </linearGradient>
+    <filter id="shadowMhLock" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="2" dy="4" stdDeviation="4" flood-color="#5C2317" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  
+  <!-- Left Wing of M -->
+  <path d="M 28 92 C 14 74 18 42 36 28 C 54 14 84 22 96 46 L 68 98 C 56 108 38 104 28 92 Z" 
+        fill="url(#mhGradPrimaryLock)" 
+        filter="url(#shadowMhLock)"/>
+
+  <!-- Right Wing of M -->
+  <path d="M 64 96 L 94 44 C 106 24 136 22 150 42 C 162 60 156 88 136 104 C 114 120 78 114 64 96 Z" 
+        fill="url(#mhGradSecondaryLock)" 
+        opacity="0.92"/>
+        
+  <!-- Core Inner Pulse -->
+  <circle cx="82" cy="72" r="7" fill="#FDFBF7" opacity="0.95"/>
+
+  <!-- Brand Typography -->
+  <text x="180" y="68" font-family="'Outfit', 'Inter', -apple-system, sans-serif" font-size="34" font-weight="800" fill="#4A3B32" letter-spacing="-0.5">MANUEL HIDALGO</text>
+  <text x="180" y="98" font-family="'Inter', -apple-system, sans-serif" font-size="14" font-weight="700" fill="#A33327" letter-spacing="3.2">DOCENCIA UNIVERSITARIA · UPO</text>
+</svg>

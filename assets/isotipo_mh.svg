@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 140" width="160" height="140" fill="none">
+  <defs>
+    <linearGradient id="mhGradPrimary" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8C271E"/>
+      <stop offset="100%" stop-color="#A33327"/>
+    </linearGradient>
+    <linearGradient id="mhGradSecondary" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D47B5A"/>
+      <stop offset="100%" stop-color="#E29272"/>
+    </linearGradient>
+    <filter id="shadowMh" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="2" dy="4" stdDeviation="4" flood-color="#5C2317" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  
+  <!-- Left Wing of M (Deep Brick Red #A33327) -->
+  <path d="M 28 92 C 14 74 18 42 36 28 C 54 14 84 22 96 46 L 68 98 C 56 108 38 104 28 92 Z" 
+        fill="url(#mhGradPrimary)" 
+        filter="url(#shadowMh)"/>
+
+  <!-- Right Wing of M (Warm Terracotta #D47B5A) -->
+  <path d="M 64 96 L 94 44 C 106 24 136 22 150 42 C 162 60 156 88 136 104 C 114 120 78 114 64 96 Z" 
+        fill="url(#mhGradSecondary)" 
+        opacity="0.92"
+        style="mix-blend-mode: multiply;"/>
+        
+  <!-- Core Inner Pulse / Node Accent -->
+  <circle cx="82" cy="72" r="7" fill="#FDFBF7" opacity="0.95"/>
+</svg>

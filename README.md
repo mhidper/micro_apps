@@ -1,9 +1,10 @@
-# Micro-Apps y Laboratorio Interactivo Docente · UPO
+# Micro-Apps Docentes · Manuel Hidalgo
 
-Repositorio unificado de aplicaciones interactivas y simuladores para la docencia universitaria en la **Universidad Pablo de Olavide**.
+Laboratorio interactivo de micro-apps y simuladores docentes para la **Universidad Pablo de Olavide**.
 
-## Asignaturas
-- **Políticas Sociolaborales y de Empleo (PSLL):** [`/psll/`](./psll/)
-- **Macroeconomía:** [`/macro/`](./macro/)
+- **URL de la Web App:** https://mhidper.github.io/micro_apps/
+- **Asignaturas:**
+  - Políticas Sociolaborales y de Empleo (PSLL) · Grado en Relaciones Laborales y Recursos Humanos
+  - Macroeconomía · Grado en Administración y Dirección de Empresas (ADE)
 
-Prof. Manuel Hidalgo Pérez · Departamento de Economía, Métodos Cuantitativos e Historia Económica.
+Prof. Manuel Hidalgo Pérez (@manujhidalgo)
