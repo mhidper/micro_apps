@@ -462,6 +462,36 @@
     .decomp-bar{display:flex;height:30px;border-radius:8px;overflow:hidden;margin-bottom:8px;}
     .decomp-bar .dseg{display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.76rem;font-weight:700;white-space:nowrap;min-width:0;overflow:hidden;padding:0 4px;}
     .decomp-foot{font-size:0.78rem;color:var(--text-muted);line-height:1.4;}
+    /* Contribución por bien */
+    .goods-box{background:#fff;border:1px solid #E3DCD2;border-radius:16px;padding:16px;margin-bottom:18px;box-shadow:0 2px 8px rgba(74,59,50,0.05);}
+    .goods-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:0.95rem;color:var(--psll-pine);margin-bottom:10px;}
+    .goods-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--border-light);}
+    .goods-row.first{border-top:none;}
+    .goods-name{flex:1;font-weight:600;font-size:0.86rem;color:var(--text-main);min-width:0;}
+    .goods-chip{font-family:'Outfit',sans-serif;font-weight:700;font-size:0.8rem;padding:3px 9px;border-radius:999px;white-space:nowrap;}
+    .goods-chip.q{background:#EAF4EE;color:var(--psll-pine);}
+    .goods-chip.p{background:#FBF0E9;color:var(--psll-coral);}
+    .goods-note{font-size:0.78rem;color:var(--text-muted);margin-top:10px;line-height:1.45;}
+    /* Deflactor vs IPC */
+    .ipc-note{background:#F7FAFC;border:1px solid #E3DCD2;border-radius:14px;padding:2px 16px;margin-bottom:18px;}
+    .ipc-note summary{cursor:pointer;font-family:'Outfit',sans-serif;font-weight:700;font-size:0.9rem;color:var(--psll-pine);padding:12px 0;list-style:none;}
+    .ipc-note summary::-webkit-details-marker{display:none;}
+    .ipc-note summary::before{content:'▸ ';color:var(--psll-coral);}
+    .ipc-note[open] summary::before{content:'▾ ';}
+    .ipc-note .ipc-body{font-size:0.84rem;color:var(--text-main);line-height:1.5;padding-bottom:12px;}
+    .ipc-note .ipc-body b{color:var(--psll-pine);}
+    .ipc-note table{width:100%;border-collapse:collapse;margin-top:8px;font-size:0.78rem;}
+    .ipc-note td,.ipc-note th{border:1px solid var(--border-light);padding:6px 8px;text-align:left;vertical-align:top;}
+    .ipc-note th{background:#EEF2F4;font-family:'Outfit',sans-serif;}
+    /* Pregunta de comprensión */
+    .pq-box{background:var(--psll-pine);color:#fff;border-radius:16px;padding:16px;margin-bottom:18px;}
+    .pq-q{font-family:'Outfit',sans-serif;font-weight:700;font-size:0.95rem;margin-bottom:12px;line-height:1.4;}
+    .pq-q b{color:#F4C9B8;}
+    .pq-opts{display:flex;gap:10px;}
+    .pq-btn{flex:1;padding:11px;border:2px solid rgba(255,255,255,0.35);background:rgba(255,255,255,0.10);color:#fff;border-radius:10px;font-family:'Outfit',sans-serif;font-weight:700;font-size:0.92rem;cursor:pointer;}
+    .pq-btn.ok{border-color:#8FE3B0;background:rgba(143,227,176,0.28);}
+    .pq-btn.wrong{border-color:#F0A6A0;background:rgba(240,166,160,0.28);}
+    .pq-fb{display:none;margin-top:12px;font-size:0.85rem;line-height:1.55;background:rgba(255,255,255,0.12);border-radius:10px;padding:12px;}
   </style>
 </head>
 <body>
@@ -662,6 +692,22 @@
       </div>
     </div>
 
+    <!-- Contribución por bien (Idea C) -->
+    <div class="goods-box">
+      <div class="goods-title">🧺 ¿Qué mueve cada bien: cantidad o precio?</div>
+      <div class="goods-row first">
+        <div class="goods-name">🌾 Alimentos (A)</div>
+        <div class="goods-chip q" id="dqA">Q +0%</div>
+        <div class="goods-chip p" id="dpA">P +0%</div>
+      </div>
+      <div class="goods-row">
+        <div class="goods-name">🚗 Servicios/Bienes (B)</div>
+        <div class="goods-chip q" id="dqB">Q +0%</div>
+        <div class="goods-chip p" id="dpB">P +0%</div>
+      </div>
+      <div class="goods-note">Q = variación de cantidad (volumen real) · P = variación de precio (inflación) de cada bien entre el Año 1 y el Año 2. Ayuda a ver qué bien empuja el volumen y cuál los precios.</div>
+    </div>
+
     <!-- Descomposición del crecimiento nominal (Idea 2) -->
     <div class="decomp-box">
       <div class="decomp-title">🔎 ¿De dónde viene el crecimiento nominal?</div>
@@ -681,6 +727,31 @@
       </div>
       <div class="chart-note" id="chartNote"></div>
     </div>
+
+    <!-- Pregunta de comprensión (Idea B) -->
+    <div class="pq-box">
+      <div class="pq-q">🤔 Si el PIB <b>nominal</b> sube y el PIB <b>real</b> no cambia, ¿dispone la sociedad de más bienes?</div>
+      <div class="pq-opts">
+        <button type="button" class="pq-btn" id="pqSi" onclick="pibQuiz('si')">Sí</button>
+        <button type="button" class="pq-btn" id="pqNo" onclick="pibQuiz('no')">No</button>
+      </div>
+      <div class="pq-fb" id="pqFb"></div>
+    </div>
+
+    <!-- Deflactor vs IPC (plegable) -->
+    <details class="ipc-note">
+      <summary>¿En qué se diferencia el deflactor del IPC?</summary>
+      <div class="ipc-body">
+        Los dos miden precios, pero no lo mismo:
+        <table>
+          <tr><th></th><th>Deflactor del PIB</th><th>IPC</th></tr>
+          <tr><td><b>Qué cubre</b></td><td>Todo lo producido en el país (el PIB)</td><td>Una cesta de consumo de los hogares</td></tr>
+          <tr><td><b>Cesta</b></td><td>Cambia cada año (cantidades del año corriente)</td><td>Fija (se revisa cada cierto tiempo)</td></tr>
+          <tr><td><b>Importaciones</b></td><td>No las incluye (solo producción nacional)</td><td>Sí (bienes importados que consumen los hogares)</td></tr>
+        </table>
+        Por eso pueden diferir: el deflactor recoge todo lo que produce el país; el IPC, lo que compra un hogar típico.
+      </div>
+    </details>
 
     <!-- Dynamic Insight Message -->
     <div class="insight-card" id="insightBox">
@@ -745,6 +816,29 @@
         document.getElementById('p2_B').value = 11.0; // +10%
       }
       calculate();
+    }
+
+    function drawGoods(q1A,p1A,q2A,p2A,q1B,p1B,q2B,p2B){
+      function chg(a,b){ return a>0 ? (b/a-1)*100 : 0; }
+      function s(x){ return (x>=0?'+':'')+x.toFixed(0)+'%'; }
+      var e;
+      e=document.getElementById('dqA'); if(e) e.innerText='Q '+s(chg(q1A,q2A));
+      e=document.getElementById('dpA'); if(e) e.innerText='P '+s(chg(p1A,p2A));
+      e=document.getElementById('dqB'); if(e) e.innerText='Q '+s(chg(q1B,q2B));
+      e=document.getElementById('dpB'); if(e) e.innerText='P '+s(chg(p1B,p2B));
+    }
+
+    function pibQuiz(choice){
+      var correct=(choice==='no');
+      var si=document.getElementById('pqSi'), no=document.getElementById('pqNo'), fb=document.getElementById('pqFb');
+      if(!si||!no||!fb) return;
+      si.classList.remove('ok','wrong'); no.classList.remove('ok','wrong');
+      no.classList.add('ok');
+      if(!correct) si.classList.add('wrong');
+      fb.style.display='block';
+      fb.className='pq-fb '+(correct?'ok':'wrong');
+      fb.innerHTML=(correct?'<b>Correcto.</b> ':'<b>No exactamente.</b> ')
+        +'Si el PIB nominal sube y el real no cambia, la sociedad dispone de <b>los mismos bienes</b>: el aumento es solo de precios (sube el deflactor). Manejar más euros no significa producir más.';
     }
 
     function drawChart(nom1,nom2,real1,real2,baseYear,defl1,defl2){
@@ -881,6 +975,7 @@
 
       // Idea 2: descomposición del crecimiento nominal
       drawDecomp(gNom, gReal, infl);
+      drawGoods(q1A,p1A,q2A,p2A,q1B,p1B,q2B,p2B);
 
       // Mensaje didáctico
       let insight='';
