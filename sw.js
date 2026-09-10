@@ -6,7 +6,7 @@
    - La activación de la versión nueva la decide el usuario (aviso en la
      app) mediante el mensaje SKIP_WAITING: nunca se queda con una versión
      antigua ni interrumpe sin avisar. */
-const CACHE = 'mh-microapps-v3';
+const CACHE = 'mh-microapps-v2';
 
 const PRECACHE = [
   './', './index.html', './theme.css', './fonts.css',
@@ -20,7 +20,6 @@ const PRECACHE = [
   './mitos_realidades.html',
   './colocacion_adecuada.html',
   './caso_1.html',
-  './simulador_pib_real.html',
   // Marca / iconos / fuentes
   './assets/isotipo_mh.svg', './assets/logo_mh.svg',
   './assets/icon-192.png', './assets/icon-512.png',
