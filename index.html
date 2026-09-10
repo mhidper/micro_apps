@@ -8,9 +8,7 @@
   <meta name="theme-color" content="#FDFBF7">
   
   <!-- Tipografías Google Fonts: Outfit (Titulares & Números) + Inter (Lectura & Botones) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="fonts.css">
   <link rel="icon" href="assets/isotipo_mh.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/icon-192.png">
   <link rel="manifest" href="manifest.webmanifest">
@@ -70,6 +68,7 @@
       padding: 0;
       -webkit-tap-highlight-color: transparent;
     }
+    [hidden]{display:none !important;}
 
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -1005,11 +1004,48 @@
     .progress-empty{text-align:center;color:var(--text-muted);padding:40px 20px;line-height:1.5;}
     .btn-clear-progress{display:block;margin:22px auto 0;background:none;border:1px solid var(--border-subtle);
       color:var(--text-muted);font-family:inherit;font-size:0.8rem;padding:9px 18px;border-radius:var(--radius-pill);cursor:pointer;}
+
+    /* ===== PWA: áreas seguras, aviso de actualización, instalación ===== */
+    .bottom-nav{ padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
+    .view-welcome{ padding-top: calc(18px + env(safe-area-inset-top)) !important; }
+    .view-progress{ padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+    .pwa-toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom));
+      z-index:300;background:var(--text-espresso);color:#fff;border-radius:var(--radius-pill);
+      padding:10px 12px 10px 18px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-lg);
+      max-width:calc(100% - 32px);font-size:0.88rem;font-weight:600;}
+    .pwa-toast-btn{background:var(--brand-terracotta);color:#fff;border:none;font-family:inherit;font-weight:700;
+      font-size:0.82rem;padding:7px 14px;border-radius:var(--radius-pill);cursor:pointer;}
+    .pwa-toast-close{background:none;border:none;color:rgba(255,255,255,0.7);font-size:0.9rem;cursor:pointer;padding:4px;}
+    .btn-install{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-bottom:12px;
+      background:var(--brand-brick);color:#fff;border:none;font-family:'Outfit',sans-serif;font-weight:700;
+      font-size:0.95rem;padding:14px;border-radius:var(--radius-pill);cursor:pointer;box-shadow:var(--shadow-md);}
+    .ios-hint{position:fixed;left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:300;
+      background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-md);
+      padding:14px 40px 14px 16px;font-size:0.85rem;color:var(--text-espresso);box-shadow:var(--shadow-lg);line-height:1.45;}
+    .ios-hint-close{position:absolute;top:8px;right:10px;background:none;border:none;font-size:0.9rem;color:var(--text-muted);cursor:pointer;}
+    /* Estado de carga del simulador */
+    .sim-loading{position:absolute;inset:48px 0 0 0;display:flex;align-items:center;justify-content:center;
+      background:var(--bg-cream);color:var(--text-muted);font-size:0.9rem;z-index:5;}
+    .sim-spinner{width:34px;height:34px;border:3px solid var(--border-subtle);border-top-color:var(--brand-brick);
+      border-radius:50%;animation:spin 0.8s linear infinite;}
+    @keyframes spin{to{transform:rotate(360deg);}}
   </style>
 </head>
 <body>
 
   <div class="app-viewport">
+
+    <!-- Avisos PWA -->
+    <div id="pwaToast" class="pwa-toast" hidden role="status" aria-live="polite">
+      <span id="pwaToastMsg">Nueva versión disponible</span>
+      <button id="pwaToastAction" class="pwa-toast-btn" hidden>Actualizar</button>
+      <button id="pwaToastClose" class="pwa-toast-close" aria-label="Cerrar" onclick="hideToast()">✕</button>
+    </div>
+    <div id="iosHint" class="ios-hint" hidden>
+      Para instalar esta app: pulsa <strong>Compartir</strong> y luego <strong>Añadir a pantalla de inicio</strong>.
+      <button class="ios-hint-close" aria-label="Cerrar" onclick="dismissIosHint()">✕</button>
+    </div>
+
 
     <!-- ============================================================
          PANTALLA 1: BIENVENIDA & SELECTOR DE ASIGNATURA
@@ -1081,6 +1117,7 @@
           <span>Comenzar</span>
           <span>→</span>
         </button>
+        <button id="btnInstall" class="btn-install" hidden onclick="pwaInstall()">⬇ Instalar app en el móvil</button>
         <div class="welcome-footer-link" onclick="launchDashboard()">Acceder como estudiante invitado</div>
       </div>
     </section>
@@ -1182,7 +1219,8 @@
         <div class="quiz-app-title" id="simTitle">Simulador CLU</div>
         <a id="simExternalLink" href="#" target="_blank" class="btn-sim-external">↗ Pantalla completa</a>
       </div>
-      <iframe id="simIframe" class="sim-iframe-container" src=""></iframe>
+      <div class="sim-loading" id="simLoading"><div class="sim-spinner"></div></div>
+      <iframe id="simIframe" class="sim-iframe-container" src="" onload="document.getElementById('simLoading').style.display='none';"></iframe>
     </section>
 
 
@@ -1332,11 +1370,8 @@
       if(appId){ launchAppById(appId); }
       else { updateWelcomeSubjectSelection(); showView('viewWelcome'); }
 
-      if('serviceWorker' in navigator){
-        window.addEventListener('load', function(){
-          navigator.serviceWorker.register('sw.js').catch(function(){});
-        });
-      }
+      maybeShowIosHint();
+      window.addEventListener('load', registerSW);
     });
 
     // ===== Selector de asignatura =====
@@ -1418,6 +1453,7 @@
     function openApp(app){
       if(app.type==='simulator'){
         document.getElementById('simTitle').innerText=app.title;
+        var sl=document.getElementById('simLoading'); if(sl) sl.style.display='flex';
         document.getElementById('simIframe').src=app.url;
         var extLink=document.getElementById('simExternalLink');
         if(extLink) extLink.href=app.url;
@@ -1635,6 +1671,72 @@
         window.scrollTo({top:0,left:0,behavior:'auto'});
         document.body.scrollTop=0; document.documentElement.scrollTop=0;
       }
+    }
+
+    // ===== PWA: instalación y actualizaciones =====
+    var deferredPrompt=null;
+    window.addEventListener('beforeinstallprompt', function(e){
+      e.preventDefault();
+      deferredPrompt=e;
+      var b=document.getElementById('btnInstall'); if(b) b.hidden=false;
+    });
+    window.addEventListener('appinstalled', function(){
+      deferredPrompt=null;
+      var b=document.getElementById('btnInstall'); if(b) b.hidden=true;
+    });
+    function pwaInstall(){
+      if(!deferredPrompt) return;
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.finally(function(){
+        deferredPrompt=null;
+        var b=document.getElementById('btnInstall'); if(b) b.hidden=true;
+      });
+    }
+    function isIos(){ return /iphone|ipad|ipod/i.test(navigator.userAgent); }
+    function isStandalone(){
+      return window.matchMedia('(display-mode: standalone)').matches || navigator.standalone===true;
+    }
+    function maybeShowIosHint(){
+      if(!isIos() || isStandalone()) return;
+      var seen=null; try{ seen=localStorage.getItem('mh_ios_hint'); }catch(e){}
+      if(seen) return;
+      var el=document.getElementById('iosHint'); if(el) el.hidden=false;
+    }
+    function dismissIosHint(){
+      var el=document.getElementById('iosHint'); if(el) el.hidden=true;
+      try{ localStorage.setItem('mh_ios_hint','1'); }catch(e){}
+    }
+    function showToast(msg, actionLabel, onAction){
+      var t=document.getElementById('pwaToast'),
+          m=document.getElementById('pwaToastMsg'),
+          a=document.getElementById('pwaToastAction');
+      if(!t) return;
+      m.innerText=msg;
+      if(actionLabel){ a.innerText=actionLabel; a.hidden=false; a.onclick=onAction; }
+      else { a.hidden=true; }
+      t.hidden=false;
+    }
+    function hideToast(){ var t=document.getElementById('pwaToast'); if(t) t.hidden=true; }
+    function registerSW(){
+      if(!('serviceWorker' in navigator)) return;
+      navigator.serviceWorker.register('sw.js').then(function(reg){
+        if(reg.waiting) promptUpdate(reg.waiting);
+        reg.addEventListener('updatefound', function(){
+          var nw=reg.installing; if(!nw) return;
+          nw.addEventListener('statechange', function(){
+            if(nw.state==='installed' && navigator.serviceWorker.controller){ promptUpdate(nw); }
+          });
+        });
+      }).catch(function(){});
+      var refreshing=false;
+      navigator.serviceWorker.addEventListener('controllerchange', function(){
+        if(refreshing) return; refreshing=true; window.location.reload();
+      });
+    }
+    function promptUpdate(worker){
+      showToast('Hay una versión nueva', 'Actualizar', function(){
+        hideToast(); worker.postMessage({type:'SKIP_WAITING'});
+      });
     }
   </script>
 </body>
