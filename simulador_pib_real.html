@@ -431,6 +431,16 @@
       background: var(--psll-mint);
       border-color: var(--psll-sage);
     }
+    /* Gráfico Nominal vs Real */
+    .chart-box{background:#fff;border:1px solid #E3DCD2;border-radius:16px;padding:18px 16px 14px;margin-bottom:18px;box-shadow:0 2px 8px rgba(74,59,50,0.05);}
+    .chart-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:0.98rem;color:var(--psll-pine);margin-bottom:3px;}
+    .chart-sub{font-size:0.8rem;color:var(--text-muted);line-height:1.45;margin-bottom:8px;}
+    .chart-svg{width:100%;height:auto;display:block;max-width:520px;margin:0 auto;}
+    .chart-legend{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:6px;font-size:0.78rem;font-weight:600;color:var(--text-muted);}
+    .chart-legend span{display:inline-flex;align-items:center;gap:6px;}
+    .chart-legend i{width:16px;height:3px;border-radius:2px;display:inline-block;}
+    .chart-note{font-size:0.8rem;color:var(--text-muted);line-height:1.45;margin-top:10px;text-align:center;}
+    .chart-note b{color:var(--psll-coral);}
   </style>
 </head>
 <body>
@@ -614,6 +624,18 @@
       </div>
     </div>
 
+    <!-- Gráfico: PIB Nominal vs Real -->
+    <div class="chart-box">
+      <div class="chart-title">📊 PIB Nominal vs. PIB Real</div>
+      <div class="chart-sub">Ambas series parten del mismo valor en el Año base. En el Año 2 se separan: la brecha que se abre es el efecto de los precios, es decir, el <strong>deflactor</strong>.</div>
+      <svg id="pibChart" class="chart-svg" viewBox="0 0 360 240" role="img" aria-label="Gráfico de líneas: PIB nominal frente a PIB real"></svg>
+      <div class="chart-legend">
+        <span><i style="background:var(--psll-coral)"></i>PIB Nominal (precios corrientes)</span>
+        <span><i style="background:var(--psll-pine)"></i>PIB Real (precios del año base)</span>
+      </div>
+      <div class="chart-note" id="chartNote"></div>
+    </div>
+
     <!-- Dynamic Insight Message -->
     <div class="insight-card" id="insightBox">
       <strong>💡 Lección Económica Clave:</strong> 
@@ -669,6 +691,58 @@
         document.getElementById('p2_B').value = 11.0; // +10%
       }
       calculate();
+    }
+
+    function drawChart(pib1, nom, real, deflactor){
+      var svg=document.getElementById('pibChart');
+      if(!svg) return;
+      var PL=52, PR=280, PT=30, PB=196;
+      var xA1=PL+22, xA2=PR-14;
+      var maxV=Math.max(pib1, nom, real, 1);
+      var yMax=maxV*1.15;
+      function y(v){ return PB - (v/yMax)*(PB-PT); }
+      function f(v){ return (Math.round(v)).toString(); }
+      var y1=y(pib1), yN=y(nom), yR=y(real);
+      var coral='#E98F71', pine='#113927', grid='#E3DCD2', muted='#6B7280';
+      var p=[];
+      p.push('<line x1="'+PL+'" y1="'+PB+'" x2="'+PR+'" y2="'+PB+'" stroke="'+grid+'" stroke-width="1"/>');
+      p.push('<line x1="'+PL+'" y1="'+PT+'" x2="'+PL+'" y2="'+PB+'" stroke="'+grid+'" stroke-width="1"/>');
+      // Brecha sombreada (efecto precios = deflactor)
+      p.push('<polygon points="'+xA1+','+y1+' '+xA2+','+yN+' '+xA2+','+yR+'" fill="'+coral+'" fill-opacity="0.16"/>');
+      // Líneas
+      p.push('<line x1="'+xA1+'" y1="'+y1+'" x2="'+xA2+'" y2="'+yR+'" stroke="'+pine+'" stroke-width="3" stroke-linecap="round"/>');
+      p.push('<line x1="'+xA1+'" y1="'+y1+'" x2="'+xA2+'" y2="'+yN+'" stroke="'+coral+'" stroke-width="3" stroke-linecap="round"/>');
+      // Puntos
+      function dot(cx,cy,c){ return '<circle cx="'+cx+'" cy="'+cy+'" r="4.5" fill="#fff" stroke="'+c+'" stroke-width="3"/>'; }
+      p.push(dot(xA1,y1,pine));
+      p.push(dot(xA2,yR,pine));
+      p.push(dot(xA2,yN,coral));
+      // Corchete de brecha
+      if(Math.abs(nom-real)>0.5){
+        var top=Math.min(yN,yR), bot=Math.max(yN,yR), bx=xA2+14, mid=(top+bot)/2;
+        p.push('<line x1="'+bx+'" y1="'+top+'" x2="'+bx+'" y2="'+bot+'" stroke="'+muted+'" stroke-width="1.2"/>');
+        p.push('<line x1="'+(bx-4)+'" y1="'+top+'" x2="'+(bx+4)+'" y2="'+top+'" stroke="'+muted+'" stroke-width="1.2"/>');
+        p.push('<line x1="'+(bx-4)+'" y1="'+bot+'" x2="'+(bx+4)+'" y2="'+bot+'" stroke="'+muted+'" stroke-width="1.2"/>');
+        p.push('<text x="'+(bx+9)+'" y="'+mid+'" font-size="9.5" font-weight="700" fill="'+muted+'" text-anchor="middle" dominant-baseline="middle" transform="rotate(90 '+(bx+9)+' '+mid+')">brecha</text>');
+      }
+      // Valores Año 2
+      p.push('<text x="'+xA2+'" y="'+(yN-9)+'" font-size="10.5" font-weight="800" fill="'+coral+'" text-anchor="middle">'+f(nom)+' &#8364;</text>');
+      var realY=(yR>=yN)?(yR+17):(yR-9);
+      p.push('<text x="'+xA2+'" y="'+realY+'" font-size="10.5" font-weight="800" fill="'+pine+'" text-anchor="middle">'+f(real)+' &#8364;</text>');
+      // Valor Año 1 (común)
+      p.push('<text x="'+xA1+'" y="'+(y1-10)+'" font-size="10" font-weight="700" fill="'+muted+'" text-anchor="middle">'+f(pib1)+' &#8364;</text>');
+      // Eje X
+      p.push('<text x="'+xA1+'" y="'+(PB+18)+'" font-size="10.5" font-weight="600" fill="'+muted+'" text-anchor="middle">Año 1 (base)</text>');
+      p.push('<text x="'+xA2+'" y="'+(PB+18)+'" font-size="10.5" font-weight="600" fill="'+muted+'" text-anchor="middle">Año 2</text>');
+      svg.innerHTML=p.join('');
+      var note=document.getElementById('chartNote');
+      if(note){
+        if(Math.abs(nom-real)<0.5){
+          note.innerHTML='No se abre brecha: los precios no varían, así que el <b>deflactor = 100</b> (nominal = real).';
+        } else {
+          note.innerHTML='La brecha entre las líneas es el <b>deflactor = (PIB nominal / PIB real) &#215; 100 = '+deflactor.toFixed(1)+'</b>: mide cuánto del PIB nominal se debe solo a la variación de precios.';
+        }
+      }
     }
 
     function calculate() {
@@ -752,6 +826,8 @@
         insight = `El PIB nominal crece un <strong>${gNom.toFixed(1)}%</strong> y el PIB real un <strong>${gReal.toFixed(1)}%</strong>, con un deflactor de <strong>${deflactor.toFixed(1)}</strong>. Al fijar los precios del año base P₁, logramos aislar la producción física de la variación de precios.`;
       }
       document.getElementById('insightText').innerHTML = insight;
+
+      drawChart(pib1, pib2_nominal, pib2_real, deflactor);
     }
 
     // Initialize on load
