@@ -1,0 +1,77 @@
+/* ============================================================
+   SISTEMA DE DISEÑO COMPARTIDO · Marca Manuel Hidalgo (UPO)
+   Tokens de marca + base tipográfica + coherencia de recursos.
+   Enlazar DESPUÉS del <style> propio de cada recurso para que
+   las reglas de marca prevalezcan por orden de cascada.
+   ============================================================ */
+:root {
+  --bg-cream: #FDFBF7;
+  --bg-cream-darker: #FAF6F0;
+  --bg-card: #FFFFFF;
+  --border-subtle: #E3DCD2;
+  --border-light: #EFE9E0;
+  --text-espresso: #4A3B32;
+  --text-main: #2C2019;
+  --text-muted: #8C7B70;
+  --text-light: #A49080;
+  --brand-brick: #A33327;
+  --brand-terracotta: #D47B5A;
+  --brand-amber: #C68B59;
+  --brand-dark: #5C2317;
+  --psll-pine: #113927;
+  --psll-sage: #76927A;
+  --psll-coral: #E98F71;
+  --macro-navy: #0B1C36;
+  --macro-cobalt: #056CAA;
+  --macro-azure: #0776B5;
+  --shadow-sm: 0 2px 8px rgba(74, 59, 50, 0.05);
+  --shadow-md: 0 8px 24px rgba(74, 59, 50, 0.08);
+  --shadow-lg: 0 16px 36px rgba(74, 59, 50, 0.12);
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+}
+
+/* ---- Base de marca para RECURSOS ESTÁTICOS (dinámicas/casos) ---- */
+body.mh-resource {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg-cream);
+  color: var(--text-espresso);
+  padding: 16px;
+  margin: 0;
+  line-height: 1.5;
+}
+body.mh-resource .container {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  max-width: 720px;
+  margin: 0 auto;
+  padding: clamp(20px, 4vw, 36px);
+}
+body.mh-resource h1 {
+  font-family: 'Outfit', 'Inter', sans-serif;
+  color: var(--text-espresso);
+  font-size: clamp(1.5rem, 5.5vw, 2.1rem);
+  line-height: 1.15;
+  text-align: center;
+}
+body.mh-resource h2 { font-family: 'Outfit', 'Inter', sans-serif; font-size: clamp(1.15rem, 4vw, 1.6rem); }
+body.mh-resource h3 { font-family: 'Outfit', 'Inter', sans-serif; font-size: clamp(1rem, 3.4vw, 1.25rem); }
+body.mh-resource .subtitle { color: var(--text-muted); text-align: center; }
+
+/* ---- Responsividad: apilar columnas en pantallas estrechas ---- */
+@media (max-width: 700px) {
+  body.mh-resource .profiles,
+  body.mh-resource .balance-container,
+  body.mh-resource .casos-debate,
+  body.mh-resource .factores-grid,
+  body.mh-resource .factores {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+  }
+  body.mh-resource .container { padding: 18px; }
+}

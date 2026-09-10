@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Micro-Apps Docentes · Manuel Hidalgo</title>
   <meta name="description" content="Laboratorio de micro-apps y simuladores interactivos para docencia universitaria en Economía y Políticas Sociolaborales. Prof. Manuel Hidalgo Pérez.">
   <meta name="theme-color" content="#FDFBF7">
@@ -11,6 +11,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/isotipo_mh.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Micro-Apps UPO">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   
   <style>
     /* ============================================================
@@ -948,6 +954,57 @@
       opacity: 0.2;
       pointer-events: none;
     }
+
+    /* ===== AÑADIDOS: accesibilidad, badges, progreso y revisión ===== */
+    button.option-card{width:100%;text-align:left;font:inherit;background:var(--bg-card);}
+    .option-card:focus-visible,.app-card:focus-visible,.filter-pill:focus-visible,
+    .nav-item:focus-visible,.btn-pill-primary:focus-visible,.btn-pill-secondary:focus-visible,
+    .subject-btn:focus-visible,.btn-quiz-back:focus-visible,.btn-review-toggle:focus-visible,
+    .subject-pill-switcher:focus-visible,.btn-user-avatar:focus-visible,.btn-sim-external:focus-visible{
+      outline:3px solid var(--brand-terracotta);outline-offset:2px;}
+    .app-badge{display:inline-block;font-size:0.66rem;font-weight:700;text-transform:uppercase;
+      letter-spacing:0.03em;padding:2px 8px;border-radius:var(--radius-pill);}
+    .app-badge.sim{background:#EAF1F8;color:var(--macro-cobalt);}
+    .app-badge.quiz{background:#F3ECF8;color:#7C3AED;}
+    .app-badge.recurso{background:#FBF0E9;color:var(--brand-brick);}
+    .app-done{color:var(--state-correct-text);font-weight:700;font-size:0.72rem;display:inline-flex;align-items:center;gap:3px;}
+    .app-card.is-done .app-icon-circle{box-shadow:0 0 0 2px var(--state-correct-border);}
+    /* Revisión pregunta a pregunta */
+    .result-review-wrap{margin-bottom:24px;}
+    .review-list{display:flex;flex-direction:column;gap:12px;text-align:left;margin-top:14px;}
+    .review-item{background:var(--bg-card);border:1px solid var(--border-subtle);border-left-width:4px;
+      border-radius:var(--radius-md);padding:14px 16px;box-shadow:var(--shadow-sm);}
+    .review-item.ok{border-left-color:var(--state-correct-border);}
+    .review-item.ko{border-left-color:var(--state-wrong-border);}
+    .review-q{font-family:'Outfit',sans-serif;font-weight:700;font-size:0.9rem;color:var(--text-espresso);margin-bottom:8px;line-height:1.3;}
+    .review-a{font-size:0.84rem;line-height:1.45;margin-bottom:3px;}
+    .review-a .lbl{font-weight:700;}
+    .review-a.yours-ko{color:var(--state-wrong-text);}
+    .review-a.correct{color:var(--state-correct-text);}
+    .review-exp{font-size:0.81rem;color:var(--text-muted);line-height:1.45;margin-top:6px;}
+    .btn-review-toggle{margin-top:6px;background:none;border:1px solid var(--border-subtle);
+      color:var(--text-espresso);font-family:inherit;font-weight:600;font-size:0.85rem;
+      padding:11px 18px;border-radius:var(--radius-pill);cursor:pointer;}
+    /* Vista de progreso */
+    .view-progress{min-height:100dvh;padding:24px 20px 96px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+    .progress-head{margin-bottom:20px;position:relative;}
+    .progress-head .btn-quiz-back{margin-bottom:10px;}
+    .progress-head h2{font-family:'Outfit',sans-serif;font-size:1.6rem;font-weight:800;color:var(--text-espresso);}
+    .progress-head p{color:var(--text-muted);font-size:0.9rem;margin-top:4px;}
+    .progress-stats{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px;}
+    .progress-stat{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-md);
+      padding:18px;text-align:center;box-shadow:var(--shadow-sm);}
+    .progress-stat .v{font-family:'Outfit',sans-serif;font-size:1.9rem;font-weight:800;color:var(--brand-brick);line-height:1;}
+    .progress-stat .l{font-size:0.74rem;font-weight:600;color:var(--text-light);margin-top:6px;}
+    .progress-item{display:flex;align-items:center;gap:12px;background:var(--bg-card);border:1px solid var(--border-subtle);
+      border-radius:var(--radius-md);padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow-sm);}
+    .progress-item .pi-body{flex:1;min-width:0;}
+    .progress-item .pi-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:0.92rem;color:var(--text-espresso);}
+    .progress-item .pi-score{font-size:0.78rem;color:var(--text-muted);margin-top:2px;}
+    .progress-item .pi-pct{font-family:'Outfit',sans-serif;font-weight:800;font-size:1.1rem;color:var(--brand-brick);}
+    .progress-empty{text-align:center;color:var(--text-muted);padding:40px 20px;line-height:1.5;}
+    .btn-clear-progress{display:block;margin:22px auto 0;background:none;border:1px solid var(--border-subtle);
+      color:var(--text-muted);font-family:inherit;font-size:0.8rem;padding:9px 18px;border-radius:var(--radius-pill);cursor:pointer;}
   </style>
 </head>
 <body>
@@ -1042,7 +1099,7 @@
             <span id="dashSubjectShortName">PSLL</span>
             <span style="font-size: 0.7rem; color: #A49080;">▼</span>
           </div>
-          <div class="btn-user-avatar" onclick="showProgressSummary()">👤</div>
+          <div class="btn-user-avatar" onclick="showProgressView()">👤</div>
         </div>
 
         <div class="dashboard-greeting">
@@ -1071,7 +1128,7 @@
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
           <span>Mis apps</span>
         </div>
-        <div class="nav-item" onclick="showProgressSummary()">
+        <div class="nav-item" onclick="showProgressView()">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
           <span>Progreso</span>
         </div>
@@ -1099,11 +1156,11 @@
           <div class="question-tag" id="questionTag">Pregunta 1</div>
           <div class="question-text" id="questionText">¿Cuál de las siguientes opciones define mejor el concepto de desempleo estructural?</div>
 
-          <div class="options-list" id="optionsContainer">
+          <div class="options-list" id="optionsContainer" role="radiogroup" aria-label="Opciones de respuesta">
             <!-- Opciones renderizadas con radio buttons dinámicamente -->
           </div>
 
-          <div class="feedback-box" id="feedbackBox"></div>
+          <div class="feedback-box" id="feedbackBox" role="status" aria-live="polite"></div>
         </div>
       </div>
 
@@ -1159,6 +1216,11 @@
         </div>
       </div>
 
+      <div class="result-review-wrap">
+        <button class="btn-review-toggle" id="btnReviewToggle" onclick="toggleReview()">Revisar mis respuestas</button>
+        <div class="review-list" id="reviewList" hidden></div>
+      </div>
+
       <div class="result-actions">
         <button class="btn-pill-primary" onclick="showDashboardView()">
           <span>Completar y volver</span>
@@ -1170,6 +1232,35 @@
       </div>
     </section>
 
+    <!-- ============================================================
+         PANTALLA 5: PROGRESO DEL ESTUDIANTE
+         ============================================================ -->
+    <section id="viewProgress" class="view view-progress">
+      <div class="progress-head">
+        <button class="btn-quiz-back" onclick="showDashboardView()" aria-label="Volver">‹</button>
+        <h2>Tu progreso</h2>
+        <p>Actividad registrada en este dispositivo.</p>
+      </div>
+      <div class="progress-stats" id="progressStats"></div>
+      <div id="progressItems"></div>
+      <button class="btn-clear-progress" id="btnClearProgress" onclick="clearProgress()">Borrar mi progreso</button>
+
+      <nav class="bottom-nav">
+        <div class="nav-item" onclick="goToWelcome()">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+          <span>Inicio</span>
+        </div>
+        <div class="nav-item" onclick="showDashboardView()">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          <span>Mis apps</span>
+        </div>
+        <div class="nav-item active" onclick="showProgressView()">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+          <span>Progreso</span>
+        </div>
+      </nav>
+    </section>
+
   </div>
 
   <!-- Banco de Datos de Micro-Apps -->
@@ -1177,345 +1268,372 @@
 
   <!-- Lógica de Control y Navegación de la Aplicación -->
   <script>
-    // Estado Global de la App
+    // ===== Estado Global de la App =====
     var currentSubjectKey = 'psll';
     var currentFilter = 'todas';
     var activeQuizApp = null;
+    var quizRuntime = [];        // preguntas de la sesión (orden y opciones barajados)
     var currentQuestionIdx = 0;
     var currentAnswers = [];
     var isAnswerSubmitted = false;
+    var PROGRESS_KEY = 'mh_docencia_progress';
 
-    // Inicialización al cargar la página
-    document.addEventListener('DOMContentLoaded', function() {
-      // 1. Leer parámetros URL para Deep-Linking directo (ej. ?subject=psll&app=psll_clu_sim)
-      var params = new URLSearchParams(window.location.search);
-      var sub = params.get('subject') || params.get('asignatura');
-      var appId = params.get('app');
-
-      if (sub && window.DOCENCIA_APPS[sub]) {
-        currentSubjectKey = sub;
+    // ===== Utilidades =====
+    function esc(v){
+      return String(v==null?'':v).replace(/[&<>"']/g,function(c){
+        return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+      });
+    }
+    function shuffle(arr){
+      var a=arr.slice();
+      for(var i=a.length-1;i>0;i--){
+        var j=Math.floor(Math.random()*(i+1));
+        var t=a[i];a[i]=a[j];a[j]=t;
       }
+      return a;
+    }
+    function readProgress(){
+      try{ return JSON.parse(localStorage.getItem(PROGRESS_KEY)||'{}'); }catch(e){ return {}; }
+    }
+    function badgeFor(app){
+      if(app.type==='quiz') return '<span class="app-badge quiz">Cuestionario</span>';
+      if(app.type==='simulator' && app.interactive===false) return '<span class="app-badge recurso">Dinámica</span>';
+      if(app.type==='simulator') return '<span class="app-badge sim">Simulador</span>';
+      return '';
+    }
 
-      if (appId) {
-        // Acceso directo a una micro-app desde QR
-        launchAppById(appId);
-      } else {
-        // Iniciar en bienvenida
-        updateWelcomeSubjectSelection();
-        showView('viewWelcome');
+    // ===== Arranque =====
+    document.addEventListener('DOMContentLoaded', function(){
+      if(!window.DOCENCIA_APPS){
+        document.body.innerHTML='<div style="max-width:420px;margin:80px auto;padding:0 24px;font-family:Inter,sans-serif;text-align:center;color:#4A3B32;">'+
+          '<h2 style="font-family:Outfit,sans-serif;">No se pudo cargar el contenido</h2>'+
+          '<p style="color:#8C7B70;">Revisa tu conexión y vuelve a abrir la app. Si el problema persiste, recárgala.</p>'+
+          '<button onclick="location.reload()" style="margin-top:16px;padding:10px 20px;border-radius:999px;border:1px solid #E3DCD2;background:#fff;font-weight:600;cursor:pointer;">Reintentar</button></div>';
+        return;
+      }
+      document.querySelectorAll('.nav-item,.subject-btn,.subject-pill-switcher,.btn-user-avatar').forEach(function(el){
+        el.setAttribute('role','button');
+        if(!el.hasAttribute('tabindex')) el.setAttribute('tabindex','0');
+      });
+      document.addEventListener('keydown', function(e){
+        if(e.key==='Enter'||e.key===' '){
+          var t=e.target;
+          if(t && t.getAttribute && t.getAttribute('role')==='button' && t.tagName!=='BUTTON'){
+            e.preventDefault(); t.click();
+          }
+        }
+      });
+
+      var params=new URLSearchParams(window.location.search);
+      var sub=params.get('subject')||params.get('asignatura');
+      var appId=params.get('app');
+      if(sub && window.DOCENCIA_APPS[sub]) currentSubjectKey=sub;
+
+      if(appId){ launchAppById(appId); }
+      else { updateWelcomeSubjectSelection(); showView('viewWelcome'); }
+
+      if('serviceWorker' in navigator){
+        window.addEventListener('load', function(){
+          navigator.serviceWorker.register('sw.js').catch(function(){});
+        });
       }
     });
 
-    // Gestión del Selector de Asignaturas en Portada
-    function selectSubjectOption(key) {
-      currentSubjectKey = key;
+    // ===== Selector de asignatura =====
+    function selectSubjectOption(key){ currentSubjectKey=key; updateWelcomeSubjectSelection(); }
+    function selectAndEnterSubject(key){
+      currentSubjectKey=key; currentFilter='todas';
       updateWelcomeSubjectSelection();
+      setTimeout(launchDashboard,80);
     }
-
-    function selectAndEnterSubject(key) {
-      currentSubjectKey = key;
-      updateWelcomeSubjectSelection();
-      setTimeout(function() {
-        launchDashboard();
-      }, 80);
+    function updateWelcomeSubjectSelection(){
+      var p=document.getElementById('optPsll'), m=document.getElementById('optMacro');
+      if(p) p.classList.toggle('selected', currentSubjectKey==='psll');
+      if(m) m.classList.toggle('selected', currentSubjectKey==='macro');
     }
-
-    function updateWelcomeSubjectSelection() {
-      document.getElementById('optPsll').classList.toggle('selected', currentSubjectKey === 'psll');
-      document.getElementById('optMacro').classList.toggle('selected', currentSubjectKey === 'macro');
-    }
-
-    function launchDashboard() {
-      renderDashboard();
-      showView('viewDashboard');
-    }
-
-    function goToWelcome() {
-      showView('viewWelcome');
-    }
-
-    function showDashboardView() {
-      renderDashboard();
-      showView('viewDashboard');
-    }
-
-    function switchSubjectModal() {
-      currentSubjectKey = (currentSubjectKey === 'psll') ? 'macro' : 'psll';
+    function launchDashboard(){ renderDashboard(); showView('viewDashboard'); }
+    function goToWelcome(){ showView('viewWelcome'); }
+    function showDashboardView(){ renderDashboard(); showView('viewDashboard'); }
+    function switchSubjectModal(){
+      currentSubjectKey=(currentSubjectKey==='psll')?'macro':'psll';
+      currentFilter='todas';
       renderDashboard();
     }
 
-    // Renderizar Dashboard según Asignatura Activa
-    function renderDashboard() {
-      var subject = window.DOCENCIA_APPS[currentSubjectKey];
-      if (!subject) return;
+    // ===== Dashboard =====
+    function renderDashboard(){
+      var subject=window.DOCENCIA_APPS[currentSubjectKey];
+      if(!subject) return;
+      var progress=readProgress();
 
-      // Actualizar cabecera
-      document.getElementById('dashSubjectLogo').src = subject.isotipo;
-      document.getElementById('dashSubjectShortName').innerText = subject.shortName;
+      document.getElementById('dashSubjectLogo').src=subject.isotipo;
+      document.getElementById('dashSubjectShortName').innerText=subject.shortName;
 
-      // Renderizar Píldoras de Filtro
-      var filterContainer = document.getElementById('filterScrollContainer');
-      filterContainer.innerHTML = '';
-      subject.categories.forEach(function(cat) {
-        var pill = document.createElement('button');
-        pill.className = 'filter-pill' + (currentFilter === cat.id ? ' active' : '');
-        pill.innerText = cat.name;
-        pill.onclick = function() {
-          currentFilter = cat.id;
-          renderDashboard();
-        };
+      var filterContainer=document.getElementById('filterScrollContainer');
+      filterContainer.innerHTML='';
+      var validCats=subject.categories.map(function(c){ return c.id; });
+      if(validCats.indexOf(currentFilter)===-1) currentFilter='todas';
+
+      subject.categories.forEach(function(cat){
+        var pill=document.createElement('button');
+        pill.className='filter-pill'+(currentFilter===cat.id?' active':'');
+        pill.innerText=cat.name;
+        pill.setAttribute('aria-pressed', currentFilter===cat.id?'true':'false');
+        pill.onclick=function(){ currentFilter=cat.id; renderDashboard(); };
         filterContainer.appendChild(pill);
       });
 
-      // Renderizar Lista de Tarjetas de Micro-Apps
-      var listContainer = document.getElementById('appsListContainer');
-      listContainer.innerHTML = '';
-
-      var filteredApps = subject.apps.filter(function(app) {
-        if (currentFilter === 'todas') return true;
-        return app.category === currentFilter;
+      var listContainer=document.getElementById('appsListContainer');
+      listContainer.innerHTML='';
+      var filtered=subject.apps.filter(function(app){
+        return currentFilter==='todas' ? true : app.category===currentFilter;
       });
-
-      if (filteredApps.length === 0) {
-        listContainer.innerHTML = '<div style="text-align: center; padding: 40px 20px; color: #8C7B70;">No hay micro-apps en esta categoría actualmente.</div>';
+      if(filtered.length===0){
+        listContainer.innerHTML='<div style="text-align:center;padding:40px 20px;color:#8C7B70;">No hay micro-apps en esta categoría actualmente.</div>';
         return;
       }
-
-      filteredApps.forEach(function(app) {
-        var card = document.createElement('div');
-        card.className = 'app-card';
-        card.onclick = function() {
-          openApp(app);
-        };
-
-        card.innerHTML = `
-          <div class="app-icon-circle" style="background: ${app.iconBg}; color: ${app.iconColor};">
-            ${app.icon}
-          </div>
-          <div class="app-content">
-            <h4>${app.title}</h4>
-            <p>${app.desc}</p>
-            <div class="app-meta">
-              <span>${app.meta}</span>
-            </div>
-          </div>
-          <div class="app-chevron">›</div>
-        `;
+      filtered.forEach(function(app){
+        var done=progress[app.id];
+        var card=document.createElement('div');
+        card.className='app-card'+(done?' is-done':'');
+        card.setAttribute('role','button');
+        card.setAttribute('tabindex','0');
+        card.onclick=function(){ openApp(app); };
+        var meta=(done && app.type==='quiz')
+          ? '<span class="app-done">✓ Completado · '+done.pct+'%</span>'
+          : '<span>'+esc(app.meta||'')+'</span>';
+        card.innerHTML=
+          '<div class="app-icon-circle" style="background:'+esc(app.iconBg)+';color:'+esc(app.iconColor)+';">'+esc(app.icon)+'</div>'+
+          '<div class="app-content">'+
+            '<h4>'+esc(app.title)+'</h4>'+
+            '<p>'+esc(app.desc)+'</p>'+
+            '<div class="app-meta">'+badgeFor(app)+meta+'</div>'+
+          '</div>'+
+          '<div class="app-chevron" aria-hidden="true">›</div>';
         listContainer.appendChild(card);
       });
     }
 
-    // Apertura de una Micro-App
-    function openApp(app) {
-      if (app.type === 'simulator') {
-        // Abrir visor de simulador
-        document.getElementById('simTitle').innerText = app.title;
-        document.getElementById('simIframe').src = app.url;
-        var extLink = document.getElementById('simExternalLink');
-        if (extLink) extLink.href = app.url;
+    // ===== Apertura de micro-app =====
+    function openApp(app){
+      if(app.type==='simulator'){
+        document.getElementById('simTitle').innerText=app.title;
+        document.getElementById('simIframe').src=app.url;
+        var extLink=document.getElementById('simExternalLink');
+        if(extLink) extLink.href=app.url;
         showView('viewSimulator');
-      } else if (app.type === 'quiz') {
-        // Iniciar cuestionario interactivo
-        activeQuizApp = app;
-        currentQuestionIdx = 0;
-        currentAnswers = new Array(app.questions.length).fill(null);
+      } else if(app.type==='quiz'){
+        activeQuizApp=app;
+        quizRuntime=shuffle(app.questions).map(function(q){
+          var opts=q.options.map(function(t,i){ return {t:t, ok:(i===q.correct)}; });
+          opts=shuffle(opts);
+          var correct=0; opts.forEach(function(o,i){ if(o.ok) correct=i; });
+          return { text:q.text, options:opts.map(function(o){ return o.t; }),
+                   correct:correct, explanation:q.explanation };
+        });
+        currentQuestionIdx=0;
+        currentAnswers=new Array(quizRuntime.length).fill(null);
         renderCurrentQuestion();
         showView('viewQuiz');
-        var scrollArea = document.getElementById('quizScrollArea');
-        if (scrollArea) scrollArea.scrollTop = 0;
+        var sc=document.getElementById('quizScrollArea'); if(sc) sc.scrollTop=0;
       }
     }
-
-    function launchAppById(appId) {
-      for (var subKey in window.DOCENCIA_APPS) {
-        var sub = window.DOCENCIA_APPS[subKey];
-        var match = sub.apps.find(function(a) { return a.id === appId; });
-        if (match) {
-          currentSubjectKey = subKey;
-          openApp(match);
-          return;
-        }
+    function launchAppById(appId){
+      for(var k in window.DOCENCIA_APPS){
+        var sub=window.DOCENCIA_APPS[k];
+        var m=sub.apps.find(function(a){ return a.id===appId; });
+        if(m){ currentSubjectKey=k; openApp(m); return; }
       }
-      // Fallback
       launchDashboard();
     }
 
-    // Motor de Preguntas (Quiz Engine)
-    function renderCurrentQuestion() {
-      if (!activeQuizApp) return;
-      var q = activeQuizApp.questions[currentQuestionIdx];
-      var total = activeQuizApp.questions.length;
-      isAnswerSubmitted = false;
+    // ===== Motor de preguntas =====
+    function renderCurrentQuestion(){
+      if(!quizRuntime.length) return;
+      var q=quizRuntime[currentQuestionIdx];
+      var total=quizRuntime.length;
+      isAnswerSubmitted=false;
 
-      // Actualizar cabecera
-      document.getElementById('quizHeaderTitle').innerText = activeQuizApp.title;
-      document.getElementById('quizCounter').innerText = (currentQuestionIdx + 1) + '/' + total;
-      document.getElementById('quizProgressBar').style.width = ((currentQuestionIdx + 1) / total * 100) + '%';
-      
-      document.getElementById('questionTag').innerText = q.tag;
-      document.getElementById('questionText').innerText = q.text;
+      document.getElementById('quizHeaderTitle').innerText=activeQuizApp.title;
+      document.getElementById('quizCounter').innerText=(currentQuestionIdx+1)+'/'+total;
+      document.getElementById('quizProgressBar').style.width=((currentQuestionIdx+1)/total*100)+'%';
+      document.getElementById('questionTag').innerText='Pregunta '+(currentQuestionIdx+1);
+      document.getElementById('questionText').innerText=q.text;
 
-      // Ocultar feedback
-      var fbBox = document.getElementById('feedbackBox');
-      fbBox.className = 'feedback-box';
-      fbBox.style.display = 'none';
+      var fb=document.getElementById('feedbackBox');
+      fb.className='feedback-box'; fb.style.display='none'; fb.innerHTML='';
 
-      // Botón Siguiente
-      var btnNext = document.getElementById('btnNextQuiz');
-      btnNext.innerHTML = (currentQuestionIdx === total - 1) ? '<span>Comprobar y Finalizar</span> <span>→</span>' : '<span>Comprobar respuesta</span> <span>→</span>';
-      btnNext.disabled = true;
-      btnNext.style.opacity = '0.5';
+      var btn=document.getElementById('btnNextQuiz');
+      btn.innerHTML=(currentQuestionIdx===total-1)?'<span>Comprobar y finalizar</span> <span>→</span>':'<span>Comprobar respuesta</span> <span>→</span>';
+      btn.disabled=true; btn.style.opacity='0.5';
 
-      // Opciones
-      var optContainer = document.getElementById('optionsContainer');
-      optContainer.innerHTML = '';
-
-      q.options.forEach(function(optText, idx) {
-        var optCard = document.createElement('div');
-        optCard.className = 'option-card';
-        optCard.id = 'opt_' + idx;
-        optCard.onclick = function() {
-          if (isAnswerSubmitted) return;
-          selectQuizOption(idx);
-        };
-
-        optCard.innerHTML = `
-          <div class="option-radio-circle">
-            <div class="option-radio-dot"></div>
-          </div>
-          <div class="option-label">${optText}</div>
-        `;
-        optContainer.appendChild(optCard);
+      var oc=document.getElementById('optionsContainer');
+      oc.innerHTML='';
+      q.options.forEach(function(optText,idx){
+        var b=document.createElement('button');
+        b.type='button';
+        b.className='option-card';
+        b.id='opt_'+idx;
+        b.setAttribute('role','radio');
+        b.setAttribute('aria-checked','false');
+        b.onclick=function(){ if(isAnswerSubmitted) return; selectQuizOption(idx); };
+        b.innerHTML='<div class="option-radio-circle" aria-hidden="true"><div class="option-radio-dot"></div></div><div class="option-label">'+esc(optText)+'</div>';
+        oc.appendChild(b);
       });
     }
-
-    function selectQuizOption(idx) {
-      currentAnswers[currentQuestionIdx] = idx;
-      var cards = document.querySelectorAll('.option-card');
-      cards.forEach(function(c, i) {
-        c.classList.toggle('selected', i === idx);
+    function selectQuizOption(idx){
+      currentAnswers[currentQuestionIdx]=idx;
+      var cards=document.querySelectorAll('.option-card');
+      cards.forEach(function(c,i){
+        var sel=(i===idx);
+        c.classList.toggle('selected',sel);
+        c.setAttribute('aria-checked', sel?'true':'false');
       });
-
-      var btnNext = document.getElementById('btnNextQuiz');
-      btnNext.disabled = false;
-      btnNext.style.opacity = '1';
+      var btn=document.getElementById('btnNextQuiz');
+      btn.disabled=false; btn.style.opacity='1';
     }
+    function handleNextQuestion(){
+      var sel=currentAnswers[currentQuestionIdx];
+      if(sel===null||sel===undefined) return;
+      var q=quizRuntime[currentQuestionIdx];
+      var total=quizRuntime.length;
 
-    function handleNextQuestion() {
-      var selectedIdx = currentAnswers[currentQuestionIdx];
-      if (selectedIdx === null || selectedIdx === undefined) return;
-
-      var q = activeQuizApp.questions[currentQuestionIdx];
-      var total = activeQuizApp.questions.length;
-
-      if (!isAnswerSubmitted) {
-        // Paso 1: Mostrar Feedback didáctico
-        isAnswerSubmitted = true;
-        var cards = document.querySelectorAll('.option-card');
-        var isCorrect = (selectedIdx === q.correct);
-
-        cards.forEach(function(c, i) {
-          if (i === q.correct) {
-            c.classList.add('correct-answer');
-          } else if (i === selectedIdx && !isCorrect) {
-            c.classList.add('wrong-answer');
-          }
+      if(!isAnswerSubmitted){
+        isAnswerSubmitted=true;
+        var cards=document.querySelectorAll('.option-card');
+        var isCorrect=(sel===q.correct);
+        cards.forEach(function(c,i){
+          if(i===q.correct) c.classList.add('correct-answer');
+          else if(i===sel && !isCorrect) c.classList.add('wrong-answer');
+          c.disabled=true;
         });
-
-        var fbBox = document.getElementById('feedbackBox');
-        fbBox.innerHTML = `<strong>${isCorrect ? '¡Correcto!' : 'Respuesta incorrecta.'}</strong> ${q.explanation}`;
-        fbBox.className = 'feedback-box ' + (isCorrect ? 'correct' : 'wrong');
-        fbBox.style.display = 'block';
-
-        // Auto-scroll al feedback si es necesario
-        setTimeout(function() {
-          fbBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }, 50);
-
-        var btnNext = document.getElementById('btnNextQuiz');
-        btnNext.innerHTML = (currentQuestionIdx === total - 1) ? '<span>Ver Resultados</span> <span>→</span>' : '<span>Siguiente Pregunta</span> <span>→</span>';
+        var fb=document.getElementById('feedbackBox');
+        fb.innerHTML='<strong>'+(isCorrect?'¡Correcto! ':'Respuesta incorrecta. ')+'</strong>'+esc(q.explanation);
+        fb.className='feedback-box '+(isCorrect?'correct':'wrong');
+        fb.style.display='block';
+        setTimeout(function(){ fb.scrollIntoView({behavior:'smooth',block:'nearest'}); },50);
+        var btn=document.getElementById('btnNextQuiz');
+        btn.innerHTML=(currentQuestionIdx===total-1)?'<span>Ver resultados</span> <span>→</span>':'<span>Siguiente pregunta</span> <span>→</span>';
       } else {
-        // Paso 2: Avanzar
-        if (currentQuestionIdx < total - 1) {
+        if(currentQuestionIdx<total-1){
           currentQuestionIdx++;
           renderCurrentQuestion();
-          var scrollArea = document.getElementById('quizScrollArea');
-          if (scrollArea) scrollArea.scrollTop = 0;
+          var sc=document.getElementById('quizScrollArea'); if(sc) sc.scrollTop=0;
         } else {
-          // Finalizar y mostrar Pantalla de Resultados
           showResultsScreen();
         }
       }
     }
 
-    function showResultsScreen() {
-      var correctCount = 0;
-      var total = activeQuizApp.questions.length;
-      activeQuizApp.questions.forEach(function(q, idx) {
-        if (currentAnswers[idx] === q.correct) {
-          correctCount++;
+    // ===== Resultados + revisión =====
+    function showResultsScreen(){
+      var correct=0, total=quizRuntime.length;
+      quizRuntime.forEach(function(q,i){ if(currentAnswers[i]===q.correct) correct++; });
+      var pct=Math.round((correct/total)*100);
+
+      document.getElementById('resultAppSubtitle').innerText='Has completado la micro app '+activeQuizApp.title+'.';
+      document.getElementById('resultCorrectScore').innerText=correct+'/'+total;
+      document.getElementById('resultPercentage').innerText=pct+'%';
+      var rt=document.querySelector('.result-title');
+      if(rt) rt.innerText=(pct>=80?'¡Muy bien!':(pct>=50?'Buen intento':'A repasar'));
+
+      var rl=document.getElementById('reviewList');
+      rl.innerHTML='';
+      quizRuntime.forEach(function(q,i){
+        var yours=currentAnswers[i];
+        var ok=(yours===q.correct);
+        var item=document.createElement('div');
+        item.className='review-item '+(ok?'ok':'ko');
+        var yoursTxt=(yours!=null)?esc(q.options[yours]):'—';
+        var html='<div class="review-q">'+(i+1)+'. '+esc(q.text)+'</div>';
+        if(ok){
+          html+='<div class="review-a correct"><span class="lbl">✓ Tu respuesta:</span> '+yoursTxt+'</div>';
+        } else {
+          html+='<div class="review-a yours-ko"><span class="lbl">✗ Tu respuesta:</span> '+yoursTxt+'</div>';
+          html+='<div class="review-a correct"><span class="lbl">✓ Correcta:</span> '+esc(q.options[q.correct])+'</div>';
         }
+        html+='<div class="review-exp">'+esc(q.explanation)+'</div>';
+        item.innerHTML=html;
+        rl.appendChild(item);
       });
+      var tog=document.getElementById('btnReviewToggle');
+      if(tog) tog.innerText='Revisar mis respuestas';
+      rl.hidden=true;
 
-      var percentage = Math.round((correctCount / total) * 100);
-
-      document.getElementById('resultAppSubtitle').innerText = 'Has completado la micro app ' + activeQuizApp.title + '.';
-      document.getElementById('resultCorrectScore').innerText = correctCount + '/' + total;
-      document.getElementById('resultPercentage').innerText = percentage + '%';
-
-      // Guardar en localStorage
-      try {
-        var history = JSON.parse(localStorage.getItem('mh_docencia_progress') || '{}');
-        history[activeQuizApp.id] = {
-          score: correctCount,
-          total: total,
-          pct: percentage,
-          date: new Date().toISOString()
-        };
-        localStorage.setItem('mh_docencia_progress', JSON.stringify(history));
-      } catch (e) {
-        console.warn('LocalStorage error:', e);
-      }
+      try{
+        var h=readProgress();
+        h[activeQuizApp.id]={score:correct,total:total,pct:pct,title:activeQuizApp.title,
+          subject:currentSubjectKey,date:new Date().toISOString()};
+        localStorage.setItem(PROGRESS_KEY,JSON.stringify(h));
+      }catch(e){}
 
       showView('viewResult');
     }
-
-    function restartCurrentQuiz() {
-      currentQuestionIdx = 0;
-      currentAnswers = new Array(activeQuizApp.questions.length).fill(null);
-      renderCurrentQuestion();
-      showView('viewQuiz');
+    function toggleReview(){
+      var rl=document.getElementById('reviewList');
+      var tog=document.getElementById('btnReviewToggle');
+      var show=rl.hidden;
+      rl.hidden=!show;
+      tog.innerText=show?'Ocultar revisión':'Revisar mis respuestas';
+      if(show) setTimeout(function(){ rl.scrollIntoView({behavior:'smooth',block:'nearest'}); },50);
     }
-
-    function exitToDashboard() {
-      document.getElementById('simIframe').src = '';
+    function restartCurrentQuiz(){ if(activeQuizApp) openApp(activeQuizApp); }
+    function exitToDashboard(){
+      var ifr=document.getElementById('simIframe'); if(ifr) ifr.src='';
       showDashboardView();
     }
 
-    function showProgressSummary() {
-      try {
-        var history = JSON.parse(localStorage.getItem('mh_docencia_progress') || '{}');
-        var count = Object.keys(history).length;
-        alert('📊 Resumen de Actividad:\nHas completado ' + count + ' micro-apps interactivas.');
-      } catch (e) {
-        alert('No hay registros de actividad previa en este dispositivo.');
+    // ===== Progreso =====
+    function showProgressView(){ renderProgress(); showView('viewProgress'); }
+    function renderProgress(){
+      var h=readProgress();
+      var keys=Object.keys(h);
+      var statsEl=document.getElementById('progressStats');
+      var itemsEl=document.getElementById('progressItems');
+      var clearBtn=document.getElementById('btnClearProgress');
+
+      if(keys.length===0){
+        statsEl.innerHTML='';
+        itemsEl.innerHTML='<div class="progress-empty">Aún no has completado ninguna micro app en este dispositivo.<br>Responde a un cuestionario y verás aquí tu progreso.</div>';
+        if(clearBtn) clearBtn.style.display='none';
+        return;
       }
+      if(clearBtn) clearBtn.style.display='block';
+      var avg=Math.round(keys.reduce(function(a,k){ return a+(h[k].pct||0); },0)/keys.length);
+      statsEl.innerHTML=
+        '<div class="progress-stat"><div class="v">'+keys.length+'</div><div class="l">Apps completadas</div></div>'+
+        '<div class="progress-stat"><div class="v">'+avg+'%</div><div class="l">Media de aciertos</div></div>';
+
+      keys.sort(function(a,b){ return (h[b].date||'').localeCompare(h[a].date||''); });
+      itemsEl.innerHTML='';
+      keys.forEach(function(k){
+        var r=h[k];
+        var d=document.createElement('div');
+        d.className='progress-item';
+        d.innerHTML=
+          '<div class="pi-body"><div class="pi-title">'+esc(r.title||k)+'</div>'+
+          '<div class="pi-score">'+(r.score||0)+'/'+(r.total||0)+' correctas</div></div>'+
+          '<div class="pi-pct">'+(r.pct||0)+'%</div>';
+        itemsEl.appendChild(d);
+      });
+    }
+    function clearProgress(){
+      try{ localStorage.removeItem(PROGRESS_KEY); }catch(e){}
+      renderProgress();
     }
 
-    // Función de Transición entre Vistas
-    function showView(viewId) {
-      var views = document.querySelectorAll('.view');
-      views.forEach(function(v) {
+    // ===== Router de vistas =====
+    function showView(viewId){
+      document.querySelectorAll('.view').forEach(function(v){
         v.classList.remove('active');
-        v.style.setProperty('display', 'none', 'important');
+        v.style.setProperty('display','none','important');
       });
-      var target = document.getElementById(viewId);
-      if (target) {
-        target.classList.add('active');
-        target.style.setProperty('display', 'flex', 'important');
-        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
+      var t=document.getElementById(viewId);
+      if(t){
+        t.classList.add('active');
+        t.style.setProperty('display','flex','important');
+        window.scrollTo({top:0,left:0,behavior:'auto'});
+        document.body.scrollTop=0; document.documentElement.scrollTop=0;
       }
     }
   </script>

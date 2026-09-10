@@ -178,6 +178,7 @@ window.DOCENCIA_APPS = {
       },
       {
         id: "psll_pasivas_sim",
+        interactive: false,
         type: "simulator",
         category: "pasivas",
         icon: "⚖️",
@@ -190,6 +191,7 @@ window.DOCENCIA_APPS = {
       },
       {
         id: "psll_itinerario_sim",
+        interactive: false,
         type: "simulator",
         category: "activas",
         icon: "🧭",
@@ -202,6 +204,7 @@ window.DOCENCIA_APPS = {
       },
       {
         id: "psll_mitos_sim",
+        interactive: false,
         type: "simulator",
         category: "mercado",
         icon: "🔍",
@@ -214,6 +217,7 @@ window.DOCENCIA_APPS = {
       },
       {
         id: "psll_colocacion_sim",
+        interactive: false,
         type: "simulator",
         category: "pasivas",
         icon: "💼",
@@ -226,6 +230,7 @@ window.DOCENCIA_APPS = {
       },
       {
         id: "psll_caso_despido",
+        interactive: false,
         type: "simulator",
         category: "pasivas",
         icon: "📑",
