@@ -92,16 +92,18 @@
        SISTEMA DE VISTAS (SPA ROUTING)
        ============================================================ */
     .view {
-      display: none;
+      display: none !important;
       flex: 1;
       flex-direction: column;
-      animation: fadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      width: 100%;
+      min-height: 100vh;
+      animation: fadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .view.active {
-      display: flex;
+      display: flex !important;
     }
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
+      from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -110,7 +112,6 @@
        ============================================================ */
     .view-welcome {
       padding: 28px 24px 36px;
-      display: flex;
       flex-direction: column;
       justify-content: space-between;
       min-height: 100vh;
@@ -552,7 +553,6 @@
        ============================================================ */
     .view-quiz {
       min-height: 100vh;
-      display: flex;
       flex-direction: column;
       justify-content: space-between;
       padding: 20px 20px 32px;
@@ -733,7 +733,6 @@
        ============================================================ */
     .view-simulator {
       min-height: 100vh;
-      display: flex;
       flex-direction: column;
     }
     .simulator-top-bar {
@@ -757,7 +756,6 @@
        ============================================================ */
     .view-result {
       min-height: 100vh;
-      display: flex;
       flex-direction: column;
       justify-content: space-between;
       padding: 40px 24px 36px;
@@ -1152,6 +1150,7 @@
       } else {
         // Iniciar en bienvenida
         updateWelcomeSubjectSelection();
+        showView('viewWelcome');
       }
     });
 
@@ -1437,11 +1436,15 @@
       var views = document.querySelectorAll('.view');
       views.forEach(function(v) {
         v.classList.remove('active');
+        v.style.setProperty('display', 'none', 'important');
       });
       var target = document.getElementById(viewId);
       if (target) {
         target.classList.add('active');
-        window.scrollTo(0, 0);
+        target.style.setProperty('display', 'flex', 'important');
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
       }
     }
   </script>
