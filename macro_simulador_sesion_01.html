@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador Macroeconómico • Sesión 1 | Macroeconomía UPO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #f8fafc;
+      --bg-secondary: #ffffff;
+      --bg-card: #ffffff;
+      --bg-card-subtle: #f0f7ff;
+      --bg-card-hover: #e8f2fc;
+      --brand-navy: #0b1c36;
+      --brand-cobalt: #056caa;
+      --brand-azure: #0776b5;
+      --accent-primary: #056caa;
+      --accent-teal: #0d9488;
+      --accent-amber: #d97706;
+      --accent-rose: #e11d48;
+      --text-main: #0b1c36;
+      --text-body: #334155;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --border-focus: #056caa;
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --font-main: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-body);
+      font-family: var(--font-main);
+      line-height: 1.55;
+      padding: 24px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding: 16px 24px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 4px 16px rgba(11, 28, 54, 0.05);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .header-logo {
+      height: 52px;
+      object-fit: contain;
+    }
+
+    .header-titles h1 {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--brand-navy);
+      letter-spacing: -0.5px;
+      margin-bottom: 2px;
+    }
+
+    .header-titles p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    .badge-upo {
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--brand-cobalt);
+      color: var(--brand-cobalt);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      color: var(--text-body);
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-size: 0.92rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      font-family: var(--font-main);
+      box-shadow: 0 2px 4px rgba(11, 28, 54, 0.03);
+    }
+
+    .tab-btn:hover {
+      background: var(--bg-card-hover);
+      color: var(--brand-navy);
+      border-color: var(--brand-cobalt);
+    }
+
+    .tab-btn.active {
+      background: var(--brand-cobalt);
+      color: #ffffff;
+      border-color: var(--brand-cobalt);
+      box-shadow: 0 4px 14px rgba(5, 108, 170, 0.25);
+    }
+
+    .tab-panel {
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(11, 28, 54, 0.05);
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--brand-navy);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .story-card {
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+
+    .story-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--brand-cobalt);
+      box-shadow: 0 6px 16px rgba(5, 108, 170, 0.12);
+    }
+
+    .story-icon { font-size: 2rem; margin-bottom: 8px; }
+    .story-title { font-weight: 700; font-size: 1.05rem; margin-bottom: 6px; color: var(--brand-cobalt); }
+    .story-text { font-size: 0.88rem; color: var(--text-body); line-height: 1.5; }
+
+    .control-group { margin-bottom: 16px; }
+
+    .control-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+      color: var(--text-body);
+      font-weight: 500;
+    }
+
+    .control-label span.val {
+      font-family: var(--font-mono);
+      color: var(--brand-navy);
+      font-weight: 700;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      background: var(--border-color);
+      border-radius: 3px;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--brand-cobalt);
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(5, 108, 170, 0.4);
+    }
+
+    .metric-box {
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .metric-label {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .metric-val {
+      font-size: 1.8rem;
+      font-weight: 800;
+      font-family: var(--font-mono);
+    }
+
+    .metric-val.blue { color: var(--brand-cobalt); }
+    .metric-val.teal { color: var(--accent-teal); }
+    .metric-val.amber { color: var(--accent-amber); }
+    .metric-val.rose { color: var(--accent-rose); }
+
+    .identity-banner {
+      background: rgba(13, 148, 136, 0.08);
+      border: 1px solid rgba(13, 148, 136, 0.3);
+      color: #0f766e;
+      padding: 14px;
+      border-radius: var(--radius-md);
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-top: 16px;
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 0.9rem;
+    }
+
+    table.data-table th, table.data-table td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    table.data-table th {
+      color: var(--brand-navy);
+      font-weight: 700;
+      background: var(--bg-card-subtle);
+    }
+
+    table.data-table td.num {
+      text-align: right;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--brand-navy);
+    }
+
+    .callout {
+      background: var(--bg-card-subtle);
+      border-left: 4px solid var(--brand-cobalt);
+      padding: 14px 16px;
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      margin-top: 14px;
+      font-size: 0.92rem;
+      color: var(--brand-navy);
+    }
+
+    /* Quiz */
+    .quiz-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(11, 28, 54, 0.03);
+    }
+
+    .quiz-q { font-weight: 700; font-size: 1.05rem; margin-bottom: 12px; color: var(--brand-navy); }
+    .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+
+    .quiz-btn {
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-color);
+      color: var(--text-body);
+      padding: 11px 16px;
+      border-radius: 8px;
+      text-align: left;
+      cursor: pointer;
+      font-family: var(--font-main);
+      font-size: 0.92rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .quiz-btn:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--brand-cobalt);
+      color: var(--brand-navy);
+    }
+
+    .quiz-feedback {
+      margin-top: 10px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      display: none;
+      line-height: 1.45;
+    }
+
+    .quiz-feedback.correct {
+      background: rgba(13, 148, 136, 0.1);
+      border: 1px solid rgba(13, 148, 136, 0.3);
+      color: #0f766e;
+      display: block;
+    }
+
+    .quiz-feedback.wrong {
+      background: rgba(225, 29, 72, 0.1);
+      border: 1px solid rgba(225, 29, 72, 0.3);
+      color: #be123c;
+      display: block;
+    }
+
+    .news-banner {
+      background: #ffffff;
+      border: 1px solid var(--accent-rose);
+      border-left: 6px solid var(--accent-rose);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-bottom: 22px;
+      box-shadow: 0 4px 14px rgba(225, 29, 72, 0.08);
+    }
+
+    .news-tag {
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--accent-rose);
+      margin-bottom: 4px;
+    }
+
+    .news-title {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--brand-navy);
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="header-left">
+      <!-- Logo Oficial de la Asignatura -->
+      <img src="assets/logo_macro_upo.png" alt="Macroeconomía UPO" class="header-logo">
+      <div class="header-titles">
+        <h1>Laboratorio Macroeconómico • Sesión 1</h1>
+        <p>El Tablero del Mundo: Por qué la Macro gobierna tu vida y cómo medir la economía sin engaños</p>
+      </div>
+    </div>
+    <div class="badge-upo">
+      MACRO UPO • Curso 2026-2027
+    </div>
+  </header>
+
+  <!-- Nav Tabs -->
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="switchTab('tab-intro-gancho')">🔥 ¿Por qué la Macro Gobierna tu Vida?</button>
+    <button class="tab-btn" onclick="switchTab('tab-vias')">1. Las 3 Vías del PIB</button>
+    <button class="tab-btn" onclick="switchTab('tab-real-nominal')">2. El Espejismo Nominal vs. Real</button>
+    <button class="tab-btn" onclick="switchTab('tab-deflactor-ipc')">3. Deflactor vs. IPC (Petróleo)</button>
+    <button class="tab-btn" onclick="switchTab('tab-quiz')">4. Retos de Examen</button>
+  </div>
+
+  <!-- TAB 0: EL GRAN GANCHO DE LA MACRO -->
+  <div id="tab-intro-gancho" class="tab-panel active">
+    <!-- Banner Noticia Económica Real -->
+    <div class="news-banner">
+      <div class="news-tag">📰 Titular de Prensa Económica Real • Cinco Días / Financial Times</div>
+      <div class="news-title">
+        «España lidera el avance del PIB en la Eurozona al 2,5%, pero las familias sufren la mayor pérdida de poder adquisitivo por el shock de precios e hipotecas.»
+      </div>
+      <div style="font-size: 0.88rem; color: var(--text-muted); margin-top: 6px;">
+        Inflación acumulada en la cesta básica (+18,5%) • Euríbor saltó del -0,5% a más del 4,1% (+3.600 €/año en hipoteca media) • <strong>La pregunta del aula:</strong> ¿Si el PIB crece, por qué tu cuenta bancaria no lo nota?
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom: 20px;">
+      <h2 class="card-title">🌍 4 Enigmas de la Vida Real que Solo la Macroeconomía Puede Explicar</h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px;">
+        Haz clic en cada tarjeta para ver la trastienda macroeconómica de situaciones que vives o escuchas en tu casa a diario:
+      </p>
+
+      <div class="grid-4">
+        <!-- Caso 1 -->
+        <div class="story-card" onclick="showStory(1)">
+          <div class="story-icon">🏠</div>
+          <div class="story-title">El Golpe de la Hipoteca</div>
+          <div class="story-text">Tus padres pagan 350 € más al mes por el mismo piso. ¿Por qué una reunión de 45 minutos en Frankfurt les quitó 4.000 € al año?</div>
+        </div>
+
+        <!-- Caso 2 -->
+        <div class="story-card" onclick="showStory(2)">
+          <div class="story-icon">👔</div>
+          <div class="story-title">La Paradoja del Empleo</div>
+          <div class="story-text">Récord histórico de 21 millones de trabajadores en España, pero los jóvenes no pueden emanciparse sin compartir piso. ¿Por qué?</div>
+        </div>
+
+        <!-- Caso 3 -->
+        <div class="story-card" onclick="showStory(3)">
+          <div class="story-icon">🏦</div>
+          <div class="story-title">El Aleteo de Mariposa</div>
+          <div class="story-text">Quiebra un banco mediano en California (SVB) y al día siguiente a una empresa de Sevilla le cuesta un 4% más pedir un préstamo.</div>
+        </div>
+
+        <!-- Caso 4 -->
+        <div class="story-card" onclick="showStory(4)">
+          <div class="story-icon">🍕</div>
+          <div class="story-title">El Espejismo de la Riqueza</div>
+          <div class="story-text">España supera 1,5 billones de PIB (+22% desde 2019). ¿Somos un 22% más ricos o simplemente nos cobran un 22% más por lo mismo?</div>
+        </div>
+      </div>
+
+      <!-- Detalle desplegado del caso -->
+      <div id="story-detail-box" class="callout" style="display: block; margin-top: 22px; background: rgba(59, 130, 246, 0.12); border-left-color: #60a5fa; color: #dbeafe;">
+        <h3 id="story-detail-title" style="font-size: 1.1rem; margin-bottom: 6px; color: #93c5fd;">💡 El Tablero del Mundo</h3>
+        <p id="story-detail-desc" style="font-size: 0.92rem; line-height: 1.5;">
+          La Microeconomía te enseña cómo decide una empresa individual. La <strong>Macroeconomía te enseña el clima en el que todos navegamos</strong>. Quien entiende la Macro anticipa cuándo comprar vivienda, cuándo endeudarse, cuándo expandir un negocio y jamás es manipulado por un titular de prensa.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 1: LAS 3 VÍAS DEL PIB -->
+  <div id="tab-vias" class="tab-panel">
+    <div class="grid-2">
+      <div class="card">
+        <h2 class="card-title">⚙️ Parámetros de la Cadena Productiva</h2>
+        <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 18px;">
+          Ajusta las ventas y costes para comprobar que las 3 vías siempre dan la misma cifra exacta.
+        </p>
+
+        <!-- Empresa 1 -->
+        <div style="background: rgba(255,255,255,0.02); padding: 12px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #374151;">
+          <strong style="color: #60a5fa;">🌾 Empresa 1: Agricultura (Trigo)</strong>
+          <div class="control-group" style="margin-top: 8px;">
+            <div class="control-label"><span>Venta total de trigo</span><span class="val" id="val-v1">100 €</span></div>
+            <input type="range" id="sl-v1" min="60" max="200" step="10" value="100" oninput="calcVias()">
+          </div>
+          <div class="control-group">
+            <div class="control-label"><span>Venta a familias (Gasto Final)</span><span class="val" id="val-c1">20 €</span></div>
+            <input type="range" id="sl-c1" min="0" max="80" step="5" value="20" oninput="calcVias()">
+          </div>
+          <div class="control-group">
+            <div class="control-label"><span>Salarios pagados por Empresa 1</span><span class="val" id="val-w1">60 €</span></div>
+            <input type="range" id="sl-w1" min="20" max="100" step="5" value="60" oninput="calcVias()">
+          </div>
+        </div>
+
+        <!-- Empresa 2 -->
+        <div style="background: rgba(255,255,255,0.02); padding: 12px; border-radius: 8px; border: 1px solid #374151;">
+          <strong style="color: #34d399;">🥖 Empresa 2: Panadería (Pan)</strong>
+          <div class="control-group" style="margin-top: 8px;">
+            <div class="control-label"><span>Venta total de pan (a familias)</span><span class="val" id="val-v2">200 €</span></div>
+            <input type="range" id="sl-v2" min="150" max="350" step="10" value="200" oninput="calcVias()">
+          </div>
+          <div class="control-group">
+            <div class="control-label"><span>Salarios pagados por Empresa 2</span><span class="val" id="val-w2">70 €</span></div>
+            <input type="range" id="sl-w2" min="30" max="140" step="5" value="70" oninput="calcVias()">
+          </div>
+        </div>
+
+        <div class="callout">
+          <strong>Regla de Examen:</strong> Las compras de trigo de la Empresa 2 son <em>consumo intermedio</em>. Sumar las ventas brutas totales ($100 + 200 = 300$) duplica la producción y es suspenso de examen.
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">📊 Verificación de la Triple Identidad</h2>
+
+        <div class="grid-3" style="margin-bottom: 16px;">
+          <div class="metric-box">
+            <div class="metric-label">1. Valor Añadido</div>
+            <div class="metric-val teal" id="res-va">220 €</div>
+            <small style="color: var(--text-muted); font-size: 0.78rem;">VAB 1 + VAB 2</small>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">2. Vía Renta</div>
+            <div class="metric-val blue" id="res-renta">220 €</div>
+            <small style="color: var(--text-muted); font-size: 0.78rem;">Salarios + Beneficios</small>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">3. Vía Gasto</div>
+            <div class="metric-val amber" id="res-gasto">220 €</div>
+            <small style="color: var(--text-muted); font-size: 0.78rem;">Consumo Final</small>
+          </div>
+        </div>
+
+        <div class="identity-banner" id="banner-identidad">
+          ✓ Identidad Contable Cumplida: VAB (220 €) = Rentas (220 €) = Gasto Final (220 €)
+        </div>
+
+        <table class="data-table" style="margin-top: 20px;">
+          <thead>
+            <tr>
+              <th>Desglose</th>
+              <th class="num">Empresa 1</th>
+              <th class="num">Empresa 2</th>
+              <th class="num">Total Economía</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Ventas Totales</td>
+              <td class="num" id="td-v1">100 €</td>
+              <td class="num" id="td-v2">200 €</td>
+              <td class="num" id="td-vtot" style="color: #f87171;">300 € (¡Doble cta!)</td>
+            </tr>
+            <tr>
+              <td>- Consumo Intermedio</td>
+              <td class="num">0 €</td>
+              <td class="num" id="td-ci2">-80 €</td>
+              <td class="num" id="td-citot">-80 €</td>
+            </tr>
+            <tr>
+              <td><strong>= Valor Añadido Bruto</strong></td>
+              <td class="num" id="td-va1"><strong>100 €</strong></td>
+              <td class="num" id="td-va2"><strong>120 €</strong></td>
+              <td class="num" id="td-vatot" style="color: #5eead4;"><strong>220 €</strong></td>
+            </tr>
+            <tr>
+              <td>Salarios pagados</td>
+              <td class="num" id="td-w1">60 €</td>
+              <td class="num" id="td-w2">70 €</td>
+              <td class="num" id="td-wtot">130 €</td>
+            </tr>
+            <tr>
+              <td>Beneficios empresariales</td>
+              <td class="num" id="td-b1">40 €</td>
+              <td class="num" id="td-b2">50 €</td>
+              <td class="num" id="td-btot">90 €</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: NOMINAL VS REAL -->
+  <div id="tab-real-nominal" class="tab-panel">
+    <div class="grid-2">
+      <div class="card">
+        <h2 class="card-title">🏭 Economía de 2 Bienes: Año 1 (Base) vs. Año 2</h2>
+        <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 16px;">
+          Comprueba cómo una subida solo de precios infla el PIB nominal sin aumentar el bienestar real.
+        </p>
+
+        <!-- Coche -->
+        <div style="background: rgba(255,255,255,0.02); padding: 12px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #374151;">
+          <strong>🚗 Bien 1: Automóviles</strong>
+          <div class="grid-2" style="margin-top: 8px;">
+            <div>
+              <div class="control-label"><span>Precio Año 1: <span class="val">10.000 €</span></span></div>
+              <div class="control-label"><span>Cant. Año 1: <span class="val">10 uds</span></span></div>
+            </div>
+            <div>
+              <div class="control-label"><span>Precio Año 2:</span><span class="val" id="val-p-auto2">14.000 €</span></div>
+              <input type="range" id="sl-p-auto2" min="10000" max="25000" step="1000" value="14000" oninput="calcRealNominal()">
+              <div class="control-label" style="margin-top: 6px;"><span>Cant. Año 2:</span><span class="val" id="val-q-auto2">10 uds</span></div>
+              <input type="range" id="sl-q-auto2" min="5" max="20" step="1" value="10" oninput="calcRealNominal()">
+            </div>
+          </div>
+        </div>
+
+        <!-- Pan -->
+        <div style="background: rgba(255,255,255,0.02); padding: 12px; border-radius: 8px; border: 1px solid #374151;">
+          <strong>🥖 Bien 2: Alimentos</strong>
+          <div class="grid-2" style="margin-top: 8px;">
+            <div>
+              <div class="control-label"><span>Precio Año 1: <span class="val">2 €</span></span></div>
+              <div class="control-label"><span>Cant. Año 1: <span class="val">5.000 uds</span></span></div>
+            </div>
+            <div>
+              <div class="control-label"><span>Precio Año 2:</span><span class="val" id="val-p-pan2">3 €</span></div>
+              <input type="range" id="sl-p-pan2" min="2" max="6" step="0.5" value="3" oninput="calcRealNominal()">
+              <div class="control-label" style="margin-top: 6px;"><span>Cant. Año 2:</span><span class="val" id="val-q-pan2">5.000 uds</span></div>
+              <input type="range" id="sl-q-pan2" min="3000" max="8000" step="500" value="5000" oninput="calcRealNominal()">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">📈 El Diagnóstico: ¿Crecimiento Genuino o Espejismo?</h2>
+
+        <div class="grid-2" style="margin-bottom: 16px;">
+          <div class="metric-box">
+            <div class="metric-label">Crecimiento Nominal</div>
+            <div class="metric-val rose" id="lbl-g-nom">+40,9%</div>
+            <small style="color: var(--text-muted); font-size: 0.78rem;">PIB Nominal Año 2 vs. Año 1</small>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">Crecimiento Real (Año Base 1)</div>
+            <div class="metric-val teal" id="lbl-g-real">0,0%</div>
+            <small style="color: var(--text-muted); font-size: 0.78rem;">Bienestar físico real</small>
+          </div>
+        </div>
+
+        <div class="metric-box" style="margin-bottom: 16px;">
+          <div class="metric-label">Deflactor del PIB (Base 100 en Año 1)</div>
+          <div class="metric-val amber" id="lbl-deflactor">140,9</div>
+          <small style="color: var(--text-muted); font-size: 0.78rem;">Tasa de Inflación implícita: <strong id="lbl-inflacion" style="color: #fbbf24;">+40,9%</strong></small>
+        </div>
+
+        <div class="callout" id="callout-diagnostico">
+          ⚠️ <strong>Alerta de Espejismo Inflacionario:</strong> El PIB nominal crece un 40,9%, pero la producción física no varía. Todo el aumento es encarecimiento de precios.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: DEFLACTOR VS IPC -->
+  <div id="tab-deflactor-ipc" class="tab-panel">
+    <div class="card">
+      <h2 class="card-title">🛢️ El Caso del Petróleo Importado: ¿Por qué el IPC diverge del Deflactor?</h2>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">
+        España produce servicios y alimentos dentro del país, pero <strong>importa todo el petróleo</strong> que consumen las familias en gasolina.
+      </p>
+
+      <div class="grid-2">
+        <div>
+          <div class="control-group">
+            <div class="control-label"><span>Subida del precio del petróleo importado:</span><span class="val" id="val-shock-oil">+0%</span></div>
+            <input type="range" id="sl-oil" min="0" max="150" step="10" value="0" oninput="calcDeflactorIPC()">
+          </div>
+          <div class="control-group">
+            <div class="control-label"><span>Inflación de los salarios y servicios interiores:</span><span class="val" id="val-infla-int">+2%</span></div>
+            <input type="range" id="sl-int" min="0" max="10" step="1" value="2" oninput="calcDeflactorIPC()">
+          </div>
+
+          <div class="callout" style="margin-top: 24px;">
+            <strong>Trampa clásica de examen:</strong> El Deflactor del PIB mide precios de lo que se <em>produce dentro</em> de España ($P \cdot Y$). El petróleo importado es una importación ($IM$), por lo que resta y <strong>no forma parte del PIB español</strong>. En cambio, el IPC mide la <em>cesta de consumo familiar</em>, donde la gasolina pesa directamente.
+          </div>
+        </div>
+
+        <div>
+          <div class="grid-2" style="margin-bottom: 16px;">
+            <div class="metric-box">
+              <div class="metric-label">Deflactor del PIB</div>
+              <div class="metric-val blue" id="val-res-def">+2,0%</div>
+              <small style="color: var(--text-muted); font-size: 0.78rem;">Solo precios interiores</small>
+            </div>
+            <div class="metric-box">
+              <div class="metric-label">IPC (Inflación Familiar)</div>
+              <div class="metric-val rose" id="val-res-ipc">+2,0%</div>
+              <small style="color: var(--text-muted); font-size: 0.78rem;">Recoge el petróleo importado</small>
+            </div>
+          </div>
+
+          <div class="identity-banner" id="banner-divergencia" style="background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); color: #93c5fd;">
+            Ambos índices coinciden cuando no hay shocks en bienes importados.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 4: QUIZ -->
+  <div id="tab-quiz" class="tab-panel">
+    <div class="card">
+      <h2 class="card-title">🎯 Batería de Retos: "Código Desclasificado del Examen"</h2>
+
+      <div class="quiz-card">
+        <div class="quiz-q">1. Una fábrica de cerveza compra botellas de vidrio por 30.000 € y produce cerveza por valor de 100.000 €. Vende 80.000 € a bares y almacena 20.000 € en existencias. ¿Cuánto aporta al PIB?</div>
+        <div class="quiz-options">
+          <button class="quiz-btn" onclick="checkQuiz(1, 'A')">A) 100.000 €, porque se suman las ventas brutas totales.</button>
+          <button class="quiz-btn" onclick="checkQuiz(1, 'B')">B) 70.000 €, porque el valor añadido es 100.000 - 30.000 = 70.000 € (y las existencias se suman como Inversión).</button>
+          <button class="quiz-btn" onclick="checkQuiz(1, 'C')">C) 50.000 €, porque solo cuentan los 80.000 € vendidos menos los 30.000 € de botellas.</button>
+        </div>
+        <div id="q1-fb" class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-card">
+        <div class="quiz-q">2. Si el gobierno aumenta las pensiones de jubilación en 5.000 millones de euros, ¿cómo se contabiliza directamente en el PIB por la vía del gasto?</div>
+        <div class="quiz-options">
+          <button class="quiz-btn" onclick="checkQuiz(2, 'A')">A) Aumenta el Gasto Público ($G$) en 5.000 millones inmediatamente.</button>
+          <button class="quiz-btn" onclick="checkQuiz(2, 'B')">B) No entra en el PIB como Gasto Público ($G$) porque es una transferencia; solo entrará cuando los pensionistas consuman ($C$).</button>
+          <button class="quiz-btn" onclick="checkQuiz(2, 'C')">C) Aumenta la Inversión ($I$) del Estado.</button>
+        </div>
+        <div id="q2-fb" class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-card">
+        <div class="quiz-q">3. Una constructora española compra una grúa fabricada en Alemania por 200.000 €. ¿Cuál es el impacto neto en el PIB de España?</div>
+        <div class="quiz-options">
+          <button class="quiz-btn" onclick="checkQuiz(3, 'A')">A) Sube el PIB en 200.000 € porque es Inversión ($I$).</button>
+          <button class="quiz-btn" onclick="checkQuiz(3, 'B')">B) El impacto neto es CERO, porque $\Delta I = +200.000 €$ pero $\Delta IM = +200.000 €$ en importaciones.</button>
+          <button class="quiz-btn" onclick="checkQuiz(3, 'C')">C) Disminuye el PIB en -200.000 €.</button>
+        </div>
+        <div id="q3-fb" class="quiz-feedback"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function switchTab(tabId) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function showStory(num) {
+    const title = document.getElementById('story-detail-title');
+    const desc = document.getElementById('story-detail-desc');
+    if (num === 1) {
+      title.innerText = "🏠 El Golpe de la Hipoteca (Política Monetaria y Tipos)";
+      desc.innerHTML = "En 2022 la inflación europea superó el 10%. El Banco Central Europeo (BCE) subió los tipos del 0% al 4,5% para enfriar la demanda. Como el 70% de las hipotecas en España eran a tipo variable ligadas al Euríbor, la cuota media saltó de 550 € a 900 € al mes. <strong>Ese canal de transmisión del tipo de interés al bolsillo es el modelo IS-LM que estudiaremos en el Tema 2 y 3.</strong>";
+    } else if (num === 2) {
+      title.innerText = "👔 La Paradoja del Empleo (Mercado de Trabajo y Salarios)";
+      desc.innerHTML = "España bate récords con 21 millones de ocupados gracias al sector servicios y el turismo, pero los salarios reales perdieron poder adquisitivo frente a la inflación de alimentos y alquileres. <strong>¿Por qué el récord de empleo no garantiza salarios altos? La respuesta está en la productividad, el margen empresarial $\\mu$ y la ecuación salarial (WS-PS) del Tema 4.</strong>";
+    } else if (num === 3) {
+      title.innerText = "🏦 El Efecto Mariposa Bancario (Primas de Riesgo y Liquidez)";
+      desc.innerHTML = "Silicon Valley Bank quebró porque tenía bonos públicos a tipos bajos cuyo valor de mercado se hundió al subir los tipos. La desconfianza generó pánico bancario internacional y disparó la prima de riesgo crediticia ($x$). <strong>En el Tema 3 veremos cómo un shock de riesgo financiero ($x \\uparrow$) paraliza la inversión aunque el banco central intente bajar los tipos.</strong>";
+    } else if (num === 4) {
+      title.innerText = "🍕 El Espejismo de la Riqueza (PIB Nominal vs. Real)";
+      desc.innerHTML = "Si una economía produce 100 pizzas a 10 € el PIB es 1.000 €. Si al año siguiente produce 100 pizzas a 15 €, el PIB nominal es 1.500 € (+50%). ¿Ha crecido el país? No, hay las mismas 100 pizzas para repartir. <strong>Aprender a depurar el efecto precios mediante el Deflactor y el PIB real es la primera herramienta fundamental de hoy.</strong>";
+    }
+  }
+
+  // TAB 1: 3 VÍAS
+  function calcVias() {
+    const v1 = parseFloat(document.getElementById('sl-v1').value);
+    const c1 = parseFloat(document.getElementById('sl-c1').value);
+    const w1 = parseFloat(document.getElementById('sl-w1').value);
+    const v2 = parseFloat(document.getElementById('sl-v2').value);
+    const w2 = parseFloat(document.getElementById('sl-w2').value);
+
+    document.getElementById('val-v1').innerText = v1 + " €";
+    document.getElementById('val-c1').innerText = c1 + " €";
+    document.getElementById('val-w1').innerText = w1 + " €";
+    document.getElementById('val-v2').innerText = v2 + " €";
+    document.getElementById('val-w2').innerText = w2 + " €";
+
+    const ci2 = Math.max(0, v1 - c1);
+    const b1 = Math.max(0, v1 - w1);
+    const b2 = Math.max(0, v2 - ci2 - w2);
+
+    const va1 = v1;
+    const va2 = v2 - ci2;
+    const pib_va = va1 + va2;
+    const pib_renta = (w1 + w2) + (b1 + b2);
+    const pib_gasto = c1 + v2;
+
+    document.getElementById('res-va').innerText = pib_va + " €";
+    document.getElementById('res-renta').innerText = pib_renta + " €";
+    document.getElementById('res-gasto').innerText = pib_gasto + " €";
+
+    document.getElementById('banner-identidad').innerText = 
+      `✓ Identidad Contable Cumplida: VAB (${pib_va} €) = Rentas (${pib_renta} €) = Gasto Final (${pib_gasto} €)`;
+
+    document.getElementById('td-v1').innerText = v1 + " €";
+    document.getElementById('td-v2').innerText = v2 + " €";
+    document.getElementById('td-vtot').innerText = (v1 + v2) + " € (¡Doble cta!)";
+    document.getElementById('td-ci2').innerText = "-" + ci2 + " €";
+    document.getElementById('td-citot').innerText = "-" + ci2 + " €";
+    document.getElementById('td-va1').innerText = va1 + " €";
+    document.getElementById('td-va2').innerText = va2 + " €";
+    document.getElementById('td-vatot').innerText = pib_va + " €";
+    document.getElementById('td-w1').innerText = w1 + " €";
+    document.getElementById('td-w2').innerText = w2 + " €";
+    document.getElementById('td-wtot').innerText = (w1 + w2) + " €";
+    document.getElementById('td-b1').innerText = b1 + " €";
+    document.getElementById('td-b2').innerText = b2 + " €";
+    document.getElementById('td-btot').innerText = (b1 + b2) + " €";
+  }
+
+  // TAB 2: REAL VS NOMINAL
+  function calcRealNominal() {
+    const p_auto1 = 10000;
+    const q_auto1 = 10;
+    const p_pan1 = 2;
+    const q_pan1 = 5000;
+    const pib_nom_1 = (p_auto1 * q_auto1) + (p_pan1 * q_pan1);
+
+    const p_auto2 = parseFloat(document.getElementById('sl-p-auto2').value);
+    const q_auto2 = parseFloat(document.getElementById('sl-q-auto2').value);
+    const p_pan2 = parseFloat(document.getElementById('sl-p-pan2').value);
+    const q_pan2 = parseFloat(document.getElementById('sl-q-pan2').value);
+
+    document.getElementById('val-p-auto2').innerText = p_auto2.toLocaleString() + " €";
+    document.getElementById('val-q-auto2').innerText = q_auto2 + " uds";
+    document.getElementById('val-p-pan2').innerText = p_pan2.toFixed(1) + " €";
+    document.getElementById('val-q-pan2').innerText = q_pan2.toLocaleString() + " uds";
+
+    const pib_nom_2 = (p_auto2 * q_auto2) + (p_pan2 * q_pan2);
+    const pib_real_2 = (p_auto1 * q_auto2) + (p_pan1 * q_pan2);
+
+    const g_nom = ((pib_nom_2 - pib_nom_1) / pib_nom_1) * 100;
+    const g_real = ((pib_real_2 - pib_nom_1) / pib_nom_1) * 100;
+    const deflactor = (pib_nom_2 / pib_real_2) * 100;
+    const inflacion = deflactor - 100;
+
+    document.getElementById('lbl-g-nom').innerText = (g_nom >= 0 ? "+" : "") + g_nom.toFixed(1) + "%";
+    document.getElementById('lbl-g-real').innerText = (g_real >= 0 ? "+" : "") + g_real.toFixed(1) + "%";
+    document.getElementById('lbl-deflactor').innerText = deflactor.toFixed(1);
+    document.getElementById('lbl-inflacion').innerText = (inflacion >= 0 ? "+" : "") + inflacion.toFixed(1) + "%";
+
+    const callout = document.getElementById('callout-diagnostico');
+    if (g_real <= 0.5 && g_nom > 5) {
+      callout.style.background = "rgba(244, 63, 94, 0.1)";
+      callout.style.borderLeftColor = "#f43f5e";
+      callout.style.color = "#fecdd3";
+      callout.innerHTML = `⚠️ <strong>Alerta de Espejismo Inflacionario:</strong> El PIB nominal sube un ${g_nom.toFixed(1)}%, pero la producción física real no varía (${g_real.toFixed(1)}%). Todo el incremento es solo encarecimiento de precios.`;
+    } else if (g_real > 3) {
+      callout.style.background = "rgba(34, 197, 94, 0.1)";
+      callout.style.borderLeftColor = "#22c55e";
+      callout.style.color = "#bbf7d0";
+      callout.innerHTML = `🌟 <strong>Crecimiento Genuino:</strong> La producción física real aumenta un ${g_real.toFixed(1)}%. Hay más coches y alimentos producidos.`;
+    } else {
+      callout.style.background = "rgba(59, 130, 246, 0.08)";
+      callout.style.borderLeftColor = "#3b82f6";
+      callout.style.color = "#bfdbfe";
+      callout.innerHTML = `ℹ️ Crecimiento mixto: parte de la subida es por más producción física y parte por variación de precios.`;
+    }
+  }
+
+  // TAB 3: DEFLACTOR VS IPC
+  function calcDeflactorIPC() {
+    const shock_oil = parseFloat(document.getElementById('sl-oil').value);
+    const infla_int = parseFloat(document.getElementById('sl-int').value);
+
+    document.getElementById('val-shock-oil').innerText = "+" + shock_oil + "%";
+    document.getElementById('val-infla-int').innerText = "+" + infla_int + "%";
+
+    const def = infla_int;
+    const ipc = (0.85 * infla_int) + (0.15 * shock_oil);
+
+    document.getElementById('val-res-def').innerText = "+" + def.toFixed(1) + "%";
+    document.getElementById('val-res-ipc').innerText = "+" + ipc.toFixed(1) + "%";
+
+    const banner = document.getElementById('banner-divergencia');
+    if (shock_oil > 20) {
+      banner.style.background = "rgba(244, 63, 94, 0.12)";
+      banner.style.borderColor = "rgba(244, 63, 94, 0.35)";
+      banner.style.color = "#fca5a5";
+      banner.innerHTML = `⚠️ <strong>Divergencia Fuerte:</strong> El IPC (+${ipc.toFixed(1)}%) supera al Deflactor (+${def.toFixed(1)}%) porque el petróleo se importa y no entra en la producción interior, pero sí en la cesta familiar.`;
+    } else {
+      banner.style.background = "rgba(59, 130, 246, 0.1)";
+      banner.style.borderColor = "rgba(59, 130, 246, 0.3)";
+      banner.style.color = "#93c5fd";
+      banner.innerHTML = `Ambos índices evolucionan parejos cuando no hay perturbaciones en bienes importados.`;
+    }
+  }
+
+  // TAB 4: QUIZ
+  function checkQuiz(qNum, selected) {
+    const fb = document.getElementById(`q${qNum}-fb`);
+    if (qNum === 1) {
+      if (selected === 'B') {
+        fb.className = "quiz-feedback correct";
+        fb.innerHTML = "¡CORRECTO! El valor añadido es $100.000 - 30.000 = 70.000 €$. Por la vía del gasto: 80.000 € de consumo + 20.000 € de existencias - 30.000 € de botellas = 70.000 €.";
+      } else {
+        fb.className = "quiz-feedback wrong";
+        fb.innerHTML = "INCORRECTO. La respuesta correcta es la B. Las existencias no vendidas SÍ entran en el PIB como Inversión en existencias.";
+      }
+    } else if (qNum === 2) {
+      if (selected === 'B') {
+        fb.className = "quiz-feedback correct";
+        fb.innerHTML = "¡EXACTO! Las pensiones son transferencias públicas ($TR$), no gasto directo en bienes y servicios ($G$). Solo entrarán al PIB cuando los pensionistas consuman ($C$).";
+      } else {
+        fb.className = "quiz-feedback wrong";
+        fb.innerHTML = "INCORRECTO. Las pensiones no forman parte de $G$. Son transferencias de renta unilaterales.";
+      }
+    } else if (qNum === 3) {
+      if (selected === 'B') {
+        fb.className = "quiz-feedback correct";
+        fb.innerHTML = "¡BRILANTE! En el PIB por el gasto: $\\Delta I = +200.000 €$, pero $\\Delta IM = +200.000 €$. Dado que $\\text{PIB} = C + I + G + (X - IM)$, el efecto neto sobre el PIB español es exactamente CERO. La grúa se produjo en Alemania.";
+      } else {
+        fb.className = "quiz-feedback wrong";
+        fb.innerHTML = "INCORRECTO. Cuidado con la trampa: la grúa es inversión ($I$), pero al ser importada resta íntegramente en $IM$. El impacto neto en el PIB de España es cero.";
+      }
+    }
+  }
+
+  // Init
+  calcVias();
+  calcRealNominal();
+  calcDeflactorIPC();
+</script>
+
+</body>
+</html>

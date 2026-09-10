@@ -1,5 +1,5 @@
 // Banco de Datos de Micro-Apps Docentes · Manuel Hidalgo (UPO)
-// Contiene las micro-apps de preguntas/retos y las referencias a los simuladores interactivos
+// Contiene las micro-apps de preguntas/retos y las herramientas/simuladores interactivos de PSLL y Macroeconomía
 
 window.DOCENCIA_APPS = {
   psll: {
@@ -213,6 +213,18 @@ window.DOCENCIA_APPS = {
         url: "mitos_realidades.html"
       },
       {
+        id: "psll_colocacion_sim",
+        type: "simulator",
+        category: "pasivas",
+        icon: "💼",
+        iconBg: "#EFF6FF",
+        iconColor: "#2563EB",
+        title: "La Colocación Adecuada",
+        desc: "Analiza ofertas de empleo reales y determina si un perceptor de prestaciones puede rechazarlas legalmente.",
+        meta: "Taller práctico · 8 min",
+        url: "colocacion_adecuada.html"
+      },
+      {
         id: "psll_caso_despido",
         type: "simulator",
         category: "pasivas",
@@ -237,12 +249,36 @@ window.DOCENCIA_APPS = {
     isotipo: "assets/isotipo_macro_upo.png",
     categories: [
       { id: "todas", name: "Todas" },
+      { id: "simuladores", name: "Simuladores" },
       { id: "real", name: "Sector Real (IS)" },
       { id: "monetario", name: "Sector Monetario (LM)" },
-      { id: "equilibrio", name: "Equilibrio IS-LM" },
-      { id: "politicas", name: "Políticas Macroeconómicas" }
+      { id: "equilibrio", name: "Equilibrio IS-LM" }
     ],
     apps: [
+      {
+        id: "macro_lab_sesion01",
+        type: "simulator",
+        category: "simuladores",
+        icon: "🌍",
+        iconBg: "#EBF8FF",
+        iconColor: "#056CAA",
+        title: "Laboratorio Macroeconómico • Sesión 1",
+        desc: "El Tablero del Mundo: Las 3 vías del PIB, el espejismo nominal vs. real y el impacto del petróleo (Deflactor vs IPC).",
+        meta: "Laboratorio interactivo · 15 min",
+        url: "macro_simulador_sesion_01.html"
+      },
+      {
+        id: "macro_sim_sesion02",
+        type: "simulator",
+        category: "simuladores",
+        icon: "⚡",
+        iconBg: "#FEF3C7",
+        iconColor: "#D97706",
+        title: "Simulador de la Cruz Keynesiana y el Multiplicador",
+        desc: "Equilibrio en el mercado de bienes, la cascada del multiplicador del gasto y la paradoja del ahorro.",
+        meta: "Simulador dinámico · 12 min",
+        url: "macro_simulador_sesion_02.html"
+      },
       {
         id: "macro_real_1",
         type: "quiz",
