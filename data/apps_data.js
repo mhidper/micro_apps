@@ -19,6 +19,18 @@ window.DOCENCIA_APPS = {
     ],
     apps: [
       {
+        id: "psll_pib_real_sim",
+        type: "simulator",
+        category: "simuladores",
+        icon: "📈",
+        iconBg: "#EAF4EE",
+        iconColor: "#113927",
+        title: "PIB Nominal vs. PIB Real y Deflactor",
+        desc: "Economía de 2 bienes: calcula P×Q, elige precios constantes o corrientes y descompón crecimiento e inflación.",
+        meta: "Simulador interactivo · 8 min",
+        url: "simulador_pib_real.html"
+      },
+      {
         id: "psll_clu_sim",
         type: "simulator",
         category: "simuladores",
