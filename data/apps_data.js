@@ -297,6 +297,18 @@ window.DOCENCIA_APPS = {
         url: "macro_simulador_sesion_02.html"
       },
       {
+        id: "macro_sim_sesion03",
+        type: "simulator",
+        category: "simuladores",
+        icon: "📉",
+        iconBg: "#F0F7FF",
+        iconColor: "#056CAA",
+        title: "Simulador de la Relación IS e Inversión",
+        desc: "Inversión endógena I(Y, i), derivación gráfica simultánea (Cruz Keynesiana e IS) y políticas fiscales.",
+        meta: "Simulador interactivo · 12 min",
+        url: "macro_simulador_sesion_03.html"
+      },
+      {
         id: "macro_real_1",
         type: "quiz",
         category: "real",
