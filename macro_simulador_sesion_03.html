@@ -2,831 +2,268 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simulador de la Relación IS: Inversión y Política Fiscal | UPO Macroeconomía</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Sesión 3 · La relación IS, explorable · Macro UPO</title>
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="theme.css">
   <style>
-    :root {
-      --bg-primary: #f8fafc;
-      --bg-secondary: #ffffff;
-      --bg-card: #ffffff;
-      --bg-card-subtle: #f0f7ff;
-      --bg-card-hover: #e8f2fc;
-      --brand-navy: #0b1c36;
-      --brand-cobalt: #056caa;
-      --brand-azure: #0776b5;
-      --accent-primary: #056caa;
-      --accent-teal: #0d9488;
-      --accent-amber: #d97706;
-      --accent-rose: #e11d48;
-      --text-main: #0b1c36;
-      --text-body: #334155;
-      --text-muted: #64748b;
-      --border-color: #e2e8f0;
-      --border-focus: #056caa;
-      --radius-lg: 16px;
-      --radius-md: 10px;
-      --font-main: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
-    }
+    :root{--coral:#E98F71;--pine:#113927;--cobalt:var(--macro-cobalt);--amber:#C68B59;--track:#EDE6DB;}
+    *{box-sizing:border-box;} html,body{margin:0;}
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg-cream);color:var(--text-espresso);
+      line-height:1.6;-webkit-font-smoothing:antialiased;padding:0 0 64px;}
+    .wrap{max-width:600px;margin:0 auto;padding:0 20px;}
+    .intro{padding:30px 0 6px;}
+    .eyebrow{display:flex;align-items:center;gap:10px;font-family:'Outfit',sans-serif;font-size:0.72rem;
+      font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--cobalt);margin-bottom:12px;}
+    .eyebrow::before{content:"";width:22px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--cobalt),var(--coral));}
+    h1{font-family:'Outfit',sans-serif;font-weight:800;font-size:clamp(1.9rem,6.4vw,2.5rem);line-height:1.08;
+      letter-spacing:-0.035em;color:var(--text-main);margin:0 0 10px;}
+    .lede{font-size:1.02rem;margin:0 0 6px;}
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    .hero{position:sticky;top:0;z-index:20;background:var(--bg-cream);padding:12px 0;margin-top:16px;
+      border-bottom:1px solid var(--border-light);box-shadow:0 10px 20px -18px rgba(74,59,50,.4);}
+    .hero-inner{max-width:600px;margin:0 auto;padding:0 20px;}
+    .hero-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:0.74rem;letter-spacing:0.05em;
+      text-transform:uppercase;color:var(--text-light);text-align:center;margin-bottom:2px;}
+    svg.plot{width:100%;height:auto;max-height:200px;display:block;}
+    .metrics{display:flex;gap:6px;margin-top:8px;}
+    .metric{flex:1;text-align:center;background:#fff;border:1px solid var(--border-subtle);border-radius:var(--radius-sm);padding:6px 3px;}
+    .metric .k{font-size:0.58rem;text-transform:uppercase;letter-spacing:0.02em;color:var(--text-light);font-weight:700;}
+    .metric .v{font-family:'Outfit',sans-serif;font-weight:800;font-size:0.95rem;}
 
-    body {
-      background-color: var(--bg-primary);
-      color: var(--text-body);
-      font-family: var(--font-main);
-      line-height: 1.5;
-      padding: 24px;
-      min-height: 100vh;
-    }
+    .section{padding:28px 0 6px;border-top:1px solid var(--border-light);}
+    .section:first-of-type{border-top:none;}
+    .kicker{font-family:'Outfit',sans-serif;font-weight:700;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--cobalt);margin-bottom:6px;}
+    .section h2{font-family:'Outfit',sans-serif;font-weight:800;font-size:1.35rem;letter-spacing:-0.025em;color:var(--text-main);margin:0 0 10px;line-height:1.18;}
+    .section p{margin:0 0 14px;font-size:0.98rem;} .section p strong{color:var(--text-main);}
 
-    .container {
-      max-width: 1380px;
-      margin: 0 auto;
-    }
+    .figure{background:#fff;border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:14px;box-shadow:var(--shadow-sm);margin-bottom:14px;}
+    .figure .cap{text-align:center;font-size:0.76rem;color:var(--text-muted);margin-top:4px;}
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--border-color);
-      flex-wrap: wrap;
-      gap: 16px;
-    }
+    .control{background:#fff;border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:13px 16px;box-shadow:var(--shadow-sm);margin-bottom:10px;}
+    .control-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px;}
+    .control-label{font-weight:600;font-size:0.86rem;}
+    .control-value{font-family:'Outfit',sans-serif;font-weight:800;font-size:1rem;color:var(--cobalt);}
+    input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:8px;border-radius:999px;background:var(--track);outline:none;margin:2px 0;}
+    input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;border:2px solid var(--cobalt);box-shadow:0 2px 6px rgba(74,59,50,.2);cursor:pointer;transition:transform .12s;}
+    input[type=range]::-webkit-slider-thumb:active{transform:scale(1.12);}
+    input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#fff;border:2px solid var(--cobalt);cursor:pointer;}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;} @media(max-width:440px){.grid2{grid-template-columns:1fr;}}
+    .btn-row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0;}
+    .chip-btn{font-family:'Inter',sans-serif;font-weight:600;font-size:0.84rem;background:#fff;border:1.5px solid var(--border-subtle);color:var(--text-espresso);padding:8px 14px;border-radius:var(--radius-pill);cursor:pointer;transition:all .18s;-webkit-tap-highlight-color:transparent;}
+    .chip-btn:hover{border-color:#D8CEC0;} .chip-btn.active{background:var(--text-espresso);color:var(--bg-cream);border-color:var(--text-espresso);}
 
-    .header-titles h1 {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--brand-navy);
-      margin-bottom: 4px;
-    }
+    .reading{margin-top:6px;background:#fff;border:1px solid var(--border-subtle);border-left:4px solid var(--cobalt);border-radius:var(--radius-md);padding:15px 17px;box-shadow:var(--shadow-sm);font-size:0.93rem;line-height:1.55;}
+    .reading strong{color:var(--text-main);}
+    .reto{background:#fff;border:1px solid var(--border-subtle);border-left:4px solid var(--amber);border-radius:var(--radius-md);padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow-sm);}
+    .reto b{color:var(--text-main);} .reto .n{font-family:'Outfit',sans-serif;font-weight:800;color:var(--amber);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.05em;}
 
-    .header-titles p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
+    .quiz{background:#fff;border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:16px 18px;box-shadow:var(--shadow-sm);margin-bottom:14px;}
+    .quiz-q{font-weight:700;margin-bottom:12px;font-size:0.95rem;}
+    .quiz-btn{display:block;width:100%;text-align:left;background:var(--bg-cream);border:1.5px solid var(--border-subtle);color:var(--text-espresso);padding:11px 14px;border-radius:var(--radius-sm);cursor:pointer;margin-bottom:8px;font-size:0.88rem;line-height:1.4;transition:all .15s;-webkit-tap-highlight-color:transparent;}
+    .quiz-btn:hover{border-color:#D8CEC0;} .quiz-btn.correct{background:#E7F4EC;border-color:#2F8F63;} .quiz-btn.wrong{background:#F8E9E6;border-color:var(--brand-brick);}
+    .quiz-fb{display:none;margin-top:6px;font-size:0.88rem;line-height:1.5;padding:12px 14px;border-radius:var(--radius-sm);}
+    .quiz-fb.show{display:block;} .quiz-fb.correct{background:#E7F4EC;} .quiz-fb.wrong{background:#FBF0E4;}
 
-    .badge-upo {
-      background: var(--bg-card-subtle);
-      border: 1px solid rgba(5, 108, 170, 0.3);
-      color: var(--brand-cobalt);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-
-    .nav-tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-    }
-
-    .tab-btn {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      color: var(--text-muted);
-      padding: 10px 20px;
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      font-size: 0.95rem;
-      font-weight: 600;
-      transition: all 0.2s ease;
-      font-family: var(--font-main);
-    }
-
-    .tab-btn:hover {
-      background: var(--bg-card-subtle);
-      color: var(--text-main);
-      border-color: var(--accent-primary);
-    }
-
-    .tab-btn.active {
-      background: var(--accent-primary);
-      color: #ffffff;
-      border-color: var(--accent-primary);
-      box-shadow: 0 4px 14px rgba(5, 108, 170, 0.25);
-    }
-
-    .tab-panel {
-      display: none;
-      animation: fadeIn 0.3s ease-in-out;
-    }
-
-    .tab-panel.active { display: block; }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .grid-layout {
-      display: grid;
-      grid-template-columns: 390px 1fr;
-      gap: 24px;
-    }
-
-    @media (max-width: 1050px) {
-      .grid-layout { grid-template-columns: 1fr; }
-    }
-
-    .card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 22px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-    }
-
-    .card-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--brand-navy);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .control-group { margin-bottom: 16px; }
-
-    .control-label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.88rem;
-      margin-bottom: 6px;
-      color: var(--text-muted);
-    }
-
-    .control-label span.val {
-      font-family: var(--font-mono);
-      color: var(--text-main);
-      font-weight: 700;
-    }
-
-    input[type="range"] {
-      width: 100%;
-      height: 6px;
-      background: var(--border-color);
-      border-radius: 3px;
-      outline: none;
-      -webkit-appearance: none;
-    }
-
-    input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: var(--accent-primary);
-      cursor: pointer;
-      box-shadow: 0 0 10px rgba(5, 108, 170, 0.4);
-    }
-
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
-    @media (max-width: 800px) {
-      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    .metric-box {
-      background: var(--bg-card-subtle);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 14px;
-      text-align: center;
-    }
-
-    .metric-label {
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-    }
-
-    .metric-val {
-      font-size: 1.5rem;
-      font-weight: 700;
-      font-family: var(--font-mono);
-    }
-
-    .metric-val.cobalt { color: var(--brand-cobalt); }
-    .metric-val.amber { color: var(--accent-amber); }
-    .metric-val.teal { color: var(--accent-teal); }
-    .metric-val.navy { color: var(--brand-navy); }
-
-    .canvas-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    @media (max-width: 900px) {
-      .canvas-container { grid-template-columns: 1fr; }
-    }
-
-    .canvas-box {
-      background: #ffffff;
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 12px;
-    }
-
-    .canvas-box h3 {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--brand-navy);
-      margin-bottom: 8px;
-    }
-
-    canvas {
-      width: 100%;
-      height: 330px;
-      background: #ffffff;
-      border-radius: 6px;
-      display: block;
-    }
-
-    .action-btn {
-      background: var(--accent-primary);
-      color: white;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      font-size: 0.9rem;
-      font-family: var(--font-main);
-      transition: all 0.2s;
-      margin-right: 8px;
-      margin-top: 8px;
-    }
-
-    .action-btn:hover {
-      box-shadow: 0 0 14px rgba(5, 108, 170, 0.4);
-      transform: translateY(-1px);
-    }
-
-    .action-btn.secondary {
-      background: var(--bg-card-subtle);
-      border: 1px solid var(--border-color);
-      color: var(--brand-navy);
-    }
-
-    .callout {
-      background: var(--bg-card-subtle);
-      border-left: 4px solid var(--brand-cobalt);
-      padding: 14px;
-      border-radius: 0 var(--radius-md) var(--radius-md) 0;
-      margin-top: 18px;
-      font-size: 0.92rem;
-      color: var(--text-body);
-    }
-
-    .callout strong { color: var(--brand-navy); }
-
-    /* Retos y Quiz */
-    .challenge-card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 20px;
-      margin-bottom: 16px;
-    }
-
-    .challenge-card h3 {
-      color: var(--brand-cobalt);
-      font-size: 1.1rem;
-      margin-bottom: 8px;
-    }
-
-    .quiz-option {
-      background: var(--bg-card-subtle);
-      border: 1px solid var(--border-color);
-      padding: 12px 16px;
-      border-radius: 8px;
-      margin-bottom: 8px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .quiz-option:hover {
-      border-color: var(--accent-primary);
-      background: var(--bg-card-hover);
-    }
-
-    .quiz-option.correct {
-      background: #ecfdf5;
-      border-color: #10b981;
-      color: #065f46;
-      font-weight: 600;
-    }
-
-    .quiz-option.wrong {
-      background: #fef2f2;
-      border-color: #ef4444;
-      color: #991b1b;
-    }
-
-    .feedback {
-      margin-top: 10px;
-      font-size: 0.9rem;
-      padding: 10px;
-      border-radius: 6px;
-      display: none;
-    }
+    .closing{margin-top:30px;padding:20px;border-radius:var(--radius-lg);background:var(--macro-navy);color:#E8EEF5;}
+    .closing .k{font-family:'Outfit',sans-serif;font-weight:700;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:#7Fb3d8;margin-bottom:8px;}
+    .closing p{margin:0;font-size:1rem;line-height:1.55;} .closing b{color:#fff;}
   </style>
 </head>
 <body>
+  <div class="wrap intro">
+    <div class="eyebrow">Macroeconomía · Sesión 3</div>
+    <h1>La curva IS: cómo el tipo de interés gobierna la producción</h1>
+    <p class="lede">La inversión ya no es fija: depende de la renta y, sobre todo, del <strong>tipo de interés</strong>, I = d₀ + d₁Y − d₂i. De ahí nace la <strong>curva IS</strong>, todos los pares (Y, i) que equilibran el mercado de bienes.</p>
+  </div>
 
-<div class="container">
-  <header>
-    <div class="header-titles">
-      <h1>Laboratorio Macroeconómico · La Relación IS</h1>
-      <p>Simulador Interactivo de la Inversión Endógena I(Y, i) y el Equilibrio del Mercado de Bienes</p>
-    </div>
-    <div class="badge-upo">UPO · Grados DER + FICO / ADE</div>
-  </header>
-
-  <nav class="nav-tabs">
-    <button class="tab-btn active" onclick="switchTab('simulador')">📊 Simulador Interactivo (IS & Cruz)</button>
-    <button class="tab-btn" onclick="switchTab('retos')">🎯 Retos Guiados de Aula</button>
-    <button class="tab-btn" onclick="switchTab('quiz')">✍️ Autoevaluación de Examen</button>
-  </nav>
-
-  <!-- TAB 1: SIMULADOR -->
-  <div id="tab-simulador" class="tab-panel active">
-    <!-- Métricas superiores -->
-    <div class="metrics-grid">
-      <div class="metric-box">
-        <div class="metric-label">Producción de Equilibrio (Y*)</div>
-        <div class="metric-val navy" id="m-y">0.0</div>
-      </div>
-      <div class="metric-box">
-        <div class="metric-label">Inversión Total (I*)</div>
-        <div class="metric-val cobalt" id="m-inv">0.0</div>
-      </div>
-      <div class="metric-box">
-        <div class="metric-label">Multiplicador Ampliado (α_IS)</div>
-        <div class="metric-val amber" id="m-mult">0.0</div>
-      </div>
-      <div class="metric-box">
-        <div class="metric-label">Saldo Público (T - G)</div>
-        <div class="metric-val teal" id="m-sp">0.0</div>
-      </div>
-    </div>
-
-    <div class="grid-layout">
-      <!-- Panel de Controles -->
-      <div class="card">
-        <div class="card-title">⚙️ Parámetros y Políticas</div>
-
-        <div class="control-group">
-          <div class="control-label">
-            <span>Tipo de Interés Oficial (i %):</span>
-            <span class="val" id="val-i">3.0%</span>
-          </div>
-          <input type="range" id="slider-i" min="0" max="10" step="0.25" value="3.0">
-        </div>
-
-        <div class="control-group">
-          <div class="control-label">
-            <span>Gasto Público (G):</span>
-            <span class="val" id="val-g">150</span>
-          </div>
-          <input type="range" id="slider-g" min="50" max="300" step="10" value="150">
-        </div>
-
-        <div class="control-group">
-          <div class="control-label">
-            <span>Impuestos Netos (T):</span>
-            <span class="val" id="val-t">150</span>
-          </div>
-          <input type="range" id="slider-t" min="50" max="300" step="10" value="150">
-        </div>
-
-        <div class="control-group">
-          <div class="control-label">
-            <span>Propensión a Consumir (c₁):</span>
-            <span class="val" id="val-c1">0.60</span>
-          </div>
-          <input type="range" id="slider-c1" min="0.3" max="0.75" step="0.05" value="0.60">
-        </div>
-
-        <div class="control-group">
-          <div class="control-label">
-            <span>Sensibilidad de I a Ventas (d₁):</span>
-            <span class="val" id="val-d1">0.15</span>
-          </div>
-          <input type="range" id="slider-d1" min="0.05" max="0.25" step="0.01" value="0.15">
-        </div>
-
-        <div class="control-group">
-          <div class="control-label">
-            <span>Sensibilidad de I a Tipos (d₂):</span>
-            <span class="val" id="val-d2">1500</span>
-          </div>
-          <input type="range" id="slider-d2" min="500" max="3000" step="100" value="1500">
-        </div>
-
-        <div style="margin-top: 14px;">
-          <button class="action-btn" onclick="applyShock('hike')">📈 Subida Tipos (+2%)</button>
-          <button class="action-btn secondary" onclick="applyShock('fiscal')">🏛️ Plan Fiscal (+50 G)</button>
-          <button class="action-btn secondary" onclick="resetDefaults()">🔄 Reset</button>
-        </div>
-
-        <div class="callout">
-          <strong>Regla de Blanchard:</strong> La condición de estabilidad exige $c_1 + d_1 < 1$. Si la suma supera 1, cualquier perturbación haría explotar la economía sin alcanzar un equilibrio finito.
-        </div>
-      </div>
-
-      <!-- Paneles Gráficos -->
-      <div class="card">
-        <div class="card-title">📈 Doble Representación Analítica Conectada</div>
-        <div class="canvas-container">
-          <div class="canvas-box">
-            <h3>Panel 1 · Mercado de Bienes (Cruz Keynesiana)</h3>
-            <canvas id="canvas-cruz"></canvas>
-          </div>
-          <div class="canvas-box">
-            <h3>Panel 2 · La Relación IS en el Plano (Y, i)</h3>
-            <canvas id="canvas-is"></canvas>
-          </div>
-        </div>
+  <div class="hero" id="hero">
+    <div class="hero-inner">
+      <div class="hero-title">La curva IS · plano (Y, i)</div>
+      <svg id="isPlot" class="plot" viewBox="0 0 330 250" role="img" aria-label="Curva IS"></svg>
+      <div class="metrics">
+        <div class="metric"><div class="k">Renta Y*</div><div class="v" id="mY" style="color:var(--cobalt)">1.060</div></div>
+        <div class="metric"><div class="k">Inversión I*</div><div class="v" id="mI" style="color:var(--pine)">264</div></div>
+        <div class="metric"><div class="k">α IS</div><div class="v" id="mMult" style="color:var(--amber)">4,00</div></div>
+        <div class="metric"><div class="k">Saldo púb.</div><div class="v" id="mSp">0</div></div>
       </div>
     </div>
   </div>
 
-  <!-- TAB 2: RETOS -->
-  <div id="tab-retos" class="tab-panel">
-    <div class="card">
-      <div class="card-title">🎯 Retos de Simulación para Resolver en Parejas</div>
-
-      <div class="challenge-card">
-        <h3>Reto 1: El Endurecimiento Monetario del BCE</h3>
-        <p>Ajusta el tipo de interés desde el 2,0% actual hasta el 5,0%. Observa simultáneamente los dos paneles:</p>
-        <ul style="margin-left: 20px; margin-top: 8px;">
-          <li>¿Hacia dónde se desplaza la función de demanda $Z$ en la Cruz Keynesiana?</li>
-          <li>¿Se desplaza la curva IS en el Panel 2 o simplemente nos deslizamos a lo largo de ella?</li>
-          <li>¿Cuánto cae la inversión privada total ($I^*$) y cuánto la producción ($Y^*$)?</li>
-        </ul>
+  <div class="wrap">
+    <!-- 1: derivación -->
+    <section class="section">
+      <div class="kicker">Idea 1 · La derivación</div>
+      <h2>Cada punto de la IS es un equilibrio de la cruz</h2>
+      <p>Sube el tipo de interés. En la cruz de abajo, un tipo más alto encarece el crédito, hunde la inversión y baja la recta de demanda: el equilibrio se desplaza a la izquierda. Ese nuevo (Y, i) es otro punto sobre la IS de arriba. Mover el tipo es <strong>deslizarse a lo largo</strong> de la curva.</p>
+      <div class="figure">
+        <svg id="cruzPlot" class="plot" viewBox="0 0 330 240" role="img" aria-label="Cruz keynesiana"></svg>
+        <div class="cap">Mercado de bienes · Z = [Ā − d₂·i] + (c₁+d₁)·Y</div>
       </div>
+      <div class="control"><div class="control-head"><span class="control-label">Tipo de interés · i</span><span class="control-value" id="vI">3,00%</span></div><input type="range" id="si" min="0" max="10" step="0.25" value="3" oninput="upd()"></div>
+      <div class="reading" id="r1"></div>
+    </section>
 
-      <div class="challenge-card">
-        <h3>Reto 2: Neutralización Mediante Estímulo Fiscal</h3>
-        <p>Manteniendo el tipo en el 5,0%, imagina que el gobierno desea que la renta $Y^*$ vuelva a su nivel inicial de tipos bajos:</p>
-        <ul style="margin-left: 20px; margin-top: 8px;">
-          <li>¿Cuánto debe aumentar el Gasto Público ($G$) para compensar el shock de tipos?</li>
-          <li>Comprueba que la curva IS se desplaza ahora horizontalmente hacia la derecha.</li>
-          <li>¿Qué ha ocurrido con el déficit público ($T - G$) al final de la operación?</li>
-        </ul>
+    <!-- 2: desplazamientos -->
+    <section class="section">
+      <div class="kicker">Idea 2 · Desplazar la curva</div>
+      <h2>La política fiscal mueve toda la IS</h2>
+      <p>El tipo te desliza <em>por</em> la curva; el gasto la <strong>desplaza entera</strong>. Sube G (o baja T) y observa cómo la IS se corre a la derecha: a cada tipo le corresponde ahora más producción. El desplazamiento horizontal es α_IS × ΔG.</p>
+      <div class="grid2">
+        <div class="control"><div class="control-head"><span class="control-label">Gasto público · G</span><span class="control-value" id="vG">150</span></div><input type="range" id="sg" min="50" max="300" step="10" value="150" oninput="upd()"></div>
+        <div class="control"><div class="control-head"><span class="control-label">Impuestos · T</span><span class="control-value" id="vT">150</span></div><input type="range" id="st" min="50" max="300" step="10" value="150" oninput="upd()"></div>
       </div>
+      <div class="btn-row">
+        <button class="chip-btn" onclick="shock('hike')">Subida de tipos +2%</button>
+        <button class="chip-btn" onclick="shock('fiscal')">Plan fiscal +50 G</button>
+        <button class="chip-btn" onclick="shock('reset')">Reiniciar</button>
+      </div>
+    </section>
 
-      <div class="challenge-card">
-        <h3>Reto 3: Pendiente de la IS y Efectividad de la Política Monetaria</h3>
-        <p>Aumenta el parámetro $d_2$ de 1.000 a 2.500 (las empresas se vuelven hipersensibles al tipo de interés):</p>
-        <ul style="margin-left: 20px; margin-top: 8px;">
-          <li>¿La curva IS se vuelve más plana o más inclinada?</li>
-          <li>Comprueba cómo un cambio de solo 1 punto en el tipo de interés genera una variación de renta mucho mayor cuando la curva IS es muy plana.</li>
-        </ul>
+    <!-- 3: pendiente -->
+    <section class="section">
+      <div class="kicker">Idea 3 · La pendiente</div>
+      <h2>Cuándo la política monetaria es potente</h2>
+      <p>La sensibilidad de la inversión al tipo, <strong>d₂</strong>, marca la pendiente de la IS. Si las empresas reaccionan mucho al tipo (d₂ alto), la IS se aplana: un pequeño cambio de tipos mueve mucho la producción, y la política monetaria se vuelve poderosa.</p>
+      <div class="grid2">
+        <div class="control"><div class="control-head"><span class="control-label">Sensib. al tipo · d₂</span><span class="control-value" id="vD2">1500</span></div><input type="range" id="sd2" min="500" max="3000" step="100" value="1500" oninput="upd()"></div>
+        <div class="control"><div class="control-head"><span class="control-label">Sensib. a la renta · d₁</span><span class="control-value" id="vD1">0,15</span></div><input type="range" id="sd1" min="0.05" max="0.25" step="0.01" value="0.15" oninput="upd()"></div>
+        <div class="control"><div class="control-head"><span class="control-label">PMC · c₁</span><span class="control-value" id="vC1">0,60</span></div><input type="range" id="sc1" min="0.3" max="0.75" step="0.05" value="0.60" oninput="upd()"></div>
       </div>
+      <div class="reading" id="r3"></div>
+    </section>
+
+    <!-- 4: retos + quiz -->
+    <section class="section">
+      <div class="kicker">Idea 4 · Aula y examen</div>
+      <h2>Retos guiados y autoevaluación</h2>
+      <div class="reto"><span class="n">Reto 1</span><p style="margin:6px 0 0;">Sube el tipo del 3% al 5% y observa: ¿se desplaza la IS o te deslizas por ella? ¿Cuánto caen <b>I*</b> y <b>Y*</b>?</p></div>
+      <div class="reto"><span class="n">Reto 2</span><p style="margin:6px 0 0;">Con el tipo al 5%, ¿cuánto G hace falta para devolver <b>Y*</b> a su nivel inicial? Verás la IS desplazarse a la derecha.</p></div>
+      <div class="reto"><span class="n">Reto 3</span><p style="margin:6px 0 0;">Sube <b>d₂</b> hacia 2.500 (empresas hipersensibles al tipo): ¿la IS se aplana o se inclina? ¿Qué le pasa al efecto de un cambio de tipos?</p></div>
+
+      <div class="quiz" style="margin-top:14px;">
+        <div class="quiz-q">1. ¿Por qué la curva IS tiene pendiente negativa en el plano (Y, i)?</div>
+        <button class="quiz-btn" onclick="quiz(1,'A',this)">A) A mayor producción las familias ahorran menos y bajan los tipos.</button>
+        <button class="quiz-btn" onclick="quiz(1,'B',this)">B) Un tipo más alto encarece el crédito, reduce la inversión, deprime la demanda y contrae la producción vía multiplicador.</button>
+        <button class="quiz-btn" onclick="quiz(1,'C',this)">C) El banco central baja los tipos en recesión.</button>
+        <div class="quiz-fb" id="fb1"></div>
+      </div>
+      <div class="quiz">
+        <div class="quiz-q">2. ¿Qué shock desplaza la IS hacia la derecha?</div>
+        <button class="quiz-btn" onclick="quiz(2,'A',this)">A) Una bajada del tipo oficial del banco central.</button>
+        <button class="quiz-btn" onclick="quiz(2,'B',this)">B) Una mejora de la confianza empresarial (d₀↑) o una subida del gasto público (G↑).</button>
+        <button class="quiz-btn" onclick="quiz(2,'C',this)">C) Una subida de impuestos (T↑) para reducir el déficit.</button>
+        <div class="quiz-fb" id="fb2"></div>
+      </div>
+    </section>
+
+    <div class="closing">
+      <div class="k">Conclusión docente</div>
+      <p>La IS resume el mercado de bienes: el <b>tipo</b> te desliza por ella, el <b>gasto</b> la desplaza, y su <b>pendiente</b> (vía d₂) decide cuánta tracción tiene la política monetaria. Es la primera mitad del modelo IS-LM.</p>
     </div>
   </div>
-
-  <!-- TAB 3: QUIZ -->
-  <div id="tab-quiz" class="tab-panel">
-    <div class="card">
-      <div class="card-title">✍️ Autoevaluación Rápida de Examen</div>
-
-      <div class="challenge-card" id="q1">
-        <h3>Pregunta 1: La Pendiente de la Curva IS</h3>
-        <p style="margin-bottom: 12px;">¿Por qué la curva IS tiene pendiente negativa en el plano $(Y, i)$?</p>
-        <div class="quiz-option" onclick="answerQuiz(1, 0, false)">A) Porque a mayor producción las familias ahorran menos y bajan los tipos.</div>
-        <div class="quiz-option" onclick="answerQuiz(1, 1, true)">B) Porque un mayor tipo de interés encarece el crédito, reduce la inversión planeada, deprime la demanda agregada y contrae la producción de equilibrio vía multiplicador.</div>
-        <div class="quiz-option" onclick="answerQuiz(1, 2, false)">C) Porque el Banco Central siempre baja los tipos cuando la economía entra en recesión.</div>
-        <div class="feedback" id="fb1"></div>
-      </div>
-
-      <div class="challenge-card" id="q2">
-        <h3>Pregunta 2: Movimientos a lo largo vs. Desplazamientos de la IS</h3>
-        <p style="margin-bottom: 12px;">¿Cuál de los siguientes shocks provoca un DESPLAZAMIENTO de la curva IS hacia la derecha?</p>
-        <div class="quiz-option" onclick="answerQuiz(2, 0, false)">A) Una reducción del tipo de interés oficial acordada por el Banco Central Europeo.</div>
-        <div class="quiz-option" onclick="answerQuiz(2, 1, true)">B) Una mejora de la confianza empresarial ($d_0 \uparrow$) o una subida del gasto público ($G \uparrow$).</div>
-        <div class="quiz-option" onclick="answerQuiz(2, 2, false)">C) Una subida de los impuestos sobre la renta ($T \uparrow$) para reducir el déficit.</div>
-        <div class="feedback" id="fb2"></div>
-      </div>
-    </div>
-  </div>
-
-</div>
 
 <script>
-  // Parámetros del modelo
-  const state = {
-    c0: 100,
-    c1: 0.60,
-    d0: 150,
-    d1: 0.15,
-    d2: 1500,
-    G: 150,
-    T: 150,
-    i: 0.03 // 3%
+  var st={c0:100,c1:0.60,d0:150,d1:0.15,d2:1500,G:150,T:150,i:0.03};
+  function $(id){return document.getElementById(id);}
+  function calc(){
+    var denom=1-st.c1-st.d1, mult=denom>0?1/denom:10;
+    var A=st.c0-st.c1*st.T+st.d0+st.G;
+    var Y=mult*(A-st.d2*st.i);
+    var I=st.d0+st.d1*Y-st.d2*st.i;
+    return {denom:denom,mult:mult,A:A,Y:Y,I:I,sp:st.T-st.G};
+  }
+
+  function drawIS(c){
+    var svg=$('isPlot'); var PL=46,PR=316,PT=14,PB=214; var maxY=1800,maxI=0.12;
+    function sx(Y){return PL+(Y/maxY)*(PR-PL);}
+    function sy(i){return PB-(i/maxI)*(PB-PT);}
+    var cob='#056CAA',amber='#C68B59',grid='#E3DCD2',muted='#6B7280',p=[];
+    p.push('<line x1="'+PL+'" y1="'+PB+'" x2="'+PR+'" y2="'+PB+'" stroke="'+grid+'"/>');
+    p.push('<line x1="'+PL+'" y1="'+PT+'" x2="'+PL+'" y2="'+PB+'" stroke="'+grid+'"/>');
+    // curva IS
+    var pts=[];
+    for(var ii=0;ii<=maxI+1e-9;ii+=0.005){ var y=c.mult*(c.A-st.d2*ii); if(y>=0&&y<=maxY) pts.push(sx(y)+','+sy(ii)); }
+    if(pts.length>1) p.push('<polyline points="'+pts.join(' ')+'" fill="none" stroke="'+cob+'" stroke-width="3" stroke-linecap="round"/>');
+    p.push('<text x="'+(PR-4)+'" y="'+(PT+12)+'" font-size="10" font-weight="700" fill="'+cob+'" text-anchor="end">IS</text>');
+    // punto actual
+    if(c.Y>=0&&c.Y<=maxY&&st.i<=maxI){
+      var px=sx(c.Y),py=sy(st.i);
+      p.push('<line x1="'+px+'" y1="'+py+'" x2="'+px+'" y2="'+PB+'" stroke="'+amber+'" stroke-width="1" stroke-dasharray="3 3"/>');
+      p.push('<line x1="'+px+'" y1="'+py+'" x2="'+PL+'" y2="'+py+'" stroke="'+amber+'" stroke-width="1" stroke-dasharray="3 3"/>');
+      p.push('<circle cx="'+px+'" cy="'+py+'" r="6" fill="#fff" stroke="'+amber+'" stroke-width="3"/>');
+      p.push('<text x="'+(px+9)+'" y="'+(py-8)+'" font-size="10" font-weight="800" fill="#0b1c36">('+Math.round(c.Y)+', '+(st.i*100).toFixed(1)+'%)</text>');
+    }
+    p.push('<text x="'+(PL-6)+'" y="'+(PT+2)+'" font-size="9.5" fill="'+muted+'" text-anchor="end">i%</text>');
+    p.push('<text x="'+((PL+PR)/2)+'" y="'+(PB+26)+'" font-size="9.5" fill="'+muted+'" text-anchor="middle">Producción (Y)</text>');
+    // marcas eje i
+    [0.03,0.06,0.09].forEach(function(ig){ p.push('<text x="'+(PL-6)+'" y="'+(sy(ig)+3)+'" font-size="8.5" fill="'+muted+'" text-anchor="end">'+(ig*100)+'</text>'); });
+    svg.innerHTML=p.join('');
+  }
+
+  function drawCruz(c){
+    var svg=$('cruzPlot'); var PL=44,PR=314,PT=14,PB=206; var maxV=1800;
+    function sx(v){return PL+(v/maxV)*(PR-PL);}
+    function sy(v){return PB-(v/maxV)*(PB-PT);}
+    var cob='#056CAA',amber='#C68B59',grid='#E3DCD2',muted='#6B7280',p=[];
+    p.push('<line x1="'+PL+'" y1="'+PB+'" x2="'+PR+'" y2="'+PB+'" stroke="'+grid+'"/>');
+    p.push('<line x1="'+PL+'" y1="'+PT+'" x2="'+PL+'" y2="'+PB+'" stroke="'+grid+'"/>');
+    p.push('<line x1="'+sx(0)+'" y1="'+sy(0)+'" x2="'+sx(maxV)+'" y2="'+sy(maxV)+'" stroke="'+muted+'" stroke-width="1.3" stroke-dasharray="4 4"/>');
+    p.push('<text x="'+(sx(maxV)-4)+'" y="'+(sy(maxV)+13)+'" font-size="9.5" fill="'+muted+'" text-anchor="end">45°</text>');
+    var intercept=c.A-st.d2*st.i, slope=st.c1+st.d1;
+    var yEndVal=intercept+slope*maxV;
+    p.push('<line x1="'+sx(0)+'" y1="'+sy(intercept)+'" x2="'+sx(maxV)+'" y2="'+sy(yEndVal)+'" stroke="'+cob+'" stroke-width="3" stroke-linecap="round"/>');
+    p.push('<text x="'+(sx(maxV))+'" y="'+(sy(yEndVal)-6)+'" font-size="9.5" font-weight="700" fill="'+cob+'" text-anchor="end">Z</text>');
+    if(c.Y>0&&c.Y<maxV){
+      var ex=sx(c.Y),ey=sy(c.Y);
+      p.push('<line x1="'+ex+'" y1="'+ey+'" x2="'+ex+'" y2="'+PB+'" stroke="'+amber+'" stroke-width="1" stroke-dasharray="3 3"/>');
+      p.push('<circle cx="'+ex+'" cy="'+ey+'" r="5.5" fill="#fff" stroke="'+amber+'" stroke-width="3"/>');
+      p.push('<text x="'+ex+'" y="'+(PB+14)+'" font-size="9.5" font-weight="800" fill="'+amber+'" text-anchor="middle">Y*='+Math.round(c.Y)+'</text>');
+    }
+    p.push('<text x="'+((PL+PR)/2)+'" y="'+(PB+26)+'" font-size="9.5" fill="'+muted+'" text-anchor="middle">Producción (Y)</text>');
+    svg.innerHTML=p.join('');
+  }
+
+  function upd(){
+    st.i=+$('si').value/100; st.G=+$('sg').value; st.T=+$('st').value;
+    st.c1=+$('sc1').value; st.d1=+$('sd1').value; st.d2=+$('sd2').value;
+    $('vI').textContent=(st.i*100).toFixed(2).replace('.',',')+'%'; $('vG').textContent=st.G; $('vT').textContent=st.T;
+    $('vC1').textContent=st.c1.toFixed(2).replace('.',','); $('vD1').textContent=st.d1.toFixed(2).replace('.',','); $('vD2').textContent=st.d2;
+    var c=calc();
+    $('mY').textContent=Math.round(c.Y).toLocaleString('es-ES'); $('mI').textContent=Math.round(c.I).toLocaleString('es-ES');
+    $('mMult').textContent=c.mult.toFixed(2).replace('.',',');
+    $('mSp').textContent=(c.sp>=0?'+':'−')+Math.abs(Math.round(c.sp)); $('mSp').style.color=c.sp>=0?'#2F8F63':'#C68B59';
+    drawIS(c); drawCruz(c);
+    var r1=$('r1');
+    r1.innerHTML='Con i = '+(st.i*100).toFixed(2).replace('.',',')+'%, la inversión es <strong>'+Math.round(c.I)+'</strong> y la renta de equilibrio <strong>'+Math.round(c.Y)+'</strong>. Sube el tipo y ambas caen: te mueves por la misma IS.';
+    var r3=$('r3'), flat=(st.d2>=2000);
+    r3.style.borderLeftColor=flat?'#2F8F63':'var(--cobalt)';
+    r3.innerHTML=flat
+      ? '<strong>IS plana:</strong> con d₂ = '+st.d2+', la inversión reacciona mucho al tipo. Un recorte pequeño de tipos genera un gran aumento de producción: política monetaria muy potente.'
+      : 'Con d₂ = '+st.d2+', la IS tiene pendiente moderada. Cuanto mayor sea d₂, más plana será y más tracción tendrá la política monetaria.';
+  }
+
+  function shock(type){
+    if(type==='hike'){ $('si').value=Math.min(10,(+$('si').value)+2); }
+    else if(type==='fiscal'){ $('sg').value=Math.min(300,(+$('sg').value)+50); }
+    else { $('si').value=3;$('sg').value=150;$('st').value=150;$('sc1').value=0.60;$('sd1').value=0.15;$('sd2').value=1500; }
+    upd();
+  }
+
+  var ans={1:'B',2:'B'}, fbt={
+    1:'La causalidad va del tipo a la inversión, y de ahí a la demanda agregada y la producción: por eso más i implica menos Y. Pendiente negativa.',
+    2:'Los cambios en el gasto autónomo (confianza d₀ o gasto público G) desplazan toda la IS en α_IS×ΔG. Un cambio de tipos es un movimiento a lo largo de la curva.'
   };
-
-  function getCalculations() {
-    const denom = 1 - state.c1 - state.d1;
-    const mult = denom > 0 ? (1 / denom) : 10;
-    const A_bar = state.c0 - (state.c1 * state.T) + state.d0 + state.G;
-    const Y_eq = mult * (A_bar - state.d2 * state.i);
-    const I_eq = state.d0 + state.d1 * Y_eq - state.d2 * state.i;
-    const sp = state.T - state.G;
-    return { mult, A_bar, Y_eq, I_eq, sp, denom };
+  function quiz(q,sel,btn){
+    var ok=(sel===ans[q]), parent=btn.parentElement;
+    parent.querySelectorAll('.quiz-btn').forEach(function(b){b.classList.remove('correct','wrong');});
+    btn.classList.add(ok?'correct':'wrong');
+    if(!ok) parent.querySelectorAll('.quiz-btn').forEach(function(b){ if(b.textContent.trim().charAt(0)===ans[q]) b.classList.add('correct'); });
+    var fb=$('fb'+q); fb.className='quiz-fb show '+(ok?'correct':'wrong');
+    fb.innerHTML=(ok?'<b>Correcto. </b>':'<b>No exactamente. </b>')+fbt[q];
   }
 
-  function updateUI() {
-    const calc = getCalculations();
-
-    document.getElementById('m-y').innerText = Math.round(calc.Y_eq);
-    document.getElementById('m-inv').innerText = Math.round(calc.I_eq);
-    document.getElementById('m-mult').innerText = calc.mult.toFixed(2);
-    
-    const spEl = document.getElementById('m-sp');
-    spEl.innerText = (calc.sp >= 0 ? "+" : "") + Math.round(calc.sp);
-    spEl.className = "metric-val " + (calc.sp >= 0 ? "teal" : "amber");
-
-    document.getElementById('val-i').innerText = (state.i * 100).toFixed(2) + "%";
-    document.getElementById('val-g').innerText = state.G;
-    document.getElementById('val-t').innerText = state.T;
-    document.getElementById('val-c1').innerText = state.c1.toFixed(2);
-    document.getElementById('val-d1').innerText = state.d1.toFixed(2);
-    document.getElementById('val-d2').innerText = state.d2;
-
-    drawCruz(calc);
-    drawIS(calc);
-  }
-
-  function drawCruz(calc) {
-    const cvs = document.getElementById('canvas-cruz');
-    const ctx = cvs.getContext('2d');
-    const w = cvs.width = cvs.offsetWidth * 2;
-    const h = cvs.height = cvs.offsetHeight * 2;
-    ctx.scale(2, 2);
-    const cw = w / 2, ch = h / 2;
-
-    ctx.clearRect(0, 0, cw, ch);
-
-    // Ejes
-    const ox = 50, oy = ch - 40;
-    const gw = cw - ox - 20, gh = oy - 20;
-
-    ctx.strokeStyle = "#cbd5e1";
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(ox, oy); ctx.lineTo(ox + gw, oy);
-    ctx.moveTo(ox, oy); ctx.lineTo(ox, oy - gh);
-    ctx.stroke();
-
-    // Bisectriz 45°
-    const maxVal = 1800;
-    const scaleX = gw / maxVal;
-    const scaleY = gh / maxVal;
-
-    ctx.strokeStyle = "#94a3b8";
-    ctx.setLineDash([4, 4]);
-    ctx.beginPath();
-    ctx.moveTo(ox, oy);
-    ctx.lineTo(ox + maxVal * scaleX, oy - maxVal * scaleY);
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    // Recta de Demanda Z = [A_bar - d2*i] + (c1 + d1)*Y
-    const intercept = calc.A_bar - state.d2 * state.i;
-    const slope = state.c1 + state.d1;
-
-    ctx.strokeStyle = "#056caa";
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    const y0 = oy - (intercept * scaleY);
-    const yEnd = oy - ((intercept + slope * maxVal) * scaleY);
-    ctx.moveTo(ox, y0);
-    ctx.lineTo(ox + gw, yEnd);
-    ctx.stroke();
-
-    // Punto de equilibrio E*
-    const eqX = ox + calc.Y_eq * scaleX;
-    const eqY = oy - calc.Y_eq * scaleY;
-
-    if (calc.Y_eq > 0 && calc.Y_eq < maxVal) {
-      // Líneas punteadas hacia ejes
-      ctx.strokeStyle = "#d97706";
-      ctx.setLineDash([3, 3]);
-      ctx.beginPath();
-      ctx.moveTo(eqX, oy); ctx.lineTo(eqX, eqY); ctx.lineTo(ox, eqY);
-      ctx.stroke();
-      ctx.setLineDash([]);
-
-      // Punto
-      ctx.fillStyle = "#d97706";
-      ctx.beginPath();
-      ctx.arc(eqX, eqY, 6, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Etiqueta
-      ctx.font = "bold 11px Outfit";
-      ctx.fillStyle = "#0b1c36";
-      ctx.fillText(`E* (Y=${Math.round(calc.Y_eq)})`, eqX + 8, eqY - 8);
-    }
-
-    // Etiquetas ejes
-    ctx.font = "10px Outfit";
-    ctx.fillStyle = "#64748b";
-    ctx.fillText("Producción (Y)", cw - 70, oy + 25);
-    ctx.fillText("Demanda (Z)", ox - 40, 20);
-    ctx.fillText("45°", ox + 150, oy - 160);
-  }
-
-  function drawIS(calc) {
-    const cvs = document.getElementById('canvas-is');
-    const ctx = cvs.getContext('2d');
-    const w = cvs.width = cvs.offsetWidth * 2;
-    const h = cvs.height = cvs.offsetHeight * 2;
-    ctx.scale(2, 2);
-    const cw = w / 2, ch = h / 2;
-
-    ctx.clearRect(0, 0, cw, ch);
-
-    const ox = 50, oy = ch - 40;
-    const gw = cw - ox - 20, gh = oy - 20;
-
-    // Ejes
-    ctx.strokeStyle = "#cbd5e1";
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(ox, oy); ctx.lineTo(ox + gw, oy);
-    ctx.moveTo(ox, oy); ctx.lineTo(ox, oy - gh);
-    ctx.stroke();
-
-    const maxValY = 1800;
-    const maxValI = 0.12; // 12%
-
-    const scaleX = gw / maxValY;
-    const scaleY = gh / maxValI;
-
-    // Trazar Curva IS: Y = alpha * [A_bar - d2 * i]
-    ctx.strokeStyle = "#056caa";
-    ctx.lineWidth = 3.5;
-    ctx.beginPath();
-
-    let started = false;
-    for (let i_step = 0; i_step <= maxValI; i_step += 0.002) {
-      const y_is = calc.mult * (calc.A_bar - state.d2 * i_step);
-      if (y_is >= 0 && y_is <= maxValY) {
-        const px = ox + y_is * scaleX;
-        const py = oy - i_step * scaleY;
-        if (!started) { ctx.moveTo(px, py); started = true; }
-        else { ctx.lineTo(px, py); }
-      }
-    }
-    ctx.stroke();
-
-    // Punto actual (Y_eq, i)
-    const curX = ox + calc.Y_eq * scaleX;
-    const curY = oy - state.i * scaleY;
-
-    if (calc.Y_eq > 0 && calc.Y_eq <= maxValY && state.i <= maxValI) {
-      ctx.strokeStyle = "#d97706";
-      ctx.setLineDash([3, 3]);
-      ctx.beginPath();
-      ctx.moveTo(curX, oy); ctx.lineTo(curX, curY); ctx.lineTo(ox, curY);
-      ctx.stroke();
-      ctx.setLineDash([]);
-
-      ctx.fillStyle = "#d97706";
-      ctx.beginPath();
-      ctx.arc(curX, curY, 6, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.font = "bold 11px Outfit";
-      ctx.fillStyle = "#0b1c36";
-      ctx.fillText(`IS: (${Math.round(calc.Y_eq)}, ${(state.i*100).toFixed(1)}%)`, curX + 8, curY - 8);
-    }
-
-    // Etiquetas ejes
-    ctx.font = "10px Outfit";
-    ctx.fillStyle = "#64748b";
-    ctx.fillText("Producción (Y)", cw - 70, oy + 25);
-    ctx.fillText("Tipo i (%)", ox - 35, 20);
-  }
-
-  // Listeners de sliders
-  document.getElementById('slider-i').addEventListener('input', (e) => {
-    state.i = parseFloat(e.target.value) / 100;
-    updateUI();
-  });
-  document.getElementById('slider-g').addEventListener('input', (e) => {
-    state.G = parseFloat(e.target.value);
-    updateUI();
-  });
-  document.getElementById('slider-t').addEventListener('input', (e) => {
-    state.T = parseFloat(e.target.value);
-    updateUI();
-  });
-  document.getElementById('slider-c1').addEventListener('input', (e) => {
-    state.c1 = parseFloat(e.target.value);
-    updateUI();
-  });
-  document.getElementById('slider-d1').addEventListener('input', (e) => {
-    state.d1 = parseFloat(e.target.value);
-    updateUI();
-  });
-  document.getElementById('slider-d2').addEventListener('input', (e) => {
-    state.d2 = parseFloat(e.target.value);
-    updateUI();
-  });
-
-  function applyShock(type) {
-    if (type === 'hike') {
-      state.i = Math.min(0.10, state.i + 0.02);
-      document.getElementById('slider-i').value = (state.i * 100).toFixed(2);
-    } else if (type === 'fiscal') {
-      state.G = Math.min(300, state.G + 50);
-      document.getElementById('slider-g').value = state.G;
-    }
-    updateUI();
-  }
-
-  function resetDefaults() {
-    state.i = 0.03; state.G = 150; state.T = 150;
-    state.c1 = 0.60; state.d1 = 0.15; state.d2 = 1500;
-    document.getElementById('slider-i').value = 3.0;
-    document.getElementById('slider-g').value = 150;
-    document.getElementById('slider-t').value = 150;
-    document.getElementById('slider-c1').value = 0.60;
-    document.getElementById('slider-d1').value = 0.15;
-    document.getElementById('slider-d2').value = 1500;
-    updateUI();
-  }
-
-  function switchTab(tabId) {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    
-    event.target.classList.add('active');
-    document.getElementById('tab-' + tabId).classList.add('active');
-    
-    if (tabId === 'simulador') {
-      setTimeout(updateUI, 50);
-    }
-  }
-
-  function answerQuiz(qNum, optIdx, isCorrect) {
-    const fb = document.getElementById('fb' + qNum);
-    const card = document.getElementById('q' + qNum);
-    const options = card.querySelectorAll('.quiz-option');
-
-    options.forEach((opt, idx) => {
-      opt.onclick = null; // deshabilitar clicks posteriores
-      if (idx === optIdx) {
-        opt.className = 'quiz-option ' + (isCorrect ? 'correct' : 'wrong');
-      }
-    });
-
-    fb.style.display = 'block';
-    if (isCorrect) {
-      fb.style.background = '#ecfdf5';
-      fb.style.color = '#065f46';
-      fb.innerHTML = '<strong>¡Correcto!</strong> ' + (qNum === 1 
-        ? 'Un tipo de interés más elevado desincentiva el gasto de inversión en capital y crédito de las empresas, contrayendo la demanda agregada y provocando una caída multiplicada de la producción.' 
-        : 'Las perturbaciones exógenas en el gasto autónomo (confianza o política fiscal) desplazan toda la curva IS horizontalmente en una magnitud igual a α_IS × ΔG.');
-    } else {
-      fb.style.background = '#fef2f2';
-      fb.style.color = '#991b1b';
-      fb.innerHTML = '<strong>Incorrecto.</strong> ' + (qNum === 1
-        ? 'La causalidad analítica de la IS discurre desde el tipo de interés hacia la inversión, y de ahí a la demanda agregada y a la producción de equilibrio.'
-        : 'Los cambios en el tipo de interés representan movimientos a lo largo de la curva IS, mientras que los cambios en G, T o la confianza desplazan la función completa.');
-    }
-  }
-
-  // Inicializar al cargar
-  window.addEventListener('load', () => {
-    updateUI();
-  });
-  window.addEventListener('resize', () => {
-    updateUI();
-  });
+  upd();
 </script>
-
 </body>
 </html>
