@@ -444,7 +444,7 @@
       transition: all 0.2s ease;
     }
     .filter-pill:hover {
-      border-color: var(--brand-terracotta);
+      border-color: #D8CEC0;
     }
     .filter-pill.active {
       background: var(--text-espresso);
@@ -474,7 +474,7 @@
     .app-card:hover {
       transform: translateY(-2px);
       box-shadow: var(--shadow-md);
-      border-color: var(--brand-terracotta);
+      border-color: #D8CEC0;
     }
     .app-card:active {
       transform: translateY(0);
@@ -1029,6 +1029,78 @@
     .sim-spinner{width:34px;height:34px;border:3px solid var(--border-subtle);border-top-color:var(--brand-brick);
       border-radius:50%;animation:spin 0.8s linear infinite;}
     @keyframes spin{to{transform:rotate(360deg);}}
+
+    /* ============================================================
+       FASE 1 · CARCASA
+       Jerarquía de catálogo, acentos con cuentagotas y un layout
+       que respira en escritorio / proyector. Inspiración: el índice
+       de explorabl.es, en la paleta Substack de la marca.
+       ============================================================ */
+
+    /* Etiqueta de grupo (chrome de interfaz; el contenido es de MH) */
+    .apps-group-label{
+      font-family:'Outfit',sans-serif;
+      font-size:0.72rem;font-weight:700;
+      letter-spacing:0.09em;text-transform:uppercase;
+      color:var(--text-light);
+      margin:6px 2px 0;
+    }
+
+    /* Tarjeta destacada: simuladores interactivos de verdad.
+       Un único acento por tarjeta (color de la asignatura). */
+    .app-card--featured{
+      padding:22px 20px;
+      border-color:var(--border-light);
+      background:#FFFDFA;
+      box-shadow:var(--shadow-md);
+      position:relative;
+      overflow:hidden;
+    }
+    .app-card--featured::before{
+      content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
+      background:var(--feat-accent,var(--brand-terracotta));
+    }
+    .app-card--featured .app-icon-circle{width:56px;height:56px;font-size:1.55rem;}
+    .app-card--featured .app-content h4{font-size:1.14rem;}
+
+    /* ---- Escritorio / proyector: romper la columna de 520px ---- */
+    @media (min-width:720px){
+      .app-viewport{max-width:1160px;box-shadow:none;}
+
+      /* Vistas de lectura: ancho cómodo y centrado */
+      .view-welcome{max-width:620px;margin:0 auto;justify-content:center;gap:30px;height:100dvh;}
+      .view-quiz,.view-result,.view-simulator,.view-progress{max-width:760px;margin:0 auto;width:100%;}
+
+      /* Dashboard: aprovecha el ancho con márgenes generosos */
+      .view-dashboard{max-width:1120px;margin:0 auto;}
+      .dashboard-header{padding:32px 28px 18px;}
+      .filter-scroll{flex-wrap:wrap;overflow:visible;padding:14px 28px;}
+
+      /* Catálogo en rejilla real */
+      .apps-list{
+        display:grid;
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:18px;
+        padding:16px 28px 128px;
+        align-items:start;
+      }
+      .apps-group-label{grid-column:1/-1;}
+      .app-card--featured{grid-column:1/-1;}
+      .app-card{align-items:flex-start;}
+
+      /* Nav inferior: dock flotante centrado, no barra de teléfono */
+      .bottom-nav{
+        bottom:22px;max-width:440px;
+        border:1px solid var(--border-subtle);
+        border-radius:var(--radius-pill);
+        box-shadow:var(--shadow-lg);
+        padding:10px 8px;
+      }
+    }
+
+    @media (min-width:1040px){
+      .apps-list{grid-template-columns:repeat(3,minmax(0,1fr));}
+    }
   </style>
 </head>
 <body>
@@ -1427,12 +1499,18 @@
         listContainer.innerHTML='<div style="text-align:center;padding:40px 20px;color:#8C7B70;">No hay micro-apps en esta categoría actualmente.</div>';
         return;
       }
-      filtered.forEach(function(app){
+
+      function isInteractiveSim(a){ return a.type==='simulator' && a.interactive!==false; }
+      var featured=filtered.filter(isInteractiveSim);
+      var others=filtered.filter(function(a){ return !isInteractiveSim(a); });
+
+      function makeCard(app, isFeatured){
         var done=progress[app.id];
         var card=document.createElement('div');
-        card.className='app-card'+(done?' is-done':'');
+        card.className='app-card'+(isFeatured?' app-card--featured':'')+(done?' is-done':'');
         card.setAttribute('role','button');
         card.setAttribute('tabindex','0');
+        if(isFeatured && app.iconColor) card.style.setProperty('--feat-accent', app.iconColor);
         card.onclick=function(){ openApp(app); };
         var meta=(done && app.type==='quiz')
           ? '<span class="app-done">✓ Completado · '+done.pct+'%</span>'
@@ -1445,8 +1523,21 @@
             '<div class="app-meta">'+badgeFor(app)+meta+'</div>'+
           '</div>'+
           '<div class="app-chevron" aria-hidden="true">›</div>';
-        listContainer.appendChild(card);
-      });
+        return card;
+      }
+
+      function addLabel(text){
+        var l=document.createElement('div');
+        l.className='apps-group-label';
+        l.textContent=text;
+        listContainer.appendChild(l);
+      }
+
+      var showLabels=(currentFilter==='todas' && featured.length>0 && others.length>0);
+      if(showLabels) addLabel('Simuladores interactivos');
+      featured.forEach(function(app){ listContainer.appendChild(makeCard(app,true)); });
+      if(showLabels) addLabel('Cuestionarios y dinámicas');
+      others.forEach(function(app){ listContainer.appendChild(makeCard(app,false)); });
     }
 
     // ===== Apertura de micro-app =====
