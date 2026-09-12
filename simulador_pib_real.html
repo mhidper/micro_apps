@@ -3,1009 +3,378 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Simulador PIB Nominal vs. PIB Real | PSLL UPO</title>
+  <title>PIB nominal vs. real, explorable · Macro UPO</title>
   <link rel="stylesheet" href="fonts.css">
   <link rel="stylesheet" href="theme.css">
   <style>
-    :root {
-      --psll-pine: #113927;
-      --psll-sage: #76927A;
-      --psll-coral: #E98F71;
-      --psll-mint: #F4F8F5;
-      --text-dark: #2F3A30;
-      --text-muted: #6B7280;
-      --card-bg: #FFFFFF;
-      --border-color: #E2E8F0;
-      --border-accent: #C7DBD0;
+    :root{
+      --coral:#E98F71;
+      --pine:#113927;
+      --track:#EDE6DB;
     }
+    *{box-sizing:border-box;}
+    html,body{margin:0;}
+    body{
+      font-family:'Inter',system-ui,-apple-system,sans-serif;
+      background:var(--bg-cream);color:var(--text-espresso);
+      line-height:1.6;-webkit-font-smoothing:antialiased;padding:0 0 64px;
+    }
+    .wrap{max-width:600px;margin:0 auto;padding:0 20px;}
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-    }
+    .intro{padding:30px 0 6px;}
+    .eyebrow{display:flex;align-items:center;gap:10px;font-family:'Outfit',sans-serif;
+      font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;
+      color:var(--macro-cobalt);margin-bottom:12px;}
+    .eyebrow::before{content:"";width:22px;height:3px;border-radius:2px;
+      background:linear-gradient(90deg,var(--macro-cobalt),var(--coral));}
+    h1{font-family:'Outfit',sans-serif;font-weight:800;font-size:clamp(1.9rem,6.4vw,2.5rem);
+      line-height:1.08;letter-spacing:-0.035em;color:var(--text-main);margin:0 0 10px;}
+    .lede{font-size:1.02rem;margin:0 0 6px;}
 
-    body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      background: var(--bg-cream, #FDFBF7);
-      color: var(--text-dark);
-      padding: 16px;
-      line-height: 1.5;
-      display: flex;
-      justify-content: center;
-      min-height: 100vh;
-    }
+    /* Héroe: gráfico nominal vs real, fijo */
+    .hero{position:sticky;top:0;z-index:20;background:var(--bg-cream);
+      padding:12px 0 12px;margin-top:16px;border-bottom:1px solid var(--border-light);
+      box-shadow:0 10px 20px -18px rgba(74,59,50,0.4);}
+    .hero-inner{max-width:600px;margin:0 auto;padding:0 20px;}
+    .chart-svg{width:100%;height:auto;max-height:190px;display:block;}
+    .legend{display:flex;gap:16px;justify-content:center;margin-top:2px;font-size:0.76rem;color:var(--text-muted);}
+    .legend i{display:inline-block;width:12px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px;}
+    .readout{display:flex;gap:8px;margin-top:10px;}
+    .ro{flex:1;text-align:center;background:#fff;border:1px solid var(--border-subtle);border-radius:var(--radius-sm);padding:7px 6px;}
+    .ro .k{font-size:0.64rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--text-light);font-weight:700;}
+    .ro .v{font-family:'Outfit',sans-serif;font-weight:800;font-size:1rem;}
+    .ro.nom .v{color:var(--coral);}
+    .ro.real .v{color:var(--pine);}
+    .ro.defl .v{color:var(--text-espresso);}
+    .chart-note{font-size:0.8rem;color:var(--text-muted);margin-top:10px;text-align:center;line-height:1.45;}
+    .chart-note b{color:var(--text-main);}
 
-    .sim-wrapper {
-      width: 100%;
-      max-width: 860px;
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg, 20px);
-      box-shadow: 0 10px 30px rgba(17, 57, 39, 0.06);
-      padding: clamp(20px, 4vw, 32px);
-      display: flex;
-      flex-direction: column;
-      gap: 22px;
-    }
+    .step{padding:26px 0 6px;border-top:1px solid var(--border-light);}
+    .step-k{font-family:'Outfit',sans-serif;font-weight:700;font-size:0.72rem;letter-spacing:0.08em;
+      text-transform:uppercase;color:var(--text-light);margin-bottom:6px;}
+    .step h2{font-family:'Outfit',sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:-0.02em;
+      color:var(--text-main);margin:0 0 10px;line-height:1.2;}
+    .step p{margin:0 0 14px;font-size:0.98rem;}
+    .step p strong{color:var(--text-main);}
 
-    /* Header */
-    .sim-header {
-      border-bottom: 2px solid var(--border-light, #EFE9E0);
-      padding-bottom: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
+    .control{background:#fff;border:1px solid var(--border-subtle);border-radius:var(--radius-md);
+      padding:16px 18px;box-shadow:var(--shadow-sm);}
+    .control-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
+    .control-label{font-weight:700;font-size:0.9rem;}
+    .control-value{font-family:'Outfit',sans-serif;font-weight:800;font-size:1.1rem;}
+    .control.price .control-value{color:var(--coral);}
+    .control.qty .control-value{color:var(--pine);}
+    input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:8px;border-radius:999px;background:var(--track);outline:none;margin:4px 0;}
+    input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:26px;height:26px;border-radius:50%;
+      background:#fff;border:2px solid var(--accent,var(--text-espresso));box-shadow:0 2px 6px rgba(74,59,50,.2);cursor:pointer;transition:transform .12s;}
+    input[type=range]::-webkit-slider-thumb:active{transform:scale(1.12);}
+    input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:2px solid var(--accent,var(--text-espresso));box-shadow:0 2px 6px rgba(74,59,50,.2);cursor:pointer;}
+    .control.price{--accent:var(--coral);}
+    .control.qty{--accent:var(--pine);}
 
-    .sim-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--psll-mint);
-      border: 1px solid var(--psll-sage);
-      color: var(--psll-pine);
-      font-size: 0.76rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      padding: 4px 10px;
-      border-radius: 999px;
-      margin-bottom: 8px;
-    }
+    .btn-row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0;}
+    .chip-btn{font-family:'Inter',sans-serif;font-weight:600;font-size:0.84rem;background:#fff;
+      border:1.5px solid var(--border-subtle);color:var(--text-espresso);padding:8px 14px;border-radius:var(--radius-pill);
+      cursor:pointer;transition:all .18s;-webkit-tap-highlight-color:transparent;}
+    .chip-btn:hover{border-color:#D8CEC0;}
+    .chip-btn.active{background:var(--text-espresso);color:var(--bg-cream);border-color:var(--text-espresso);}
 
-    .sim-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(1.4rem, 4vw, 1.85rem);
-      font-weight: 800;
-      color: var(--psll-pine);
-      line-height: 1.2;
-    }
+    /* descomposición */
+    .decomp-eq{font-family:'Outfit',sans-serif;text-align:center;font-size:1rem;margin:6px 0 12px;line-height:1.8;}
+    .deq-nom{color:var(--text-main);font-weight:800;}
+    .deq-real{color:var(--pine);font-weight:700;}
+    .deq-price{color:var(--coral);font-weight:700;}
+    .deq-num{color:var(--text-muted);font-size:0.86rem;font-weight:600;}
+    .decomp-bar{display:flex;height:34px;border-radius:9px;overflow:hidden;border:1px solid var(--border-subtle);}
+    .dseg{display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.76rem;font-weight:700;white-space:nowrap;overflow:hidden;}
+    .decomp-foot{font-size:0.82rem;color:var(--text-muted);margin-top:10px;line-height:1.45;}
 
-    .sim-subtitle {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
+    .reading{margin-top:14px;background:#fff;border:1px solid var(--border-subtle);
+      border-left:4px solid var(--macro-cobalt);border-radius:var(--radius-md);padding:16px 18px;
+      box-shadow:var(--shadow-sm);font-size:0.95rem;line-height:1.55;}
+    .reading strong{color:var(--text-main);}
+    .reading em{color:var(--brand-brick);font-style:normal;font-weight:600;}
 
-    /* Economy Cards Grid */
-    .economy-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
+    /* pregunta */
+    .pq{margin-top:14px;background:#fff;border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:16px 18px;box-shadow:var(--shadow-sm);}
+    .pq-q{font-weight:600;margin-bottom:12px;}
+    .pq-btns{display:flex;gap:10px;}
+    .pq-btn{flex:1;padding:11px;border-radius:var(--radius-sm);border:1.5px solid var(--border-subtle);
+      background:#fff;font-weight:700;cursor:pointer;transition:all .18s;}
+    .pq-btn.ok{background:#E7F4EC;border-color:#2F8F63;color:#2F8F63;}
+    .pq-btn.wrong{background:#F8E9E6;border-color:var(--brand-brick);color:var(--brand-brick);}
+    .pq-fb{display:none;margin-top:12px;font-size:0.9rem;line-height:1.5;padding:12px 14px;border-radius:var(--radius-sm);}
+    .pq-fb.ok{background:#E7F4EC;} .pq-fb.wrong{background:#FBF0E4;}
 
-    @media (max-width: 680px) {
-      .economy-grid {
-        grid-template-columns: 1fr;
-      }
-    }
+    details{margin-top:16px;background:#fff;border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:4px 18px;}
+    summary{cursor:pointer;font-weight:700;padding:12px 0;font-size:0.92rem;}
+    details table{width:100%;border-collapse:collapse;font-size:0.84rem;margin:6px 0 12px;}
+    details td{padding:6px 8px;border-top:1px solid var(--border-light);vertical-align:top;}
+    details td:first-child{font-weight:700;white-space:nowrap;}
 
-    .year-card {
-      background: var(--bg-cream-darker, #FAF6F0);
-      border: 1px solid var(--border-subtle, #E3DCD2);
-      border-radius: var(--radius-md, 14px);
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
+    .closing{margin-top:30px;padding:20px;border-radius:var(--radius-lg);background:var(--macro-navy);color:#E8EEF5;}
+    .closing .k{font-family:'Outfit',sans-serif;font-weight:700;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:#7Fb3d8;margin-bottom:8px;}
+    .closing p{margin:0;font-size:1rem;line-height:1.55;}
+    .closing b{color:#fff;}
 
-    .year-card.active-base {
-      border-color: var(--psll-sage);
-      box-shadow: 0 4px 14px rgba(118, 146, 122, 0.15);
-    }
-
-    .year-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 8px;
-      border-bottom: 1px dashed var(--border-subtle, #D8D0C5);
-    }
-
-    .year-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--psll-pine);
-    }
-
-    .year-badge {
-      font-size: 0.72rem;
-      font-weight: 600;
-      background: #FFFFFF;
-      border: 1px solid var(--border-color);
-      color: var(--text-muted);
-      padding: 2px 8px;
-      border-radius: 6px;
-    }
-
-    /* Goods row */
-    .goods-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.88rem;
-    }
-
-    .goods-table th {
-      text-align: left;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      padding-bottom: 6px;
-    }
-
-    .goods-table td {
-      padding: 8px 0;
-      border-top: 1px solid rgba(0,0,0,0.05);
-      vertical-align: middle;
-    }
-
-    .good-name {
-      font-weight: 600;
-      color: var(--psll-pine);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .good-input-wrap {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .num-input {
-      width: 68px;
-      padding: 6px 8px;
-      font-family: 'Outfit', monospace;
-      font-size: 0.92rem;
-      font-weight: 700;
-      text-align: right;
-      background: #FFFFFF;
-      border: 1.5px solid var(--border-color);
-      border-radius: 8px;
-      color: var(--text-dark);
-      transition: all 0.2s;
-    }
-
-    .num-input:focus {
-      outline: none;
-      border-color: var(--psll-pine);
-      box-shadow: 0 0 0 3px rgba(17, 57, 39, 0.12);
-    }
-
-    /* Interactive Control Section */
-    .control-panel {
-      background: var(--psll-mint);
-      border: 2px solid var(--border-accent);
-      border-radius: var(--radius-md, 14px);
-      padding: 16px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .control-label {
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--psll-pine);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .mode-selector {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .mode-btn {
-      flex: 1;
-      min-width: 220px;
-      padding: 12px 16px;
-      border-radius: 10px;
-      border: 2px solid var(--psll-sage);
-      background: #FFFFFF;
-      color: var(--psll-pine);
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      text-align: left;
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-    }
-
-    .mode-btn:hover {
-      border-color: var(--psll-pine);
-      transform: translateY(-1px);
-    }
-
-    .mode-btn.active {
-      background: var(--psll-pine);
-      border-color: var(--psll-pine);
-      color: #FFFFFF;
-      box-shadow: 0 4px 14px rgba(17, 57, 39, 0.22);
-    }
-
-    .mode-btn .desc {
-      font-size: 0.76rem;
-      font-weight: 400;
-      opacity: 0.85;
-    }
-
-    /* Calculations & Results Grid */
-    .results-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 14px;
-    }
-
-    .metric-card {
-      background: #FFFFFF;
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md, 12px);
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-    }
-
-    .metric-card.accent {
-      border-color: var(--psll-coral);
-      background: #FFFDF9;
-    }
-
-    .metric-card.highlight {
-      border-color: var(--psll-sage);
-      background: #F6FBF8;
-    }
-
-    .metric-header {
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-
-    .metric-val {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.75rem;
-      font-weight: 800;
-      color: var(--psll-pine);
-      line-height: 1.1;
-    }
-
-    .metric-val.coral {
-      color: var(--psll-coral);
-    }
-
-    .metric-formula {
-      font-family: monospace;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      margin-top: 6px;
-      padding-top: 6px;
-      border-top: 1px solid var(--border-light, #EFE9E0);
-      line-height: 1.3;
-    }
-
-    /* Comparison Box */
-    .comparison-box {
-      background: #FAF8F5;
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      padding: 16px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .comparison-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--psll-pine);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .growth-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .growth-item {
-      text-align: center;
-      flex: 1;
-      min-width: 140px;
-      padding: 10px;
-      background: #FFFFFF;
-      border-radius: 10px;
-      border: 1px solid var(--border-color);
-    }
-
-    .growth-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-    }
-
-    .growth-val {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.45rem;
-      font-weight: 800;
-    }
-
-    .growth-val.positive {
-      color: #10B981;
-    }
-
-    .growth-val.inflation {
-      color: #F59E0B;
-    }
-
-    .growth-val.zero {
-      color: #6B7280;
-    }
-
-    /* Insight Banner */
-    .insight-card {
-      background: var(--psll-mint);
-      border-left: 5px solid var(--psll-pine);
-      padding: 14px 18px;
-      border-radius: 8px;
-      font-size: 0.88rem;
-      line-height: 1.45;
-      color: var(--text-dark);
-    }
-
-    .insight-card strong {
-      color: var(--psll-pine);
-    }
-
-    /* Preset Buttons */
-    .presets-bar {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      flex-wrap: wrap;
-      font-size: 0.82rem;
-    }
-
-    .preset-btn {
-      background: #FFFFFF;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 6px 12px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--psll-pine);
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-
-    .preset-btn:hover {
-      background: var(--psll-mint);
-      border-color: var(--psll-sage);
-    }
-    /* Gráfico Nominal vs Real */
-    .chart-box{background:#fff;border:1px solid #E3DCD2;border-radius:16px;padding:18px 16px 14px;margin-bottom:18px;box-shadow:0 2px 8px rgba(74,59,50,0.05);}
-    .chart-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:0.98rem;color:var(--psll-pine);margin-bottom:3px;}
-    .chart-sub{font-size:0.8rem;color:var(--text-muted);line-height:1.45;margin-bottom:8px;}
-    .chart-svg{width:100%;height:auto;display:block;max-width:520px;margin:0 auto;}
-    .chart-legend{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:6px;font-size:0.78rem;font-weight:600;color:var(--text-muted);}
-    .chart-legend span{display:inline-flex;align-items:center;gap:6px;}
-    .chart-legend i{width:16px;height:3px;border-radius:2px;display:inline-block;}
-    .chart-note{font-size:0.8rem;color:var(--text-muted);line-height:1.45;margin-top:10px;text-align:center;}
-    .chart-note b{color:var(--psll-coral);}
-    /* Selector de año base + cajas didácticas */
-    .base-selector{display:flex;gap:8px;margin-top:8px;}
-    .base-btn{flex:1;padding:8px 10px;border:2px solid var(--border-subtle);background:#fff;border-radius:10px;font-family:'Outfit',sans-serif;font-weight:700;font-size:0.9rem;color:var(--text-muted);cursor:pointer;}
-    .base-btn.active{border-color:var(--psll-pine);background:var(--psll-pine);color:#fff;}
-    .base-note{font-size:0.8rem;color:var(--text-muted);line-height:1.45;margin-top:8px;}
-    .base-note b{color:var(--psll-pine);}
-    .deflacta-box{background:#FBF4EF;border:1px solid #F0D9CC;border-radius:14px;padding:14px 16px;margin-bottom:18px;}
-    .deflacta-lbl{font-family:'Outfit',sans-serif;font-weight:700;font-size:0.9rem;color:var(--psll-pine);}
-    .deflacta-val{font-family:'Outfit',sans-serif;font-weight:800;font-size:1.1rem;color:var(--text-main);margin-left:6px;}
-    .deflacta-val b{color:var(--psll-pine);}
-    .deflacta-note{font-size:0.8rem;color:var(--text-muted);line-height:1.45;margin-top:6px;}
-    .decomp-box{background:#fff;border:1px solid #E3DCD2;border-radius:16px;padding:16px;margin-bottom:18px;box-shadow:0 2px 8px rgba(74,59,50,0.05);}
-    .decomp-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:0.95rem;color:var(--psll-pine);margin-bottom:8px;}
-    .decomp-eq{font-family:'Outfit',sans-serif;font-size:0.92rem;color:var(--text-main);line-height:1.7;margin-bottom:10px;}
-    .decomp-eq .deq-real{color:var(--psll-pine);font-weight:700;}
-    .decomp-eq .deq-price{color:var(--psll-coral);font-weight:700;}
-    .decomp-eq .deq-nom{font-weight:800;}
-    .decomp-eq .deq-num{color:var(--text-muted);font-size:0.85rem;}
-    .decomp-bar{display:flex;height:30px;border-radius:8px;overflow:hidden;margin-bottom:8px;}
-    .decomp-bar .dseg{display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.76rem;font-weight:700;white-space:nowrap;min-width:0;overflow:hidden;padding:0 4px;}
-    .decomp-foot{font-size:0.78rem;color:var(--text-muted);line-height:1.4;}
-    /* Contribución por bien */
-    .goods-box{background:#fff;border:1px solid #E3DCD2;border-radius:16px;padding:16px;margin-bottom:18px;box-shadow:0 2px 8px rgba(74,59,50,0.05);}
-    .goods-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:0.95rem;color:var(--psll-pine);margin-bottom:10px;}
-    .goods-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--border-light);}
-    .goods-row.first{border-top:none;}
-    .goods-name{flex:1;font-weight:600;font-size:0.86rem;color:var(--text-main);min-width:0;}
-    .goods-chip{font-family:'Outfit',sans-serif;font-weight:700;font-size:0.8rem;padding:3px 9px;border-radius:999px;white-space:nowrap;}
-    .goods-chip.q{background:#EAF4EE;color:var(--psll-pine);}
-    .goods-chip.p{background:#FBF0E9;color:var(--psll-coral);}
-    .goods-note{font-size:0.78rem;color:var(--text-muted);margin-top:10px;line-height:1.45;}
-    /* Deflactor vs IPC */
-    .ipc-note{background:#F7FAFC;border:1px solid #E3DCD2;border-radius:14px;padding:2px 16px;margin-bottom:18px;}
-    .ipc-note summary{cursor:pointer;font-family:'Outfit',sans-serif;font-weight:700;font-size:0.9rem;color:var(--psll-pine);padding:12px 0;list-style:none;}
-    .ipc-note summary::-webkit-details-marker{display:none;}
-    .ipc-note summary::before{content:'▸ ';color:var(--psll-coral);}
-    .ipc-note[open] summary::before{content:'▾ ';}
-    .ipc-note .ipc-body{font-size:0.84rem;color:var(--text-main);line-height:1.5;padding-bottom:12px;}
-    .ipc-note .ipc-body b{color:var(--psll-pine);}
-    .ipc-note table{width:100%;border-collapse:collapse;margin-top:8px;font-size:0.78rem;}
-    .ipc-note td,.ipc-note th{border:1px solid var(--border-light);padding:6px 8px;text-align:left;vertical-align:top;}
-    .ipc-note th{background:#EEF2F4;font-family:'Outfit',sans-serif;}
-    /* Pregunta de comprensión */
-    .pq-box{background:var(--psll-pine);color:#fff;border-radius:16px;padding:16px;margin-bottom:18px;}
-    .pq-q{font-family:'Outfit',sans-serif;font-weight:700;font-size:0.95rem;margin-bottom:12px;line-height:1.4;}
-    .pq-q b{color:#F4C9B8;}
-    .pq-opts{display:flex;gap:10px;}
-    .pq-btn{flex:1;padding:11px;border:2px solid rgba(255,255,255,0.35);background:rgba(255,255,255,0.10);color:#fff;border-radius:10px;font-family:'Outfit',sans-serif;font-weight:700;font-size:0.92rem;cursor:pointer;}
-    .pq-btn.ok{border-color:#8FE3B0;background:rgba(143,227,176,0.28);}
-    .pq-btn.wrong{border-color:#F0A6A0;background:rgba(240,166,160,0.28);}
-    .pq-fb{display:none;margin-top:12px;font-size:0.85rem;line-height:1.55;background:rgba(255,255,255,0.12);border-radius:10px;padding:12px;}
+    @media (max-width:420px){ .readout{gap:6px;} .ro .v{font-size:0.92rem;} }
   </style>
 </head>
 <body>
-  <div class="sim-wrapper">
-    <!-- Header -->
-    <div class="sim-header">
-      <div>
-        <div class="sim-badge">
-          <span>📊</span> Simulador Interactivo · Epígrafe 2.1
-        </div>
-        <h1 class="sim-title">PIB Nominal vs. PIB Real: El Espejismo de los Precios</h1>
-        <p class="sim-subtitle">Economía de dos bienes finales: observa cómo la inflación infla el PIB nominal sin aumentar la riqueza real.</p>
-      </div>
-      <div class="presets-bar">
-        <span style="font-weight: 600; color: var(--text-muted);">Casos guiados:</span>
-        <button type="button" class="preset-btn" onclick="applyPreset('pure_inflation')">Solo Inflación (ΔP=+50%, ΔQ=0)</button>
-        <button type="button" class="preset-btn" onclick="applyPreset('real_growth')">Crecimiento Real Puro (ΔQ=+30%, ΔP=0)</button>
-        <button type="button" class="preset-btn" onclick="applyPreset('mixed')">Caso Mixto Real</button>
-      </div>
-    </div>
 
-    <!-- Data Input Grid: Year 1 & Year 2 -->
-    <div class="economy-grid">
-      <!-- AÑO 1 (AÑO BASE) -->
-      <div class="year-card active-base">
-        <div class="year-header">
-          <span class="year-title">📅 Año 1 (Año Base)</span>
-          <span class="year-badge">P₁ y Q₁ de referencia</span>
-        </div>
-        <table class="goods-table">
-          <thead>
-            <tr>
-              <th>Bien Final</th>
-              <th style="text-align: right;">Cantidad (Q₁)</th>
-              <th style="text-align: right;">Precio (P₁)</th>
-              <th style="text-align: right;">P₁ × Q₁</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><span class="good-name">🌾 Alimentos (A)</span></td>
-              <td align="right">
-                <input type="number" id="q1_A" class="num-input" value="100" min="1" step="5" oninput="calculate()">
-              </td>
-              <td align="right">
-                <input type="number" id="p1_A" class="num-input" value="2.00" min="0.1" step="0.5" oninput="calculate()"> €
-              </td>
-              <td align="right" id="val1_A" style="font-weight: 700;">200.00 €</td>
-            </tr>
-            <tr>
-              <td><span class="good-name">🚗 Servicios/Bienes (B)</span></td>
-              <td align="right">
-                <input type="number" id="q1_B" class="num-input" value="50" min="1" step="5" oninput="calculate()">
-              </td>
-              <td align="right">
-                <input type="number" id="p1_B" class="num-input" value="10.00" min="0.1" step="1" oninput="calculate()"> €
-              </td>
-              <td align="right" id="val1_B" style="font-weight: 700;">500.00 €</td>
-            </tr>
-          </tbody>
-        </table>
-        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1.5px solid var(--border-accent);">
-          <span style="font-size: 0.82rem; font-weight: 700; color: var(--psll-pine);">PIB Año 1 (Nominal = Real):</span>
-          <span id="pib1_total" style="font-family: 'Outfit'; font-size: 1.25rem; font-weight: 800; color: var(--psll-pine);">700.00 €</span>
-        </div>
-      </div>
+  <div class="wrap intro">
+    <div class="eyebrow">Macroeconomía</div>
+    <h1>Cuando el PIB sube, ¿hay de verdad más bienes o solo precios más altos?</h1>
+    <p class="lede">Una economía de dos bienes y dos años. El <strong>PIB nominal</strong> valora la producción a precios corrientes; el <strong>PIB real</strong>, a precios de un año base. La distancia entre ambos es la inflación medida por el <strong>deflactor</strong>.</p>
+  </div>
 
-      <!-- AÑO 2 -->
-      <div class="year-card">
-        <div class="year-header">
-          <span class="year-title">📅 Año 2</span>
-          <span class="year-badge">P₂ y Q₂ observados</span>
-        </div>
-        <table class="goods-table">
-          <thead>
-            <tr>
-              <th>Bien Final</th>
-              <th style="text-align: right;">Cantidad (Q₂)</th>
-              <th style="text-align: right;">Precio (P₂)</th>
-              <th style="text-align: right;">P₂ × Q₂</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><span class="good-name">🌾 Alimentos (A)</span></td>
-              <td align="right">
-                <input type="number" id="q2_A" class="num-input" value="100" min="1" step="5" oninput="calculate()">
-              </td>
-              <td align="right">
-                <input type="number" id="p2_A" class="num-input" value="3.00" min="0.1" step="0.5" oninput="calculate()"> €
-              </td>
-              <td align="right" id="val2_A" style="font-weight: 700;">300.00 €</td>
-            </tr>
-            <tr>
-              <td><span class="good-name">🚗 Servicios/Bienes (B)</span></td>
-              <td align="right">
-                <input type="number" id="q2_B" class="num-input" value="50" min="1" step="5" oninput="calculate()">
-              </td>
-              <td align="right">
-                <input type="number" id="p2_B" class="num-input" value="15.00" min="0.1" step="1" oninput="calculate()"> €
-              </td>
-              <td align="right" id="val2_B" style="font-weight: 700;">750.00 €</td>
-            </tr>
-          </tbody>
-        </table>
-        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1.5px solid var(--border-subtle);">
-          <span style="font-size: 0.82rem; font-weight: 700; color: var(--psll-pine);">PIB Nominal Año 2 (P₂ × Q₂):</span>
-          <span id="pib2_nom_total" style="font-family: 'Outfit'; font-size: 1.25rem; font-weight: 800; color: var(--psll-coral);">1050.00 €</span>
-        </div>
+  <!-- Héroe: gráfico -->
+  <div class="hero" id="hero">
+    <div class="hero-inner">
+      <svg id="pibChart" class="chart-svg" viewBox="0 0 360 220" role="img" aria-label="PIB nominal frente a PIB real"></svg>
+      <div class="legend">
+        <span><i style="background:var(--coral)"></i>PIB nominal</span>
+        <span><i style="background:var(--pine)"></i>PIB real</span>
       </div>
-    </div>
-
-    <!-- Interactive Choice: Which prices to value Year 2? -->
-    <div class="control-panel">
-      <div class="control-label">
-        <span>⚙️ Elige cómo valorar la producción del Año 2:</span>
-      </div>
-      <div class="mode-selector">
-        <button type="button" id="btnModeNominal" class="mode-btn" onclick="setValuationMode('nominal')">
-          <div>💶 A Precios Corrientes (P₂) · PIB Nominal</div>
-          <div class="desc">Se valoran las cantidades de hoy (Q₂) a los precios de hoy (P₂). No descuenta la inflación.</div>
-        </button>
-        <button type="button" id="btnModeReal" class="mode-btn active" onclick="setValuationMode('real')">
-          <div>🎯 A Precios Constantes (P₁) · PIB Real</div>
-          <div class="desc">Se coge el precio del Año 1 (año base). Aísla el efecto de los precios y mide producción genuina.</div>
-        </button>
-      </div>
-    </div>
-
-    <!-- Selector de año base (Idea 3) -->
-    <div class="control-panel" style="margin-top:-4px;">
-      <div class="control-label"><span>📅 Año base para el PIB real:</span></div>
-      <div class="base-selector">
-        <button type="button" id="btnBase1" class="base-btn active" onclick="setBaseYear(1)">Año 1</button>
-        <button type="button" id="btnBase2" class="base-btn" onclick="setBaseYear(2)">Año 2</button>
-      </div>
-      <div class="base-note" id="baseNote"></div>
-    </div>
-
-    <!-- Results Overview -->
-    <div class="results-grid">
-      <!-- PIB Nominal Año 2 -->
-      <div class="metric-card">
-        <div>
-          <div class="metric-header">PIB Nominal Año 2 (Precios Corrientes)</div>
-          <div class="metric-val" id="dispPibNominal">1050.00 €</div>
-        </div>
-        <div class="metric-formula" id="formulaPibNominal">Σ (P₂ × Q₂) = 3×100 + 15×50</div>
-      </div>
-
-      <!-- PIB Real Año 2 -->
-      <div class="metric-card highlight">
-        <div>
-          <div class="metric-header" id="realCardHeader">PIB Real Año 2 (Precios base P₁)</div>
-          <div class="metric-val" id="dispPibReal" style="color: var(--psll-pine);">700.00 €</div>
-        </div>
-        <div class="metric-formula" id="formulaPibReal">Σ (P₁ × Q₂) = 2×100 + 10×50</div>
-      </div>
-
-      <!-- Deflactor del PIB -->
-      <div class="metric-card accent">
-        <div>
-          <div class="metric-header">Deflactor del PIB (Año 2)</div>
-          <div class="metric-val coral" id="dispDeflactor">150.0</div>
-        </div>
-        <div class="metric-formula" id="formulaDeflactor">(PIB Nominal / PIB Real) × 100</div>
-      </div>
-    </div>
-
-    <!-- Deflactar: recuperar el real (Idea 1) -->
-    <div class="deflacta-box">
-      <span class="deflacta-lbl">🔁 Deflactar = recuperar el real:</span>
-      <span class="deflacta-val" id="deflactaVal"></span>
-      <div class="deflacta-note">Dividir el PIB nominal por el deflactor (en tanto por uno) devuelve el PIB real. Es la operación inversa a inflar la producción por los precios.</div>
-    </div>
-
-    <!-- Growth & Inflation Comparison -->
-    <div class="comparison-box">
-      <div class="comparison-title">
-        <span>📈 Tasa de Crecimiento Económico vs. Inflación (Año 1 ➔ Año 2)</span>
-      </div>
-      <div class="growth-row">
-        <div class="growth-item">
-          <div class="growth-label">Crecimiento Nominal (Δ% PIB Nom)</div>
-          <div class="growth-val" id="growthNominal">+50.0%</div>
-          <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 3px;">Incluye producción + inflación</div>
-        </div>
-        <div class="growth-item" style="border: 2px solid var(--psll-sage); background: #F6FBF8;">
-          <div class="growth-label" style="color: var(--psll-pine);">Crecimiento Real (Δ% PIB Real)</div>
-          <div class="growth-val" id="growthReal">+0.0%</div>
-          <div style="font-size: 0.72rem; font-weight: 600; color: var(--psll-pine); margin-top: 3px;">¡Crecimiento de volumen genuino!</div>
-        </div>
-        <div class="growth-item">
-          <div class="growth-label">Tasa de Inflación (Δ% Deflactor)</div>
-          <div class="growth-val inflation" id="growthInflation">+50.0%</div>
-          <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 3px;">Aumento medio de los precios</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Contribución por bien (Idea C) -->
-    <div class="goods-box">
-      <div class="goods-title">🧺 ¿Qué mueve cada bien: cantidad o precio?</div>
-      <div class="goods-row first">
-        <div class="goods-name">🌾 Alimentos (A)</div>
-        <div class="goods-chip q" id="dqA">Q +0%</div>
-        <div class="goods-chip p" id="dpA">P +0%</div>
-      </div>
-      <div class="goods-row">
-        <div class="goods-name">🚗 Servicios/Bienes (B)</div>
-        <div class="goods-chip q" id="dqB">Q +0%</div>
-        <div class="goods-chip p" id="dpB">P +0%</div>
-      </div>
-      <div class="goods-note">Q = variación de cantidad (volumen real) · P = variación de precio (inflación) de cada bien entre el Año 1 y el Año 2. Ayuda a ver qué bien empuja el volumen y cuál los precios.</div>
-    </div>
-
-    <!-- Descomposición del crecimiento nominal (Idea 2) -->
-    <div class="decomp-box">
-      <div class="decomp-title">🔎 ¿De dónde viene el crecimiento nominal?</div>
-      <div class="decomp-eq" id="decompEq"></div>
-      <div class="decomp-bar" id="decompBar"></div>
-      <div class="decomp-foot" id="decompFoot"></div>
-    </div>
-
-    <!-- Gráfico: PIB Nominal vs Real -->
-    <div class="chart-box">
-      <div class="chart-title">📊 PIB Nominal vs. PIB Real</div>
-      <div class="chart-sub">Ambas series parten del mismo valor en el Año base. En el Año 2 se separan: la brecha que se abre es el efecto de los precios, es decir, el <strong>deflactor</strong>.</div>
-      <svg id="pibChart" class="chart-svg" viewBox="0 0 360 240" role="img" aria-label="Gráfico de líneas: PIB nominal frente a PIB real"></svg>
-      <div class="chart-legend">
-        <span><i style="background:var(--psll-coral)"></i>PIB Nominal (precios corrientes)</span>
-        <span><i style="background:var(--psll-pine)"></i>PIB Real (precios del año base)</span>
+      <div class="readout">
+        <div class="ro nom"><div class="k">Nominal Año 2</div><div class="v" id="roNom">1050 €</div></div>
+        <div class="ro real"><div class="k">Real Año 2</div><div class="v" id="roReal">700 €</div></div>
+        <div class="ro defl"><div class="k">Deflactor</div><div class="v" id="roDefl">150</div></div>
       </div>
       <div class="chart-note" id="chartNote"></div>
     </div>
+  </div>
 
-    <!-- Pregunta de comprensión (Idea B) -->
-    <div class="pq-box">
-      <div class="pq-q">🤔 Si el PIB <b>nominal</b> sube y el PIB <b>real</b> no cambia, ¿dispone la sociedad de más bienes?</div>
-      <div class="pq-opts">
-        <button type="button" class="pq-btn" id="pqSi" onclick="pibQuiz('si')">Sí</button>
-        <button type="button" class="pq-btn" id="pqNo" onclick="pibQuiz('no')">No</button>
+  <div class="wrap">
+
+    <!-- Paso 1: inflación -->
+    <section class="step">
+      <div class="step-k">Paso 1 · Solo precios</div>
+      <h2>Sube la inflación sin tocar la producción</h2>
+      <p>Mantén las cantidades del Año 1 y sube únicamente los precios. El PIB nominal despega, pero la línea del real se queda plana: la <strong>brecha</strong> que se abre es puro efecto de precios, es decir, el deflactor.</p>
+      <div class="control price">
+        <div class="control-head">
+          <span class="control-label">Inflación · ΔP</span>
+          <span class="control-value" id="valP">+50%</span>
+        </div>
+        <input type="range" id="inputP" min="0" max="80" step="1" value="50" oninput="render()" style="--accent:var(--coral)">
+      </div>
+    </section>
+
+    <!-- Paso 2: crecimiento real -->
+    <section class="step">
+      <div class="step-k">Paso 2 · Solo cantidades</div>
+      <h2>Ahora produce más bienes, a los mismos precios</h2>
+      <p>Deja la inflación donde quieras y mueve las cantidades. Cuando lo que crece es el volumen, <strong>las dos líneas suben juntas</strong>: eso es crecimiento real, más bienes de verdad para la sociedad.</p>
+      <div class="control qty">
+        <div class="control-head">
+          <span class="control-label">Crecimiento real · ΔQ</span>
+          <span class="control-value" id="valQ">0%</span>
+        </div>
+        <input type="range" id="inputQ" min="-10" max="40" step="1" value="0" oninput="render()" style="--accent:var(--pine)">
+      </div>
+      <div class="btn-row">
+        <button class="chip-btn" onclick="preset(50,0)">Solo inflación</button>
+        <button class="chip-btn" onclick="preset(0,30)">Solo crecimiento real</button>
+        <button class="chip-btn" onclick="preset(10,20)">Caso mixto</button>
+      </div>
+    </section>
+
+    <!-- Paso 3: descomposición -->
+    <section class="step">
+      <div class="step-k">Paso 3 · La identidad</div>
+      <h2>De dónde viene el crecimiento nominal</h2>
+      <p>Todo crecimiento nominal se descompone en volumen y precios: <strong>(1+g<sub>nom</sub>) = (1+g<sub>real</sub>) × (1+π)</strong>. Mira cómo se reparte con los valores actuales.</p>
+      <div class="decomp-eq" id="decompEq"></div>
+      <div class="decomp-bar" id="decompBar"></div>
+      <div class="decomp-foot" id="decompFoot"></div>
+    </section>
+
+    <!-- Paso 4: año base -->
+    <section class="step">
+      <div class="step-k">Paso 4 · El año base</div>
+      <h2>"Real" depende del año que elijas como base</h2>
+      <p>El PIB real valora todo a los precios de un año base. Cambia cuál es y observa cómo se mueve el punto donde las dos líneas coinciden: el <strong>real y el deflactor no son absolutos</strong>, dependen de la referencia.</p>
+      <div class="btn-row">
+        <button class="chip-btn active" id="base1" onclick="setBase(1)">Año base = Año 1</button>
+        <button class="chip-btn" id="base2" onclick="setBase(2)">Año base = Año 2</button>
+      </div>
+      <div class="reading" id="baseNote" style="border-left-color:var(--macro-cobalt);"></div>
+    </section>
+
+    <!-- Lectura viva -->
+    <div class="reading" id="insight"></div>
+
+    <!-- Pregunta -->
+    <div class="pq">
+      <div class="pq-q">Si el PIB <b>nominal</b> sube y el <b>real</b> no cambia, ¿dispone la sociedad de más bienes?</div>
+      <div class="pq-btns">
+        <button class="pq-btn" id="pqSi" onclick="pibQuiz('si')">Sí</button>
+        <button class="pq-btn" id="pqNo" onclick="pibQuiz('no')">No</button>
       </div>
       <div class="pq-fb" id="pqFb"></div>
     </div>
 
-    <!-- Deflactor vs IPC (plegable) -->
-    <details class="ipc-note">
+    <details>
       <summary>¿En qué se diferencia el deflactor del IPC?</summary>
-      <div class="ipc-body">
-        Los dos miden precios, pero no lo mismo:
-        <table>
-          <tr><th></th><th>Deflactor del PIB</th><th>IPC</th></tr>
-          <tr><td><b>Qué cubre</b></td><td>Todo lo producido en el país (el PIB)</td><td>Una cesta de consumo de los hogares</td></tr>
-          <tr><td><b>Cesta</b></td><td>Cambia cada año (cantidades del año corriente)</td><td>Fija (se revisa cada cierto tiempo)</td></tr>
-          <tr><td><b>Importaciones</b></td><td>No las incluye (solo producción nacional)</td><td>Sí (bienes importados que consumen los hogares)</td></tr>
-        </table>
-        Por eso pueden diferir: el deflactor recoge todo lo que produce el país; el IPC, lo que compra un hogar típico.
-      </div>
+      <table>
+        <tr><td></td><td><b>Deflactor</b></td><td><b>IPC</b></td></tr>
+        <tr><td>Cesta</td><td>Cambia cada año (cantidades corrientes)</td><td>Fija, se revisa cada cierto tiempo</td></tr>
+        <tr><td>Cubre</td><td>Todo lo que produce el país</td><td>Lo que compra un hogar típico</td></tr>
+      </table>
+      <p style="font-size:0.86rem;color:var(--text-muted);margin:0 0 12px;">Por eso pueden diferir: el deflactor recoge toda la producción; el IPC, el consumo de las familias.</p>
     </details>
 
-    <!-- Dynamic Insight Message -->
-    <div class="insight-card" id="insightBox">
-      <strong>💡 Lección Económica Clave:</strong> 
-      <span id="insightText">
-        El PIB nominal ha crecido un <strong>+50.0%</strong>, pero el PIB real ha crecido un <strong>0.0%</strong>. Las familias y las empresas tienen exactamente los mismos alimentos y servicios que el año anterior (Q₂ = Q₁), pero todo cuesta más caro. <em>El crecimiento nominal era un espejismo monetario provocado al 100% por la inflación</em>. Para sostener el empleo y el bienestar, necesitamos crecimiento en PIB real.
-      </span>
+    <div class="closing">
+      <div class="k">Conclusión docente</div>
+      <p>Manejar más euros no significa producir más. Para sostener el empleo y el bienestar, lo que hace falta es crecimiento del <b>PIB real</b>, no del nominal inflado por los precios.</p>
     </div>
+
   </div>
 
-  <script>
-    let currentMode = 'real'; // 'nominal' or 'real'
-    let baseYear = 1; // 1 o 2: año base para el PIB real
+<script>
+  // Cesta fija del Año 1 (dos bienes)
+  var Q1A=100, P1A=2.0, Q1B=50, P1B=10.0;
+  var baseYear=1;
 
-    function setValuationMode(mode) {
-      currentMode = mode;
-      document.getElementById('btnModeNominal').classList.toggle('active', mode === 'nominal');
-      document.getElementById('btnModeReal').classList.toggle('active', mode === 'real');
-      calculate();
-    }
+  function preset(dP,dQ){
+    document.getElementById('inputP').value=dP;
+    document.getElementById('inputQ').value=dQ;
+    render();
+  }
+  function setBase(n){
+    baseYear=n;
+    document.getElementById('base1').classList.toggle('active', n===1);
+    document.getElementById('base2').classList.toggle('active', n===2);
+    render();
+  }
+  function pibQuiz(choice){
+    var correct=(choice==='no');
+    var si=document.getElementById('pqSi'), no=document.getElementById('pqNo'), fb=document.getElementById('pqFb');
+    si.classList.remove('ok','wrong'); no.classList.remove('ok','wrong');
+    no.classList.add('ok'); if(!correct) si.classList.add('wrong');
+    fb.style.display='block'; fb.className='pq-fb '+(correct?'ok':'wrong');
+    fb.innerHTML=(correct?'<b>Correcto.</b> ':'<b>No exactamente.</b> ')
+      +'Si el nominal sube y el real no cambia, la sociedad dispone de <b>los mismos bienes</b>: el aumento es solo de precios. Manejar más euros no es producir más.';
+  }
 
-    function setBaseYear(n){
-      baseYear = n;
-      document.getElementById('btnBase1').classList.toggle('active', n===1);
-      document.getElementById('btnBase2').classList.toggle('active', n===2);
-      calculate();
-    }
-
-    function applyPreset(preset) {
-      if (preset === 'pure_inflation') {
-        // Q same, P increases 50%
-        document.getElementById('q1_A').value = 100;
-        document.getElementById('p1_A').value = 2.0;
-        document.getElementById('q1_B').value = 50;
-        document.getElementById('p1_B').value = 10.0;
-
-        document.getElementById('q2_A').value = 100;
-        document.getElementById('p2_A').value = 3.0; // +50%
-        document.getElementById('q2_B').value = 50;
-        document.getElementById('p2_B').value = 15.0; // +50%
-      } else if (preset === 'real_growth') {
-        // P same, Q increases 30%
-        document.getElementById('q1_A').value = 100;
-        document.getElementById('p1_A').value = 2.0;
-        document.getElementById('q1_B').value = 50;
-        document.getElementById('p1_B').value = 10.0;
-
-        document.getElementById('q2_A').value = 130; // +30%
-        document.getElementById('p2_A').value = 2.0;
-        document.getElementById('q2_B').value = 65;  // +30%
-        document.getElementById('p2_B').value = 10.0;
-      } else if (preset === 'mixed') {
-        // Both P and Q change
-        document.getElementById('q1_A').value = 100;
-        document.getElementById('p1_A').value = 2.0;
-        document.getElementById('q1_B').value = 50;
-        document.getElementById('p1_B').value = 10.0;
-
-        document.getElementById('q2_A').value = 110; // +10%
-        document.getElementById('p2_A').value = 2.2; // +10%
-        document.getElementById('q2_B').value = 60;  // +20%
-        document.getElementById('p2_B').value = 11.0; // +10%
-      }
-      calculate();
-    }
-
-    function drawGoods(q1A,p1A,q2A,p2A,q1B,p1B,q2B,p2B){
-      function chg(a,b){ return a>0 ? (b/a-1)*100 : 0; }
-      function s(x){ return (x>=0?'+':'')+x.toFixed(0)+'%'; }
-      var e;
-      e=document.getElementById('dqA'); if(e) e.innerText='Q '+s(chg(q1A,q2A));
-      e=document.getElementById('dpA'); if(e) e.innerText='P '+s(chg(p1A,p2A));
-      e=document.getElementById('dqB'); if(e) e.innerText='Q '+s(chg(q1B,q2B));
-      e=document.getElementById('dpB'); if(e) e.innerText='P '+s(chg(p1B,p2B));
-    }
-
-    function pibQuiz(choice){
-      var correct=(choice==='no');
-      var si=document.getElementById('pqSi'), no=document.getElementById('pqNo'), fb=document.getElementById('pqFb');
-      if(!si||!no||!fb) return;
-      si.classList.remove('ok','wrong'); no.classList.remove('ok','wrong');
-      no.classList.add('ok');
-      if(!correct) si.classList.add('wrong');
-      fb.style.display='block';
-      fb.className='pq-fb '+(correct?'ok':'wrong');
-      fb.innerHTML=(correct?'<b>Correcto.</b> ':'<b>No exactamente.</b> ')
-        +'Si el PIB nominal sube y el real no cambia, la sociedad dispone de <b>los mismos bienes</b>: el aumento es solo de precios (sube el deflactor). Manejar más euros no significa producir más.';
-    }
-
-    function drawChart(nom1,nom2,real1,real2,baseYear,defl1,defl2){
-      var svg=document.getElementById('pibChart'); if(!svg) return;
-      var PL=52,PR=280,PT=30,PB=196, xA1=PL+22, xA2=PR-14;
-      var maxV=Math.max(nom1,nom2,real1,real2,1), yMax=maxV*1.15;
-      function y(v){ return PB-(v/yMax)*(PB-PT); }
-      function f(v){ return Math.round(v).toString(); }
-      var coral='#E98F71', pine='#113927', grid='#E3DCD2', muted='#6B7280';
-      var yn1=y(nom1),yn2=y(nom2),yr1=y(real1),yr2=y(real2);
-      var p=[];
-      p.push('<line x1="'+PL+'" y1="'+PB+'" x2="'+PR+'" y2="'+PB+'" stroke="'+grid+'" stroke-width="1"/>');
-      p.push('<line x1="'+PL+'" y1="'+PT+'" x2="'+PL+'" y2="'+PB+'" stroke="'+grid+'" stroke-width="1"/>');
-      p.push('<polygon points="'+xA1+','+yn1+' '+xA2+','+yn2+' '+xA2+','+yr2+' '+xA1+','+yr1+'" fill="'+coral+'" fill-opacity="0.15"/>');
-      p.push('<line x1="'+xA1+'" y1="'+yr1+'" x2="'+xA2+'" y2="'+yr2+'" stroke="'+pine+'" stroke-width="3" stroke-linecap="round"/>');
-      p.push('<line x1="'+xA1+'" y1="'+yn1+'" x2="'+xA2+'" y2="'+yn2+'" stroke="'+coral+'" stroke-width="3" stroke-linecap="round"/>');
-      function dot(cx,cy,c){ return '<circle cx="'+cx+'" cy="'+cy+'" r="4.5" fill="#fff" stroke="'+c+'" stroke-width="3"/>'; }
-      p.push(dot(xA2,yr2,pine)); p.push(dot(xA2,yn2,coral));
-      p.push(dot(xA1,yr1,pine)); p.push(dot(xA1,yn1,coral));
-      function labels(x,yn,yr,nomv,realv,coincide){
-        if(coincide){
-          p.push('<text x="'+x+'" y="'+(Math.min(yn,yr)-10)+'" font-size="10" font-weight="700" fill="'+muted+'" text-anchor="middle">'+f(nomv)+' &#8364;</text>');
-        } else if(yn<yr){
-          p.push('<text x="'+x+'" y="'+(yn-9)+'" font-size="10.5" font-weight="800" fill="'+coral+'" text-anchor="middle">'+f(nomv)+' &#8364;</text>');
-          p.push('<text x="'+x+'" y="'+(yr+16)+'" font-size="10.5" font-weight="800" fill="'+pine+'" text-anchor="middle">'+f(realv)+' &#8364;</text>');
-        } else {
-          p.push('<text x="'+x+'" y="'+(yr-9)+'" font-size="10.5" font-weight="800" fill="'+pine+'" text-anchor="middle">'+f(realv)+' &#8364;</text>');
-          p.push('<text x="'+x+'" y="'+(yn+16)+'" font-size="10.5" font-weight="800" fill="'+coral+'" text-anchor="middle">'+f(nomv)+' &#8364;</text>');
-        }
-      }
-      labels(xA1,yn1,yr1,nom1,real1,Math.abs(nom1-real1)<0.5);
-      labels(xA2,yn2,yr2,nom2,real2,Math.abs(nom2-real2)<0.5);
-      var gyn=baseYear===1?yn2:yn1, gyr=baseYear===1?yr2:yr1, gx=baseYear===1?xA2:xA1;
-      if(Math.abs(gyn-gyr)>3){
-        var top=Math.min(gyn,gyr),bot=Math.max(gyn,gyr), bx=baseYear===1?gx+14:gx-16, lx=bx+(baseYear===1?9:-9), mid=(top+bot)/2;
-        p.push('<line x1="'+bx+'" y1="'+top+'" x2="'+bx+'" y2="'+bot+'" stroke="'+muted+'" stroke-width="1.2"/>');
-        p.push('<line x1="'+(bx-4)+'" y1="'+top+'" x2="'+(bx+4)+'" y2="'+top+'" stroke="'+muted+'" stroke-width="1.2"/>');
-        p.push('<line x1="'+(bx-4)+'" y1="'+bot+'" x2="'+(bx+4)+'" y2="'+bot+'" stroke="'+muted+'" stroke-width="1.2"/>');
-        p.push('<text x="'+lx+'" y="'+mid+'" font-size="9.5" font-weight="700" fill="'+muted+'" text-anchor="middle" dominant-baseline="middle" transform="rotate(90 '+lx+' '+mid+')">brecha</text>');
-      }
-      p.push('<text x="'+xA1+'" y="'+(PB+18)+'" font-size="10.5" font-weight="600" fill="'+muted+'" text-anchor="middle">Año 1'+(baseYear===1?' (base)':'')+'</text>');
-      p.push('<text x="'+xA2+'" y="'+(PB+18)+'" font-size="10.5" font-weight="600" fill="'+muted+'" text-anchor="middle">Año 2'+(baseYear===2?' (base)':'')+'</text>');
-      svg.innerHTML=p.join('');
-      var note=document.getElementById('chartNote');
-      if(note){
-        var yl=baseYear===1?'Año 2':'Año 1', nomv=baseYear===1?nom2:nom1, realv=baseYear===1?real2:real1, deflv=baseYear===1?defl2:defl1;
-        note.innerHTML=(Math.abs(nomv-realv)<0.5)
-          ? 'No se abre brecha: los precios no varían respecto al año base, así que el <b>deflactor = 100</b>.'
-          : 'La brecha del <b>'+yl+'</b> es el <b>deflactor = (nominal / real) &#215; 100 = '+deflv.toFixed(1)+'</b>: la parte del PIB nominal debida solo a los precios.';
-      }
-    }
-
-    function drawDecomp(gNom,gReal,infl){
-      var eq=document.getElementById('decompEq'), bar=document.getElementById('decompBar'), foot=document.getElementById('decompFoot');
-      if(!eq||!bar) return;
-      function pc(x){ return (x>=0?'+':'')+x.toFixed(1)+'%'; }
-      var rN=1+gNom/100, rR=1+gReal/100, rP=1+infl/100;
-      eq.innerHTML='<span class="deq-nom">1 '+(gNom>=0?'+ ':'&#8722; ')+Math.abs(gNom).toFixed(1)+'%</span> = '
-        +'<span class="deq-real">(1 '+(gReal>=0?'+ ':'&#8722; ')+Math.abs(gReal).toFixed(1)+'%)</span> &#215; '
-        +'<span class="deq-price">(1 '+(infl>=0?'+ ':'&#8722; ')+Math.abs(infl).toFixed(1)+'%)</span>'
-        +'<br><span class="deq-num">'+rN.toFixed(3)+' = '+rR.toFixed(3)+' &#215; '+rP.toFixed(3)+'</span>';
-      var aR=Math.abs(gReal), aP=Math.abs(infl), tot=aR+aP;
-      if(tot<0.05){
-        bar.innerHTML='<div class="dseg" style="width:100%;background:#E3DCD2;color:#6B7280;">Sin variación</div>';
+  function drawChart(nom1,nom2,real1,real2,baseYear,defl1,defl2){
+    var svg=document.getElementById('pibChart'); if(!svg) return;
+    var PL=52,PR=300,PT=26,PB=180, xA1=PL+22, xA2=PR-14;
+    var maxV=Math.max(nom1,nom2,real1,real2,1), yMax=maxV*1.15;
+    function y(v){ return PB-(v/yMax)*(PB-PT); }
+    function f(v){ return Math.round(v).toString(); }
+    var coral='#E98F71', pine='#113927', grid='#E3DCD2', muted='#6B7280';
+    var yn1=y(nom1),yn2=y(nom2),yr1=y(real1),yr2=y(real2), p=[];
+    p.push('<line x1="'+PL+'" y1="'+PB+'" x2="'+PR+'" y2="'+PB+'" stroke="'+grid+'" stroke-width="1"/>');
+    p.push('<line x1="'+PL+'" y1="'+PT+'" x2="'+PL+'" y2="'+PB+'" stroke="'+grid+'" stroke-width="1"/>');
+    p.push('<polygon points="'+xA1+','+yn1+' '+xA2+','+yn2+' '+xA2+','+yr2+' '+xA1+','+yr1+'" fill="'+coral+'" fill-opacity="0.15"/>');
+    p.push('<line x1="'+xA1+'" y1="'+yr1+'" x2="'+xA2+'" y2="'+yr2+'" stroke="'+pine+'" stroke-width="3" stroke-linecap="round"/>');
+    p.push('<line x1="'+xA1+'" y1="'+yn1+'" x2="'+xA2+'" y2="'+yn2+'" stroke="'+coral+'" stroke-width="3" stroke-linecap="round"/>');
+    function dot(cx,cy,c){ return '<circle cx="'+cx+'" cy="'+cy+'" r="4.5" fill="#fff" stroke="'+c+'" stroke-width="3"/>'; }
+    p.push(dot(xA2,yr2,pine)); p.push(dot(xA2,yn2,coral)); p.push(dot(xA1,yr1,pine)); p.push(dot(xA1,yn1,coral));
+    function labels(x,yn,yr,nomv,realv,coincide){
+      if(coincide){ p.push('<text x="'+x+'" y="'+(Math.min(yn,yr)-10)+'" font-size="10" font-weight="700" fill="'+muted+'" text-anchor="middle">'+f(nomv)+' &#8364;</text>'); }
+      else if(yn<yr){
+        p.push('<text x="'+x+'" y="'+(yn-9)+'" font-size="10.5" font-weight="800" fill="'+coral+'" text-anchor="middle">'+f(nomv)+' &#8364;</text>');
+        p.push('<text x="'+x+'" y="'+(yr+16)+'" font-size="10.5" font-weight="800" fill="'+pine+'" text-anchor="middle">'+f(realv)+' &#8364;</text>');
       } else {
-        var wR=Math.round(aR/tot*100), wP=100-wR, segs='';
-        if(wR>=1) segs+='<div class="dseg" style="width:'+wR+'%;background:var(--psll-pine);">Volumen '+pc(gReal)+'</div>';
-        if(wP>=1) segs+='<div class="dseg" style="width:'+wP+'%;background:var(--psll-coral);">Precios '+pc(infl)+'</div>';
-        bar.innerHTML=segs;
-      }
-      var cross=gNom-(gReal+infl);
-      if(foot){
-        foot.innerHTML=(Math.abs(cross)>=0.1)
-          ? 'El crecimiento nominal ('+pc(gNom)+') se reparte entre volumen y precios; la diferencia con la suma ('+(cross>=0?'+':'')+cross.toFixed(1)+' pp) es el término cruzado precio&#215;cantidad.'
-          : 'El crecimiento nominal ('+pc(gNom)+') se reparte entre volumen (real) y precios (inflación).';
+        p.push('<text x="'+x+'" y="'+(yr-9)+'" font-size="10.5" font-weight="800" fill="'+pine+'" text-anchor="middle">'+f(realv)+' &#8364;</text>');
+        p.push('<text x="'+x+'" y="'+(yn+16)+'" font-size="10.5" font-weight="800" fill="'+coral+'" text-anchor="middle">'+f(nomv)+' &#8364;</text>');
       }
     }
-
-    function fmt(v){ return v.toFixed(2)+' €'; }
-    function calculate() {
-      const q1A=parseFloat(document.getElementById('q1_A').value)||0, p1A=parseFloat(document.getElementById('p1_A').value)||0;
-      const q1B=parseFloat(document.getElementById('q1_B').value)||0, p1B=parseFloat(document.getElementById('p1_B').value)||0;
-      const q2A=parseFloat(document.getElementById('q2_A').value)||0, p2A=parseFloat(document.getElementById('p2_A').value)||0;
-      const q2B=parseFloat(document.getElementById('q2_B').value)||0, p2B=parseFloat(document.getElementById('p2_B').value)||0;
-
-      // Nominales (precios de cada año)
-      const val1A=q1A*p1A, val1B=q1B*p1B, nom1=val1A+val1B;
-      const val2A_nom=q2A*p2A, val2B_nom=q2B*p2B, nom2=val2A_nom+val2B_nom;
-
-      // Precios del año base elegido
-      const pbA = baseYear===1 ? p1A : p2A;
-      const pbB = baseYear===1 ? p1B : p2B;
-      const real1 = q1A*pbA + q1B*pbB;
-      const real2 = q2A*pbA + q2B*pbB;
-
-      const defl1 = real1>0 ? nom1/real1*100 : 100;
-      const defl2 = real2>0 ? nom2/real2*100 : 100;
-      const gNom = nom1>0 ? (nom2/nom1 - 1)*100 : 0;
-      const gReal = real1>0 ? (real2/real1 - 1)*100 : 0;
-      const infl = defl1>0 ? (defl2/defl1 - 1)*100 : 0;
-
-      // Tabla (valores nominales de cada año)
-      document.getElementById('val1_A').innerText=fmt(val1A);
-      document.getElementById('val1_B').innerText=fmt(val1B);
-      document.getElementById('pib1_total').innerText=fmt(nom1);
-      document.getElementById('val2_A').innerText=fmt(val2A_nom);
-      document.getElementById('val2_B').innerText=fmt(val2B_nom);
-      document.getElementById('pib2_nom_total').innerText=fmt(nom2);
-
-      // Tarjetas Año 2
-      const baseSub = baseYear===1 ? 'P₁' : 'P₂';
-      document.getElementById('dispPibNominal').innerText=fmt(nom2);
-      document.getElementById('formulaPibNominal').innerText=`(${p2A}×${q2A}) + (${p2B}×${q2B}) = ${val2A_nom.toFixed(1)} + ${val2B_nom.toFixed(1)}`;
-      document.getElementById('dispPibReal').innerText=fmt(real2);
-      document.getElementById('formulaPibReal').innerText=`(${pbA}×${q2A}) + (${pbB}×${q2B}) = ${(q2A*pbA).toFixed(1)} + ${(q2B*pbB).toFixed(1)}`;
-      const realHdr=document.getElementById('realCardHeader'); if(realHdr) realHdr.innerText='PIB Real Año 2 (Precios base '+baseSub+')';
-      document.getElementById('dispDeflactor').innerText=defl2.toFixed(1);
-      document.getElementById('formulaDeflactor').innerText=`(${nom2.toFixed(1)} / ${real2.toFixed(1)}) × 100`;
-
-      // Idea 1: deflactar (recuperar el real dividiendo por el deflactor)
-      const box1=document.getElementById('deflactaVal');
-      if(box1){ box1.innerHTML=`${nom2.toFixed(1)} € &#247; ${(defl2/100).toFixed(2)} = <b>${real2.toFixed(1)} €</b>`; }
-
-      // Crecimiento
-      const elGNom=document.getElementById('growthNominal');
-      elGNom.innerText=(gNom>=0?'+':'')+gNom.toFixed(1)+'%';
-      elGNom.className='growth-val '+(gNom>0?'inflation':(gNom<0?'zero':''));
-      const elGReal=document.getElementById('growthReal');
-      elGReal.innerText=(gReal>=0?'+':'')+gReal.toFixed(1)+'%';
-      elGReal.className='growth-val '+(gReal>0?'positive':(gReal<0?'inflation':'zero'));
-      const elGInf=document.getElementById('growthInflation');
-      elGInf.innerText=(infl>=0?'+':'')+infl.toFixed(1)+'%';
-      elGInf.className='growth-val '+(infl>0?'inflation':(infl<0?'positive':'zero'));
-
-      // Idea 2: descomposición del crecimiento nominal
-      drawDecomp(gNom, gReal, infl);
-      drawGoods(q1A,p1A,q2A,p2A,q1B,p1B,q2B,p2B);
-
-      // Mensaje didáctico
-      let insight='';
-      if(Math.abs(gReal)<0.05 && gNom>0.5){
-        insight=`El PIB nominal sube un <strong>${gNom>=0?'+':''}${gNom.toFixed(1)}%</strong>, pero la producción física real se ha quedado estancada (<strong>0.0%</strong>). Todo el aumento es inflación (+${infl.toFixed(1)}%): el clásico <em>espejismo monetario</em>, más euros pero los mismos bienes.`;
-      } else if(Math.abs(infl)<0.05 && gReal>0.5){
-        insight=`Crecimiento real genuino: los precios no varían respecto al año base (deflactor = 100.0). El aumento del PIB del <strong>+${gReal.toFixed(1)}%</strong> refleja más bienes físicos disponibles para la sociedad.`;
-      } else if(gReal>0 && gNom>gReal){
-        insight=`De los <strong>+${gNom.toFixed(1)}%</strong> que avanza el PIB nominal, sólo <strong>+${gReal.toFixed(1)}%</strong> es crecimiento genuino en volumen. El resto (+${infl.toFixed(1)}%) es alza del nivel de precios medida por el deflactor.`;
-      } else if(gReal<0 && gNom>=0){
-        insight=`<strong>¡Alerta de ilusión nominal!</strong> El PIB nominal aumenta o se mantiene (+${gNom.toFixed(1)}%), pero la economía real cae (PIB real ${gReal.toFixed(1)}%). Los precios altos enmascaran la caída del volumen.`;
-      } else {
-        insight=`El PIB nominal crece un <strong>${gNom.toFixed(1)}%</strong> y el real un <strong>${gReal.toFixed(1)}%</strong>, con un deflactor (Año 2) de <strong>${defl2.toFixed(1)}</strong>.`;
-      }
-      document.getElementById('insightText').innerHTML=insight;
-
-      // Idea 3: nota del año base + gráfico
-      const bnote=document.getElementById('baseNote');
-      if(bnote){
-        bnote.innerHTML = baseYear===1
-          ? 'Año base = <b>Año 1</b>: el PIB real valora las cantidades a los precios del Año 1. Las dos líneas coinciden en el Año 1 (deflactor 100) y se separan en el Año 2.'
-          : 'Año base = <b>Año 2</b>: ahora el real usa los precios del Año 2. Las líneas coinciden en el Año 2 (deflactor 100) y la brecha aparece en el Año 1. El PIB real y el deflactor <b>dependen del año base</b>.';
-      }
-      drawChart(nom1, nom2, real1, real2, baseYear, defl1, defl2);
+    labels(xA1,yn1,yr1,nom1,real1,Math.abs(nom1-real1)<0.5);
+    labels(xA2,yn2,yr2,nom2,real2,Math.abs(nom2-real2)<0.5);
+    var gyn=baseYear===1?yn2:yn1, gyr=baseYear===1?yr2:yr1, gx=baseYear===1?xA2:xA1;
+    if(Math.abs(gyn-gyr)>3){
+      var top=Math.min(gyn,gyr),bot=Math.max(gyn,gyr), bx=baseYear===1?gx+14:gx-16, lx=bx+(baseYear===1?9:-9), mid=(top+bot)/2;
+      p.push('<line x1="'+bx+'" y1="'+top+'" x2="'+bx+'" y2="'+bot+'" stroke="'+muted+'" stroke-width="1.2"/>');
+      p.push('<line x1="'+(bx-4)+'" y1="'+top+'" x2="'+(bx+4)+'" y2="'+top+'" stroke="'+muted+'" stroke-width="1.2"/>');
+      p.push('<line x1="'+(bx-4)+'" y1="'+bot+'" x2="'+(bx+4)+'" y2="'+bot+'" stroke="'+muted+'" stroke-width="1.2"/>');
+      p.push('<text x="'+lx+'" y="'+mid+'" font-size="9.5" font-weight="700" fill="'+muted+'" text-anchor="middle" dominant-baseline="middle" transform="rotate(90 '+lx+' '+mid+')">brecha</text>');
     }
+    p.push('<text x="'+xA1+'" y="'+(PB+18)+'" font-size="10.5" font-weight="600" fill="'+muted+'" text-anchor="middle">Año 1'+(baseYear===1?' (base)':'')+'</text>');
+    p.push('<text x="'+xA2+'" y="'+(PB+18)+'" font-size="10.5" font-weight="600" fill="'+muted+'" text-anchor="middle">Año 2'+(baseYear===2?' (base)':'')+'</text>');
+    svg.innerHTML=p.join('');
+    var note=document.getElementById('chartNote');
+    if(note){
+      var yl=baseYear===1?'Año 2':'Año 1', nomv=baseYear===1?nom2:nom1, realv=baseYear===1?real2:real1, deflv=baseYear===1?defl2:defl1;
+      note.innerHTML=(Math.abs(nomv-realv)<0.5)
+        ? 'Sin brecha: los precios no varían respecto al año base, así que el <b>deflactor = 100</b>.'
+        : 'La brecha del <b>'+yl+'</b> es el <b>deflactor = (nominal / real) &#215; 100 = '+deflv.toFixed(1)+'</b>.';
+    }
+  }
 
-        // Initialize on load
-    window.addEventListener('DOMContentLoaded', () => {
-      calculate();
-    });
-  </script>
+  function drawDecomp(gNom,gReal,infl){
+    var eq=document.getElementById('decompEq'), bar=document.getElementById('decompBar'), foot=document.getElementById('decompFoot');
+    function pc(x){ return (x>=0?'+':'')+x.toFixed(1)+'%'; }
+    var rN=1+gNom/100, rR=1+gReal/100, rP=1+infl/100;
+    eq.innerHTML='<span class="deq-nom">1 '+(gNom>=0?'+ ':'&#8722; ')+Math.abs(gNom).toFixed(1)+'%</span> = '
+      +'<span class="deq-real">(1 '+(gReal>=0?'+ ':'&#8722; ')+Math.abs(gReal).toFixed(1)+'%)</span> &#215; '
+      +'<span class="deq-price">(1 '+(infl>=0?'+ ':'&#8722; ')+Math.abs(infl).toFixed(1)+'%)</span>'
+      +'<br><span class="deq-num">'+rN.toFixed(3)+' = '+rR.toFixed(3)+' &#215; '+rP.toFixed(3)+'</span>';
+    var aR=Math.abs(gReal), aP=Math.abs(infl), tot=aR+aP;
+    if(tot<0.05){ bar.innerHTML='<div class="dseg" style="width:100%;background:#E3DCD2;color:#6B7280;">Sin variación</div>'; }
+    else {
+      var wR=Math.round(aR/tot*100), wP=100-wR, segs='';
+      if(wR>=1) segs+='<div class="dseg" style="width:'+wR+'%;background:var(--pine);">Volumen '+pc(gReal)+'</div>';
+      if(wP>=1) segs+='<div class="dseg" style="width:'+wP+'%;background:var(--coral);">Precios '+pc(infl)+'</div>';
+      bar.innerHTML=segs;
+    }
+    var cross=gNom-(gReal+infl);
+    foot.innerHTML=(Math.abs(cross)>=0.1)
+      ? 'El crecimiento nominal ('+pc(gNom)+') se reparte entre volumen y precios; la diferencia con la suma ('+(cross>=0?'+':'')+cross.toFixed(1)+' pp) es el término cruzado precio&#215;cantidad.'
+      : 'El crecimiento nominal ('+pc(gNom)+') se reparte entre volumen (real) y precios (inflación).';
+  }
+
+  function render(){
+    var dP=parseFloat(document.getElementById('inputP').value);
+    var dQ=parseFloat(document.getElementById('inputQ').value);
+    document.getElementById('valP').textContent=(dP>=0?'+':'')+dP+'%';
+    document.getElementById('valQ').textContent=(dQ>=0?'+':'')+dQ+'%';
+
+    var fP=1+dP/100, fQ=1+dQ/100;
+    var q2A=Q1A*fQ, p2A=P1A*fP, q2B=Q1B*fQ, p2B=P1B*fP;
+
+    var nom1=Q1A*P1A+Q1B*P1B;
+    var nom2=q2A*p2A+q2B*p2B;
+    var pbA=baseYear===1?P1A:p2A, pbB=baseYear===1?P1B:p2B;
+    var real1=Q1A*pbA+Q1B*pbB;
+    var real2=q2A*pbA+q2B*pbB;
+    var defl1=real1>0?nom1/real1*100:100;
+    var defl2=real2>0?nom2/real2*100:100;
+    var gNom=nom1>0?(nom2/nom1-1)*100:0;
+    var gReal=real1>0?(real2/real1-1)*100:0;
+    var infl=defl1>0?(defl2/defl1-1)*100:0;
+
+    document.getElementById('roNom').textContent=Math.round(nom2)+' €';
+    document.getElementById('roReal').textContent=Math.round(real2)+' €';
+    document.getElementById('roDefl').textContent=defl2.toFixed(0);
+
+    drawChart(nom1,nom2,real1,real2,baseYear,defl1,defl2);
+    drawDecomp(gNom,gReal,infl);
+
+    var bnote=document.getElementById('baseNote');
+    bnote.innerHTML = baseYear===1
+      ? 'Año base = <b>Año 1</b>: el real valora las cantidades a los precios del Año 1. Las líneas coinciden en el Año 1 (deflactor 100) y se separan en el Año 2.'
+      : 'Año base = <b>Año 2</b>: el real usa los precios del Año 2. Coinciden en el Año 2 y la brecha aparece en el Año 1. El real y el deflactor <b>dependen del año base</b>.';
+
+    var insight='', ins=document.getElementById('insight');
+    if(Math.abs(gReal)<0.05 && gNom>0.5){
+      insight='El PIB nominal sube un <strong>'+(gNom>=0?'+':'')+gNom.toFixed(1)+'%</strong>, pero la producción real se estanca (<strong>0,0%</strong>). Todo el aumento es inflación (+'+infl.toFixed(1)+'%): <em>espejismo monetario</em>, más euros y los mismos bienes.';
+    } else if(Math.abs(infl)<0.05 && gReal>0.5){
+      insight='Crecimiento real genuino: los precios no varían respecto al año base (deflactor 100). El +'+gReal.toFixed(1)+'% refleja <strong>más bienes físicos</strong> disponibles.';
+    } else if(gReal>0 && gNom>gReal){
+      insight='De los <strong>+'+gNom.toFixed(1)+'%</strong> del PIB nominal, solo <strong>+'+gReal.toFixed(1)+'%</strong> es crecimiento genuino en volumen. El resto (+'+infl.toFixed(1)+'%) es alza de precios (deflactor).';
+    } else if(gReal<0 && gNom>=0){
+      insight='<strong>Ilusión nominal:</strong> el PIB nominal aguanta (+'+gNom.toFixed(1)+'%) pero la economía real cae ('+gReal.toFixed(1)+'%). Los precios enmascaran la caída del volumen.';
+    } else {
+      insight='El PIB nominal crece un <strong>'+gNom.toFixed(1)+'%</strong> y el real un <strong>'+gReal.toFixed(1)+'%</strong>, con un deflactor de <strong>'+defl2.toFixed(1)+'</strong>.';
+    }
+    ins.innerHTML=insight;
+  }
+
+  window.addEventListener('DOMContentLoaded', render);
+</script>
 </body>
 </html>
