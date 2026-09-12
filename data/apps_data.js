@@ -28,6 +28,7 @@ window.DOCENCIA_APPS = {
         title: "PIB Nominal vs. PIB Real y Deflactor",
         desc: "Economía de 2 bienes: calcula P×Q, elige precios constantes o corrientes y descompón crecimiento e inflación.",
         meta: "Simulador interactivo · 8 min",
+        session: "Tema 1",
         url: "simulador_pib_real.html"
       },
       {
@@ -40,6 +41,7 @@ window.DOCENCIA_APPS = {
         title: "Simulador de Costes Laborales Unitarios",
         desc: "Experimenta la sensibilidad del CLU ante variaciones en salarios, cotizaciones y productividad aparente.",
         meta: "Simulador interactivo · 10 min",
+        session: "Tema 1",
         url: "simulador_clu.html"
       },
       {
@@ -199,6 +201,7 @@ window.DOCENCIA_APPS = {
         title: "La Balanza de la Protección Social",
         desc: "Dilemas éticos y económicos: ajusta el nivel de protección y evalúa el impacto sobre el déficit y el tiempo de paro.",
         meta: "Herramienta interactiva · 8 min",
+        session: "Tema 3",
         url: "balanza_proteccion.html"
       },
       {
@@ -212,6 +215,7 @@ window.DOCENCIA_APPS = {
         title: "El Viaje del Desempleado",
         desc: "Toma de decisiones en el itinerario de inserción laboral: formación, búsqueda y ofertas de empleo.",
         meta: "Simulación de caso · 10 min",
+        session: "Tema 3",
         url: "viaje_desempleado.html"
       },
       {
@@ -225,6 +229,7 @@ window.DOCENCIA_APPS = {
         title: "Mitos y Realidades del Empleo",
         desc: "Pon a prueba tus intuiciones empíricas confrontándolas con los datos reales de la EPA y Eurostat.",
         meta: "Choque empírico · 6 min",
+        session: "Tema 3",
         url: "mitos_realidades.html"
       },
       {
@@ -238,6 +243,7 @@ window.DOCENCIA_APPS = {
         title: "La Colocación Adecuada",
         desc: "Analiza ofertas de empleo reales y determina si un perceptor de prestaciones puede rechazarlas legalmente.",
         meta: "Taller práctico · 8 min",
+        session: "Tema 3",
         url: "colocacion_adecuada.html"
       },
       {
@@ -251,6 +257,7 @@ window.DOCENCIA_APPS = {
         title: "Caso Práctico: Despido y Prestaciones",
         desc: "Calcula e interpreta el derecho a prestaciones, bases de cotización e indemnizaciones de un caso real.",
         meta: "Caso práctico EPD · 10 min",
+        session: "Tema 3",
         url: "caso_1.html"
       }
     ]
