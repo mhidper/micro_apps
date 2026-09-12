@@ -2,905 +2,280 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simulador de la Cruz Keynesiana y el Multiplicador | UPO Macroeconomía</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Sesión 2 · Cruz Keynesiana, explorable · Macro UPO</title>
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="theme.css">
   <style>
-    :root {
-      --bg-primary: #f8fafc;
-      --bg-secondary: #ffffff;
-      --bg-card: #ffffff;
-      --bg-card-subtle: #f0f7ff;
-      --bg-card-hover: #e8f2fc;
-      --brand-navy: #0b1c36;
-      --brand-cobalt: #056caa;
-      --brand-azure: #0776b5;
-      --accent-primary: #056caa;
-      --accent-teal: #0d9488;
-      --accent-amber: #d97706;
-      --accent-rose: #e11d48;
-      --text-main: #0b1c36;
-      --text-body: #334155;
-      --text-muted: #64748b;
-      --border-color: #e2e8f0;
-      --border-focus: #056caa;
-      --radius-lg: 16px;
-      --radius-md: 10px;
-      --font-main: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
-    }
+    :root{--coral:#E98F71;--pine:#113927;--cobalt:var(--macro-cobalt);--amber:#C68B59;--track:#EDE6DB;}
+    *{box-sizing:border-box;} html,body{margin:0;}
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg-cream);color:var(--text-espresso);
+      line-height:1.6;-webkit-font-smoothing:antialiased;padding:0 0 64px;}
+    .wrap{max-width:600px;margin:0 auto;padding:0 20px;}
+    .intro{padding:30px 0 6px;}
+    .eyebrow{display:flex;align-items:center;gap:10px;font-family:'Outfit',sans-serif;font-size:0.72rem;
+      font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--cobalt);margin-bottom:12px;}
+    .eyebrow::before{content:"";width:22px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--cobalt),var(--amber));}
+    h1{font-family:'Outfit',sans-serif;font-weight:800;font-size:clamp(1.9rem,6.4vw,2.5rem);line-height:1.08;
+      letter-spacing:-0.035em;color:var(--text-main);margin:0 0 10px;}
+    .lede{font-size:1.02rem;margin:0 0 6px;}
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    .hero{position:sticky;top:0;z-index:20;background:var(--bg-cream);padding:12px 0;margin-top:16px;
+      border-bottom:1px solid var(--border-light);box-shadow:0 10px 20px -18px rgba(74,59,50,.4);}
+    .hero-inner{max-width:600px;margin:0 auto;padding:0 20px;}
+    .cross-svg{width:100%;height:auto;max-height:230px;display:block;}
+    .metrics{display:flex;gap:8px;margin-top:8px;}
+    .metric{flex:1;text-align:center;background:#fff;border:1px solid var(--border-subtle);border-radius:var(--radius-sm);padding:7px 4px;}
+    .metric .k{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.03em;color:var(--text-light);font-weight:700;}
+    .metric .v{font-family:'Outfit',sans-serif;font-weight:800;font-size:1rem;}
 
-    body {
-      background-color: var(--bg-primary);
-      color: var(--text-body);
-      font-family: var(--font-main);
-      line-height: 1.5;
-      padding: 24px;
-      min-height: 100vh;
-    }
+    .section{padding:28px 0 6px;border-top:1px solid var(--border-light);}
+    .section:first-of-type{border-top:none;}
+    .kicker{font-family:'Outfit',sans-serif;font-weight:700;font-size:0.72rem;letter-spacing:0.08em;
+      text-transform:uppercase;color:var(--cobalt);margin-bottom:6px;}
+    .section h2{font-family:'Outfit',sans-serif;font-weight:800;font-size:1.35rem;letter-spacing:-0.025em;
+      color:var(--text-main);margin:0 0 10px;line-height:1.18;}
+    .section p{margin:0 0 14px;font-size:0.98rem;} .section p strong{color:var(--text-main);}
 
-    .container {
-      max-width: 1350px;
-      margin: 0 auto;
-    }
+    .control{background:#fff;border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:13px 16px;box-shadow:var(--shadow-sm);margin-bottom:10px;}
+    .control-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px;}
+    .control-label{font-weight:600;font-size:0.86rem;}
+    .control-value{font-family:'Outfit',sans-serif;font-weight:800;font-size:1rem;color:var(--cobalt);}
+    input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:8px;border-radius:999px;background:var(--track);outline:none;margin:2px 0;}
+    input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;border:2px solid var(--cobalt);box-shadow:0 2px 6px rgba(74,59,50,.2);cursor:pointer;transition:transform .12s;}
+    input[type=range]::-webkit-slider-thumb:active{transform:scale(1.12);}
+    input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#fff;border:2px solid var(--cobalt);cursor:pointer;}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;} @media(max-width:440px){.grid2{grid-template-columns:1fr;}}
+    .btn-row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0;}
+    .chip-btn{font-family:'Inter',sans-serif;font-weight:600;font-size:0.84rem;background:#fff;border:1.5px solid var(--border-subtle);
+      color:var(--text-espresso);padding:8px 14px;border-radius:var(--radius-pill);cursor:pointer;transition:all .18s;-webkit-tap-highlight-color:transparent;}
+    .chip-btn:hover{border-color:#D8CEC0;} .chip-btn.active{background:var(--text-espresso);color:var(--bg-cream);border-color:var(--text-espresso);}
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--border-color);
-      flex-wrap: wrap;
-      gap: 16px;
-    }
+    .figure{background:#fff;border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:16px;box-shadow:var(--shadow-sm);margin-bottom:14px;}
+    .casc{display:flex;align-items:flex-end;gap:5px;height:130px;padding-top:6px;}
+    .casc-bar{flex:1;background:var(--cobalt);border-radius:4px 4px 0 0;position:relative;min-height:3px;transition:height .3s;}
+    .casc-bar span{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:0.58rem;font-weight:700;color:var(--text-muted);}
+    .casc-x{display:flex;gap:5px;margin-top:4px;} .casc-x div{flex:1;text-align:center;font-size:0.6rem;color:var(--text-light);}
+    .casc-total{margin-top:12px;text-align:center;font-family:'Outfit',sans-serif;font-weight:700;background:#EAF2F8;color:var(--macro-navy);border-radius:var(--radius-sm);padding:10px;}
 
-    .header-titles h1 {
-      font-size: 1.8rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 4px;
-    }
+    .twobars{display:flex;gap:28px;align-items:flex-end;justify-content:center;height:150px;padding:6px 0;}
+    .tb-col{display:flex;flex-direction:column;align-items:center;gap:8px;width:110px;}
+    .tb-fill{width:72px;border-radius:8px 8px 0 0;transition:height .35s cubic-bezier(.16,1,.3,1);}
+    .tb-val{font-family:'Outfit',sans-serif;font-weight:800;font-size:1.05rem;}
+    .tb-name{font-size:0.76rem;font-weight:700;color:var(--text-muted);text-align:center;}
 
-    .badge-upo {
-      background: rgba(59, 130, 246, 0.15);
-      border: 1px solid rgba(5, 108, 170, 0.25);
-      color: #93c5fd;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
+    .reading{margin-top:6px;background:#fff;border:1px solid var(--border-subtle);border-left:4px solid var(--cobalt);
+      border-radius:var(--radius-md);padding:15px 17px;box-shadow:var(--shadow-sm);font-size:0.93rem;line-height:1.55;}
+    .reading strong{color:var(--text-main);}
 
-    .nav-tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-    }
+    .quiz{background:#fff;border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:16px 18px;box-shadow:var(--shadow-sm);margin-bottom:14px;}
+    .quiz-q{font-weight:700;margin-bottom:12px;font-size:0.95rem;}
+    .quiz-btn{display:block;width:100%;text-align:left;background:var(--bg-cream);border:1.5px solid var(--border-subtle);
+      color:var(--text-espresso);padding:11px 14px;border-radius:var(--radius-sm);cursor:pointer;margin-bottom:8px;font-size:0.88rem;line-height:1.4;transition:all .15s;-webkit-tap-highlight-color:transparent;}
+    .quiz-btn:hover{border-color:#D8CEC0;} .quiz-btn.correct{background:#E7F4EC;border-color:#2F8F63;} .quiz-btn.wrong{background:#F8E9E6;border-color:var(--brand-brick);}
+    .quiz-fb{display:none;margin-top:6px;font-size:0.88rem;line-height:1.5;padding:12px 14px;border-radius:var(--radius-sm);}
+    .quiz-fb.show{display:block;} .quiz-fb.correct{background:#E7F4EC;} .quiz-fb.wrong{background:#FBF0E4;}
 
-    .tab-btn {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      color: var(--text-muted);
-      padding: 10px 20px;
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      font-size: 0.95rem;
-      font-weight: 500;
-      transition: all 0.2s ease;
-      font-family: var(--font-main);
-    }
-
-    .tab-btn:hover {
-      background: var(--bg-card-subtle);
-      color: var(--text-main);
-      border-color: var(--accent-primary);
-    }
-
-    .tab-btn.active {
-      background: var(--accent-primary);
-      color: #ffffff;
-      border-color: var(--accent-primary);
-      box-shadow: 0 4px 14px rgba(5, 108, 170, 0.25);
-    }
-
-    .tab-panel {
-      display: none;
-      animation: fadeIn 0.3s ease-in-out;
-    }
-
-    .tab-panel.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .grid-layout {
-      display: grid;
-      grid-template-columns: 420px 1fr;
-      gap: 24px;
-    }
-
-    @media (max-width: 1050px) {
-      .grid-layout { grid-template-columns: 1fr; }
-    }
-
-    .card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 22px;
-      box-shadow: 0 4px 20px rgba(11, 28, 54, 0.06);
-    }
-
-    .card-title {
-      font-size: 1.15rem;
-      font-weight: 600;
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .control-group { margin-bottom: 15px; }
-
-    .control-label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.88rem;
-      margin-bottom: 5px;
-      color: var(--text-muted);
-    }
-
-    .control-label span.val {
-      font-family: var(--font-mono);
-      color: var(--text-main);
-      font-weight: 600;
-    }
-
-    input[type="range"] {
-      width: 100%;
-      height: 6px;
-      background: var(--border-color);
-      border-radius: 3px;
-      outline: none;
-      -webkit-appearance: none;
-    }
-
-    input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: var(--accent-primary);
-      cursor: pointer;
-      box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
-    }
-
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-
-    .metric-box {
-      background: var(--bg-card-subtle);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 14px;
-      text-align: center;
-    }
-
-    .metric-label {
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-    }
-
-    .metric-val {
-      font-size: 1.6rem;
-      font-weight: 700;
-      font-family: var(--font-mono);
-    }
-
-    .metric-val.blue { color: #60a5fa; }
-    .metric-val.teal { color: #2dd4bf; }
-    .metric-val.amber { color: #fbbf24; }
-    .metric-val.rose { color: #fb7185; }
-
-    canvas {
-      width: 100%;
-      height: 480px;
-      background: #0d1322;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border-color);
-    }
-
-    .action-btn {
-      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-      color: white;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      font-size: 0.9rem;
-      font-family: var(--font-main);
-      transition: all 0.2s;
-      margin-right: 8px;
-      margin-top: 8px;
-    }
-
-    .action-btn:hover {
-      box-shadow: 0 0 14px rgba(59, 130, 246, 0.5);
-      transform: translateY(-1px);
-    }
-
-    .action-btn.secondary {
-      background: var(--bg-card-subtle);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-    }
-
-    .action-btn.secondary:hover {
-      background: var(--bg-card-hover);
-      border-color: var(--accent-primary);
-    }
-
-    .callout {
-      background: rgba(59, 130, 246, 0.08);
-      border-left: 4px solid var(--accent-primary);
-      padding: 12px 14px;
-      border-radius: 0 var(--radius-md) var(--radius-md) 0;
-      margin-top: 14px;
-      font-size: 0.88rem;
-      color: #bfdbfe;
-    }
-
-    /* Rondas table */
-    table.rondas-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 14px;
-      font-size: 0.88rem;
-    }
-
-    table.rondas-table th, table.rondas-table td {
-      padding: 8px 10px;
-      text-align: left;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    table.rondas-table th {
-      color: var(--text-muted);
-      background: rgba(255,255,255,0.02);
-    }
-
-    table.rondas-table td.num {
-      text-align: right;
-      font-family: var(--font-mono);
-      font-weight: 600;
-    }
-
-    /* Quiz */
-    .quiz-card {
-      background: var(--bg-card-subtle);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 18px;
-      margin-bottom: 16px;
-    }
-
-    .quiz-q { font-weight: 600; font-size: 1.02rem; margin-bottom: 10px; }
-
-    .quiz-options { display: flex; flex-direction: column; gap: 8px; }
-
-    .quiz-btn {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 10px 14px;
-      border-radius: 8px;
-      text-align: left;
-      cursor: pointer;
-      font-size: 0.9rem;
-      font-family: var(--font-main);
-    }
-
-    .quiz-btn:hover { border-color: var(--accent-primary); }
-
-    .quiz-feedback {
-      margin-top: 10px;
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 0.88rem;
-      display: none;
-    }
-
-    .quiz-feedback.correct {
-      background: rgba(34, 197, 94, 0.15);
-      border: 1px solid rgba(34, 197, 94, 0.35);
-      color: #86efac;
-      display: block;
-    }
-
-    .quiz-feedback.wrong {
-      background: rgba(244, 63, 94, 0.15);
-      border: 1px solid rgba(244, 63, 94, 0.35);
-      color: #fca5a5;
-      display: block;
-    }
+    .closing{margin-top:30px;padding:20px;border-radius:var(--radius-lg);background:var(--macro-navy);color:#E8EEF5;}
+    .closing .k{font-family:'Outfit',sans-serif;font-weight:700;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:#7Fb3d8;margin-bottom:8px;}
+    .closing p{margin:0;font-size:1rem;line-height:1.55;} .closing b{color:#fff;}
   </style>
-<link rel="stylesheet" href="fonts.css">
 </head>
 <body>
-
-<div class="container">
-  <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding: 16px 24px; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-lg); box-shadow: 0 4px 16px rgba(11, 28, 54, 0.05); flex-wrap: wrap; gap: 16px;">
-    <div style="display: flex; align-items: center; gap: 18px;">
-      <img src="assets/logo_macro_upo.png" alt="Macroeconomía UPO" style="height: 52px; width: auto; object-fit: contain;">
-      <div>
-        <h1 style="font-size: 1.55rem; font-weight: 700; color: var(--brand-navy); margin-bottom: 2px;">Simulador del Mercado de Bienes • Sesión 2</h1>
-        <p style="font-size: 0.92rem; color: var(--text-muted);">La Cruz Keynesiana, la Cascada del Multiplicador y la Paradoja del Ahorro</p>
-      </div>
-    </div>
-    <div style="background: var(--bg-card-subtle); border: 1px solid var(--brand-cobalt); color: var(--brand-cobalt); padding: 7px 16px; border-radius: 20px; font-size: 0.84rem; font-weight: 700; letter-spacing: 0.4px;">
-      GRADOS EN DERECHO Y FINANZAS Y CONTABILIDAD (DER + FICO) • UPO
-    </div>
-  </header>
-
-  <!-- Tabs Navigation -->
-  <div class="nav-tabs">
-    <button class="tab-btn active" onclick="switchTab('tab-cruz')">1. La Cruz Keynesiana</button>
-    <button class="tab-btn" onclick="switchTab('tab-cascada')">2. Cascada de Rondas Keynesianas</button>
-    <button class="tab-btn" onclick="switchTab('tab-paradoja')">3. La Paradoja del Ahorro</button>
-    <button class="tab-btn" onclick="switchTab('tab-quiz2')">4. Retos de Examen</button>
+  <div class="wrap intro">
+    <div class="eyebrow">Macroeconomía · Sesión 2</div>
+    <h1>La Cruz Keynesiana: por qué un euro de gasto mueve varios de renta</h1>
+    <p class="lede">La economía se equilibra donde la <strong>producción</strong> iguala a la <strong>demanda</strong>. Mueve los componentes y observa cómo el punto de equilibrio se desplaza, amplificado por el multiplicador.</p>
   </div>
 
-  <!-- TAB 1: CRUZ KEYNESIANA -->
-  <div id="tab-cruz" class="tab-panel active">
-    <div class="grid-layout">
-      <!-- Controles -->
-      <div class="card">
-        <h2 class="card-title">🎛️ Parámetros del Mercado de Bienes</h2>
-
-        <!-- Propensión Marginal c1 -->
-        <div class="control-group">
-          <div class="control-label">
-            <span>Propensión Marginal a Consumir ($c_1$):</span>
-            <span class="val" id="lbl-c1">0,75</span>
-          </div>
-          <input type="range" id="sl-c1" min="0.2" max="0.95" step="0.05" value="0.75" oninput="updateModel()">
-        </div>
-
-        <!-- Consumo Autónomo c0 -->
-        <div class="control-group">
-          <div class="control-label">
-            <span>Consumo Autónomo ($c_0$):</span>
-            <span class="val" id="lbl-c0">200 €</span>
-          </div>
-          <input type="range" id="sl-c0" min="50" max="500" step="25" value="200" oninput="updateModel()">
-        </div>
-
-        <!-- Inversión I -->
-        <div class="control-group">
-          <div class="control-label">
-            <span>Inversión Autónoma ($\bar{I}$):</span>
-            <span class="val" id="lbl-i">300 €</span>
-          </div>
-          <input type="range" id="sl-i" min="50" max="600" step="25" value="300" oninput="updateModel()">
-        </div>
-
-        <!-- Gasto Público G -->
-        <div class="control-group">
-          <div class="control-label">
-            <span>Gasto Público ($G$):</span>
-            <span class="val" id="lbl-g">400 €</span>
-          </div>
-          <input type="range" id="sl-g" min="100" max="800" step="25" value="400" oninput="updateModel()">
-        </div>
-
-        <!-- Impuestos T -->
-        <div class="control-group">
-          <div class="control-label">
-            <span>Impuestos Fijos ($T$):</span>
-            <span class="val" id="lbl-t">200 €</span>
-          </div>
-          <input type="range" id="sl-t" min="0" max="500" step="25" value="200" oninput="updateModel()">
-        </div>
-
-        <!-- Impuestos proporcionales t1 toggle -->
-        <div class="control-group" style="padding-top: 8px; border-top: 1px solid var(--border-color);">
-          <div class="control-label">
-            <span>Tipo Impositivo sobre la Renta ($t_1$):</span>
-            <span class="val" id="lbl-t1">0,00</span>
-          </div>
-          <input type="range" id="sl-t1" min="0.0" max="0.4" step="0.05" value="0.0" oninput="updateModel()">
-          <small style="color: var(--text-muted); font-size: 0.78rem;">Impuesto proporcional $T = T_0 + t_1 Y$ (estabilizador automático)</small>
-        </div>
-
-        <!-- Botones de Escenarios Rápidos -->
-        <div style="margin-top: 14px;">
-          <button class="action-btn" onclick="applyPreset('shock-g')">+100 Gasto ($G$)</button>
-          <button class="action-btn secondary" onclick="applyPreset('haavelmo')">Haavelmo ($\Delta G = \Delta T$)</button>
-          <button class="action-btn secondary" onclick="applyPreset('reset')">Reset</button>
-        </div>
-
-        <div class="callout">
-          <strong>Fórmula del Equilibrio:</strong><br>
-          $Y^* = \frac{1}{1 - c_1(1 - t_1)} \cdot [c_0 - c_1 T + \bar{I} + G]$
-        </div>
-      </div>
-
-      <!-- Gráfico y Métricas -->
-      <div class="card">
-        <!-- Métricas Principales -->
-        <div class="metrics-grid">
-          <div class="metric-box">
-            <div class="metric-label">Multiplicador ($\alpha$)</div>
-            <div class="metric-val teal" id="res-alpha">4,00</div>
-          </div>
-          <div class="metric-box">
-            <div class="metric-label">Producción ($Y^*$)</div>
-            <div class="metric-val blue" id="res-y">3.000 €</div>
-          </div>
-          <div class="metric-box">
-            <div class="metric-label">Saldo Fiscal ($T - G$)</div>
-            <div class="metric-val rose" id="res-sp">-200 €</div>
-          </div>
-        </div>
-
-        <!-- Canvas Gráfico -->
-        <canvas id="cruzCanvas" width="800" height="480"></canvas>
+  <div class="hero" id="hero">
+    <div class="hero-inner">
+      <svg id="cross" class="cross-svg" viewBox="0 0 330 300" role="img" aria-label="Cruz keynesiana"></svg>
+      <div class="metrics">
+        <div class="metric"><div class="k">Renta equilibrio Y*</div><div class="v" id="mY" style="color:var(--cobalt)">3.000 €</div></div>
+        <div class="metric"><div class="k">Multiplicador α</div><div class="v" id="mA" style="color:var(--amber)">4,00</div></div>
+        <div class="metric"><div class="k">Saldo público</div><div class="v" id="mSp">−200 €</div></div>
       </div>
     </div>
   </div>
 
-  <!-- TAB 2: CASCADA DE RONDAS -->
-  <div id="tab-cascada" class="tab-panel">
-    <div class="card">
-      <h2 class="card-title">🌊 El Mecanismo de Propagación: La Cascada de Rondas Keynesianas</h2>
-      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;">
-        Descubre cómo una inyección inicial de <strong>+100 €</strong> de gasto público se propaga de mano en mano a través de la economía, generando una suma infinita convergente:
-      </p>
-
-      <div style="margin-bottom: 20px;">
-        <button class="action-btn" onclick="startCascadaAnimation()">▶️ Reproducir Cascada Paso a Paso</button>
-        <button class="action-btn secondary" onclick="resetCascada()">Reiniciar</button>
+  <div class="wrap">
+    <!-- 1: la cruz -->
+    <section class="section">
+      <div class="kicker">Idea 1 · El equilibrio</div>
+      <h2>Dónde se cruzan producción y demanda</h2>
+      <p>La demanda es Z = C + I + G, y el consumo depende de la renta: C = c₀ + c₁(Y − T). El equilibrio está donde la recta de demanda corta a la de 45° (Y = Z). Cambia el gasto o la propensión a consumir y mira moverse el punto.</p>
+      <div class="grid2">
+        <div class="control"><div class="control-head"><span class="control-label">PMC · c₁</span><span class="control-value" id="vC1">0,75</span></div><input type="range" id="c1" min="0.2" max="0.95" step="0.05" value="0.75" oninput="upd()"></div>
+        <div class="control"><div class="control-head"><span class="control-label">Consumo autónomo · c₀</span><span class="control-value" id="vC0">200 €</span></div><input type="range" id="c0" min="50" max="500" step="25" value="200" oninput="upd()"></div>
+        <div class="control"><div class="control-head"><span class="control-label">Inversión · I</span><span class="control-value" id="vI">300 €</span></div><input type="range" id="i" min="50" max="600" step="25" value="300" oninput="upd()"></div>
+        <div class="control"><div class="control-head"><span class="control-label">Gasto público · G</span><span class="control-value" id="vG">400 €</span></div><input type="range" id="g" min="100" max="800" step="25" value="400" oninput="upd()"></div>
+        <div class="control"><div class="control-head"><span class="control-label">Impuestos · T</span><span class="control-value" id="vT">200 €</span></div><input type="range" id="t" min="0" max="500" step="25" value="200" oninput="upd()"></div>
+        <div class="control"><div class="control-head"><span class="control-label">Tipo proporcional · t₁</span><span class="control-value" id="vT1">0,00</span></div><input type="range" id="t1" min="0" max="0.4" step="0.05" value="0" oninput="upd()"></div>
       </div>
+      <div class="btn-row">
+        <button class="chip-btn" onclick="preset('g')">+100 en G</button>
+        <button class="chip-btn" onclick="preset('haav')">Haavelmo ΔG=ΔT</button>
+        <button class="chip-btn" onclick="preset('reset')">Reiniciar</button>
+      </div>
+    </section>
 
-      <div class="grid-layout" style="grid-template-columns: 1fr 1fr;">
-        <div>
-          <table class="rondas-table">
-            <thead>
-              <tr>
-                <th>Ronda</th>
-                <th>Receptor / Agente</th>
-                <th class="num">Inyección en Renta ($\Delta Y$)</th>
-                <th class="num">Gasto Generado ($\Delta C$)</th>
-                <th class="num">Ahorro / Fuga ($\Delta S$)</th>
-              </tr>
-            </thead>
-            <tbody id="rondas-tbody">
-              <!-- Filas insertadas dinámicamente -->
-            </tbody>
-          </table>
-        </div>
+    <!-- 2: cascada -->
+    <section class="section">
+      <div class="kicker">Idea 2 · El multiplicador</div>
+      <h2>La cascada de rondas de gasto</h2>
+      <p>Un gasto inicial de <strong>100 €</strong> se convierte en renta de alguien, que gasta el 75% (c₁), que es renta de otro… Cada ronda es menor, pero la suma total multiplica la inyección. Con c₁ = 0,75, el multiplicador es 4: los 100 € acaban moviendo 400 €.</p>
+      <div class="figure">
+        <div class="casc" id="casc"></div>
+        <div class="casc-x" id="cascX"></div>
+        <div class="casc-total" id="cascTotal"></div>
+      </div>
+    </section>
 
-        <div>
-          <div class="metric-box" style="margin-bottom: 16px;">
-            <div class="metric-label">Efecto Total Acumulado en el PIB</div>
-            <div class="metric-val teal" id="cascada-total-y">0 €</div>
-            <small style="color: var(--text-muted); font-size: 0.78rem;">Límite teórico: $\Delta Y = \alpha \cdot \Delta G$</small>
-          </div>
-
-          <div class="callout" style="background: rgba(20, 184, 166, 0.08); border-left-color: #14b8a6; color: #99f6e4;">
-            <strong>Explicación Intuitiva de Examen:</strong><br>
-            Cada euro que un ciudadano gasta es renta para otro. Si la propensión marginal a consumir es $c_1 = 0,75$, en cada vuelta el gasto es el 75% de la ronda anterior:
-            $$\Delta Y = 100 \cdot (1 + 0,75 + 0,75^2 + 0,75^3 + \dots) = 100 \cdot \frac{1}{1 - 0,75} = 400\ \text{€}$$
-          </div>
+    <!-- 3: paradoja -->
+    <section class="section">
+      <div class="kicker">Idea 3 · La paradoja</div>
+      <h2>Si todos ahorran a la vez, nadie ahorra más</h2>
+      <p>Ahorrar es sensato para una familia. Pero si <strong>toda</strong> la sociedad recorta consumo de golpe sin que suba la inversión, la demanda cae, la renta se hunde… y el ahorro agregado no se mueve, porque en equilibrio S = I + (G − T). Activa la fiebre de ahorro.</p>
+      <div class="figure">
+        <div class="twobars">
+          <div class="tb-col"><div class="tb-val" style="color:var(--brand-brick)" id="pY">3.000 €</div><div class="tb-fill" id="pYf" style="background:var(--brand-brick);height:120px;"></div><div class="tb-name">Renta Y</div></div>
+          <div class="tb-col"><div class="tb-val" style="color:var(--pine)" id="pS">500 €</div><div class="tb-fill" id="pSf" style="background:var(--pine);height:40px;"></div><div class="tb-name">Ahorro agregado</div></div>
         </div>
       </div>
+      <div class="control"><div class="control-head"><span class="control-label">Consumo autónomo · c₀</span><span class="control-value" id="vPc0">200 €</span></div><input type="range" id="pc0" min="50" max="300" step="25" value="200" oninput="calcP()"></div>
+      <div class="btn-row"><button class="chip-btn" onclick="frugal()">Fiebre de ahorro (c₀ = 100)</button><button class="chip-btn" onclick="resetP()">Restablecer</button></div>
+      <div class="reading" id="pReading"></div>
+    </section>
+
+    <!-- 4: retos -->
+    <section class="section">
+      <div class="kicker">Idea 4 · Retos de examen</div>
+      <h2>Pon a prueba lo aprendido</h2>
+      <div class="quiz">
+        <div class="quiz-q">1. Haavelmo: si el gobierno sube G en 100 y T en 100 a la vez, ¿cuánto varía Y de equilibrio?</div>
+        <button class="quiz-btn" onclick="quiz(1,'A',this)">A) ΔY = 0: los impuestos neutralizan el gasto.</button>
+        <button class="quiz-btn" onclick="quiz(1,'B',this)">B) ΔY = +100: el multiplicador de presupuesto equilibrado es exactamente 1.</button>
+        <button class="quiz-btn" onclick="quiz(1,'C',this)">C) ΔY &lt; 0: los impuestos dañan la confianza.</button>
+        <div class="quiz-fb" id="fb1"></div>
+      </div>
+      <div class="quiz">
+        <div class="quiz-q">2. Al introducir un impuesto proporcional T = t₁Y, ¿qué le pasa al multiplicador del gasto?</div>
+        <button class="quiz-btn" onclick="quiz(2,'A',this)">A) Aumenta: el gobierno recauda y gasta más cada ronda.</button>
+        <button class="quiz-btn" onclick="quiz(2,'B',this)">B) Se reduce: cada ronda filtra una parte a impuestos (estabilizador automático).</button>
+        <button class="quiz-btn" onclick="quiz(2,'C',this)">C) No varía: solo cambia la ordenada en el origen.</button>
+        <div class="quiz-fb" id="fb2"></div>
+      </div>
+      <div class="quiz">
+        <div class="quiz-q">3. Si la producción está por encima del equilibrio (Y &gt; Y*), ¿qué la devuelve al equilibrio?</div>
+        <button class="quiz-btn" onclick="quiz(3,'A',this)">A) El gobierno baja el gasto automáticamente.</button>
+        <button class="quiz-btn" onclick="quiz(3,'B',this)">B) Se acumulan existencias no deseadas y las empresas recortan producción hasta Y = Z.</button>
+        <button class="quiz-btn" onclick="quiz(3,'C',this)">C) Los precios bajan al instante para vaciar el mercado.</button>
+        <div class="quiz-fb" id="fb3"></div>
+      </div>
+    </section>
+
+    <div class="closing">
+      <div class="k">Conclusión docente</div>
+      <p>El equilibrio lo fija la <b>demanda</b>, y un empujón de gasto se amplifica por el <b>multiplicador</b>. Por eso intentar ahorrar todos a la vez puede hundir la renta sin aumentar el ahorro: la <b>falacia de composición</b> del Tema.</p>
     </div>
   </div>
-
-  <!-- TAB 3: LA PARADOJA DEL AHORRO -->
-  <div id="tab-paradoja" class="tab-panel">
-    <div class="card">
-      <h2 class="card-title">📉 Laboratorio de la Paradoja de la Frugalidad (del Ahorro)</h2>
-      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 18px;">
-        ¿Qué ocurre si todos los ciudadanos se asustan del futuro e intentan ahorrar más reduciendo su consumo autónomo?
-      </p>
-
-      <div class="grid-layout" style="grid-template-columns: 1fr 1fr;">
-        <div>
-          <div class="control-group">
-            <div class="control-label"><span>Consumo Autónomo ($c_0$):</span><span class="val" id="lbl-paradoja-c0">200 €</span></div>
-            <input type="range" id="sl-paradoja-c0" min="50" max="300" step="25" value="200" oninput="calcParadoja()">
-          </div>
-
-          <div style="margin-top: 16px;">
-            <button class="action-btn rose" style="background: #e11d48;" onclick="shockFrugalidad()">⚡ Activar "Fiebre de Ahorro" (-100€ en $c_0$)</button>
-            <button class="action-btn secondary" onclick="resetParadoja()">Restablecer</button>
-          </div>
-
-          <div class="callout" style="margin-top: 24px;">
-            <strong>La Conclusión de Blanchard:</strong><br>
-            A nivel individual, ahorrar es virtuoso. Pero si <em>toda la sociedad</em> intenta ahorrar a la vez sin que aumente la inversión, la demanda agregada se desploma, la renta cae y el ahorro agregado final no aumenta ni un solo céntimo.
-          </div>
-        </div>
-
-        <div>
-          <div class="metrics-grid" style="grid-template-columns: 1fr 1fr;">
-            <div class="metric-box">
-              <div class="metric-label">PIB de Equilibrio ($Y^*$)</div>
-              <div class="metric-val rose" id="res-paradoja-y">3.000 €</div>
-            </div>
-            <div class="metric-box">
-              <div class="metric-label">Ahorro Agregado ($S$)</div>
-              <div class="metric-val amber" id="res-paradoja-s">100 €</div>
-              <small style="color: var(--text-muted); font-size: 0.78rem;">¡Permanece idéntico a $I + (G-T)$!</small>
-            </div>
-          </div>
-
-          <div class="identity-banner" id="banner-paradoja" style="background: rgba(244, 63, 94, 0.12); border-color: rgba(244, 63, 94, 0.35); color: #fca5a5;">
-            Estado: Equilibrio estándar antes del shock de frugalidad.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TAB 4: RETOS DE EXAMEN -->
-  <div id="tab-quiz2" class="tab-panel">
-    <div class="card">
-      <h2 class="card-title">🎯 Retos de Examen: "Código Desclasificado del Multiplicador"</h2>
-
-      <!-- P1 -->
-      <div class="quiz-card">
-        <div class="quiz-q">1. Según el Teorema de Haavelmo, si el gobierno aumenta simultáneamente el gasto público en 100 millones ($\Delta G = +100$) y los impuestos en 100 millones ($\Delta T = +100$), ¿cuánto varía la producción de equilibrio?</div>
-        <div class="quiz-options">
-          <button class="quiz-btn" onclick="checkQuiz2(1, 'A')">A) $\Delta Y = 0$, porque el aumento de impuestos neutraliza exactamente el gasto público.</button>
-          <button class="quiz-btn" onclick="checkQuiz2(1, 'B')">B) $\Delta Y = +100$ millones, porque el multiplicador del presupuesto equilibrado es exactamente 1.</button>
-          <button class="quiz-btn" onclick="checkQuiz2(1, 'C')">C) $\Delta Y < 0$, porque los impuestos dañan la confianza de los inversores.</button>
-        </div>
-        <div id="q2-1-fb" class="quiz-feedback"></div>
-      </div>
-
-      <!-- P2 -->
-      <div class="quiz-card">
-        <div class="quiz-q">2. Si introducimos un impuesto proporcional sobre la renta ($T = t_1 Y$), ¿qué le sucede al multiplicador del gasto autónomo?</div>
-        <div class="quiz-options">
-          <button class="quiz-btn" onclick="checkQuiz2(2, 'A')">A) Aumenta, porque el gobierno recauda más y puede gastar más en cada ronda.</button>
-          <button class="quiz-btn" onclick="checkQuiz2(2, 'B')">B) Se reduce, porque en cada ronda de gasto se filtra una parte hacia impuestos, actuando como estabilizador automático.</button>
-          <button class="quiz-btn" onclick="checkQuiz2(2, 'C')">C) No varía, solo cambia la ordenada en el origen de la demanda agregada.</button>
-        </div>
-        <div id="q2-2-fb" class="quiz-feedback"></div>
-      </div>
-
-      <!-- P3 -->
-      <div class="quiz-card">
-        <div class="quiz-q">3. En el modelo de la Cruz Keynesiana, si la producción observada está por encima del equilibrio ($Y > Y^*$), ¿qué mecanismo hace que la economía regrese al equilibrio?</div>
-        <div class="quiz-options">
-          <button class="quiz-btn" onclick="checkQuiz2(3, 'A')">A) El gobierno baja el gasto público automáticamente.</button>
-          <button class="quiz-btn" onclick="checkQuiz2(3, 'B')">B) Las empresas experimentan acumulación involuntaria de existencias ($I_{invol} > 0$) y deciden reducir la producción en el siguiente periodo hasta que $Y = Z$.</button>
-          <button class="quiz-btn" onclick="checkQuiz2(3, 'C')">C) Los precios bajan instantáneamente para vaciar el mercado.</button>
-        </div>
-        <div id="q2-3-fb" class="quiz-feedback"></div>
-      </div>
-    </div>
-  </div>
-
-</div>
 
 <script>
-  function switchTab(tabId) {
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(tabId).classList.add('active');
-    event.target.classList.add('active');
-    if (tabId === 'tab-cruz') drawCruz();
+  function $(id){return document.getElementById(id);}
+  function euros(v){return Math.round(v).toLocaleString('es-ES')+' €';}
+
+  function drawCross(yStar,A,pend){
+    var svg=$('cross'); var PL=42,PR=312,PT=16,PB=286; // cuadro cuadrado 270x270
+    var Ymax=Math.max(yStar*1.6, A*1.9, 100);
+    function sx(Y){return PL+(Y/Ymax)*(PR-PL);}
+    function sy(Z){return PB-(Z/Ymax)*(PB-PT);}
+    var cob='#056CAA',pine='#113927',grid='#E3DCD2',muted='#6B7280',amber='#C68B59';
+    var p=[];
+    p.push('<line x1="'+PL+'" y1="'+PB+'" x2="'+PR+'" y2="'+PB+'" stroke="'+grid+'"/>');
+    p.push('<line x1="'+PL+'" y1="'+PT+'" x2="'+PL+'" y2="'+PB+'" stroke="'+grid+'"/>');
+    // 45 grados
+    p.push('<line x1="'+sx(0)+'" y1="'+sy(0)+'" x2="'+sx(Ymax)+'" y2="'+sy(Ymax)+'" stroke="'+muted+'" stroke-width="1.5" stroke-dasharray="4 3"/>');
+    p.push('<text x="'+(sx(Ymax)-6)+'" y="'+(sy(Ymax)+14)+'" font-size="10" fill="'+muted+'" text-anchor="end">Z = Y</text>');
+    // demanda Z=A+pend*Y
+    p.push('<line x1="'+sx(0)+'" y1="'+sy(A)+'" x2="'+sx(Ymax)+'" y2="'+sy(A+pend*Ymax)+'" stroke="'+cob+'" stroke-width="3" stroke-linecap="round"/>');
+    p.push('<text x="'+(sx(Ymax))+'" y="'+(sy(A+pend*Ymax)-6)+'" font-size="10" font-weight="700" fill="'+cob+'" text-anchor="end">Demanda Z</text>');
+    // intercepto A
+    p.push('<circle cx="'+sx(0)+'" cy="'+sy(A)+'" r="3" fill="'+cob+'"/>');
+    p.push('<text x="'+(sx(0)+6)+'" y="'+(sy(A)-4)+'" font-size="9.5" fill="'+muted+'">A='+Math.round(A)+'</text>');
+    // equilibrio
+    var ex=sx(yStar),ey=sy(yStar);
+    p.push('<line x1="'+ex+'" y1="'+ey+'" x2="'+ex+'" y2="'+PB+'" stroke="'+amber+'" stroke-width="1" stroke-dasharray="3 3"/>');
+    p.push('<line x1="'+ex+'" y1="'+ey+'" x2="'+PL+'" y2="'+ey+'" stroke="'+amber+'" stroke-width="1" stroke-dasharray="3 3"/>');
+    p.push('<circle cx="'+ex+'" cy="'+ey+'" r="6" fill="#fff" stroke="'+amber+'" stroke-width="3"/>');
+    p.push('<text x="'+ex+'" y="'+(PB+15)+'" font-size="10" font-weight="800" fill="'+amber+'" text-anchor="middle">Y*='+Math.round(yStar)+'</text>');
+    p.push('<text x="'+((PL+PR)/2)+'" y="'+(PB+28)+'" font-size="9.5" fill="'+muted+'" text-anchor="middle">Producción / Renta (Y)</text>');
+    svg.innerHTML=p.join('');
   }
 
-  // Model State
-  let state = {
-    c1: 0.75,
-    c0: 200,
-    i: 300,
-    g: 400,
-    t: 200,
-    t1: 0.0
-  };
-
-  function updateModel() {
-    state.c1 = parseFloat(document.getElementById('sl-c1').value);
-    state.c0 = parseFloat(document.getElementById('sl-c0').value);
-    state.i = parseFloat(document.getElementById('sl-i').value);
-    state.g = parseFloat(document.getElementById('sl-g').value);
-    state.t = parseFloat(document.getElementById('sl-t').value);
-    state.t1 = parseFloat(document.getElementById('sl-t1').value);
-
-    document.getElementById('lbl-c1').innerText = state.c1.toFixed(2);
-    document.getElementById('lbl-c0').innerText = state.c0 + " €";
-    document.getElementById('lbl-i').innerText = state.i + " €";
-    document.getElementById('lbl-g').innerText = state.g + " €";
-    document.getElementById('lbl-t').innerText = state.t + " €";
-    document.getElementById('lbl-t1').innerText = state.t1.toFixed(2);
-
-    // Cálculos
-    const denom = 1 - state.c1 * (1 - state.t1);
-    const alpha = 1 / denom;
-    const gastoAutonomo = state.c0 - (state.c1 * state.t) + state.i + state.g;
-    const y_star = alpha * gastoAutonomo;
-    const recaudacionTotal = state.t + (state.t1 * y_star);
-    const sp = recaudacionTotal - state.g;
-
-    document.getElementById('res-alpha').innerText = alpha.toFixed(2);
-    document.getElementById('res-y').innerText = Math.round(y_star).toLocaleString() + " €";
-    document.getElementById('res-sp').innerText = (sp >= 0 ? "+" : "") + Math.round(sp).toLocaleString() + " €";
-    document.getElementById('res-sp').className = "metric-val " + (sp >= 0 ? "teal" : "rose");
-
-    drawCruz(y_star, gastoAutonomo, state.c1 * (1 - state.t1));
+  function upd(){
+    var c1=+$('c1').value,c0=+$('c0').value,i=+$('i').value,g=+$('g').value,t=+$('t').value,t1=+$('t1').value;
+    $('vC1').textContent=c1.toFixed(2).replace('.',','); $('vC0').textContent=c0+' €'; $('vI').textContent=i+' €';
+    $('vG').textContent=g+' €'; $('vT').textContent=t+' €'; $('vT1').textContent=t1.toFixed(2).replace('.',',');
+    var pend=c1*(1-t1), alpha=1/(1-pend), A=c0-c1*t+i+g, yStar=alpha*A;
+    var recaud=t+t1*yStar, sp=recaud-g;
+    $('mY').textContent=euros(yStar); $('mA').textContent=alpha.toFixed(2).replace('.',',');
+    $('mSp').textContent=(sp>=0?'+':'−')+Math.abs(Math.round(sp)).toLocaleString('es-ES')+' €';
+    $('mSp').style.color=sp>=0?'#2F8F63':'#A33327';
+    drawCross(yStar,A,pend);
+  }
+  function preset(type){
+    if(type==='g'){ $('g').value=Math.min(800,+$('g').value+100); }
+    else if(type==='haav'){ $('g').value=Math.min(800,+$('g').value+100); $('t').value=Math.min(500,+$('t').value+100); }
+    else { $('c1').value=0.75;$('c0').value=200;$('i').value=300;$('g').value=400;$('t').value=200;$('t1').value=0; }
+    upd();
   }
 
-  function applyPreset(type) {
-    if (type === 'shock-g') {
-      document.getElementById('sl-g').value = state.g + 100;
-    } else if (type === 'haavelmo') {
-      document.getElementById('sl-g').value = state.g + 100;
-      document.getElementById('sl-t').value = state.t + 100;
-    } else if (type === 'reset') {
-      document.getElementById('sl-c1').value = 0.75;
-      document.getElementById('sl-c0').value = 200;
-      document.getElementById('sl-i').value = 300;
-      document.getElementById('sl-g').value = 400;
-      document.getElementById('sl-t').value = 200;
-      document.getElementById('sl-t1').value = 0.0;
-    }
-    updateModel();
+  function drawCascada(){
+    var r=0.75, N=8, casc=$('casc'), x=$('cascX'), vals=[];
+    for(var k=0;k<N;k++) vals.push(100*Math.pow(r,k));
+    var mx=vals[0], html='', xh='', sum=0;
+    vals.forEach(function(v,k){ sum+=v;
+      html+='<div class="casc-bar" style="height:'+Math.max(3,v/mx*118)+'px;"><span>'+v.toFixed(0)+'</span></div>';
+      xh+='<div>R'+k+'</div>';
+    });
+    casc.innerHTML=html; x.innerHTML=xh;
+    $('cascTotal').innerHTML='Suma de las rondas → converge a <b>400 €</b> = 4 × 100 (el multiplicador). Primeras 8 rondas: '+Math.round(sum)+' €.';
   }
 
-  function drawCruz(y_star, A, pend) {
-    const canvas = document.getElementById('cruzCanvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    const W = canvas.width;
-    const H = canvas.height;
-
-    ctx.clearRect(0, 0, W, H);
-
-    const padLeft = 70;
-    const padBottom = 60;
-    const padTop = 30;
-    const padRight = 40;
-
-    const maxVal = Math.max(5000, y_star * 1.35);
-
-    function scaleX(val) {
-      return padLeft + (val / maxVal) * (W - padLeft - padRight);
-    }
-    function scaleY(val) {
-      return (H - padBottom) - (val / maxVal) * (H - padBottom - padTop);
-    }
-
-    // Ejes
-    ctx.strokeStyle = '#4b5563';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(padLeft, padTop);
-    ctx.lineTo(padLeft, H - padBottom);
-    ctx.lineTo(W - padRight, H - padBottom);
-    ctx.stroke();
-
-    // Títulos de ejes
-    ctx.fillStyle = '#9ca3af';
-    ctx.font = '13px Outfit';
-    ctx.fillText('Producción, Renta (Y)', W - padRight - 80, H - padBottom + 35);
-    ctx.save();
-    ctx.translate(25, H / 2);
-    ctx.rotate(-Math.PI / 2);
-    ctx.fillText('Demanda Agregada (Z)', 0, 0);
-    ctx.restore();
-
-    // Recta 45°
-    ctx.strokeStyle = '#6b7280';
-    ctx.lineWidth = 1.5;
-    ctx.setLineDash([6, 6]);
-    ctx.beginPath();
-    ctx.moveTo(scaleX(0), scaleY(0));
-    ctx.lineTo(scaleX(maxVal * 0.9), scaleY(maxVal * 0.9));
-    ctx.stroke();
-    ctx.fillStyle = '#9ca3af';
-    ctx.fillText('Recta 45° (Y = Z)', scaleX(maxVal * 0.75), scaleY(maxVal * 0.75) - 10);
-
-    // Recta de Demanda Z = A + pend*Y
-    ctx.setLineDash([]);
-    ctx.strokeStyle = '#38bdf8';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    const y0 = 0;
-    const z0 = A;
-    const yMaxPlot = maxVal * 0.95;
-    const zMaxPlot = A + pend * yMaxPlot;
-    ctx.moveTo(scaleX(y0), scaleY(z0));
-    ctx.lineTo(scaleX(yMaxPlot), scaleY(zMaxPlot));
-    ctx.stroke();
-
-    ctx.fillStyle = '#38bdf8';
-    ctx.fillText('Z = Ā + c₁(1-t₁)Y', scaleX(yMaxPlot) - 120, scaleY(zMaxPlot) - 10);
-
-    // Punto de equilibrio
-    if (y_star > 0 && y_star < maxVal) {
-      const eqX = scaleX(y_star);
-      const eqY = scaleY(y_star);
-
-      // Líneas de proyección
-      ctx.strokeStyle = '#d97706';
-      ctx.lineWidth = 1.5;
-      ctx.setLineDash([4, 4]);
-      ctx.beginPath();
-      ctx.moveTo(eqX, H - padBottom);
-      ctx.lineTo(eqX, eqY);
-      ctx.lineTo(padLeft, eqY);
-      ctx.stroke();
-      ctx.setLineDash([]);
-
-      // Punto
-      ctx.fillStyle = '#d97706';
-      ctx.beginPath();
-      ctx.arc(eqX, eqY, 6, 0, 2 * Math.PI);
-      ctx.fill();
-
-      // Etiquetas
-      ctx.fillStyle = '#fbbf24';
-      ctx.font = 'bold 13px JetBrains Mono';
-      ctx.fillText(`Y* = ${Math.round(y_star)}`, eqX - 35, H - padBottom + 20);
-      ctx.fillText(`Z* = ${Math.round(y_star)}`, padLeft - 60, eqY + 4);
-    }
-  }
-
-  // TAB 2: CASCADA KEYNESIANA
-  let cascadaStep = 0;
-  let cascadaInterval = null;
-  const inyeccion = 100;
-  const c1_cascada = 0.75;
-  let sumaAcumulada = 0;
-
-  const roles = [
-    "Gobierno adjudica obras de hospital",
-    "Constructora paga nóminas a obreros",
-    "Obreros compran alimentos en el súper",
-    "Comerciantes compran ropa y calzado",
-    "Sastres cenan en restaurantes locales",
-    "Hosteleros contratan servicios de limpieza",
-    "Personal de limpieza compra material escolar",
-    "Librerías contratan transporte y logística"
-  ];
-
-  function startCascadaAnimation() {
-    resetCascada();
-    cascadaInterval = setInterval(() => {
-      if (cascadaStep >= roles.length) {
-        clearInterval(cascadaInterval);
-        return;
-      }
-      const rentaRonda = inyeccion * Math.pow(c1_cascada, cascadaStep);
-      const gastoRonda = rentaRonda * c1_cascada;
-      const ahorroRonda = rentaRonda * (1 - c1_cascada);
-      sumaAcumulada += rentaRonda;
-
-      const tbody = document.getElementById('rondas-tbody');
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td><strong>Ronda ${cascadaStep}</strong></td>
-        <td>${roles[cascadaStep]}</td>
-        <td class="num" style="color: #60a5fa;">+${rentaRonda.toFixed(2)} €</td>
-        <td class="num" style="color: #2dd4bf;">+${gastoRonda.toFixed(2)} €</td>
-        <td class="num" style="color: #f59e0b;">+${ahorroRonda.toFixed(2)} €</td>
-      `;
-      tbody.appendChild(tr);
-
-      document.getElementById('cascada-total-y').innerText = "+" + Math.round(sumaAcumulada).toLocaleString() + " €";
-
-      cascadaStep++;
-    }, 450);
-  }
-
-  function resetCascada() {
-    clearInterval(cascadaInterval);
-    cascadaStep = 0;
-    sumaAcumulada = 0;
-    document.getElementById('rondas-tbody').innerHTML = '';
-    document.getElementById('cascada-total-y').innerText = "0 €";
-  }
-
-  // TAB 3: PARADOJA DEL AHORRO
-  function calcParadoja() {
-    const c0 = parseFloat(document.getElementById('sl-paradoja-c0').value);
-    document.getElementById('lbl-paradoja-c0').innerText = c0 + " €";
-
-    const c1 = 0.75;
-    const I = 300;
-    const G = 400;
-    const T = 200;
-
-    const alpha = 1 / (1 - c1); // 4
-    const A = c0 - c1 * T + I + G;
-    const y = alpha * A;
-    const S = I + (G - T); // En economía cerrada S = I + (G - T) = 300 + 200 = 500
-
-    document.getElementById('res-paradoja-y').innerText = Math.round(y).toLocaleString() + " €";
-    document.getElementById('res-paradoja-s').innerText = S + " €";
-
-    const banner = document.getElementById('banner-paradoja');
-    if (c0 < 150) {
-      banner.style.background = "rgba(244, 63, 94, 0.18)";
-      banner.style.color = "#fca5a5";
-      banner.innerHTML = `⚠️ <strong>Paradoja Demostrada:</strong> Al reducir $c_0$ a ${c0} €, la producción se hunde a ${Math.round(y)} € (-${Math.round(3000-y)} €). El ahorro total del país <strong>sigue congelado en ${S} €</strong> porque las familias tienen menos renta disponible para ahorrar.`;
+  function calcP(){
+    var c0=+$('pc0').value; $('vPc0').textContent=c0+' €';
+    var c1=0.75,I=300,G=400,T=200, alpha=1/(1-c1), A=c0-c1*T+I+G, y=alpha*A, S=I+(G-T);
+    $('pY').textContent=euros(y); $('pS').textContent=S+' €';
+    $('pYf').style.height=Math.max(8,y/3000*120)+'px';
+    $('pSf').style.height=Math.max(8,S/3000*120)+'px';
+    var r=$('pReading');
+    if(c0<150){
+      r.style.borderLeftColor='#A33327';
+      r.innerHTML='<strong>Paradoja demostrada:</strong> con c₀ = '+c0+' €, la renta se hunde a '+euros(y)+' (−'+Math.round(3000-y)+' €). Pero el ahorro agregado <strong>sigue en '+S+' €</strong>: al caer la renta, las familias no logran ahorrar más.';
     } else {
-      banner.style.background = "rgba(59, 130, 246, 0.1)";
-      banner.style.color = "#93c5fd";
-      banner.innerHTML = `Estado: Consumo autónomo normal ($c_0 = ${c0} €$).`;
+      r.style.borderLeftColor='var(--cobalt)';
+      r.innerHTML='Consumo autónomo normal (c₀ = '+c0+' €). El ahorro agregado en equilibrio es S = I + (G − T) = '+S+' €.';
     }
   }
+  function frugal(){ $('pc0').value=100; calcP(); }
+  function resetP(){ $('pc0').value=200; calcP(); }
 
-  function shockFrugalidad() {
-    document.getElementById('sl-paradoja-c0').value = 100;
-    calcParadoja();
+  var ans={1:'B',2:'B',3:'B'}, fbt={
+    1:'Multiplicador de G = 1/(1−c₁); multiplicador de T = −c₁/(1−c₁). Al sumar ΔG=ΔT queda (1−c₁)/(1−c₁) = 1, así que ΔY = +100.',
+    2:'El impuesto proporcional filtra renta en cada ronda: el multiplicador pasa a 1/[1−c₁(1−t₁)], menor. Actúa como estabilizador automático.',
+    3:'Con Y > Z se acumulan existencias no deseadas (inversión involuntaria > 0); las empresas recortan producción hasta que Y = Z.'
+  };
+  function quiz(q,sel,btn){
+    var ok=(sel===ans[q]), parent=btn.parentElement;
+    parent.querySelectorAll('.quiz-btn').forEach(function(b){b.classList.remove('correct','wrong');});
+    btn.classList.add(ok?'correct':'wrong');
+    if(!ok) parent.querySelectorAll('.quiz-btn').forEach(function(b){ if(b.textContent.trim().charAt(0)===ans[q]) b.classList.add('correct'); });
+    var fb=$('fb'+q); fb.className='quiz-fb show '+(ok?'correct':'wrong');
+    fb.innerHTML=(ok?'<b>Correcto. </b>':'<b>No exactamente. </b>')+fbt[q];
   }
 
-  function resetParadoja() {
-    document.getElementById('sl-paradoja-c0').value = 200;
-    calcParadoja();
-  }
-
-  // TAB 4: QUIZ
-  function checkQuiz2(qNum, opt) {
-    const fb = document.getElementById(`q2-${qNum}-fb`);
-    if (qNum === 1) {
-      if (opt === 'B') {
-        fb.className = "quiz-feedback correct";
-        fb.innerHTML = "¡CORRECTO! Teorema de Haavelmo: $\\Delta Y = \\frac{1}{1-c_1} \\Delta G - \\frac{c_1}{1-c_1} \\Delta T = \\frac{1-c_1}{1-c_1} \\Delta G = 1 \\cdot \\Delta G = +100$ M€. El multiplicador neto es exactamente 1.";
-      } else {
-        fb.className = "quiz-feedback wrong";
-        fb.innerHTML = "INCORRECTO. Cuidado: el multiplicador de $G$ es $\\frac{1}{1-c_1}$ y el de $T$ es $\\frac{-c_1}{1-c_1}$. Al sumarlos queda $\\frac{1-c_1}{1-c_1} = 1$. La renta crece en 100 millones.";
-      }
-    } else if (qNum === 2) {
-      if (opt === 'B') {
-        fb.className = "quiz-feedback correct";
-        fb.innerHTML = "¡EXACTO! El denominador pasa a ser $1 - c_1(1-t_1)$, que es mayor que $1 - c_1$, por lo que el multiplicador se reduce. Actúa como estabilizador automático amortiguando los ciclos económicos.";
-      } else {
-        fb.className = "quiz-feedback wrong";
-        fb.innerHTML = "INCORRECTO. Al haber impuestos sobre la renta, en cada ronda una parte se escapa al fisco antes de que el ciudadano pueda gastar, reduciendo el multiplicador.";
-      }
-    } else if (qNum === 3) {
-      if (opt === 'B') {
-        fb.className = "quiz-feedback correct";
-        fb.innerHTML = "¡BRILANTE! En el modelo keynesiano a corto plazo, las empresas ajustan cantidades vía existencias. Si $Y > Z$, se acumula stock involuntario ($I_{invol} > 0$), lo que indica a las fábricas que deben reducir la producción hasta igualar la demanda.";
-      } else {
-        fb.className = "quiz-feedback wrong";
-        fb.innerHTML = "INCORRECTO. En el modelo a corto plazo los precios están fijos. El ajuste no es por precios ni por política fiscal, sino por la señal de existencias no vendidas de las empresas.";
-      }
-    }
-  }
-
-  // Init
-  updateModel();
-  calcParadoja();
+  upd(); drawCascada(); calcP();
 </script>
-
 </body>
 </html>
