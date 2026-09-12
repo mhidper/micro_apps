@@ -153,12 +153,12 @@
     }
     .welcome-headings h1 {
       font-family: 'Outfit', sans-serif;
-      font-size: clamp(1.75rem, 5vw, 2.2rem);
+      font-size: clamp(2rem, 6.6vw, 2.7rem);
       font-weight: 800;
-      line-height: 1.15;
+      line-height: 1.08;
       color: var(--text-espresso);
-      letter-spacing: -0.02em;
-      margin-bottom: 4px;
+      letter-spacing: -0.035em;
+      margin-bottom: 6px;
     }
     .welcome-headings .welcome-tagline {
       font-size: 0.92rem;
@@ -253,12 +253,15 @@
     .welcome-art {
       position: relative;
       width: 100%;
-      height: clamp(55px, 10vh, 85px);
-      margin: 4px 0 10px;
+      margin: 6px 0 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
+    }
+    .welcome-art-svg {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
     }
     .welcome-art-card {
       width: 110px;
@@ -408,11 +411,11 @@
 
     .dashboard-greeting h2 {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.85rem;
+      font-size: 2.05rem;
       font-weight: 800;
       color: var(--text-espresso);
-      line-height: 1.2;
-      letter-spacing: -0.01em;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
     }
     .dashboard-greeting p {
       font-size: 0.92rem;
@@ -477,18 +480,19 @@
       border-color: #D8CEC0;
     }
     .app-card:active {
-      transform: translateY(0);
+      transform: scale(0.988);
     }
 
     .app-icon-circle {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      border-radius: 15px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1.35rem;
       flex-shrink: 0;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.55), 0 2px 6px rgba(74,59,50,0.06);
     }
     .app-content {
       flex: 1;
@@ -1101,6 +1105,29 @@
     @media (min-width:1040px){
       .apps-list{grid-template-columns:repeat(3,minmax(0,1fr));}
     }
+
+    /* ---- Repiel visible en móvil: antetítulo editorial, badges con
+           punto, hairline bajo cabecera pegajosa ---- */
+    .eyebrow{
+      display:flex;align-items:center;gap:10px;
+      font-family:'Outfit',sans-serif;
+      font-size:0.72rem;font-weight:700;
+      letter-spacing:0.14em;text-transform:uppercase;
+      color:var(--brand-brick);
+      margin-bottom:10px;
+    }
+    .eyebrow::before{
+      content:"";width:22px;height:3px;border-radius:2px;
+      background:linear-gradient(90deg,var(--brand-brick),var(--brand-amber));
+    }
+    .app-badge{display:inline-flex;align-items:center;gap:6px;vertical-align:middle;}
+    .app-badge::before{
+      content:"";width:6px;height:6px;border-radius:50%;
+      background:currentColor;opacity:0.85;
+    }
+    .dashboard-header{
+      box-shadow:0 10px 18px -16px rgba(74,59,50,0.35);
+    }
   </style>
 </head>
 <body>
@@ -1130,6 +1157,7 @@
         </div>
 
         <div class="welcome-headings">
+          <div class="eyebrow">Laboratorio docente</div>
           <h1>Micro apps<br>docentes</h1>
           <p class="welcome-tagline">Pequeñas preguntas, grandes aprendizajes.</p>
         </div>
@@ -1167,20 +1195,24 @@
         </div>
       </div>
 
-      <!-- Ilustración Gráfica de Portada Fiel al Mockup -->
+      <!-- Ilustración de portada: curvas que se cruzan (guiño económico) -->
       <div class="welcome-art">
-        <div class="art-shape-bg1"></div>
-        <div class="art-shape-bg2"></div>
-        <div class="welcome-art-card">
-          <div class="art-check-line">
-            <div class="art-checkbox">✓</div>
-            <div class="art-line"></div>
-          </div>
-          <div class="art-check-line">
-            <div class="art-checkbox" style="background: transparent; border-color: #A49080;"></div>
-            <div class="art-line" style="width: 50%;"></div>
-          </div>
-        </div>
+        <svg class="welcome-art-svg" viewBox="0 0 300 170" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dos curvas que se cruzan">
+          <rect x="7" y="7" width="286" height="152" rx="20" fill="#FFFDFA" stroke="#EFE9E0"/>
+          <line x1="48" y1="24" x2="48" y2="140" stroke="#E3DCD2" stroke-width="2" stroke-linecap="round"/>
+          <line x1="48" y1="140" x2="262" y2="140" stroke="#E3DCD2" stroke-width="2" stroke-linecap="round"/>
+          <path d="M58 42 C122 68, 152 118, 252 134" stroke="#D47B5A" stroke-width="4" stroke-linecap="round"/>
+          <path d="M58 134 C132 118, 162 64, 252 38" stroke="#113927" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="150" cy="90" r="13" fill="#C68B59" opacity="0.16"/>
+          <circle cx="150" cy="90" r="5" fill="#C68B59"/>
+          <g transform="rotate(-6 240 44)">
+            <rect x="216" y="26" width="52" height="36" rx="10" fill="#FFFFFF" stroke="#E3DCD2"/>
+            <rect x="224" y="35" width="13" height="13" rx="3.5" fill="#A33327"/>
+            <path d="M227.5 41.5 l2.6 2.6 l4.2 -5.2" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <rect x="243" y="37" width="19" height="3.4" rx="1.7" fill="#EAE3D9"/>
+            <rect x="243" y="45.5" width="13" height="3.4" rx="1.7" fill="#EAE3D9"/>
+          </g>
+        </svg>
       </div>
 
       <!-- Botón de Inicio Fiel al Mockup -->
