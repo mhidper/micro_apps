@@ -282,6 +282,7 @@ window.DOCENCIA_APPS = {
         title: "Laboratorio Macroeconómico • Sesión 1",
         desc: "El Tablero del Mundo: Las 3 vías del PIB, el espejismo nominal vs. real y el impacto del petróleo (Deflactor vs IPC).",
         meta: "Laboratorio interactivo · 15 min",
+        session: "Sesión 1",
         url: "macro_simulador_sesion_01.html"
       },
       {
@@ -294,6 +295,7 @@ window.DOCENCIA_APPS = {
         title: "Simulador de la Cruz Keynesiana y el Multiplicador",
         desc: "Equilibrio en el mercado de bienes, la cascada del multiplicador del gasto y la paradoja del ahorro.",
         meta: "Simulador dinámico · 12 min",
+        session: "Sesión 2",
         url: "macro_simulador_sesion_02.html"
       },
       {
@@ -306,6 +308,7 @@ window.DOCENCIA_APPS = {
         title: "Simulador de la Relación IS e Inversión",
         desc: "Inversión endógena I(Y, i), derivación gráfica simultánea (Cruz Keynesiana e IS) y políticas fiscales.",
         meta: "Simulador interactivo · 12 min",
+        session: "Sesión 3",
         url: "macro_simulador_sesion_03.html"
       },
       {

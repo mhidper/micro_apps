@@ -971,10 +971,31 @@
     .subject-pill-switcher:focus-visible,.btn-user-avatar:focus-visible,.btn-sim-external:focus-visible{
       outline:3px solid var(--brand-terracotta);outline-offset:2px;}
     .app-badge{display:inline-block;font-size:0.66rem;font-weight:700;text-transform:uppercase;
-      letter-spacing:0.03em;padding:2px 8px;border-radius:var(--radius-pill);}
+      letter-spacing:0.03em;padding:2px 8px;border-radius:var(--radius-pill);white-space:nowrap;}
     .app-badge.sim{background:#EAF1F8;color:var(--macro-cobalt);}
     .app-badge.quiz{background:#F3ECF8;color:#7C3AED;}
     .app-badge.recurso{background:#FBF0E9;color:var(--brand-brick);}
+    .app-badge.session{background:#EAF4EE;color:var(--psll-pine);}
+    /* Accesos de asignatura (Simuladores / Preguntas) */
+    .choice-grid{display:grid;gap:14px;padding:4px 0 8px;}
+    .choice-card{display:flex;align-items:center;gap:16px;background:var(--bg-card);
+      border:1px solid var(--border-subtle);border-radius:18px;padding:22px 20px;cursor:pointer;
+      box-shadow:var(--shadow-sm);transition:transform .16s ease,box-shadow .16s ease,border-color .16s;
+      -webkit-tap-highlight-color:transparent;}
+    .choice-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:#D8CEC0;}
+    .choice-card:focus-visible{outline:3px solid var(--brand-terracotta);outline-offset:2px;}
+    .choice-icon{width:58px;height:58px;border-radius:16px;display:flex;align-items:center;
+      justify-content:center;font-size:1.7rem;flex-shrink:0;}
+    .choice-body{flex:1;min-width:0;}
+    .choice-body h3{font-family:'Outfit',sans-serif;font-weight:800;font-size:1.18rem;
+      margin:0 0 3px;color:var(--text-espresso);letter-spacing:-0.01em;}
+    .choice-body p{margin:0;font-size:0.85rem;color:var(--text-muted);line-height:1.35;}
+    .choice-card .app-chevron{font-size:1.5rem;color:#C9BDB0;flex-shrink:0;}
+    .subject-nav-back{display:inline-flex;align-items:center;gap:5px;background:none;border:none;
+      color:var(--text-muted);font-family:'Outfit',sans-serif;font-weight:700;font-size:0.78rem;
+      letter-spacing:0.04em;text-transform:uppercase;cursor:pointer;padding:6px 2px 12px;
+      -webkit-tap-highlight-color:transparent;}
+    .subject-nav-back:hover{color:var(--text-espresso);}
     .app-done{color:var(--state-correct-text);font-weight:700;font-size:0.72rem;display:inline-flex;align-items:center;gap:3px;}
     .app-card.is-done .app-icon-circle{box-shadow:0 0 0 2px var(--state-correct-border);}
     /* Revisión pregunta a pregunta */
@@ -1270,7 +1291,7 @@
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
           <span>Inicio</span>
         </div>
-        <div class="nav-item active" onclick="showDashboardView()">
+        <div class="nav-item active" onclick="goSubjectHome()">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
           <span>Mis apps</span>
         </div>
@@ -1397,7 +1418,7 @@
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
           <span>Inicio</span>
         </div>
-        <div class="nav-item" onclick="showDashboardView()">
+        <div class="nav-item" onclick="goSubjectHome()">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
           <span>Mis apps</span>
         </div>
@@ -1418,6 +1439,7 @@
     // ===== Estado Global de la App =====
     var currentSubjectKey = 'psll';
     var currentFilter = 'todas';
+    var dashboardMode = 'home'; // 'home' | 'simuladores' | 'preguntas'
     var activeQuizApp = null;
     var quizRuntime = [];        // preguntas de la sesión (orden y opciones barajados)
     var currentQuestionIdx = 0;
@@ -1486,7 +1508,7 @@
     // ===== Selector de asignatura =====
     function selectSubjectOption(key){ currentSubjectKey=key; updateWelcomeSubjectSelection(); }
     function selectAndEnterSubject(key){
-      currentSubjectKey=key; currentFilter='todas';
+      currentSubjectKey=key; currentFilter='todas'; dashboardMode='home';
       updateWelcomeSubjectSelection();
       setTimeout(launchDashboard,80);
     }
@@ -1500,9 +1522,12 @@
     function showDashboardView(){ renderDashboard(); showView('viewDashboard'); }
     function switchSubjectModal(){
       currentSubjectKey=(currentSubjectKey==='psll')?'macro':'psll';
-      currentFilter='todas';
+      currentFilter='todas'; dashboardMode='home';
       renderDashboard();
     }
+    function enterDashMode(m){ dashboardMode=m; renderDashboard(); scrollTop(); }
+    function goSubjectHome(){ dashboardMode='home'; renderDashboard(); showView('viewDashboard'); scrollTop(); }
+    function scrollTop(){ try{ window.scrollTo(0,0); }catch(e){} var c=document.getElementById('appsListContainer'); if(c) c.scrollTop=0; }
 
     // ===== Dashboard =====
     function renderDashboard(){
@@ -1513,34 +1538,21 @@
       document.getElementById('dashSubjectLogo').src=subject.isotipo;
       document.getElementById('dashSubjectShortName').innerText=subject.shortName;
 
+      // La navegación por accesos (Simuladores / Preguntas) sustituye a los filtros por categoría
       var filterContainer=document.getElementById('filterScrollContainer');
-      filterContainer.innerHTML='';
-      var validCats=subject.categories.map(function(c){ return c.id; });
-      if(validCats.indexOf(currentFilter)===-1) currentFilter='todas';
+      if(filterContainer) filterContainer.style.display='none';
 
-      subject.categories.forEach(function(cat){
-        var pill=document.createElement('button');
-        pill.className='filter-pill'+(currentFilter===cat.id?' active':'');
-        pill.innerText=cat.name;
-        pill.setAttribute('aria-pressed', currentFilter===cat.id?'true':'false');
-        pill.onclick=function(){ currentFilter=cat.id; renderDashboard(); };
-        filterContainer.appendChild(pill);
-      });
-
+      var greeting=document.querySelector('.dashboard-greeting p');
       var listContainer=document.getElementById('appsListContainer');
       listContainer.innerHTML='';
-      var filtered=subject.apps.filter(function(app){
-        return currentFilter==='todas' ? true : app.category===currentFilter;
-      });
-      if(filtered.length===0){
-        listContainer.innerHTML='<div style="text-align:center;padding:40px 20px;color:#8C7B70;">No hay micro-apps en esta categoría actualmente.</div>';
-        return;
-      }
 
       function isInteractiveSim(a){ return a.type==='simulator' && a.interactive!==false; }
-      var featured=filtered.filter(isInteractiveSim);
-      var others=filtered.filter(function(a){ return !isInteractiveSim(a); });
+      var sims=subject.apps.filter(function(a){ return a.type==='simulator'; });
+      var quizzes=subject.apps.filter(function(a){ return a.type==='quiz'; });
 
+      function badgeLeft(app){
+        return app.session ? '<span class="app-badge session">'+esc(app.session)+'</span>' : badgeFor(app);
+      }
       function makeCard(app, isFeatured){
         var done=progress[app.id];
         var card=document.createElement('div');
@@ -1549,6 +1561,7 @@
         card.setAttribute('tabindex','0');
         if(isFeatured && app.iconColor) card.style.setProperty('--feat-accent', app.iconColor);
         card.onclick=function(){ openApp(app); };
+        card.onkeydown=function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openApp(app); } };
         var meta=(done && app.type==='quiz')
           ? '<span class="app-done">✓ Completado · '+done.pct+'%</span>'
           : '<span>'+esc(app.meta||'')+'</span>';
@@ -1557,24 +1570,68 @@
           '<div class="app-content">'+
             '<h4>'+esc(app.title)+'</h4>'+
             '<p>'+esc(app.desc)+'</p>'+
-            '<div class="app-meta">'+badgeFor(app)+meta+'</div>'+
+            '<div class="app-meta">'+badgeLeft(app)+meta+'</div>'+
           '</div>'+
           '<div class="app-chevron" aria-hidden="true">›</div>';
         return card;
       }
-
       function addLabel(text){
-        var l=document.createElement('div');
-        l.className='apps-group-label';
-        l.textContent=text;
+        var l=document.createElement('div'); l.className='apps-group-label'; l.textContent=text;
         listContainer.appendChild(l);
       }
+      function addEmpty(text){
+        var d=document.createElement('div'); d.style.cssText='text-align:center;padding:36px 20px;color:#8C7B70;';
+        d.textContent=text; listContainer.appendChild(d);
+      }
+      function addBack(){
+        var b=document.createElement('button'); b.type='button'; b.className='subject-nav-back';
+        b.innerHTML='‹ '+esc(subject.shortName); b.onclick=goSubjectHome;
+        listContainer.appendChild(b);
+      }
+      function choiceCard(mode,icon,iconBg,iconColor,title,sub){
+        var c=document.createElement('div'); c.className='choice-card';
+        c.setAttribute('role','button'); c.setAttribute('tabindex','0');
+        c.onclick=function(){ enterDashMode(mode); };
+        c.onkeydown=function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); enterDashMode(mode); } };
+        c.innerHTML=
+          '<div class="choice-icon" style="background:'+iconBg+';color:'+iconColor+';">'+icon+'</div>'+
+          '<div class="choice-body"><h3>'+esc(title)+'</h3><p>'+esc(sub)+'</p></div>'+
+          '<div class="app-chevron" aria-hidden="true">›</div>';
+        return c;
+      }
 
-      var showLabels=(currentFilter==='todas' && featured.length>0 && others.length>0);
-      if(showLabels) addLabel('Simuladores interactivos');
-      featured.forEach(function(app){ listContainer.appendChild(makeCard(app,true)); });
-      if(showLabels) addLabel('Cuestionarios y dinámicas');
-      others.forEach(function(app){ listContainer.appendChild(makeCard(app,false)); });
+      // ---- Modo HOME: los dos accesos ----
+      if(dashboardMode==='home'){
+        if(greeting) greeting.textContent='¿Con qué quieres practicar?';
+        var grid=document.createElement('div'); grid.className='choice-grid';
+        grid.appendChild(choiceCard('simuladores','📊','#EAF4EE','#113927','Simuladores',
+          sims.length+(sims.length===1?' simulador':' simuladores y recursos')));
+        grid.appendChild(choiceCard('preguntas','✍️','#F3ECF8','#7C3AED','Preguntas',
+          quizzes.length+(quizzes.length===1?' cuestionario':' cuestionarios de repaso')));
+        listContainer.appendChild(grid);
+        return;
+      }
+
+      // ---- Modo SIMULADORES ----
+      if(dashboardMode==='simuladores'){
+        if(greeting) greeting.textContent='Simuladores y recursos interactivos';
+        addBack();
+        if(sims.length===0){ addEmpty('Aún no hay simuladores en esta asignatura.'); return; }
+        var featured=sims.filter(isInteractiveSim);
+        var statics=sims.filter(function(a){ return a.interactive===false; });
+        var showLabels=(featured.length>0 && statics.length>0);
+        if(showLabels) addLabel('Simuladores interactivos');
+        featured.forEach(function(app){ listContainer.appendChild(makeCard(app,true)); });
+        if(showLabels) addLabel('Dinámicas y casos');
+        statics.forEach(function(app){ listContainer.appendChild(makeCard(app,false)); });
+        return;
+      }
+
+      // ---- Modo PREGUNTAS ----
+      if(greeting) greeting.textContent='Cuestionarios de repaso';
+      addBack();
+      if(quizzes.length===0){ addEmpty('Aún no hay cuestionarios en esta asignatura.'); return; }
+      quizzes.forEach(function(app){ listContainer.appendChild(makeCard(app,false)); });
     }
 
     // ===== Apertura de micro-app =====
