@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Simulador: Salario de Reserva y Colocación Adecuada | PSLL UPO</title>
+<!-- KaTeX Math Renderer -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMath()"></script>
+
 <style>
   :root {
     --psll-pine: #113927;
@@ -90,11 +95,11 @@
   .theory-formula {
     background: rgba(17, 57, 39, 0.08);
     display: inline-block;
-    padding: 2px 8px;
-    border-radius: 6px;
-    font-family: monospace;
+    padding: 4px 10px;
+    border-radius: 8px;
     font-weight: 700;
     color: var(--psll-pine);
+    margin: 4px 0;
   }
 
   /* Nav Tabs */
@@ -257,9 +262,7 @@
     margin-top: 10px;
   }
 
-  .wage-box {
-    flex: 1;
-  }
+  .wage-box { flex: 1; }
 
   .wage-box span.lbl {
     display: block;
@@ -362,7 +365,7 @@
   .legal-points li:last-child { border-bottom: none; }
   .legal-points li span.icon { font-size: 1.1rem; }
 
-  /* MODO 2: CALCULADORA DINÁMICA DE W_R VS W_OFERTADO */
+  /* MODO 2: CALCULADORA DINÁMICA */
   .calculator-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -588,7 +591,7 @@
     <div class="theory-text">
       <h3>El Salario de Reserva ($w_R$) en la Decisión de Trabajar</h3>
       <p>
-        El <strong>Salario de Reserva ($w_R$)</strong> es el salario mínimo al que un individuo acepta trabajar. Si la ganancia neta <span class="theory-formula">w_{neto} &lt; w_R</span>, el trabajador <strong>rechaza la oferta de empleo</strong> de forma racional. El SEPE evalúa si ese rechazo está protegido legalmente o si constituye riesgo moral.
+        El <strong>Salario de Reserva ($w_R$)</strong> es la mínima retribución a la que un individuo acepta ofrecer trabajo. Si la ganancia neta <span class="theory-formula">$w_{neto} < w_R$</span>, la persona <strong>rechaza la oferta de empleo</strong> de forma analíticamente racional. El SEPE evalúa si dicho rechazo está amparado legalmente (LGSS Art. 301) o si comporta riesgo moral.
       </p>
     </div>
   </div>
@@ -639,7 +642,7 @@
       <h3>¿Aceptaría el puesto el trabajador? ¿Lo considera el SEPE "Colocación Adecuada"?</h3>
       <div class="verdict-options">
         <button class="verdict-btn yes" onclick="submitVerdict('yes')">🟢 Acepta / Es Adecuada<br><small>($w_{neto} \ge w_R$ · Obligado)</small></button>
-        <button class="verdict-btn no" onclick="submitVerdict('no')">🔴 Rechaza / Justificado<br><small>($w_{neto} &lt; w_R$ · Sin sanción)</small></button>
+        <button class="verdict-btn no" onclick="submitVerdict('no')">🔴 Rechaza / Justificado<br><small>($w_{neto} < w_R$ · Sin sanción)</small></button>
         <button class="verdict-btn depends" onclick="submitVerdict('depends')">🟡 Caso Límite / Depende<br><small>(Varía con tiempo en paro)</small></button>
       </div>
     </div>
@@ -768,7 +771,22 @@
 </div>
 
 <script>
-  // DATOS DE LOS 4 CASOS (ORIENTADOS AL SALARIO DE RESERVA Y TEMA 1)
+  // Renderizador de Fórmulas Matemáticas con KaTeX
+  function renderMath() {
+    if (window.renderMathInElement) {
+      window.renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ],
+        throwOnError: false
+      });
+    }
+  }
+
+  // DATOS DE LOS 4 CASOS
   const casesData = [
     {
       id: 0,
@@ -778,14 +796,14 @@
       oferta: "Puesto de Administrativa a 25 km. Salario bruto: 1.800 €/mes (Coste transporte: 200 €/mes).",
       situacion: "4 meses en paro. Hijo de 3 años en guardería. Su Salario de Reserva estimado es de 2.400 €.",
       wReserva: 2400,
-      wNeto: 1600, // 1800 - 200
-      officialVerdict: "no", // Rechaza Racionalmente
+      wNeto: 1600,
+      officialVerdict: "no",
       dictamenText: "RECHAZO RACIONAL Y LEGALMENTE PROTEGIDO",
       verdictClass: "no",
       legalReasoning: [
-        { icon: "📉", text: "<strong>Brecha de Salario de Reserva:</strong> La ganancia neta (1.600€) queda muy por debajo de su Salario de Reserva (2.400€). Aceptar el puesto implicaría una depreciación injustificada de su capital humano." },
+        { icon: "📉", text: "<strong>Brecha de Salario de Reserva:</strong> La ganancia neta (1.600€) queda muy por debajo de su Salario de Reserva ($w_R = 2.400€$). Aceptar el puesto implicaría una depreciación injustificada de su capital humano." },
         { icon: "🎯", text: "<strong>Criterio LGSS (1er año):</strong> Durante los 12 primeros meses de paro, la ley ampara rechazar puestos de categoría inferior a la cualificación habitual." },
-        { icon: "💡", text: "<strong>Efecto del Tiempo en Paro:</strong> Si llevara 14 meses en desempleo, su Salario de Reserva caería a ~1.500€ y la ley la obligaría a aceptar para evitar la dependencia del subsidio." }
+        { icon: "💡", text: "<strong>Efecto del Tiempo en Paro:</strong> Si llevara 14 meses en desempleo, su Salario de Reserva caería a ~$w_R = 1.500€$ y la ley la obligaría a aceptar para evitar la dependencia del subsidio." }
       ]
     },
     {
@@ -796,12 +814,12 @@
       oferta: "Comercial de zona a 15 km. Salario: 1.600 € fijos + comisiones. Coste transporte: 100 €/mes.",
       situacion: "2 meses en paro. Sin cargas familiares. Su Salario de Reserva estimado es de 1.450 €.",
       wReserva: 1450,
-      wNeto: 1500, // 1600 - 100
-      officialVerdict: "yes", // Acepta
+      wNeto: 1500,
+      officialVerdict: "yes",
       dictamenText: "ACEPTACIÓN RACIONAL (Oferta Adecuada)",
       verdictClass: "yes",
       legalReasoning: [
-        { icon: "📈", text: "<strong>Superación del Salario de Reserva:</strong> El salario neto de la oferta (1.500€ fijos + variable) supera su $w_R$ de 1.450€." },
+        { icon: "📈", text: "<strong>Superación del Salario de Reserva:</strong> El salario neto de la oferta ($w_{neto} = 1.500€$) supera su $w_R$ de 1.450€." },
         { icon: "⚖️", text: "<strong>Adecuación SEPE:</strong> Guarda correspondencia con su familia profesional y la distancia (15 km) es asumible. Rechazarla constituiría riesgo moral y comportaría sanción." }
       ]
     },
@@ -813,12 +831,12 @@
       oferta: "Reponedora nocturna a 40 km. Salario: 1.500 €/mes. Coste transporte: 250 €/mes.",
       situacion: "7 meses en paro. Cuida a su madre dependiente de 85 años (Alto valor del ocio/tiempo en hogar). $w_R$ estimado: 1.450 €.",
       wReserva: 1450,
-      wNeto: 1250, // 1500 - 250
-      officialVerdict: "no", // Rechaza
+      wNeto: 1250,
+      officialVerdict: "no",
       dictamenText: "RECHAZO RACIONAL (Trampa del Desplazamiento)",
       verdictClass: "no",
       legalReasoning: [
-        { icon: "🌙", text: "<strong>Valoración del Tiempo de Ocio/Cuidado:</strong> Las cargas de cuidado elevan su $w_R$. El salario neto tras transporte (1.250€) no compensa el coste de oportunidad del tiempo nocturno." },
+        { icon: "🌙", text: "<strong>Valoración del Tiempo de Ocio/Cuidado:</strong> Las cargas de cuidado elevan su $w_R$. El salario neto tras transporte ($w_{neto} = 1.250€$) no compensa el coste de oportunidad del tiempo nocturno." },
         { icon: "📍", text: "<strong>Protección Legal:</strong> Superar los 20 km de desplazamiento sin transporte provisto justifica el rechazo sin pérdida del subsidio." }
       ]
     },
@@ -830,12 +848,12 @@
       oferta: "Contrato temporal 3 meses a 60 km. Salario: 1.050 €. Coste transporte: 280 €/mes.",
       situacion: "1 mes en paro. Su Salario de Reserva estimado es de 950 €.",
       wReserva: 950,
-      wNeto: 770, // 1050 - 280
-      officialVerdict: "no", // Rechaza
+      wNeto: 770,
+      officialVerdict: "no",
       dictamenText: "RECHAZO RACIONAL (Ganancia Neta Insuficiente)",
       verdictClass: "no",
       legalReasoning: [
-        { icon: "🚗", text: "<strong>Ganancia Neta Insuficiente:</strong> Tras restar 280€ de transporte, el sueldo neto queda en 770€, claramente por debajo de su $w_R$ de 950€." },
+        { icon: "🚗", text: "<strong>Ganancia Neta Insuficiente:</strong> Tras restar 280€ de transporte, el sueldo neto queda en $w_{neto} = 770€$, claramente por debajo de su $w_R$ de 950€." },
         { icon: "💡", text: "<strong>Distancia Excesiva:</strong> 60 km para un contrato de 3 meses destruye los incentivos a la movilidad si la empresa no asume los gastos de desplazamiento." }
       ]
     }
@@ -847,6 +865,7 @@
   function init() {
     renderCase(0);
     updateCalculator();
+    setTimeout(renderMath, 200);
   }
 
   function switchTab(tabId) {
@@ -855,6 +874,7 @@
     
     event.currentTarget.classList.add('active');
     document.getElementById(`tab-${tabId}`).classList.add('active');
+    setTimeout(renderMath, 100);
   }
 
   function selectCase(index) {
@@ -906,6 +926,7 @@
         </div>
       </div>
     `;
+    setTimeout(renderMath, 50);
   }
 
   function submitVerdict(verdict) {
@@ -935,6 +956,7 @@
     html += `</ul>`;
     feedbackBox.innerHTML = html;
     feedbackBox.classList.add('show');
+    setTimeout(renderMath, 50);
   }
 
   // CALCULADORA DINÁMICA DE SALARIO DE RESERVA (W_R) Y ADECUACIÓN
@@ -952,9 +974,7 @@
     document.getElementById('val-transporte').innerText = `${transporte} €`;
     document.getElementById('val-woferta').innerText = `${woferta} €`;
 
-    // Fórmula del Salario de Reserva (w_R):
-    // w_R = base_previo * (0.65 - 0.015 * meses) + 0.8 * subsidio + (cargas === 'alta' ? 250 : 0)
-    let factorMeses = Math.max(0.40, 0.70 - (meses * 0.015)); // Cae con el tiempo en paro
+    let factorMeses = Math.max(0.40, 0.70 - (meses * 0.015));
     let cargasExtra = (cargas === 'alta') ? 200 : 0;
     
     let wReservaCalc = Math.round((wprevio * factorMeses) + (subsidio * 0.4) + cargasExtra);
@@ -969,14 +989,12 @@
       `Brecha: ${gap} € por debajo del Salario de Reserva`;
     document.getElementById('display-gap').innerText = gapText;
 
-    // Barra visual de comparación
     let maxVal = Math.max(wReservaCalc, wNetoCalc, 1000);
     let pctFill = Math.min(100, Math.max(10, Math.round((wNetoCalc / wReservaCalc) * 50)));
     const fillEl = document.getElementById('wr-progress-fill');
     fillEl.style.width = `${pctFill}%`;
     fillEl.style.background = gap >= 0 ? '#10B981' : '#EF4444';
 
-    // Determinar Aceptación o Rechazo Micro + SEPE
     const statusIcon = document.getElementById('calc-status-icon');
     const statusTitle = document.getElementById('calc-status-title');
     const statusDesc = document.getElementById('calc-status-desc');
@@ -985,13 +1003,13 @@
       statusIcon.className = "gauge-status adequate";
       statusIcon.innerText = "🟢";
       statusTitle.className = "gauge-title adequate";
-      statusTitle.innerText = "OFERTA ACEPTABLE (w_neto ≥ w_R)";
+      statusTitle.innerText = "OFERTA ACEPTABLE ($w_{neto} \\ge w_R$)";
       statusDesc.innerHTML = "<strong>Decisión del Trabajador:</strong> Acepta el empleo porque la ganancia neta supera su Salario de Reserva.<br><strong>Criterio SEPE:</strong> Oferta adecuada obligatoria. El rechazo acarrearía sanción.";
     } else {
       statusIcon.className = "gauge-status inadequate";
       statusIcon.innerText = "🔴";
       statusTitle.className = "gauge-title inadequate";
-      statusTitle.innerText = "RECHAZO RACIONAL (w_neto < w_R)";
+      statusTitle.innerText = "RECHAZO RACIONAL ($w_{neto} < w_R$)";
       
       let motivo = gap < 0 ? 
         `La ganancia neta (${wNetoCalc}€) no alcanza el Salario de Reserva individual (${wReservaCalc}€).` : 
@@ -1003,6 +1021,7 @@
 
       statusDesc.innerHTML = `<strong>Decisión del Trabajador:</strong> Rechaza el puesto de forma analíticamente racional. ${motivo}<br><strong>Criterio SEPE:</strong> ${amparoLegal}`;
     }
+    setTimeout(renderMath, 50);
   }
 
   // TEMPORIZADOR
