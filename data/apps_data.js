@@ -240,8 +240,8 @@ window.DOCENCIA_APPS = {
         icon: "💼",
         iconBg: "#EFF6FF",
         iconColor: "#2563EB",
-        title: "La Colocación Adecuada",
-        desc: "Simulador interactivo del SEPE: evalúa ofertas con la calculadora LGSS y dicta veredictos de colocación adecuada.",
+        title: "Salario de Reserva y Colocación Adecuada",
+        desc: "Simulador interactivo del Salario de Reserva (w_R): evalúa la decisión de aceptar o rechazar un empleo según renta neta, cualificación y cargas.",
         meta: "Simulador interactivo · 8 min",
         session: "Sesión 3",
         url: "colocacion_adecuada.html"
