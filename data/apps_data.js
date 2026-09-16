@@ -243,7 +243,7 @@ window.DOCENCIA_APPS = {
         title: "La Colocación Adecuada",
         desc: "Simulador interactivo del SEPE: evalúa ofertas con la calculadora LGSS y dicta veredictos de colocación adecuada.",
         meta: "Simulador interactivo · 8 min",
-        session: "Tema 3",
+        session: "Sesión 3",
         url: "colocacion_adecuada.html"
       },
       {
