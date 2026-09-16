@@ -1,223 +1,943 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Simulador Interactivo: Colocación Adecuada | PSLL UPO</title>
 <style>
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #3a1c71 0%, #d76d77 50%, #ffaf7b 100%);
-    padding: 40px;
-    margin: 0;
-}
-.container {
-    background: white;
-    border-radius: 20px;
-    padding: 40px;
-    max-width: 1400px;
+  :root {
+    --psll-pine: #113927;
+    --psll-sage: #76927A;
+    --psll-coral: #E98F71;
+    --psll-mint: #F4F8F5;
+    --psll-ink: #2F3A30;
+    --bg-card: #FFFFFF;
+    --border-color: #E2E8F0;
+    --shadow-sm: 0 4px 12px rgba(17, 57, 39, 0.06);
+    --shadow-md: 0 10px 30px rgba(17, 57, 39, 0.12);
+    --radius-md: 16px;
+    --radius-lg: 24px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, #113927 0%, #1f4e38 50%, #2f6249 100%);
+    color: var(--psll-ink);
+    padding: 20px 12px;
+    min-height: 100vh;
+  }
+
+  .app-container {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    max-width: 900px;
     margin: 0 auto;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-}
-h1 {
+    padding: clamp(20px, 4vw, 36px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  }
+
+  header {
     text-align: center;
-    color: #2d3748;
-    font-size: 42px;
-    margin-bottom: 10px;
+    margin-bottom: 24px;
+  }
+
+  header h1 {
+    font-family: 'Outfit', 'Inter', sans-serif;
+    color: var(--psll-pine);
+    font-size: clamp(1.6rem, 5vw, 2.3rem);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+
+  header p.subtitle {
+    color: var(--psll-sage);
+    font-size: clamp(0.95rem, 3vw, 1.1rem);
+    font-weight: 500;
+  }
+
+  /* Nav Tabs */
+  .nav-tabs {
+    display: flex;
+    gap: 8px;
+    background: var(--psll-mint);
+    padding: 6px;
+    border-radius: 14px;
+    margin-bottom: 24px;
+    border: 1px solid #E0EBE3;
+  }
+
+  .tab-btn {
+    flex: 1;
+    padding: 12px 10px;
+    border: none;
+    background: transparent;
+    color: var(--psll-pine);
+    font-size: 0.95rem;
     font-weight: 700;
-}
-.subtitle {
-    text-align: center;
-    color: #718096;
-    font-size: 18px;
-    margin-bottom: 40px;
-}
-.casos-debate {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 25px;
-    margin-bottom: 30px;
-}
-.caso-debate {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 15px;
-    padding: 25px;
-    color: white;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-}
-.caso-debate h3 {
-    font-size: 22px;
-    margin-bottom: 15px;
-    border-bottom: 2px solid rgba(255,255,255,0.3);
-    padding-bottom: 10px;
-}
-.caso-debate p {
-    font-size: 16px;
-    line-height: 1.7;
-    margin: 10px 0;
-}
-.debate-question {
-    background: rgba(255,255,255,0.2);
     border-radius: 10px;
-    padding: 15px;
-    margin-top: 15px;
-    font-weight: 600;
-    font-size: 17px;
-}
-.factores {
-    background: #f7fafc;
-    border-radius: 15px;
-    padding: 30px;
-    margin-bottom: 30px;
-}
-.factores h3 {
-    color: #2d3748;
-    font-size: 26px;
-    margin-bottom: 20px;
+    cursor: pointer;
+    transition: all 0.25s ease;
     display: flex;
     align-items: center;
-}
-.factores h3:before {
-    content: "⚖️";
-    margin-right: 15px;
-    font-size: 30px;
-}
-.factores-grid {
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .tab-btn.active {
+    background: var(--psll-pine);
+    color: white;
+    box-shadow: 0 4px 12px rgba(17, 57, 39, 0.2);
+  }
+
+  .tab-content {
+    display: none;
+  }
+
+  .tab-content.active {
+    display: block;
+    animation: fadeIn 0.35s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Factores Informativos resumidos */
+  .factores-strip {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-.factor {
-    background: white;
-    border: 2px solid #e2e8f0;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .factor-pill {
+    background: var(--psll-mint);
+    border: 1px solid #D6E4DB;
+    padding: 10px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    text-align: center;
+  }
+
+  .factor-pill strong {
+    display: block;
+    color: var(--psll-pine);
+    font-size: 0.9rem;
+    margin-bottom: 2px;
+  }
+
+  /* MODO 1: SIMULADOR DE CASOS DEBATE */
+  .case-selector {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 600px) {
+    .case-selector { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .case-btn {
+    padding: 12px 8px;
+    border: 2px solid var(--border-color);
+    background: #FAFAFA;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+  }
+
+  .case-btn.active {
+    border-color: var(--psll-coral);
+    background: #FFF6F3;
+    box-shadow: 0 4px 10px rgba(233, 143, 113, 0.2);
+  }
+
+  .case-btn span.num {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: var(--psll-sage);
+    display: block;
+  }
+
+  .case-btn span.title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--psll-pine);
+  }
+
+  .case-card {
+    background: linear-gradient(135deg, #113927 0%, #1c4d36 100%);
+    color: white;
+    border-radius: 18px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-md);
+  }
+
+  .case-card header {
+    text-align: left;
+    margin-bottom: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 12px;
+  }
+
+  .case-card h2 {
+    font-size: 1.4rem;
+    color: #FFF;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .case-badge {
+    background: var(--psll-coral);
+    color: white;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 700;
+  }
+
+  .case-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+  }
+
+  .case-detail-item {
+    background: rgba(255,255,255,0.1);
+    padding: 12px 14px;
     border-radius: 10px;
+    border-left: 4px solid var(--psll-coral);
+  }
+
+  .case-detail-item strong {
+    display: block;
+    color: #E2E8F0;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+  }
+
+  .verdict-box {
+    background: #F8FAFC;
+    border: 2px dashed #CBD5E1;
+    border-radius: 16px;
     padding: 20px;
     text-align: center;
-}
-.factor-icon {
-    font-size: 40px;
-    margin-bottom: 10px;
-}
-.factor-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: #2d3748;
-    margin-bottom: 8px;
-}
-.factor-desc {
-    font-size: 14px;
-    color: #718096;
-    line-height: 1.5;
-}
-.dinamica-debate {
-    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-    border-radius: 15px;
-    padding: 30px;
-    color: white;
-}
-.dinamica-debate h3 {
-    font-size: 28px;
     margin-bottom: 20px;
-}
-.dinamica-debate ol {
-    font-size: 18px;
-    line-height: 2;
-}
+  }
+
+  .verdict-box h3 {
+    color: var(--psll-pine);
+    font-size: 1.1rem;
+    margin-bottom: 14px;
+  }
+
+  .verdict-options {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .verdict-btn {
+    flex: 1;
+    min-width: 140px;
+    padding: 14px 16px;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .verdict-btn.yes { background: #E6F4EA; color: #137333; border-color: #A8DADC; }
+  .verdict-btn.no { background: #FCE8E6; color: #C5221F; border-color: #F87171; }
+  .verdict-btn.depends { background: #FEF7E0; color: #B06000; border-color: #FDE047; }
+
+  .verdict-btn:hover, .verdict-btn.selected {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  .verdict-btn.selected.yes { background: #137333; color: white; }
+  .verdict-btn.selected.no { background: #C5221F; color: white; }
+  .verdict-btn.selected.depends { background: #B06000; color: white; }
+
+  /* Explicación jurídica desglosada */
+  .legal-feedback {
+    display: none;
+    background: #F0F7F4;
+    border: 2px solid var(--psll-sage);
+    border-radius: 16px;
+    padding: 20px;
+    margin-top: 16px;
+    animation: fadeIn 0.4s ease;
+  }
+
+  .legal-feedback.show { display: block; }
+
+  .legal-feedback h4 {
+    color: var(--psll-pine);
+    font-size: 1.15rem;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .legal-points {
+    list-style: none;
+    margin-top: 10px;
+  }
+
+  .legal-points li {
+    padding: 8px 0;
+    border-bottom: 1px solid #E2E8F0;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    display: flex;
+    gap: 10px;
+  }
+
+  .legal-points li:last-child { border-bottom: none; }
+  .legal-points li span.icon { font-size: 1.1rem; }
+
+  /* MODO 2: CALCULADORA DINÁMICA DE ADECUACIÓN */
+  .calculator-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  @media (max-width: 768px) {
+    .calculator-grid { grid-template-columns: 1fr; }
+  }
+
+  .controls-panel {
+    background: var(--psll-mint);
+    border: 1px solid #D6E4DB;
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .control-group {
+    margin-bottom: 18px;
+  }
+
+  .control-group label {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    color: var(--psll-pine);
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+
+  .control-group label span.val {
+    color: var(--psll-coral);
+    font-size: 0.95rem;
+  }
+
+  input[type=range] {
+    width: 100%;
+    accent-color: var(--psll-pine);
+    cursor: pointer;
+  }
+
+  select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--psll-ink);
+    background: white;
+  }
+
+  .gauge-panel {
+    background: white;
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .gauge-status {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    margin-bottom: 16px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .gauge-status.adequate { background: #E6F4EA; border: 4px solid #137333; }
+  .gauge-status.inadequate { background: #FCE8E6; border: 4px solid #C5221F; }
+  .gauge-status.warning { background: #FEF7E0; border: 4px solid #B06000; }
+
+  .gauge-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .gauge-title.adequate { color: #137333; }
+  .gauge-title.inadequate { color: #C5221F; }
+  .gauge-title.warning { color: #B06000; }
+
+  .gauge-desc {
+    font-size: 0.9rem;
+    color: #4A5568;
+    line-height: 1.5;
+    background: #F8FAFC;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+    width: 100%;
+    text-align: left;
+  }
+
+  /* MODO 3: GUÍA Y DINÁMICA DE AULA */
+  .classroom-guide {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+  }
+
+  .timer-card {
+    background: linear-gradient(135deg, #E98F71 0%, #D47B5A 100%);
+    color: white;
+    border-radius: 14px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .timer-display {
+    font-size: 3rem;
+    font-weight: 800;
+    font-family: monospace;
+    margin: 10px 0;
+  }
+
+  .timer-btns {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .timer-btn {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    background: white;
+    color: var(--psll-pine);
+  }
+
+  .step-list {
+    list-style: none;
+  }
+
+  .step-item {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    align-items: flex-start;
+  }
+
+  .step-num {
+    background: var(--psll-pine);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  .step-text h4 {
+    color: var(--psll-pine);
+    font-size: 1rem;
+    margin-bottom: 2px;
+  }
+
+  .step-text p {
+    font-size: 0.9rem;
+    color: #4A5568;
+  }
 </style>
 <link rel="stylesheet" href="theme.css">
 </head>
 <body class="mh-resource">
-<div class="container">
-    <h1>💼 ¿Colocación Adecuada o No?</h1>
-    <div class="subtitle">Casos Límite para Debatir en Clase</div>
+
+<div class="app-container">
+  <header>
+    <h1>💼 Colocación Adecuada SEPE</h1>
+    <p class="subtitle">Simulador Interactivo y Dictamen Legal de Desempleo (LGSS)</p>
+  </header>
+
+  <!-- Pestañas Principales -->
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="switchTab('casos')">
+      <span>⚖️</span> <span>Casos Prácticos</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('calculadora')">
+      <span>🎛️</span> <span>Calculadora LGSS</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('dinamica')">
+      <span>⏱️</span> <span>Taller / Debate</span>
+    </button>
+  </div>
+
+  <!-- PESTAÑA 1: CASOS PRÁCTICOS CON DICTAMEN -->
+  <div id="tab-casos" class="tab-content active">
     
-    <div class="factores">
-        <h3>Factores a Considerar Siempre</h3>
-        <div class="factores-grid">
-            <div class="factor">
-                <div class="factor-icon">📍</div>
-                <div class="factor-title">Distancia</div>
-                <div class="factor-desc">Tiempo y coste de desplazamiento desde el domicilio</div>
-            </div>
-            <div class="factor">
-                <div class="factor-icon">💰</div>
-                <div class="factor-title">Salario</div>
-                <div class="factor-desc">Comparación con el último empleo y media del sector</div>
-            </div>
-            <div class="factor">
-                <div class="factor-icon">🎯</div>
-                <div class="factor-title">Cualificación</div>
-                <div class="factor-desc">Relación con formación y experiencia previa</div>
-            </div>
-            <div class="factor">
-                <div class="factor-icon">⏰</div>
-                <div class="factor-title">Tiempo en Paro</div>
-                <div class="factor-desc">Primer año: empleo similar | Después: más flexible</div>
-            </div>
-            <div class="factor">
-                <div class="factor-icon">👨‍👩‍👧‍👦</div>
-                <div class="factor-title">Circunstancias</div>
-                <div class="factor-desc">Cargas familiares, dependientes, situación personal</div>
-            </div>
-            <div class="factor">
-                <div class="factor-icon">🕐</div>
-                <div class="factor-title">Jornada</div>
-                <div class="factor-desc">Completa/parcial, turnos, horarios especiales</div>
-            </div>
-        </div>
+    <!-- Factores resumen -->
+    <div class="factores-strip">
+      <div class="factor-pill">
+        <strong>📍 Distancia</strong> Max. 20 km o &lt;20% tiempo jornada
+      </div>
+      <div class="factor-pill">
+        <strong>💰 Salario</strong> &ge; Convenio / SMI (&ge;80% previo 1er año)
+      </div>
+      <div class="factor-pill">
+        <strong>🎯 Profesión</strong> Habitual (&le;12m) / Ampliada (&gt;12m)
+      </div>
+      <div class="factor-pill">
+        <strong>👨‍👩‍👧‍👦 Cargas</strong> Cuidado dependientes/hijos
+      </div>
     </div>
-    
-    <div class="casos-debate">
-        <div class="caso-debate" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-            <h3>CASO 1: La Ingeniera</h3>
-            <p><strong>Perfil:</strong> Ingeniera industrial, 15 años experiencia, último salario 3.500€</p>
-            <p><strong>Oferta:</strong> Administrativa en una fábrica a 25km, salario 1.800€, jornada completa</p>
-            <p><strong>Situación:</strong> 4 meses en paro, tiene un hijo de 3 años en guardería cerca de casa</p>
-            <div class="debate-question">
-                ¿Puede rechazarla? ¿Y si llevara 14 meses en paro? ¿Qué peso tiene la guardería?
-            </div>
-        </div>
-        
-        <div class="caso-debate" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-            <h3>CASO 2: El Comercial</h3>
-            <p><strong>Perfil:</strong> Comercial, 8 años experiencia, último salario 2.200€ + comisiones</p>
-            <p><strong>Oferta:</strong> Comercial en otra empresa, 1.600€ fijos + comisiones variables, a 15km</p>
-            <p><strong>Situación:</strong> 2 meses en paro, sin cargas familiares</p>
-            <div class="debate-question">
-                ¿Es adecuada? El puesto es similar pero salario base menor. ¿Importan las comisiones?
-            </div>
-        </div>
-        
-        <div class="caso-debate" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
-            <h3>CASO 3: La Dependienta Senior</h3>
-            <p><strong>Perfil:</strong> Dependienta, 58 años, 30 años experiencia, último salario 1.400€</p>
-            <p><strong>Oferta:</strong> Reponedora nocturna en almacén, 1.500€, a 40km</p>
-            <p><strong>Situación:</strong> 7 meses en paro, cuida a su madre de 85 años</p>
-            <div class="debate-question">
-                ¿Puede rechazarla? ¿Pesan la edad, el horario nocturno y el cuidado de la madre?
-            </div>
-        </div>
-        
-        <div class="caso-debate" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
-            <h3>CASO 4: El Joven Temporal</h3>
-            <p><strong>Perfil:</strong> Graduado ADE, 24 años, 6 meses experiencia, último salario 1.100€</p>
-            <p><strong>Oferta:</strong> Contrato temporal 3 meses, administrativa, 1.050€, a 60km</p>
-            <p><strong>Situación:</strong> 1 mes en paro, vive con padres</p>
-            <div class="debate-question">
-                ¿Es adecuada? Salario similar, distancia grande, contrato muy corto. ¿Puede rechazarlo?
-            </div>
-        </div>
+
+    <!-- Selector de casos -->
+    <div class="case-selector">
+      <div class="case-btn active" onclick="selectCase(0)">
+        <span class="num">Caso 1</span>
+        <span class="title">Ingeniera</span>
+      </div>
+      <div class="case-btn" onclick="selectCase(1)">
+        <span class="num">Caso 2</span>
+        <span class="title">Comercial</span>
+      </div>
+      <div class="case-btn" onclick="selectCase(2)">
+        <span class="num">Caso 3</span>
+        <span class="title">Dependienta</span>
+      </div>
+      <div class="case-btn" onclick="selectCase(3)">
+        <span class="num">Caso 4</span>
+        <span class="title">Joven ADE</span>
+      </div>
     </div>
-    
-    <div class="dinamica-debate">
-        <h3>🎯 Dinámica de Debate en Clase</h3>
-        <ol>
-            <li><strong>Dividir en 4 grupos</strong>, cada uno analiza un caso diferente</li>
-            <li><strong>10 minutos:</strong> Decidir si la oferta es "adecuada" y justificar con la normativa</li>
-            <li><strong>3 minutos por grupo:</strong> Exponer su decisión y argumentos</li>
-            <li><strong>Clase vota:</strong> ¿Están de acuerdo con cada decisión?</li>
-            <li><strong>Profesor cierra:</strong> Explicar qué dice realmente la normativa para cada caso</li>
-        </ol>
+
+    <!-- Tarjeta del Caso Seleccionado -->
+    <div id="case-card-display" class="case-card">
+      <!-- Se inyecta por JS -->
     </div>
+
+    <!-- Panel de Votación / Dictamen -->
+    <div class="verdict-box">
+      <h3>¿Cómo calificaría el SEPE esta oferta?</h3>
+      <div class="verdict-options">
+        <button class="verdict-btn yes" onclick="submitVerdict('yes')">🟢 Es Adecuada<br><small>(Obligado a aceptar)</small></button>
+        <button class="verdict-btn no" onclick="submitVerdict('no')">🔴 Rechazo Justificado<br><small>(Sin sanción)</small></button>
+        <button class="verdict-btn depends" onclick="submitVerdict('depends')">🟡 Caso Límite<br><small>(Depende de matiz)</small></button>
+      </div>
+    </div>
+
+    <!-- Dictamen y Explicación Legal (Feedback) -->
+    <div id="legal-feedback-box" class="legal-feedback">
+      <!-- Se inyecta por JS -->
+    </div>
+
+  </div>
+
+  <!-- PESTAÑA 2: CALCULADORA DINÁMICA LGSS -->
+  <div id="tab-calculadora" class="tab-content">
+    <div class="calculator-grid">
+      
+      <!-- Controles de la Oferta -->
+      <div class="controls-panel">
+        <h3 style="color: var(--psll-pine); margin-bottom: 16px;">🎛️ Parámetros de la Oferta</h3>
+
+        <div class="control-group">
+          <label>Tiempo en desempleo: <span id="val-meses" class="val">4 meses</span></label>
+          <input type="range" id="input-meses" min="1" max="24" value="4" oninput="updateCalculator()">
+        </div>
+
+        <div class="control-group">
+          <label>Distancia desde domicilio: <span id="val-km" class="val">15 km</span></label>
+          <input type="range" id="input-km" min="1" max="80" value="15" oninput="updateCalculator()">
+        </div>
+
+        <div class="control-group">
+          <label>Salario ofrecido vs Salario previo: <span id="val-salario" class="val">75%</span></label>
+          <input type="range" id="input-salario" min="40" max="120" value="75" oninput="updateCalculator()">
+        </div>
+
+        <div class="control-group">
+          <label>Coincidencia Profesional / Cualificación:</label>
+          <select id="input-cualificacion" onchange="updateCalculator()">
+            <option value="igual">Misma profesión / categoría equivalente</option>
+            <option value="inferior">Categoría inferior a su titulación/experiencia</option>
+            <option value="sin_cualificacion">Empleo no cualificado / Sector distinto</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label>Circunstancias familiares / Conciliación:</label>
+          <select id="input-cargas" onchange="updateCalculator()">
+            <option value="sin">Sin cargas de cuidado reconocidas</option>
+            <option value="con">Hijos menores de 6 años o dependientes a cargo</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Reloj / Medidor de Adecuación -->
+      <div class="gauge-panel">
+        <div id="calc-status-icon" class="gauge-status adequate">🟢</div>
+        <div id="calc-status-title" class="gauge-title adequate">OFERTA ADECUADA</div>
+        <div id="calc-status-desc" class="gauge-desc">
+          Carga en progreso...
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PESTAÑA 3: DINÁMICA DE AULA / TEMPORIZADOR -->
+  <div id="tab-dinamica" class="tab-content">
+    <div class="classroom-guide">
+      
+      <div class="timer-card">
+        <h3>⏱️ Temporizador de Trabajo en Grupo</h3>
+        <div id="timer-display" class="timer-display">10:00</div>
+        <div class="timer-btns">
+          <button class="timer-btn" onclick="startTimer()">▶ Iniciar</button>
+          <button class="timer-btn" onclick="pauseTimer()">⏸ Pausa</button>
+          <button class="timer-btn" onclick="resetTimer()">🔄 Reiniciar</button>
+        </div>
+      </div>
+
+      <h3 style="color: var(--psll-pine); margin-bottom: 16px;">🎯 Fases del Taller EPD</h3>
+      <ul class="step-list">
+        <li class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-text">
+            <h4>Formación de Equipos (2 min)</h4>
+            <p>Dividir el aula en 4 grupos. Cada equipo asume un caso práctico.</p>
+          </div>
+        </li>
+        <li class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-text">
+            <h4>Análisis Legal con el Simulador (10 min)</h4>
+            <p>Analizar los 5 factores (distancia, salario, profesión, tiempo en paro y cargas) y consensuar su dictamen.</p>
+          </div>
+        </li>
+        <li class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-text">
+            <h4>Defensa del Dictamen (3 min por grupo)</h4>
+            <p>Exponer ante el resto de la clase los argumentos basados en la Ley General de la Seguridad Social.</p>
+          </div>
+        </li>
+        <li class="step-item">
+          <div class="step-num">4</div>
+          <div class="step-text">
+            <h4>Votación en Directo y Cierre (5 min)</h4>
+            <p>Votación general desde el móvil y resolución definitiva por el profesor.</p>
+          </div>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+
 </div>
+
+<script>
+  // DATOS DE LOS 4 CASOS
+  const casesData = [
+    {
+      id: 0,
+      title: "La Ingeniera Industrial",
+      badge: "Caso 1: Criterio Profesional y Cuidado",
+      perfil: "Ingeniera Industrial, 15 años de experiencia previa. Salario anterior: 3.500 €/mes.",
+      oferta: "Administrativa en fábrica a 25 km de distancia. Salario: 1.800 €/mes. Jornada completa.",
+      situacion: "Lleva 4 meses en desempleo. Tiene un hijo de 3 años en guardería cerca de su residencia.",
+      officialVerdict: "no", // Rechazo Justificado (4 meses)
+      dictamenText: "RECHAZO LEGÍTIMO Y JUSTIFICADO",
+      verdictClass: "no",
+      legalReasoning: [
+        { icon: "🎯", text: "<strong>Exceso de Descualificación:</strong> Durante los primeros 12 meses de prestación, la oferta debe adecuarse a la profesión habitual o titulación (Art. 301 LGSS). El puesto de administrativa supone un menoscabo profesional severo." },
+        { icon: "💰", text: "<strong>Salario Inferior:</strong> El salario ofrecido (1.800€) es cerca del 50% de su retribución previa habitual." },
+        { icon: "👨‍👩‍👧‍👦", text: "<strong>Conciliación:</strong> Con 4 meses en paro y menor a cargo, la incompatibilidad horaria/distancia es causa adicional de flexibilización." },
+        { icon: "⚡", text: "<strong>¿Qué pasaría si llevara 14 meses en paro?</strong> Al superar los 12 meses, la ley exige aceptar ofertas fuera de la profesión habitual siempre que se tenga capacidad, pero la brecha salarial y distancia seguirían siendo objeto de recurso." }
+      ]
+    },
+    {
+      id: 1,
+      title: "El Comercial de Ventas",
+      badge: "Caso 2: Estructura Salarial y Comisiones",
+      perfil: "Comercial senior, 8 años experiencia. Salario anterior: 2.200 € fijos + comisiones.",
+      oferta: "Comercial en nuevo sector a 15 km. Salario: 1.600 € fijos + comisiones variables.",
+      situacion: "Lleva 2 meses en desempleo. Sin cargas familiares.",
+      officialVerdict: "yes", // Colocación Adecuada
+      dictamenText: "OFERTA ADECUADA (Obligatoria)",
+      verdictClass: "yes",
+      legalReasoning: [
+        { icon: "🎯", text: "<strong>Misma Categoría Profesional:</strong> El puesto guarda plena correspondencia con su familia profesional (Comercial)." },
+        { icon: "📍", text: "<strong>Distancia Aceptable:</strong> 15 km está dentro del límite legal general de 20 km / 20% tiempo de desplazamiento." },
+        { icon: "💰", text: "<strong>Retribución Ajustada:</strong> Aunque el fijo es algo menor (1.600€ vs 2.200€), respeta los convenios del sector y se complementa con parte variable. Al llevar solo 2 meses, la oferta cumple los estándares mínimos." }
+      ]
+    },
+    {
+      id: 2,
+      title: "La Dependienta Senior",
+      badge: "Caso 3: Edad, Turnicidad y Dependencia",
+      perfil: "Dependienta de comercio, 58 años, 30 años cotizados. Salario anterior: 1.400 €/mes.",
+      oferta: "Reponedora nocturna en centro logístico a 40 km. Salario: 1.500 €/mes.",
+      situacion: "Lleva 7 meses en desempleo. Cuida a su madre dependiente de 85 años.",
+      officialVerdict: "no", // Rechazo Justificado
+      dictamenText: "RECHAZO JUSTIFICADO",
+      verdictClass: "no",
+      legalReasoning: [
+        { icon: "📍", text: "<strong>Exceso de Distancia:</strong> 40 km supera el radio general de 20 km salvo que el empleador garantice transporte directo gratuito." },
+        { icon: "🌙", text: "<strong>Jornada Nocturna y Cargas:</strong> El turno de noche es incompatible con la atención acreditada a una familiar dependiente de 85 años." },
+        { icon: "⚖️", text: "<strong>Conclusión:</strong> El SEPE no puede sancionar la negativa a aceptar este puesto." }
+      ]
+    },
+    {
+      id: 3,
+      title: "El Joven Graduado ADE",
+      badge: "Caso 4: Duración Contrato vs Distancia",
+      perfil: "Graduado en ADE, 24 años, 6 meses experiencia previa. Salario anterior: 1.100 €/mes.",
+      oferta: "Contrato temporal de 3 meses, auxiliar administrativo a 60 km. Salario: 1.050 €/mes.",
+      situacion: "Lleva 1 mes en desempleo. Vive en el domicilio familiar.",
+      officialVerdict: "no", // Rechazo Justificado por distancia/coste
+      dictamenText: "RECHAZO JUSTIFICADO (Por Distancia / Coste)",
+      verdictClass: "no",
+      legalReasoning: [
+        { icon: "📍", text: "<strong>Distancia Excesiva (60 km):</strong> El coste y tiempo de transporte a 60 km para un salario de 1.050€ consumiría más del 20% de los ingresos netos." },
+        { icon: "⏳", text: "<strong>Contrato Muy Corto (3 meses):</strong> La escasa duración temporal unida al gran desplazamiento justifica la desproporción." },
+        { icon: "💡", text: "<strong>¿Y si el centro estuviera a 10 km?</strong> Sería 100% OBLIGATORIO aceptarla dada su corta trayectoria y correspondencia de titulación." }
+      ]
+    }
+  ];
+
+  let currentCaseIndex = 0;
+  let userVerdict = null;
+
+  // Render inicial
+  function init() {
+    renderCase(0);
+    updateCalculator();
+  }
+
+  function switchTab(tabId) {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    
+    event.currentTarget.classList.add('active');
+    document.getElementById(`tab-${tabId}`).classList.add('active');
+  }
+
+  function selectCase(index) {
+    currentCaseIndex = index;
+    userVerdict = null;
+    
+    // UI botones
+    const btns = document.querySelectorAll('.case-btn');
+    btns.forEach((btn, idx) => {
+      btn.classList.toggle('active', idx === index);
+    });
+
+    // Reset feedback
+    document.getElementById('legal-feedback-box').classList.remove('show');
+    document.querySelectorAll('.verdict-btn').forEach(b => b.classList.remove('selected'));
+
+    renderCase(index);
+  }
+
+  function renderCase(index) {
+    const data = casesData[index];
+    const container = document.getElementById('case-card-display');
+
+    container.innerHTML = `
+      <header>
+        <h2>${data.title} <span class="case-badge">${data.badge}</span></h2>
+      </header>
+      <div class="case-details">
+        <div class="case-detail-item">
+          <strong>👤 Perfil Profesional</strong>
+          ${data.perfil}
+        </div>
+        <div class="case-detail-item">
+          <strong>🏢 Oferta Recibida</strong>
+          ${data.oferta}
+        </div>
+        <div class="case-detail-item">
+          <strong>⏳ Situación en Paro</strong>
+          ${data.situacion}
+        </div>
+      </div>
+    `;
+  }
+
+  function submitVerdict(verdict) {
+    userVerdict = verdict;
+    
+    document.querySelectorAll('.verdict-btn').forEach(b => b.classList.remove('selected'));
+    event.currentTarget.classList.add('selected');
+
+    const data = casesData[currentCaseIndex];
+    const feedbackBox = document.getElementById('legal-feedback-box');
+
+    let isMatchesOfficial = (verdict === data.officialVerdict);
+    let matchBadge = isMatchesOfficial ? 
+      `<span style="background: #137333; color: white; padding: 4px 10px; border-radius: 12px; font-size: 0.8rem;">Coincide con Criterio SEPE</span>` : 
+      `<span style="background: #E98F71; color: white; padding: 4px 10px; border-radius: 12px; font-size: 0.8rem;">Criterio Alternativo</span>`;
+
+    let html = `
+      <h4>⚖️ Dictamen Oficial SEPE: <span class="gauge-title ${data.verdictClass}">${data.dictamenText}</span> ${matchBadge}</h4>
+      <p style="font-size: 0.92rem; color: #4A5568; margin-top: 6px;"><strong>Fundamentos Legales (Art. 301 LGSS):</strong></p>
+      <ul class="legal-points">
+    `;
+
+    data.legalReasoning.forEach(item => {
+      html += `<li><span class="icon">${item.icon}</span> <div>${item.text}</div></li>`;
+    });
+
+    html += `</ul>`;
+    feedbackBox.innerHTML = html;
+    feedbackBox.classList.add('show');
+  }
+
+  // CALCULADORA DINÁMICA
+  function updateCalculator() {
+    const meses = parseInt(document.getElementById('input-meses').value);
+    const km = parseInt(document.getElementById('input-km').value);
+    const salario = parseInt(document.getElementById('input-salario').value);
+    const cualificacion = document.getElementById('input-cualificacion').value;
+    const cargas = document.getElementById('input-cargas').value;
+
+    document.getElementById('val-meses').innerText = `${meses} meses`;
+    document.getElementById('val-km').innerText = `${km} km`;
+    document.getElementById('val-salario').innerText = `${salario}% del anterior`;
+
+    // Lógica de dictamen según LGSS
+    let isAdequate = true;
+    let reasons = [];
+
+    // Regla 1: Distancia (>20 km)
+    if (km > 20) {
+      isAdequate = false;
+      reasons.push(`📍 <strong>Distancia excesiva (${km} km):</strong> Supera el radio estándar de 20 km sin compensación de transporte.`);
+    }
+
+    // Regla 2: Salario (<70%)
+    if (salario < 70) {
+      isAdequate = false;
+      reasons.push(`💰 <strong>Recorte salarial severo (${salario}%):</strong> Inferior al umbral de protección del nivel de vida previo.`);
+    }
+
+    // Regla 3: Cualificación en primer año
+    if (meses <= 12 && cualificacion === 'sin_cualificacion') {
+      isAdequate = false;
+      reasons.push(`🎯 <strong>Desprofesionalización prematura:</strong> Durante los primeros 12 meses se garantiza la protección de la profesión habitual.`);
+    }
+
+    // Regla 4: Cargas familiares
+    if (cargas === 'con' && km > 15) {
+      isAdequate = false;
+      reasons.push(`👨‍👩‍👧‍👦 <strong>Conflicto de Conciliación:</strong> Existencia de menores/dependientes a cargo combinada con desplazamiento.`);
+    }
+
+    // Actualizar UI del medidor
+    const statusIcon = document.getElementById('calc-status-icon');
+    const statusTitle = document.getElementById('calc-status-title');
+    const statusDesc = document.getElementById('calc-status-desc');
+
+    if (isAdequate) {
+      statusIcon.className = "gauge-status adequate";
+      statusIcon.innerText = "🟢";
+      statusTitle.className = "gauge-title adequate";
+      statusTitle.innerText = "OFERTA ADECUADA";
+      statusDesc.innerHTML = "<strong>Resultado Legal:</strong> El trabajador está obligado a aceptarla. Rechazarla sin causa justificada implicará la sanción de pérdida de prestación por 3 meses (1ª infracción).";
+    } else {
+      statusIcon.className = "gauge-status inadequate";
+      statusIcon.innerText = "🔴";
+      statusTitle.className = "gauge-title inadequate";
+      statusTitle.innerText = "RECHAZO JUSTIFICADO";
+      statusDesc.innerHTML = `<strong>Causas de Incumplimiento Legal:</strong><br>` + reasons.join('<br>');
+    }
+  }
+
+  // TEMPORIZADOR DE AULA
+  let timerInterval = null;
+  let timeLeft = 600; // 10 min
+
+  function updateTimerDisplay() {
+    const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+    const s = (timeLeft % 60).toString().padStart(2, '0');
+    document.getElementById('timer-display').innerText = `${m}:${s}`;
+  }
+
+  function startTimer() {
+    if (timerInterval) return;
+    timerInterval = setInterval(() => {
+      if (timeLeft > 0) {
+        timeLeft--;
+        updateTimerDisplay();
+      } else {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        alert("⏰ ¡Tiempo de debate en grupo agotado!");
+      }
+    }, 1000);
+  }
+
+  function pauseTimer() {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+
+  function resetTimer() {
+    pauseTimer();
+    timeLeft = 600;
+    updateTimerDisplay();
+  }
+
+  // Arrancar al cargar
+  window.onload = init;
+</script>
+
 </body>
 </html>
