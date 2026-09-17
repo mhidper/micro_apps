@@ -118,6 +118,91 @@ window.DOCENCIA_APPS = {
         ]
       },
       {
+        id: "psll_salario_reserva",
+        type: "quiz",
+        category: "mercado",
+        icon: "⚖️",
+        iconBg: "#FDF0EC",
+        iconColor: "#E98F71",
+        title: "Salario de Reserva: ¿Sube o baja?",
+        desc: "Evalúa 10 situaciones del mercado de trabajo y determina si elevan o reducen el salario de reserva exigido para aceptar un empleo.",
+        meta: "10 preguntas · 5 min",
+        session: "Sesión 3",
+        noShuffleOptions: true,
+        questions: [
+          {
+            tag: "Situación 1",
+            text: "Indique si la siguiente situación hace que el salario de reserva suba o baje:\n\n«El Gobierno aprueba una reforma que incrementa un 20% la cuantía del subsidio asistencial por desempleo y prolonga su duración máxima de 6 a 18 meses.»",
+            options: ["Sube", "Baja"],
+            correct: 0,
+            explanation: "Sube el salario de reserva. Al aumentar la cuantía y el tiempo de cobertura de las rentas no salariales (Y_NS), la utilidad en desempleo aumenta. El trabajador exigirá un salario neto superior para renunciar a esa protección y aceptar un empleo."
+          },
+          {
+            tag: "Situación 2",
+            text: "Indique si la siguiente situación hace que el salario de reserva suba o baje:\n\n«Un trabajador desempleado agota el último mes de cobro de su prestación contributiva y no tiene derecho a subsidio asistencial ni ahorros familiares.»",
+            options: ["Sube", "Baja"],
+            correct: 1,
+            explanation: "Baja el salario de reserva. La caída drástica de las rentas no salariales a cero eleva la urgencia de liquidez y subsistencia económica. El individuo estará dispuesto a aceptar ofertas laborales con salarios netos más bajos."
+          },
+          {
+            tag: "Situación 3",
+            text: "Indique si la siguiente situación hace que el salario de reserva suba o baje:\n\n«Una fuerte subida en los carburantes y peajes encarece en 180 € al mes el desplazamiento diario para acudir a los polígonos industriales donde están las vacantes.»",
+            options: ["Sube", "Baja"],
+            correct: 0,
+            explanation: "Sube el salario de reserva. Los costes fijos de acudir al puesto reducen la ganancia líquida del trabajo. Para compensar ese sobrecoste ineludible y que compense trabajar frente a quedarse en casa, el salario ofrecido debe ser mayor."
+          },
+          {
+            tag: "Situación 4",
+            text: "Indique si la siguiente situación hace que el salario de reserva suba o baje:\n\n«El ayuntamiento implanta una red universal de escuelas infantiles públicas de 0 a 3 años 100% gratuitas, con plazas garantizadas y horario compatible con la jornada laboral.»",
+            options: ["Sube", "Baja"],
+            correct: 1,
+            explanation: "Baja el salario de reserva. Elimina un coste fijo monetario elevado y reduce el coste de oportunidad del tiempo dedicado a las cargas familiares, facilitando que el trabajador acepte salarios de mercado que antes no compensaban el cuidado de los hijos."
+          },
+          {
+            tag: "Situación 5",
+            text: "Indique si la siguiente situación hace que el salario de reserva suba o baje:\n\n«En un hogar de dos adultos, el cónyuge del desempleado obtiene un empleo indefinido con una remuneración de 3.500 € netos mensuales que cubre holgadamente todos los gastos familiares.»",
+            options: ["Sube", "Baja"],
+            correct: 0,
+            explanation: "Sube el salario de reserva. Genera un efecto riqueza familiar al aumentar los ingresos del hogar (Y_NS familiar). Al no existir urgencia económica, el demandante puede permitirse ser más selectivo y exigir ofertas mejor remuneradas."
+          },
+          {
+            tag: "Situación 6",
+            text: "Indique si la siguiente situación hace que el salario de reserva suba o baje:\n\n«Una persona acumula más de 24 meses buscando empleo sin éxito, agotando sus ahorros y percibiendo que sus competencias empiezan a perder valor en el mercado.»",
+            options: ["Sube", "Baja"],
+            correct: 1,
+            explanation: "Baja el salario de reserva. Con el paso del tiempo en paro, el coste del desánimo, el riesgo de estigmatización y la pérdida de capital humano empujan al desempleado a moderar a la baja sus exigencias salariales para reinsertarse."
+          },
+          {
+            tag: "Situación 7",
+            text: "Indique si la siguiente situación hace que el salario de reserva suba o baje:\n\n«Un demandante de empleo recibe una herencia que le reporta rentas pasivas regulares y seguras de 1.000 € netos al mes (por ejemplo, el alquiler de un inmueble).»",
+            options: ["Sube", "Baja"],
+            correct: 0,
+            explanation: "Sube el salario de reserva. El incremento permanente de renta no salarial (Y_NS) eleva el bienestar sin necesidad de trabajar. Como el ocio es un bien normal, demandará más tiempo libre y solo aceptará trabajar por un salario sustancialmente mayor."
+          },
+          {
+            tag: "Situación 8",
+            text: "Indique si la siguiente situación hace que el salario de reserva suba o baje:\n\n«La vacante disponible exige turnos rotatorios noche-día durante los fines de semana en un centro logístico con alta exigencia y penosidad física.»",
+            options: ["Sube", "Baja"],
+            correct: 0,
+            explanation: "Sube el salario de reserva. Las condiciones laborales penosas o los horarios atípicos incrementan la desutilidad marginal del trabajo. El individuo exige una prima salarial compensatoria mayor para estar dispuesto a colocarse en ese puesto."
+          },
+          {
+            tag: "Situación 9",
+            text: "Indique si la siguiente situación hace que el salario de reserva suba o baje:\n\n«Una reforma laboral introduce la compatibilidad del 60% del subsidio con la aceptación de contratos a tiempo parcial (incentivo al empleo / complemento salarial tipo EITC).»",
+            options: ["Sube", "Baja"],
+            correct: 1,
+            explanation: "Baja el salario de reserva. Elimina la trampa de la pobreza y el efecto precipicio (Cliff Effect). Al no perder íntegramente la ayuda al aceptar un trabajo, la ganancia neta horaria resulta atractiva incluso con salarios moderados."
+          },
+          {
+            tag: "Situación 10",
+            text: "Indique si la siguiente situación hace que el salario de reserva suba o baje:\n\n«En la ciudad donde reside el desempleado se produce una escalada del 30% en el precio del alquiler de la vivienda habitual, sin que existan opciones más asequibles.»",
+            options: ["Sube", "Baja"],
+            correct: 0,
+            explanation: "Sube el salario de reserva. Mayores costes ineludibles de subsistencia imponen un suelo de ingresos mínimo para sobrevivir, por lo que empleos con salarios que no cubran ese coste vital básico serán necesariamente rechazados."
+          }
+        ]
+      },
+      {
         id: "psll_pasivas_1",
         type: "quiz",
         category: "pasivas",

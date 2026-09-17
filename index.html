@@ -1645,9 +1645,10 @@
         showView('viewSimulator');
       } else if(app.type==='quiz'){
         activeQuizApp=app;
-        quizRuntime=shuffle(app.questions).map(function(q){
+        var qList = app.noShuffleQuestions ? app.questions : shuffle(app.questions);
+        quizRuntime=qList.map(function(q){
           var opts=q.options.map(function(t,i){ return {t:t, ok:(i===q.correct)}; });
-          opts=shuffle(opts);
+          opts = (app.noShuffleOptions || q.noShuffleOptions) ? opts : shuffle(opts);
           var correct=0; opts.forEach(function(o,i){ if(o.ok) correct=i; });
           return { text:q.text, options:opts.map(function(o){ return o.t; }),
                    correct:correct, explanation:q.explanation };
