@@ -90,7 +90,7 @@
 
   <div class="hero" id="hero">
     <div class="hero-inner">
-      <svg id="cross" class="cross-svg" viewBox="0 0 330 300" role="img" aria-label="Cruz keynesiana"></svg>
+      <svg id="cross" class="cross-svg" viewBox="0 0 330 320" role="img" aria-label="Cruz keynesiana"></svg>
       <div class="metrics">
         <div class="metric"><div class="k">Renta equilibrio Y*</div><div class="v" id="mY" style="color:var(--cobalt)">3.000 €</div></div>
         <div class="metric"><div class="k">Multiplicador α</div><div class="v" id="mA" style="color:var(--amber)">4,00</div></div>
@@ -106,12 +106,12 @@
       <h2>Dónde se cruzan producción y demanda</h2>
       <p>La demanda es Z = C + I + G, y el consumo depende de la renta: C = c₀ + c₁(Y − T). El equilibrio está donde la recta de demanda corta a la de 45° (Y = Z). Cambia el gasto o la propensión a consumir y mira moverse el punto.</p>
       <div class="grid2">
-        <div class="control"><div class="control-head"><span class="control-label">PMC · c₁</span><span class="control-value" id="vC1">0,75</span></div><input type="range" id="c1" min="0.2" max="0.95" step="0.05" value="0.75" oninput="upd()"></div>
-        <div class="control"><div class="control-head"><span class="control-label">Consumo autónomo · c₀</span><span class="control-value" id="vC0">200 €</span></div><input type="range" id="c0" min="50" max="500" step="25" value="200" oninput="upd()"></div>
-        <div class="control"><div class="control-head"><span class="control-label">Inversión · I</span><span class="control-value" id="vI">300 €</span></div><input type="range" id="i" min="50" max="600" step="25" value="300" oninput="upd()"></div>
-        <div class="control"><div class="control-head"><span class="control-label">Gasto público · G</span><span class="control-value" id="vG">400 €</span></div><input type="range" id="g" min="100" max="800" step="25" value="400" oninput="upd()"></div>
-        <div class="control"><div class="control-head"><span class="control-label">Impuestos · T</span><span class="control-value" id="vT">200 €</span></div><input type="range" id="t" min="0" max="500" step="25" value="200" oninput="upd()"></div>
-        <div class="control"><div class="control-head"><span class="control-label">Tipo proporcional · t₁</span><span class="control-value" id="vT1">0,00</span></div><input type="range" id="t1" min="0" max="0.4" step="0.05" value="0" oninput="upd()"></div>
+        <div class="control"><div class="control-head"><span class="control-label">PMC · c₁</span><span class="control-value" id="vC1">0,75</span></div><input type="range" id="c1" min="0.5" max="0.8" step="0.05" value="0.75" oninput="upd()"></div>
+        <div class="control"><div class="control-head"><span class="control-label">Consumo autónomo · c₀</span><span class="control-value" id="vC0">200 €</span></div><input type="range" id="c0" min="100" max="400" step="25" value="200" oninput="upd()"></div>
+        <div class="control"><div class="control-head"><span class="control-label">Inversión · I</span><span class="control-value" id="vI">300 €</span></div><input type="range" id="i" min="100" max="500" step="25" value="300" oninput="upd()"></div>
+        <div class="control"><div class="control-head"><span class="control-label">Gasto público · G</span><span class="control-value" id="vG">400 €</span></div><input type="range" id="g" min="100" max="600" step="25" value="400" oninput="upd()"></div>
+        <div class="control"><div class="control-head"><span class="control-label">Impuestos · T</span><span class="control-value" id="vT">200 €</span></div><input type="range" id="t" min="50" max="350" step="25" value="200" oninput="upd()"></div>
+        <div class="control"><div class="control-head"><span class="control-label">Tipo proporcional · t₁</span><span class="control-value" id="vT1">0,00</span></div><input type="range" id="t1" min="0" max="0.25" step="0.05" value="0" oninput="upd()"></div>
       </div>
       <div class="btn-row">
         <button class="chip-btn" onclick="preset('g')">+100 en G</button>
@@ -186,31 +186,70 @@
   function euros(v){return Math.round(v).toLocaleString('es-ES')+' €';}
 
   function drawCross(yStar,A,pend){
-    var svg=$('cross'); var PL=42,PR=312,PT=16,PB=286; // cuadro cuadrado 270x270
-    var Ymax=Math.max(yStar*1.6, A*1.9, 100);
-    function sx(Y){return PL+(Y/Ymax)*(PR-PL);}
-    function sy(Z){return PB-(Z/Ymax)*(PB-PT);}
-    var cob='#056CAA',pine='#113927',grid='#E3DCD2',muted='#6B7280',amber='#C68B59';
+    var svg=$('cross');
+    var PL=44, PR=312, PT=16, PB=266; // cuadro 268x250
+    var Ymax = 5000; // EJE FIJO A 5.000 €: Permite ver el desplazamiento paralelo estricto de Z
+
+    function sx(Y){return PL + (Math.max(0, Y) / Ymax) * (PR - PL);}
+    function sy(Z){return PB - (Math.max(0, Z) / Ymax) * (PB - PT);}
+
+    var cob='#056CAA', pine='#113927', grid='#D8CEC0', gridSub='#EDE5D8', muted='#78716C', amber='#C68B59';
     var p=[];
-    p.push('<line x1="'+PL+'" y1="'+PB+'" x2="'+PR+'" y2="'+PB+'" stroke="'+grid+'"/>');
-    p.push('<line x1="'+PL+'" y1="'+PT+'" x2="'+PL+'" y2="'+PB+'" stroke="'+grid+'"/>');
-    // 45 grados
+
+    // Retícula y marcas de eje fijas (1k, 2k, 3k, 4k, 5k)
+    var ticks = [1000, 2000, 3000, 4000, 5000];
+    ticks.forEach(function(tv){
+      // Líneas horizontales fijas
+      p.push('<line x1="'+PL+'" y1="'+sy(tv)+'" x2="'+PR+'" y2="'+sy(tv)+'" stroke="'+gridSub+'" stroke-width="1" stroke-dasharray="2 2"/>');
+      p.push('<text x="'+(PL-5)+'" y="'+(sy(tv)+3.5)+'" font-size="8" fill="'+muted+'" text-anchor="end">'+(tv/1000)+'k</text>');
+      // Líneas verticales fijas
+      p.push('<line x1="'+sx(tv)+'" y1="'+PT+'" x2="'+sx(tv)+'" y2="'+PB+'" stroke="'+gridSub+'" stroke-width="1" stroke-dasharray="2 2"/>');
+      p.push('<text x="'+sx(tv)+'" y="'+(PB+12)+'" font-size="8" fill="'+muted+'" text-anchor="middle">'+(tv/1000)+'k</text>');
+    });
+
+    // Ejes cartesianos
+    p.push('<line x1="'+PL+'" y1="'+PB+'" x2="'+PR+'" y2="'+PB+'" stroke="'+grid+'" stroke-width="1.5"/>');
+    p.push('<line x1="'+PL+'" y1="'+PT+'" x2="'+PL+'" y2="'+PB+'" stroke="'+grid+'" stroke-width="1.5"/>');
+    p.push('<text x="'+(PL-5)+'" y="'+(PB+3.5)+'" font-size="8" fill="'+muted+'" text-anchor="end">0</text>');
+
+    // 45 grados fija (Z = Y)
     p.push('<line x1="'+sx(0)+'" y1="'+sy(0)+'" x2="'+sx(Ymax)+'" y2="'+sy(Ymax)+'" stroke="'+muted+'" stroke-width="1.5" stroke-dasharray="4 3"/>');
-    p.push('<text x="'+(sx(Ymax)-6)+'" y="'+(sy(Ymax)+14)+'" font-size="10" fill="'+muted+'" text-anchor="end">Z = Y</text>');
-    // demanda Z=A+pend*Y
-    p.push('<line x1="'+sx(0)+'" y1="'+sy(A)+'" x2="'+sx(Ymax)+'" y2="'+sy(A+pend*Ymax)+'" stroke="'+cob+'" stroke-width="3" stroke-linecap="round"/>');
-    p.push('<text x="'+(sx(Ymax))+'" y="'+(sy(A+pend*Ymax)-6)+'" font-size="10" font-weight="700" fill="'+cob+'" text-anchor="end">Demanda Z</text>');
-    // intercepto A
-    p.push('<circle cx="'+sx(0)+'" cy="'+sy(A)+'" r="3" fill="'+cob+'"/>');
-    p.push('<text x="'+(sx(0)+6)+'" y="'+(sy(A)-4)+'" font-size="9.5" fill="'+muted+'">A='+Math.round(A)+'</text>');
-    // equilibrio
-    var ex=sx(yStar),ey=sy(yStar);
-    p.push('<line x1="'+ex+'" y1="'+ey+'" x2="'+ex+'" y2="'+PB+'" stroke="'+amber+'" stroke-width="1" stroke-dasharray="3 3"/>');
-    p.push('<line x1="'+ex+'" y1="'+ey+'" x2="'+PL+'" y2="'+ey+'" stroke="'+amber+'" stroke-width="1" stroke-dasharray="3 3"/>');
-    p.push('<circle cx="'+ex+'" cy="'+ey+'" r="6" fill="#fff" stroke="'+amber+'" stroke-width="3"/>');
-    p.push('<text x="'+ex+'" y="'+(PB+15)+'" font-size="10" font-weight="800" fill="'+amber+'" text-anchor="middle">Y*='+Math.round(yStar)+'</text>');
-    p.push('<text x="'+((PL+PR)/2)+'" y="'+(PB+28)+'" font-size="9.5" fill="'+muted+'" text-anchor="middle">Producción / Renta (Y)</text>');
-    svg.innerHTML=p.join('');
+    p.push('<text x="'+(sx(Ymax)-4)+'" y="'+(sy(Ymax)+14)+'" font-size="9" fill="'+muted+'" text-anchor="end">Z = Y</text>');
+
+    // Recta de Demanda Z = Ā + pend * Y (recorte limpio en bordes)
+    var xEnd = Ymax;
+    var zEnd = A + pend * Ymax;
+    if (zEnd > Ymax) {
+      zEnd = Ymax;
+      xEnd = (pend > 0) ? (Ymax - A) / pend : Ymax;
+    }
+    xEnd = Math.max(0, Math.min(Ymax, xEnd));
+    zEnd = Math.max(0, Math.min(Ymax, zEnd));
+
+    p.push('<line x1="'+sx(0)+'" y1="'+sy(A)+'" x2="'+sx(xEnd)+'" y2="'+sy(zEnd)+'" stroke="'+cob+'" stroke-width="3" stroke-linecap="round"/>');
+    var lblX = Math.min(sx(xEnd), PR - 6);
+    var lblY = sy(zEnd) + (zEnd >= Ymax ? 14 : -6);
+    p.push('<text x="'+lblX+'" y="'+lblY+'" font-size="9.5" font-weight="700" fill="'+cob+'" text-anchor="end">Demanda Z</text>');
+
+    // Intercepto Ā
+    if (A >= 0 && A <= Ymax) {
+      p.push('<circle cx="'+sx(0)+'" cy="'+sy(A)+'" r="3.5" fill="'+cob+'"/>');
+      p.push('<text x="'+(sx(0)+6)+'" y="'+(sy(A)-4)+'" font-size="9" font-weight="700" fill="'+cob+'">Ā='+Math.round(A)+'</text>');
+    }
+
+    // Punto de equilibrio (Y*, Z*)
+    if (yStar > 0 && yStar <= Ymax) {
+      var ex = sx(yStar), ey = sy(yStar);
+      p.push('<line x1="'+ex+'" y1="'+ey+'" x2="'+ex+'" y2="'+PB+'" stroke="'+amber+'" stroke-width="1.2" stroke-dasharray="3 3"/>');
+      p.push('<line x1="'+ex+'" y1="'+ey+'" x2="'+PL+'" y2="'+ey+'" stroke="'+amber+'" stroke-width="1.2" stroke-dasharray="3 3"/>');
+      p.push('<circle cx="'+ex+'" cy="'+ey+'" r="5.5" fill="#fff" stroke="'+amber+'" stroke-width="2.5"/>');
+      p.push('<text x="'+ex+'" y="'+(PB+24)+'" font-size="9.5" font-weight="800" fill="'+amber+'" text-anchor="middle">Y*='+Math.round(yStar)+'</text>');
+    } else if (yStar > Ymax) {
+      p.push('<text x="'+(PR-6)+'" y="'+(PT+26)+'" font-size="9" font-weight="700" fill="'+amber+'" text-anchor="end">Y* > 5.000 €</text>');
+    }
+
+    p.push('<text x="'+((PL+PR)/2)+'" y="'+(PB+37)+'" font-size="9" fill="'+muted+'" text-anchor="middle">Producción / Renta (Y)</text>');
+    svg.innerHTML = p.join('');
   }
 
   function upd(){
@@ -225,8 +264,8 @@
     drawCross(yStar,A,pend);
   }
   function preset(type){
-    if(type==='g'){ $('g').value=Math.min(800,+$('g').value+100); }
-    else if(type==='haav'){ $('g').value=Math.min(800,+$('g').value+100); $('t').value=Math.min(500,+$('t').value+100); }
+    if(type==='g'){ $('g').value=Math.min(600,+$('g').value+100); }
+    else if(type==='haav'){ $('g').value=Math.min(600,+$('g').value+100); $('t').value=Math.min(350,+$('t').value+100); }
     else { $('c1').value=0.75;$('c0').value=200;$('i').value=300;$('g').value=400;$('t').value=200;$('t1').value=0; }
     upd();
   }
