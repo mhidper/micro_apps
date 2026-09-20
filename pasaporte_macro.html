@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pasaporte de Evaluación Continua · Macroeconomía UPO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="theme.css">
+  <style>
+    :root {
+      --navy: #0B1C36;
+      --cobalt: #056CAA;
+      --azure: #0776B5;
+      --gold: #D97706;
+      --gold-light: #F59E0B;
+      --crimson: #E11D48;
+      --cream-bg: #FDFBF7;
+      --cream-card: #FFFFFF;
+      --border-subtle: #E2E8F0;
+      --text-main: #1E293B;
+      --text-muted: #64748B;
+      --success: #10B981;
+      --radius-box: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--cream-bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+    }
+
+    /* Top Bar */
+    .top-header {
+      background: var(--navy);
+      color: #FFFFFF;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px solid var(--gold);
+      box-shadow: 0 4px 12px rgba(11, 28, 54, 0.15);
+    }
+    .top-header .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-badge {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #FFFFFF;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .brand-sub {
+      font-size: 0.8rem;
+      color: #94A3B8;
+    }
+
+    .main-container {
+      max-width: 920px;
+      width: 100%;
+      margin: 32px auto;
+      padding: 0 20px;
+      flex: 1;
+    }
+
+    /* Auth Card View */
+    .auth-wrapper {
+      max-width: 520px;
+      margin: 40px auto;
+    }
+    .auth-card {
+      background: var(--cream-card);
+      border: 1px solid #CBD5E1;
+      border-radius: var(--radius-box);
+      box-shadow: 0 12px 32px rgba(11, 28, 54, 0.08);
+      padding: clamp(24px, 5vw, 36px);
+      transition: all 0.3s ease;
+    }
+    .auth-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .auth-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--navy), var(--cobalt));
+      color: #FFFFFF;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 16px;
+      box-shadow: 0 6px 16px rgba(5, 108, 170, 0.25);
+    }
+    .auth-header h1 {
+      font-family: 'Outfit', sans-serif;
+      color: var(--navy);
+      font-size: 1.65rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .auth-header p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    .form-group {
+      margin-bottom: 22px;
+    }
+    .form-label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .form-input {
+      width: 100%;
+      padding: 13px 16px;
+      border: 2px solid #CBD5E1;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: inherit;
+      color: var(--text-main);
+      background: #F8FAFC;
+      transition: all 0.2s;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: var(--cobalt);
+      background: #FFFFFF;
+      box-shadow: 0 0 0 4px rgba(5, 108, 170, 0.12);
+    }
+
+    /* Bank-style 8-digit Grid */
+    .pin-challenge-box {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 20px 16px;
+      margin-top: 18px;
+      margin-bottom: 22px;
+      text-align: center;
+    }
+    .pin-helper-text {
+      font-size: 0.88rem;
+      color: var(--navy);
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .pin-helper-text span {
+      color: var(--cobalt);
+      background: rgba(5, 108, 170, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+    .pin-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .pin-slot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .pin-pos-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .pin-box {
+      width: 100%;
+      height: 48px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+    .pin-box.masked {
+      background: #E2E8F0;
+      color: #64748B;
+      border: 2px dashed #94A3B8;
+      user-select: none;
+    }
+    .pin-box.active {
+      background: #FFFFFF;
+      border: 2px solid var(--cobalt);
+      color: var(--navy);
+      box-shadow: 0 2px 8px rgba(5, 108, 170, 0.15);
+    }
+    .pin-box.active input {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: transparent;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--navy);
+      outline: none;
+    }
+    .pin-box.active:focus-within {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.2);
+    }
+
+    .btn-shuffle {
+      background: none;
+      border: none;
+      color: var(--cobalt);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    .btn-shuffle:hover {
+      background: rgba(5, 108, 170, 0.08);
+      text-decoration: underline;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--cobalt), var(--navy));
+      color: #FFFFFF;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(5, 108, 170, 0.25);
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-primary:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(5, 108, 170, 0.35);
+    }
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .auth-footer-note {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Error Alert */
+    .alert-box {
+      background: #FFF1F2;
+      border-left: 4px solid var(--crimson);
+      color: #9F1239;
+      padding: 12px 14px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      margin-bottom: 18px;
+      display: none;
+      animation: shake 0.4s ease;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+
+    /* Dashboard View */
+    .dashboard-view {
+      display: none;
+      animation: fadeIn 0.4s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hero Banner */
+    .student-hero {
+      background: linear-gradient(135deg, var(--navy) 0%, #0F2B52 100%);
+      color: #FFFFFF;
+      border-radius: var(--radius-box);
+      padding: clamp(24px, 4vw, 36px);
+      margin-bottom: 28px;
+      box-shadow: 0 12px 30px rgba(11, 28, 54, 0.2);
+      border-top: 4px solid var(--gold);
+      position: relative;
+      overflow: hidden;
+    }
+    .student-hero::after {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(217, 119, 6, 0.15) 0%, rgba(217, 119, 6, 0) 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .hero-welcome {
+      font-size: 0.9rem;
+      color: #94A3B8;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .hero-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.02em;
+    }
+    .hero-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      color: #E2E8F0;
+      margin-top: 6px;
+    }
+
+    .btn-logout {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #FFFFFF;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-logout:hover {
+      background: rgba(255, 255, 255, 0.22);
+    }
+
+    /* Score Grid in Hero */
+    .hero-score-card {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 14px;
+      padding: 20px 24px;
+      backdrop-filter: blur(8px);
+    }
+    .score-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+    .score-label {
+      font-size: 0.85rem;
+      color: #CBD5E1;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .score-nums {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800;
+      color: #FFFFFF;
+      line-height: 1;
+    }
+    .score-nums .potential {
+      font-size: 1.25rem;
+      color: #94A3B8;
+      font-weight: 600;
+    }
+    .score-percentage {
+      text-align: right;
+    }
+    .score-pct-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800;
+      color: var(--gold-light);
+      line-height: 1;
+    }
+    .score-pct-sub {
+      font-size: 0.78rem;
+      color: #CBD5E1;
+      margin-top: 4px;
+    }
+
+    /* Progress Bar */
+    .progress-track {
+      width: 100%;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--cobalt), var(--gold));
+      border-radius: 999px;
+      width: 0%;
+      transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Sessions Section */
+    .section-title-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .badge-count {
+      background: var(--navy);
+      color: #FFFFFF;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+
+    /* Session Card */
+    .session-card {
+      background: var(--cream-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-box);
+      box-shadow: 0 4px 16px rgba(11, 28, 54, 0.05);
+      margin-bottom: 22px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .session-card:hover {
+      box-shadow: 0 8px 24px rgba(11, 28, 54, 0.09);
+    }
+    .session-header {
+      padding: 18px 24px;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .session-title-box h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 3px;
+    }
+    .session-meta-tag {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .session-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
+    }
+    .status-sobresaliente { background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0; }
+    .status-apto { background: #EFF6FF; color: #1E40AF; border: 1px solid #BFDBFE; }
+    .status-noapto { background: #FFF1F2; color: #9F1239; border: 1px solid #FECDD3; }
+    .status-nopresentado { background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1; }
+
+    .session-score-pill {
+      background: var(--navy);
+      color: #FFFFFF;
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
+      margin-left: 8px;
+    }
+
+    .session-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Blocks inside session */
+    .content-block {
+      border-radius: 12px;
+      padding: 16px 18px;
+      font-size: 0.92rem;
+    }
+    .block-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+    }
+
+    /* Question block */
+    .block-question {
+      background: #F8FAFC;
+      border-left: 4px solid #94A3B8;
+    }
+    .block-question .block-header { color: #475569; }
+
+    /* Student handwritten transcription */
+    .block-transcript {
+      background: #FFFDF7;
+      border: 1px solid #FDE68A;
+      border-left: 4px solid var(--gold);
+    }
+    .block-transcript .block-header { color: #92400E; }
+    .transcript-text {
+      font-family: 'Inter', system-ui, sans-serif;
+      white-space: pre-wrap;
+      color: #451A03;
+      background: #FFFBEB;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* Official Solution */
+    .block-solution {
+      background: #F0F7FF;
+      border-left: 4px solid var(--cobalt);
+    }
+    .block-solution .block-header { color: var(--cobalt); }
+    .solution-text {
+      white-space: pre-wrap;
+      font-size: 0.88rem;
+      color: #0C4A6E;
+      line-height: 1.6;
+    }
+
+    /* Feedback block */
+    .block-feedback {
+      background: #FDF4FF;
+      border-left: 4px solid #A855F7;
+    }
+    .block-feedback .block-header { color: #7E22CE; }
+    .feedback-text {
+      font-style: italic;
+      color: #581C87;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 24px;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      border-top: 1px solid var(--border-subtle);
+      background: #FFFFFF;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 640px) {
+      .pin-grid {
+        gap: 3px;
+      }
+      .pin-box {
+        height: 42px;
+        font-size: 1.1rem;
+      }
+      .hero-top {
+        flex-direction: column;
+      }
+      .score-flex {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .score-percentage {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Institutional Bar -->
+  <header class="top-header">
+    <div class="brand">
+      <div class="brand-badge">UPO</div>
+      <div>
+        <div class="brand-title">Macroeconomía · Grados en DER + FICO</div>
+        <div class="brand-sub">Universidad Pablo de Olavide · Curso 2026-27</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+
+    <!-- ============================================================
+         VISTA 1: AUTENTICACIÓN CIFRADA CON RETO BANCARIO (8 DÍGITOS)
+         ============================================================ -->
+    <div id="authView" class="auth-wrapper">
+      <div class="auth-card">
+        <div class="auth-header">
+          <div class="auth-icon">🛡️</div>
+          <h1>Pasaporte de Evaluación</h1>
+          <p>Consulta personalizada de calificaciones, retos manuscritos y soluciones oficiales de la cátedra.</p>
+        </div>
+
+        <div id="alertBox" class="alert-box"></div>
+
+        <form id="authForm" onsubmit="return false;">
+          <!-- Paso 1: Usuario UPO -->
+          <div class="form-group">
+            <label class="form-label" for="usernameInput">Nombre de Usuario UPO</label>
+            <input 
+              type="text" 
+              id="usernameInput" 
+              class="form-input" 
+              placeholder="Ej: aalvmar5 o cchamor" 
+              autocomplete="username" 
+              autocapitalize="none"
+              required
+            >
+          </div>
+
+          <!-- Paso 2: Reto Bancario de 4 Dígitos Aleatorios -->
+          <div id="pinChallengeArea" class="pin-challenge-box" style="display: none;">
+            <div id="pinHelperText" class="pin-helper-text">
+              Introduce las posiciones solicitadas de tu <strong>DNI / ID de estudiante</strong>:
+            </div>
+            
+            <div class="pin-grid" id="pinGrid">
+              <!-- Se genera dinámicamente con las 8 casillas -->
+            </div>
+
+            <button type="button" id="btnShuffle" class="btn-shuffle" title="Generar otro reto con 4 posiciones aleatorias distintas">
+              🔄 Solicitar otras 4 posiciones aleatorias
+            </button>
+          </div>
+
+          <!-- Botón de Acción -->
+          <button type="button" id="btnAction" class="btn-primary">
+            Continuar
+          </button>
+        </form>
+
+        <div class="auth-footer-note">
+          🔒 <strong>Acceso con Cifrado Militar Zero-Knowledge:</strong> Tus calificaciones e identidad están protegidas con criptografía AES-GCM-256. Ningún dato personal es legible públicamente en el repositorio.
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         VISTA 2: DASHBOARD PERSONAL DEL ALUMNO (PASAPORTE)
+         ============================================================ -->
+    <div id="dashboardView" class="dashboard-view">
+
+      <!-- Hero Banner -->
+      <section class="student-hero">
+        <div class="hero-top">
+          <div>
+            <div class="hero-welcome">Pasaporte de Evaluación Continua</div>
+            <h2 id="studentFullName" class="hero-name">Cargando expediente...</h2>
+            <div class="hero-meta">
+              <span>👤 <strong id="studentUserBadge">-</strong></span>
+              <span>•</span>
+              <span>✅ Registro verificado</span>
+            </div>
+          </div>
+          <button id="btnLogout" class="btn-logout" title="Cerrar sesión de forma segura">
+            Cerrar Sesión 🔒
+          </button>
+        </div>
+
+        <!-- Score Banner -->
+        <div class="hero-score-card">
+          <div class="score-flex">
+            <div>
+              <div class="score-label">PUNTOS DE EVALUACIÓN CONTINUA OBTENIDOS</div>
+              <div class="score-nums">
+                <span id="scoreObtained">0</span> 
+                <span class="potential">/ <span id="scorePotential">1.000</span> pts posibles</span>
+              </div>
+            </div>
+            <div class="score-percentage">
+              <div class="score-label">RENDIMIENTO ACUMULADO</div>
+              <div class="score-pct-val"><span id="scorePct">0%</span></div>
+              <div class="score-pct-sub" id="scoreFormulaText">0 / 1.000 × 100</div>
+            </div>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="progress-track" title="Progreso de evaluación continua">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Historial de Sesiones -->
+      <section>
+        <div class="section-title-wrap">
+          <h2 class="section-title">
+            <span>Sesiones Corregidas</span>
+            <span id="sessionCountBadge" class="badge-count">1</span>
+          </h2>
+        </div>
+
+        <div id="sessionsContainer">
+          <!-- Las tarjetas de cada sesión se inyectan aquí dinámicamente -->
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>Macroeconomía · Grados en Derecho y Finanzas y Contabilidad (DER + FICO) · Universidad Pablo de Olavide</p>
+    <p style="margin-top: 4px; font-size: 0.76rem; color: #94A3B8;">Plataforma de Consulta Segura de Calificaciones · Desarrollado con Web Crypto API nativa</p>
+  </footer>
+
+  <!-- Carga de la Base de Datos Cifrada -->
+  <script src="data/calificaciones_cifradas.js"></script>
+
+  <!-- Lógica Criptográfica e Interactiva -->
+  <script>
+    (function() {
+      // Estado de la aplicación
+      let currentStep = 'username'; // 'username' | 'pin'
+      let matchedRecord = null;
+      let currentComboIdx = null;
+      let activeInputs = [];
+
+      // Elementos del DOM
+      const authView = document.getElementById('authView');
+      const dashboardView = document.getElementById('dashboardView');
+      const usernameInput = document.getElementById('usernameInput');
+      const pinChallengeArea = document.getElementById('pinChallengeArea');
+      const pinGrid = document.getElementById('pinGrid');
+      const btnShuffle = document.getElementById('btnShuffle');
+      const btnAction = document.getElementById('btnAction');
+      const alertBox = document.getElementById('alertBox');
+      const btnLogout = document.getElementById('btnLogout');
+
+      // Elementos del Dashboard
+      const studentFullName = document.getElementById('studentFullName');
+      const studentUserBadge = document.getElementById('studentUserBadge');
+      const scoreObtained = document.getElementById('scoreObtained');
+      const scorePotential = document.getElementById('scorePotential');
+      const scorePct = document.getElementById('scorePct');
+      const scoreFormulaText = document.getElementById('scoreFormulaText');
+      const progressFill = document.getElementById('progressFill');
+      const sessionCountBadge = document.getElementById('sessionCountBadge');
+      const sessionsContainer = document.getElementById('sessionsContainer');
+
+      // Funciones Criptográficas con Web Crypto API
+      const enc = new TextEncoder();
+      const dec = new TextDecoder();
+
+      function showAlert(msg) {
+        alertBox.textContent = msg;
+        alertBox.style.display = 'block';
+      }
+      function hideAlert() {
+        alertBox.style.display = 'none';
+      }
+
+      async function sha256Hex(text) {
+        const hashBuf = await crypto.subtle.digest('SHA-256', enc.encode(text));
+        return Array.from(new Uint8Array(hashBuf))
+          .map(b => b.toString(16).padStart(2, '0')).join('');
+      }
+
+      function base64ToUint8(b64) {
+        const bin = atob(b64);
+        const len = bin.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+          bytes[i] = bin.charCodeAt(i);
+        }
+        return bytes;
+      }
+
+      // Paso 1: Validar si el usuario existe en el índice cifrado
+      async function handleUsernameSubmit() {
+        hideAlert();
+        const username = usernameInput.value.trim().toLowerCase();
+        if (!username) {
+          showAlert("Por favor, introduce tu nombre de usuario oficial de la UPO.");
+          usernameInput.focus();
+          return;
+        }
+
+        if (!window.__MACRO_EVAL_DB__ || !window.__MACRO_GLOBAL_SALT__) {
+          showAlert("Error al cargar la base de datos de calificaciones.");
+          return;
+        }
+
+        const userHash = await sha256Hex(`${window.__MACRO_GLOBAL_SALT__}:${username}`);
+        matchedRecord = window.__MACRO_EVAL_DB__.find(r => r.user_hash === userHash);
+
+        if (!matchedRecord) {
+          showAlert("Usuario no encontrado en la lista de Macroeconomía. Verifica que escribes tu usuario institucional (ej: aalvmar5 o ecasmel).");
+          usernameInput.focus();
+          return;
+        }
+
+        // Usuario encontrado: pasar a reto bancario de 4 dígitos
+        currentStep = 'pin';
+        usernameInput.disabled = true;
+        pinChallengeArea.style.display = 'block';
+        btnAction.textContent = "Acceder a mi Pasaporte 🔓";
+        generateRandomChallenge();
+      }
+
+      // Paso 2: Generar reto bancario con 4 posiciones aleatorias
+      function generateRandomChallenge() {
+        hideAlert();
+        const totalCombos = window.__MACRO_COMBOS__.length; // 70
+        currentComboIdx = Math.floor(Math.random() * totalCombos);
+        const activePositions = window.__MACRO_COMBOS__[currentComboIdx]; // Array de 4 índices (0 a 7)
+        
+        renderPinGrid(activePositions);
+      }
+
+      function renderPinGrid(activePositions) {
+        pinGrid.innerHTML = '';
+        activeInputs = [];
+
+        for (let pos = 0; pos < 8; pos++) {
+          const slot = document.createElement('div');
+          slot.className = 'pin-slot';
+
+          const posLabel = document.createElement('div');
+          posLabel.className = 'pin-pos-label';
+          posLabel.textContent = `${pos + 1}ª`;
+
+          const box = document.createElement('div');
+          
+          if (activePositions.includes(pos)) {
+            box.className = 'pin-box active';
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.inputMode = 'numeric';
+            input.maxLength = 1;
+            input.dataset.pos = pos;
+            
+            // Navegación automática entre inputs
+            input.addEventListener('input', (e) => {
+              const val = e.target.value.replace(/\D/g, '');
+              e.target.value = val;
+              if (val) {
+                const nextIdx = activeInputs.indexOf(input) + 1;
+                if (nextIdx < activeInputs.length) {
+                  activeInputs[nextIdx].focus();
+                } else {
+                  // Si completó el último, intentar descifrar
+                  attemptUnlock();
+                }
+              }
+            });
+
+            input.addEventListener('keydown', (e) => {
+              if (e.key === 'Backspace' && !input.value) {
+                const prevIdx = activeInputs.indexOf(input) - 1;
+                if (prevIdx >= 0) {
+                  activeInputs[prevIdx].focus();
+                }
+              }
+            });
+
+            box.appendChild(input);
+            activeInputs.push(input);
+          } else {
+            box.className = 'pin-box masked';
+            box.textContent = '✱';
+          }
+
+          slot.appendChild(posLabel);
+          slot.appendChild(box);
+          pinGrid.appendChild(slot);
+        }
+
+        // Enfocar la primera casilla activa
+        if (activeInputs.length > 0) {
+          setTimeout(() => activeInputs[0].focus(), 80);
+        }
+      }
+
+      // Paso 3: Intentar desbloquear y descifrar el expediente
+      async function attemptUnlock() {
+        hideAlert();
+        // Recoger los 4 dígitos
+        let enteredDigits = '';
+        for (const inp of activeInputs) {
+          if (!inp.value || !/^\d$/.test(inp.value)) {
+            showAlert("Por favor, completa los 4 dígitos numéricos solicitados.");
+            inp.focus();
+            return;
+          }
+          enteredDigits += inp.value;
+        }
+
+        btnAction.disabled = true;
+        btnAction.textContent = "Verificando y descifrando...";
+
+        try {
+          const username = usernameInput.value.trim().toLowerCase();
+          
+          // Derivar clave de la combinación Kc
+          const kcMaterial = `${matchedRecord.user_salt}:${username}:${enteredDigits}:${currentComboIdx}`;
+          const hashKcBuf = await crypto.subtle.digest('SHA-256', enc.encode(kcMaterial));
+          
+          const keyKc = await crypto.subtle.importKey(
+            "raw",
+            hashKcBuf,
+            { name: "AES-GCM" },
+            false,
+            ["decrypt"]
+          );
+
+          const vaultNonce = base64ToUint8(matchedRecord.vault_nonce);
+          const encMasterKey = base64ToUint8(matchedRecord.vault[currentComboIdx]);
+
+          // Intentar abrir el Vault para extraer la Master Key
+          const masterKeyRaw = await crypto.subtle.decrypt(
+            { name: "AES-GCM", iv: vaultNonce },
+            keyKc,
+            encMasterKey
+          );
+
+          // Si llegamos aquí, los dígitos fueron 100% correctos
+          const masterCryptoKey = await crypto.subtle.importKey(
+            "raw",
+            masterKeyRaw,
+            { name: "AES-GCM" },
+            false,
+            ["decrypt"]
+          );
+
+          // Descifrar el Payload del Alumno
+          const payloadNonce = base64ToUint8(matchedRecord.payload_nonce);
+          const payloadCiphertext = base64ToUint8(matchedRecord.payload_ciphertext);
+
+          const payloadBuf = await crypto.subtle.decrypt(
+            { name: "AES-GCM", iv: payloadNonce },
+            masterCryptoKey,
+            payloadCiphertext
+          );
+
+          const studentData = JSON.parse(dec.decode(payloadBuf));
+          
+          // ¡ÉXITO TOTAL! Renderizar Dashboard
+          renderDashboard(studentData);
+
+        } catch (err) {
+          console.warn("Fallo de descifrado:", err);
+          showAlert("❌ Los dígitos introducidos no son correctos. Por seguridad, se ha generado un nuevo reto con otras 4 posiciones.");
+          generateRandomChallenge();
+        } finally {
+          btnAction.disabled = false;
+          btnAction.textContent = "Acceder a mi Pasaporte 🔓";
+        }
+      }
+
+      // Renderizado del Dashboard
+      function renderDashboard(data) {
+        authView.style.display = 'none';
+        dashboardView.style.display = 'block';
+
+        studentFullName.textContent = data.nombre_completo;
+        studentUserBadge.textContent = `@${data.username}`;
+
+        // Banner de Puntuación
+        scoreObtained.textContent = data.puntos_acumulados.toLocaleString('es-ES');
+        scorePotential.textContent = data.puntos_potenciales.toLocaleString('es-ES');
+        scorePct.textContent = `${data.porcentaje_logrado.toFixed(1).replace('.', ',')}%`;
+        scoreFormulaText.textContent = `${data.puntos_acumulados.toLocaleString('es-ES')} / ${data.puntos_potenciales.toLocaleString('es-ES')} pts × 100`;
+
+        // Animar barra de progreso
+        setTimeout(() => {
+          progressFill.style.width = `${Math.min(100, Math.max(0, data.porcentaje_logrado))}%`;
+        }, 100);
+
+        sessionCountBadge.textContent = data.sesiones.length;
+        sessionsContainer.innerHTML = '';
+
+        // Inyectar sesiones
+        data.sesiones.forEach(ses => {
+          const card = document.createElement('article');
+          card.className = 'session-card';
+
+          let statusClass = 'status-apto';
+          if (ses.estado.toLowerCase().includes('sobresaliente')) statusClass = 'status-sobresaliente';
+          else if (ses.estado.toLowerCase().includes('no apto')) statusClass = 'status-noapto';
+          else if (ses.estado.toLowerCase().includes('no presentado')) statusClass = 'status-nopresentado';
+
+          card.innerHTML = `
+            <div class="session-header">
+              <div class="session-title-box">
+                <h3>${ses.titulo}</h3>
+                <div class="session-meta-tag">📅 ${ses.fecha} • Reto Individual de Cierre de Sesión</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="session-status-badge ${statusClass}">
+                  ● ${ses.estado}
+                </span>
+                <span class="session-score-pill">
+                  ${ses.puntos_obtenidos} / ${ses.puntos_maximos} pts
+                </span>
+              </div>
+            </div>
+
+            <div class="session-body">
+              <!-- Enunciado Oficial -->
+              <div class="content-block block-question">
+                <div class="block-header">📝 Enunciado del Reto Oficial</div>
+                <div style="white-space: pre-wrap;">${ses.enunciado}</div>
+              </div>
+
+              <!-- Transcripción Manuscrita -->
+              <div class="content-block block-transcript">
+                <div class="block-header">✍️ Tu Respuesta Manuscrita (Transcripción Literal del Examen)</div>
+                <div class="transcript-text">${ses.transcripcion}</div>
+              </div>
+
+              <!-- Solución Canónica -->
+              <div class="content-block block-solution">
+                <div class="block-header">💡 Solución Canónica Oficial de la Cátedra</div>
+                <div class="solution-text">${ses.solucion_oficial}</div>
+              </div>
+
+              <!-- Feedback Docente -->
+              <div class="content-block block-feedback">
+                <div class="block-header">👨‍🏫 Retroalimentación y Observaciones Docentes</div>
+                <div class="feedback-text">«${ses.feedback}»</div>
+              </div>
+            </div>
+          `;
+
+          sessionsContainer.appendChild(card);
+        });
+
+        // Scroll suave al inicio del dashboard
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // Event Listeners
+      btnAction.addEventListener('click', () => {
+        if (currentStep === 'username') {
+          handleUsernameSubmit();
+        } else {
+          attemptUnlock();
+        }
+      });
+
+      usernameInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          handleUsernameSubmit();
+        }
+      });
+
+      btnShuffle.addEventListener('click', () => {
+        generateRandomChallenge();
+      });
+
+      btnLogout.addEventListener('click', () => {
+        // Limpiar estado
+        matchedRecord = null;
+        currentComboIdx = null;
+        currentStep = 'username';
+        usernameInput.disabled = false;
+        usernameInput.value = '';
+        pinChallengeArea.style.display = 'none';
+        btnAction.textContent = 'Continuar';
+        dashboardView.style.display = 'none';
+        authView.style.display = 'block';
+        hideAlert();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+    })();
+  </script>
+</body>
+</html>

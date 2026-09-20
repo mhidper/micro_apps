@@ -358,12 +358,26 @@ window.DOCENCIA_APPS = {
     isotipo: "assets/isotipo_macro_upo.png",
     categories: [
       { id: "todas", name: "Todas" },
+      { id: "evaluacion", name: "Evaluación Continua" },
       { id: "simuladores", name: "Simuladores" },
       { id: "real", name: "Sector Real (IS)" },
       { id: "monetario", name: "Sector Monetario (LM)" },
       { id: "equilibrio", name: "Equilibrio IS-LM" }
     ],
     apps: [
+      {
+        id: "macro_pasaporte_eval",
+        type: "portal",
+        category: "evaluacion",
+        icon: "🛡️",
+        iconBg: "#FEF3C7",
+        iconColor: "#0B1C36",
+        title: "Pasaporte de Evaluación Continua",
+        desc: "Portal seguro con reto bancario aleatorio: consulta de calificaciones, respuestas manuscritas, soluciones de la cátedra y feedback formativo.",
+        meta: "Portal del estudiante · Privado y Cifrado",
+        session: "Evaluación Continua",
+        url: "pasaporte_macro.html"
+      },
       {
         id: "macro_lab_sesion01",
         type: "simulator",
