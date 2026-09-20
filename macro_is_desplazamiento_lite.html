@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Desplazamiento de la Curva IS · Efecto Shocks de Gasto · Macro UPO</title>
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="theme.css">
+  <style>
+    :root {
+      --bg-cream: #FDFBF7;
+      --bg-card: #FFFFFF;
+      --macro-navy: #0B1C36;
+      --macro-cobalt: #056CAA;
+      --macro-azure: #0776B5;
+      --macro-gold: #D97706;
+      --macro-crimson: #E11D48;
+      --macro-teal: #0D9488;
+      --border-subtle: #E3DCD2;
+      --border-light: #EFE9E0;
+      --text-main: #0B1C36;
+      --text-muted: #64748B;
+      --track: #EDE6DB;
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body { margin: 0; padding: 0; background: var(--bg-cream); color: var(--macro-navy); font-family: 'Inter', system-ui, sans-serif; }
+    
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 16px 20px 48px;
+    }
+    
+    /* Header */
+    .header {
+      padding: 16px 0 12px;
+      text-align: center;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+      border-radius: 999px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--macro-cobalt);
+      margin-bottom: 10px;
+    }
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.6rem, 5vw, 2.3rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: var(--macro-navy);
+      margin: 0 0 8px;
+    }
+    .subtitle {
+      font-size: 0.98rem;
+      color: #475569;
+      max-width: 660px;
+      margin: 0 auto 16px;
+      line-height: 1.45;
+    }
+
+    /* Interactive Controller */
+    .control-card {
+      background: #FFFFFF;
+      border: 2px solid #BAE6FD;
+      border-radius: 18px;
+      padding: 18px 22px;
+      box-shadow: 0 10px 25px -5px rgba(5, 108, 170, 0.12);
+      margin-bottom: 20px;
+      position: sticky;
+      top: 12px;
+      z-index: 50;
+      backdrop-filter: blur(10px);
+    }
+    .control-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .control-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--macro-navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .control-val-badge {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.35rem;
+      color: var(--macro-cobalt);
+      background: #F0F7FF;
+      padding: 3px 12px;
+      border-radius: 10px;
+      border: 1px solid #BAE6FD;
+    }
+    
+    input[type=range] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #E11D48 0%, #0284C7 50%, #0D9488 100%);
+      outline: none;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 3px solid var(--macro-cobalt);
+      box-shadow: 0 4px 10px rgba(11, 28, 54, 0.3);
+      cursor: grab;
+      transition: transform 0.15s ease;
+    }
+    input[type=range]::-webkit-slider-thumb:active {
+      transform: scale(1.2);
+      cursor: grabbing;
+    }
+    input[type=range]::-moz-range-thumb {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 3px solid var(--macro-cobalt);
+      cursor: grab;
+    }
+
+    .preset-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .preset-btn {
+      background: #F8FAFC;
+      border: 1px solid #CBD5E1;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .preset-btn:hover {
+      background: #EFF6FF;
+      border-color: var(--macro-azure);
+      color: var(--macro-cobalt);
+    }
+    .preset-btn.active {
+      background: var(--macro-cobalt);
+      border-color: var(--macro-cobalt);
+      color: #FFFFFF;
+    }
+    .reset-btn {
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      color: var(--macro-crimson);
+      font-weight: 700;
+    }
+
+    /* Plots Container */
+    .plots-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .plot-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 16px 18px 12px;
+      box-shadow: 0 4px 14px rgba(11, 28, 54, 0.04);
+      position: relative;
+    }
+    .plot-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+      border-bottom: 1px solid #F1F5F9;
+      padding-bottom: 6px;
+    }
+    .plot-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.96rem;
+      color: var(--macro-navy);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .plot-meta {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    svg.interactive-plot {
+      width: 100%;
+      height: auto;
+      display: block;
+      overflow: visible;
+    }
+
+    /* Explanation Banner */
+    .story-banner {
+      background: linear-gradient(135deg, #0B1C36 0%, #17325B 100%);
+      color: #FFFFFF;
+      border-radius: 16px;
+      padding: 18px 22px;
+      box-shadow: 0 8px 20px rgba(11, 28, 54, 0.15);
+      margin-bottom: 20px;
+    }
+    .story-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .story-icon {
+      font-size: 1.5rem;
+      line-height: 1;
+      padding: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      flex-shrink: 0;
+    }
+    .story-content h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      margin: 0 0 4px;
+      color: #FBBF24;
+      font-weight: 700;
+    }
+    .story-content p {
+      margin: 0;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      color: #E2E8F0;
+    }
+    .story-highlight {
+      color: #38BDF8;
+      font-weight: 700;
+    }
+
+    /* Theory Card */
+    .takeaway-card {
+      background: #F8FAFC;
+      border-left: 4px solid var(--macro-gold);
+      border-radius: 0 14px 14px 0;
+      padding: 16px 20px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: #334155;
+    }
+    .takeaway-card strong {
+      color: var(--macro-navy);
+      font-family: 'Outfit', sans-serif;
+    }
+    .component-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .component-tag {
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: #1E293B;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <!-- Header -->
+    <header class="header">
+      <div class="badge">Macroeconomía UPO · Grados DER + FICO · Sesión 03</div>
+      <h1>Desplazamiento de la Curva IS</h1>
+      <p class="subtitle">
+        Comprueba cómo un cambio en el gasto público <strong>(ΔG)</strong> o en cualquier componente del gasto autónomo <strong>(ΔĀ)</strong> traslada toda la curva IS manteniendo constante el tipo de interés.
+      </p>
+    </header>
+
+    <!-- Main Controller (Sticky) -->
+    <div class="control-card">
+      <div class="control-header">
+        <div class="control-title">
+          <span>🏛️ Shock en el Gasto Autónomo (ΔG / ΔĀ)</span>
+        </div>
+        <div class="control-val-badge" id="gValBadge">G = 250 (ΔG = 0)</div>
+      </div>
+      
+      <input type="range" id="gSlider" min="-80" max="80" step="5" value="0">
+      
+      <div class="preset-group">
+        <div style="display: flex; gap: 6px;">
+          <button class="preset-btn" onclick="setDeltaG(-50)">Recorte: ΔG = -50 M€</button>
+          <button class="preset-btn active" id="btnBase" onclick="setDeltaG(0)">Base: G = 250 M€</button>
+          <button class="preset-btn" onclick="setDeltaG(50)">Expansión: ΔG = +50 M€</button>
+        </div>
+        <button class="preset-btn reset-btn" onclick="resetShock()">🔄 Restablecer</button>
+      </div>
+    </div>
+
+    <!-- Plots Wrapper -->
+    <div class="plots-wrapper">
+      
+      <!-- Panel 1: Cruz Keynesiana -->
+      <div class="plot-card">
+        <div class="plot-card-header">
+          <div class="plot-title">
+            <span>1️⃣ Cruz Keynesiana: Traslación Vertical de la Demanda (ΔZ = ΔG)</span>
+          </div>
+          <div class="plot-meta">Tipo de interés constante (i = 4%)</div>
+        </div>
+        <svg id="crossSvg" class="interactive-plot" viewBox="0 0 760 270"></svg>
+      </div>
+
+      <!-- Panel 2: Desplazamiento Horizontal de la Curva IS -->
+      <div class="plot-card" style="border: 2px solid #BAE6FD;">
+        <div class="plot-card-header">
+          <div class="plot-title">
+            <span>2️⃣ Plano (Y, i): Desplazamiento Horizontal de la Curva IS</span>
+            <span style="font-size: 0.72rem; background: #E0F2FE; color: #0369A1; padding: 2px 8px; border-radius: 6px; font-weight: 700;">CORDEL DE PUNTOS (ΔY)</span>
+          </div>
+          <div class="plot-meta" id="isShiftMeta">ΔY = α_IS · ΔG</div>
+        </div>
+        <svg id="isSvg" class="interactive-plot" viewBox="0 0 760 270"></svg>
+      </div>
+
+    </div>
+
+    <!-- Live Narrative Feed -->
+    <div class="story-banner">
+      <div class="story-step">
+        <div class="story-icon" id="storyEmoji">📍</div>
+        <div class="story-content">
+          <h3 id="storyTitle">Estado Inicial: Equilibrio Base E₀</h3>
+          <p id="storyText">
+            Con un gasto público de <strong>G = 250 M€</strong> y el tipo de interés fijado en <strong>i = 4,0%</strong>, la producción es <strong>Y* = 1.360 M€</strong> sobre la curva $IS_0$. Mueve el control superior para ver cómo un shock fiscal desplaza la recta completa.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pedagogical Takeaway -->
+    <div class="takeaway-card">
+      <strong>💡 Regla de Examen: ¿Por qué se desplaza la curva entera y no nos movemos a lo largo de ella?</strong>
+      El tipo de interés <strong>no ha cambiado</strong> ($i = 4,0\%$). Por tanto, no puede ser un movimiento a lo largo de la curva. Como el cambio procede de una variable exógena del gasto autónomo ($\bar{A}$), <strong>toda la recta IS se desplaza horizontalmente</strong> en una cuantía amplificada por el multiplicador: $\Delta Y = \alpha_{IS} \cdot \Delta G = 4,0 \cdot \Delta G$.
+      <br><br>
+      <strong>📌 Universalidad: Válido para cualquier componente de Ā:</strong>
+      <div class="component-tags">
+        <span class="component-tag">🏛️ Gasto Público (ΔG)</span>
+        <span class="component-tag">📉 Impuestos (-c₁ · ΔT)</span>
+        <span class="component-tag">🛍️ Confianza Consumo (Δc₀)</span>
+        <span class="component-tag">🏭 Clima Inversor (Δd₀)</span>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // --- Model Parameters ---
+    const c0 = 150;
+    const c1 = 0.60;
+    const T = 200;
+    const G_base = 250;
+    const d0 = 100;
+    const d1 = 0.15;
+    const d2 = 1000;
+    const i_fixed = 4.0; // 4% constant rate
+    const iDec = i_fixed / 100; // 0.04
+
+    const slopeZ = c1 + d1; // 0.75
+    const alphaIS = 1 / (1 - slopeZ); // 4.0
+
+    // Initial base spending: A_bar_0 = 150 - 120 + 100 + 250 = 380
+    const A_bar_0 = c0 - (c1 * T) + d0 + G_base; 
+    const intercept_0 = A_bar_0 - (d2 * iDec); // 380 - 40 = 340
+    const Y_star_0 = alphaIS * intercept_0; // 4.0 * 340 = 1360
+
+    let deltaG = 0;
+
+    // Viewport coordinates
+    const svgW = 760;
+    const svgH = 270;
+    const padL = 75;
+    const padR = 40;
+    const padT = 25;
+    const padB = 40;
+    const plotW = svgW - padL - padR;
+    const plotH = svgH - padT - padB;
+
+    // Domain ranges: Y in [1000, 1750]
+    const Y_min = 1000;
+    const Y_max = 1750;
+    // Cross Z in [1000, 1750]
+    const Z_min = 1000;
+    const Z_max = 1750;
+    // IS i in [0%, 8%]
+    const i_min = 0.0;
+    const i_max = 8.0;
+
+    function scaleX(Y) {
+      return padL + ((Y - Y_min) / (Y_max - Y_min)) * plotW;
+    }
+    function scaleCrossY(Z) {
+      return padT + (1 - (Z - Z_min) / (Z_max - Z_min)) * plotH;
+    }
+    function scaleIsY(rate) {
+      return padT + (1 - (rate - i_min) / (i_max - i_min)) * plotH;
+    }
+
+    // DOM Elements
+    const slider = document.getElementById('gSlider');
+    const gValBadge = document.getElementById('gValBadge');
+    const crossSvg = document.getElementById('crossSvg');
+    const isSvg = document.getElementById('isSvg');
+    const storyEmoji = document.getElementById('storyEmoji');
+    const storyTitle = document.getElementById('storyTitle');
+    const storyText = document.getElementById('storyText');
+    const isShiftMeta = document.getElementById('isShiftMeta');
+
+    function render() {
+      const G_cur = G_base + deltaG;
+      const A_bar_cur = c0 - (c1 * T) + d0 + G_cur;
+      const intercept_cur = A_bar_cur - (d2 * iDec);
+      const Y_star_cur = alphaIS * intercept_cur; // 1360 + 4 * deltaG
+      const deltaY = Y_star_cur - Y_star_0; // 4 * deltaG
+
+      // Badge
+      const sign = deltaG > 0 ? `+${deltaG}` : `${deltaG}`;
+      gValBadge.textContent = `G = ${G_cur} M€ (ΔG = ${sign} M€)`;
+
+      // ==========================================
+      // 1. RENDER CRUZ KEYNESIANA
+      // ==========================================
+      let cHtml = '';
+      cHtml += `<line x1="${padL}" y1="${padT + plotH}" x2="${padL + plotW}" y2="${padT + plotH}" stroke="#CBD5E1" stroke-width="1.5"/>`;
+      cHtml += `<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${padT + plotH}" stroke="#CBD5E1" stroke-width="1.5"/>`;
+      cHtml += `<text x="${padL + plotW}" y="${padT + plotH + 30}" font-family="Outfit" font-size="12" font-weight="700" fill="#0B1C36" text-anchor="end">Producción / Renta (Y)</text>`;
+      cHtml += `<text x="${padL - 10}" y="${padT - 6}" font-family="Outfit" font-size="12" font-weight="700" fill="#0B1C36" text-anchor="start">Demanda (Z)</text>`;
+
+      // 45 degree line
+      const x45_1 = scaleX(1050);
+      const y45_1 = scaleCrossY(1050);
+      const x45_2 = scaleX(1700);
+      const y45_2 = scaleCrossY(1700);
+      cHtml += `<line x1="${x45_1}" y1="${y45_1}" x2="${x45_2}" y2="${y45_2}" stroke="#94A3B8" stroke-width="1.8" stroke-dasharray="4,4"/>`;
+      cHtml += `<text x="${x45_2 + 6}" y="${y45_2 + 4}" font-family="Outfit" font-size="11" font-weight="600" fill="#64748B">45° (Y = Z)</text>`;
+
+      // Base demand line Z0 (dashed light blue)
+      const z0_y1 = intercept_0 + slopeZ * 1050;
+      const z0_y2 = intercept_0 + slopeZ * 1700;
+      cHtml += `<line x1="${scaleX(1050)}" y1="${scaleCrossY(z0_y1)}" x2="${scaleX(1700)}" y2="${scaleCrossY(z0_y2)}" stroke="#93C5FD" stroke-width="2" stroke-dasharray="4,4"/>`;
+      cHtml += `<text x="${scaleX(1700) + 6}" y="${scaleCrossY(z0_y2) + 14}" font-family="Outfit" font-size="11" font-weight="700" fill="#60A5FA">Z₀ (G=250)</text>`;
+
+      // Current demand line Z1
+      const cur_y1 = intercept_cur + slopeZ * 1050;
+      const cur_y2 = intercept_cur + slopeZ * 1700;
+      cHtml += `<line x1="${scaleX(1050)}" y1="${scaleCrossY(cur_y1)}" x2="${scaleX(1700)}" y2="${scaleCrossY(cur_y2)}" stroke="#056CAA" stroke-width="3"/>`;
+      cHtml += `<text x="${scaleX(1700) + 6}" y="${scaleCrossY(cur_y2) + 2}" font-family="Outfit" font-size="11" font-weight="800" fill="#056CAA">Z₁ (G=${G_cur})</text>`;
+
+      // Vertical shift indicator on intercept
+      if (Math.abs(deltaG) > 2) {
+        const xShift = scaleX(1150);
+        const yBase = scaleCrossY(intercept_0 + slopeZ * 1150);
+        const yCur = scaleCrossY(intercept_cur + slopeZ * 1150);
+        const colorShift = deltaG > 0 ? '#0D9488' : '#E11D48';
+        cHtml += `<line x1="${xShift}" y1="${yBase}" x2="${xShift}" y2="${yCur}" stroke="${colorShift}" stroke-width="2.5" marker-end="url(#arrow)"/>`;
+        cHtml += `<text x="${xShift + 8}" y="${(yBase + yCur)/2 + 4}" font-family="Outfit" font-size="11" font-weight="800" fill="${colorShift}">ΔZ = ${sign} M€</text>`;
+      }
+
+      // Base Equilibrium E0 in Cross
+      const xE0 = scaleX(Y_star_0);
+      const yE0 = scaleCrossY(Y_star_0);
+      cHtml += `<circle cx="${xE0}" cy="${yE0}" r="5" fill="#94A3B8" stroke="#FFFFFF" stroke-width="1.5"/>`;
+      cHtml += `<text x="${xE0 - 12}" y="${yE0 - 10}" font-family="Outfit" font-size="11" font-weight="700" fill="#64748B">E₀</text>`;
+
+      // Current Equilibrium E1 in Cross
+      const xE1 = scaleX(Y_star_cur);
+      const yE1 = scaleCrossY(Y_star_cur);
+      cHtml += `<circle cx="${xE1}" cy="${yE1}" r="7.5" fill="#056CAA" stroke="#FFFFFF" stroke-width="2.5"/>`;
+      cHtml += `<text x="${xE1 + 10}" y="${yE1 - 8}" font-family="Outfit" font-size="12" font-weight="800" fill="#056CAA">E₁</text>`;
+
+      // Projection drop-lines
+      cHtml += `<line x1="${xE1}" y1="${yE1}" x2="${xE1}" y2="${padT + plotH}" stroke="#0284C7" stroke-width="1.8" stroke-dasharray="3,3"/>`;
+      cHtml += `<text x="${xE1}" y="${padT + plotH + 16}" font-family="Outfit" font-size="11" font-weight="800" fill="#0284C7" text-anchor="middle">Y*₁=${Math.round(Y_star_cur)}</text>`;
+
+      crossSvg.innerHTML = cHtml;
+
+      // ==========================================
+      // 2. RENDER CURVA IS (PLANO Y, i) + CORDEL DE PUNTOS
+      // ==========================================
+      let isHtml = '';
+      isHtml += `<line x1="${padL}" y1="${padT + plotH}" x2="${padL + plotW}" y2="${padT + plotH}" stroke="#CBD5E1" stroke-width="1.5"/>`;
+      isHtml += `<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${padT + plotH}" stroke="#CBD5E1" stroke-width="1.5"/>`;
+      isHtml += `<text x="${padL + plotW}" y="${padT + plotH + 30}" font-family="Outfit" font-size="12" font-weight="700" fill="#0B1C36" text-anchor="end">Producción / Renta (Y)</text>`;
+      isHtml += `<text x="${padL - 10}" y="${padT - 6}" font-family="Outfit" font-size="12" font-weight="700" fill="#0B1C36" text-anchor="start">Tipo de Interés (i %)</text>`;
+
+      // Y-axis tick marks
+      for (let r = 2; r <= 8; r += 2) {
+        const yPos = scaleIsY(r);
+        isHtml += `<line x1="${padL - 5}" y1="${yPos}" x2="${padL}" y2="${yPos}" stroke="#94A3B8" stroke-width="1.2"/>`;
+        isHtml += `<text x="${padL - 8}" y="${yPos + 4}" font-family="Inter" font-size="10" font-weight="600" fill="#64748B" text-anchor="end">${r}%</text>`;
+      }
+
+      // Constant rate line i = 4%
+      const yRateLine = scaleIsY(i_fixed);
+      isHtml += `<line x1="${padL}" y1="${yRateLine}" x2="${padL + plotW}" y2="${yRateLine}" stroke="#E2E8F0" stroke-width="1.5" stroke-dasharray="2,2"/>`;
+      isHtml += `<text x="${padL + 8}" y="${yRateLine - 6}" font-family="Outfit" font-size="10" font-weight="700" fill="#94A3B8">i = 4,0% (Constante)</text>`;
+
+      // --- 1. GHOST / DIFUSA IS₀ CURVE IN THE BACKGROUND ---
+      // IS0: Y = alphaIS * (A_bar_0 - d2*i)
+      const is0_Y_top = alphaIS * (A_bar_0 - d2 * (7.0 / 100)); // at i=7%
+      const is0_Y_bot = alphaIS * (A_bar_0 - d2 * (1.0 / 100)); // at i=1%
+      isHtml += `
+        <g opacity="0.45">
+          <line x1="${scaleX(is0_Y_top)}" y1="${scaleIsY(7.0)}" x2="${scaleX(is0_Y_bot)}" y2="${scaleIsY(1.0)}" stroke="#64748B" stroke-width="3" stroke-dasharray="5,4"/>
+          <text x="${scaleX(is0_Y_top) + 8}" y="${scaleIsY(7.0) - 6}" font-family="Outfit" font-size="12" font-weight="700" fill="#64748B">IS₀ (Base)</text>
+        </g>
+      `;
+
+      // --- 2. CURRENT SHIFTED IS₁ CURVE ---
+      const is1_Y_top = alphaIS * (A_bar_cur - d2 * (7.0 / 100));
+      const is1_Y_bot = alphaIS * (A_bar_cur - d2 * (1.0 / 100));
+      isHtml += `
+        <line x1="${scaleX(is1_Y_top)}" y1="${scaleIsY(7.0)}" x2="${scaleX(is1_Y_bot)}" y2="${scaleIsY(1.0)}" stroke="#056CAA" stroke-width="4" stroke-linecap="round"/>
+        <text x="${scaleX(is1_Y_top) + 8}" y="${scaleIsY(7.0) - 6}" font-family="Outfit" font-size="13" font-weight="900" fill="#056CAA">IS₁</text>
+      `;
+
+      // --- 3. DOTTED CORDEL (LÍNEA DE PUNTOS) SHOWING HORIZONTAL SHIFT ---
+      const is_xE0 = scaleX(Y_star_0);
+      const is_xE1 = scaleX(Y_star_cur);
+      const is_yEq = scaleIsY(i_fixed);
+
+      // Base Point E0
+      isHtml += `
+        <circle cx="${is_xE0}" cy="${is_yEq}" r="6" fill="#64748B" stroke="#FFFFFF" stroke-width="2"/>
+        <text x="${is_xE0}" y="${is_yEq - 14}" font-family="Outfit" font-size="11" font-weight="700" fill="#64748B" text-anchor="middle">E₀ (1.360)</text>
+      `;
+
+      if (Math.abs(deltaG) > 2) {
+        // Dotted string (cordel de puntos)
+        const dotColor = deltaG > 0 ? '#0D9488' : '#E11D48';
+        isHtml += `
+          <!-- Cordel de puntos horizontal -->
+          <line x1="${is_xE0}" y1="${is_yEq}" x2="${is_xE1}" y2="${is_yEq}" stroke="${dotColor}" stroke-width="3.5" stroke-dasharray="5,4" stroke-linecap="round"/>
+          <!-- Shifting label -->
+          <rect x="${(is_xE0 + is_xE1)/2 - 60}" y="${is_yEq + 10}" width="120" height="22" rx="6" fill="#F0FDFA" stroke="#99F6E4" stroke-width="1"/>
+          <text x="${(is_xE0 + is_xE1)/2}" y="${is_yEq + 25}" font-family="Outfit" font-size="11" font-weight="800" fill="${dotColor}" text-anchor="middle">ΔY = ${sign > 0 ? '+' : ''}${Math.round(deltaY)} M€</text>
+        `;
+
+        // Active Point E1
+        isHtml += `
+          <circle cx="${is_xE1}" cy="${is_yEq}" r="8.5" fill="#056CAA" stroke="#FFFFFF" stroke-width="2.5"/>
+          <text x="${is_xE1}" y="${is_yEq - 14}" font-family="Outfit" font-size="12" font-weight="800" fill="#056CAA" text-anchor="middle">E₁ (${Math.round(Y_star_cur)})</text>
+        `;
+      }
+
+      isSvg.innerHTML = isHtml;
+
+      // ==========================================
+      // 3. NARRATIVE REAL-TIME FEED
+      // ==========================================
+      isShiftMeta.textContent = `ΔY = 4,0 × (${sign} M€) = ${deltaY >= 0 ? '+' : ''}${Math.round(deltaY)} M€`;
+
+      if (Math.abs(deltaG) <= 2) {
+        storyEmoji.textContent = '📍';
+        storyTitle.textContent = 'Posición de Referencia: G = 250 M€';
+        storyText.innerHTML = `La economía se sitúa en su equilibrio inicial <strong>E₀ (Y* = 1.360 M€)</strong> sobre la curva <strong>IS₀</strong>. No hay ningún shock activo. Mueve el deslizador superior para comprobar cómo el cordel de puntos traza el desplazamiento horizontal hacia la nueva curva IS₁.`;
+      } else if (deltaG > 0) {
+        storyEmoji.textContent = '🚀';
+        storyTitle.textContent = `Expansión del Gasto (+${deltaG} M€) ➔ Desplazamiento a la Derecha`;
+        storyText.innerHTML = `El aumento de gasto autónomo inyecta <span class="story-highlight">+${deltaG} M€</span> en la Cruz Keynesiana. Gracias al multiplicador ampliado (α = 4,0), la producción de equilibrio crece en <span class="story-highlight">+${Math.round(deltaY)} M€</span>. Al mismo tipo de interés del 4%, <strong>el cordel de puntos se estira horizontalmente hacia la derecha</strong> y toda la curva <strong>IS₁ se traslada en paralelo</strong>.`;
+      } else {
+        storyEmoji.textContent = '✂️';
+        storyTitle.textContent = `Recorte de Gasto (${deltaG} M€) ➔ Desplazamiento a la Izquierda`;
+        storyText.innerHTML = `La contracción del gasto autónomo detrae <span class="story-highlight">${deltaG} M€</span> de la demanda. La Cruz Keynesiana ajusta la producción a la baja en <span class="story-highlight">${Math.round(deltaY)} M€</span>. Con el tipo de interés congelado en el 4%, <strong>el cordel de puntos se retrae horizontalmente hacia la izquierda</strong> y la curva <strong>IS₁ se desplaza en bloque a la izquierda</strong>.`;
+      }
+    }
+
+    slider.addEventListener('input', (e) => {
+      deltaG = parseInt(e.target.value);
+      updateButtons();
+      render();
+    });
+
+    function setDeltaG(val) {
+      slider.value = val;
+      deltaG = val;
+      updateButtons();
+      render();
+    }
+
+    function resetShock() {
+      slider.value = 0;
+      deltaG = 0;
+      updateButtons();
+      render();
+    }
+
+    function updateButtons() {
+      document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
+      if (deltaG === 0) document.getElementById('btnBase').classList.add('active');
+    }
+
+    render();
+  </script>
+</body>
+</html>

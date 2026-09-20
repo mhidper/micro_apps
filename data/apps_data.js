@@ -404,6 +404,19 @@ window.DOCENCIA_APPS = {
         url: "macro_is_cordel_lite.html"
       },
       {
+        id: "macro_sim_sesion03_desplazamiento_lite",
+        type: "simulator",
+        category: "simuladores",
+        icon: "↔️",
+        iconBg: "#E0F2FE",
+        iconColor: "#0284C7",
+        title: "Paso a Paso: Desplazamientos de la Curva IS (Shocks de Gasto)",
+        desc: "Comprueba cómo cualquier shock en el gasto autónomo (ΔG, -ΔT, Δc₀, Δd₀) traslada horizontalmente la IS a través del cordel de puntos.",
+        meta: "Simulador interactivo · 5 min",
+        session: "Sesión 3",
+        url: "macro_is_desplazamiento_lite.html"
+      },
+      {
         id: "macro_sim_sesion03",
         type: "simulator",
         category: "simuladores",
