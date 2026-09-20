@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>El Nacimiento de la Curva IS · Efecto Cordel · Macro UPO</title>
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="theme.css">
+  <style>
+    :root {
+      --bg-cream: #FDFBF7;
+      --bg-card: #FFFFFF;
+      --macro-navy: #0B1C36;
+      --macro-cobalt: #056CAA;
+      --macro-azure: #0776B5;
+      --macro-gold: #D97706;
+      --macro-crimson: #E11D48;
+      --macro-teal: #0D9488;
+      --border-subtle: #E3DCD2;
+      --border-light: #EFE9E0;
+      --text-main: #0B1C36;
+      --text-muted: #64748B;
+      --track: #EDE6DB;
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body { margin: 0; padding: 0; background: var(--bg-cream); color: var(--macro-navy); font-family: 'Inter', system-ui, sans-serif; }
+    
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 16px 20px 48px;
+    }
+    
+    /* Header */
+    .header {
+      padding: 16px 0 12px;
+      text-align: center;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+      border-radius: 999px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--macro-cobalt);
+      margin-bottom: 10px;
+    }
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.6rem, 5vw, 2.3rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: var(--macro-navy);
+      margin: 0 0 8px;
+    }
+    .subtitle {
+      font-size: 0.98rem;
+      color: #475569;
+      max-width: 640px;
+      margin: 0 auto 16px;
+      line-height: 1.45;
+    }
+
+    /* Interactive Controller */
+    .control-card {
+      background: #FFFFFF;
+      border: 2px solid #BFDBFE;
+      border-radius: 18px;
+      padding: 18px 22px;
+      box-shadow: 0 10px 25px -5px rgba(5, 108, 170, 0.12);
+      margin-bottom: 20px;
+      position: sticky;
+      top: 12px;
+      z-index: 50;
+      backdrop-filter: blur(10px);
+    }
+    .control-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .control-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--macro-navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .control-val-badge {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      color: var(--macro-cobalt);
+      background: #F0F7FF;
+      padding: 3px 12px;
+      border-radius: 10px;
+      border: 1px solid #BAE6FD;
+    }
+    
+    input[type=range] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #38BDF8 0%, #0284C7 50%, #E11D48 100%);
+      outline: none;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 3px solid var(--macro-cobalt);
+      box-shadow: 0 4px 10px rgba(11, 28, 54, 0.3);
+      cursor: grab;
+      transition: transform 0.15s ease;
+    }
+    input[type=range]::-webkit-slider-thumb:active {
+      transform: scale(1.2);
+      cursor: grabbing;
+    }
+    input[type=range]::-moz-range-thumb {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 3px solid var(--macro-cobalt);
+      cursor: grab;
+    }
+
+    .preset-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .preset-btn {
+      background: #F8FAFC;
+      border: 1px solid #CBD5E1;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .preset-btn:hover {
+      background: #EFF6FF;
+      border-color: var(--macro-azure);
+      color: var(--macro-cobalt);
+    }
+    .preset-btn.active {
+      background: var(--macro-cobalt);
+      border-color: var(--macro-cobalt);
+      color: #FFFFFF;
+    }
+    .reset-btn {
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      color: var(--macro-crimson);
+      font-weight: 700;
+    }
+    .reset-btn:hover {
+      background: #FEE2E2;
+      border-color: var(--macro-crimson);
+      color: var(--macro-crimson);
+    }
+
+    /* Plots Container */
+    .plots-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .plot-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 16px 18px 12px;
+      box-shadow: 0 4px 14px rgba(11, 28, 54, 0.04);
+      position: relative;
+    }
+    .plot-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+      border-bottom: 1px solid #F1F5F9;
+      padding-bottom: 6px;
+    }
+    .plot-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.96rem;
+      color: var(--macro-navy);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .plot-meta {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    svg.interactive-plot {
+      width: 100%;
+      height: auto;
+      display: block;
+      overflow: visible;
+    }
+
+    /* Explanation Banner */
+    .story-banner {
+      background: linear-gradient(135deg, #0B1C36 0%, #17325B 100%);
+      color: #FFFFFF;
+      border-radius: 16px;
+      padding: 18px 22px;
+      box-shadow: 0 8px 20px rgba(11, 28, 54, 0.15);
+      margin-bottom: 20px;
+    }
+    .story-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .story-icon {
+      font-size: 1.5rem;
+      line-height: 1;
+      padding: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      flex-shrink: 0;
+    }
+    .story-content h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      margin: 0 0 4px;
+      color: #FBBF24;
+      font-weight: 700;
+    }
+    .story-content p {
+      margin: 0;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      color: #E2E8F0;
+    }
+    .story-highlight {
+      color: #38BDF8;
+      font-weight: 700;
+    }
+
+    /* Theory Card */
+    .takeaway-card {
+      background: #F8FAFC;
+      border-left: 4px solid var(--macro-gold);
+      border-radius: 0 14px 14px 0;
+      padding: 14px 18px;
+      font-size: 0.88rem;
+      line-height: 1.45;
+      color: #334155;
+    }
+    .takeaway-card strong {
+      color: var(--macro-navy);
+      font-family: 'Outfit', sans-serif;
+    }
+
+    /* Cordel trace styling */
+    .cordel-thread {
+      stroke: var(--macro-azure);
+      stroke-width: 4.5;
+      stroke-linecap: round;
+      filter: drop-shadow(0 2px 5px rgba(7, 118, 181, 0.4));
+      transition: stroke 0.2s;
+    }
+    .cordel-active {
+      animation: pulseGlow 1.8s infinite alternate;
+    }
+    @keyframes pulseGlow {
+      from { stroke-width: 4.5; }
+      to { stroke-width: 6.5; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <!-- Header -->
+    <header class="header">
+      <div class="badge">Macroeconomía UPO · Grados DER + FICO · Sesión 03</div>
+      <h1>El Nacimiento de la Curva IS</h1>
+      <p class="subtitle">
+        Descubre cómo el tipo de interés desplaza la demanda en la Cruz Keynesiana y traza de forma continua la recta IS <strong>«como si tiraras de un cordel»</strong>.
+      </p>
+    </header>
+
+    <!-- Main Controller (Sticky) -->
+    <div class="control-card">
+      <div class="control-header">
+        <div class="control-title">
+          <span>🎯 Control del Tipo de Interés del Banco Central (i)</span>
+        </div>
+        <div class="control-val-badge" id="rateBadge">i = 4,0%</div>
+      </div>
+      
+      <input type="range" id="rateSlider" min="1.0" max="8.0" step="0.1" value="4.0">
+      
+      <div class="preset-group">
+        <div style="display: flex; gap: 6px;">
+          <button class="preset-btn" onclick="setRate(2.0)">Expansion: 2,0%</button>
+          <button class="preset-btn active" id="btnBase" onclick="setRate(4.0)">Inicio (E₀): 4,0%</button>
+          <button class="preset-btn" onclick="setRate(6.5)">Freno: 6,5%</button>
+        </div>
+        <button class="preset-btn reset-btn" onclick="resetCordel()">🔄 Reiniciar Cordel</button>
+      </div>
+    </div>
+
+    <!-- Plots Wrapper -->
+    <div class="plots-wrapper">
+      
+      <!-- Panel 1: Cruz Keynesiana -->
+      <div class="plot-card">
+        <div class="plot-card-header">
+          <div class="plot-title">
+            <span>1️⃣ Cruz Keynesiana (Mercado de Bienes)</span>
+          </div>
+          <div class="plot-meta">Equilibrio: Y = Z</div>
+        </div>
+        <svg id="crossSvg" class="interactive-plot" viewBox="0 0 760 270"></svg>
+      </div>
+
+      <!-- Panel 2: Curva IS con Efecto Cordel -->
+      <div class="plot-card" style="border: 2px solid #BAE6FD;">
+        <div class="plot-card-header">
+          <div class="plot-title">
+            <span>2️⃣ La Curva IS: Plano (Y, i)</span>
+            <span style="font-size: 0.72rem; background: #FEF3C7; color: #B45309; padding: 2px 8px; border-radius: 6px; font-weight: 700;">EFECTO CORDEL</span>
+          </div>
+          <div class="plot-meta" id="cordelStatus">Tira del deslizador para estirar el cordel</div>
+        </div>
+        <svg id="isSvg" class="interactive-plot" viewBox="0 0 760 270"></svg>
+      </div>
+
+    </div>
+
+    <!-- Live Narrative Feed -->
+    <div class="story-banner">
+      <div class="story-step">
+        <div class="story-icon" id="storyEmoji">🧵</div>
+        <div class="story-content">
+          <h3 id="storyTitle">Punto de Partida: Equilibrio Inicial E₀</h3>
+          <p id="storyText">
+            Con el tipo de interés fijado en el <strong>4,0%</strong>, la economía se equilibra en <strong>Y* = 1.360 M€</strong>. Mueve el deslizador superior para ver cómo el cambio en los tipos altera el gasto en inversión y tensa el cordel hacia un nuevo equilibrio.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pedagogical Takeaway -->
+    <div class="takeaway-card">
+      <strong>💡 La Regla de Oro que jamás olvidarás en el examen:</strong>
+      La curva IS no es una recta dibujada de la nada. Cada uno de sus puntos es la correspondencia directa del equilibrio $(Y^*)$ de la Cruz Keynesiana para un tipo de interés $(i)$ dado. Al variar $i$, la demanda se traslada verticalmente y el cordel va conectando todos los equilibrios posibles.
+    </div>
+
+  </div>
+
+  <script>
+    // --- Model Parameters (Blanchard Canonical Sesión 03) ---
+    const c0 = 150;
+    const c1 = 0.60;
+    const T = 200;
+    const G = 250;
+    const d0 = 100;
+    const d1 = 0.15;
+    const d2 = 1000; // Sensibilidad de la inversión a los tipos
+
+    // Base Autonomous Expenditure & Multiplier
+    const A_bar = c0 - (c1 * T) + d0 + G; // 150 - 120 + 100 + 250 = 380
+    const slopeZ = c1 + d1; // 0.60 + 0.15 = 0.75
+    const alphaIS = 1 / (1 - slopeZ); // 1 / 0.25 = 4.0
+
+    // Equilibrium function: Y*(i) = alphaIS * (A_bar - d2 * (i/100))
+    function calcEquilibrium(ratePercent) {
+      const iDec = ratePercent / 100;
+      const intercept = A_bar - (d2 * iDec);
+      const Y_star = alphaIS * intercept;
+      return { Y_star, intercept };
+    }
+
+    // Anchor point E0 at i0 = 4.0%
+    const rate0 = 4.0;
+    const eq0 = calcEquilibrium(rate0); // Y0 = 1360
+    
+    // State of exploration (the cordel history)
+    let minRateExplored = rate0;
+    let maxRateExplored = rate0;
+    let currentRate = rate0;
+    let hasMoved = false;
+
+    // Viewport / Coordinate system for SVG
+    const svgW = 760;
+    const svgH = 270;
+    const padL = 75;
+    const padR = 40;
+    const padT = 25;
+    const padB = 40;
+    const plotW = svgW - padL - padR;
+    const plotH = svgH - padT - padB;
+
+    // Domain ranges: Y in [1100, 1600]
+    const Y_min = 1100;
+    const Y_max = 1600;
+    // Cross Z in [1100, 1600]
+    const Z_min = 1100;
+    const Z_max = 1600;
+    // IS i in [0%, 9%]
+    const i_min = 0.0;
+    const i_max = 9.0;
+
+    function scaleX(Y) {
+      return padL + ((Y - Y_min) / (Y_max - Y_min)) * plotW;
+    }
+    function scaleCrossY(Z) {
+      return padT + (1 - (Z - Z_min) / (Z_max - Z_min)) * plotH;
+    }
+    function scaleIsY(rate) {
+      return padT + (1 - (rate - i_min) / (i_max - i_min)) * plotH;
+    }
+
+    // DOM Elements
+    const slider = document.getElementById('rateSlider');
+    const rateBadge = document.getElementById('rateBadge');
+    const crossSvg = document.getElementById('crossSvg');
+    const isSvg = document.getElementById('isSvg');
+    const storyEmoji = document.getElementById('storyEmoji');
+    const storyTitle = document.getElementById('storyTitle');
+    const storyText = document.getElementById('storyText');
+    const cordelStatus = document.getElementById('cordelStatus');
+
+    function renderPlots() {
+      const eqCur = calcEquilibrium(currentRate);
+      const Y_cur = eqCur.Y_star;
+      const Z_cur = Y_cur; // Equilibrium condition Y = Z
+
+      // Update explored bounds
+      if (currentRate < minRateExplored) minRateExplored = currentRate;
+      if (currentRate > maxRateExplored) maxRateExplored = currentRate;
+
+      // ==========================================
+      // 1. RENDER CRUZ KEYNESIANA
+      // ==========================================
+      let crossHtml = '';
+      
+      // Grid lines
+      crossHtml += `<line x1="${padL}" y1="${padT + plotH}" x2="${padL + plotW}" y2="${padT + plotH}" stroke="#CBD5E1" stroke-width="1.5"/>`;
+      crossHtml += `<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${padT + plotH}" stroke="#CBD5E1" stroke-width="1.5"/>`;
+
+      // Axis labels
+      crossHtml += `<text x="${padL + plotW}" y="${padT + plotH + 30}" font-family="Outfit" font-size="12" font-weight="700" fill="#0B1C36" text-anchor="end">Producción / Renta (Y)</text>`;
+      crossHtml += `<text x="${padL - 10}" y="${padT - 6}" font-family="Outfit" font-size="12" font-weight="700" fill="#0B1C36" text-anchor="start">Demanda (Z)</text>`;
+
+      // 45 degree line (Y = Z)
+      const x45_1 = scaleX(1150);
+      const y45_1 = scaleCrossY(1150);
+      const x45_2 = scaleX(1550);
+      const y45_2 = scaleCrossY(1550);
+      crossHtml += `<line x1="${x45_1}" y1="${y45_1}" x2="${x45_2}" y2="${y45_2}" stroke="#94A3B8" stroke-width="1.8" stroke-dasharray="4,4"/>`;
+      crossHtml += `<text x="${x45_2 + 6}" y="${y45_2 + 4}" font-family="Outfit" font-size="11" font-weight="600" fill="#64748B">45° (Y = Z)</text>`;
+
+      // Base demand line Z0 (dashed reference)
+      const z0_x1 = 1120;
+      const z0_y1 = eq0.intercept + slopeZ * z0_x1;
+      const z0_x2 = 1550;
+      const z0_y2 = eq0.intercept + slopeZ * z0_x2;
+      crossHtml += `<line x1="${scaleX(z0_x1)}" y1="${scaleCrossY(z0_y1)}" x2="${scaleX(z0_x2)}" y2="${scaleCrossY(z0_y2)}" stroke="#93C5FD" stroke-width="1.5" stroke-dasharray="3,3"/>`;
+      crossHtml += `<text x="${scaleX(z0_x2) - 40}" y="${scaleCrossY(z0_y2) - 8}" font-family="Outfit" font-size="10" font-weight="600" fill="#60A5FA">Z₀ (i=4%)</text>`;
+
+      // Current active demand line Z(i)
+      const cur_y1 = eqCur.intercept + slopeZ * z0_x1;
+      const cur_y2 = eqCur.intercept + slopeZ * z0_x2;
+      crossHtml += `<line x1="${scaleX(z0_x1)}" y1="${scaleCrossY(cur_y1)}" x2="${scaleX(z0_x2)}" y2="${scaleCrossY(cur_y2)}" stroke="#056CAA" stroke-width="3"/>`;
+      crossHtml += `<text x="${scaleX(z0_x2) + 6}" y="${scaleCrossY(cur_y2) + 4}" font-family="Outfit" font-size="11" font-weight="800" fill="#056CAA">Z(i=${currentRate.toFixed(1)}%)</text>`;
+
+      // Vertical projection drop-line from current equilibrium
+      const curX = scaleX(Y_cur);
+      const curCrossY = scaleCrossY(Z_cur);
+      crossHtml += `<line x1="${curX}" y1="${curCrossY}" x2="${curX}" y2="${padT + plotH}" stroke="#0284C7" stroke-width="2" stroke-dasharray="4,4"/>`;
+      crossHtml += `<text x="${curX}" y="${padT + plotH + 16}" font-family="Outfit" font-size="11" font-weight="800" fill="#0284C7" text-anchor="middle">Y*=${Math.round(Y_cur)}</text>`;
+
+      // Anchor Point E0 in Cross
+      const xE0 = scaleX(eq0.Y_star);
+      const yE0 = scaleCrossY(eq0.Y_star);
+      crossHtml += `<circle cx="${xE0}" cy="${yE0}" r="5.5" fill="#D97706" stroke="#FFFFFF" stroke-width="2"/>`;
+      crossHtml += `<text x="${xE0 - 10}" y="${yE0 - 10}" font-family="Outfit" font-size="11" font-weight="800" fill="#D97706">E₀</text>`;
+
+      // Current Point E in Cross
+      if (Math.abs(currentRate - rate0) > 0.05) {
+        crossHtml += `<circle cx="${curX}" cy="${curCrossY}" r="7" fill="#056CAA" stroke="#FFFFFF" stroke-width="2.5"/>`;
+        crossHtml += `<text x="${curX + 10}" y="${curCrossY - 8}" font-family="Outfit" font-size="12" font-weight="800" fill="#056CAA">E₁</text>`;
+      }
+
+      crossSvg.innerHTML = crossHtml;
+
+      // ==========================================
+      // 2. RENDER CURVA IS (PLANO Y, i) + CORDEL
+      // ==========================================
+      let isHtml = '';
+
+      // Grid lines
+      isHtml += `<line x1="${padL}" y1="${padT + plotH}" x2="${padL + plotW}" y2="${padT + plotH}" stroke="#CBD5E1" stroke-width="1.5"/>`;
+      isHtml += `<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${padT + plotH}" stroke="#CBD5E1" stroke-width="1.5"/>`;
+
+      // Axis labels
+      isHtml += `<text x="${padL + plotW}" y="${padT + plotH + 30}" font-family="Outfit" font-size="12" font-weight="700" fill="#0B1C36" text-anchor="end">Producción / Renta (Y)</text>`;
+      isHtml += `<text x="${padL - 10}" y="${padT - 6}" font-family="Outfit" font-size="12" font-weight="700" fill="#0B1C36" text-anchor="start">Tipo de Interés (i %)</text>`;
+
+      // Y-axis tick marks for i
+      for (let r = 2; r <= 8; r += 2) {
+        const yPos = scaleIsY(r);
+        isHtml += `<line x1="${padL - 5}" y1="${yPos}" x2="${padL}" y2="${yPos}" stroke="#94A3B8" stroke-width="1.2"/>`;
+        isHtml += `<text x="${padL - 8}" y="${yPos + 4}" font-family="Inter" font-size="10" font-weight="600" fill="#64748B" text-anchor="end">${r}%</text>`;
+      }
+
+      // Vertical projection line from top panel
+      const curIsY = scaleIsY(currentRate);
+      isHtml += `<line x1="${curX}" y1="${padT}" x2="${curX}" y2="${padT + plotH}" stroke="#0284C7" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.6"/>`;
+      isHtml += `<line x1="${padL}" y1="${curIsY}" x2="${curX}" y2="${curIsY}" stroke="#0284C7" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.6"/>`;
+
+      // --- THE STRING (CORDEL) LOGIC ---
+      const yAnchor = scaleIsY(rate0);
+      const xAnchor = scaleX(eq0.Y_star);
+
+      if (!hasMoved) {
+        // Initial state: Only Point E0
+        isHtml += `
+          <g>
+            <circle cx="${xAnchor}" cy="${yAnchor}" r="8" fill="#D97706" stroke="#FFFFFF" stroke-width="2.5"/>
+            <text x="${xAnchor + 12}" y="${yAnchor + 4}" font-family="Outfit" font-size="13" font-weight="800" fill="#D97706">E₀ (1.360 M€, 4%)</text>
+            <rect x="${xAnchor - 140}" y="${yAnchor - 45}" width="280" height="28" rx="8" fill="#FEF3C7" stroke="#FDE68A" stroke-width="1"/>
+            <text x="${xAnchor}" y="${yAnchor - 27}" font-family="Inter" font-size="11" font-weight="700" fill="#B45309" text-anchor="middle">📍 Anclaje inicial: Mueve el slider para tirar del cordel</text>
+          </g>
+        `;
+      } else {
+        // Explored region line (the permanent trace created by pulling the cordel)
+        const eqMin = calcEquilibrium(minRateExplored);
+        const eqMax = calcEquilibrium(maxRateExplored);
+        const xMinExp = scaleX(eqMin.Y_star);
+        const yMinExp = scaleIsY(minRateExplored);
+        const xMaxExp = scaleX(eqMax.Y_star);
+        const yMaxExp = scaleIsY(maxRateExplored);
+
+        // The permanent locus of equilibrium points
+        isHtml += `<line x1="${xMinExp}" y1="${yMinExp}" x2="${xMaxExp}" y2="${yMaxExp}" stroke="#93C5FD" stroke-width="5" stroke-linecap="round" opacity="0.75"/>`;
+
+        // The active tension string connecting Anchor E0 to current point
+        isHtml += `<line x1="${xAnchor}" y1="${yAnchor}" x2="${curX}" y2="${curIsY}" class="cordel-thread cordel-active"/>`;
+
+        // Anchor E0 Pin
+        isHtml += `<circle cx="${xAnchor}" cy="${yAnchor}" r="7" fill="#D97706" stroke="#FFFFFF" stroke-width="2"/>`;
+        isHtml += `<text x="${xAnchor - 10}" y="${yAnchor - 12}" font-family="Outfit" font-size="11" font-weight="800" fill="#D97706">E₀ (Anclaje)</text>`;
+
+        // Active point E1
+        isHtml += `<circle cx="${curX}" cy="${curIsY}" r="8.5" fill="#056CAA" stroke="#FFFFFF" stroke-width="2.5"/>`;
+        isHtml += `<text x="${curX + 12}" y="${curIsY + 4}" font-family="Outfit" font-size="13" font-weight="800" fill="#056CAA">E₁ (${Math.round(Y_cur)}, ${currentRate.toFixed(1)}%)</text>`;
+
+        // IS Label along the cordel
+        const midX = (xMinExp + xMaxExp) / 2;
+        const midY = (yMinExp + yMaxExp) / 2;
+        if (Math.abs(maxRateExplored - minRateExplored) > 1.2) {
+          isHtml += `<text x="${xMaxExp - 15}" y="${yMaxExp - 12}" font-family="Outfit" font-size="14" font-weight="900" fill="#056CAA">Curva IS</text>`;
+        }
+      }
+
+      isSvg.innerHTML = isHtml;
+
+      // ==========================================
+      // 3. NARRATIVE REAL-TIME EXPLANATION
+      // ==========================================
+      rateBadge.textContent = `i = ${currentRate.toFixed(1)}%`;
+
+      if (!hasMoved) {
+        storyEmoji.textContent = '🧵';
+        storyTitle.textContent = 'Punto de Partida: Equilibrio Inicial E₀';
+        storyText.innerHTML = `Con el tipo de interés fijado en el <strong>4,0%</strong>, la economía se equilibra en <strong>Y* = 1.360 M€</strong>. Mueve el deslizador superior para ver cómo el cambio en los tipos altera la inversión y tensa el cordel hacia un nuevo equilibrio.`;
+        cordelStatus.textContent = 'Tira del deslizador para estirar el cordel';
+      } else if (currentRate > rate0) {
+        const deltaI = Math.round(d2 * ((currentRate - rate0) / 100));
+        const deltaY = Math.round(eq0.Y_star - Y_cur);
+        storyEmoji.textContent = '📉';
+        storyTitle.textContent = `Subida de Tipos (+${(currentRate - rate0).toFixed(1)} pp) ➔ Freno del Gasto`;
+        storyText.innerHTML = `Al subir el tipo al <span class="story-highlight">${currentRate.toFixed(1)}%</span>, el crédito y la inversión se contraen en <strong>-${deltaI} M€</strong>. La recta de demanda $Z$ cae en la Cruz Keynesiana, provocando que la producción se desplome en <strong>-${deltaY} M€</strong> hasta <strong>Y* = ${Math.round(Y_cur)} M€</strong>. El cordel se estira hacia <strong>arriba a la izquierda</strong>.`;
+        cordelStatus.textContent = 'Cordel tensado hacia tipos más altos';
+      } else if (currentRate < rate0) {
+        const deltaI = Math.round(d2 * ((rate0 - currentRate) / 100));
+        const deltaY = Math.round(Y_cur - eq0.Y_star);
+        storyEmoji.textContent = '📈';
+        storyTitle.textContent = `Bajada de Tipos (-${(rate0 - currentRate).toFixed(1)} pp) ➔ Estímulo Económico`;
+        storyText.innerHTML = `Al bajar los tipos al <span class="story-highlight">${currentRate.toFixed(1)}%</span>, el dinero barato dispara la inversión en <strong>+${deltaI} M€</strong>. La demanda $Z$ se eleva en la Cruz Keynesiana y la producción aumenta en <strong>+${deltaY} M€</strong> hasta <strong>Y* = ${Math.round(Y_cur)} M€</strong>. El cordel se estira hacia <strong>abajo a la derecha</strong>.`;
+        cordelStatus.textContent = 'Cordel tensado hacia tipos más bajos';
+      } else {
+        storyEmoji.textContent = '📍';
+        storyTitle.textContent = 'Posición Original E₀';
+        storyText.innerHTML = `Has retornado al equilibrio de referencia de <strong>4,0%</strong> y <strong>Y* = 1.360 M€</strong>. Observa cómo el trazo explorado permanece, mostrando la pendiente negativa de la relación IS.`;
+        cordelStatus.textContent = 'Cordel anclado en E₀';
+      }
+    }
+
+    // Slider listener
+    slider.addEventListener('input', (e) => {
+      currentRate = parseFloat(e.target.value);
+      if (Math.abs(currentRate - rate0) > 0.05) {
+        hasMoved = true;
+      }
+      updateActivePresetButton();
+      renderPlots();
+    });
+
+    function setRate(r) {
+      slider.value = r;
+      currentRate = r;
+      hasMoved = true;
+      updateActivePresetButton();
+      renderPlots();
+    }
+
+    function resetCordel() {
+      slider.value = 4.0;
+      currentRate = 4.0;
+      hasMoved = false;
+      minRateExplored = 4.0;
+      maxRateExplored = 4.0;
+      updateActivePresetButton();
+      renderPlots();
+    }
+
+    function updateActivePresetButton() {
+      document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
+      if (Math.abs(currentRate - 4.0) < 0.05) {
+        document.getElementById('btnBase').classList.add('active');
+      }
+    }
+
+    // Initial render
+    renderPlots();
+  </script>
+</body>
+</html>

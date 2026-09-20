@@ -391,6 +391,19 @@ window.DOCENCIA_APPS = {
         url: "macro_simulador_sesion_02.html"
       },
       {
+        id: "macro_sim_sesion03_lite",
+        type: "simulator",
+        category: "simuladores",
+        icon: "🧵",
+        iconBg: "#FEF3C7",
+        iconColor: "#D97706",
+        title: "Paso a Paso: El Nacimiento de la Curva IS (Efecto Cordel)",
+        desc: "Descubre cómo el tipo de interés desplaza la demanda en la Cruz Keynesiana y traza continuamente la curva IS como si tiraras de un cordel.",
+        meta: "Simulador interactivo · 5 min",
+        session: "Sesión 3",
+        url: "macro_is_cordel_lite.html"
+      },
+      {
         id: "macro_sim_sesion03",
         type: "simulator",
         category: "simuladores",
