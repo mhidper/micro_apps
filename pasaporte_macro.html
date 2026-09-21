@@ -81,9 +81,9 @@
     }
 
     .main-container {
-      max-width: 920px;
+      max-width: 960px;
       width: 100%;
-      margin: 32px auto;
+      margin: 28px auto;
       padding: 0 20px;
       flex: 1;
     }
@@ -173,13 +173,6 @@
       color: var(--navy);
       font-weight: 600;
       margin-bottom: 14px;
-    }
-    .pin-helper-text span {
-      color: var(--cobalt);
-      background: rgba(5, 108, 170, 0.1);
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-weight: 700;
     }
     .pin-grid {
       display: grid;
@@ -294,7 +287,6 @@
       line-height: 1.4;
     }
 
-    /* Error Alert */
     .alert-box {
       background: #FFF1F2;
       border-left: 4px solid var(--crimson);
@@ -312,81 +304,66 @@
       40%, 80% { transform: translateX(6px); }
     }
 
-    /* Dashboard View */
+    /* ============================================================
+       DASHBOARD VIEW CON SISTEMA DE PESTAÑAS (TABS)
+       ============================================================ */
     .dashboard-view {
       display: none;
-      animation: fadeIn 0.4s ease-out;
+      animation: fadeIn 0.35s ease-out;
     }
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(12px); }
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Hero Banner */
-    .student-hero {
-      background: linear-gradient(135deg, var(--navy) 0%, #0F2B52 100%);
-      color: #FFFFFF;
-      border-radius: var(--radius-box);
-      padding: clamp(24px, 4vw, 36px);
-      margin-bottom: 28px;
-      box-shadow: 0 12px 30px rgba(11, 28, 54, 0.2);
-      border-top: 4px solid var(--gold);
-      position: relative;
-      overflow: hidden;
-    }
-    .student-hero::after {
-      content: '';
-      position: absolute;
-      top: -40px;
-      right: -40px;
-      width: 220px;
-      height: 220px;
-      background: radial-gradient(circle, rgba(217, 119, 6, 0.15) 0%, rgba(217, 119, 6, 0) 70%);
-      border-radius: 50%;
-      pointer-events: none;
-    }
-    .hero-top {
+    /* Barra Superior del Estudiante */
+    .user-profile-bar {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-    .hero-welcome {
-      font-size: 0.9rem;
-      color: #94A3B8;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-    .hero-name {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(1.5rem, 3.5vw, 2.1rem);
-      font-weight: 800;
-      color: #FFFFFF;
-      letter-spacing: -0.02em;
-    }
-    .hero-meta {
-      display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 4px 12px;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      color: #E2E8F0;
-      margin-top: 6px;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-subtle);
     }
-
-    .btn-logout {
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+    .user-profile-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .user-avatar {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--navy), var(--cobalt));
       color: #FFFFFF;
-      padding: 8px 14px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 10px rgba(5, 108, 170, 0.25);
+    }
+    .user-names h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.2;
+    }
+    .user-names .user-handle {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+    .btn-logout {
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      color: #475569;
+      padding: 7px 14px;
       border-radius: 8px;
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
@@ -395,69 +372,175 @@
       gap: 6px;
     }
     .btn-logout:hover {
-      background: rgba(255, 255, 255, 0.22);
+      background: #F1F5F9;
+      color: var(--crimson);
+      border-color: #FECDD3;
     }
 
-    /* Score Grid in Hero */
-    .hero-score-card {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 14px;
-      padding: 20px 24px;
-      backdrop-filter: blur(8px);
+    /* Pestañas Principales (Main Navigation Tabs) */
+    .nav-tabs-container {
+      display: flex;
+      gap: 8px;
+      border-bottom: 2px solid #E2E8F0;
+      margin-bottom: 24px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: thin;
     }
-    .score-flex {
+    .nav-tab-btn {
+      background: none;
+      border: none;
+      padding: 10px 18px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-radius: 8px 8px 0 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .nav-tab-btn:hover {
+      color: var(--cobalt);
+      background: rgba(5, 108, 170, 0.05);
+    }
+    .nav-tab-btn.active {
+      color: var(--navy);
+      background: #FFFFFF;
+    }
+    .nav-tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gold);
+      border-radius: 2px;
+    }
+    .nav-tab-btn .tab-badge {
+      font-size: 0.75rem;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: #E2E8F0;
+      color: #475569;
+    }
+    .nav-tab-btn.active .tab-badge {
+      background: var(--navy);
+      color: #FFFFFF;
+    }
+
+    /* ============================================================
+       PESTAÑA 1: VISTA DE RESUMEN (EL PASAPORTE)
+       ============================================================ */
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Hero Banner de Puntos */
+    .hero-passport-card {
+      background: linear-gradient(135deg, var(--navy) 0%, #0E2648 100%);
+      color: #FFFFFF;
+      border-radius: var(--radius-box);
+      padding: clamp(24px, 4vw, 36px);
+      margin-bottom: 28px;
+      box-shadow: 0 12px 30px rgba(11, 28, 54, 0.18);
+      border-top: 4px solid var(--gold);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-passport-card::after {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(217, 119, 6, 0.18) 0%, rgba(217, 119, 6, 0) 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .passport-header-flex {
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
+      align-items: flex-start;
+      margin-bottom: 24px;
       flex-wrap: wrap;
-      gap: 16px;
-      margin-bottom: 14px;
+      gap: 12px;
     }
-    .score-label {
+    .passport-status-pill {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #E2E8F0;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .passport-score-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: flex-end;
+      margin-bottom: 18px;
+    }
+    .score-title-label {
       font-size: 0.85rem;
       color: #CBD5E1;
-      font-weight: 500;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
       margin-bottom: 4px;
     }
-    .score-nums {
+    .score-big-number {
       font-family: 'Outfit', sans-serif;
-      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
       font-weight: 800;
-      color: #FFFFFF;
       line-height: 1;
+      color: #FFFFFF;
     }
-    .score-nums .potential {
-      font-size: 1.25rem;
+    .score-big-number .denom {
+      font-size: 1.35rem;
       color: #94A3B8;
       font-weight: 600;
     }
-    .score-percentage {
+    .score-pct-box {
       text-align: right;
     }
-    .score-pct-val {
+    .score-pct-number {
       font-family: 'Outfit', sans-serif;
-      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
       font-weight: 800;
-      color: var(--gold-light);
       line-height: 1;
+      color: var(--gold-light);
     }
-    .score-pct-sub {
-      font-size: 0.78rem;
+    .score-pct-caption {
+      font-size: 0.8rem;
       color: #CBD5E1;
       margin-top: 4px;
     }
 
-    /* Progress Bar */
-    .progress-track {
+    .progress-bar-bg {
       width: 100%;
-      height: 12px;
+      height: 14px;
       background: rgba(255, 255, 255, 0.15);
       border-radius: 999px;
       overflow: hidden;
       position: relative;
     }
-    .progress-fill {
+    .progress-bar-val {
       height: 100%;
       background: linear-gradient(90deg, var(--cobalt), var(--gold));
       border-radius: 999px;
@@ -465,47 +548,105 @@
       transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Sessions Section */
-    .section-title-wrap {
+    /* Lista Resumen de Sesiones en el Pasaporte */
+    .passport-summary-section {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-box);
+      padding: 24px;
+      box-shadow: 0 4px 16px rgba(11, 28, 54, 0.04);
+    }
+    .passport-summary-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #F1F5F9;
     }
-    .section-title {
+    .passport-summary-header h3 {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: var(--navy);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .badge-count {
-      background: var(--navy);
-      color: #FFFFFF;
-      font-size: 0.75rem;
+      font-size: 1.15rem;
       font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 999px;
+      color: var(--navy);
     }
 
-    /* Session Card */
-    .session-card {
-      background: var(--cream-card);
+    .session-overview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .session-card-compact {
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 16px;
+      background: #FAFAF9;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      transition: all 0.2s;
+    }
+    .session-card-compact:hover {
+      border-color: var(--cobalt);
+      box-shadow: 0 4px 12px rgba(5, 108, 170, 0.1);
+      transform: translateY(-2px);
+    }
+    .compact-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .compact-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--navy);
+    }
+    .compact-score-badge {
+      background: var(--navy);
+      color: #FFFFFF;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+    .compact-btn {
+      background: #FFFFFF;
+      border: 1px solid var(--cobalt);
+      color: var(--cobalt);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .compact-btn:hover {
+      background: var(--cobalt);
+      color: #FFFFFF;
+    }
+
+    /* ============================================================
+       PESTAÑAS DE SESIÓN (DETALLE POR PREGUNTA)
+       ============================================================ */
+    .session-detail-wrapper {
+      background: #FFFFFF;
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-box);
-      box-shadow: 0 4px 16px rgba(11, 28, 54, 0.05);
-      margin-bottom: 22px;
+      box-shadow: 0 4px 18px rgba(11, 28, 54, 0.05);
       overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.2s;
     }
-    .session-card:hover {
-      box-shadow: 0 8px 24px rgba(11, 28, 54, 0.09);
-    }
-    .session-header {
-      padding: 18px 24px;
-      background: #FFFFFF;
+    .session-detail-header {
+      padding: 20px 24px;
+      background: #F8FAFC;
       border-bottom: 1px solid var(--border-subtle);
       display: flex;
       justify-content: space-between;
@@ -513,25 +654,22 @@
       flex-wrap: wrap;
       gap: 12px;
     }
-    .session-title-box h3 {
+    .session-detail-header h3 {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.15rem;
-      font-weight: 700;
+      font-size: 1.25rem;
+      font-weight: 800;
       color: var(--navy);
-      margin-bottom: 3px;
     }
-    .session-meta-tag {
-      font-size: 0.8rem;
-      color: var(--text-muted);
+    .session-badges {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    .session-status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 14px;
+    .badge-status {
+      padding: 5px 12px;
       border-radius: 999px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 700;
       font-family: 'Outfit', sans-serif;
     }
@@ -540,56 +678,88 @@
     .status-noapto { background: #FFF1F2; color: #9F1239; border: 1px solid #FECDD3; }
     .status-nopresentado { background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1; }
 
-    .session-score-pill {
+    .session-score-tag {
       background: var(--navy);
       color: #FFFFFF;
-      padding: 4px 12px;
+      padding: 5px 12px;
       border-radius: 8px;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 700;
       font-family: 'Outfit', sans-serif;
-      margin-left: 8px;
     }
 
-    .session-body {
+    /* Subpestañas por Pregunta */
+    .question-tabs-nav {
+      display: flex;
+      background: #F1F5F9;
+      padding: 6px 16px 0 16px;
+      gap: 6px;
+      border-bottom: 1px solid var(--border-subtle);
+      overflow-x: auto;
+    }
+    .question-tab-btn {
+      background: none;
+      border: none;
+      padding: 9px 16px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #64748B;
+      cursor: pointer;
+      border-radius: 8px 8px 0 0;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .question-tab-btn:hover {
+      color: var(--navy);
+      background: rgba(255, 255, 255, 0.5);
+    }
+    .question-tab-btn.active {
+      background: #FFFFFF;
+      color: var(--cobalt);
+      box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.03);
+    }
+
+    .question-content-box {
       padding: 24px;
       display: flex;
       flex-direction: column;
       gap: 20px;
     }
 
-    /* Blocks inside session */
-    .content-block {
+    /* Cajas de Contenido */
+    .qa-block {
       border-radius: 12px;
       padding: 16px 18px;
       font-size: 0.92rem;
     }
-    .block-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .qa-header {
       font-weight: 700;
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    /* Question block */
-    .block-question {
+    /* Enunciado */
+    .qa-question {
       background: #F8FAFC;
-      border-left: 4px solid #94A3B8;
+      border-left: 4px solid #64748B;
+      color: #334155;
     }
-    .block-question .block-header { color: #475569; }
+    .qa-question .qa-header { color: #475569; }
 
-    /* Student handwritten transcription */
-    .block-transcript {
+    /* Transcripción manuscrita */
+    .qa-transcript {
       background: #FFFDF7;
       border: 1px solid #FDE68A;
       border-left: 4px solid var(--gold);
     }
-    .block-transcript .block-header { color: #92400E; }
-    .transcript-text {
+    .qa-transcript .qa-header { color: #92400E; }
+    .transcript-body {
       font-family: 'Inter', system-ui, sans-serif;
       white-space: pre-wrap;
       color: #451A03;
@@ -600,26 +770,29 @@
       line-height: 1.6;
     }
 
-    /* Official Solution */
-    .block-solution {
+    /* Solución Canónica */
+    .qa-solution {
       background: #F0F7FF;
       border-left: 4px solid var(--cobalt);
     }
-    .block-solution .block-header { color: var(--cobalt); }
-    .solution-text {
+    .qa-solution .qa-header { color: var(--cobalt); }
+    .solution-body {
       white-space: pre-wrap;
       font-size: 0.88rem;
       color: #0C4A6E;
       line-height: 1.6;
     }
 
-    /* Feedback block */
-    .block-feedback {
-      background: #FDF4FF;
+    /* Retroalimentación Docente General */
+    .qa-feedback {
+      background: #FAF5FF;
       border-left: 4px solid #A855F7;
+      margin: 0 24px 24px 24px;
+      padding: 16px 18px;
+      border-radius: 12px;
     }
-    .block-feedback .block-header { color: #7E22CE; }
-    .feedback-text {
+    .qa-feedback .qa-header { color: #7E22CE; }
+    .feedback-body {
       font-style: italic;
       color: #581C87;
       font-weight: 500;
@@ -645,14 +818,11 @@
         height: 42px;
         font-size: 1.1rem;
       }
-      .hero-top {
-        flex-direction: column;
+      .passport-score-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
       }
-      .score-flex {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .score-percentage {
+      .score-pct-box {
         text-align: left;
       }
     }
@@ -660,7 +830,7 @@
 </head>
 <body>
 
-  <!-- Top Institutional Bar -->
+  <!-- Barra Institucional Superior -->
   <header class="top-header">
     <div class="brand">
       <div class="brand-badge">UPO</div>
@@ -674,14 +844,14 @@
   <main class="main-container">
 
     <!-- ============================================================
-         VISTA 1: AUTENTICACIÓN CIFRADA CON RETO BANCARIO (8 DÍGITOS)
+         VISTA 1: ACCESO CIFRADO (RETO BANCARIO DE 4 DÍGITOS)
          ============================================================ -->
     <div id="authView" class="auth-wrapper">
       <div class="auth-card">
         <div class="auth-header">
           <div class="auth-icon">🛡️</div>
           <h1>Pasaporte de Evaluación</h1>
-          <p>Consulta personalizada de calificaciones, retos manuscritos y soluciones oficiales de la cátedra.</p>
+          <p>Consulta personalizada de calificaciones, retos de sesión y soluciones oficiales de la cátedra.</p>
         </div>
 
         <div id="alertBox" class="alert-box"></div>
@@ -694,7 +864,7 @@
               type="text" 
               id="usernameInput" 
               class="form-input" 
-              placeholder="Ej: aalvmar5 o cchamor" 
+              placeholder="Ej: aalvmar5, cchamor o rgalrea" 
               autocomplete="username" 
               autocapitalize="none"
               required
@@ -708,7 +878,7 @@
             </div>
             
             <div class="pin-grid" id="pinGrid">
-              <!-- Se genera dinámicamente con las 8 casillas -->
+              <!-- Se genera dinámicamente -->
             </div>
 
             <button type="button" id="btnShuffle" class="btn-shuffle" title="Generar otro reto con 4 posiciones aleatorias distintas">
@@ -716,77 +886,103 @@
             </button>
           </div>
 
-          <!-- Botón de Acción -->
           <button type="button" id="btnAction" class="btn-primary">
             Continuar
           </button>
         </form>
 
         <div class="auth-footer-note">
-          🔒 <strong>Acceso con Cifrado Militar Zero-Knowledge:</strong> Tus calificaciones e identidad están protegidas con criptografía AES-GCM-256. Ningún dato personal es legible públicamente en el repositorio.
+          🔒 <strong>Acceso con Cifrado Militar Zero-Knowledge:</strong> Tus calificaciones e identidad están protegidas con criptografía AES-GCM-256. Ningún dato personal es accesible públicamente.
         </div>
       </div>
     </div>
 
     <!-- ============================================================
-         VISTA 2: DASHBOARD PERSONAL DEL ALUMNO (PASAPORTE)
+         VISTA 2: DASHBOARD CON PESTAÑAS (EL PASAPORTE LIMPIO)
          ============================================================ -->
     <div id="dashboardView" class="dashboard-view">
 
-      <!-- Hero Banner -->
-      <section class="student-hero">
-        <div class="hero-top">
-          <div>
-            <div class="hero-welcome">Pasaporte de Evaluación Continua</div>
-            <h2 id="studentFullName" class="hero-name">Cargando expediente...</h2>
-            <div class="hero-meta">
-              <span>👤 <strong id="studentUserBadge">-</strong></span>
-              <span>•</span>
-              <span>✅ Registro verificado</span>
-            </div>
+      <!-- Barra de Identidad del Alumno -->
+      <div class="user-profile-bar">
+        <div class="user-profile-info">
+          <div class="user-avatar" id="userAvatar">A</div>
+          <div class="user-names">
+            <h2 id="studentFullName">Cargando expediente...</h2>
+            <div class="user-handle"><span id="studentUserHandle">@usuario</span> • Registro oficial activo</div>
           </div>
-          <button id="btnLogout" class="btn-logout" title="Cerrar sesión de forma segura">
-            Cerrar Sesión 🔒
-          </button>
         </div>
+        <button id="btnLogout" class="btn-logout" title="Cerrar sesión de forma segura">
+          Cerrar Sesión 🔒
+        </button>
+      </div>
 
-        <!-- Score Banner -->
-        <div class="hero-score-card">
-          <div class="score-flex">
-            <div>
-              <div class="score-label">PUNTOS DE EVALUACIÓN CONTINUA OBTENIDOS</div>
-              <div class="score-nums">
-                <span id="scoreObtained">0</span> 
-                <span class="potential">/ <span id="scorePotential">1.000</span> pts posibles</span>
+      <!-- Navegación por Pestañas Principales (Tabs) -->
+      <nav class="nav-tabs-container" id="mainTabsNav">
+        <!-- Generado dinámicamente: Mi Pasaporte | Sesion 02 | ... -->
+      </nav>
+
+      <!-- CONTENEDOR DE PESTAÑAS -->
+      <div id="tabsContentContainer">
+
+        <!-- PESTAÑA PRINCIPAL: MI PASAPORTE (RESUMEN GLOBAL) -->
+        <div id="tab-pasaporte" class="tab-content active">
+          
+          <!-- Hero Banner con Puntos y Porcentaje -->
+          <section class="hero-passport-card">
+            <div class="passport-header-flex">
+              <div>
+                <div style="font-size: 0.85rem; color: #94A3B8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">
+                  Evaluación Continua · Convocatoria Ordinaria
+                </div>
+                <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.4rem; color: #FFFFFF; font-weight: 800; margin-top: 2px;">
+                  Estado del Pasaporte Académico
+                </h3>
+              </div>
+              <div class="passport-status-pill">
+                ● Cifrado Zero-Knowledge Verificado
               </div>
             </div>
-            <div class="score-percentage">
-              <div class="score-label">RENDIMIENTO ACUMULADO</div>
-              <div class="score-pct-val"><span id="scorePct">0%</span></div>
-              <div class="score-pct-sub" id="scoreFormulaText">0 / 1.000 × 100</div>
+
+            <div class="passport-score-grid">
+              <div>
+                <div class="score-title-label">PUNTOS ACUMULADOS EN RETOS DE SESIÓN</div>
+                <div class="score-big-number">
+                  <span id="scoreObtained">0</span>
+                  <span class="denom">/ <span id="scorePotential">1.000</span> pts posibles</span>
+                </div>
+              </div>
+              <div class="score-pct-box">
+                <div class="score-title-label">RENDIMIENTO</div>
+                <div class="score-pct-number" id="scorePct">0%</div>
+                <div class="score-pct-caption" id="scoreFormulaText">0 / 1.000 × 100</div>
+              </div>
             </div>
-          </div>
 
-          <!-- Progress Bar -->
-          <div class="progress-track" title="Progreso de evaluación continua">
-            <div id="progressFill" class="progress-fill"></div>
-          </div>
-        </div>
-      </section>
+            <!-- Barra de Progreso -->
+            <div class="progress-bar-bg">
+              <div id="progressBarFill" class="progress-bar-val"></div>
+            </div>
+          </section>
 
-      <!-- Historial de Sesiones -->
-      <section>
-        <div class="section-title-wrap">
-          <h2 class="section-title">
-            <span>Sesiones Corregidas</span>
-            <span id="sessionCountBadge" class="badge-count">1</span>
-          </h2>
+          <!-- Resumen Compacto de Sesiones -->
+          <section class="passport-summary-section">
+            <div class="passport-summary-header">
+              <h3>Índice de Sesiones Evaluadas</h3>
+              <span id="summaryCountBadge" style="background: #F1F5F9; color: var(--navy); font-weight: 700; font-size: 0.8rem; padding: 4px 10px; border-radius: 999px;">
+                1 sesión disponible
+              </span>
+            </div>
+
+            <div class="session-overview-grid" id="sessionOverviewGrid">
+              <!-- Tarjetas compactas inyectadas dinámicamente -->
+            </div>
+          </section>
+
         </div>
 
-        <div id="sessionsContainer">
-          <!-- Las tarjetas de cada sesión se inyectan aquí dinámicamente -->
-        </div>
-      </section>
+        <!-- Las pestañas de cada sesión (tab-s02, etc.) se inyectan dinámicamente aquí -->
+
+      </div>
 
     </div>
 
@@ -794,22 +990,22 @@
 
   <footer class="footer">
     <p>Macroeconomía · Grados en Derecho y Finanzas y Contabilidad (DER + FICO) · Universidad Pablo de Olavide</p>
-    <p style="margin-top: 4px; font-size: 0.76rem; color: #94A3B8;">Plataforma de Consulta Segura de Calificaciones · Desarrollado con Web Crypto API nativa</p>
+    <p style="margin-top: 4px; font-size: 0.76rem; color: #94A3B8;">Pasaporte de Evaluación Continua · Arquitectura de Cifrado en Cliente (Web Crypto API)</p>
   </footer>
 
-  <!-- Carga de la Base de Datos Cifrada -->
+  <!-- Base de Datos Cifrada -->
   <script src="data/calificaciones_cifradas.js"></script>
 
-  <!-- Lógica Criptográfica e Interactiva -->
+  <!-- Lógica Interactiva y Criptográfica -->
   <script>
     (function() {
-      // Estado de la aplicación
-      let currentStep = 'username'; // 'username' | 'pin'
+      let currentStep = 'username';
       let matchedRecord = null;
       let currentComboIdx = null;
       let activeInputs = [];
+      let currentStudentData = null;
 
-      // Elementos del DOM
+      // Elementos
       const authView = document.getElementById('authView');
       const dashboardView = document.getElementById('dashboardView');
       const usernameInput = document.getElementById('usernameInput');
@@ -820,18 +1016,20 @@
       const alertBox = document.getElementById('alertBox');
       const btnLogout = document.getElementById('btnLogout');
 
-      // Elementos del Dashboard
+      // Elementos Dashboard
+      const userAvatar = document.getElementById('userAvatar');
       const studentFullName = document.getElementById('studentFullName');
-      const studentUserBadge = document.getElementById('studentUserBadge');
+      const studentUserHandle = document.getElementById('studentUserHandle');
       const scoreObtained = document.getElementById('scoreObtained');
       const scorePotential = document.getElementById('scorePotential');
       const scorePct = document.getElementById('scorePct');
       const scoreFormulaText = document.getElementById('scoreFormulaText');
-      const progressFill = document.getElementById('progressFill');
-      const sessionCountBadge = document.getElementById('sessionCountBadge');
-      const sessionsContainer = document.getElementById('sessionsContainer');
+      const progressBarFill = document.getElementById('progressBarFill');
+      const summaryCountBadge = document.getElementById('summaryCountBadge');
+      const sessionOverviewGrid = document.getElementById('sessionOverviewGrid');
+      const mainTabsNav = document.getElementById('mainTabsNav');
+      const tabsContentContainer = document.getElementById('tabsContentContainer');
 
-      // Funciones Criptográficas con Web Crypto API
       const enc = new TextEncoder();
       const dec = new TextDecoder();
 
@@ -859,7 +1057,7 @@
         return bytes;
       }
 
-      // Paso 1: Validar si el usuario existe en el índice cifrado
+      // Paso 1: Validar usuario
       async function handleUsernameSubmit() {
         hideAlert();
         const username = usernameInput.value.trim().toLowerCase();
@@ -870,7 +1068,7 @@
         }
 
         if (!window.__MACRO_EVAL_DB__ || !window.__MACRO_GLOBAL_SALT__) {
-          showAlert("Error al cargar la base de datos de calificaciones.");
+          showAlert("Error al conectar con la base de datos cifrada.");
           return;
         }
 
@@ -878,12 +1076,11 @@
         matchedRecord = window.__MACRO_EVAL_DB__.find(r => r.user_hash === userHash);
 
         if (!matchedRecord) {
-          showAlert("Usuario no encontrado en la lista de Macroeconomía. Verifica que escribes tu usuario institucional (ej: aalvmar5 o ecasmel).");
+          showAlert("Usuario no encontrado en Macroeconomía. Asegúrate de usar tu usuario oficial (ej: aalvmar5 o ecasmel).");
           usernameInput.focus();
           return;
         }
 
-        // Usuario encontrado: pasar a reto bancario de 4 dígitos
         currentStep = 'pin';
         usernameInput.disabled = true;
         pinChallengeArea.style.display = 'block';
@@ -891,13 +1088,12 @@
         generateRandomChallenge();
       }
 
-      // Paso 2: Generar reto bancario con 4 posiciones aleatorias
+      // Paso 2: Generar reto bancario aleatorio
       function generateRandomChallenge() {
         hideAlert();
-        const totalCombos = window.__MACRO_COMBOS__.length; // 70
+        const totalCombos = window.__MACRO_COMBOS__.length;
         currentComboIdx = Math.floor(Math.random() * totalCombos);
-        const activePositions = window.__MACRO_COMBOS__[currentComboIdx]; // Array de 4 índices (0 a 7)
-        
+        const activePositions = window.__MACRO_COMBOS__[currentComboIdx];
         renderPinGrid(activePositions);
       }
 
@@ -923,7 +1119,6 @@
             input.maxLength = 1;
             input.dataset.pos = pos;
             
-            // Navegación automática entre inputs
             input.addEventListener('input', (e) => {
               const val = e.target.value.replace(/\D/g, '');
               e.target.value = val;
@@ -932,7 +1127,6 @@
                 if (nextIdx < activeInputs.length) {
                   activeInputs[nextIdx].focus();
                 } else {
-                  // Si completó el último, intentar descifrar
                   attemptUnlock();
                 }
               }
@@ -941,9 +1135,7 @@
             input.addEventListener('keydown', (e) => {
               if (e.key === 'Backspace' && !input.value) {
                 const prevIdx = activeInputs.indexOf(input) - 1;
-                if (prevIdx >= 0) {
-                  activeInputs[prevIdx].focus();
-                }
+                if (prevIdx >= 0) activeInputs[prevIdx].focus();
               }
             });
 
@@ -959,16 +1151,14 @@
           pinGrid.appendChild(slot);
         }
 
-        // Enfocar la primera casilla activa
         if (activeInputs.length > 0) {
           setTimeout(() => activeInputs[0].focus(), 80);
         }
       }
 
-      // Paso 3: Intentar desbloquear y descifrar el expediente
+      // Paso 3: Desbloquear
       async function attemptUnlock() {
         hideAlert();
-        // Recoger los 4 dígitos
         let enteredDigits = '';
         for (const inp of activeInputs) {
           if (!inp.value || !/^\d$/.test(inp.value)) {
@@ -980,12 +1170,10 @@
         }
 
         btnAction.disabled = true;
-        btnAction.textContent = "Verificando y descifrando...";
+        btnAction.textContent = "Verificando...";
 
         try {
           const username = usernameInput.value.trim().toLowerCase();
-          
-          // Derivar clave de la combinación Kc
           const kcMaterial = `${matchedRecord.user_salt}:${username}:${enteredDigits}:${currentComboIdx}`;
           const hashKcBuf = await crypto.subtle.digest('SHA-256', enc.encode(kcMaterial));
           
@@ -1000,14 +1188,12 @@
           const vaultNonce = base64ToUint8(matchedRecord.vault_nonce);
           const encMasterKey = base64ToUint8(matchedRecord.vault[currentComboIdx]);
 
-          // Intentar abrir el Vault para extraer la Master Key
           const masterKeyRaw = await crypto.subtle.decrypt(
             { name: "AES-GCM", iv: vaultNonce },
             keyKc,
             encMasterKey
           );
 
-          // Si llegamos aquí, los dígitos fueron 100% correctos
           const masterCryptoKey = await crypto.subtle.importKey(
             "raw",
             masterKeyRaw,
@@ -1016,7 +1202,6 @@
             ["decrypt"]
           );
 
-          // Descifrar el Payload del Alumno
           const payloadNonce = base64ToUint8(matchedRecord.payload_nonce);
           const payloadCiphertext = base64ToUint8(matchedRecord.payload_ciphertext);
 
@@ -1026,14 +1211,12 @@
             payloadCiphertext
           );
 
-          const studentData = JSON.parse(dec.decode(payloadBuf));
-          
-          // ¡ÉXITO TOTAL! Renderizar Dashboard
-          renderDashboard(studentData);
+          currentStudentData = JSON.parse(dec.decode(payloadBuf));
+          renderDashboard(currentStudentData);
 
         } catch (err) {
           console.warn("Fallo de descifrado:", err);
-          showAlert("❌ Los dígitos introducidos no son correctos. Por seguridad, se ha generado un nuevo reto con otras 4 posiciones.");
+          showAlert("❌ Los dígitos introducidos no coinciden. Por seguridad se genera un nuevo reto aleatorio.");
           generateRandomChallenge();
         } finally {
           btnAction.disabled = false;
@@ -1041,111 +1224,217 @@
         }
       }
 
-      // Renderizado del Dashboard
+      // ============================================================
+      // RENDERIZADO DEL DASHBOARD CON PESTAÑAS (TABS)
+      // ============================================================
       function renderDashboard(data) {
         authView.style.display = 'none';
         dashboardView.style.display = 'block';
 
+        // Identidad
         studentFullName.textContent = data.nombre_completo;
-        studentUserBadge.textContent = `@${data.username}`;
+        studentUserHandle.textContent = `@${data.username}`;
+        userAvatar.textContent = data.nombre_pila.charAt(0).toUpperCase();
 
-        // Banner de Puntuación
+        // Banner Resumen del Pasaporte
         scoreObtained.textContent = data.puntos_acumulados.toLocaleString('es-ES');
         scorePotential.textContent = data.puntos_potenciales.toLocaleString('es-ES');
         scorePct.textContent = `${data.porcentaje_logrado.toFixed(1).replace('.', ',')}%`;
         scoreFormulaText.textContent = `${data.puntos_acumulados.toLocaleString('es-ES')} / ${data.puntos_potenciales.toLocaleString('es-ES')} pts × 100`;
 
-        // Animar barra de progreso
         setTimeout(() => {
-          progressFill.style.width = `${Math.min(100, Math.max(0, data.porcentaje_logrado))}%`;
-        }, 100);
+          progressBarFill.style.width = `${Math.min(100, Math.max(0, data.porcentaje_logrado))}%`;
+        }, 120);
 
-        sessionCountBadge.textContent = data.sesiones.length;
-        sessionsContainer.innerHTML = '';
+        summaryCountBadge.textContent = `${data.sesiones.length} ${data.sesiones.length === 1 ? 'sesión disponible' : 'sesiones disponibles'}`;
 
-        // Inyectar sesiones
+        // Limpiar contenido dinámico previo
+        mainTabsNav.innerHTML = '';
+        sessionOverviewGrid.innerHTML = '';
+        
+        // Eliminar pestañas de sesión anteriores en el contenedor
+        const oldSessionTabs = tabsContentContainer.querySelectorAll('.session-tab-pane');
+        oldSessionTabs.forEach(el => el.remove());
+
+        // 1. Pestaña Principal: "Mi Pasaporte"
+        const passportTabBtn = document.createElement('button');
+        passportTabBtn.className = 'nav-tab-btn active';
+        passportTabBtn.dataset.tabTarget = 'tab-pasaporte';
+        passportTabBtn.innerHTML = `📊 Mi Pasaporte <span class="tab-badge">${data.puntos_acumulados} pts</span>`;
+        passportTabBtn.addEventListener('click', () => switchMainTab('tab-pasaporte'));
+        mainTabsNav.appendChild(passportTabBtn);
+
+        // 2. Crear Pestañas y Vistas para cada Sesión
         data.sesiones.forEach(ses => {
-          const card = document.createElement('article');
-          card.className = 'session-card';
+          const tabId = `tab-${ses.id}`;
 
-          let statusClass = 'status-apto';
-          if (ses.estado.toLowerCase().includes('sobresaliente')) statusClass = 'status-sobresaliente';
-          else if (ses.estado.toLowerCase().includes('no apto')) statusClass = 'status-noapto';
-          else if (ses.estado.toLowerCase().includes('no presentado')) statusClass = 'status-nopresentado';
+          // Botón de pestaña en el menú superior
+          const sessionTabBtn = document.createElement('button');
+          sessionTabBtn.className = 'nav-tab-btn';
+          sessionTabBtn.dataset.tabTarget = tabId;
+          sessionTabBtn.innerHTML = `📘 ${ses.titulo_corto} <span class="tab-badge">${ses.puntos_obtenidos} pts</span>`;
+          sessionTabBtn.addEventListener('click', () => switchMainTab(tabId));
+          mainTabsNav.appendChild(sessionTabBtn);
 
-          card.innerHTML = `
-            <div class="session-header">
-              <div class="session-title-box">
-                <h3>${ses.titulo}</h3>
-                <div class="session-meta-tag">📅 ${ses.fecha} • Reto Individual de Cierre de Sesión</div>
+          // Tarjeta compacta para la cuadrícula del Pasaporte
+          const compactCard = document.createElement('div');
+          compactCard.className = 'session-card-compact';
+          compactCard.innerHTML = `
+            <div class="compact-top">
+              <div>
+                <div class="compact-title">${ses.titulo_completo}</div>
+                <div style="font-size: 0.78rem; color: #64748B; margin-top: 2px;">📅 ${ses.fecha}</div>
               </div>
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <span class="session-status-badge ${statusClass}">
-                  ● ${ses.estado}
-                </span>
-                <span class="session-score-pill">
-                  ${ses.puntos_obtenidos} / ${ses.puntos_maximos} pts
-                </span>
-              </div>
+              <div class="compact-score-badge">${ses.puntos_obtenidos} / ${ses.puntos_maximos} pts</div>
             </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="badge-status ${getStatusClass(ses.estado)}">● ${ses.estado}</span>
+              <button class="compact-btn" data-target-tab="${tabId}">
+                Ver preguntas →
+              </button>
+            </div>
+          `;
+          compactCard.querySelector('.compact-btn').addEventListener('click', () => switchMainTab(tabId));
+          sessionOverviewGrid.appendChild(compactCard);
 
-            <div class="session-body">
-              <!-- Enunciado Oficial -->
-              <div class="content-block block-question">
-                <div class="block-header">📝 Enunciado del Reto Oficial</div>
-                <div style="white-space: pre-wrap;">${ses.enunciado}</div>
+          // 3. Crear el Panel de la Sesión con sus SUBPESTAÑAS por Pregunta
+          const sessionPane = document.createElement('div');
+          sessionPane.id = tabId;
+          sessionPane.className = 'tab-content session-tab-pane';
+
+          sessionPane.innerHTML = `
+            <div class="session-detail-wrapper">
+              <div class="session-detail-header">
+                <div>
+                  <h3>${ses.titulo_completo}</h3>
+                  <div style="font-size: 0.82rem; color: #64748B; margin-top: 2px;">${ses.tema} • ${ses.fecha}</div>
+                </div>
+                <div class="session-badges">
+                  <span class="badge-status ${getStatusClass(ses.estado)}">● ${ses.estado}</span>
+                  <span class="session-score-tag">${ses.puntos_obtenidos} / ${ses.puntos_maximos} pts (${ses.porcentaje}%)</span>
+                </div>
               </div>
 
-              <!-- Transcripción Manuscrita -->
-              <div class="content-block block-transcript">
-                <div class="block-header">✍️ Tu Respuesta Manuscrita (Transcripción Literal del Examen)</div>
-                <div class="transcript-text">${ses.transcripcion}</div>
+              <!-- Subpestañas por Pregunta -->
+              <div class="question-tabs-nav" id="qTabsNav-${ses.id}">
+                ${ses.preguntas.map((q, idx) => `
+                  <button type="button" class="question-tab-btn ${idx === 0 ? 'active' : ''}" data-q-target="qbox-${q.id}">
+                    📌 Pregunta ${q.num}
+                  </button>
+                `).join('')}
               </div>
 
-              <!-- Solución Canónica -->
-              <div class="content-block block-solution">
-                <div class="block-header">💡 Solución Canónica Oficial de la Cátedra</div>
-                <div class="solution-text">${ses.solucion_oficial}</div>
+              <!-- Contenedor de Preguntas -->
+              <div id="qBoxesContainer-${ses.id}">
+                ${ses.preguntas.map((q, idx) => `
+                  <div id="qbox-${q.id}" class="question-content-box" style="display: ${idx === 0 ? 'flex' : 'none'};">
+                    
+                    <div style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--navy); border-bottom: 1px solid #E2E8F0; padding-bottom: 6px;">
+                      ${q.titulo}
+                    </div>
+
+                    <!-- Enunciado -->
+                    <div class="qa-block qa-question">
+                      <div class="qa-header">📝 Enunciado de la Pregunta</div>
+                      <div style="white-space: pre-wrap; line-height: 1.6;">${q.enunciado}</div>
+                    </div>
+
+                    <!-- Transcripción Manuscrita -->
+                    <div class="qa-block qa-transcript">
+                      <div class="qa-header">✍️ Tu Entrega Manuscrita en Clase (Transcripción Literal)</div>
+                      <div class="transcript-body">${q.transcripcion}</div>
+                    </div>
+
+                    <!-- Solución Canónica -->
+                    <div class="qa-block qa-solution">
+                      <div class="qa-header">💡 Solución Oficial Canónica de la Cátedra</div>
+                      <div class="solution-body">${q.solucion_oficial}</div>
+                    </div>
+
+                  </div>
+                `).join('')}
               </div>
 
-              <!-- Feedback Docente -->
-              <div class="content-block block-feedback">
-                <div class="block-header">👨‍🏫 Retroalimentación y Observaciones Docentes</div>
-                <div class="feedback-text">«${ses.feedback}»</div>
+              <!-- Retroalimentación Docente General de la Sesión -->
+              <div class="qa-feedback">
+                <div class="qa-header">👨‍🏫 Retroalimentación y Observaciones del Profesor</div>
+                <div class="feedback-body">«${ses.feedback_general}»</div>
               </div>
             </div>
           `;
 
-          sessionsContainer.appendChild(card);
+          // Asignar eventos a las subpestañas de preguntas
+          const qNav = sessionPane.querySelector(`#qTabsNav-${ses.id}`);
+          const qBtns = qNav.querySelectorAll('.question-tab-btn');
+          qBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+              qBtns.forEach(b => b.classList.remove('active'));
+              btn.classList.add('active');
+              const targetBoxId = btn.dataset.qTarget;
+              const allBoxes = sessionPane.querySelectorAll('.question-content-box');
+              allBoxes.forEach(box => {
+                box.style.display = (box.id === targetBoxId) ? 'flex' : 'none';
+              });
+            });
+          });
+
+          tabsContentContainer.appendChild(sessionPane);
         });
 
-        // Scroll suave al inicio del dashboard
+        // Activar la pestaña del Pasaporte por defecto
+        switchMainTab('tab-pasaporte');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
-      // Event Listeners
+      function getStatusClass(estado) {
+        const est = estado.toLowerCase();
+        if (est.includes('sobresaliente')) return 'status-sobresaliente';
+        if (est.includes('apto') && !est.includes('no')) return 'status-apto';
+        if (est.includes('no apto')) return 'status-noapto';
+        return 'status-nopresentado';
+      }
+
+      // Cambio entre pestañas principales
+      function switchMainTab(targetTabId) {
+        // Actualizar botones del menú
+        const tabBtns = mainTabsNav.querySelectorAll('.nav-tab-btn');
+        tabBtns.forEach(btn => {
+          if (btn.dataset.tabTarget === targetTabId) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+
+        // Mostrar panel correspondiente
+        const allTabContents = tabsContentContainer.querySelectorAll('.tab-content');
+        allTabContents.forEach(pane => {
+          if (pane.id === targetTabId) {
+            pane.classList.add('active');
+          } else {
+            pane.classList.remove('active');
+          }
+        });
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // Eventos
       btnAction.addEventListener('click', () => {
-        if (currentStep === 'username') {
-          handleUsernameSubmit();
-        } else {
-          attemptUnlock();
-        }
+        if (currentStep === 'username') handleUsernameSubmit();
+        else attemptUnlock();
       });
 
       usernameInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          handleUsernameSubmit();
-        }
+        if (e.key === 'Enter') handleUsernameSubmit();
       });
 
-      btnShuffle.addEventListener('click', () => {
-        generateRandomChallenge();
-      });
+      btnShuffle.addEventListener('click', generateRandomChallenge);
 
       btnLogout.addEventListener('click', () => {
-        // Limpiar estado
         matchedRecord = null;
         currentComboIdx = null;
+        currentStudentData = null;
         currentStep = 'username';
         usernameInput.disabled = false;
         usernameInput.value = '';
