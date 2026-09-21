@@ -6,14 +6,16 @@
    - La activación de la versión nueva la decide el usuario (aviso en la
      app) mediante el mensaje SKIP_WAITING: nunca se queda con una versión
      antigua ni interrumpe sin avisar. */
-const CACHE = 'mh-microapps-v6';
+const CACHE = 'mh-microapps-v7';
 
 const PRECACHE = [
   './', './index.html', './theme.css', './fonts.css',
   './data/apps_data.js', './manifest.webmanifest',
-  // Portal de Evaluacion Continua
+  // Portales de Evaluacion Continua
   './pasaporte_macro.html',
   './data/calificaciones_cifradas.js',
+  './pasaporte_psll.html',
+  './data/calificaciones_cifradas_psll.js',
   // Simuladores y recursos
   './simulador_clu.html',
   './macro_simulador_sesion_01.html',

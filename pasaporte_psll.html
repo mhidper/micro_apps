@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pasaporte de Evaluación Continua · PSLL UPO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="theme.css">
+  <style>
+    :root {
+      --pino: #113927;
+      --pino-dark: #0B2419;
+      --salvia: #76927A;
+      --coral: #E98F71;
+      --coral-light: #F4A261;
+      --menta-soft: #F4F8F5;
+      --tinta: #2F3A30;
+      --navy-upo: #0B1C36;
+      --cream-bg: #F8FAF8;
+      --cream-card: #FFFFFF;
+      --border-subtle: #DDE7E0;
+      --text-main: #2F3A30;
+      --text-muted: #5E7162;
+      --success: #15803D;
+      --crimson: #E11D48;
+      --radius-box: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--cream-bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+    }
+
+    /* Top Bar Institucional */
+    .top-header {
+      background: var(--pino);
+      color: #FFFFFF;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px solid var(--coral);
+      box-shadow: 0 4px 14px rgba(17, 57, 39, 0.2);
+    }
+    .top-header .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-badge {
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #FFFFFF;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .brand-sub {
+      font-size: 0.8rem;
+      color: #B5D1BE;
+    }
+
+    .main-container {
+      max-width: 960px;
+      width: 100%;
+      margin: 28px auto;
+      padding: 0 20px;
+      flex: 1;
+    }
+
+    /* Auth Card View */
+    .auth-wrapper {
+      max-width: 520px;
+      margin: 40px auto;
+    }
+    .auth-card {
+      background: var(--cream-card);
+      border: 1px solid #CBDCD0;
+      border-radius: var(--radius-box);
+      box-shadow: 0 12px 32px rgba(17, 57, 39, 0.08);
+      padding: clamp(24px, 5vw, 36px);
+      transition: all 0.3s ease;
+    }
+    .auth-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .auth-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--pino), var(--salvia));
+      color: #FFFFFF;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 16px;
+      box-shadow: 0 6px 16px rgba(17, 57, 39, 0.25);
+    }
+    .auth-header h1 {
+      font-family: 'Outfit', sans-serif;
+      color: var(--pino);
+      font-size: 1.65rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .auth-header p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    .form-group {
+      margin-bottom: 22px;
+    }
+    .form-label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: var(--pino);
+      margin-bottom: 8px;
+    }
+    .form-input {
+      width: 100%;
+      padding: 13px 16px;
+      border: 2px solid #CBDCD0;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: inherit;
+      color: var(--text-main);
+      background: #FAFCFA;
+      transition: all 0.2s;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: var(--salvia);
+      background: #FFFFFF;
+      box-shadow: 0 0 0 4px rgba(118, 146, 122, 0.2);
+    }
+
+    /* Bank-style 8-digit Grid */
+    .pin-challenge-box {
+      background: #F4F8F5;
+      border: 1px solid #D8E5DC;
+      border-radius: 12px;
+      padding: 20px 16px;
+      margin-top: 18px;
+      margin-bottom: 22px;
+      text-align: center;
+    }
+    .pin-helper-text {
+      font-size: 0.88rem;
+      color: var(--pino);
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .pin-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .pin-slot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .pin-pos-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .pin-box {
+      width: 100%;
+      height: 48px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+    .pin-box.masked {
+      background: #E5EDE7;
+      color: #798E7E;
+      border: 2px dashed #9FB8A6;
+      user-select: none;
+    }
+    .pin-box.active {
+      background: #FFFFFF;
+      border: 2px solid var(--salvia);
+      color: var(--pino);
+      box-shadow: 0 2px 8px rgba(17, 57, 39, 0.12);
+    }
+    .pin-box.active input {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: transparent;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--pino);
+      outline: none;
+    }
+    .pin-box.active:focus-within {
+      border-color: var(--coral);
+      box-shadow: 0 0 0 3px rgba(233, 143, 113, 0.25);
+    }
+
+    .btn-shuffle {
+      background: none;
+      border: none;
+      color: var(--salvia);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    .btn-shuffle:hover {
+      background: rgba(118, 146, 122, 0.12);
+      text-decoration: underline;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--pino), #1E5038);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(17, 57, 39, 0.25);
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-primary:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(17, 57, 39, 0.35);
+    }
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .auth-footer-note {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .alert-box {
+      background: #FFF1F2;
+      border-left: 4px solid var(--crimson);
+      color: #9F1239;
+      padding: 12px 14px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      margin-bottom: 18px;
+      display: none;
+      animation: shake 0.4s ease;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+
+    /* ============================================================
+       DASHBOARD VIEW CON SISTEMA DE PESTAÑAS (TABS)
+       ============================================================ */
+    .dashboard-view {
+      display: none;
+      animation: fadeIn 0.35s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Barra Superior del Estudiante */
+    .user-profile-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .user-profile-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .user-avatar {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--pino), var(--salvia));
+      color: #FFFFFF;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 10px rgba(17, 57, 39, 0.25);
+    }
+    .user-names h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--pino);
+      line-height: 1.2;
+    }
+    .user-names .user-handle {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+    .btn-logout {
+      background: #FFFFFF;
+      border: 1px solid #CBDCD0;
+      color: #4B6353;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-logout:hover {
+      background: #F1F7F3;
+      color: var(--crimson);
+      border-color: #FECDD3;
+    }
+
+    /* Pestañas Principales (Main Navigation Tabs) */
+    .nav-tabs-container {
+      display: flex;
+      gap: 8px;
+      border-bottom: 2px solid #D8E5DC;
+      margin-bottom: 24px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: thin;
+    }
+    .nav-tab-btn {
+      background: none;
+      border: none;
+      padding: 10px 18px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-radius: 8px 8px 0 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .nav-tab-btn:hover {
+      color: var(--pino);
+      background: rgba(118, 146, 122, 0.1);
+    }
+    .nav-tab-btn.active {
+      color: var(--pino);
+      background: #FFFFFF;
+    }
+    .nav-tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--coral);
+      border-radius: 2px;
+    }
+    .nav-tab-btn .tab-badge {
+      font-size: 0.75rem;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: #E5EDE7;
+      color: #384F3E;
+    }
+    .nav-tab-btn.active .tab-badge {
+      background: var(--pino);
+      color: #FFFFFF;
+    }
+
+    /* ============================================================
+       PESTAÑA 1: VISTA DE RESUMEN (EL PASAPORTE)
+       ============================================================ */
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Hero Banner de Puntos */
+    .hero-passport-card {
+      background: linear-gradient(135deg, var(--pino) 0%, #153E2B 100%);
+      color: #FFFFFF;
+      border-radius: var(--radius-box);
+      padding: clamp(24px, 4vw, 36px);
+      margin-bottom: 28px;
+      box-shadow: 0 12px 30px rgba(17, 57, 39, 0.2);
+      border-top: 4px solid var(--coral);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-passport-card::after {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(233, 143, 113, 0.22) 0%, rgba(233, 143, 113, 0) 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .passport-header-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .passport-status-pill {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #E2ECE5;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .passport-score-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: flex-end;
+      margin-bottom: 18px;
+    }
+    .score-title-label {
+      font-size: 0.85rem;
+      color: #B5D1BE;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .score-big-number {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1;
+      color: #FFFFFF;
+    }
+    .score-big-number .denom {
+      font-size: 1.35rem;
+      color: #92B59D;
+      font-weight: 600;
+    }
+    .score-pct-box {
+      text-align: right;
+    }
+    .score-pct-number {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1;
+      color: var(--coral-light);
+    }
+    .score-pct-caption {
+      font-size: 0.8rem;
+      color: #CBDCD0;
+      margin-top: 4px;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 14px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+    .progress-bar-val {
+      height: 100%;
+      background: linear-gradient(90deg, var(--salvia), var(--coral));
+      border-radius: 999px;
+      width: 0%;
+      transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Lista Resumen de Sesiones en el Pasaporte */
+    .passport-summary-section {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-box);
+      padding: 24px;
+      box-shadow: 0 4px 16px rgba(17, 57, 39, 0.04);
+    }
+    .passport-summary-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #EFF5F1;
+    }
+    .passport-summary-header h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--pino);
+    }
+
+    .session-overview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .session-card-compact {
+      border: 1px solid #D8E5DC;
+      border-radius: 12px;
+      padding: 16px;
+      background: #F8FAF8;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      transition: all 0.2s;
+    }
+    .session-card-compact:hover {
+      border-color: var(--salvia);
+      box-shadow: 0 4px 12px rgba(17, 57, 39, 0.08);
+      transform: translateY(-2px);
+    }
+    .compact-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .compact-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--pino);
+    }
+    .compact-score-badge {
+      background: var(--pino);
+      color: #FFFFFF;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+    .compact-btn {
+      background: #FFFFFF;
+      border: 1px solid var(--salvia);
+      color: var(--pino);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .compact-btn:hover {
+      background: var(--pino);
+      color: #FFFFFF;
+      border-color: var(--pino);
+    }
+
+    /* ============================================================
+       PESTAÑAS DE SESIÓN (DETALLE POR PREGUNTA)
+       ============================================================ */
+    .session-detail-wrapper {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-box);
+      box-shadow: 0 4px 18px rgba(17, 57, 39, 0.05);
+      overflow: hidden;
+    }
+    .session-detail-header {
+      padding: 20px 24px;
+      background: #F4F8F5;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    .session-title-block h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--pino);
+    }
+    .session-title-block p {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .session-badge-score {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .status-badge {
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    .status-sobresaliente {
+      background: #DCFCE7;
+      color: #166534;
+      border: 1px solid #BBF7D0;
+    }
+    .status-apto {
+      background: #FEF3C7;
+      color: #92400E;
+      border: 1px solid #FDE68A;
+    }
+    .status-noapto {
+      background: #FFE4E6;
+      color: #9F1239;
+      border: 1px solid #FECDD3;
+    }
+    .status-nopresentado {
+      background: #F1F5F9;
+      color: #475569;
+      border: 1px solid #E2E8F0;
+    }
+    .status-encorreccion {
+      background: #E0F2FE;
+      color: #0369A1;
+      border: 1px solid #BAE6FD;
+    }
+
+    .points-tag {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--pino);
+    }
+
+    /* Sub-navegación por Preguntas (Pregunta 1 | Pregunta 2) */
+    .question-tabs-nav {
+      display: flex;
+      gap: 8px;
+      padding: 14px 24px;
+      background: #FFFFFF;
+      border-bottom: 1px solid #EFF5F1;
+      overflow-x: auto;
+    }
+    .question-tab-btn {
+      background: #F4F8F5;
+      border: 1px solid #D8E5DC;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .question-tab-btn:hover {
+      background: #E8F1EB;
+      color: var(--pino);
+    }
+    .question-tab-btn.active {
+      background: var(--pino);
+      color: #FFFFFF;
+      border-color: var(--pino);
+      box-shadow: 0 2px 6px rgba(17, 57, 39, 0.2);
+    }
+
+    /* Contenedor de Pregunta */
+    .question-content-box {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .qa-card {
+      border-radius: 12px;
+      padding: 16px 18px;
+      border: 1px solid #E5EDE7;
+    }
+    .qa-header {
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Enunciado Oficial */
+    .qa-question {
+      background: #F8FAF8;
+      border-left: 4px solid var(--salvia);
+      color: var(--tinta);
+    }
+    .qa-question .qa-header { color: var(--salvia); }
+    .question-body {
+      font-size: 0.94rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    /* Transcripción manuscrita */
+    .qa-transcript {
+      background: #FFFDF7;
+      border: 1px solid #FDE68A;
+      border-left: 4px solid var(--coral);
+    }
+    .qa-transcript .qa-header { color: #C2410C; }
+    .transcript-body {
+      font-family: 'Inter', system-ui, sans-serif;
+      white-space: pre-wrap;
+      color: #451A03;
+      background: #FFFBEB;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* Solución Canónica */
+    .qa-solution {
+      background: #F4F8F5;
+      border: 1px solid #D8E5DC;
+      border-left: 4px solid var(--pino);
+    }
+    .qa-solution .qa-header { color: var(--pino); }
+    .solution-body {
+      white-space: pre-wrap;
+      font-size: 0.88rem;
+      color: var(--pino);
+      line-height: 1.6;
+    }
+
+    /* Retroalimentación Docente General */
+    .qa-feedback {
+      background: #FFF7ED;
+      border: 1px solid #FFEDD5;
+      border-left: 4px solid var(--coral);
+      margin: 0 24px 24px 24px;
+      padding: 16px 18px;
+      border-radius: 12px;
+    }
+    .qa-feedback .qa-header { color: #EA580C; }
+    .feedback-body {
+      font-style: italic;
+      color: #7C2D12;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 24px;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      border-top: 1px solid var(--border-subtle);
+      background: #FFFFFF;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 640px) {
+      .pin-grid {
+        gap: 3px;
+      }
+      .pin-box {
+        height: 42px;
+        font-size: 1.1rem;
+      }
+      .passport-score-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .score-pct-box {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Barra Institucional Superior -->
+  <header class="top-header">
+    <div class="brand">
+      <div class="brand-badge">PSLL · UPO</div>
+      <div>
+        <div class="brand-title">Políticas Sociolaborales y de Empleo</div>
+        <div class="brand-sub">Grados en RRLyRRHH y Doble Grado DER + RRLyRRHH · UPO · Curso 2026-27</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+
+    <!-- ============================================================
+         VISTA 1: ACCESO CIFRADO (RETO BANCARIO DE 4 DÍGITOS)
+         ============================================================ -->
+    <div id="authView" class="auth-wrapper">
+      <div class="auth-card">
+        <div class="auth-header">
+          <div class="auth-icon">🛡️</div>
+          <h1>Pasaporte de Evaluación</h1>
+          <p>Consulta personalizada de calificaciones, retos de sesión y soluciones oficiales de la cátedra.</p>
+        </div>
+
+        <div id="alertBox" class="alert-box"></div>
+
+        <form id="authForm" onsubmit="return false;">
+          <!-- Paso 1: Usuario UPO o DNI -->
+          <div class="form-group">
+            <label class="form-label" for="usernameInput">Usuario UPO o DNI / ID de Estudiante</label>
+            <input 
+              type="text" 
+              id="usernameInput" 
+              class="form-input" 
+              placeholder="Ej: sdelgad o tu DNI con 8 dígitos" 
+              autocomplete="username" 
+              autocapitalize="none"
+              required
+            >
+          </div>
+
+          <!-- Paso 2: Reto Bancario de 4 Dígitos Aleatorios -->
+          <div id="pinChallengeArea" class="pin-challenge-box" style="display: none;">
+            <div id="pinHelperText" class="pin-helper-text">
+              Introduce las posiciones solicitadas de tu <strong>DNI / ID de estudiante</strong>:
+            </div>
+            
+            <div class="pin-grid" id="pinGrid">
+              <!-- Se genera dinámicamente -->
+            </div>
+
+            <button type="button" id="btnShuffle" class="btn-shuffle" title="Generar otro reto con 4 posiciones aleatorias distintas">
+              🔄 Solicitar otras 4 posiciones aleatorias
+            </button>
+          </div>
+
+          <button type="button" id="btnAction" class="btn-primary">
+            Continuar
+          </button>
+        </form>
+
+        <div class="auth-footer-note">
+          🔒 <strong>Acceso con Cifrado Militar Zero-Knowledge:</strong> Tus calificaciones e identidad están protegidas con criptografía AES-GCM-256. Ningún dato personal es accesible públicamente.
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         VISTA 2: DASHBOARD CON PESTAÑAS (EL PASAPORTE LIMPIO)
+         ============================================================ -->
+    <div id="dashboardView" class="dashboard-view">
+
+      <!-- Barra de Identidad del Alumno -->
+      <div class="user-profile-bar">
+        <div class="user-profile-info">
+          <div class="user-avatar" id="userAvatar">A</div>
+          <div class="user-names">
+            <h2 id="studentFullName">Cargando expediente...</h2>
+            <div class="user-handle"><span id="studentUserHandle">@usuario</span> • <span id="studentGroupInfo">Registro oficial activo</span></div>
+          </div>
+        </div>
+        <button id="btnLogout" class="btn-logout" title="Cerrar sesión de forma segura">
+          Cerrar Sesión 🔒
+        </button>
+      </div>
+
+      <!-- Navegación por Pestañas Principales (Tabs) -->
+      <nav class="nav-tabs-container" id="mainTabsNav">
+        <!-- Generado dinámicamente: Mi Pasaporte | Sesion 01 | ... -->
+      </nav>
+
+      <!-- CONTENEDOR DE PESTAÑAS -->
+      <div id="tabsContentContainer">
+
+        <!-- PESTAÑA PRINCIPAL: MI PASAPORTE (RESUMEN GLOBAL) -->
+        <div id="tab-pasaporte" class="tab-content active">
+          
+          <!-- Hero Banner con Puntos y Porcentaje -->
+          <section class="hero-passport-card">
+            <div class="passport-header-flex">
+              <div>
+                <div style="font-size: 0.85rem; color: #B5D1BE; text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">
+                  Evaluación Continua · Convocatoria Ordinaria
+                </div>
+                <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.4rem; color: #FFFFFF; font-weight: 800; margin-top: 2px;">
+                  Estado del Pasaporte Académico
+                </h3>
+              </div>
+              <div class="passport-status-pill">
+                ● Cifrado Zero-Knowledge Verificado
+              </div>
+            </div>
+
+            <div class="passport-score-grid">
+              <div>
+                <div class="score-title-label">PUNTOS ACUMULADOS EN RETOS DE SESIÓN</div>
+                <div class="score-big-number">
+                  <span id="scoreObtained">0</span>
+                  <span class="denom">/ <span id="scorePotential">1.000</span> pts posibles</span>
+                </div>
+              </div>
+              <div class="score-pct-box">
+                <div class="score-title-label">RENDIMIENTO</div>
+                <div class="score-pct-number" id="scorePct">0%</div>
+                <div class="score-pct-caption" id="scoreFormulaText">0 / 1.000 × 100</div>
+              </div>
+            </div>
+
+            <!-- Barra de Progreso -->
+            <div class="progress-bar-bg">
+              <div id="progressBarFill" class="progress-bar-val"></div>
+            </div>
+          </section>
+
+          <!-- Resumen Compacto de Sesiones -->
+          <section class="passport-summary-section">
+            <div class="passport-summary-header">
+              <h3>Índice de Sesiones Evaluadas</h3>
+              <span id="summaryCountBadge" style="background: #EAF3EC; color: var(--pino); font-weight: 700; font-size: 0.8rem; padding: 4px 10px; border-radius: 999px;">
+                1 sesión disponible
+              </span>
+            </div>
+
+            <div class="session-overview-grid" id="sessionOverviewGrid">
+              <!-- Tarjetas compactas inyectadas dinámicamente -->
+            </div>
+          </section>
+
+        </div>
+
+        <!-- Las pestañas de cada sesión (tab-s01, etc.) se inyectan dinámicamente aquí -->
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>Políticas Sociolaborales y de Empleo (PSLL) · Grado en Relaciones Laborales y Recursos Humanos & Doble Grado en Derecho y RRLyRRHH · Universidad Pablo de Olavide</p>
+    <p style="margin-top: 4px; font-size: 0.76rem; color: #829887;">Pasaporte de Evaluación Continua · Arquitectura de Cifrado en Cliente (Web Crypto API)</p>
+  </footer>
+
+  <!-- Base de Datos Cifrada PSLL -->
+  <script src="data/calificaciones_cifradas_psll.js"></script>
+
+  <!-- Lógica Interactiva y Criptográfica -->
+  <script>
+    (function() {
+      let currentStep = 'username';
+      let matchedRecord = null;
+      let currentComboIdx = null;
+      let activeInputs = [];
+      let currentStudentData = null;
+
+      // Elementos
+      const authView = document.getElementById('authView');
+      const dashboardView = document.getElementById('dashboardView');
+      const usernameInput = document.getElementById('usernameInput');
+      const pinChallengeArea = document.getElementById('pinChallengeArea');
+      const pinGrid = document.getElementById('pinGrid');
+      const btnShuffle = document.getElementById('btnShuffle');
+      const btnAction = document.getElementById('btnAction');
+      const alertBox = document.getElementById('alertBox');
+      const btnLogout = document.getElementById('btnLogout');
+
+      // Elementos Dashboard
+      const userAvatar = document.getElementById('userAvatar');
+      const studentFullName = document.getElementById('studentFullName');
+      const studentUserHandle = document.getElementById('studentUserHandle');
+      const studentGroupInfo = document.getElementById('studentGroupInfo');
+      const scoreObtained = document.getElementById('scoreObtained');
+      const scorePotential = document.getElementById('scorePotential');
+      const scorePct = document.getElementById('scorePct');
+      const scoreFormulaText = document.getElementById('scoreFormulaText');
+      const progressBarFill = document.getElementById('progressBarFill');
+      const summaryCountBadge = document.getElementById('summaryCountBadge');
+      const sessionOverviewGrid = document.getElementById('sessionOverviewGrid');
+      const mainTabsNav = document.getElementById('mainTabsNav');
+      const tabsContentContainer = document.getElementById('tabsContentContainer');
+
+      const enc = new TextEncoder();
+      const dec = new TextDecoder();
+
+      function showAlert(msg) {
+        alertBox.textContent = msg;
+        alertBox.style.display = 'block';
+      }
+      function hideAlert() {
+        alertBox.style.display = 'none';
+      }
+
+      async function sha256Hex(text) {
+        const hashBuf = await crypto.subtle.digest('SHA-256', enc.encode(text));
+        return Array.from(new Uint8Array(hashBuf))
+          .map(b => b.toString(16).padStart(2, '0')).join('');
+      }
+
+      function base64ToUint8(b64) {
+        const bin = atob(b64);
+        const len = bin.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+          bytes[i] = bin.charCodeAt(i);
+        }
+        return bytes;
+      }
+
+      // Paso 1: Validar usuario o DNI
+      async function handleUsernameSubmit() {
+        hideAlert();
+        const inputVal = usernameInput.value.trim().toLowerCase();
+        if (!inputVal) {
+          showAlert("Por favor, introduce tu nombre de usuario UPO o tu DNI (8 dígitos).");
+          usernameInput.focus();
+          return;
+        }
+
+        if (!window.__PSLL_EVAL_DB__ || !window.__PSLL_GLOBAL_SALT__) {
+          showAlert("Error al conectar con la base de datos cifrada de PSLL.");
+          return;
+        }
+
+        // Buscar por hash de username o por hash de DNI
+        const userHash = await sha256Hex(`${window.__PSLL_GLOBAL_SALT__}:${inputVal}`);
+        matchedRecord = window.__PSLL_EVAL_DB__.find(r => r.user_hash === userHash || (r.dni_hash && r.dni_hash === userHash));
+
+        if (!matchedRecord) {
+          showAlert("Estudiante no encontrado en PSLL. Asegúrate de introducir tu usuario institucional o tu DNI.");
+          usernameInput.focus();
+          return;
+        }
+
+        currentStep = 'pin';
+        usernameInput.disabled = true;
+        pinChallengeArea.style.display = 'block';
+        btnAction.textContent = "Acceder a mi Pasaporte 🔓";
+        generateRandomChallenge();
+      }
+
+      // Paso 2: Generar reto bancario aleatorio
+      function generateRandomChallenge() {
+        hideAlert();
+        const totalCombos = window.__PSLL_COMBOS__.length;
+        currentComboIdx = Math.floor(Math.random() * totalCombos);
+        const activePositions = window.__PSLL_COMBOS__[currentComboIdx];
+        renderPinGrid(activePositions);
+      }
+
+      function renderPinGrid(activePositions) {
+        pinGrid.innerHTML = '';
+        activeInputs = [];
+
+        for (let pos = 0; pos < 8; pos++) {
+          const slot = document.createElement('div');
+          slot.className = 'pin-slot';
+
+          const posLabel = document.createElement('div');
+          posLabel.className = 'pin-pos-label';
+          posLabel.textContent = `${pos + 1}ª`;
+
+          const box = document.createElement('div');
+          
+          if (activePositions.includes(pos)) {
+            box.className = 'pin-box active';
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.inputMode = 'numeric';
+            input.maxLength = 1;
+            input.dataset.pos = pos;
+            
+            input.addEventListener('input', (e) => {
+              const val = e.target.value.replace(/\D/g, '');
+              e.target.value = val;
+              if (val) {
+                const nextIdx = activeInputs.indexOf(input) + 1;
+                if (nextIdx < activeInputs.length) {
+                  activeInputs[nextIdx].focus();
+                } else {
+                  attemptUnlock();
+                }
+              }
+            });
+
+            input.addEventListener('keydown', (e) => {
+              if (e.key === 'Backspace' && !input.value) {
+                const prevIdx = activeInputs.indexOf(input) - 1;
+                if (prevIdx >= 0) activeInputs[prevIdx].focus();
+              }
+            });
+
+            box.appendChild(input);
+            activeInputs.push(input);
+          } else {
+            box.className = 'pin-box masked';
+            box.textContent = '✱';
+          }
+
+          slot.appendChild(posLabel);
+          slot.appendChild(box);
+          pinGrid.appendChild(slot);
+        }
+
+        if (activeInputs.length > 0) {
+          setTimeout(() => activeInputs[0].focus(), 80);
+        }
+      }
+
+      // Paso 3: Desbloquear y Descifrar
+      async function attemptUnlock() {
+        hideAlert();
+        let enteredDigits = '';
+        for (const inp of activeInputs) {
+          if (!inp.value || !/^\d$/.test(inp.value)) {
+            showAlert("Por favor, completa los 4 dígitos numéricos solicitados.");
+            inp.focus();
+            return;
+          }
+          enteredDigits += inp.value;
+        }
+
+        btnAction.disabled = true;
+        btnAction.textContent = "Verificando...";
+
+        try {
+          const kcMaterial = `${matchedRecord.user_salt}:${matchedRecord.dni}:${enteredDigits}:${currentComboIdx}`;
+          const hashKcBuf = await crypto.subtle.digest('SHA-256', enc.encode(kcMaterial));
+          
+          const keyKc = await crypto.subtle.importKey(
+            "raw",
+            hashKcBuf,
+            { name: "AES-GCM" },
+            false,
+            ["decrypt"]
+          );
+
+          const vaultNonce = base64ToUint8(matchedRecord.vault_nonce);
+          const encMasterKey = base64ToUint8(matchedRecord.vault[currentComboIdx]);
+
+          const masterKeyRaw = await crypto.subtle.decrypt(
+            { name: "AES-GCM", iv: vaultNonce },
+            keyKc,
+            encMasterKey
+          );
+
+          const masterCryptoKey = await crypto.subtle.importKey(
+            "raw",
+            masterKeyRaw,
+            { name: "AES-GCM" },
+            false,
+            ["decrypt"]
+          );
+
+          const payloadNonce = base64ToUint8(matchedRecord.payload_nonce);
+          const payloadCiphertext = base64ToUint8(matchedRecord.payload_ciphertext);
+
+          const payloadBuf = await crypto.subtle.decrypt(
+            { name: "AES-GCM", iv: payloadNonce },
+            masterCryptoKey,
+            payloadCiphertext
+          );
+
+          currentStudentData = JSON.parse(dec.decode(payloadBuf));
+          renderDashboard(currentStudentData);
+
+        } catch (err) {
+          console.warn("Fallo de descifrado:", err);
+          showAlert("❌ Los dígitos introducidos no coinciden con las posiciones de tu DNI. Por seguridad se genera un nuevo reto aleatorio.");
+          generateRandomChallenge();
+        } finally {
+          btnAction.disabled = false;
+          btnAction.textContent = "Acceder a mi Pasaporte 🔓";
+        }
+      }
+
+      // ============================================================
+      // RENDERIZADO DEL DASHBOARD CON PESTAÑAS (TABS)
+      // ============================================================
+      function renderDashboard(data) {
+        authView.style.display = 'none';
+        dashboardView.style.display = 'block';
+
+        // Identidad
+        studentFullName.textContent = data.nombre_completo;
+        studentUserHandle.textContent = `@${data.username}`;
+        studentGroupInfo.textContent = `${data.linea || 'Línea oficial'} · ${data.plan || 'PSLL'}`;
+        userAvatar.textContent = data.nombre_pila.charAt(0).toUpperCase();
+
+        // Banner Resumen del Pasaporte
+        scoreObtained.textContent = data.puntos_acumulados.toLocaleString('es-ES');
+        scorePotential.textContent = data.puntos_potenciales.toLocaleString('es-ES');
+        scorePct.textContent = `${data.porcentaje_logrado.toFixed(1).replace('.', ',')}%`;
+        scoreFormulaText.textContent = `${data.puntos_acumulados.toLocaleString('es-ES')} / ${data.puntos_potenciales.toLocaleString('es-ES')} pts × 100`;
+
+        setTimeout(() => {
+          progressBarFill.style.width = `${Math.min(100, Math.max(0, data.porcentaje_logrado))}%`;
+        }, 120);
+
+        summaryCountBadge.textContent = `${data.sesiones.length} ${data.sesiones.length === 1 ? 'sesión registrada' : 'sesiones registradas'}`;
+
+        // 1. Inyectar Tarjetas en Resumen
+        sessionOverviewGrid.innerHTML = '';
+        data.sesiones.forEach(ses => {
+          const card = document.createElement('div');
+          card.className = 'session-card-compact';
+          card.innerHTML = `
+            <div class="compact-top">
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">
+                  ${ses.fecha}
+                </div>
+                <div class="compact-title">${ses.titulo_completo}</div>
+              </div>
+              <div class="compact-score-badge">${ses.puntos_obtenidos} pts</div>
+            </div>
+            <div style="font-size: 0.82rem; color: var(--text-muted);">
+              Estado: <strong style="color: var(--pino);">${ses.estado}</strong>
+            </div>
+            <button class="compact-btn" data-target="tab-${ses.id}">
+              Ver Reto y Calificación Detallada 🔍
+            </button>
+          `;
+          card.querySelector('button').addEventListener('click', () => {
+            switchMainTab(`tab-${ses.id}`);
+          });
+          sessionOverviewGrid.appendChild(card);
+        });
+
+        // 2. Construir Navegación de Pestañas Principales
+        mainTabsNav.innerHTML = `
+          <button class="nav-tab-btn active" data-tab-target="tab-pasaporte">
+            <span>🛂 Mi Pasaporte</span>
+            <span class="tab-badge">${data.puntos_acumulados} pts</span>
+          </button>
+        `;
+
+        // Limpiar contenidos previos de sesiones
+        const oldSessionPanes = tabsContentContainer.querySelectorAll('.session-tab-pane');
+        oldSessionPanes.forEach(p => p.remove());
+
+        // 3. Crear Pestaña y Contenido para cada Sesión
+        data.sesiones.forEach(ses => {
+          // Botón en la barra de navegación principal
+          const navBtn = document.createElement('button');
+          navBtn.className = 'nav-tab-btn';
+          navBtn.dataset.tabTarget = `tab-${ses.id}`;
+          navBtn.innerHTML = `
+            <span>${ses.titulo_corto}</span>
+            <span class="tab-badge">${ses.puntos_obtenidos} pts</span>
+          `;
+          navBtn.addEventListener('click', () => switchMainTab(`tab-${ses.id}`));
+          mainTabsNav.appendChild(navBtn);
+
+          // Contenedor de la pestaña de la sesión
+          const sessionPane = document.createElement('div');
+          sessionPane.id = `tab-${ses.id}`;
+          sessionPane.className = 'tab-content session-tab-pane';
+
+          const statusClass = getStatusClass(ses.estado);
+
+          sessionPane.innerHTML = `
+            <div class="session-detail-wrapper">
+              <!-- Encabezado de Sesión -->
+              <div class="session-detail-header">
+                <div class="session-title-block">
+                  <h3>${ses.titulo_completo}</h3>
+                  <p>${ses.tema} • ${ses.fecha}</p>
+                </div>
+                <div class="session-badge-score">
+                  <span class="status-badge ${statusClass}">${ses.estado}</span>
+                  <span class="points-tag">${ses.puntos_obtenidos} / ${ses.puntos_maximos} pts</span>
+                </div>
+              </div>
+
+              <!-- Sub-navegación por Preguntas de la Sesión -->
+              <div class="question-tabs-nav" id="qTabsNav-${ses.id}">
+                ${ses.preguntas.map((q, qIdx) => `
+                  <button 
+                    class="question-tab-btn ${qIdx === 0 ? 'active' : ''}" 
+                    data-q-target="qBox-${ses.id}-${q.num}"
+                  >
+                    Pregunta ${q.num}
+                  </button>
+                `).join('')}
+              </div>
+
+              <!-- Contenido de las Preguntas -->
+              <div class="questions-container" id="qContainer-${ses.id}">
+                ${ses.preguntas.map((q, qIdx) => `
+                  <div 
+                    class="question-content-box" 
+                    id="qBox-${ses.id}-${q.num}" 
+                    style="display: ${qIdx === 0 ? 'flex' : 'none'};"
+                  >
+                    <!-- Enunciado Oficial -->
+                    <div class="qa-card qa-question">
+                      <div class="qa-header">📋 ${q.titulo} (${q.tipo})</div>
+                      <div class="question-body">${q.enunciado}</div>
+                    </div>
+
+                    <!-- Transcripción Manuscrita del Estudiante -->
+                    <div class="qa-card qa-transcript">
+                      <div class="qa-header">✍️ Tu Entrega Manuscrita (Transcripción en Aula)</div>
+                      <div class="transcript-body">${q.transcripcion}</div>
+                    </div>
+
+                    <!-- Solución Oficial Canónica -->
+                    <div class="qa-card qa-solution">
+                      <div class="qa-header">💡 Solución Oficial Canónica de la Cátedra</div>
+                      <div class="solution-body">${q.solucion_oficial}</div>
+                    </div>
+
+                  </div>
+                `).join('')}
+              </div>
+
+              <!-- Retroalimentación Docente General de la Sesión -->
+              <div class="qa-feedback">
+                <div class="qa-header">👨‍🏫 Retroalimentación y Observaciones del Profesor</div>
+                <div class="feedback-body">«${ses.feedback_general}»</div>
+              </div>
+            </div>
+          `;
+
+          // Asignar eventos a las subpestañas de preguntas
+          const qNav = sessionPane.querySelector(`#qTabsNav-${ses.id}`);
+          if (qNav) {
+            const qBtns = qNav.querySelectorAll('.question-tab-btn');
+            qBtns.forEach(btn => {
+              btn.addEventListener('click', () => {
+                qBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const targetBoxId = btn.dataset.qTarget;
+                const allBoxes = sessionPane.querySelectorAll('.question-content-box');
+                allBoxes.forEach(box => {
+                  box.style.display = (box.id === targetBoxId) ? 'flex' : 'none';
+                });
+              });
+            });
+          }
+
+          tabsContentContainer.appendChild(sessionPane);
+        });
+
+        // Activar la pestaña del Pasaporte por defecto
+        switchMainTab('tab-pasaporte');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function getStatusClass(estado) {
+        const est = estado.toLowerCase();
+        if (est.includes('sobresaliente')) return 'status-sobresaliente';
+        if (est.includes('apto') && !est.includes('no')) return 'status-apto';
+        if (est.includes('no apto')) return 'status-noapto';
+        if (est.includes('corrección') || est.includes('correccion')) return 'status-encorreccion';
+        return 'status-nopresentado';
+      }
+
+      // Cambio entre pestañas principales
+      function switchMainTab(targetTabId) {
+        const tabBtns = mainTabsNav.querySelectorAll('.nav-tab-btn');
+        tabBtns.forEach(btn => {
+          if (btn.dataset.tabTarget === targetTabId) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+
+        const allTabContents = tabsContentContainer.querySelectorAll('.tab-content');
+        allTabContents.forEach(pane => {
+          if (pane.id === targetTabId) {
+            pane.classList.add('active');
+          } else {
+            pane.classList.remove('active');
+          }
+        });
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // Eventos de control
+      btnAction.addEventListener('click', () => {
+        if (currentStep === 'username') handleUsernameSubmit();
+        else attemptUnlock();
+      });
+
+      usernameInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') handleUsernameSubmit();
+      });
+
+      btnShuffle.addEventListener('click', generateRandomChallenge);
+
+      btnLogout.addEventListener('click', () => {
+        matchedRecord = null;
+        currentComboIdx = null;
+        currentStudentData = null;
+        currentStep = 'username';
+        usernameInput.disabled = false;
+        usernameInput.value = '';
+        pinChallengeArea.style.display = 'none';
+        btnAction.textContent = 'Continuar';
+        dashboardView.style.display = 'none';
+        authView.style.display = 'block';
+        hideAlert();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+    })();
+  </script>
+</body>
+</html>

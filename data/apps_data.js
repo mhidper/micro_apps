@@ -12,12 +12,26 @@ window.DOCENCIA_APPS = {
     isotipo: "assets/isotipo_psll_upo.png",
     categories: [
       { id: "todas", name: "Todas" },
+      { id: "evaluacion", name: "Evaluación continua" },
       { id: "mercado", name: "Mercado de trabajo" },
       { id: "pasivas", name: "Protección social" },
       { id: "activas", name: "Políticas activas" },
       { id: "simuladores", name: "Simuladores" }
     ],
     apps: [
+      {
+        id: "psll_pasaporte_eval",
+        type: "portal",
+        category: "evaluacion",
+        icon: "🛡️",
+        iconBg: "#EAF4EE",
+        iconColor: "#113927",
+        title: "Pasaporte de Evaluación Continua",
+        desc: "Portal seguro con reto bancario aleatorio: consulta de calificaciones, respuestas manuscritas, soluciones de la cátedra y feedback formativo.",
+        meta: "Portal del estudiante · Privado y Cifrado",
+        session: "Evaluación Continua",
+        url: "pasaporte_psll.html"
+      },
       {
         id: "psll_pib_real_sim",
         type: "simulator",
