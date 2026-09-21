@@ -551,6 +551,56 @@
       transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
+    /* Gráficos de Analítica en el Pasaporte */
+    .passport-analytics-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+    .analytics-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-box);
+      padding: 20px 22px;
+      box-shadow: 0 4px 16px rgba(17, 57, 39, 0.04);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .analytics-header {
+      margin-bottom: 12px;
+    }
+    .analytics-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--pino);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .analytics-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+    .analytics-svg-wrapper {
+      width: 100%;
+      overflow: visible;
+      margin-top: 6px;
+    }
+    .analytics-footer-note {
+      margin-top: 10px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #EFF5F1;
+      padding-top: 8px;
+    }
+
     /* Lista Resumen de Sesiones en el Pasaporte */
     .passport-summary-section {
       background: #FFFFFF;
@@ -1000,6 +1050,47 @@
             </div>
           </section>
 
+          <!-- ============================================================
+               ANALÍTICA VISUAL: DOS FIGURAS CLAVE DE ACOMPAÑAMIENTO
+               ============================================================ -->
+          <section class="passport-analytics-section">
+            <!-- Figura 1: Evolución de Puntos por Sesión (16 Sesiones) -->
+            <div class="analytics-card">
+              <div class="analytics-header">
+                <div class="analytics-title">
+                  <span>📈 Evolución de Puntos por Sesión</span>
+                  <span style="font-size: 0.78rem; background: #EAF3EC; color: var(--pino); font-weight: 700; padding: 2px 8px; border-radius: 6px;">16 Sesiones EB</span>
+                </div>
+                <div class="analytics-subtitle">Trayectoria de puntos acumulados sesión a sesión frente al potencial del curso.</div>
+              </div>
+              <div class="analytics-svg-wrapper" id="trajectoryChartWrap">
+                <!-- SVG generado dinámicamente -->
+              </div>
+              <div class="analytics-footer-note">
+                <span id="trajStatusText">● Sesiones completadas</span>
+                <span id="trajMetaText">Meta: 16.000 pts</span>
+              </div>
+            </div>
+
+            <!-- Figura 2: Distribución de la Clase y «Tú estás aquí» -->
+            <div class="analytics-card">
+              <div class="analytics-header">
+                <div class="analytics-title">
+                  <span>📊 Distribución de Calificaciones de la Clase</span>
+                  <span style="font-size: 0.78rem; background: #FFF3EB; color: #C05621; font-weight: 700; padding: 2px 8px; border-radius: 6px;">85 Alumnos</span>
+                </div>
+                <div class="analytics-subtitle">Histograma anónimo del grupo y posición relativa de tu calificación.</div>
+              </div>
+              <div class="analytics-svg-wrapper" id="distributionChartWrap">
+                <!-- SVG generado dinámicamente con pin 'Tú estás aquí' -->
+              </div>
+              <div class="analytics-footer-note">
+                <span id="distPercentileText">● Posición en el grupo</span>
+                <span>Anónimo (RGPD)</span>
+              </div>
+            </div>
+          </section>
+
           <!-- Resumen Compacto de Sesiones -->
           <section class="passport-summary-section">
             <div class="passport-summary-header">
@@ -1030,7 +1121,7 @@
   </footer>
 
   <!-- Base de Datos Cifrada PSLL -->
-  <script src="data/calificaciones_cifradas_psll.js"></script>
+  <script src="data/calificaciones_cifradas_psll.js?v=s03_20260921_1900"></script>
 
   <!-- Lógica Interactiva y Criptográfica -->
   <script>
@@ -1430,9 +1521,334 @@
           tabsContentContainer.appendChild(sessionPane);
         });
 
+        // ============================================================
+        // RENDERIZAR LAS DOS FIGURAS ANALÍTICAS DEL DASHBOARD
+        // ============================================================
+        renderTrajectoryChart(data);
+        renderDistributionChart(data.puntos_acumulados, data.puntos_potenciales);
+
         // Activar la pestaña del Pasaporte por defecto
         switchMainTab('tab-pasaporte');
         window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // ------------------------------------------------------------
+      // FIGURA 1: EVOLUCIÓN DE PUNTOS POR SESIÓN (16 SESIONES)
+      // ------------------------------------------------------------
+      function renderTrajectoryChart(data) {
+        const wrap = document.getElementById('trajectoryChartWrap');
+        if (!wrap) return;
+
+        const sesiones = data.evolucion_sesiones || [];
+        const totalSes = sesiones.length || 16;
+        const ptsActuales = data.puntos_acumulados;
+        const ptsPotencialesActuales = data.puntos_potenciales || 2000;
+
+        // Configuración SVG
+        const w = 540;
+        const h = 210;
+        const padLeft = 46;
+        const padRight = 20;
+        const padTop = 32;
+        const padBottom = 35;
+        const chartW = w - padLeft - padRight;
+        const chartH = h - padTop - padBottom;
+
+        // Escala Y: ajustada al potencial evaluado actual (mínimo 1000) con margen
+        const yMax = Math.max(ptsPotencialesActuales, 1000);
+
+        // Generar coordenadas X para las 16 sesiones
+        const stepX = chartW / (totalSes - 1);
+        const points = sesiones.map((s, i) => {
+          const x = padLeft + i * stepX;
+          const val = (s.acumulado !== null) ? s.acumulado : null;
+          const y = (val !== null) ? padTop + chartH - (val / yMax) * chartH : null;
+          return { ...s, idx: i, x, y, val };
+        });
+
+        // Puntos ya evaluados para trazar línea sólida
+        const evalPoints = points.filter(p => p.evaluada && p.y !== null);
+
+        // Path de la línea sólida histórica
+        let pathD = '';
+        if (evalPoints.length > 0) {
+          pathD = `M ${evalPoints[0].x} ${evalPoints[0].y}`;
+          for (let i = 1; i < evalPoints.length; i++) {
+            pathD += ` L ${evalPoints[i].x} ${evalPoints[i].y}`;
+          }
+        }
+
+        // Path del área sombreada bajo la curva
+        let areaD = '';
+        if (evalPoints.length > 0) {
+          const baseY = padTop + chartH;
+          areaD = `M ${evalPoints[0].x} ${baseY} L ${evalPoints[0].x} ${evalPoints[0].y}`;
+          for (let i = 1; i < evalPoints.length; i++) {
+            areaD += ` L ${evalPoints[i].x} ${evalPoints[i].y}`;
+          }
+          areaD += ` L ${evalPoints[evalPoints.length - 1].x} ${baseY} Z`;
+        }
+
+        // Líneas guía horizontales Y
+        const yTicks = [0, yMax * 0.5, yMax];
+        const gridLines = yTicks.map(val => {
+          const yPos = padTop + chartH - (val / yMax) * chartH;
+          return `
+            <line x1="${padLeft}" y1="${yPos}" x2="${w - padRight}" y2="${yPos}" stroke="#E2E8F0" stroke-dasharray="3,3" />
+            <text x="${padLeft - 6}" y="${yPos + 4}" font-family="'JetBrains Mono', monospace" font-size="10" fill="#76927A" text-anchor="end">${val.toLocaleString('es-ES')}</text>
+          `;
+        }).join('');
+
+        // Marcas y etiquetas del eje X (S01 a S16)
+        const xTicks = points.map(p => {
+          const isEval = p.evaluada;
+          const color = isEval ? '#113927' : '#94A3B8';
+          const weight = isEval ? '700' : '500';
+          return `
+            <line x1="${p.x}" y1="${padTop + chartH}" x2="${p.x}" y2="${padTop + chartH + 5}" stroke="${isEval ? '#113927' : '#CBD5E1'}" />
+            <text x="${p.x}" y="${padTop + chartH + 18}" font-family="'Outfit', sans-serif" font-size="9.5" font-weight="${weight}" fill="${color}" text-anchor="middle">${p.tag}</text>
+          `;
+        }).join('');
+
+        // Círculos y puntos
+        const circles = points.map(p => {
+          if (!p.evaluada) {
+            // Sesión futura pendiente
+            return `<circle cx="${p.x}" cy="${padTop + chartH}" r="3" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5" />`;
+          }
+          const lastEval = evalPoints[evalPoints.length - 1];
+          const isPointLatest = (lastEval && p.sesion === lastEval.sesion && p.val !== null);
+
+          if (isPointLatest) {
+            // Última sesión evaluada: punto pulsante en coral con callout de puntuación
+            return `
+              <circle cx="${p.x}" cy="${p.y}" r="8" fill="rgba(233, 143, 113, 0.3)" />
+              <circle cx="${p.x}" cy="${p.y}" r="5" fill="#E98F71" stroke="#FFFFFF" stroke-width="2" />
+              <!-- Badge flotante sobre el punto -->
+              <g transform="translate(${p.x}, ${p.y - 14})">
+                <rect x="-26" y="-16" width="52" height="18" rx="5" fill="#113927" />
+                <path d="M -4 2 L 0 6 L 4 2 Z" fill="#113927" />
+                <text x="0" y="-4" font-family="'Outfit', sans-serif" font-size="9.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">${p.val} pts</text>
+              </g>
+            `;
+          }
+          return `<circle cx="${p.x}" cy="${p.y}" r="4" fill="#76927A" stroke="#FFFFFF" stroke-width="1.5" />`;
+        }).join('');
+
+        wrap.innerHTML = `
+          <svg viewBox="0 0 ${w} ${h}" class="analytics-svg" style="width: 100%; height: auto;">
+            <defs>
+              <linearGradient id="psllAreaGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#113927" stop-opacity="0.20"/>
+                <stop offset="100%" stop-color="#113927" stop-opacity="0.0"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Cuadrícula -->
+            ${gridLines}
+
+            <!-- Eje X -->
+            <line x1="${padLeft}" y1="${padTop + chartH}" x2="${w - padRight}" y2="${padTop + chartH}" stroke="#CBD5E1" stroke-width="1.5" />
+            ${xTicks}
+
+            <!-- Área bajo la curva histórica -->
+            ${areaD ? `<path d="${areaD}" fill="url(#psllAreaGradient)" />` : ''}
+
+            <!-- Línea sólida histórica -->
+            ${pathD ? `<path d="${pathD}" fill="none" stroke="#113927" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />` : ''}
+
+            <!-- Puntos de sesión -->
+            ${circles}
+          </svg>
+        `;
+
+        const trajStatusText = document.getElementById('trajStatusText');
+        const trajMetaText = document.getElementById('trajMetaText');
+        if (trajStatusText) {
+          const numEval = Math.max(evalPoints.length - 1, 1);
+          trajStatusText.textContent = `● ${numEval} de 16 sesiones EB completadas`;
+        }
+        if (trajMetaText) trajMetaText.textContent = `Puntos: ${ptsActuales} / ${ptsPotencialesActuales} pts`;
+      }
+
+      // ------------------------------------------------------------
+      // FIGURA 2: DISTRIBUCIÓN DE CALIFICACIONES DE LA CLASE
+      // ------------------------------------------------------------
+      function renderDistributionChart(studentScore, maxPossible) {
+        const wrap = document.getElementById('distributionChartWrap');
+        if (!wrap) return;
+
+        const scores = window.__PSLL_SCORES_ANON__ || [studentScore];
+        const totalAlum = scores.length;
+        const maxScore = maxPossible || 2000;
+
+        // Generar tramos / columnas adaptadas a la puntuación máxima actual
+        let bins = [];
+        if (maxScore <= 1000) {
+          bins = [
+            { label: "0 pts", min: 0, max: 0, count: 0 },
+            { label: "1-200", min: 1, max: 200, count: 0 },
+            { label: "201-400", min: 201, max: 400, count: 0 },
+            { label: "401-600", min: 401, max: 600, count: 0 },
+            { label: "601-800", min: 601, max: 800, count: 0 },
+            { label: "801-1k", min: 801, max: 1000, count: 0 }
+          ];
+        } else if (maxScore <= 2000) {
+          bins = [
+            { label: "0 pts", min: 0, max: 0, count: 0 },
+            { label: "1-400", min: 1, max: 400, count: 0 },
+            { label: "401-800", min: 401, max: 800, count: 0 },
+            { label: "801-1.2k", min: 801, max: 1200, count: 0 },
+            { label: "1.2k-1.6k", min: 1201, max: 1600, count: 0 },
+            { label: "1.6k-2k", min: 1601, max: 2000, count: 0 }
+          ];
+        } else {
+          const numCols = 6;
+          const step = maxScore / numCols;
+          bins.push({ label: "0 pts", min: 0, max: 0, count: 0 });
+          for (let b = 0; b < numCols; b++) {
+            const start = b === 0 ? 1 : Math.round(b * step) + 1;
+            const end = Math.round((b + 1) * step);
+            bins.push({
+              label: `${Math.round(start / 1000)}k-${Math.round(end / 1000)}k`,
+              min: start,
+              max: end,
+              count: 0
+            });
+          }
+        }
+
+        // Clasificar cada nota en su bin
+        scores.forEach(s => {
+          for (const b of bins) {
+            if (s >= b.min && s <= b.max) {
+              b.count++;
+              break;
+            }
+          }
+        });
+
+        // Identificar en qué columna cae el alumno logueado
+        let studentBinIdx = -1;
+        for (let i = 0; i < bins.length; i++) {
+          if (studentScore >= bins[i].min && studentScore <= bins[i].max) {
+            studentBinIdx = i;
+            break;
+          }
+        }
+
+        // Calcular percentil del alumno
+        const belowCount = scores.filter(s => s < studentScore).length;
+        const equalCount = scores.filter(s => s === studentScore).length;
+        const percentile = Math.round(((belowCount + 0.5 * equalCount) / totalAlum) * 100);
+
+        // Configuración SVG
+        const w = 540;
+        const h = 210;
+        const padLeft = 36;
+        const padRight = 16;
+        const padTop = 38; // espacio superior para el pin "Tú estás aquí"
+        const padBottom = 30;
+        const chartW = w - padLeft - padRight;
+        const chartH = h - padTop - padBottom;
+
+        const maxCount = Math.max(...bins.map(b => b.count), 1);
+        const colWidth = chartW / bins.length;
+        const barPad = 6;
+
+        let barsSvg = '';
+        let calloutSvg = '';
+
+        bins.forEach((b, idx) => {
+          const isStudent = (idx === studentBinIdx);
+          const barH = (b.count / maxCount) * chartH;
+          const x = padLeft + idx * colWidth + barPad;
+          const barW = colWidth - barPad * 2;
+          const y = padTop + chartH - barH;
+          const centerX = x + barW / 2;
+
+          // Color de la barra
+          const fill = isStudent ? 'url(#psllStudentBarGrad)' : '#EAF3EC';
+          const stroke = isStudent ? '#E98F71' : '#CBDCD0';
+          const strokeW = isStudent ? '2' : '1';
+
+          barsSvg += `
+            <g>
+              <!-- Barra -->
+              <rect 
+                x="${x}" 
+                y="${y}" 
+                width="${barW}" 
+                height="${barH}" 
+                rx="5" 
+                fill="${fill}" 
+                stroke="${stroke}" 
+                stroke-width="${strokeW}"
+                style="${isStudent ? 'filter: drop-shadow(0 4px 8px rgba(17, 57, 39, 0.25));' : ''}"
+              />
+              <!-- Conteo alumnos sobre la barra -->
+              <text 
+                x="${centerX}" 
+                y="${y - 6}" 
+                font-family="'Outfit', sans-serif" 
+                font-size="11" 
+                font-weight="${isStudent ? '800' : '600'}" 
+                fill="${isStudent ? '#113927' : '#5E7162'}" 
+                text-anchor="middle"
+              >${b.count}</text>
+              <!-- Etiqueta eje X -->
+              <text 
+                x="${centerX}" 
+                y="${padTop + chartH + 18}" 
+                font-family="'Inter', sans-serif" 
+                font-size="9.5" 
+                font-weight="${isStudent ? '700' : '500'}" 
+                fill="${isStudent ? '#113927' : '#5E7162'}" 
+                text-anchor="middle"
+              >${b.label}</text>
+            </g>
+          `;
+
+          // Marcador con PIN "Tú estás aquí" para la columna del alumno
+          if (isStudent) {
+            const pinY = y - 28;
+            calloutSvg = `
+              <g transform="translate(${centerX}, ${Math.max(16, pinY)})">
+                <!-- Bocadillo de llamada -->
+                <rect x="-56" y="-18" width="112" height="22" rx="6" fill="#113927" filter="drop-shadow(0 3px 6px rgba(17, 57, 39, 0.2))" />
+                <path d="M -5 4 L 0 9 L 5 4 Z" fill="#113927" />
+                <text x="0" y="-4" font-family="'Outfit', sans-serif" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">
+                  📍 ¡Tú estás aquí!
+                </text>
+              </g>
+            `;
+          }
+        });
+
+        wrap.innerHTML = `
+          <svg viewBox="0 0 ${w} ${h}" class="analytics-svg" style="width: 100%; height: auto;">
+            <defs>
+              <linearGradient id="psllStudentBarGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#76927A"/>
+                <stop offset="100%" stop-color="#113927"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Eje X horizontal -->
+            <line x1="${padLeft}" y1="${padTop + chartH}" x2="${w - padRight}" y2="${padTop + chartH}" stroke="#CBD5E1" stroke-width="1.5" />
+
+            <!-- Barras del histograma -->
+            ${barsSvg}
+
+            <!-- Llamada 'Tú estás aquí' -->
+            ${calloutSvg}
+          </svg>
+        `;
+
+        const distPercentileText = document.getElementById('distPercentileText');
+        if (distPercentileText) {
+          distPercentileText.innerHTML = `● Tu posición: <strong>${studentScore} pts</strong> (Percentil ${percentile}% de la clase)`;
+        }
       }
 
       function getStatusClass(estado) {
