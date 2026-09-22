@@ -217,6 +217,105 @@ window.DOCENCIA_APPS = {
         ]
       },
       {
+        id: "psll_desempleo_nairu_sim",
+        type: "simulator",
+        category: "simuladores",
+        icon: "📉",
+        iconBg: "#EAF4EE",
+        iconColor: "#113927",
+        title: "Tipología del Desempleo, NAIRU y Phillips",
+        desc: "Simula el trade-off inflación-desempleo a corto y largo plazo, y resuelve el gabinete de diagnóstico de 4 comarcas andaluzas.",
+        meta: "Simulador interactivo & Gabinete · 12 min",
+        session: "Sesión 4",
+        url: "simulador_desempleo_nairu.html"
+      },
+      {
+        id: "psll_desempleo_quiz",
+        type: "quiz",
+        category: "mercado",
+        icon: "🏛️",
+        iconBg: "#FDF0EC",
+        iconColor: "#E98F71",
+        title: "Gabinete de Diagnóstico: Tipos de Desempleo y Políticas",
+        desc: "Identifica la tipología de desempleo (friccional, estructural, cíclico o estacional) y la política óptima para cada comarca andaluza.",
+        meta: "6 preguntas · 5 min",
+        session: "Sesión 4",
+        questions: [
+          {
+            tag: "Caso 1 · Linares",
+            text: "En la comarca de Linares el paro alcanza el 28% tras el cierre de su factoría automovilística hace 8 años. Los desempleados son trabajadores maduros cuyas competencias han quedado obsoletas. ¿Qué tipo de desempleo predomina y qué política pública procede?",
+            options: [
+              "Desempleo estructural con histéresis; requiere políticas activas de recualificación (reskilling) y reindustrialización.",
+              "Desempleo cíclico; procede inyectar gasto público masivo para reactivar el consumo comarcal.",
+              "Desempleo friccional; basta con publicar folletos y ofertas en portales web de empleo.",
+              "Desempleo estacional; se soluciona transformando los contratos en fijos-discontinuos."
+            ],
+            correct: 0,
+            explanation: "El cierre fabril prolongado destruye el tejido productivo y degrada el capital humano (histéresis). Un estímulo de demanda no creará empleo porque no hay fábricas ni competencias acordes; se requieren políticas activas de recualificación y atracción inversora."
+          },
+          {
+            tag: "Caso 2 · Costa del Sol",
+            text: "En la Costa del Sol el desempleo es del 8,5% en agosto y escala de forma regular y predecible al 22% en enero tras el cierre de hoteles y hostelería de playa. ¿Qué tipología es y cuál es la respuesta institucional más eficiente?",
+            options: [
+              "Desempleo friccional; hay que obligar a los trabajadores a aceptar cualquier vacante en 24 horas.",
+              "Desempleo estacional; contratos fijos-discontinuos para estabilizar rentas y diversificación hacia turismo cultural y congresos.",
+              "Desempleo estructural; hay que prohibir las actividades turísticas en verano.",
+              "Desempleo cíclico; el Banco Central Europeo debe bajar los tipos de interés cada invierno."
+            ],
+            correct: 1,
+            explanation: "La oscilación estival-invernal es el arquetipo del desempleo estacional. Se aborda institucionalmente con fijos-discontinuos que preservan el vínculo laboral y diversificación de temporada."
+          },
+          {
+            tag: "Caso 3 · Sevilla Metropolitana",
+            text: "Cientos de graduados universitarios en Relaciones Laborales y Derecho en Sevilla tardan una media de 5 meses en colocarse mientras buscan activamente, envían CVs y acuden a entrevistas. Este desempleo se clasifica como:",
+            options: [
+              "Estructural severo, porque su titulación carece de valor en el mercado.",
+              "Cíclico, provocado exclusivamente por el déficit del Estado.",
+              "Friccional derivado del tiempo de búsqueda e información imperfecta; se combate con mejor intermediación y matching.",
+              "Estacional, porque los universitarios solo buscan empleo en navidades."
+            ],
+            correct: 2,
+            explanation: "El tiempo inherente al emparejamiento entre demandantes cualificados y vacantes adecuadas es desempleo friccional. Forzar una inserción precipitada deterioraría la productividad del emparejamiento."
+          },
+          {
+            tag: "Caso 4 · Shock Financiero",
+            text: "Una crisis bancaria severa provoca una caída del 6% en el PIB y el consumo. Empresas solventes de todos los sectores despiden trabajadores por falta de pedidos. ¿Qué tipo de paro es y qué política debe aplicarse?",
+            options: [
+              "Desempleo estructural; enviar a todos los parados a cursos de informática.",
+              "Desempleo friccional; multar a las empresas que no publiquen vacantes.",
+              "Desempleo estacional; esperar a que llegue la primavera.",
+              "Desempleo cíclico; procede estabilización macroeconómica contracíclica y amortiguadores automáticos (ERTEs)."
+            ],
+            correct: 3,
+            explanation: "La insuficiencia generalizada de demanda agregada genera desempleo cíclico (u > uₙ). Los cursos de formación no crean demanda a corto plazo; procede el estímulo macroeconómico y los expedientes de regulación temporal."
+          },
+          {
+            tag: "Caso 5 · Estímulo en la NAIRU",
+            text: "Si la tasa de paro ya está situada en el nivel de la NAIRU (u = uₙ) y el gobierno decide aplicar un gran estímulo fiscal de gasto público para forzar la bajada del paro, ¿qué predice la Curva de Phillips con expectativas?",
+            options: [
+              "El paro se reducirá de forma permanente a cero sin inflación.",
+              "A corto plazo el desempleo cae transitoriamente con repunte de inflación, pero a largo plazo las expectativas se ajustan y el paro vuelve a la NAIRU con mayor inflación.",
+              "La inflación caerá inmediatamente debido a las economías de escala.",
+              "La NAIRU se desplazará automáticamente hacia la izquierda de forma duradera."
+            ],
+            correct: 1,
+            explanation: "La curva de Phillips a largo plazo es vertical en la NAIRU (Friedman-Phelps). Intentar sostener el paro por debajo de la NAIRU mediante demanda solo genera una espiral inflacionaria sin ganancia permanente de empleo."
+          },
+          {
+            tag: "Caso 6 · Reducir la NAIRU",
+            text: "¿Cuál de las siguientes medidas es capaz de reducir de forma estructural y duradera la tasa natural de desempleo (NAIRU)?",
+            options: [
+              "Incrementar indefinidamente el déficit público financiado con deuda o emisión monetaria.",
+              "Mejorar la intermediación laboral (reduciendo u_f) y modernizar la formación continua adaptada a nuevas tecnologías (reduciendo u_e).",
+              "Aumentar las cotizaciones a la Seguridad Social para encarecer la contratación de mano de obra.",
+              "Eliminar los contratos formativos y restringir la movilidad geográfica."
+            ],
+            correct: 1,
+            explanation: "Como uₙ = u_f + u_e, la única vía para reducir la NAIRU es atacar sus componentes estructural y friccional mediante políticas activas eficaces, reducción de desajustes formativos y mejor intermediación."
+          }
+        ]
+      },
+      {
         id: "psll_pasivas_1",
         type: "quiz",
         category: "pasivas",
