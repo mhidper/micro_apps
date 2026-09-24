@@ -1,0 +1,1837 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>La Curva de Beveridge y Emparejamiento Laboral · PSLL UPO</title>
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="theme.css">
+  <style>
+    :root {
+      --pino: #113927;
+      --salvia: #76927A;
+      --coral: #E98F71;
+      --menta-soft: #F4F8F5;
+      --tinta: #2F3A30;
+      --navy: #0B1C36;
+      --border-subtle: #DCE5DF;
+      --card-bg: #FFFFFF;
+      --gold: #D97706;
+      --blue: #2563EB;
+      --red: #DC2626;
+      --green: #059669;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-cream, #FDFBF7);
+      color: var(--tinta);
+      line-height: 1.6;
+      padding: 0 0 80px;
+    }
+    .wrap {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    /* ---- Cabecera Principal ---- */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0 10px;
+      border-bottom: 1px solid var(--border-light, #EFE9E0);
+    }
+    .badge-session {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: #EAF4EE;
+      color: var(--pino);
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+    .back-link {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--salvia);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .back-link:hover { color: var(--pino); }
+
+    .header { padding: 20px 0 14px; }
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 8px;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 20px;
+      height: 3px;
+      border-radius: 2px;
+      background: var(--coral);
+    }
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.75rem, 5.2vw, 2.3rem);
+      line-height: 1.18;
+      color: var(--pino);
+      margin: 0 0 10px;
+    }
+    .lead {
+      font-size: 0.96rem;
+      color: #5E7162;
+      margin: 0 0 20px;
+    }
+
+    /* ---- Selector de Pestañas ---- */
+    .tab-pills {
+      display: flex;
+      gap: 6px;
+      background: #EFECE6;
+      padding: 5px;
+      border-radius: 14px;
+      margin-bottom: 22px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .tab-pill {
+      flex: 1;
+      min-width: 140px;
+      padding: 10px 10px;
+      border: none;
+      background: transparent;
+      border-radius: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      color: #6C5E53;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .tab-pill.active {
+      background: #FFFFFF;
+      color: var(--pino);
+      box-shadow: 0 2px 8px rgba(17,57,39,0.1);
+    }
+
+    /* ---- Tarjetas y Contenedores ---- */
+    .card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 14px rgba(17,57,39,0.04);
+    }
+    .card-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.22rem;
+      color: var(--pino);
+      margin: 0 0 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-subtitle {
+      font-size: 0.88rem;
+      color: #6C7E70;
+      margin: 0 0 16px;
+    }
+
+    /* ---- PISTA DE BAILE (TAB 1 ABM) ---- */
+    .dance-arena-container {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    @media (max-width: 720px) {
+      .dance-arena-container {
+        grid-template-columns: 1fr;
+      }
+    }
+    .arena-box {
+      position: relative;
+      background: #FAF8F5;
+      border: 2px solid #E1DBD2;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .arena-canvas {
+      display: block;
+      width: 100%;
+      height: 340px;
+      background: #FAF8F5;
+    }
+    .arena-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #F1ECE4;
+      padding: 8px 12px;
+      border-bottom: 1px solid #E3DDD4;
+      font-size: 0.78rem;
+    }
+    .arena-toolbar-btns {
+      display: flex;
+      gap: 6px;
+    }
+    .btn-act {
+      background: #FFFFFF;
+      border: 1px solid #D0C9BF;
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      color: var(--pino);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn-act:hover {
+      background: var(--pino);
+      color: #FFFFFF;
+      border-color: var(--pino);
+    }
+    .btn-act.primary {
+      background: var(--pino);
+      color: #FFFFFF;
+      border-color: var(--pino);
+    }
+    .btn-act.primary:hover {
+      background: #174d35;
+    }
+
+    /* Mini UV tracker */
+    .uv-monitor-box {
+      display: flex;
+      flex-direction: column;
+      background: #FAFBF9;
+      border: 1px solid #E3ECE6;
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .uv-monitor-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--pino);
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .uv-mini-canvas {
+      width: 100%;
+      height: 190px;
+      display: block;
+      background: #FFFFFF;
+      border: 1px solid #EBF1ED;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    /* Métricas del Baile */
+    .dance-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
+    .stat-chip {
+      background: #FFFFFF;
+      border: 1px solid #E3ECE6;
+      border-radius: 8px;
+      padding: 6px 8px;
+      text-align: center;
+    }
+    .stat-chip .lbl {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #6C7E70;
+      letter-spacing: 0.03em;
+    }
+    .stat-chip .val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--pino);
+    }
+
+    /* Leyenda Pista de Baile */
+    .dance-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 8px 12px;
+      background: #F4F8F5;
+      border-radius: 10px;
+      margin-top: 10px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      justify-content: space-around;
+    }
+    .dance-leg-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .dot-sample {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .dot-sample.red { background: #DC2626; border: 2px solid #FFFFFF; box-shadow: 0 0 4px rgba(220,38,38,0.4); }
+    .dot-sample.blue { background: #2563EB; border: 2px solid #FFFFFF; box-shadow: 0 0 4px rgba(37,99,235,0.4); }
+    .dot-sample.green { background: #059669; border: 2px solid #FFFFFF; box-shadow: 0 0 6px rgba(5,150,105,0.6); }
+    .dot-sample.coral { background: #E98F71; border: 2px solid #FFFFFF; }
+
+    /* Controles Sliders */
+    .slider-group {
+      margin-bottom: 14px;
+    }
+    .slider-head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    .slider-head span.val {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      color: var(--pino);
+    }
+    input[type=range] {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #DCE5DF;
+      outline: none;
+      -webkit-appearance: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--pino);
+      cursor: pointer;
+      border: 3px solid #FFFFFF;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    /* Botones de Escenarios Rápidos */
+    .scenarios-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+    @media (max-width: 540px) {
+      .scenarios-grid { grid-template-columns: 1fr; }
+    }
+    .btn-scenario {
+      background: #F4F8F5;
+      border: 1px solid #D5E5DA;
+      border-radius: 10px;
+      padding: 10px 10px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      color: var(--pino);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .btn-scenario span.sub {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: var(--salvia);
+    }
+    .btn-scenario:hover {
+      background: #EAF4EE;
+      border-color: var(--salvia);
+      transform: translateY(-1px);
+    }
+    .btn-scenario.active {
+      background: var(--pino);
+      color: #FFFFFF;
+      border-color: var(--pino);
+    }
+    .btn-scenario.active span.sub {
+      color: #D1E5D8;
+    }
+
+    /* Panel de Diagnóstico Causal */
+    .diagnosis-box {
+      background: #F8FAF8;
+      border-left: 4px solid var(--pino);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-top: 16px;
+    }
+    .diagnosis-tag {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.72rem;
+      color: var(--salvia);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* ---- TAB 2: CANVAS UV & DMP ---- */
+    .chart-box {
+      position: relative;
+      background: #FAFBF9;
+      border: 1px solid #E3ECE6;
+      border-radius: 14px;
+      padding: 10px;
+      margin-bottom: 18px;
+    }
+    .chart-canvas {
+      width: 100%;
+      height: 290px;
+      display: block;
+    }
+    .chart-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 10px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      justify-content: center;
+    }
+    .leg-item { display: flex; align-items: center; gap: 6px; }
+    .leg-color { width: 14px; height: 4px; border-radius: 2px; }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    @media (max-width: 560px) {
+      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .metric-badge {
+      background: var(--menta-soft);
+      border: 1px solid #E1EBE4;
+      border-radius: 12px;
+      padding: 10px 6px;
+      text-align: center;
+    }
+    .metric-lbl {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #5E7162;
+      letter-spacing: 0.03em;
+    }
+    .metric-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--pino);
+      margin-top: 2px;
+    }
+
+    /* ---- TAB 3: ESPAÑA ---- */
+    .phase-chips {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .phase-chip {
+      flex: 1;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid #D5E5DA;
+      background: #F4F8F5;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: var(--pino);
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s ease;
+    }
+    .phase-chip.active {
+      background: var(--pino);
+      color: #FFFFFF;
+      border-color: var(--pino);
+    }
+    .history-card {
+      background: #FFFFFF;
+      border: 1px solid #E3ECE6;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .history-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .history-stat {
+      background: var(--menta-soft);
+      border-radius: 8px;
+      padding: 8px;
+      text-align: center;
+    }
+    .history-stat .lbl { font-size: 0.68rem; color: #5E7162; font-weight: 600; text-transform: uppercase; }
+    .history-stat .val { font-family: 'Outfit', sans-serif; font-size: 1.15rem; font-weight: 800; color: var(--pino); }
+
+    /* ---- TAB 4: GABINETE / QUIZ ---- */
+    .quiz-card {
+      background: #FFFFFF;
+      border: 1px solid #E1EBE4;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .quiz-tag {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.72rem;
+      color: var(--coral);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+    .quiz-q {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.98rem;
+      color: var(--pino);
+      margin-bottom: 12px;
+      line-height: 1.35;
+    }
+    .quiz-opt {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      border-radius: 10px;
+      border: 1px solid #DCE5DF;
+      background: #FBFDFB;
+      color: var(--tinta);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .quiz-opt:hover {
+      background: #F1F6F2;
+      border-color: var(--salvia);
+    }
+    .quiz-opt.correct {
+      background: #EAF7EE !important;
+      border-color: #22C55E !important;
+      color: #14532D !important;
+      font-weight: 600;
+    }
+    .quiz-opt.incorrect {
+      background: #FEF2F2 !important;
+      border-color: #EF4444 !important;
+      color: #7F1D1D !important;
+    }
+    .quiz-feedback {
+      display: none;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 10px;
+      font-size: 0.84rem;
+      line-height: 1.45;
+    }
+
+    /* ---- Footer Institucional ---- */
+    .footer-inst {
+      text-align: center;
+      padding: 24px 0 0;
+      font-size: 0.78rem;
+      color: #7D8E81;
+      border-top: 1px solid #EFE9E0;
+      margin-top: 24px;
+    }
+    .footer-inst strong { color: var(--pino); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- Barra Superior -->
+    <div class="top-bar">
+      <span class="badge-session">Sesión EB 5 · Tema 1 PSLL</span>
+      <a href="index.html" class="back-link">← Hub Micro-Apps</a>
+    </div>
+
+    <!-- Cabecera -->
+    <div class="header">
+      <div class="eyebrow">Simulador Macro & Micro · Laboratorio de Empleo</div>
+      <h1>La Curva de Beveridge y el Emparejamiento Laboral</h1>
+      <p class="lead">De la micro-interacción en la pista de baile entre trabajadores y vacantes al trazado analítico del espacio (U, V) y la serie histórica española.</p>
+    </div>
+
+    <!-- Pestañas -->
+    <div class="tab-pills">
+      <button class="tab-pill active" onclick="switchTab('dance')">💃 La Pista de Baile (ABM)</button>
+      <button class="tab-pill" onclick="switchTab('sim')">📈 Curva UV & DMP</button>
+      <button class="tab-pill" onclick="switchTab('esp')">🇪🇸 Caso España (Figura 1.9)</button>
+      <button class="tab-pill" onclick="switchTab('pol')">⚖️ Gabinete Emplea-T</button>
+    </div>
+
+    <!-- ==================== PESTAÑA 1: LA PISTA DE BAILE (ABM) ==================== -->
+    <div id="tab-dance" class="tab-content">
+      <div class="card">
+        <div class="card-title">💃 La Pista de Baile del Mercado Laboral (Modelo Basado en Agentes)</div>
+        <div class="card-subtitle">Oferta (rojos 🔴), Vacantes (azules 🔵) y Eficiencia/Cualificaciones (Parámetro A)</div>
+
+        <!-- Contenedor Pista de Baile + Mini Monitor UV -->
+        <div class="dance-arena-container">
+          <!-- Cuadrado de la Pista de Baile -->
+          <div class="arena-box">
+            <div class="arena-toolbar">
+              <span id="danceStatusTxt" style="font-weight:700; color:var(--pino);">Pista Activa · Emparejando</span>
+              <div class="arena-toolbar-btns">
+                <button class="btn-act primary" id="btnPlayPause" onclick="togglePlayPause()">⏸ Pausar</button>
+                <button class="btn-act" onclick="resetDanceFloor(true)">🔄 Separar Extremos</button>
+                <button class="btn-act" id="btnSpeed" onclick="toggleSpeed()">⚡ 1x</button>
+              </div>
+            </div>
+            <canvas id="arenaCanvas" class="arena-canvas" width="400" height="340"></canvas>
+            <div class="dance-legend">
+              <div class="dance-leg-item"><span class="dot-sample red"></span> Trabajador Desempleado (U)</div>
+              <div class="dance-leg-item"><span class="dot-sample blue"></span> Vacante Abierta (V)</div>
+              <div class="dance-leg-item"><span class="dot-sample green"></span> Pareja Emparejada (M)</div>
+              <div class="dance-leg-item"><span class="dot-sample coral"></span> Rebote Mismatch (A)</div>
+            </div>
+          </div>
+
+          <!-- Mini Monitor Cartesiano UV en Directo -->
+          <div class="uv-monitor-box">
+            <div class="uv-monitor-title">
+              <span>📈 Mapeo UV en Tiempo Real</span>
+              <span style="font-size:0.7rem; font-weight:600; color:var(--salvia);">Espacio Beveridge</span>
+            </div>
+            <canvas id="uvMiniCanvas" class="uv-mini-canvas" width="280" height="190"></canvas>
+            
+            <!-- Métricas en Directo -->
+            <div class="dance-stats-grid">
+              <div class="stat-chip">
+                <div class="lbl">Paro Libre (U)</div>
+                <div class="val" id="statU" style="color:#DC2626;">25</div>
+              </div>
+              <div class="stat-chip">
+                <div class="lbl">Vacantes Libres (V)</div>
+                <div class="val" id="statV" style="color:#2563EB;">25</div>
+              </div>
+              <div class="stat-chip">
+                <div class="lbl">Empleos Creados (M)</div>
+                <div class="val" id="statM" style="color:#059669;">0</div>
+              </div>
+              <div class="stat-chip">
+                <div class="lbl">Tensión (θ = V/U)</div>
+                <div class="val" id="statTheta">1.00</div>
+              </div>
+            </div>
+
+            <div style="margin-top:8px; font-size:0.75rem; color:#5E7162; line-height:1.35; background:#FFFFFF; padding:6px 8px; border-radius:6px; border:1px solid #E3ECE6;">
+              <strong>Tasa de Éxito de Contactos:</strong> <span id="statSuccessRate" style="font-weight:700; color:var(--pino);">80%</span> (Contactos con contratación efectiva).
+            </div>
+          </div>
+        </div>
+
+        <!-- Sliders de Control del Baile -->
+        <div class="slider-group">
+          <div class="slider-head">
+            <span>🎯 Compatibilidad de Cualificaciones y Eficiencia (A):</span>
+            <span class="val" id="lblDanceA">80% (Ajuste Alto)</span>
+          </div>
+          <input type="range" id="sliderDanceA" min="10" max="100" value="80" step="5" oninput="updateDanceParams()">
+          <small style="font-size:0.75rem; color:#6C7E70;">Determina si los desempleados poseen las habilidades requeridas. Si A es bajo, chocan pero rebotan sin contratarse.</small>
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-head">
+            <span>💼 Empresas y Vacantes Iniciales (V):</span>
+            <span class="val" id="lblDanceV">25 puestos</span>
+          </div>
+          <input type="range" id="sliderDanceV" min="3" max="50" value="25" step="1" oninput="updateDanceCounts()">
+          <small style="font-size:0.75rem; color:#6C7E70;">Shock de demanda: en recesión se retiran vacantes (quedan pocos puntos azules); en expansión se inundan.</small>
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-head">
+            <span>👥 Trabajadores Desempleados Iniciales (U):</span>
+            <span class="val" id="lblDanceU">25 personas</span>
+          </div>
+          <input type="range" id="sliderDanceU" min="10" max="50" value="25" step="1" oninput="updateDanceCounts()">
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-head">
+            <span>⏳ Tasa de Destrucción de Empleo (s · Fin de Contrato):</span>
+            <span class="val" id="lblDanceS">Moderada (10 s)</span>
+          </div>
+          <input type="range" id="sliderDanceS" min="4" max="25" value="10" step="1" oninput="updateDanceParams()">
+        </div>
+
+        <!-- Botones de Escenarios Didácticos -->
+        <div style="font-family:'Outfit',sans-serif; font-size:0.85rem; font-weight:700; color:var(--pino); margin:16px 0 6px;">
+          🚀 Shocks Cíclicos y Estructurales (Presiona para simular):
+        </div>
+        <div class="scenarios-grid">
+          <button class="btn-scenario active" id="btnScenNormal" onclick="applyDanceScenario('normal')">
+            1. Equilibrio Inicial Normal
+            <span class="sub">25 vacantes, 25 parados · Eficiencia A = 80%</span>
+          </button>
+          <button class="btn-scenario" id="btnScenRecession" onclick="applyDanceScenario('recession')">
+            2. Recesión Severa (Shock de Demanda)
+            <span class="sub">Empresas retiran vacantes (V ↓) · Parados solos en la pista</span>
+          </button>
+          <button class="btn-scenario" id="btnScenExpansion" onclick="applyDanceScenario('expansion')">
+            3. Expansión / Boom Económico
+            <span class="sub">Ola de vacantes (V ↑) · Pocos parados disponibles (θ &gt;&gt; 1)</span>
+          </button>
+          <button class="btn-scenario" id="btnScenMismatch" onclick="applyDanceScenario('mismatch')">
+            4. Desajuste Formativo (Skills Mismatch)
+            <span class="sub">Muchos parados y muchas vacantes, pero A = 15% · Chocan y rebotan</span>
+          </button>
+        </div>
+
+        <!-- Explicación Pedagógica -->
+        <div class="diagnosis-box" id="danceDiagnosisBox">
+          <span class="diagnosis-tag" id="danceDiagTag">Mecanismo Teórico Clave</span>
+          <div id="danceDiagTxt" style="font-size:0.88rem; line-height:1.45;">
+            <strong>Movimiento vs. Desplazamiento:</strong> En <em>Recesión</em> o <em>Expansión</em>, la curva de Beveridge no se mueve; nos desplazamos a lo largo de ella porque varía la oferta de vacantes (V). En cambio, cuando hay <em>Desajuste Formativo</em> (A ↓), la pista está llena de gente que choca sin emparejarse, desplazando la curva de Beveridge hacia fuera (BC₁ → BC₂).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== PESTAÑA 2: SIMULADOR DMP & UV ==================== -->
+    <div id="tab-sim" class="tab-content" style="display:none;">
+      <div class="card">
+        <div class="card-title">🔬 Plano Vacantes – Desempleo (Espacio UV Continuo)</div>
+        <div class="card-subtitle">William Beveridge (1944) · m = A · U^α · V^(1-α) con α = 0,5</div>
+
+        <!-- Canvas Gráfico -->
+        <div class="chart-box">
+          <canvas id="beveridgeCanvas" class="chart-canvas" width="600" height="290"></canvas>
+          <div class="chart-legend">
+            <div class="leg-item"><div class="leg-color" style="background:#113927"></div> Curva de Beveridge</div>
+            <div class="leg-item"><div class="leg-color" style="background:#76927A; border-top: 1px dashed #76927A"></div> Bisectriz 45° (u = v)</div>
+            <div class="leg-item"><div class="leg-color" style="background:#E98F71"></div> Posición Actual (u, v)</div>
+          </div>
+        </div>
+
+        <!-- Métricas Dinámicas -->
+        <div class="metrics-grid">
+          <div class="metric-badge">
+            <div class="metric-lbl">Tasa Paro (u)</div>
+            <div class="metric-val" id="valU">11.3%</div>
+          </div>
+          <div class="metric-badge">
+            <div class="metric-lbl">Tasa Vacantes (v)</div>
+            <div class="metric-val" id="valV">0.75%</div>
+          </div>
+          <div class="metric-badge">
+            <div class="metric-lbl">Tensión (θ = V/U)</div>
+            <div class="metric-val" id="valTheta">0.07</div>
+          </div>
+          <div class="metric-badge">
+            <div class="metric-lbl">Eficiencia (A)</div>
+            <div class="metric-val" id="valA">78</div>
+          </div>
+        </div>
+
+        <!-- Sliders Interactivos -->
+        <div class="slider-group">
+          <div class="slider-head">
+            <span>Ciclo Económico (Demanda Agregada · Shock Cíclico):</span>
+            <span class="val" id="txtCycle">Recesión Moderada</span>
+          </div>
+          <input type="range" id="sliderCycle" min="-50" max="50" value="-15" step="1" oninput="updateModel()">
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-head">
+            <span>Eficiencia Institucional del Emparejamiento (A):</span>
+            <span class="val" id="txtA">78 / 100</span>
+          </div>
+          <input type="range" id="sliderA" min="40" max="130" value="78" step="1" oninput="updateModel()">
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-head">
+            <span>Desajuste de Competencias (Skills Mismatch &amp; Histéresis):</span>
+            <span class="val" id="txtMismatch">Moderado (+2.5 p.p.)</span>
+          </div>
+          <input type="range" id="sliderMismatch" min="0" max="80" value="25" step="1" oninput="updateModel()">
+        </div>
+
+        <!-- Escenarios Preconfigurados -->
+        <div class="scenarios-grid">
+          <button class="btn-scenario" onclick="applyScenario('natural')">
+            Punto A · Tasa Natural
+            <span class="sub">u = v · Sin componente cíclico</span>
+          </button>
+          <button class="btn-scenario" onclick="applyScenario('recession')">
+            Punto B · Recesión Cíclica
+            <span class="sub">Insuficiencia demanda (u ↑, v ↓)</span>
+          </button>
+          <button class="btn-scenario" onclick="applyScenario('mismatch')">
+            Shock Desajuste Estructural
+            <span class="sub">Curva hacia fuera · Ineficiencia A ↓</span>
+          </button>
+          <button class="btn-scenario" onclick="applyScenario('overheating')">
+            Punto C · Recalentamiento
+            <span class="sub">u &lt; v · Tensión máxima (θ &gt; 1)</span>
+          </button>
+        </div>
+
+        <!-- Diagnóstico Causal en Tiempo Real -->
+        <div class="diagnosis-box" id="diagnosisBox">
+          <span class="diagnosis-tag" id="diagTitle">Diagnóstico Económico</span>
+          <div id="diagDesc">Cargando diagnóstico...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== PESTAÑA 3: CASO ESPAÑOL ==================== -->
+    <div id="tab-esp" class="tab-content" style="display:none">
+      <div class="card">
+        <div class="card-title">🇪🇸 Evidencia Empírica España (1980–2024)</div>
+        <div class="card-subtitle">Análisis del Panel B (Figura 1.9 de los Apuntes Oficiales)</div>
+
+        <div class="phase-chips">
+          <button class="phase-chip active" id="chipF1" onclick="showPhase(1)">Fase 1 (1980–2007)</button>
+          <button class="phase-chip" id="chipF2" onclick="showPhase(2)">Fase 2 (2008–2013)</button>
+          <button class="phase-chip" id="chipF3" onclick="showPhase(3)">Fase 3 (2014–2024)</button>
+        </div>
+
+        <div class="history-card" id="historyCard">
+          <!-- Contenido dinámico según fase -->
+        </div>
+
+        <!-- Canvas Gráfico Histórico España -->
+        <div class="chart-box">
+          <canvas id="spainCanvas" class="chart-canvas" width="600" height="280"></canvas>
+          <div class="chart-legend">
+            <div class="leg-item"><div class="leg-color" style="background:#76927A"></div> Curva Pre-Crisis (Fase 1)</div>
+            <div class="leg-item"><div class="leg-color" style="background:#DC2626"></div> Desplazamiento Crisis (Fase 2)</div>
+            <div class="leg-item"><div class="leg-color" style="background:#113927"></div> Curva Reciente 2024 (Fase 3)</div>
+          </div>
+        </div>
+
+        <div class="diagnosis-box" style="border-left-color: var(--coral);">
+          <strong style="color:var(--pino)">Cuantificación Clave del Impacto (FEDEA / Modelo DGEM):</strong>
+          <p style="margin:4px 0 0; font-size:0.86rem;">
+            La pérdida de eficiencia de emparejamiento (A) durante la crisis explica hasta un <strong>31% de la destrucción de empleo</strong> y un <strong>55% de la disminución del PIB</strong> en el punto más crítico de la recesión. Tras 2014, España recuperó cerca de 3/4 del desplazamiento, un fenómeno único en la UE vinculado a la mayor flexibilidad y la reforma laboral de 2012.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== PESTAÑA 4: GABINETE DE POLÍTICAS ==================== -->
+    <div id="tab-pol" class="tab-content" style="display:none">
+      <div class="card">
+        <div class="card-title">⚖️ Gabinete de Políticas: Diagnóstico y Decisión</div>
+        <div class="card-subtitle">Ponte en el papel de Asesor del Ministerio de Trabajo / SAE</div>
+
+        <!-- Pregunta 1 -->
+        <div class="quiz-card" id="quiz1">
+          <div class="quiz-tag">Reto 1 · Diagnóstico de Shock</div>
+          <div class="quiz-q">Tras un shock económico, observas que la tasa de desempleo aumenta del 11% al 16%, pero la tasa de vacantes NO se reduce, sino que incluso repunta levemente del 0,8% al 0,9%. ¿Qué tipo de perturbación sufre la economía?</div>
+          <button class="quiz-opt" onclick="checkAnswer(1, 0, false)">A) Una recesión cíclica pura por caída de demanda agregada (movimiento a lo largo de la curva).</button>
+          <button class="quiz-opt" onclick="checkAnswer(1, 1, true)">B) Un shock estructural de desajuste formativo o pérdida de eficiencia institucional A (desplazamiento hacia fuera de la curva).</button>
+          <button class="quiz-opt" onclick="checkAnswer(1, 2, false)">C) Un sobrecalentamiento del mercado laboral con tensionamiento salarial generalizado.</button>
+          <div class="quiz-feedback" id="fb1"></div>
+        </div>
+
+        <!-- Pregunta 2 -->
+        <div class="quiz-card" id="quiz2">
+          <div class="quiz-tag">Reto 2 · Selección de Política Pública</div>
+          <div class="quiz-q">Si la economía experimenta un desplazamiento de la curva de Beveridge hacia el exterior (aumento del desempleo estructural para cada nivel de vacantes), ¿cuál de las siguientes medidas es INADECUADA o inefectiva para corregirlo?</div>
+          <button class="quiz-opt" onclick="checkAnswer(2, 0, false)">A) Programas de recualificación técnica (reskilling) para parados de larga duración hacia sectores deficitarios.</button>
+          <button class="quiz-opt" onclick="checkAnswer(2, 1, false)">B) Modernización de los sistemas de intermediación y orientación laboral de los servicios públicos de empleo (SAE/SEPE).</button>
+          <button class="quiz-opt" onclick="checkAnswer(2, 2, true)">C) Inyección masiva e indiscriminada de gasto público de demanda agregada (estímulo fiscal keynesiano generalizado).</button>
+          <div class="quiz-feedback" id="fb2"></div>
+        </div>
+
+        <!-- Pregunta 3 -->
+        <div class="quiz-card" id="quiz3">
+          <div class="quiz-tag">Reto 3 · Auditoría de Emplea-T (Peso Muerto)</div>
+          <div class="quiz-q">Al evaluar las subvenciones a la contratación del Programa Emplea-T para parados de larga duración (PLD), ¿qué significa el "efecto de peso muerto" (deadweight loss)?</div>
+          <button class="quiz-opt" onclick="checkAnswer(3, 0, true)">A) Que la subvención pública financia contrataciones que la empresa habría realizado exactamente igual sin necesidad de la ayuda.</button>
+          <button class="quiz-opt" onclick="checkAnswer(3, 1, false)">B) Que la empresa sustituye a un trabajador veterano indefinido por un parado subvencionado.</button>
+          <button class="quiz-opt" onclick="checkAnswer(3, 2, false)">C) Que el coste fiscal de la medida supera el salario de reserva de los demandantes.</button>
+          <div class="quiz-feedback" id="fb3"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pie Institucional -->
+    <div class="footer-inst">
+      <strong>Políticas Sociolaborales y de Empleo (PSLL)</strong> · Universidad Pablo de Olavide<br>
+      Prof. Manuel A. Hidalgo Pérez · Curso 2026-2027 · Basado en el Tema 1 (Apuntes Maquetados)
+    </div>
+  </div>
+
+  <script>
+    // ========================================================
+    // GESTIÓN DE PESTAÑAS
+    // ========================================================
+    let currentTab = 'dance';
+
+    function switchTab(tabId) {
+      currentTab = tabId;
+      document.querySelectorAll('.tab-pill').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+      
+      const pills = document.querySelectorAll('.tab-pill');
+      if (tabId === 'dance') {
+        pills[0].classList.add('active');
+        document.getElementById('tab-dance').style.display = 'block';
+        if (!danceSim.running) startDance();
+      } else if (tabId === 'sim') {
+        pills[1].classList.add('active');
+        document.getElementById('tab-sim').style.display = 'block';
+        drawBeveridge();
+      } else if (tabId === 'esp') {
+        pills[2].classList.add('active');
+        document.getElementById('tab-esp').style.display = 'block';
+        showPhase(state.currentPhase);
+      } else {
+        pills[3].classList.add('active');
+        document.getElementById('tab-pol').style.display = 'block';
+      }
+    }
+
+    // ========================================================
+    // TAB 1: MOTOR DE SIMULACIÓN BASADO EN AGENTES (LA PISTA DE BAILE)
+    // ========================================================
+    const danceSim = {
+      canvas: null,
+      ctx: null,
+      uvCanvas: null,
+      uvCtx: null,
+      width: 400,
+      height: 340,
+      workers: [],    // Puntos rojos (Desempleados)
+      vacancies: [],  // Puntos azules (Vacantes)
+      pairs: [],      // Parejas formadas (Verdes, bailando)
+      mismatchFlashes: [], // Destellos de rebote por mismatch
+      running: true,
+      speedMultiplier: 1,
+      targetWorkers: 25,
+      targetVacancies: 25,
+      paramA: 0.80,      // Probabilidad de match al colisionar
+      separationRate: 10, // Segundos promedio de duración de la pareja
+      historyUV: [],     // Historial de puntos (U, V) para el mini monitor
+      totalContacts: 0,
+      successfulMatches: 0,
+      animId: null
+    };
+
+    class Agent {
+      constructor(type, x, y) {
+        this.type = type; // 'worker' (red) o 'vacancy' (blue)
+        this.x = x;
+        this.y = y;
+        const angle = Math.random() * Math.PI * 2;
+        const speed = (0.7 + Math.random() * 0.8);
+        this.vx = Math.cos(angle) * speed;
+        this.vy = Math.sin(angle) * speed;
+        this.radius = 5.5;
+        this.matched = false;
+        this.partner = null;
+        this.wanderTimer = Math.random() * 60;
+      }
+
+      update(w, h, speedMul) {
+        if (this.matched) return;
+
+        // Vagabundeo estocástico browniano suave
+        this.wanderTimer -= 1;
+        if (this.wanderTimer <= 0) {
+          this.wanderTimer = 30 + Math.random() * 50;
+          this.vx += (Math.random() - 0.5) * 0.6;
+          this.vy += (Math.random() - 0.5) * 0.6;
+          const mag = Math.hypot(this.vx, this.vy);
+          if (mag > 1.8) {
+            this.vx = (this.vx / mag) * 1.8;
+            this.vy = (this.vy / mag) * 1.8;
+          } else if (mag < 0.4) {
+            this.vx = (this.vx / mag) * 0.7;
+            this.vy = (this.vy / mag) * 0.7;
+          }
+        }
+
+        this.x += this.vx * speedMul;
+        this.y += this.vy * speedMul;
+
+        // Rebote en paredes
+        if (this.x < this.radius) { this.x = this.radius; this.vx = Math.abs(this.vx); }
+        if (this.x > w - this.radius) { this.x = w - this.radius; this.vx = -Math.abs(this.vx); }
+        if (this.y < this.radius) { this.y = this.radius; this.vy = Math.abs(this.vy); }
+        if (this.y > h - this.radius) { this.y = h - this.radius; this.vy = -Math.abs(this.vy); }
+      }
+
+      draw(ctx) {
+        if (this.matched) return;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        if (this.type === 'worker') {
+          ctx.fillStyle = '#DC2626';
+          ctx.shadowColor = 'rgba(220, 38, 38, 0.4)';
+        } else {
+          ctx.fillStyle = '#2563EB';
+          ctx.shadowColor = 'rgba(37, 99, 235, 0.4)';
+        }
+        ctx.shadowBlur = 6;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.lineWidth = 1.8;
+        ctx.stroke();
+      }
+    }
+
+    class Pair {
+      constructor(worker, vacancy, maxDuration) {
+        this.worker = worker;
+        this.vacancy = vacancy;
+        this.x = (worker.x + vacancy.x) / 2;
+        this.y = (worker.y + vacancy.y) / 2;
+        const angle = Math.random() * Math.PI * 2;
+        const spd = 0.5 + Math.random() * 0.4;
+        this.vx = Math.cos(angle) * spd;
+        this.vy = Math.sin(angle) * spd;
+        this.spin = 0;
+        this.spinSpeed = 0.04 + Math.random() * 0.03;
+        this.duration = maxDuration * 60; // frames
+        this.life = this.duration;
+        this.radius = 11;
+      }
+
+      update(w, h, speedMul) {
+        this.life -= 1 * speedMul;
+        this.spin += this.spinSpeed * speedMul;
+        this.x += this.vx * speedMul;
+        this.y += this.vy * speedMul;
+
+        // Rebote elástico
+        if (this.x < this.radius) { this.x = this.radius; this.vx = Math.abs(this.vx); }
+        if (this.x > w - this.radius) { this.x = w - this.radius; this.vx = -Math.abs(this.vx); }
+        if (this.y < this.radius) { this.y = this.radius; this.vy = Math.abs(this.vy); }
+        if (this.y > h - this.radius) { this.y = h - this.radius; this.vy = -Math.abs(this.vy); }
+
+        // Mantener la posición de las partículas en la pareja
+        const offset = 8;
+        this.worker.x = this.x + Math.cos(this.spin) * offset;
+        this.worker.y = this.y + Math.sin(this.spin) * offset;
+        this.vacancy.x = this.x - Math.cos(this.spin) * offset;
+        this.vacancy.y = this.y - Math.sin(this.spin) * offset;
+      }
+
+      draw(ctx) {
+        // Enlace visual elástico / aro institucional
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius + 2, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(5, 150, 105, 0.15)';
+        ctx.fill();
+        ctx.strokeStyle = '#059669';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Línea conectora
+        ctx.beginPath();
+        ctx.moveTo(this.worker.x, this.worker.y);
+        ctx.lineTo(this.vacancy.x, this.vacancy.y);
+        ctx.strokeStyle = '#10B981';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+
+        // Puntos emparejados
+        ctx.beginPath();
+        ctx.arc(this.worker.x, this.worker.y, 4.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#DC2626';
+        ctx.fill();
+        ctx.strokeStyle = '#FFF';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(this.vacancy.x, this.vacancy.y, 4.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#2563EB';
+        ctx.fill();
+        ctx.strokeStyle = '#FFF';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    }
+
+    function initDanceSimulation() {
+      danceSim.canvas = document.getElementById('arenaCanvas');
+      if (!danceSim.canvas) return;
+      danceSim.ctx = danceSim.canvas.getContext('2d');
+      danceSim.uvCanvas = document.getElementById('uvMiniCanvas');
+      danceSim.uvCtx = danceSim.uvCanvas.getContext('2d');
+
+      resetDanceFloor(true);
+      startDance();
+    }
+
+    function resetDanceFloor(separateHalves) {
+      danceSim.workers = [];
+      danceSim.vacancies = [];
+      danceSim.pairs = [];
+      danceSim.mismatchFlashes = [];
+      danceSim.historyUV = [];
+      danceSim.totalContacts = 0;
+      danceSim.successfulMatches = 0;
+
+      const w = danceSim.canvas.width;
+      const h = danceSim.canvas.height;
+
+      // Crear trabajadores (rojos)
+      for (let i = 0; i < danceSim.targetWorkers; i++) {
+        const x = separateHalves ? 20 + Math.random() * (w * 0.4 - 30) : 20 + Math.random() * (w - 40);
+        const y = 20 + Math.random() * (h - 40);
+        danceSim.workers.push(new Agent('worker', x, y));
+      }
+
+      // Crear vacantes (azules)
+      for (let i = 0; i < danceSim.targetVacancies; i++) {
+        const x = separateHalves ? w * 0.6 + Math.random() * (w * 0.4 - 30) : 20 + Math.random() * (w - 40);
+        const y = 20 + Math.random() * (h - 40);
+        danceSim.vacancies.push(new Agent('vacancy', x, y));
+      }
+
+      updateDanceKPIs();
+      drawDanceFrame();
+      drawLiveUV();
+    }
+
+    function startDance() {
+      danceSim.running = true;
+      document.getElementById('btnPlayPause').innerHTML = '⏸ Pausar';
+      document.getElementById('danceStatusTxt').innerText = 'Pista Activa · Emparejando';
+      if (!danceSim.animId) {
+        danceSim.animId = requestAnimationFrame(danceLoop);
+      }
+    }
+
+    function togglePlayPause() {
+      danceSim.running = !danceSim.running;
+      const btn = document.getElementById('btnPlayPause');
+      const st = document.getElementById('danceStatusTxt');
+      if (danceSim.running) {
+        btn.innerHTML = '⏸ Pausar';
+        btn.classList.add('primary');
+        st.innerText = 'Pista Activa · Emparejando';
+        danceLoop();
+      } else {
+        btn.innerHTML = '▶ Reanudar';
+        btn.classList.remove('primary');
+        st.innerText = 'Pista Pausada';
+      }
+    }
+
+    function toggleSpeed() {
+      if (danceSim.speedMultiplier === 1) {
+        danceSim.speedMultiplier = 2;
+        document.getElementById('btnSpeed').innerHTML = '⚡ 2x';
+      } else {
+        danceSim.speedMultiplier = 1;
+        document.getElementById('btnSpeed').innerHTML = '⚡ 1x';
+      }
+    }
+
+    function updateDanceParams() {
+      danceSim.paramA = parseFloat(document.getElementById('sliderDanceA').value) / 100;
+      let labelA = Math.round(danceSim.paramA * 100) + '%';
+      if (danceSim.paramA >= 0.8) labelA += " (Ajuste Alto)";
+      else if (danceSim.paramA >= 0.45) labelA += " (Ajuste Moderado)";
+      else labelA += " (Desajuste Severo)";
+      document.getElementById('lblDanceA').innerText = labelA;
+
+      danceSim.separationRate = parseFloat(document.getElementById('sliderDanceS').value);
+      document.getElementById('lblDanceS').innerText = danceSim.separationRate + ' s duración';
+    }
+
+    function updateDanceCounts() {
+      danceSim.targetVacancies = parseInt(document.getElementById('sliderDanceV').value);
+      danceSim.targetWorkers = parseInt(document.getElementById('sliderDanceU').value);
+
+      document.getElementById('lblDanceV').innerText = danceSim.targetVacancies + ' puestos';
+      document.getElementById('lblDanceU').innerText = danceSim.targetWorkers + ' personas';
+
+      adjustAgentCount('worker', danceSim.targetWorkers);
+      adjustAgentCount('vacancy', danceSim.targetVacancies);
+    }
+
+    function adjustAgentCount(type, target) {
+      const list = type === 'worker' ? danceSim.workers : danceSim.vacancies;
+      const w = danceSim.canvas.width;
+      const h = danceSim.canvas.height;
+      const activeFree = list.filter(a => !a.matched).length;
+
+      if (activeFree < target) {
+        const toAdd = target - activeFree;
+        for (let i = 0; i < toAdd; i++) {
+          const x = 20 + Math.random() * (w - 40);
+          const y = 20 + Math.random() * (h - 40);
+          list.push(new Agent(type, x, y));
+        }
+      } else if (activeFree > target) {
+        let toRemove = activeFree - target;
+        for (let i = list.length - 1; i >= 0 && toRemove > 0; i--) {
+          if (!list[i].matched) {
+            list.splice(i, 1);
+            toRemove--;
+          }
+        }
+      }
+    }
+
+    function applyDanceScenario(scen) {
+      document.querySelectorAll('.scenarios-grid .btn-scenario').forEach(b => b.classList.remove('active'));
+      const diagTag = document.getElementById('danceDiagTag');
+      const diagTxt = document.getElementById('danceDiagTxt');
+
+      if (scen === 'normal') {
+        document.getElementById('btnScenNormal').classList.add('active');
+        document.getElementById('sliderDanceV').value = 25;
+        document.getElementById('sliderDanceU').value = 25;
+        document.getElementById('sliderDanceA').value = 80;
+        diagTag.innerText = 'Escenario 1 · Equilibrio Estacionario';
+        diagTxt.innerHTML = '<strong>Equilibrio fluido:</strong> Hay equilibrio entre vacantes y parados (U=25, V=25). Con eficiencia A=80%, las contrataciones se producen con fluidez y la tasa de tensión θ = 1,0.';
+      } else if (scen === 'recession') {
+        document.getElementById('btnScenRecession').classList.add('active');
+        document.getElementById('sliderDanceV').value = 4;
+        document.getElementById('sliderDanceU').value = 35;
+        document.getElementById('sliderDanceA').value = 80;
+        diagTag.innerText = 'Escenario 2 · Recesión Severa (Shock de Demanda)';
+        diagTxt.innerHTML = '<strong>Movimiento a lo largo de la curva:</strong> Las empresas destruyen vacantes (V ↓). Los trabajadores rojos quedan <em>solos en la pista</em> vagando sin encontrar a nadie. En el monitor UV, el punto cae hacia el extremo inferior derecho.';
+      } else if (scen === 'expansion') {
+        document.getElementById('btnScenExpansion').classList.add('active');
+        document.getElementById('sliderDanceV').value = 45;
+        document.getElementById('sliderDanceU').value = 12;
+        document.getElementById('sliderDanceA').value = 85;
+        diagTag.innerText = 'Escenario 3 · Expansión Económica (Boom Cíclico)';
+        diagTxt.innerHTML = '<strong>Movimiento a lo largo de la curva:</strong> Ola masiva de vacantes (V ↑). Los puntos azules compiten intensamente por los pocos desempleados disponibles. La tensión θ se dispara y el punto UV viaja a la zona superior izquierda.';
+      } else if (scen === 'mismatch') {
+        document.getElementById('btnScenMismatch').classList.add('active');
+        document.getElementById('sliderDanceV').value = 35;
+        document.getElementById('sliderDanceU').value = 35;
+        document.getElementById('sliderDanceA').value = 15;
+        diagTag.innerText = 'Escenario 4 · Desajuste Formativo (Skills Mismatch)';
+        diagTxt.innerHTML = '<strong>¡Desplazamiento hacia fuera de la curva!</strong> Hay abundancia de vacantes y desempleados (U=35, V=35), pero debido a la falta de competencias requeridas (A=15%) chocan y <em>rebotan una y otra vez sin contratarse</em>. El punto UV se sitúa hacia el exterior nordeste, probando la ineficiencia estructural.';
+      }
+
+      updateDanceParams();
+      updateDanceCounts();
+      resetDanceFloor(false);
+    }
+
+    function danceLoop() {
+      if (!danceSim.running || currentTab !== 'dance') {
+        danceSim.animId = null;
+        return;
+      }
+
+      updateDancePhysics();
+      drawDanceFrame();
+      drawLiveUV();
+      danceSim.animId = requestAnimationFrame(danceLoop);
+    }
+
+    function updateDancePhysics() {
+      const w = danceSim.canvas.width;
+      const h = danceSim.canvas.height;
+      const spd = danceSim.speedMultiplier;
+
+      danceSim.workers.forEach(wkr => {
+        if (!wkr.matched) wkr.update(w, h, spd);
+      });
+
+      danceSim.vacancies.forEach(vac => {
+        if (!vac.matched) vac.update(w, h, spd);
+      });
+
+      const contactDist = 13;
+      danceSim.workers.forEach(wkr => {
+        if (wkr.matched) return;
+        danceSim.vacancies.forEach(vac => {
+          if (vac.matched) return;
+
+          const dx = wkr.x - vac.x;
+          const dy = wkr.y - vac.y;
+          const dist = Math.hypot(dx, dy);
+
+          if (dist < contactDist) {
+            danceSim.totalContacts++;
+            if (Math.random() < danceSim.paramA) {
+              wkr.matched = true;
+              vac.matched = true;
+              wkr.partner = vac;
+              vac.partner = wkr;
+              const newPair = new Pair(wkr, vac, danceSim.separationRate);
+              danceSim.pairs.push(newPair);
+              danceSim.successfulMatches++;
+            } else {
+              danceSim.mismatchFlashes.push({
+                x: (wkr.x + vac.x) / 2,
+                y: (wkr.y + vac.y) / 2,
+                life: 14
+              });
+              const nx = dx / (dist || 1);
+              const ny = dy / (dist || 1);
+              wkr.vx = nx * 1.5;
+              wkr.vy = ny * 1.5;
+              vac.vx = -nx * 1.5;
+              vac.vy = -ny * 1.5;
+            }
+          }
+        });
+      });
+
+      for (let i = danceSim.pairs.length - 1; i >= 0; i--) {
+        const pair = danceSim.pairs[i];
+        pair.update(w, h, spd);
+        if (pair.life <= 0) {
+          pair.worker.matched = false;
+          pair.worker.partner = null;
+          pair.vacancy.matched = false;
+          pair.vacancy.partner = null;
+
+          pair.worker.vx = (Math.random() - 0.5) * 1.6;
+          pair.worker.vy = (Math.random() - 0.5) * 1.6;
+          pair.vacancy.vx = -pair.worker.vx;
+          pair.vacancy.vy = -pair.worker.vy;
+
+          danceSim.pairs.splice(i, 1);
+        }
+      }
+
+      for (let i = danceSim.mismatchFlashes.length - 1; i >= 0; i--) {
+        danceSim.mismatchFlashes[i].life -= 1 * spd;
+        if (danceSim.mismatchFlashes[i].life <= 0) {
+          danceSim.mismatchFlashes.splice(i, 1);
+        }
+      }
+
+      updateDanceKPIs();
+    }
+
+    function updateDanceKPIs() {
+      const freeU = danceSim.workers.filter(w => !w.matched).length;
+      const freeV = danceSim.vacancies.filter(v => !v.matched).length;
+      const matches = danceSim.pairs.length;
+
+      document.getElementById('statU').innerText = freeU;
+      document.getElementById('statV').innerText = freeV;
+      document.getElementById('statM').innerText = matches;
+
+      const theta = freeU > 0 ? (freeV / freeU).toFixed(2) : "∞";
+      document.getElementById('statTheta').innerText = theta;
+
+      const rate = danceSim.totalContacts > 0
+        ? Math.round((danceSim.successfulMatches / danceSim.totalContacts) * 100)
+        : Math.round(danceSim.paramA * 100);
+      document.getElementById('statSuccessRate').innerText = rate + '%';
+
+      if (Math.random() < 0.15) {
+        danceSim.historyUV.push({ u: freeU, v: freeV });
+        if (danceSim.historyUV.length > 25) danceSim.historyUV.shift();
+      }
+    }
+
+    function drawDanceFrame() {
+      const ctx = danceSim.ctx;
+      if (!ctx) return;
+      const w = danceSim.canvas.width;
+      const h = danceSim.canvas.height;
+
+      ctx.clearRect(0, 0, w, h);
+
+      ctx.strokeStyle = '#F0EBE1';
+      ctx.lineWidth = 1;
+      const step = 28;
+      for (let x = step; x < w; x += step) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+      }
+      for (let y = step; y < h; y += step) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+      }
+
+      ctx.setLineDash([4, 4]);
+      ctx.strokeStyle = '#D9D0C5';
+      ctx.beginPath();
+      ctx.moveTo(w / 2, 0);
+      ctx.lineTo(w / 2, h);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      danceSim.pairs.forEach(p => p.draw(ctx));
+      danceSim.workers.forEach(wkr => wkr.draw(ctx));
+      danceSim.vacancies.forEach(vac => vac.draw(ctx));
+
+      danceSim.mismatchFlashes.forEach(f => {
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, 10 - f.life * 0.4, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(233, 143, 113, ' + (f.life / 14) + ')';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+
+        ctx.font = 'bold 9px Outfit';
+        ctx.fillStyle = 'rgba(220, 38, 38, ' + (f.life / 14) + ')';
+        ctx.fillText('Mismatch!', f.x - 18, f.y - 8);
+      });
+    }
+
+    function drawLiveUV() {
+      const ctx = danceSim.uvCtx;
+      if (!ctx) return;
+      const w = danceSim.uvCanvas.width;
+      const h = danceSim.uvCanvas.height;
+
+      ctx.clearRect(0, 0, w, h);
+
+      const padL = 32, padR = 15, padT = 15, padB = 25;
+      const pW = w - padL - padR;
+      const pH = h - padT - padB;
+
+      const maxVal = 50;
+      const toX = u => padL + (u / maxVal) * pW;
+      const toY = v => padT + (1 - (v / maxVal)) * pH;
+
+      ctx.strokeStyle = '#EBF1ED';
+      ctx.lineWidth = 1;
+      ctx.fillStyle = '#8FA094';
+      ctx.font = '9px Inter';
+
+      for (let g = 10; g <= 40; g += 15) {
+        const y = toY(g);
+        ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(w - padR, y); ctx.stroke();
+        ctx.fillText(g, padL - 18, y + 3);
+
+        const x = toX(g);
+        ctx.beginPath(); ctx.moveTo(x, padT); ctx.lineTo(x, h - padB); ctx.stroke();
+        ctx.fillText(g, x - 5, h - padB + 14);
+      }
+
+      ctx.strokeStyle = 'rgba(17, 57, 39, 0.4)';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath();
+      for (let u = 4; u <= 48; u += 1) {
+        const k = 220 * (danceSim.paramA / 0.8);
+        const v = k / u;
+        if (v >= 2 && v <= maxVal) {
+          const px = toX(u), py = toY(v);
+          if (u === 4 || py < padT) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        }
+      }
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      if (danceSim.historyUV.length > 1) {
+        ctx.strokeStyle = 'rgba(233, 143, 113, 0.35)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        danceSim.historyUV.forEach((pt, i) => {
+          const px = toX(pt.u);
+          const py = toY(pt.v);
+          if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        });
+        ctx.stroke();
+      }
+
+      const freeU = danceSim.workers.filter(w => !w.matched).length;
+      const freeV = danceSim.vacancies.filter(v => !v.matched).length;
+      const curX = toX(freeU);
+      const curY = toY(freeV);
+
+      ctx.beginPath();
+      ctx.arc(curX, curY, 8, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(233, 143, 113, 0.4)';
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(curX, curY, 4.5, 0, Math.PI * 2);
+      ctx.fillStyle = '#113927';
+      ctx.fill();
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.font = 'bold 9px Outfit';
+      ctx.fillStyle = '#113927';
+      ctx.fillText('U (Paro)', w - 42, h - 8);
+      ctx.fillText('V (Vac.)', 6, 12);
+    }
+
+    // ========================================================
+    // TAB 2: MODELO ANALÍTICO CONTINUO DMP & CURVA BEVERIDGE
+    // ========================================================
+    let state = {
+      cycle: -15,
+      efficiencyA: 78,
+      mismatch: 25,
+      currentPhase: 1
+    };
+
+    function updateModel() {
+      state.cycle = parseFloat(document.getElementById('sliderCycle').value);
+      state.efficiencyA = parseFloat(document.getElementById('sliderA').value);
+      state.mismatch = parseFloat(document.getElementById('sliderMismatch').value);
+
+      let cycleTxt = "Neutral";
+      if (state.cycle < -25) cycleTxt = "Recesión Severa";
+      else if (state.cycle < -5) cycleTxt = "Recesión Moderada";
+      else if (state.cycle > 25) cycleTxt = "Fuerte Expansión";
+      else if (state.cycle > 5) cycleTxt = "Expansión Moderada";
+      document.getElementById('txtCycle').innerText = cycleTxt;
+
+      document.getElementById('txtA').innerText = state.efficiencyA + ' / 100';
+
+      let misTxt = "Bajo";
+      if (state.mismatch > 50) misTxt = "Muy Severo (+5.0 p.p.)";
+      else if (state.mismatch > 20) misTxt = "Moderado (+2.5 p.p.)";
+      document.getElementById('txtMismatch').innerText = misTxt;
+
+      drawBeveridge();
+    }
+
+    function applyScenario(scen) {
+      if (scen === 'natural') {
+        state.cycle = 0; state.efficiencyA = 100; state.mismatch = 0;
+      } else if (scen === 'recession') {
+        state.cycle = -40; state.efficiencyA = 100; state.mismatch = 0;
+      } else if (scen === 'mismatch') {
+        state.cycle = -10; state.efficiencyA = 60; state.mismatch = 55;
+      } else if (scen === 'overheating') {
+        state.cycle = 45; state.efficiencyA = 100; state.mismatch = 0;
+      }
+      document.getElementById('sliderCycle').value = state.cycle;
+      document.getElementById('sliderA').value = state.efficiencyA;
+      document.getElementById('sliderMismatch').value = state.mismatch;
+      updateModel();
+    }
+
+    function drawBeveridge() {
+      const canvas = document.getElementById('beveridgeCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+
+      ctx.clearRect(0, 0, w, h);
+
+      const padLeft = 45, padRight = 20, padTop = 20, padBottom = 35;
+      const plotW = w - padLeft - padRight;
+      const plotH = h - padTop - padBottom;
+
+      const toX = u => padLeft + (u / 26) * plotW;
+      const toY = v => padTop + (1 - (v / 4.2)) * plotH;
+
+      ctx.strokeStyle = '#E3ECE6';
+      ctx.lineWidth = 1;
+      ctx.fillStyle = '#6E8274';
+      ctx.font = '10px Inter';
+
+      for (let v = 1; v <= 4; v++) {
+        const y = toY(v);
+        ctx.beginPath(); ctx.moveTo(padLeft, y); ctx.lineTo(w - padRight, y); ctx.stroke();
+        ctx.fillText(v + '%', padLeft - 26, y + 3);
+      }
+
+      for (let u = 5; u <= 25; u += 5) {
+        const x = toX(u);
+        ctx.beginPath(); ctx.moveTo(x, padTop); ctx.lineTo(x, h - padBottom); ctx.stroke();
+        ctx.fillText(u + '%', x - 8, h - padBottom + 16);
+      }
+
+      ctx.strokeStyle = '#76927A';
+      ctx.lineWidth = 1.2;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(toX(0.5), toY(0.5));
+      ctx.lineTo(toX(4.0), toY(4.0));
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      const effFactor = state.efficiencyA / 100;
+      const misShift = state.mismatch * 0.08;
+      const k = (8.5 / effFactor);
+
+      ctx.strokeStyle = '#113927';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      for (let u = 2; u <= 26; u += 0.2) {
+        const effU = u - misShift;
+        if (effU > 1.2) {
+          const v = k / Math.pow(effU, 1.4);
+          if (v >= 0.05 && v <= 4.2) {
+            const x = toX(u), y = toY(v);
+            if (u === 2) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          }
+        }
+      }
+      ctx.stroke();
+
+      const naturalU = (7.5 / Math.pow(effFactor, 0.7)) + misShift;
+      const cycleU = -state.cycle * 0.16;
+      const curU = Math.max(3.5, Math.min(24.5, naturalU + cycleU));
+      const curEffU = Math.max(1.3, curU - misShift);
+      const curV = Math.max(0.15, Math.min(3.8, k / Math.pow(curEffU, 1.4)));
+
+      const px = toX(curU);
+      const py = toY(curV);
+
+      ctx.beginPath();
+      ctx.arc(px, py, 7, 0, Math.PI * 2);
+      ctx.fillStyle = '#E98F71';
+      ctx.fill();
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      document.getElementById('valU').innerText = curU.toFixed(1) + '%';
+      document.getElementById('valV').innerText = curV.toFixed(2) + '%';
+      const theta = (curV / curU).toFixed(2);
+      document.getElementById('valTheta').innerText = theta;
+      document.getElementById('valA').innerText = state.efficiencyA;
+
+      const diagTitle = document.getElementById('diagTitle');
+      const diagDesc = document.getElementById('diagDesc');
+      if (state.cycle < -20) {
+        diagTitle.innerText = "Diagnóstico: Recesión Cíclica (Punto B)";
+        diagDesc.innerHTML = 'Insuficiencia de demanda agregada: las empresas reducen la apertura de puestos de trabajo (tasa de vacantes v = ' + curV.toFixed(2) + '%) elevando el desempleo cíclico (u = ' + curU.toFixed(1) + '%). Se produce un <strong>movimiento a lo largo de la curva de Beveridge hacia abajo a la derecha</strong>. Tensión baja: θ = ' + theta + '.';
+      } else if (state.cycle > 20) {
+        diagTitle.innerText = "Diagnóstico: Sobrecalentamiento / Boom (Punto C)";
+        diagDesc.innerHTML = 'Fuerte expansión de demanda: las empresas compiten agresivamente por mano de obra escasa (v = ' + curV.toFixed(2) + '%, u = ' + curU.toFixed(1) + '%). <strong>Movimiento a lo largo de la curva hacia arriba a la izquierda</strong>. Tensión elevada: θ = ' + theta + '.';
+      } else if (state.mismatch > 40 || state.efficiencyA < 65) {
+        diagTitle.innerText = "Diagnóstico: Desajuste Estructural / Ineficiencia";
+        diagDesc.innerHTML = '<strong>Desplazamiento de la Curva de Beveridge hacia el exterior</strong>: para cualquier nivel de vacantes, la tasa de desempleo de equilibrio es ahora mayor (u = ' + curU.toFixed(1) + '%). La causa no es la falta de vacantes, sino problemas de matching: desajuste formativo de los parados de larga duración o fricciones de intermediación.';
+      } else {
+        diagTitle.innerText = "Diagnóstico: Equilibrio de Tasa Natural (Punto A)";
+        diagDesc.innerHTML = 'El mercado opera en torno a su tasa natural de equilibrio sin presiones cíclicas severas (u = ' + curU.toFixed(1) + '%, v = ' + curV.toFixed(2) + '%). Las políticas recomendadas son de carácter estructural e intermediación activa.';
+      }
+    }
+
+    // ========================================================
+    // TAB 3: CASO ESPAÑA (FIGURA 1.9)
+    // ========================================================
+    const spainData = {
+      1: {
+        title: "Fase 1 (1980–2007) · La Curva Pre-Crisis y la Gran Moderación",
+        desc: "Durante este cuarto de siglo, el mercado laboral español operó sobre una curva de Beveridge relativamente estable, con una tasa natural de paro elevada pero movimientos cíclicos canónicos.",
+        u: "8.5%", v: "0.60%", a: "92 / 100", color: "#76927A"
+      },
+      2: {
+        title: "Fase 2 (2008–2013) · La Gran Recesión y el Gran Desplazamiento",
+        desc: "El colapso de la construcción y el shock financiero provocaron un doble impacto: una caída brusca de vacantes por la recesión y un desplazamiento masivo de la curva hacia afuera debido al desajuste formativo de millones de desempleados sin cualificación.",
+        u: "26.1%", v: "0.15%", a: "54 / 100", color: "#DC2626"
+      },
+      3: {
+        title: "Fase 3 (2014–2024) · Recuperación Parcial y la Paradoja Actual",
+        desc: "Desde 2014 se produjo un retorno hacia adentro de la curva, recuperando el 75% del shock. Sin embargo, en 2024 se alcanza una tasa de vacantes récord (0,75%) coexistiendo con 2,6 millones de desempleados (11,3%), reflejando la brecha estructural de competencias en parados de larga duración.",
+        u: "11.3%", v: "0.75%", a: "78 / 100", color: "#113927"
+      }
+    };
+
+    function showPhase(phaseNum) {
+      state.currentPhase = phaseNum;
+      for (let i = 1; i <= 3; i++) {
+        document.getElementById('chipF' + i).classList.toggle('active', i === phaseNum);
+      }
+      const info = spainData[phaseNum];
+      const card = document.getElementById('historyCard');
+      card.innerHTML = `
+        <h3 style="font-family:'Outfit',sans-serif; color:${info.color}; margin:0 0 8px;">${info.title}</h3>
+        <p style="font-size:0.88rem; color:#4A584E; line-height:1.5; margin:0 0 12px;">${info.desc}</p>
+        <div class="history-stat-grid">
+          <div class="history-stat"><div class="lbl">Tasa de Paro</div><div class="val">${info.u}</div></div>
+          <div class="history-stat"><div class="lbl">Tasa Vacantes</div><div class="val">${info.v}</div></div>
+          <div class="history-stat"><div class="lbl">Eficiencia A</div><div class="val" style="color:var(--pino)">${info.a}</div></div>
+        </div>
+      `;
+      drawSpainChart(phaseNum);
+    }
+
+    function drawSpainChart(activePhase) {
+      const canvas = document.getElementById('spainCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+
+      ctx.clearRect(0, 0, w, h);
+
+      const padLeft = 45, padRight = 20, padTop = 20, padBottom = 35;
+      const plotW = w - padLeft - padRight;
+      const plotH = h - padTop - padBottom;
+
+      const toX = u => padLeft + (u / 28) * plotW;
+      const toY = v => padTop + (1 - (v / 2.0)) * plotH;
+
+      ctx.strokeStyle = '#E3ECE6';
+      ctx.lineWidth = 1;
+      ctx.fillStyle = '#6E8274';
+      ctx.font = '10px Inter';
+
+      for (let v = 0.5; v <= 2.0; v += 0.5) {
+        const y = toY(v);
+        ctx.beginPath(); ctx.moveTo(padLeft, y); ctx.lineTo(w - padRight, y); ctx.stroke();
+        ctx.fillText(v.toFixed(1) + '%', padLeft - 32, y + 3);
+      }
+
+      for (let u = 5; u <= 25; u += 5) {
+        const x = toX(u);
+        ctx.beginPath(); ctx.moveTo(x, padTop); ctx.lineTo(x, h - padBottom); ctx.stroke();
+        ctx.fillText(u + '%', x - 8, h - padBottom + 16);
+      }
+
+      ctx.strokeStyle = '#76927A';
+      ctx.lineWidth = activePhase === 1 ? 3.5 : 1.5;
+      ctx.beginPath();
+      for (let u = 5; u <= 20; u += 0.5) {
+        const v = 3.2 / (u - 3.2);
+        if (v >= 0.1 && v <= 1.8) {
+          const x = toX(u), y = toY(v);
+          if (u === 5) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+      }
+      ctx.stroke();
+
+      ctx.strokeStyle = '#DC2626';
+      ctx.lineWidth = activePhase === 2 ? 3.5 : 1.5;
+      ctx.beginPath();
+      for (let u = 10; u <= 27; u += 0.5) {
+        const v = 3.8 / (u - 8.5);
+        if (v >= 0.1 && v <= 1.8) {
+          const x = toX(u), y = toY(v);
+          if (u === 10) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+      }
+      ctx.stroke();
+
+      ctx.strokeStyle = '#113927';
+      ctx.lineWidth = activePhase === 3 ? 3.5 : 1.5;
+      ctx.beginPath();
+      for (let u = 6.5; u <= 22; u += 0.5) {
+        const v = 3.5 / (u - 4.5);
+        if (v >= 0.1 && v <= 1.8) {
+          const x = toX(u), y = toY(v);
+          if (u === 6.5) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+      }
+      ctx.stroke();
+
+      const pts = [
+        { u: 8.5, v: 0.60, color: '#76927A', lbl: '1980-2007 (Fase 1)' },
+        { u: 26.1, v: 0.15, color: '#DC2626', lbl: '2013 (Fase 2: Gran Recesión)' },
+        { u: 11.3, v: 0.75, color: '#113927', lbl: '2024 (Fase 3: Récord Vacantes)' }
+      ];
+
+      pts.forEach((p, idx) => {
+        const px = toX(p.u);
+        const py = toY(p.v);
+        ctx.beginPath();
+        ctx.arc(px, py, (idx + 1 === activePhase) ? 7 : 4, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        ctx.font = (idx + 1 === activePhase) ? 'bold 11px Outfit' : '10px Inter';
+        ctx.fillStyle = p.color;
+        ctx.fillText(p.lbl, px + 8, py - 4);
+      });
+    }
+
+    // ========================================================
+    // TAB 4: GABINETE DE POLÍTICAS (QUIZ)
+    // ========================================================
+    function checkAnswer(qNum, optIdx, isCorrect) {
+      const card = document.getElementById('quiz' + qNum);
+      const buttons = card.querySelectorAll('.quiz-opt');
+      const fb = document.getElementById('fb' + qNum);
+
+      buttons.forEach((b, idx) => {
+        b.disabled = true;
+        if (idx === optIdx) {
+          b.classList.add(isCorrect ? 'correct' : 'incorrect');
+        }
+      });
+
+      fb.style.display = 'block';
+      if (isCorrect) {
+        fb.style.background = '#EAF7EE';
+        fb.style.color = '#14532D';
+        fb.innerHTML = '<strong>¡Exacto!</strong> ' + getFeedbackText(qNum);
+      } else {
+        fb.style.background = '#FEF2F2';
+        fb.style.color = '#7F1D1D';
+        fb.innerHTML = '<strong>Respuesta incorrecta.</strong> ' + getFeedbackText(qNum);
+      }
+    }
+
+    function getFeedbackText(q) {
+      if (q === 1) {
+        return "Si las vacantes se mantienen constantes o suben mientras el desempleo se incrementa, no puede tratarse de una caída cíclica de demanda. Representa un desplazamiento de la curva hacia fuera (BC₁ → BC₂) motivado por desajuste formativo o menor eficiencia en la intermediación (A ↓).";
+      } else if (q === 2) {
+        return "Inyectar estímulo general de demanda cuando el paro es estructural no crea empleo duradero: al estar en la NAIRU o con un bloqueo de cualificaciones, solo generará inflación y mayor déficit público sin desplazar la curva hacia el origen.";
+      } else {
+        return "El efecto de peso muerto (deadweight) en los incentivos a la contratación se produce cuando los fondos públicos subvencionan colocaciones que se habrían producido de todos modos por la dinámica natural de la empresa, encareciendo el coste por empleo neto adicional.";
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initDanceSimulation();
+    });
+  </script>
+</body>
+</html>

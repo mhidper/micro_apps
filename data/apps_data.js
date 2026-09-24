@@ -59,6 +59,32 @@ window.DOCENCIA_APPS = {
         url: "simulador_clu.html"
       },
       {
+        id: "psll_nairu_sim",
+        type: "simulator",
+        category: "simuladores",
+        icon: "📉",
+        iconBg: "#EAF4EE",
+        iconColor: "#113927",
+        title: "Tipología del Desempleo, NAIRU y Curva de Phillips",
+        desc: "Simula el trade-off aceleracionista, desajustes estructurales y el experimento macroeconómico de Friedman-Phelps.",
+        meta: "Simulador interactivo · 12 min",
+        session: "Tema 1 (Sesión 04)",
+        url: "simulador_desempleo_nairu.html"
+      },
+      {
+        id: "psll_beveridge_sim",
+        type: "simulator",
+        category: "simuladores",
+        icon: "🔄",
+        iconBg: "#EAF4EE",
+        iconColor: "#113927",
+        title: "La Curva de Beveridge y Emparejamiento Laboral",
+        desc: "Modelo DMP, dinámicas de flujos (s, f), shocks de demanda vs. desajuste estructural (mismatch) y serie España 1980-2024.",
+        meta: "Simulador interactivo · 15 min",
+        session: "Tema 1 (Sesión 05)",
+        url: "simulador_curva_beveridge.html"
+      },
+      {
         id: "psll_mercado_1",
         type: "quiz",
         category: "mercado",
