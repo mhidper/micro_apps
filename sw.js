@@ -6,7 +6,7 @@
    - La activación de la versión nueva la decide el usuario (aviso en la
      app) mediante el mensaje SKIP_WAITING: nunca se queda con una versión
      antigua ni interrumpe sin avisar. */
-const CACHE = 'mh-microapps-v8';
+const CACHE = 'mh-microapps-v9';
 
 const PRECACHE = [
   './', './index.html', './theme.css', './fonts.css',
@@ -23,6 +23,7 @@ const PRECACHE = [
   './macro_simulador_sesion_03.html',
   './macro_simulador_sesion_04.html',
   './macro_simulador_sesion_05.html',
+  './firma-dinero.html',
   './macro_is_cordel_lite.html',
   './macro_is_desplazamiento_lite.html',
   './balanza_proteccion.html',

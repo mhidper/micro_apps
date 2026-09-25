@@ -599,14 +599,14 @@ window.DOCENCIA_APPS = {
         id: "macro_sim_sesion05",
         type: "simulator",
         category: "simuladores",
-        icon: "🏦",
-        iconBg: "#F5F3FF",
-        iconColor: "#4338CA",
-        title: "Creación de Dinero Bancario y la Regla LM",
-        desc: "El multiplicador del dinero bancario, balances del BC y banca comercial, y la LM horizontal moderna fijada por el Banco Central.",
-        meta: "Simulador interactivo · 12 min",
+        icon: "✍️",
+        iconBg: "#EFF6FF",
+        iconColor: "#056CAA",
+        title: "La firma que crea dinero (Balances y Asientos)",
+        desc: "Cómo nace, circula y se destruye el dinero bancario. Contado con balances interactivos, asientos y liquidación interbancaria (Bank of England).",
+        meta: "Simulador interactivo · 15 min",
         session: "Sesión 5",
-        url: "macro_simulador_sesion_05.html"
+        url: "firma-dinero.html"
       },
       {
         id: "macro_real_1",
