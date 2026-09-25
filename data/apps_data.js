@@ -583,6 +583,32 @@ window.DOCENCIA_APPS = {
         url: "macro_simulador_sesion_03.html"
       },
       {
+        id: "macro_sim_sesion04",
+        type: "simulator",
+        category: "simuladores",
+        icon: "💰",
+        iconBg: "#EFF6FF",
+        iconColor: "#056CAA",
+        title: "Mercado de Dinero, Bonos y Tipos de Interés",
+        desc: "Demanda de liquidez vs. bonos, determinación del tipo de interés, precio inverso del bono y Operaciones de Mercado Abierto.",
+        meta: "Simulador interactivo · 12 min",
+        session: "Sesión 4",
+        url: "macro_simulador_sesion_04.html"
+      },
+      {
+        id: "macro_sim_sesion05",
+        type: "simulator",
+        category: "simuladores",
+        icon: "🏦",
+        iconBg: "#F5F3FF",
+        iconColor: "#4338CA",
+        title: "Creación de Dinero Bancario y la Regla LM",
+        desc: "El multiplicador del dinero bancario, balances del BC y banca comercial, y la LM horizontal moderna fijada por el Banco Central.",
+        meta: "Simulador interactivo · 12 min",
+        session: "Sesión 5",
+        url: "macro_simulador_sesion_05.html"
+      },
+      {
         id: "macro_real_1",
         type: "quiz",
         category: "real",

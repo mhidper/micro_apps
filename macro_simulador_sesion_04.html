@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Sesión 4 · Mercados Financieros (I) · Macro UPO</title>
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="theme.css">
+  <style>
+    :root {
+      --navy: #0b1c36;
+      --cobalt: #056caa;
+      --azure: #0776b5;
+      --gold: #d97706;
+      --crimson: #e11d48;
+      --teal: #0d9488;
+      --indigo: #4338ca;
+      --slate: #64748b;
+      --bg-cream: #faf8f5;
+      --card-border: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-cream);
+      color: #1e293b;
+      line-height: 1.6;
+      padding-bottom: 70px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 680px; margin: 0 auto; padding: 0 20px; }
+    
+    /* Header */
+    .intro { padding: 32px 0 10px; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cobalt);
+      margin-bottom: 10px;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 18px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--cobalt), var(--gold));
+      border-radius: 2px;
+    }
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.8rem, 5.5vw, 2.3rem);
+      line-height: 1.15;
+      color: var(--navy);
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+    .lede { font-size: 1.02rem; color: #475569; margin-bottom: 16px; }
+
+    /* Sticky Hero Panel */
+    .hero {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(250, 248, 245, 0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 12px 0 14px;
+      box-shadow: 0 10px 25px -20px rgba(11, 28, 54, 0.3);
+    }
+    .hero-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--slate);
+      text-align: center;
+      margin-bottom: 4px;
+    }
+    svg.plot { width: 100%; height: auto; display: block; border-radius: 8px; background: #ffffff; border: 1px solid var(--card-border); }
+
+    /* Key Metrics */
+    .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+    .metric {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 7px 6px;
+      text-align: center;
+    }
+    .metric .k { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; color: var(--slate); letter-spacing: 0.04em; }
+    .metric .v { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.05rem; line-height: 1.2; margin-top: 2px; }
+
+    /* Sections */
+    .section { padding: 28px 0 10px; border-top: 1px solid #e2e8f0; }
+    .kicker {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--cobalt);
+      margin-bottom: 6px;
+    }
+    .section h2 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.35rem;
+      color: var(--navy);
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+    .section p { font-size: 0.96rem; color: #334155; margin-bottom: 14px; }
+    .section p strong { color: var(--navy); }
+
+    /* Controls */
+    .control-card {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    .control-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+    .control-label { font-weight: 600; font-size: 0.88rem; color: var(--navy); }
+    .control-value { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.05rem; color: var(--cobalt); }
+    input[type=range] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      outline: none;
+      margin: 4px 0 2px;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 2.5px solid var(--cobalt);
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+      transition: transform 0.1s ease;
+    }
+    input[type=range]::-webkit-slider-thumb:active { transform: scale(1.18); }
+
+    /* Scenario Buttons */
+    .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0 16px; }
+    @media(max-width: 480px) { .btn-grid { grid-template-columns: 1fr; } }
+    .action-btn {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.82rem;
+      background: #ffffff;
+      border: 1.5px solid var(--card-border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: var(--navy);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .action-btn:hover { border-color: var(--cobalt); background: #f0f7ff; }
+    .action-btn.active { background: var(--navy); color: #ffffff; border-color: var(--navy); }
+
+    /* Callout & Cards */
+    .callout {
+      background: #ffffff;
+      border-left: 4px solid var(--cobalt);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      border-top: 1px solid var(--card-border);
+      border-right: 1px solid var(--card-border);
+      border-bottom: 1px solid var(--card-border);
+      font-size: 0.92rem;
+    }
+    .callout.gold { border-left-color: var(--gold); background: #fffcf5; }
+    .callout.crimson { border-left-color: var(--crimson); background: #fff5f7; }
+    .callout strong { color: var(--navy); }
+
+    /* Quiz */
+    .quiz-card {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+    .quiz-q { font-weight: 700; font-size: 0.95rem; color: var(--navy); margin-bottom: 12px; }
+    .quiz-opt {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: var(--bg-cream);
+      border: 1.5px solid var(--card-border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.88rem;
+      color: #1e293b;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .quiz-opt:hover { border-color: var(--cobalt); background: #f0f7ff; }
+    .quiz-opt.correct { background: #ecfdf5; border-color: var(--teal); color: #065f46; font-weight: 600; }
+    .quiz-opt.wrong { background: #fef2f2; border-color: var(--crimson); color: #991b1b; }
+    .quiz-fb {
+      display: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      margin-top: 10px;
+      line-height: 1.45;
+    }
+    .quiz-fb.show { display: block; }
+    .quiz-fb.correct { background: #ecfdf5; color: #065f46; }
+    .quiz-fb.wrong { background: #fffbeb; color: #92400e; }
+
+    /* Footer Note */
+    .footer-box {
+      background: var(--navy);
+      color: #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 30px;
+    }
+    .footer-box h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      color: #93c5fd;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .footer-box p { font-size: 0.92rem; color: #cbd5e1; margin-bottom: 0; }
+  </style>
+</head>
+<body>
+
+  <div class="wrap intro">
+    <div class="eyebrow">Macroeconomía · Sesión 4 (EB)</div>
+    <h1>Mercados Financieros (I): Dinero, Bonos y Tipos de Interés</h1>
+    <p class="lede">
+      Comprende cómo los hogares eligen entre dinero líquido y títulos de deuda, cómo se fija el tipo de interés en el mercado de dinero ($M^s = M^d$) y por qué el precio de los bonos se mueve siempre en sentido contrario a los tipos.
+    </p>
+  </div>
+
+  <!-- STICKY INTERACTIVE PLOT & LIVE METRICS -->
+  <div class="hero">
+    <div class="wrap">
+      <div class="hero-title">Mercado de Dinero y Precio del Bono en Tiempo Real</div>
+      <svg id="moneyPlot" class="plot" viewBox="0 0 540 280" role="img" aria-label="Mercado de Dinero"></svg>
+      
+      <div class="metrics">
+        <div class="metric">
+          <div class="k">Tipo Interés (i*)</div>
+          <div class="v" id="mRate" style="color:var(--cobalt)">4,0%</div>
+        </div>
+        <div class="metric">
+          <div class="k">Precio Bono (PB)</div>
+          <div class="v" id="mBond" style="color:var(--teal)">96,15 €</div>
+        </div>
+        <div class="metric">
+          <div class="k">Oferta Dinero (M)</div>
+          <div class="v" id="mSupply" style="color:var(--indigo)">500 M€</div>
+        </div>
+        <div class="metric">
+          <div class="k">Renta Nominal ($Y)</div>
+          <div class="v" id="mIncome" style="color:var(--gold)">1.000 M€</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <!-- CONTROLES Y ESCENARIOS -->
+    <section class="section">
+      <div class="kicker">Simulación Activa</div>
+      <h2>Manipula la Liquidez y las Transacciones</h2>
+      <p>Ajusta la oferta monetaria del Banco Central o el volumen de transacciones de la economía para ver cómo responde el tipo de interés y el valor de mercado de los bonos:</p>
+
+      <div class="control-card">
+        <div class="control-head">
+          <span class="control-label">Oferta de Dinero del Banco Central ($M$)</span>
+          <span class="control-value" id="valM">500 M€</span>
+        </div>
+        <input type="range" id="sliderM" min="300" max="750" step="10" value="500">
+      </div>
+
+      <div class="control-card">
+        <div class="control-head">
+          <span class="control-label">Renta Nominal / Volumen de Transacciones ($\$Y$)</span>
+          <span class="control-value" id="valY">1.000 M€</span>
+        </div>
+        <input type="range" id="sliderY" min="600" max="1500" step="50" value="1000">
+      </div>
+
+      <div class="btn-grid">
+        <button class="action-btn" id="btnOmaExp">
+          <span>🟢</span> <b>OMA Expansiva:</b> Compra Bonos
+        </button>
+        <button class="action-btn" id="btnOmaContr">
+          <span>🔴</span> <b>OMA Contractiva:</b> Venta Bonos
+        </button>
+        <button class="action-btn" id="btnBoom">
+          <span>📈</span> <b>Boom:</b> $\Delta \$Y = +400$
+        </button>
+        <button class="action-btn" id="btnReset">
+          <span>🔄</span> <b>Restablecer</b> Equilibrio Base
+        </button>
+      </div>
+
+      <div class="callout gold">
+        <strong>Ecuación de Demanda de Dinero:</strong> $M^d = \$Y \cdot (0,70 - 5 \cdot i)$. Al aumentar el tipo de interés ($i$), los agentes renuncian al efectivo y compran bonos rentables, reduciendo la liquidez demandada.
+      </div>
+    </section>
+
+    <!-- TEORÍA Y ANATOMÍA ANALÍTICA -->
+    <section class="section">
+      <div class="kicker">Idea Central 1</div>
+      <h2>La Relación Inversa entre el Precio del Bono y el Tipo de Interés</h2>
+      <p>
+        Un bono a un año con valor nominal de <strong>100 €</strong> paga 100 € al vencimiento. Si hoy lo compras al precio de mercado $P_B$, tu rentabilidad o tipo de interés es:
+      </p>
+      
+      <div class="callout">
+        $$i = \frac{100 - P_B}{P_B} \iff P_B = \frac{100}{1 + i}$$
+        <strong>Intuición Financiera:</strong> Si el Banco Central sube los tipos oficiales al 8%, nadie comprará bonos antiguos que rinden al 3% a menos que su precio se hunda en el mercado secundario hasta equiparar su rentabilidad al 8%.
+      </div>
+
+      <div class="control-card" style="background:#f8fafc;">
+        <div style="font-weight:700; color:var(--navy); margin-bottom:8px;">Calculadora Rápida de Rendimiento de Bono a 1 Año:</div>
+        <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.92rem;">
+          <span>Si el precio del bono es <strong id="calcPrice">96,15 €</strong></span>
+          <span>El tipo de interés es <strong id="calcYield" style="color:var(--cobalt); font-size:1.1rem;">4,00%</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPERACIONES DE MERCADO ABIERTO -->
+    <section class="section">
+      <div class="kicker">Idea Central 2</div>
+      <h2>Operaciones de Mercado Abierto (OMA)</h2>
+      <p>
+        El Banco Central compra o vende bonos en el mercado abierto para inyectar o drenar liquidez:
+      </p>
+      <div class="callout">
+        <strong>1. OMA Expansiva (Inyección):</strong> El BC compra bonos $\implies$ aumenta la demanda de bonos en el mercado $\implies P_B \uparrow \implies$ el tipo de interés cae ($i \downarrow$). A cambio, el BC entrega dinero nuevo ($M \uparrow$).<br><br>
+        <strong>2. OMA Contractiva (Drenaje):</strong> El BC vende bonos $\implies$ aumenta la oferta de bonos en el mercado $\implies P_B \downarrow \implies$ el tipo de interés sube ($i \uparrow$). A cambio, retira dinero de la circulación ($M \downarrow$).
+      </div>
+    </section>
+
+    <!-- CHECKPOINT CONCEPTUAL / QUIZ -->
+    <section class="section">
+      <div class="kicker">Autoevaluación Rápida</div>
+      <h2>Comprueba tu Comprensión In Situ</h2>
+
+      <div class="quiz-card">
+        <div class="quiz-q">1. Si el PIB nominal de España crece un 10% por mayor actividad y precios, ¿qué ocurrirá en el mercado de dinero si el Banco Central no modifica la cantidad de dinero en circulación?</div>
+        <button class="quiz-opt" onclick="checkQ1(this, false)">A) El tipo de interés bajará porque habrá más dinero circulando.</button>
+        <button class="quiz-opt" onclick="checkQ1(this, true)">B) El tipo de interés subirá, porque las familias necesitarán más efectivo para sus pagos y venderán bonos para conseguirlo, deprimiendo el precio de los títulos.</button>
+        <button class="quiz-opt" onclick="checkQ1(this, false)">C) El precio de los bonos se disparará al alza.</button>
+        <div class="quiz-fb" id="fbQ1"></div>
+      </div>
+
+      <div class="quiz-card">
+        <div class="quiz-q">2. ¿Por qué una compra masiva de títulos de deuda por parte del Banco Central reduce el tipo de interés de la economía?</div>
+        <button class="quiz-opt" onclick="checkQ2(this, true)">A) Porque al pujar agresivamente por los bonos eleva su precio de cotización de mercado ($P_B \uparrow$), lo que matemáticamente abarata la rentabilidad exigida ($i \downarrow$).</button>
+        <button class="quiz-opt" onclick="checkQ2(this, false)">B) Porque la rentabilidad de los bonos viene impuesta por ley en el Parlamento.</button>
+        <button class="quiz-opt" onclick="checkQ2(this, false)">C) Porque reduce la cantidad de dinero disponible en el sistema bancario.</button>
+        <div class="quiz-fb" id="fbQ2"></div>
+      </div>
+    </section>
+
+    <div class="footer-box">
+      <h3>Conexión con la Sesión 5</h3>
+      <p>
+        En esta sesión hemos supuesto que todo el dinero es efectivo y que el Banco Central controla directamente $M$. En la siguiente sesión introduciremos la <strong>banca comercial</strong>, los depósitos bancarios y el multiplicador del dinero, descubriendo la moderna <strong>Regla LM</strong> donde el Banco Central fija directamente el tipo de interés $\bar{i}$.
+      </p>
+    </div>
+
+  </div>
+
+  <script>
+    // Variables de estado del modelo
+    let state = {
+      M: 500,     // Oferta monetaria (M€)
+      Y: 1000,    // Renta nominal ($Y en M€)
+      k: 0.70,    // Parámetro base
+      h: 5.0      // Sensibilidad al tipo de interés
+    };
+
+    // Elementos DOM
+    const sliderM = document.getElementById('sliderM');
+    const sliderY = document.getElementById('sliderY');
+    const valM = document.getElementById('valM');
+    const valY = document.getElementById('valY');
+    const mRate = document.getElementById('mRate');
+    const mBond = document.getElementById('mBond');
+    const mSupply = document.getElementById('mSupply');
+    const mIncome = document.getElementById('mIncome');
+    const calcPrice = document.getElementById('calcPrice');
+    const calcYield = document.getElementById('calcYield');
+    const plotSvg = document.getElementById('moneyPlot');
+
+    // Función de cálculo analítico: M = $Y * (k - h*i) => i = (k - M/$Y) / h
+    function computeEquilibrium() {
+      let i_eq = (state.k - (state.M / state.Y)) / state.h;
+      if (i_eq < 0.005) i_eq = 0.005; // Cota inferior
+      if (i_eq > 0.15) i_eq = 0.15;   // Cota superior
+      let P_B = 100 / (1 + i_eq);
+      return { i: i_eq, PB: P_B };
+    }
+
+    // Dibujo del SVG
+    function renderPlot() {
+      const eq = computeEquilibrium();
+      const i_pct = eq.i * 100;
+      const PB = eq.PB;
+
+      // Actualizar métricas
+      mRate.textContent = i_pct.toFixed(2) + '%';
+      mBond.textContent = PB.toFixed(2) + ' €';
+      mSupply.textContent = state.M + ' M€';
+      mIncome.textContent = state.Y + ' M€';
+      valM.textContent = state.M + ' M€';
+      valY.textContent = state.Y + ' M€';
+      calcPrice.textContent = PB.toFixed(2) + ' €';
+      calcYield.textContent = i_pct.toFixed(2) + '%';
+
+      // Dimensiones SVG: 540 x 280
+      const w = 540, h = 280;
+      const padL = 60, padR = 30, padT = 30, padB = 40;
+      const plotW = w - padL - padR;
+      const plotH = h - padT - padB;
+
+      // Rangos: M de 200 a 800; i de 0% a 14%
+      const minM = 200, maxM = 850;
+      const minI = 0, maxI = 14;
+
+      function scaleX(m) { return padL + ((m - minM) / (maxM - minM)) * plotW; }
+      function scaleY(rate) { return h - padB - ((rate - minI) / (maxI - minI)) * plotH; }
+
+      let svgHtml = '';
+
+      // Retícula horizontal
+      for (let r = 2; r <= 12; r += 2) {
+        let yPos = scaleY(r);
+        svgHtml += `<line x1="${padL}" y1="${yPos}" x2="${w - padR}" y2="${yPos}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/>`;
+        svgHtml += `<text x="${padL - 10}" y="${yPos + 4}" fill="#64748b" font-size="11" text-anchor="end" font-family="Inter">${r}%</text>`;
+      }
+
+      // Marcas eje X
+      for (let mVal = 300; mVal <= 800; mVal += 100) {
+        let xPos = scaleX(mVal);
+        svgHtml += `<line x1="${xPos}" y1="${h - padB}" x2="${xPos}" y2="${padT}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/>`;
+        svgHtml += `<text x="${xPos}" y="${h - padB + 18}" fill="#64748b" font-size="11" text-anchor="middle" font-family="Inter">${mVal}</text>`;
+      }
+
+      // Ejes
+      svgHtml += `<line x1="${padL}" y1="${h - padB}" x2="${w - padR}" y2="${h - padB}" stroke="#0b1c36" stroke-width="1.8"/>`;
+      svgHtml += `<line x1="${padL}" y1="${h - padB}" x2="${padL}" y2="${padT}" stroke="#0b1c36" stroke-width="1.8"/>`;
+      svgHtml += `<text x="${w - padR}" y="${h - padB - 8}" fill="#0b1c36" font-size="11" font-weight="700" text-anchor="end">Dinero (M)</text>`;
+      svgHtml += `<text x="${padL + 8}" y="${padT + 12}" fill="#0b1c36" font-size="11" font-weight="700">Tipo i (%)</text>`;
+
+      // Curva Md: Md = $Y * (k - h*i) => i = (k - M/$Y)/h
+      let dPath = '';
+      for (let mVal = minM + 30; mVal <= maxM - 30; mVal += 10) {
+        let rateVal = ((state.k - (mVal / state.Y)) / state.h) * 100;
+        if (rateVal >= minI && rateVal <= maxI) {
+          let x = scaleX(mVal);
+          let y = scaleY(rateVal);
+          dPath += (dPath === '' ? `M ${x} ${y}` : ` L ${x} ${y}`);
+        }
+      }
+      svgHtml += `<path d="${dPath}" fill="none" stroke="#056caa" stroke-width="3.5" stroke-linecap="round"/>`;
+      svgHtml += `<text x="${scaleX(maxM - 120)}" y="${scaleY(((state.k - ((maxM - 120) / state.Y)) / state.h) * 100) - 10}" fill="#056caa" font-weight="800" font-size="12">Md = $Y·L(i)</text>`;
+
+      // Recta vertical Oferta Ms
+      let xMs = scaleX(state.M);
+      svgHtml += `<line x1="${xMs}" y1="${h - padB}" x2="${xMs}" y2="${padT + 10}" stroke="#4338ca" stroke-width="3.5" stroke-linecap="round"/>`;
+      svgHtml += `<text x="${xMs + 6}" y="${padT + 22}" fill="#4338ca" font-weight="800" font-size="12">Ms = ${state.M}</text>`;
+
+      // Punto de Equilibrio E*
+      let xEq = scaleX(state.M);
+      let yEq = scaleY(i_pct);
+      svgHtml += `<line x1="${padL}" y1="${yEq}" x2="${xEq}" y2="${yEq}" stroke="#d97706" stroke-width="1.8" stroke-dasharray="4,4"/>`;
+      svgHtml += `<circle cx="${xEq}" cy="${yEq}" r="7" fill="#d97706" stroke="#ffffff" stroke-width="2"/>`;
+      svgHtml += `<text x="${xEq + 10}" y="${yEq - 8}" fill="#0b1c36" font-weight="800" font-size="13">E* (${i_pct.toFixed(1)}%)</text>`;
+
+      plotSvg.innerHTML = svgHtml;
+    }
+
+    // Escuchadores de eventos
+    sliderM.addEventListener('input', (e) => {
+      state.M = parseFloat(e.target.value);
+      renderPlot();
+    });
+
+    sliderY.addEventListener('input', (e) => {
+      state.Y = parseFloat(e.target.value);
+      renderPlot();
+    });
+
+    // Botones de Escenarios
+    document.getElementById('btnOmaExp').addEventListener('click', () => {
+      state.M = Math.min(750, state.M + 120);
+      sliderM.value = state.M;
+      renderPlot();
+    });
+
+    document.getElementById('btnOmaContr').addEventListener('click', () => {
+      state.M = Math.max(300, state.M - 120);
+      sliderM.value = state.M;
+      renderPlot();
+    });
+
+    document.getElementById('btnBoom').addEventListener('click', () => {
+      state.Y = Math.min(1500, state.Y + 300);
+      sliderY.value = state.Y;
+      renderPlot();
+    });
+
+    document.getElementById('btnReset').addEventListener('click', () => {
+      state.M = 500;
+      state.Y = 1000;
+      sliderM.value = 500;
+      sliderY.value = 1000;
+      renderPlot();
+    });
+
+    // Quiz Functions
+    function checkQ1(btn, isCorrect) {
+      const fb = document.getElementById('fbQ1');
+      if (isCorrect) {
+        btn.classList.add('correct');
+        fb.className = 'quiz-fb show correct';
+        fb.innerHTML = '<b>¡Correcto!</b> Al crecer la actividad económica y los precios ($Y), se necesita más dinero para transacciones ($M^d$ se desplaza a la derecha). Para conseguir liquidez, los agentes venden bonos en masa, lo que hace caer su precio ($P_B \downarrow$) y dispara el tipo de interés ($i \uparrow$).';
+      } else {
+        btn.classList.add('wrong');
+        fb.className = 'quiz-fb show wrong';
+        fb.innerHTML = '<b>No exactamente.</b> Recuerda que si el BC no amplía la oferta monetaria, la mayor demanda de liquidez provoca que los agentes vendan bonos, hundiendo su cotización y elevando el tipo de interés.';
+      }
+    }
+
+    function checkQ2(btn, isCorrect) {
+      const fb = document.getElementById('fbQ2');
+      if (isCorrect) {
+        btn.classList.add('correct');
+        fb.className = 'quiz-fb show correct';
+        fb.innerHTML = '<b>¡Exacto!</b> La relación $i = (100 - P_B)/P_B$ es inexorable. Si el Banco Central acude al mercado a comprar bonos, la demanda eleva el precio de los títulos ($P_B \uparrow$), reduciendo automáticamente su rentabilidad efectiva ($i \downarrow$).';
+      } else {
+        btn.classList.add('wrong');
+        fb.className = 'quiz-fb show wrong';
+        fb.innerHTML = '<b>Incorrecto.</b> El tipo de interés de mercado no se fija por decreto arbitrario, sino a través del precio al que cotizan los títulos en el mercado secundario.';
+      }
+    }
+
+    // Inicializar
+    renderPlot();
+  </script>
+</body>
+</html>

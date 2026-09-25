@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Sesión 5 · Creación de Dinero Bancario y Regla LM · Macro UPO</title>
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="theme.css">
+  <style>
+    :root {
+      --navy: #0b1c36;
+      --cobalt: #056caa;
+      --azure: #0776b5;
+      --gold: #d97706;
+      --crimson: #e11d48;
+      --teal: #0d9488;
+      --indigo: #4338ca;
+      --slate: #64748b;
+      --bg-cream: #faf8f5;
+      --card-border: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-cream);
+      color: #1e293b;
+      line-height: 1.6;
+      padding-bottom: 70px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 680px; margin: 0 auto; padding: 0 20px; }
+    
+    /* Header */
+    .intro { padding: 32px 0 10px; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cobalt);
+      margin-bottom: 10px;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 18px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--indigo), var(--teal));
+      border-radius: 2px;
+    }
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.8rem, 5.5vw, 2.3rem);
+      line-height: 1.15;
+      color: var(--navy);
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+    .lede { font-size: 1.02rem; color: #475569; margin-bottom: 16px; }
+
+    /* Sticky Hero Panel */
+    .hero {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(250, 248, 245, 0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 12px 0 14px;
+      box-shadow: 0 10px 25px -20px rgba(11, 28, 54, 0.3);
+    }
+    .hero-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--slate);
+      text-align: center;
+      margin-bottom: 4px;
+    }
+    svg.plot { width: 100%; height: auto; display: block; border-radius: 8px; background: #ffffff; border: 1px solid var(--card-border); }
+
+    /* Key Metrics */
+    .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+    .metric {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 7px 6px;
+      text-align: center;
+    }
+    .metric .k { font-size: 0.60rem; font-weight: 700; text-transform: uppercase; color: var(--slate); letter-spacing: 0.04em; }
+    .metric .v { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.05rem; line-height: 1.2; margin-top: 2px; }
+
+    /* Sections */
+    .section { padding: 28px 0 10px; border-top: 1px solid #e2e8f0; }
+    .kicker {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--indigo);
+      margin-bottom: 6px;
+    }
+    .section h2 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.35rem;
+      color: var(--navy);
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+    .section p { font-size: 0.96rem; color: #334155; margin-bottom: 14px; }
+    .section p strong { color: var(--navy); }
+
+    /* Controls */
+    .control-card {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    .control-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+    .control-label { font-weight: 600; font-size: 0.88rem; color: var(--navy); }
+    .control-value { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.05rem; color: var(--indigo); }
+    input[type=range] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      outline: none;
+      margin: 4px 0 2px;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 2.5px solid var(--indigo);
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+      transition: transform 0.1s ease;
+    }
+    input[type=range]::-webkit-slider-thumb:active { transform: scale(1.18); }
+
+    /* Scenario Buttons */
+    .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0 16px; }
+    @media(max-width: 480px) { .btn-grid { grid-template-columns: 1fr; } }
+    .action-btn {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.82rem;
+      background: #ffffff;
+      border: 1.5px solid var(--card-border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: var(--navy);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .action-btn:hover { border-color: var(--indigo); background: #f5f3ff; }
+    .action-btn.active { background: var(--navy); color: #ffffff; border-color: var(--navy); }
+
+    /* Callout & Cards */
+    .callout {
+      background: #ffffff;
+      border-left: 4px solid var(--indigo);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      border-top: 1px solid var(--card-border);
+      border-right: 1px solid var(--card-border);
+      border-bottom: 1px solid var(--card-border);
+      font-size: 0.92rem;
+    }
+    .callout.gold { border-left-color: var(--gold); background: #fffcf5; }
+    .callout.teal { border-left-color: var(--teal); background: #f0fdfa; }
+    .callout strong { color: var(--navy); }
+
+    /* Balance Sheet Cards */
+    .balance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+    .balance-card {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+    .balance-title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--slate); margin-bottom: 6px; }
+    .balance-row { display: flex; justify-content: space-between; font-size: 0.84rem; padding: 4px 0; border-bottom: 1px dashed #f1f5f9; }
+    .balance-row:last-child { border-bottom: none; font-weight: 700; color: var(--navy); }
+
+    /* Quiz */
+    .quiz-card {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+    .quiz-q { font-weight: 700; font-size: 0.95rem; color: var(--navy); margin-bottom: 12px; }
+    .quiz-opt {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: var(--bg-cream);
+      border: 1.5px solid var(--card-border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.88rem;
+      color: #1e293b;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .quiz-opt:hover { border-color: var(--indigo); background: #f5f3ff; }
+    .quiz-opt.correct { background: #ecfdf5; border-color: var(--teal); color: #065f46; font-weight: 600; }
+    .quiz-opt.wrong { background: #fef2f2; border-color: var(--crimson); color: #991b1b; }
+    .quiz-fb {
+      display: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      margin-top: 10px;
+      line-height: 1.45;
+    }
+    .quiz-fb.show { display: block; }
+    .quiz-fb.correct { background: #ecfdf5; color: #065f46; }
+    .quiz-fb.wrong { background: #fffbeb; color: #92400e; }
+
+    /* Footer Note */
+    .footer-box {
+      background: var(--navy);
+      color: #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 30px;
+    }
+    .footer-box h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      color: #93c5fd;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .footer-box p { font-size: 0.92rem; color: #cbd5e1; margin-bottom: 0; }
+  </style>
+</head>
+<body>
+
+  <div class="wrap intro">
+    <div class="eyebrow">Macroeconomía · Sesión 5 (EB)</div>
+    <h1>Mercados Financieros (II): Creación de Dinero y la Regla LM</h1>
+    <p class="lede">
+      Descubre cómo la banca comercial multiplica el dinero mediante préstamos y depósitos, y por qué la política monetaria moderna de Blanchard (7.ª ed.) se representa mediante una <strong>recta horizontal LM</strong> donde el Banco Central fija el tipo de interés objetivo $\bar{i}$.
+    </p>
+  </div>
+
+  <!-- STICKY INTERACTIVE PLOT & LIVE METRICS -->
+  <div class="hero">
+    <div class="wrap">
+      <div class="hero-title">El Plano (Y, i) y la Regla LM Horizontal de Blanchard</div>
+      <svg id="lmPlot" class="plot" viewBox="0 0 540 260" role="img" aria-label="Curva LM Horizontal"></svg>
+      
+      <div class="metrics">
+        <div class="metric">
+          <div class="k">Tipo Objetivo (ī)</div>
+          <div class="v" id="mTarget" style="color:var(--indigo)">3,5%</div>
+        </div>
+        <div class="metric">
+          <div class="k">Multiplicador (m)</div>
+          <div class="v" id="mMult" style="color:var(--teal)">3,57</div>
+        </div>
+        <div class="metric">
+          <div class="k">Oferta Dinero (M)</div>
+          <div class="v" id="mMoney" style="color:var(--cobalt)">714 M€</div>
+        </div>
+        <div class="metric">
+          <div class="k">Base Monetaria (H)</div>
+          <div class="v" id="mBase" style="color:var(--gold)">200 M€</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <!-- CONTROLES Y DINÁMICA DEL BANCO CENTRAL -->
+    <section class="section">
+      <div class="kicker">Simulación 1 · Política Monetaria Moderna</div>
+      <h2>El Banco Central Fija el Tipo de Interés Objetivo ($\bar{i}$)</h2>
+      <p>
+        En el mundo real (BCE, Fed), los bancos centrales no eligen una cantidad fija de dinero $M$, sino que <strong>fijan el tipo de interés $\bar{i}$</strong> y suministran la liquidez que la economía demande:
+      </p>
+
+      <div class="control-card">
+        <div class="control-head">
+          <span class="control-label">Tipo de Interés Oficial Fijado por el Banco Central ($\bar{i}$)</span>
+          <span class="control-value" id="valTarget">3,50%</span>
+        </div>
+        <input type="range" id="sliderTarget" min="0.5" max="7.0" step="0.25" value="3.50">
+      </div>
+
+      <div class="btn-grid">
+        <button class="action-btn" id="btnCut">
+          <span>📉</span> <b>Expansión Monetaria:</b> Bajada -100 pb
+        </button>
+        <button class="action-btn" id="btnHike">
+          <span>📈</span> <b>Endurecimiento:</b> Subida +100 pb
+        </button>
+        <button class="action-btn" id="btnZlb">
+          <span>🛑</span> <b>Trampa Liquidez:</b> $\bar{i} = 0,5\%$
+        </button>
+        <button class="action-btn" id="btnResetLM">
+          <span>🔄</span> <b>Normalizar:</b> $\bar{i} = 3,5\%$
+        </button>
+      </div>
+
+      <div class="callout">
+        <strong>La Regla LM Moderna:</strong> En el modelo Blanchard (7.ª ed.), la curva LM es una <strong>recta perfectamente horizontal</strong> a la altura de $\bar{i}$. Cualquier cambio de tipos desplaza la recta arriba o abajo.
+      </div>
+    </section>
+
+    <!-- SIMULADOR DEL MULTIPLICADOR BANCARIO -->
+    <section class="section">
+      <div class="kicker">Simulación 2 · El Sistema Bancario</div>
+      <h2>La Creación de Dinero Bancario y el Multiplicador</h2>
+      <p>
+        Modifica la preferencia de las familias por el efectivo ($c$) y el coeficiente de reservas bancarias ($\theta$) para ver cómo se expande la base monetaria inyectada por el Banco Central:
+      </p>
+
+      <div class="control-card">
+        <div class="control-head">
+          <span class="control-label">Coeficiente de Efectivo / Preferencia ($c$)</span>
+          <span class="control-value" id="valC">20%</span>
+        </div>
+        <input type="range" id="sliderC" min="0" max="50" step="5" value="20">
+      </div>
+
+      <div class="control-card">
+        <div class="control-head">
+          <span class="control-label">Coeficiente de Reservas Bancarias ($\theta$)</span>
+          <span class="control-value" id="valTheta">10%</span>
+        </div>
+        <input type="range" id="sliderTheta" min="2" max="25" step="1" value="10">
+      </div>
+
+      <div class="control-card">
+        <div class="control-head">
+          <span class="control-label">Base Monetaria Emitida por el Banco Central ($H$)</span>
+          <span class="control-value" id="valH">200 M€</span>
+        </div>
+        <input type="range" id="sliderH" min="100" max="500" step="25" value="200">
+      </div>
+
+      <!-- DESGLOSE DE BALANCES -->
+      <div class="balance-grid">
+        <div class="balance-card">
+          <div class="balance-title">Balance Banco Central</div>
+          <div class="balance-row"><span>Activo (Bonos/Créditos)</span><span id="balBcAct">200 M€</span></div>
+          <div class="balance-row"><span>Efectivo (CU)</span><span id="balBcCu">143 M€</span></div>
+          <div class="balance-row"><span>Reservas Bancarias (R)</span><span id="balBcRes">57 M€</span></div>
+          <div class="balance-row"><span>Pasivo Total (Base H)</span><span id="balBcTotal">200 M€</span></div>
+        </div>
+
+        <div class="balance-card">
+          <div class="balance-title">Banca Comercial (Consolidada)</div>
+          <div class="balance-row"><span>Reservas en BC (R)</span><span id="balBkRes">57 M€</span></div>
+          <div class="balance-row"><span>Préstamos Concedidos</span><span id="balBkLoans">514 M€</span></div>
+          <div class="balance-row"><span>Depósitos Clientes (D)</span><span id="balBkDep">571 M€</span></div>
+          <div class="balance-row"><span>Oferta de Dinero (M=CU+D)</span><span id="balBkM">714 M€</span></div>
+        </div>
+      </div>
+
+      <div class="callout teal">
+        <strong>Fórmula del Multiplicador Monetario:</strong>
+        $$m = \frac{1}{c + \theta(1 - c)} \implies M = m \cdot H$$
+        Si los ciudadanos no usan efectivo ($c=0$), el multiplicador alcanza su techo teórico: $m = \frac{1}{\theta} = 10$ (con $\theta=0,10$).
+      </div>
+    </section>
+
+    <!-- CHECKPOINT CONCEPTUAL / QUIZ -->
+    <section class="section">
+      <div class="kicker">Autoevaluación Rápida</div>
+      <h2>Comprueba tu Comprensión In Situ</h2>
+
+      <div class="quiz-card">
+        <div class="quiz-q">1. ¿Por qué en la 7.ª edición de Blanchard la curva LM es una línea recta horizontal y no con pendiente positiva?</div>
+        <button class="quiz-opt" onclick="checkQ1(this, false)">A) Porque el dinero en efectivo ya no tiene valor alguno.</button>
+        <button class="quiz-opt" onclick="checkQ1(this, true)">B) Porque los bancos centrales modernos eligen y controlan el tipo de interés oficial ($\bar{i}$), abasteciendo la liquidez que la economía necesite a ese tipo fijado.</button>
+        <button class="quiz-opt" onclick="checkQ1(this, false)">C) Porque los bancos comerciales tienen prohibido prestar dinero.</button>
+        <div class="quiz-fb" id="fbQ1"></div>
+      </div>
+
+      <div class="quiz-card">
+        <div class="quiz-q">2. Si los ciudadanos deciden generalizar el uso de pagos móviles (Bizum, tarjetas) y abandonan casi por completo el efectivo ($c \to 0$), ¿qué le ocurre al multiplicador monetario?</div>
+        <button class="quiz-opt" onclick="checkQ2(this, true)">A) El multiplicador monetario aumenta, porque el dinero permanece dentro del circuito bancario en forma de depósitos y se presta una y otra vez.</button>
+        <button class="quiz-opt" onclick="checkQ2(this, false)">B) El multiplicador se reduce a cero porque no hay billetes de papel.</button>
+        <button class="quiz-opt" onclick="checkQ2(this, false)">C) No cambia porque la base monetaria la decide el gobierno.</button>
+        <div class="quiz-fb" id="fbQ2"></div>
+      </div>
+    </section>
+
+    <div class="footer-box">
+      <h3>Conexión con la Sesión 6</h3>
+      <p>
+        ¡Ya tenemos las dos piezas del puzle a corto plazo! La <strong>Curva IS</strong> (mercado de bienes, con pendiente negativa) y la <strong>Regla LM</strong> (mercados financieros, recta horizontal a la altura de $\bar{i}$). En la <strong>Sesión 6</strong> uniremos ambos mercados en el <strong>Modelo IS-LM conjunto</strong> para analizar shocks de demanda y dinámicas de producción.
+      </p>
+    </div>
+
+  </div>
+
+  <script>
+    // Variables de estado
+    let state = {
+      targetRate: 3.50, // Tipo oficial (%)
+      c: 0.20,          // Coeficiente efectivo (20%)
+      theta: 0.10,      // Coeficiente reservas (10%)
+      H: 200            // Base monetaria (M€)
+    };
+
+    // DOM Elements
+    const sliderTarget = document.getElementById('sliderTarget');
+    const valTarget = document.getElementById('valTarget');
+    const sliderC = document.getElementById('sliderC');
+    const valC = document.getElementById('valC');
+    const sliderTheta = document.getElementById('sliderTheta');
+    const valTheta = document.getElementById('valTheta');
+    const sliderH = document.getElementById('sliderH');
+    const valH = document.getElementById('valH');
+
+    const mTarget = document.getElementById('mTarget');
+    const mMult = document.getElementById('mMult');
+    const mMoney = document.getElementById('mMoney');
+    const mBase = document.getElementById('mBase');
+
+    const balBcAct = document.getElementById('balBcAct');
+    const balBcCu = document.getElementById('balBcCu');
+    const balBcRes = document.getElementById('balBcRes');
+    const balBcTotal = document.getElementById('balBcTotal');
+    const balBkRes = document.getElementById('balBkRes');
+    const balBkLoans = document.getElementById('balBkLoans');
+    const balBkDep = document.getElementById('balBkDep');
+    const balBkM = document.getElementById('balBkM');
+
+    const lmPlotSvg = document.getElementById('lmPlot');
+
+    // Cálculos del Multiplicador
+    function updateCalculations() {
+      // Multiplicador m = 1 / [c + theta*(1-c)]
+      const denom = state.c + state.theta * (1 - state.c);
+      const m = 1 / denom;
+      const M = m * state.H;
+
+      // Desglose de componentes
+      const CU = state.c * M;
+      const D = (1 - state.c) * M;
+      const R = state.theta * D;
+      const Loans = D - R;
+
+      // Actualizar UI
+      valTarget.textContent = state.targetRate.toFixed(2) + '%';
+      valC.textContent = (state.c * 100).toFixed(0) + '%';
+      valTheta.textContent = (state.theta * 100).toFixed(0) + '%';
+      valH.textContent = state.H + ' M€';
+
+      mTarget.textContent = state.targetRate.toFixed(2) + '%';
+      mMult.textContent = m.toFixed(2);
+      mMoney.textContent = Math.round(M) + ' M€';
+      mBase.textContent = state.H + ' M€';
+
+      balBcAct.textContent = state.H + ' M€';
+      balBcCu.textContent = Math.round(CU) + ' M€';
+      balBcRes.textContent = Math.round(R) + ' M€';
+      balBcTotal.textContent = state.H + ' M€';
+
+      balBkRes.textContent = Math.round(R) + ' M€';
+      balBkLoans.textContent = Math.round(Loans) + ' M€';
+      balBkDep.textContent = Math.round(D) + ' M€';
+      balBkM.textContent = Math.round(M) + ' M€';
+
+      renderPlot();
+    }
+
+    // Dibujar Gráfico SVG de la Regla LM Horizontal
+    function renderPlot() {
+      const w = 540, h = 260;
+      const padL = 60, padR = 30, padT = 30, padB = 40;
+      const plotW = w - padL - padR;
+      const plotH = h - padT - padB;
+
+      const minY = 600, maxY = 2000;
+      const minI = 0, maxI = 8;
+
+      function scaleX(yVal) { return padL + ((yVal - minY) / (maxY - minY)) * plotW; }
+      function scaleY(rate) { return h - padB - ((rate - minI) / (maxI - minI)) * plotH; }
+
+      let svg = '';
+
+      // Retícula horizontal
+      for (let r = 1; r <= 7; r += 1) {
+        let yPos = scaleY(r);
+        svg += `<line x1="${padL}" y1="${yPos}" x2="${w - padR}" y2="${yPos}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/>`;
+        svg += `<text x="${padL - 10}" y="${yPos + 4}" fill="#64748b" font-size="11" text-anchor="end" font-family="Inter">${r}%</text>`;
+      }
+
+      // Marcas eje X
+      for (let yVal = 800; yVal <= 1800; yVal += 200) {
+        let xPos = scaleX(yVal);
+        svg += `<line x1="${xPos}" y1="${h - padB}" x2="${xPos}" y2="${padT}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/>`;
+        svg += `<text x="${xPos}" y="${h - padB + 18}" fill="#64748b" font-size="11" text-anchor="middle" font-family="Inter">${yVal}</text>`;
+      }
+
+      // Ejes cartesianos
+      svg += `<line x1="${padL}" y1="${h - padB}" x2="${w - padR}" y2="${h - padB}" stroke="#0b1c36" stroke-width="1.8"/>`;
+      svg += `<line x1="${padL}" y1="${h - padB}" x2="${padL}" y2="${padT}" stroke="#0b1c36" stroke-width="1.8"/>`;
+      svg += `<text x="${w - padR}" y="${h - padB - 8}" fill="#0b1c36" font-size="11" font-weight="700" text-anchor="end">Producción (Y)</text>`;
+      svg += `<text x="${padL + 8}" y="${padT + 12}" fill="#0b1c36" font-size="11" font-weight="700">Tipo i (%)</text>`;
+
+      // Curva LM Horizontal: i = targetRate
+      let yTarget = scaleY(state.targetRate);
+      svg += `<line x1="${padL}" y1="${yTarget}" x2="${w - padR}" y2="${yTarget}" stroke="#4338ca" stroke-width="4" stroke-linecap="round"/>`;
+      svg += `<circle cx="${scaleX(1300)}" cy="${yTarget}" r="6" fill="#d97706" stroke="#ffffff" stroke-width="2"/>`;
+      
+      svg += `<text x="${w - padR - 10}" y="${yTarget - 10}" fill="#4338ca" font-weight="800" font-size="13" text-anchor="end">Regla LM: i = ${state.targetRate.toFixed(2)}%</text>`;
+      svg += `<text x="${scaleX(1300)}" y="${yTarget + 20}" fill="#0b1c36" font-weight="700" font-size="11" text-anchor="middle">Tipo de Interés Anclado por el BCE</text>`;
+
+      lmPlotSvg.innerHTML = svg;
+    }
+
+    // Event Listeners
+    sliderTarget.addEventListener('input', (e) => {
+      state.targetRate = parseFloat(e.target.value);
+      updateCalculations();
+    });
+
+    sliderC.addEventListener('input', (e) => {
+      state.c = parseFloat(e.target.value) / 100;
+      updateCalculations();
+    });
+
+    sliderTheta.addEventListener('input', (e) => {
+      state.theta = parseFloat(e.target.value) / 100;
+      updateCalculations();
+    });
+
+    sliderH.addEventListener('input', (e) => {
+      state.H = parseFloat(e.target.value);
+      updateCalculations();
+    });
+
+    // Action buttons
+    document.getElementById('btnCut').addEventListener('click', () => {
+      state.targetRate = Math.max(0.5, state.targetRate - 1.0);
+      sliderTarget.value = state.targetRate;
+      updateCalculations();
+    });
+
+    document.getElementById('btnHike').addEventListener('click', () => {
+      state.targetRate = Math.min(7.0, state.targetRate + 1.0);
+      sliderTarget.value = state.targetRate;
+      updateCalculations();
+    });
+
+    document.getElementById('btnZlb').addEventListener('click', () => {
+      state.targetRate = 0.50;
+      sliderTarget.value = 0.50;
+      updateCalculations();
+    });
+
+    document.getElementById('btnResetLM').addEventListener('click', () => {
+      state.targetRate = 3.50;
+      sliderTarget.value = 3.50;
+      updateCalculations();
+    });
+
+    // Quiz validation
+    function checkQ1(btn, isCorrect) {
+      const fb = document.getElementById('fbQ1');
+      if (isCorrect) {
+        btn.classList.add('correct');
+        fb.className = 'quiz-fb show correct';
+        fb.innerHTML = '<b>¡Excelente!</b> Como explica Blanchard, los bancos centrales ya no fijan la masa monetaria sino el tipo de interés objetivo. Para sostener ese tipo horizontal $\\bar{i}$, el banco central suministra pasivamente todas las reservas que el sistema financiero demanda a dicho tipo.';
+      } else {
+        btn.classList.add('wrong');
+        fb.className = 'quiz-fb show wrong';
+        fb.innerHTML = '<b>No es correcto.</b> En la macroeconomía moderna, la LM horizontal refleja que la autoridad monetaria elige el precio del dinero ($\bar{i}$) en lugar de una cantidad rígida.';
+      }
+    }
+
+    function checkQ2(btn, isCorrect) {
+      const fb = document.getElementById('fbQ2');
+      if (isCorrect) {
+        btn.classList.add('correct');
+        fb.className = 'quiz-fb show correct';
+        fb.innerHTML = '<b>¡Correcto!</b> Si nadie retiene dinero en efectivo en el bolsillo ($c=0$), no hay «fugas» del sistema financiero. Cada euro prestado vuelve íntegramente al banco en forma de depósito, permitiendo que el multiplicador alcance su máximo teórico $1/\\theta$.';
+      } else {
+        btn.classList.add('wrong');
+        fb.className = 'quiz-fb show wrong';
+        fb.innerHTML = '<b>Incorrecto.</b> El efectivo físico es una fuga que debilita el multiplicador bancario. Si el efectivo desaparece y todo son depósitos bancarios, el multiplicador se maximiza.';
+      }
+    }
+
+    // Inicialización
+    updateCalculations();
+  </script>
+</body>
+</html>
