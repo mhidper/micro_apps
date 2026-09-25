@@ -81,9 +81,16 @@
       text-transform: uppercase;
       color: var(--slate);
       text-align: center;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
-    svg.plot { width: 100%; height: auto; display: block; border-radius: 8px; background: #ffffff; border: 1px solid var(--card-border); }
+    svg.plot {
+      width: 100%;
+      height: 270px;
+      display: block;
+      border-radius: 8px;
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+    }
 
     /* Key Metrics */
     .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
@@ -174,23 +181,76 @@
       transition: all 0.15s ease;
     }
     .action-btn:hover { border-color: var(--cobalt); background: #f0f7ff; }
-    .action-btn.active { background: var(--navy); color: #ffffff; border-color: var(--navy); }
 
-    /* Callout & Cards */
-    .callout {
+    /* Tipografía y Formatos Matemáticos */
+    .math-card {
       background: #ffffff;
+      border: 1.5px solid var(--card-border);
       border-left: 4px solid var(--cobalt);
-      border-radius: 8px;
-      padding: 14px 16px;
+      border-radius: 10px;
+      padding: 16px 18px;
       margin-bottom: 14px;
-      border-top: 1px solid var(--card-border);
-      border-right: 1px solid var(--card-border);
-      border-bottom: 1px solid var(--card-border);
-      font-size: 0.92rem;
+      font-size: 0.94rem;
     }
-    .callout.gold { border-left-color: var(--gold); background: #fffcf5; }
-    .callout.crimson { border-left-color: var(--crimson); background: #fff5f7; }
-    .callout strong { color: var(--navy); }
+    .math-card.gold { border-left-color: var(--gold); background: #fffcf5; }
+    .math-card.crimson { border-left-color: var(--crimson); background: #fff8f8; }
+
+    .formula-display {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 14px 10px;
+      margin: 12px 0;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 1.25rem;
+      font-family: 'Outfit', Georgia, serif;
+      color: var(--navy);
+      flex-wrap: wrap;
+    }
+    .formula-display .math-sym { font-family: 'Inter', sans-serif; font-weight: 700; color: var(--cobalt); margin: 0 4px; }
+    
+    .frac {
+      display: inline-flex;
+      flex-direction: column;
+      vertical-align: middle;
+      text-align: center;
+      font-size: 0.92em;
+      line-height: 1.15;
+      padding: 0 4px;
+    }
+    .frac .num {
+      border-bottom: 1.8px solid currentColor;
+      padding-bottom: 2px;
+      display: block;
+    }
+    .frac .den {
+      padding-top: 2px;
+      display: block;
+    }
+
+    .math-var {
+      font-family: 'Outfit', Georgia, serif;
+      font-style: italic;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .math-inline {
+      font-family: 'Outfit', Georgia, serif;
+      font-weight: 700;
+      color: var(--navy);
+      white-space: nowrap;
+    }
+    .math-inline var { font-style: italic; }
+    .math-inline sup, .math-inline sub {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75em;
+      font-weight: 700;
+    }
+    .trend-up { color: var(--crimson); font-weight: 800; font-family: 'Inter', sans-serif; }
+    .trend-down { color: var(--teal); font-weight: 800; font-family: 'Inter', sans-serif; }
 
     /* Quiz */
     .quiz-card {
@@ -224,7 +284,7 @@
       border-radius: 8px;
       font-size: 0.88rem;
       margin-top: 10px;
-      line-height: 1.45;
+      line-height: 1.5;
     }
     .quiz-fb.show { display: block; }
     .quiz-fb.correct { background: #ecfdf5; color: #065f46; }
@@ -255,7 +315,7 @@
     <div class="eyebrow">Macroeconomía · Sesión 4 (EB)</div>
     <h1>Mercados Financieros (I): Dinero, Bonos y Tipos de Interés</h1>
     <p class="lede">
-      Comprende cómo los hogares eligen entre dinero líquido y títulos de deuda, cómo se fija el tipo de interés en el mercado de dinero ($M^s = M^d$) y por qué el precio de los bonos se mueve siempre en sentido contrario a los tipos.
+      Comprende cómo los hogares eligen entre dinero líquido y títulos de deuda, cómo se determina el tipo de interés en el equilibrio monetario (<span class="math-inline"><var>M</var><sup>s</sup> = <var>M</var><sup>d</sup></span>) y por qué el precio de los bonos se mueve siempre en sentido inverso a los tipos de interés.
     </p>
   </div>
 
@@ -263,7 +323,7 @@
   <div class="hero">
     <div class="wrap">
       <div class="hero-title">Mercado de Dinero y Precio del Bono en Tiempo Real</div>
-      <svg id="moneyPlot" class="plot" viewBox="0 0 540 280" role="img" aria-label="Mercado de Dinero"></svg>
+      <svg id="moneyPlot" class="plot" viewBox="0 0 540 270" role="img" aria-label="Mercado de Dinero"></svg>
       
       <div class="metrics">
         <div class="metric">
@@ -292,11 +352,11 @@
     <section class="section">
       <div class="kicker">Simulación Activa</div>
       <h2>Manipula la Liquidez y las Transacciones</h2>
-      <p>Ajusta la oferta monetaria del Banco Central o el volumen de transacciones de la economía para ver cómo responde el tipo de interés y el valor de mercado de los bonos:</p>
+      <p>Ajusta la oferta monetaria del Banco Central o el volumen de transacciones de la economía para observar la respuesta del tipo de interés de equilibrio y del precio del bono:</p>
 
       <div class="control-card">
         <div class="control-head">
-          <span class="control-label">Oferta de Dinero del Banco Central ($M$)</span>
+          <span class="control-label">Oferta de Dinero del Banco Central (<span class="math-inline"><var>M</var></span>)</span>
           <span class="control-value" id="valM">500 M€</span>
         </div>
         <input type="range" id="sliderM" min="300" max="750" step="10" value="500">
@@ -304,7 +364,7 @@
 
       <div class="control-card">
         <div class="control-head">
-          <span class="control-label">Renta Nominal / Volumen de Transacciones ($\$Y$)</span>
+          <span class="control-label">Renta Nominal / Volumen de Transacciones (<span class="math-inline">$<var>Y</var></span>)</span>
           <span class="control-value" id="valY">1.000 M€</span>
         </div>
         <input type="range" id="sliderY" min="600" max="1500" step="50" value="1000">
@@ -312,56 +372,95 @@
 
       <div class="btn-grid">
         <button class="action-btn" id="btnOmaExp">
-          <span>🟢</span> <b>OMA Expansiva:</b> Compra Bonos
+          <span>🟢</span> <b>OMA Expansiva:</b> Inyectar +120 M€
         </button>
         <button class="action-btn" id="btnOmaContr">
-          <span>🔴</span> <b>OMA Contractiva:</b> Venta Bonos
+          <span>🔴</span> <b>OMA Contractiva:</b> Drenar −120 M€
         </button>
         <button class="action-btn" id="btnBoom">
-          <span>📈</span> <b>Boom:</b> $\Delta \$Y = +400$
+          <span>📈</span> <b>Shock de Renta:</b> Δ$<var>Y</var> = +300 M€
         </button>
         <button class="action-btn" id="btnReset">
-          <span>🔄</span> <b>Restablecer</b> Equilibrio Base
+          <span>🔄</span> <b>Restablecer</b> Equilibrio Inicial
         </button>
       </div>
 
-      <div class="callout gold">
-        <strong>Ecuación de Demanda de Dinero:</strong> $M^d = \$Y \cdot (0,70 - 5 \cdot i)$. Al aumentar el tipo de interés ($i$), los agentes renuncian al efectivo y compran bonos rentables, reduciendo la liquidez demandada.
+      <div class="math-card gold">
+        <strong>Función de Demanda Agregada de Dinero:</strong>
+        <div class="formula-display">
+          <span class="math-inline"><var>M</var><sup>d</sup></span>
+          <span class="math-sym">=</span>
+          <span class="math-inline">$<var>Y</var> · <var>L</var>(<var>i</var>)</span>
+          <span class="math-sym">=</span>
+          <span class="math-inline">$<var>Y</var> · (0,70 − 5,0 · <var>i</var>)</span>
+        </div>
+        <p style="margin-bottom:0; font-size:0.91rem; color:#475569;">
+          <strong>Efecto Transacción:</strong> Proporcional a la renta nominal ($<var>Y</var>).<br>
+          <strong>Efecto Coste de Oportunidad:</strong> Decreciente con el tipo de interés (<var>i</var>). Al subir <var>i</var>, el dinero no rinde nada mientras que los bonos pagan rentabilidad, por lo que las familias reducen sus saldos líquidos para adquirir bonos.
+        </p>
       </div>
     </section>
 
     <!-- TEORÍA Y ANATOMÍA ANALÍTICA -->
     <section class="section">
-      <div class="kicker">Idea Central 1</div>
+      <div class="kicker">Fundamento Analítico 1</div>
       <h2>La Relación Inversa entre el Precio del Bono y el Tipo de Interés</h2>
       <p>
-        Un bono a un año con valor nominal de <strong>100 €</strong> paga 100 € al vencimiento. Si hoy lo compras al precio de mercado $P_B$, tu rentabilidad o tipo de interés es:
+        Un bono del Tesoro a 1 año con valor facial o nominal de <strong>100 €</strong> paga 100 € a su vencimiento. Si hoy lo compras al precio de emisión o cotización de mercado <span class="math-inline"><var>P</var><sub>B</sub></span>, tu rentabilidad efectiva viene dada por:
       </p>
       
-      <div class="callout">
-        $$i = \frac{100 - P_B}{P_B} \iff P_B = \frac{100}{1 + i}$$
-        <strong>Intuición Financiera:</strong> Si el Banco Central sube los tipos oficiales al 8%, nadie comprará bonos antiguos que rinden al 3% a menos que su precio se hunda en el mercado secundario hasta equiparar su rentabilidad al 8%.
+      <div class="math-card">
+        <div class="formula-display">
+          <span>
+            <span class="math-inline"><var>P</var><sub>B</sub></span>
+            <span class="math-sym">=</span>
+            <span class="frac">
+              <span class="num">100 €</span>
+              <span class="den">1 + <var>i</var></span>
+            </span>
+          </span>
+          <span style="font-size:1.3rem; color:var(--gold); font-weight:800; margin:0 8px;">⟺</span>
+          <span>
+            <span class="math-inline"><var>i</var></span>
+            <span class="math-sym">=</span>
+            <span class="frac">
+              <span class="num">100 € − <span class="math-inline"><var>P</var><sub>B</sub></span></span>
+              <span class="den"><span class="math-inline"><var>P</var><sub>B</sub></span></span>
+            </span>
+          </span>
+        </div>
+        <p style="margin-bottom:0; font-size:0.91rem; color:#475569;">
+          <strong>Regla de Oro de los Mercados de Deuda:</strong> Siempre que sube el precio de cotización de un título, su rentabilidad implícita cae automáticamente. Y a la inversa: si el tipo de interés sube, el precio del bono se desploma para igualar el rendimiento del mercado.
+        </p>
       </div>
 
       <div class="control-card" style="background:#f8fafc;">
-        <div style="font-weight:700; color:var(--navy); margin-bottom:8px;">Calculadora Rápida de Rendimiento de Bono a 1 Año:</div>
+        <div style="font-weight:700; color:var(--navy); margin-bottom:8px;">Calculadora en Tiempo Real de Rendimiento del Bono a 1 Año:</div>
         <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.92rem;">
-          <span>Si el precio del bono es <strong id="calcPrice">96,15 €</strong></span>
-          <span>El tipo de interés es <strong id="calcYield" style="color:var(--cobalt); font-size:1.1rem;">4,00%</strong></span>
+          <span>Precio de Mercado: <strong id="calcPrice">96,15 €</strong></span>
+          <span>Tipo de Interés Equivalente: <strong id="calcYield" style="color:var(--cobalt); font-size:1.15rem;">4,00%</strong></span>
         </div>
       </div>
     </section>
 
     <!-- OPERACIONES DE MERCADO ABIERTO -->
     <section class="section">
-      <div class="kicker">Idea Central 2</div>
+      <div class="kicker">Fundamento Analítico 2</div>
       <h2>Operaciones de Mercado Abierto (OMA)</h2>
       <p>
-        El Banco Central compra o vende bonos en el mercado abierto para inyectar o drenar liquidez:
+        El Banco Central compra o vende títulos de deuda pública para modular las condiciones de liquidez:
       </p>
-      <div class="callout">
-        <strong>1. OMA Expansiva (Inyección):</strong> El BC compra bonos $\implies$ aumenta la demanda de bonos en el mercado $\implies P_B \uparrow \implies$ el tipo de interés cae ($i \downarrow$). A cambio, el BC entrega dinero nuevo ($M \uparrow$).<br><br>
-        <strong>2. OMA Contractiva (Drenaje):</strong> El BC vende bonos $\implies$ aumenta la oferta de bonos en el mercado $\implies P_B \downarrow \implies$ el tipo de interés sube ($i \uparrow$). A cambio, retira dinero de la circulación ($M \downarrow$).
+      <div class="math-card crimson">
+        <div style="margin-bottom:12px;">
+          <strong style="color:var(--navy);">1. OMA Expansiva (Inyección de Dinero):</strong><br>
+          Banco Central compra bonos ➔ Demanda de bonos en el mercado <span class="trend-up">↑</span> ➔ Precio del bono <span class="math-inline"><var>P</var><sub>B</sub></span> <span class="trend-up">↑</span> ➔ Tipo de interés <span class="math-inline"><var>i</var></span> <span class="trend-down">↓</span>.<br>
+          <span style="font-size:0.88rem; color:#64748b;">(A cambio de los títulos, el Banco Central entrega reservas/dinero nuevo: <span class="math-inline"><var>M</var></span> <span class="trend-up">↑</span>).</span>
+        </div>
+        <div>
+          <strong style="color:var(--navy);">2. OMA Contractiva (Drenaje de Dinero):</strong><br>
+          Banco Central vende bonos ➔ Oferta de bonos en el mercado <span class="trend-up">↑</span> ➔ Precio del bono <span class="math-inline"><var>P</var><sub>B</sub></span> <span class="trend-down">↓</span> ➔ Tipo de interés <span class="math-inline"><var>i</var></span> <span class="trend-up">↑</span>.<br>
+          <span style="font-size:0.88rem; color:#64748b;">(Los bancos pagan los bonos al BC retirando dinero de la circulación: <span class="math-inline"><var>M</var></span> <span class="trend-down">↓</span>).</span>
+        </div>
       </div>
     </section>
 
@@ -371,18 +470,18 @@
       <h2>Comprueba tu Comprensión In Situ</h2>
 
       <div class="quiz-card">
-        <div class="quiz-q">1. Si el PIB nominal de España crece un 10% por mayor actividad y precios, ¿qué ocurrirá en el mercado de dinero si el Banco Central no modifica la cantidad de dinero en circulación?</div>
-        <button class="quiz-opt" onclick="checkQ1(this, false)">A) El tipo de interés bajará porque habrá más dinero circulando.</button>
-        <button class="quiz-opt" onclick="checkQ1(this, true)">B) El tipo de interés subirá, porque las familias necesitarán más efectivo para sus pagos y venderán bonos para conseguirlo, deprimiendo el precio de los títulos.</button>
+        <div class="quiz-q">1. Si el PIB nominal de España crece un 10% por mayor volumen comercial y precios ($Y ↑), ¿qué ocurrirá en el mercado monetario si el Banco Central mantiene la oferta de dinero (M) fija?</div>
+        <button class="quiz-opt" onclick="checkQ1(this, false)">A) El tipo de interés bajará porque la economía es más rica.</button>
+        <button class="quiz-opt" onclick="checkQ1(this, true)">B) El tipo de interés subirá (i ↑): las familias y empresas demandarán más efectivo para transacciones, por lo que venderán bonos en masa, hundiendo el precio de los títulos (PB ↓) y elevando su rentabilidad.</button>
         <button class="quiz-opt" onclick="checkQ1(this, false)">C) El precio de los bonos se disparará al alza.</button>
         <div class="quiz-fb" id="fbQ1"></div>
       </div>
 
       <div class="quiz-card">
-        <div class="quiz-q">2. ¿Por qué una compra masiva de títulos de deuda por parte del Banco Central reduce el tipo de interés de la economía?</div>
-        <button class="quiz-opt" onclick="checkQ2(this, true)">A) Porque al pujar agresivamente por los bonos eleva su precio de cotización de mercado ($P_B \uparrow$), lo que matemáticamente abarata la rentabilidad exigida ($i \downarrow$).</button>
-        <button class="quiz-opt" onclick="checkQ2(this, false)">B) Porque la rentabilidad de los bonos viene impuesta por ley en el Parlamento.</button>
-        <button class="quiz-opt" onclick="checkQ2(this, false)">C) Porque reduce la cantidad de dinero disponible en el sistema bancario.</button>
+        <div class="quiz-q">2. ¿Por qué una compra masiva de títulos de deuda pública por parte del Banco Central abarata los costes de financiación de la economía?</div>
+        <button class="quiz-opt" onclick="checkQ2(this, true)">A) Porque al pujar agresivamente por los títulos eleva su precio de cotización de mercado (PB ↑), lo que reduce automáticamente su rendimiento exigido (i ↓).</button>
+        <button class="quiz-opt" onclick="checkQ2(this, false)">B) Porque el tipo de interés lo decide el Parlamento por decreto en el Boletín Oficial del Estado.</button>
+        <button class="quiz-opt" onclick="checkQ2(this, false)">C) Porque reduce la cantidad de dinero en circulación en las cuentas bancarias.</button>
         <div class="quiz-fb" id="fbQ2"></div>
       </div>
     </section>
@@ -390,7 +489,7 @@
     <div class="footer-box">
       <h3>Conexión con la Sesión 5</h3>
       <p>
-        En esta sesión hemos supuesto que todo el dinero es efectivo y que el Banco Central controla directamente $M$. En la siguiente sesión introduciremos la <strong>banca comercial</strong>, los depósitos bancarios y el multiplicador del dinero, descubriendo la moderna <strong>Regla LM</strong> donde el Banco Central fija directamente el tipo de interés $\bar{i}$.
+        En esta sesión hemos supuesto que todo el dinero es efectivo y que el Banco Central controla directamente <span class="math-inline"><var>M</var></span>. En la siguiente sesión introduciremos la <strong>banca comercial</strong>, los depósitos a la vista y el multiplicador monetario, culminando en la moderna <strong>Regla LM Horizontal</strong> donde el Banco Central fija directamente el tipo de interés oficial.
       </p>
     </div>
 
@@ -398,10 +497,10 @@
 
   <script>
     // Variables de estado del modelo
-    let state = {
+    const state = {
       M: 500,     // Oferta monetaria (M€)
       Y: 1000,    // Renta nominal ($Y en M€)
-      k: 0.70,    // Parámetro base
+      k: 0.70,    // Parámetro base de transacciones
       h: 5.0      // Sensibilidad al tipo de interés
     };
 
@@ -418,11 +517,11 @@
     const calcYield = document.getElementById('calcYield');
     const plotSvg = document.getElementById('moneyPlot');
 
-    // Función de cálculo analítico: M = $Y * (k - h*i) => i = (k - M/$Y) / h
+    // Cálculo del equilibrio: M = $Y * (k - h*i) => i = (k - M/$Y) / h
     function computeEquilibrium() {
       let i_eq = (state.k - (state.M / state.Y)) / state.h;
-      if (i_eq < 0.005) i_eq = 0.005; // Cota inferior
-      if (i_eq > 0.15) i_eq = 0.15;   // Cota superior
+      if (i_eq < 0.005) i_eq = 0.005; // Mínimo 0.5%
+      if (i_eq > 0.14) i_eq = 0.14;   // Máximo 14%
       let P_B = 100 / (1 + i_eq);
       return { i: i_eq, PB: P_B };
     }
@@ -433,23 +532,22 @@
       const i_pct = eq.i * 100;
       const PB = eq.PB;
 
-      // Actualizar métricas
+      // Actualizar paneles de métricas
       mRate.textContent = i_pct.toFixed(2) + '%';
       mBond.textContent = PB.toFixed(2) + ' €';
       mSupply.textContent = state.M + ' M€';
-      mIncome.textContent = state.Y + ' M€';
+      mIncome.textContent = state.Y.toLocaleString('es-ES') + ' M€';
       valM.textContent = state.M + ' M€';
-      valY.textContent = state.Y + ' M€';
+      valY.textContent = state.Y.toLocaleString('es-ES') + ' M€';
       calcPrice.textContent = PB.toFixed(2) + ' €';
       calcYield.textContent = i_pct.toFixed(2) + '%';
 
-      // Dimensiones SVG: 540 x 280
-      const w = 540, h = 280;
-      const padL = 60, padR = 30, padT = 30, padB = 40;
+      // Dimensiones del gráfico SVG
+      const w = 540, h = 270;
+      const padL = 60, padR = 35, padT = 25, padB = 40;
       const plotW = w - padL - padR;
       const plotH = h - padT - padB;
 
-      // Rangos: M de 200 a 800; i de 0% a 14%
       const minM = 200, maxM = 850;
       const minI = 0, maxI = 14;
 
@@ -461,52 +559,60 @@
       // Retícula horizontal
       for (let r = 2; r <= 12; r += 2) {
         let yPos = scaleY(r);
-        svgHtml += `<line x1="${padL}" y1="${yPos}" x2="${w - padR}" y2="${yPos}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/>`;
-        svgHtml += `<text x="${padL - 10}" y="${yPos + 4}" fill="#64748b" font-size="11" text-anchor="end" font-family="Inter">${r}%</text>`;
+        svgHtml += `<line x1="${padL}" y1="${yPos}" x2="${w - padR}" y2="${yPos}" stroke="#f1f5f9" stroke-width="1"/>`;
+        svgHtml += `<text x="${padL - 8}" y="${yPos + 4}" fill="#64748b" font-size="10.5" text-anchor="end" font-family="Inter">${r}%</text>`;
       }
 
       // Marcas eje X
       for (let mVal = 300; mVal <= 800; mVal += 100) {
         let xPos = scaleX(mVal);
-        svgHtml += `<line x1="${xPos}" y1="${h - padB}" x2="${xPos}" y2="${padT}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/>`;
-        svgHtml += `<text x="${xPos}" y="${h - padB + 18}" fill="#64748b" font-size="11" text-anchor="middle" font-family="Inter">${mVal}</text>`;
+        svgHtml += `<line x1="${xPos}" y1="${h - padB}" x2="${xPos}" y2="${padT}" stroke="#f1f5f9" stroke-width="1"/>`;
+        svgHtml += `<text x="${xPos}" y="${h - padB + 18}" fill="#64748b" font-size="10.5" text-anchor="middle" font-family="Inter">${mVal}</text>`;
       }
 
-      // Ejes
+      // Ejes cartesianos
       svgHtml += `<line x1="${padL}" y1="${h - padB}" x2="${w - padR}" y2="${h - padB}" stroke="#0b1c36" stroke-width="1.8"/>`;
       svgHtml += `<line x1="${padL}" y1="${h - padB}" x2="${padL}" y2="${padT}" stroke="#0b1c36" stroke-width="1.8"/>`;
       svgHtml += `<text x="${w - padR}" y="${h - padB - 8}" fill="#0b1c36" font-size="11" font-weight="700" text-anchor="end">Dinero (M)</text>`;
       svgHtml += `<text x="${padL + 8}" y="${padT + 12}" fill="#0b1c36" font-size="11" font-weight="700">Tipo i (%)</text>`;
 
-      // Curva Md: Md = $Y * (k - h*i) => i = (k - M/$Y)/h
+      // Curva de Demanda Md: Md = $Y * (k - h*i) => i = (k - M/$Y)/h
       let dPath = '';
-      for (let mVal = minM + 30; mVal <= maxM - 30; mVal += 10) {
+      for (let mVal = minM + 20; mVal <= maxM - 20; mVal += 10) {
         let rateVal = ((state.k - (mVal / state.Y)) / state.h) * 100;
         if (rateVal >= minI && rateVal <= maxI) {
           let x = scaleX(mVal);
           let y = scaleY(rateVal);
-          dPath += (dPath === '' ? `M ${x} ${y}` : ` L ${x} ${y}`);
+          dPath += (dPath === '' ? `M ${x.toFixed(1)} ${y.toFixed(1)}` : ` L ${x.toFixed(1)} ${y.toFixed(1)}`);
         }
       }
-      svgHtml += `<path d="${dPath}" fill="none" stroke="#056caa" stroke-width="3.5" stroke-linecap="round"/>`;
-      svgHtml += `<text x="${scaleX(maxM - 120)}" y="${scaleY(((state.k - ((maxM - 120) / state.Y)) / state.h) * 100) - 10}" fill="#056caa" font-weight="800" font-size="12">Md = $Y·L(i)</text>`;
+      if (dPath !== '') {
+        svgHtml += `<path d="${dPath}" fill="none" stroke="#056caa" stroke-width="3.5" stroke-linecap="round"/>`;
+      }
 
-      // Recta vertical Oferta Ms
+      // Etiqueta de la curva Md
+      let labelM = Math.min(maxM - 80, state.M + 120);
+      let labelRate = ((state.k - (labelM / state.Y)) / state.h) * 100;
+      if (labelRate >= 1 && labelRate <= 12) {
+        svgHtml += `<text x="${scaleX(labelM) + 6}" y="${scaleY(labelRate) - 8}" fill="#056caa" font-weight="800" font-size="11.5">Md ($Y=${state.Y})</text>`;
+      }
+
+      // Recta vertical de Oferta Ms
       let xMs = scaleX(state.M);
-      svgHtml += `<line x1="${xMs}" y1="${h - padB}" x2="${xMs}" y2="${padT + 10}" stroke="#4338ca" stroke-width="3.5" stroke-linecap="round"/>`;
-      svgHtml += `<text x="${xMs + 6}" y="${padT + 22}" fill="#4338ca" font-weight="800" font-size="12">Ms = ${state.M}</text>`;
+      svgHtml += `<line x1="${xMs}" y1="${h - padB}" x2="${xMs}" y2="${padT + 8}" stroke="#4338ca" stroke-width="3.5" stroke-linecap="round"/>`;
+      svgHtml += `<text x="${xMs + 6}" y="${padT + 20}" fill="#4338ca" font-weight="800" font-size="11.5">Ms = ${state.M}</text>`;
 
       // Punto de Equilibrio E*
       let xEq = scaleX(state.M);
       let yEq = scaleY(i_pct);
-      svgHtml += `<line x1="${padL}" y1="${yEq}" x2="${xEq}" y2="${yEq}" stroke="#d97706" stroke-width="1.8" stroke-dasharray="4,4"/>`;
-      svgHtml += `<circle cx="${xEq}" cy="${yEq}" r="7" fill="#d97706" stroke="#ffffff" stroke-width="2"/>`;
-      svgHtml += `<text x="${xEq + 10}" y="${yEq - 8}" fill="#0b1c36" font-weight="800" font-size="13">E* (${i_pct.toFixed(1)}%)</text>`;
+      svgHtml += `<line x1="${padL}" y1="${yEq}" x2="${xEq}" y2="${yEq}" stroke="#d97706" stroke-width="1.6" stroke-dasharray="3,3"/>`;
+      svgHtml += `<circle cx="${xEq}" cy="${yEq}" r="6.5" fill="#d97706" stroke="#ffffff" stroke-width="2"/>`;
+      svgHtml += `<text x="${xEq + 10}" y="${yEq - 8}" fill="#0b1c36" font-weight="800" font-size="12.5">E* (${i_pct.toFixed(1)}%)</text>`;
 
       plotSvg.innerHTML = svgHtml;
     }
 
-    // Escuchadores de eventos
+    // Escuchadores de controles
     sliderM.addEventListener('input', (e) => {
       state.M = parseFloat(e.target.value);
       renderPlot();
@@ -517,7 +623,7 @@
       renderPlot();
     });
 
-    // Botones de Escenarios
+    // Botones de Escenarios Rápidos
     document.getElementById('btnOmaExp').addEventListener('click', () => {
       state.M = Math.min(750, state.M + 120);
       sliderM.value = state.M;
@@ -544,17 +650,17 @@
       renderPlot();
     });
 
-    // Quiz Functions
+    // Comprobación de Quiz
     function checkQ1(btn, isCorrect) {
       const fb = document.getElementById('fbQ1');
       if (isCorrect) {
         btn.classList.add('correct');
         fb.className = 'quiz-fb show correct';
-        fb.innerHTML = '<b>¡Correcto!</b> Al crecer la actividad económica y los precios ($Y), se necesita más dinero para transacciones ($M^d$ se desplaza a la derecha). Para conseguir liquidez, los agentes venden bonos en masa, lo que hace caer su precio ($P_B \downarrow$) y dispara el tipo de interés ($i \uparrow$).';
+        fb.innerHTML = '<b>¡Correcto!</b> Al crecer la actividad económica y los precios ($Y ↑), se requiere más dinero líquido para pagos (la curva Md se traslada a la derecha). Como la oferta monetaria está fija, los agentes intentan vender bonos para conseguir efectivo, lo que hace caer el precio del bono (PB ↓) y dispara el tipo de interés de equilibrio (i ↑).';
       } else {
         btn.classList.add('wrong');
         fb.className = 'quiz-fb show wrong';
-        fb.innerHTML = '<b>No exactamente.</b> Recuerda que si el BC no amplía la oferta monetaria, la mayor demanda de liquidez provoca que los agentes vendan bonos, hundiendo su cotización y elevando el tipo de interés.';
+        fb.innerHTML = '<b>No exactamente.</b> Recuerda que si el Banco Central no amplía la oferta monetaria M, la mayor necesidad de liquidez provoca una venta masiva de bonos, hundiendo su cotización PB y elevando la rentabilidad exigida i.';
       }
     }
 
@@ -563,15 +669,15 @@
       if (isCorrect) {
         btn.classList.add('correct');
         fb.className = 'quiz-fb show correct';
-        fb.innerHTML = '<b>¡Exacto!</b> La relación $i = (100 - P_B)/P_B$ es inexorable. Si el Banco Central acude al mercado a comprar bonos, la demanda eleva el precio de los títulos ($P_B \uparrow$), reduciendo automáticamente su rentabilidad efectiva ($i \downarrow$).';
+        fb.innerHTML = '<b>¡Exacto!</b> La relación matemática PB = 100 / (1 + i) es directa e implacable. Cuando el Banco Central entra a comprar masivamente títulos en el mercado secundario, la fuerte demanda eleva el precio de los bonos (PB ↑), lo que reduce automáticamente su rentabilidad efectiva (i ↓).';
       } else {
         btn.classList.add('wrong');
         fb.className = 'quiz-fb show wrong';
-        fb.innerHTML = '<b>Incorrecto.</b> El tipo de interés de mercado no se fija por decreto arbitrario, sino a través del precio al que cotizan los títulos en el mercado secundario.';
+        fb.innerHTML = '<b>Incorrecto.</b> El tipo de interés de mercado no se fija por decreto arbitrario, sino a través de la cotización efectiva a la que se negocian los títulos de deuda en el mercado financiero.';
       }
     }
 
-    // Inicializar
+    // Inicialización al cargar la página
     renderPlot();
   </script>
 </body>
