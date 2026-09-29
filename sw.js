@@ -6,7 +6,7 @@
    - La activación de la versión nueva la decide el usuario (aviso en la
      app) mediante el mensaje SKIP_WAITING: nunca se queda con una versión
      antigua ni interrumpe sin avisar. */
-const CACHE = 'mh-microapps-v9';
+const CACHE = 'mh-microapps-v10';
 
 const PRECACHE = [
   './', './index.html', './theme.css', './fonts.css',
@@ -38,7 +38,7 @@ const PRECACHE = [
 ];
 
 self.addEventListener('install', (e) => {
-  // No hacemos skipWaiting: la nueva versión espera a que el usuario acepte.
+  self.skipWaiting();
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(PRECACHE).catch(() => {})));
 });
 
@@ -61,7 +61,7 @@ self.addEventListener('fetch', (e) => {
   if (url.origin !== self.location.origin) return; // solo mismo origen
 
   const isDoc = req.mode === 'navigate' || req.destination === 'document';
-  const isData = url.pathname.endsWith('.html') || url.pathname.endsWith('apps_data.js');
+  const isData = url.pathname.endsWith('.html') || url.pathname.endsWith('apps_data.js') || url.pathname.includes('calificaciones_cifradas');
 
   if (isDoc || isData) {
     // network-first
