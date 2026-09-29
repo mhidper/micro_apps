@@ -608,7 +608,20 @@ window.DOCENCIA_APPS = {
         session: "Sesión 5",
         url: "firma-dinero.html"
       },
-      {
+            {
+        id: "macro_sim_sesion06",
+        type: "simulator",
+        category: "simuladores",
+        icon: "⚖️",
+        iconBg: "#EFF6FF",
+        iconColor: "#056CAA",
+        title: "El Equilibrio IS-LM y la Dinámica de Inventarios",
+        desc: "Determinación simultánea de renta (Y) y tipo (i), cuadrantes de desequilibrio dinámico (Y ≶ Z) y ajuste horizontal de existencias en el modelo de Blanchard.",
+        meta: "Simulador interactivo · 12 min",
+        session: "Sesión 6",
+        url: "simulador_sesion_06.html"
+      },
+{
         id: "macro_real_1",
         type: "quiz",
         category: "real",

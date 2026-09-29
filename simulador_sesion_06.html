@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Sesión 6 · Equilibrio Conjunto IS-LM y Dinámica de Inventarios · Macro UPO</title>
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="theme.css">
+  <style>
+    :root {
+      --navy: #0b1c36;
+      --cobalt: #056caa;
+      --azure: #0776b5;
+      --gold: #d97706;
+      --crimson: #e11d48;
+      --teal: #059669;
+      --indigo: #4338ca;
+      --slate: #64748b;
+      --bg-cream: #faf8f5;
+      --card-border: #e2e8f0;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-cream);
+      color: #1e293b;
+      line-height: 1.55;
+      padding-bottom: 70px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 740px; margin: 0 auto; padding: 0 16px; }
+    
+    /* Header */
+    .intro { padding: 24px 0 12px; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cobalt);
+      margin-bottom: 8px;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 18px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--cobalt), var(--gold));
+      border-radius: 2px;
+    }
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.6rem, 5vw, 2.1rem);
+      line-height: 1.15;
+      color: var(--navy);
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+    .lede { font-size: 0.96rem; color: #475569; margin-bottom: 14px; }
+
+    /* Sticky Hero Panel */
+    .hero {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(250, 248, 245, 0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 10px 0 12px;
+      box-shadow: 0 10px 25px -20px rgba(11, 28, 54, 0.3);
+    }
+    .hero-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--slate);
+      text-align: center;
+      margin-bottom: 6px;
+    }
+    svg.plot {
+      width: 100%;
+      height: 280px;
+      display: block;
+      border-radius: 10px;
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+    }
+
+    /* Key Metrics */
+    .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+    .metric {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 8px 6px;
+      text-align: center;
+    }
+    .metric-lbl { font-size: 0.68rem; font-weight: 700; color: var(--slate); text-transform: uppercase; letter-spacing: 0.05em; }
+    .metric-val { font-family: 'Outfit', sans-serif; font-size: 1.15rem; font-weight: 800; color: var(--navy); margin-top: 2px; }
+    .metric.gold .metric-val { color: var(--gold); }
+    .metric.crimson .metric-val { color: var(--crimson); }
+    .metric.teal .metric-val { color: var(--teal); }
+    .metric.indigo .metric-val { color: var(--indigo); }
+
+    /* Inventory Status Badge */
+    .status-bar {
+      margin-top: 8px;
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid transparent;
+    }
+    .status-bar.eq { background: #fef3c7; color: #92400e; border-color: #fde68a; }
+    .status-bar.surplus { background: #fee2e2; color: #991b1b; border-color: #fecaca; }
+    .status-bar.deficit { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
+
+    /* Control Cards */
+    .card {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-top: 16px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    }
+    .card-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .control-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    @media (max-width: 600px) { .control-grid { grid-template-columns: 1fr; } }
+
+    .control-group {
+      background: #f8fafc;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+    .control-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #334155;
+    }
+    .control-val { font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--cobalt); }
+    input[type=range] {
+      width: 100%;
+      height: 6px;
+      background: #cbd5e1;
+      border-radius: 3px;
+      outline: none;
+      -webkit-appearance: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--cobalt);
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    /* Action Buttons */
+    .btn-row { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+    .btn {
+      flex: 1;
+      min-width: 140px;
+      padding: 8px 12px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border-radius: 6px;
+      border: 1px solid var(--cobalt);
+      background: #ffffff;
+      color: var(--cobalt);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+    .btn:hover { background: #f0f7ff; }
+    .btn.primary { background: var(--cobalt); color: #ffffff; }
+    .btn.primary:hover { background: #045383; }
+
+    /* Intuition Box */
+    .intuition-box {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 10px;
+      background: #f0f9ff;
+      border-left: 4px solid var(--azure);
+      font-size: 0.88rem;
+      color: #0f172a;
+    }
+    .intuition-box strong { color: var(--navy); }
+
+    /* Quiz */
+    .quiz-card {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-top: 16px;
+    }
+    .q-opt {
+      display: block;
+      margin-top: 8px;
+      padding: 10px 12px;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      font-size: 0.86rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .q-opt:hover { background: #f1f5f9; border-color: #cbd5e1; }
+    .q-opt.correct { background: #dcfce7; border-color: #86efac; color: #166534; font-weight: 600; }
+    .q-opt.incorrect { background: #fee2e2; border-color: #fca5a5; color: #991b1b; }
+    .feedback { margin-top: 10px; font-size: 0.84rem; padding: 10px; border-radius: 6px; display: none; }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="intro">
+    <div class="eyebrow">Macroeconomía UPO · Grados DER + FICO</div>
+    <h1>Equilibrio Conjunto IS-LM y Dinámica de Inventarios</h1>
+    <p class="lede">Modelo Blanchard (7.ª ed.): Interacción simultánea del mercado de bienes y los mercados financieros. Comprueba qué sucede en los almacenes cuando la producción no coincide con la demanda.</p>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="hero-title">Plano Macroeconómico (Y, i) & Vector de Ajuste Dinámico</div>
+    <svg id="plot" class="plot" viewBox="0 0 680 280"></svg>
+
+    <div class="metrics">
+      <div class="metric gold">
+        <div class="metric-lbl">Equilibrio Y*</div>
+        <div id="m-yeq" class="metric-val">2.000</div>
+      </div>
+      <div class="metric indigo">
+        <div class="metric-lbl">Tipo BCE (ī)</div>
+        <div id="m-ibar" class="metric-val">3,50%</div>
+      </div>
+      <div class="metric">
+        <div class="metric-lbl">Demanda (Z)</div>
+        <div id="m-z" class="metric-val">2.000</div>
+      </div>
+      <div id="metric-inv" class="metric teal">
+        <div class="metric-lbl">Existencias (Is)</div>
+        <div id="m-inv" class="metric-val">0</div>
+      </div>
+    </div>
+
+    <div id="statusBar" class="status-bar eq">
+      <span id="statusIcon">⚖️</span>
+      <span id="statusText">Equilibrio Macro: Producción = Demanda (Y = Z). Inversión en existencias no deseada nula (Is = 0).</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <!-- Interactive Explorer -->
+  <div class="card">
+    <div class="card-title">🕹️ Explorador de Desequilibrios Fuera de la Curva IS</div>
+    <p style="font-size:0.86rem; color:#64748b; margin-bottom:12px;">
+      Mueve el control de <strong>Producción Actual en Fábricas (Y)</strong> para colocar a la economía fuera de la curva IS a lo largo de la recta horizontal del BCE (ī = 3,5%).
+    </p>
+
+    <div class="control-group" style="background:#fff7ed; border-color:#fed7aa; margin-bottom:12px;">
+      <div class="control-header">
+        <span style="color:#9a3412;">Producción Actual de las Fábricas (Y):</span>
+        <span id="val-yact" class="control-val" style="color:#ea580c; font-size:1.05rem;">2.000</span>
+      </div>
+      <input type="range" id="sl-yact" min="1000" max="3000" step="50" value="2000">
+      <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:#9a3412; margin-top:3px;">
+        <span>Y = 1.000 (Subproducción)</span>
+        <span>Y* = 2.000 (Equilibrio)</span>
+        <span>Y = 3.000 (Sobreproducción)</span>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" onclick="applyShock('excess')">🏭 Shock: Sobreproducción (Y = 2.600)</button>
+      <button class="btn" onclick="applyShock('deficit')">🛒 Shock: Caída de Demanda (Y = 1.400)</button>
+      <button class="btn primary" onclick="resetToEq()">🔄 Restablecer Equilibrio (Y = Y*)</button>
+    </div>
+
+    <div id="intuitionBox" class="intuition-box">
+      <strong>Mecanismo de Transmisión en los Almacenes:</strong>
+      <span id="intuitionText">La economía se encuentra en el punto E*. No hay desequilibrio de existencias.</span>
+    </div>
+  </div>
+
+  <!-- Model Parameters Card -->
+  <div class="card">
+    <div class="card-title">⚙️ Parámetros del Modelo y Políticas Macroeconómicas</div>
+    <div class="control-grid">
+      <div class="control-group">
+        <div class="control-header">
+          <span>Tipo de Interés BCE (ī):</span>
+          <span id="val-ibar" class="control-val">3,50%</span>
+        </div>
+        <input type="range" id="sl-ibar" min="1.0" max="6.5" step="0.25" value="3.50">
+      </div>
+
+      <div class="control-group">
+        <div class="control-header">
+          <span>Gasto Público (G):</span>
+          <span id="val-g" class="control-val">250</span>
+        </div>
+        <input type="range" id="sl-g" min="100" max="450" step="25" value="250">
+      </div>
+
+      <div class="control-group">
+        <div class="control-header">
+          <span>Impuestos Netos (T):</span>
+          <span id="val-t" class="control-val">200</span>
+        </div>
+        <input type="range" id="sl-t" min="100" max="350" step="25" value="200">
+      </div>
+
+      <div class="control-group">
+        <div class="control-header">
+          <span>Sensibilidad Inversión (d₂):</span>
+          <span id="val-d2" class="control-val">1.000</span>
+        </div>
+        <input type="range" id="sl-d2" min="400" max="1800" step="100" value="1000">
+      </div>
+    </div>
+  </div>
+
+  <!-- Mini Quiz -->
+  <div class="quiz-card">
+    <div class="card-title">📝 Autoevaluación Rápida · Trampas de Examen</div>
+    <div style="font-size:0.9rem; font-weight:600; color:var(--navy); margin-bottom:8px;">
+      ¿Qué sucede en el plano (Y, i) si una economía se sitúa a la derecha de la curva IS sobre la recta LM fijada por el Banco Central?
+    </div>
+    <div class="q-opt" onclick="checkAnswer(this, false)">A) El Banco Central sube automáticamente los tipos de interés para expulsar inversión privada.</div>
+    <div class="q-opt" onclick="checkAnswer(this, true)">B) La producción supera a la demanda (Y > Z), las empresas acumulan existencias no deseadas (Is > 0) y recortan su producción (Y ↓) desplazándose horizontalmente hacia la izquierda hasta la curva IS.</div>
+    <div class="q-opt" onclick="checkAnswer(this, false)">C) Los precios caen instantáneamente a cero y la curva LM se desplaza hacia arriba.</div>
+    <div id="quizFeedback" class="feedback"></div>
+  </div>
+</div>
+
+<script>
+  // State
+  let state = {
+    c0: 200,
+    c1: 0.60,
+    t: 200,
+    d0: 150,
+    d1: 0.15,
+    d2: 1000,
+    g: 250,
+    ibar: 0.035, // 3.5%
+    yAct: 2000
+  };
+
+  function computeEquilibrium() {
+    // Multiplier m = 1 / (1 - c1 - d1)
+    const m = 1 / (1 - state.c1 - state.d1);
+    // Autonomous demand at i=0: A0 = c0 - c1*T + d0 + G
+    const A0 = state.c0 - state.c1 * state.t + state.d0 + state.g;
+    // Y_eq = m * (A0 - d2 * ibar)
+    const Y_eq = m * (A0 - state.d2 * state.ibar);
+    // Demand at yAct: Z = c0 + c1*(yAct - T) + d0 + d1*yAct - d2*ibar + G
+    const Z = state.c0 + state.c1 * (state.yAct - state.t) + state.d0 + state.d1 * state.yAct - state.d2 * state.ibar + state.g;
+    // Inventory change: Is = yAct - Z
+    const Is = state.yAct - Z;
+
+    return { m, A0, Y_eq, Z, Is };
+  }
+
+  function render() {
+    const calc = computeEquilibrium();
+
+    // DOM Updates
+    document.getElementById('m-yeq').innerText = Math.round(calc.Y_eq).toLocaleString('es-ES');
+    document.getElementById('m-ibar').innerText = (state.ibar * 100).toFixed(2).replace('.', ',') + '%';
+    document.getElementById('m-z').innerText = Math.round(calc.Z).toLocaleString('es-ES');
+    document.getElementById('m-inv').innerText = (calc.Is > 0 ? '+' : '') + Math.round(calc.Is).toLocaleString('es-ES');
+
+    document.getElementById('val-yact').innerText = Math.round(state.yAct).toLocaleString('es-ES');
+    document.getElementById('val-ibar').innerText = (state.ibar * 100).toFixed(2).replace('.', ',') + '%';
+    document.getElementById('val-g').innerText = state.g;
+    document.getElementById('val-t').innerText = state.t;
+    document.getElementById('val-d2').innerText = state.d2;
+
+    // Status & Intuition
+    const sb = document.getElementById('statusBar');
+    const sIcon = document.getElementById('statusIcon');
+    const sText = document.getElementById('statusText');
+    const iText = document.getElementById('intuitionText');
+    const mInv = document.getElementById('metric-inv');
+
+    if (Math.abs(calc.Is) < 5) {
+      sb.className = 'status-bar eq';
+      sIcon.innerText = '⚖️';
+      sText.innerText = 'Equilibrio Conjunto E*: Producción = Demanda (Y = Z). Inversión en existencias nula (Is = 0).';
+      iText.innerHTML = 'Las empresas venden exactamente todo lo que fabrican. La economía descansa en la intersección entre el mercado de bienes (curva IS) y la política monetaria del BCE (recta LM horizontal a <strong>' + (state.ibar*100).toFixed(2) + '%</strong>).';
+      mInv.className = 'metric teal';
+    } else if (calc.Is > 0) {
+      sb.className = 'status-bar surplus';
+      sIcon.innerText = '📦';
+      sText.innerText = 'Exceso de Producción (Y > Z): Acumulación involuntaria de existencias (+ ' + Math.round(calc.Is) + ' M€).';
+      iText.innerHTML = '<strong>Almacenes saturados:</strong> Las fábricas producen a un ritmo superior al gasto agregado de la sociedad. Los coches y productos terminados se apilan sin vender. <em>Respuesta empresarial:</em> Las factorías recortan turnos y despiden personal eventual; la producción agregada disminuye (<strong>Y ↓</strong>) desplazándose hacia la izquierda hasta volver a la curva IS.';
+      mInv.className = 'metric crimson';
+    } else {
+      sb.className = 'status-bar deficit';
+      sIcon.innerText = '⚡';
+      sText.innerText = 'Exceso de Demanda (Z > Y): Desacumulación involuntaria de existencias (' + Math.round(calc.Is) + ' M€).';
+      iText.innerHTML = '<strong>Almacenes vaciándose:</strong> Familias y empresas compran a un ritmo mayor que la producción actual. Los stocks de reserva se agotan de forma imprevista. <em>Respuesta empresarial:</em> Las empresas contratan turnos extra e incrementan la cadencia productiva (<strong>Y ↑</strong>) desplazándose horizontalmente hacia la derecha hasta alcanzar la IS.';
+      mInv.className = 'metric teal';
+    }
+
+    // Draw SVG
+    drawPlot(calc);
+  }
+
+  function drawPlot(calc) {
+    const svg = document.getElementById('plot');
+    const w = 680, h = 280;
+    const padL = 70, padR = 40, padT = 30, padB = 45;
+    const pw = w - padL - padR;
+    const ph = h - padT - padB;
+
+    const yMin = 800, yMax = 3200;
+    const iMin = 0.0, iMax = 0.08;
+
+    function scaleX(val) { return padL + ((val - yMin) / (yMax - yMin)) * pw; }
+    function scaleY(val) { return padT + (1 - (val - iMin) / (iMax - iMin)) * ph; }
+
+    // Clear
+    svg.innerHTML = '';
+
+    // Defs for arrows
+    svg.innerHTML += `
+      <defs>
+        <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 10 5 L 0 9 z" fill="#e11d48"/>
+        </marker>
+        <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 10 5 L 0 9 z" fill="#059669"/>
+        </marker>
+      </defs>
+    `;
+
+    // Grid lines
+    for (let yG = 1000; yG <= 3000; yG += 500) {
+      const gx = scaleX(yG);
+      svg.innerHTML += `<line x1="${gx}" y1="${padT}" x2="${gx}" y2="${h - padB}" stroke="#f1f5f9" stroke-width="1.5" />`;
+      svg.innerHTML += `<text x="${gx}" y="${h - padB + 16}" font-size="10" font-weight="600" fill="#94a3b8" text-anchor="middle">${yG}</text>`;
+    }
+    for (let iG = 0.02; iG <= 0.07; iG += 0.02) {
+      const gy = scaleY(iG);
+      svg.innerHTML += `<line x1="${padL}" y1="${gy}" x2="${w - padR}" y2="${gy}" stroke="#f1f5f9" stroke-width="1.5" />`;
+      svg.innerHTML += `<text x="${padL - 8}" y="${gy + 4}" font-size="10" font-weight="600" fill="#94a3b8" text-anchor="end">${(iG*100).toFixed(0)}%</text>`;
+    }
+
+    // Axes
+    svg.innerHTML += `<line x1="${padL}" y1="${h - padB}" x2="${w - padR}" y2="${h - padB}" stroke="#94a3b8" stroke-width="1.5" />`;
+    svg.innerHTML += `<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${h - padB}" stroke="#94a3b8" stroke-width="1.5" />`;
+    svg.innerHTML += `<text x="${w - padR}" y="${h - padB + 32}" font-size="11" font-weight="700" fill="#0b1c36" text-anchor="end">Producción (Y)</text>`;
+    svg.innerHTML += `<text x="${padL - 10}" y="${padT - 12}" font-size="11" font-weight="700" fill="#0b1c36" text-anchor="start">Tipo de Interés (i)</text>`;
+
+    // IS Curve: i = (A0 - Y/m) / d2
+    const isX1 = 900, isX2 = 3100;
+    const isY1 = (calc.A0 - isX1 / calc.m) / state.d2;
+    const isY2 = (calc.A0 - isX2 / calc.m) / state.d2;
+
+    const x1_px = scaleX(isX1), y1_px = scaleY(isY1);
+    const x2_px = scaleX(isX2), y2_px = scaleY(isY2);
+
+    svg.innerHTML += `<line x1="${x1_px}" y1="${y1_px}" x2="${x2_px}" y2="${y2_px}" stroke="#056caa" stroke-width="3.5" stroke-linecap="round" />`;
+    svg.innerHTML += `<text x="${x2_px - 10}" y="${y2_px + 20}" font-size="13" font-weight="800" fill="#056caa">Curva IS</text>`;
+
+    // LM Curve: horizontal line at ibar
+    const lm_y = scaleY(state.ibar);
+    svg.innerHTML += `<line x1="${padL}" y1="${lm_y}" x2="${w - padR}" y2="${lm_y}" stroke="#4338ca" stroke-width="3.5" stroke-linecap="round" />`;
+    svg.innerHTML += `<text x="${w - padR - 5}" y="${lm_y - 8}" font-size="12" font-weight="800" fill="#4338ca" text-anchor="end">LM (i = ${(state.ibar*100).toFixed(2)}%)</text>`;
+
+    // Projections for Y_eq
+    const eqX = scaleX(calc.Y_eq);
+    const eqY = scaleY(state.ibar);
+    svg.innerHTML += `<line x1="${eqX}" y1="${eqY}" x2="${eqX}" y2="${h - padB}" stroke="#d97706" stroke-width="1.5" stroke-dasharray="4 3" />`;
+    svg.innerHTML += `<circle cx="${eqX}" cy="${eqY}" r="7" fill="#d97706" stroke="#0b1c36" stroke-width="2" />`;
+    svg.innerHTML += `<text x="${eqX}" y="${eqY - 12}" font-size="12" font-weight="800" fill="#d97706" text-anchor="middle">E*</text>`;
+
+    // Current operating point on the LM line
+    const curX = scaleX(state.yAct);
+    const curY = scaleY(state.ibar);
+
+    if (Math.abs(state.yAct - calc.Y_eq) >= 15) {
+      // Draw arrow towards equilibrium
+      if (state.yAct > calc.Y_eq) {
+        // Red arrow pointing left
+        svg.innerHTML += `<line x1="${curX}" y1="${curY - 14}" x2="${eqX + 12}" y2="${curY - 14}" stroke="#e11d48" stroke-width="3" marker-end="url(#arr-red)" />`;
+        svg.innerHTML += `<text x="${(curX + eqX)/2}" y="${curY - 22}" font-size="10.5" font-weight="700" fill="#e11d48" text-anchor="middle">Ajuste: Recorte de Producción (Y ↓)</text>`;
+      } else {
+        // Green arrow pointing right
+        svg.innerHTML += `<line x1="${curX}" y1="${curY - 14}" x2="${eqX - 12}" y2="${curY - 14}" stroke="#059669" stroke-width="3" marker-end="url(#arr-green)" />`;
+        svg.innerHTML += `<text x="${(curX + eqX)/2}" y="${curY - 22}" font-size="10.5" font-weight="700" fill="#059669" text-anchor="middle">Ajuste: Expansión de Producción (Y ↑)</text>`;
+      }
+
+      // Draw current point marker
+      const col = state.yAct > calc.Y_eq ? '#e11d48' : '#059669';
+      svg.innerHTML += `<line x1="${curX}" y1="${curY}" x2="${curX}" y2="${h - padB}" stroke="${col}" stroke-width="1.5" stroke-dasharray="3 3" />`;
+      svg.innerHTML += `<circle cx="${curX}" cy="${curY}" r="6.5" fill="${col}" stroke="#ffffff" stroke-width="2" />`;
+      svg.innerHTML += `<text x="${curX}" y="${h - padB + 28}" font-size="10.5" font-weight="700" fill="${col}" text-anchor="middle">Y actual</text>`;
+    }
+  }
+
+  // Event Listeners
+  document.getElementById('sl-yact').addEventListener('input', e => {
+    state.yAct = parseFloat(e.target.value);
+    render();
+  });
+  document.getElementById('sl-ibar').addEventListener('input', e => {
+    state.ibar = parseFloat(e.target.value) / 100;
+    render();
+  });
+  document.getElementById('sl-g').addEventListener('input', e => {
+    state.g = parseFloat(e.target.value);
+    render();
+  });
+  document.getElementById('sl-t').addEventListener('input', e => {
+    state.t = parseFloat(e.target.value);
+    render();
+  });
+  document.getElementById('sl-d2').addEventListener('input', e => {
+    state.d2 = parseFloat(e.target.value);
+    render();
+  });
+
+  function applyShock(type) {
+    if (type === 'excess') {
+      state.yAct = 2600;
+      document.getElementById('sl-yact').value = 2600;
+    } else if (type === 'deficit') {
+      state.yAct = 1400;
+      document.getElementById('sl-yact').value = 1400;
+    }
+    render();
+  }
+
+  function resetToEq() {
+    const calc = computeEquilibrium();
+    state.yAct = Math.round(calc.Y_eq);
+    document.getElementById('sl-yact').value = state.yAct;
+    render();
+  }
+
+  function checkAnswer(el, isCorrect) {
+    const parent = el.parentNode;
+    parent.querySelectorAll('.q-opt').forEach(opt => {
+      opt.onclick = null;
+      opt.style.cursor = 'default';
+    });
+    const fb = document.getElementById('quizFeedback');
+    fb.style.display = 'block';
+
+    if (isCorrect) {
+      el.classList.add('correct');
+      fb.style.background = '#dcfce7';
+      fb.style.color = '#166534';
+      fb.innerHTML = '<strong>¡Exacto!</strong> A la derecha de la curva IS, la producción supera a la demanda de bienes (Y > Z). Los almacenes acumulan existencias indeseadas (Is > 0). Como el BCE mantiene su tipo fijo en la LM horizontal, las empresas reducen la producción paulatinamente hasta vaciar el exceso de stock y recuperar el equilibrio en E*.';
+    } else {
+      el.classList.add('incorrect');
+      parent.querySelectorAll('.q-opt')[1].classList.add('correct');
+      fb.style.background = '#fee2e2';
+      fb.style.color = '#991b1b';
+      fb.innerHTML = '<strong>Incorrecto.</strong> Recuerda que en la 7.ª edición de Blanchard el Banco Central fija el tipo oficial (LM horizontal). El ajuste no lo hace el tipo de interés, sino la <strong>inversión involuntaria en existencias</strong>: las empresas recortan su producción fabril (Y ↓) desplazándose horizontalmente hasta alcanzar la IS.';
+    }
+  }
+
+  // Initial
+  render();
+</script>
+
+</body>
+</html>
