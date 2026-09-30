@@ -85,6 +85,19 @@ window.DOCENCIA_APPS = {
         url: "simulador_curva_beveridge.html"
       },
       {
+        id: "psll_pae_sim",
+        type: "simulator",
+        category: "activas",
+        icon: "🎯",
+        iconBg: "#EAF4EE",
+        iconColor: "#113927",
+        title: "Políticas Activas de Empleo y Curva de Beveridge",
+        desc: "Simulador presupuestario de 1.000 M€: experimenta el trade-off entre orientación, recualificación, peso muerto en bonificaciones y desplazamiento de la curva.",
+        meta: "Simulador interactivo · 15 min",
+        session: "Tema 2 (Sesión 06)",
+        url: "simulador_politicas_activas.html"
+      },
+      {
         id: "psll_mercado_1",
         type: "quiz",
         category: "mercado",

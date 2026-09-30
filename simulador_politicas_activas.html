@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Simulador de Políticas Activas de Empleo y Curva de Beveridge · PSLL UPO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pino: #113927;
+      --salvia: #76927A;
+      --coral: #E98F71;
+      --menta: #F4F8F5;
+      --menta-dark: #E4EFE7;
+      --tinta: #2F3A30;
+      --blanco: #FFFFFF;
+      --gris-borde: #E2E8F0;
+      --gris-suave: #F8FAFC;
+      --rojo-aviso: #DC2626;
+      --radio: 14px;
+      --sombra: 0 4px 20px -2px rgba(17, 57, 39, 0.08);
+      --sombra-card: 0 2px 10px rgba(0,0,0,0.04);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--menta);
+      color: var(--tinta);
+      line-height: 1.55;
+      padding-bottom: 60px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, var(--pino) 0%, #1c523a 100%);
+      color: var(--blanco);
+      padding: 28px 16px 24px;
+      border-bottom: 4px solid var(--coral);
+      margin-bottom: 24px;
+    }
+    .header-content {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .badge-sub {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--coral);
+      background: rgba(233, 143, 113, 0.15);
+      padding: 4px 10px;
+      border-radius: 20px;
+      width: fit-content;
+    }
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.4rem, 4vw, 1.9rem);
+      line-height: 1.2;
+    }
+    .subtitle {
+      font-size: 0.95rem;
+      color: #D1E0D7;
+      max-width: 760px;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--blanco);
+      border-radius: var(--radio);
+      border: 1px solid var(--gris-borde);
+      box-shadow: var(--sombra);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .card-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--pino);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    /* Preset scenarios */
+    .presets {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .btn-preset {
+      background: var(--gris-suave);
+      border: 1px solid var(--gris-borde);
+      border-radius: 8px;
+      padding: 10px 12px;
+      text-align: left;
+      cursor: pointer;
+      font-size: 0.85rem;
+      color: var(--tinta);
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .btn-preset strong {
+      display: block;
+      color: var(--pino);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.92rem;
+      margin-bottom: 2px;
+    }
+    .btn-preset:hover {
+      background: var(--menta);
+      border-color: var(--salvia);
+      transform: translateY(-1px);
+    }
+    .btn-preset.active {
+      background: #E8F2EC;
+      border-color: var(--pino);
+      box-shadow: 0 0 0 2px var(--pino);
+    }
+
+    /* Budget bar */
+    .budget-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--menta-dark);
+      padding: 12px 16px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+    }
+    .budget-amount {
+      font-size: 1.25rem;
+      color: var(--pino);
+    }
+    .budget-amount.warning {
+      color: var(--rojo-aviso);
+    }
+
+    /* Slider group */
+    .slider-item {
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px dashed var(--gris-borde);
+    }
+    .slider-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+    .slider-label {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--pino);
+    }
+    .slider-desc {
+      font-size: 0.8rem;
+      color: #64748B;
+      margin-bottom: 8px;
+    }
+    .slider-val {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--pino);
+      min-width: 80px;
+      text-align: right;
+    }
+    input[type=range] {
+      width: 100%;
+      height: 7px;
+      border-radius: 4px;
+      background: #CBD5E1;
+      outline: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--pino);
+      border: 2px solid var(--blanco);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+      background: var(--coral);
+    }
+
+    /* Results layout */
+    .grid-results {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .stat-box {
+      background: var(--gris-suave);
+      border: 1px solid var(--gris-borde);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748B;
+      margin-bottom: 4px;
+    }
+    .stat-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: var(--pino);
+      line-height: 1.1;
+    }
+    .stat-sub {
+      font-size: 0.78rem;
+      color: #64748B;
+      margin-top: 4px;
+    }
+
+    /* Chart container */
+    .chart-container {
+      background: #FAFDFB;
+      border: 1px solid var(--gris-borde);
+      border-radius: 12px;
+      padding: 16px;
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .chart-legend {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .dot-base { width: 12px; height: 3px; background: #94A3B8; }
+    .dot-activa { width: 12px; height: 3px; background: var(--pino); }
+    .dot-punto { width: 8px; height: 8px; border-radius: 50%; background: var(--coral); }
+
+    /* Diagnosis Box */
+    .diag-box {
+      background: #FDF9F6;
+      border-left: 4px solid var(--coral);
+      padding: 16px;
+      border-radius: 0 10px 10px 0;
+      margin-bottom: 16px;
+    }
+    .diag-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #9C4221;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .diag-text {
+      font-size: 0.92rem;
+      color: var(--tinta);
+      line-height: 1.5;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      font-size: 0.82rem;
+      color: #64748B;
+      padding-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-content">
+      <span class="badge-sub">PSLL · Universidad Pablo de Olavide · Sesión 06</span>
+      <h1>Simulador de Políticas Activas de Empleo (PAE Lab)</h1>
+      <p class="subtitle">Modela la asignación presupuestaria de 1.000 M€ en el mercado laboral, experimenta con el desplazamiento de la Curva de Beveridge y audita el efecto peso muerto de las políticas públicas.</p>
+    </div>
+  </header>
+
+  <div class="wrap">
+
+    <!-- Escenarios -->
+    <div class="card">
+      <div class="card-title">🎯 1. Selecciona un Escenario de Política Pública o Personaliza</div>
+      <div class="presets">
+        <button class="btn-preset active" onclick="aplicarPreset('espana')">
+          <strong>Modelo Histórico Español</strong>
+          Sesgo pasivo y bonificaciones genéricas a la contratación.
+        </button>
+        <button class="btn-preset" onclick="aplicarPreset('nordico')">
+          <strong>Flexiseguridad Nórdica</strong>
+          Fuerte inversión en orientación personalizada y reskilling.
+        </button>
+        <button class="btn-preset" onclick="aplicarPreset('empleo_publico')">
+          <strong>Plan de Choque Municipal</strong>
+          Predominio de obras y empleo público directo transitorio.
+        </button>
+      </div>
+
+      <!-- Presupuesto -->
+      <div class="budget-status">
+        <span>Presupuesto Público Total: 1.000 M€</span>
+        <span id="txt-budget" class="budget-amount">Asignado: 1.000 M€ (100%)</span>
+      </div>
+
+      <!-- Sliders -->
+      <div class="slider-item">
+        <div class="slider-header">
+          <span class="slider-label">1. Orientación, Matching y Perfilado Individual (PAE)</span>
+          <span id="val-orient" class="slider-val">100 M€</span>
+        </div>
+        <p class="slider-desc">Servicios públicos de empleo, digitalización de vacantes, tutorías personalizadas y perfilado algorítmico. Reduce los tiempos de búsqueda e incrementa la eficiencia tecnológica del emparejamiento (A).</p>
+        <input type="range" id="rng-orient" min="0" max="600" step="10" value="100" oninput="actualizar()">
+      </div>
+
+      <div class="slider-item">
+        <div class="slider-header">
+          <span class="slider-label">2. Formación y Recualificación Profesional / Reskilling (PAE)</span>
+          <span id="val-form" class="slider-val">150 M€</span>
+        </div>
+        <p class="slider-desc">Cursos formativos duales y acreditaciones técnicas adaptadas a los perfiles demandados por las empresas. Combate el desajuste de habilidades (skills mismatch) y el desempleo estructural.</p>
+        <input type="range" id="rng-form" min="0" max="600" step="10" value="150" oninput="actualizar()">
+      </div>
+
+      <div class="slider-item">
+        <div class="slider-header">
+          <span class="slider-label">3. Subvenciones y Bonificaciones a la Contratación (PAE)</span>
+          <span id="val-bonif" class="slider-val">300 M€</span>
+        </div>
+        <p class="slider-desc">Subvenciones directas y rebajas de cuotas a la Seguridad Social a empresas. Genera estímulo a corto plazo pero sufre de un elevado Efecto Peso Muerto (se subvencionan contratos que se habrían hecho igual).</p>
+        <input type="range" id="rng-bonif" min="0" max="600" step="10" value="300" oninput="actualizar()">
+      </div>
+
+      <div class="slider-item">
+        <div class="slider-header">
+          <span class="slider-label">4. Creación Directa de Empleo Público Temporal (PAE)</span>
+          <span id="val-pub" class="slider-val">150 M€</span>
+        </div>
+        <p class="slider-desc">Contratación en corporaciones locales para obras y servicios comunitarios. Alivio social inmediato pero no mejora la empleabilidad futura y genera efecto sustitución.</p>
+        <input type="range" id="rng-pub" min="0" max="600" step="10" value="150" oninput="actualizar()">
+      </div>
+
+      <div class="slider-item">
+        <div class="slider-header">
+          <span class="slider-label">5. Gasto en Prestaciones Pasivas y Sostenimiento de Rentas</span>
+          <span id="val-pasiv" class="slider-val">300 M€</span>
+        </div>
+        <p class="slider-desc">Prestaciones contributivas y subsidios asistenciales. Red de seguridad económica vital ex-post que no altera la capacidad productiva del individuo.</p>
+        <input type="range" id="rng-pasiv" min="0" max="600" step="10" value="300" oninput="actualizar()">
+      </div>
+    </div>
+
+    <!-- Indicadores -->
+    <div class="card">
+      <div class="card-title">📊 2. Impacto en el Equilibrio del Mercado de Trabajo</div>
+      
+      <div class="grid-results">
+        <div class="stat-box">
+          <div class="stat-label">Tasa de Desempleo (u*)</div>
+          <div id="stat-u" class="stat-val">11.1%</div>
+          <div id="stat-u-diff" class="stat-sub">Inicial: 11.5% (-0.4 p.p.)</div>
+        </div>
+
+        <div class="stat-box">
+          <div class="stat-label">Eficiencia Matching (A)</div>
+          <div id="stat-A" class="stat-val">106</div>
+          <div class="stat-sub">Base 100 (Curva Beveridge)</div>
+        </div>
+
+        <div class="stat-box">
+          <div class="stat-label">Empleo Neto Creado</div>
+          <div id="stat-empleo" class="stat-val">+34.200</div>
+          <div class="stat-sub">Puestos estables netos</div>
+        </div>
+
+        <div class="stat-box">
+          <div class="stat-label">Efecto Peso Muerto</div>
+          <div id="stat-deadweight" class="stat-val">68%</div>
+          <div class="stat-sub">Gasto en empleo no adicional</div>
+        </div>
+      </div>
+
+      <!-- Gráfico Curva de Beveridge SVG -->
+      <div class="chart-container">
+        <svg id="beveridge-svg" viewBox="0 0 500 280" style="width: 100%; height: auto; display: block; overflow: visible;">
+          <!-- Ejes -->
+          <line x1="50" y1="240" x2="470" y2="240" stroke="#94A3B8" stroke-width="2"/>
+          <line x1="50" y1="240" x2="50" y2="20" stroke="#94A3B8" stroke-width="2"/>
+          <text x="470" y="255" font-size="11" fill="#64748B" font-weight="600" text-anchor="end">Tasa de Desempleo u (%)</text>
+          <text x="45" y="15" font-size="11" fill="#64748B" font-weight="600" text-anchor="start">Tasa Vacantes v (%)</text>
+
+          <!-- Bisectriz u = v -->
+          <line x1="50" y1="240" x2="350" y2="40" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="3,3"/>
+          <text x="355" y="45" font-size="9" fill="#94A3B8">u = v</text>
+
+          <!-- Curva Base (España actual) -->
+          <path id="curve-base" d="M 70 45 Q 120 180 430 230" fill="none" stroke="#94A3B8" stroke-width="2.5" stroke-dasharray="5,5"/>
+
+          <!-- Curva Activa Dinámica -->
+          <path id="curve-active" d="M 70 45 Q 120 180 430 230" fill="none" stroke="#113927" stroke-width="3"/>
+
+          <!-- Punto de Equilibrio Base -->
+          <circle cx="280" cy="180" r="5" fill="#94A3B8"/>
+          <text x="290" y="175" font-size="10" fill="#64748B">Punto Inicial (u=11.5%)</text>
+
+          <!-- Punto de Equilibrio Activo -->
+          <circle id="pt-active" cx="280" cy="180" r="7" fill="#E98F71" stroke="#FFFFFF" stroke-width="2"/>
+          <text id="lbl-active" x="290" y="195" font-size="11" fill="#113927" font-weight="700">Equilibrio u*</text>
+        </svg>
+
+        <div class="chart-legend">
+          <div class="legend-item"><span class="dot-base"></span> Curva Inicial (A=100)</div>
+          <div class="legend-item"><span class="dot-activa"></span> Curva Resultante (Desplazamiento por PAE)</div>
+          <div class="legend-item"><span class="dot-punto"></span> Punto de Equilibrio Actual</div>
+        </div>
+      </div>
+
+      <!-- Diagnóstico -->
+      <div class="diag-box">
+        <div id="diag-title" class="diag-title">💡 Diagnóstico de Política Económica</div>
+        <p id="diag-text" class="diag-text">Calculando evaluación...</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer>
+    Políticas Sociolaborales y de Empleo (PSLL) · Prof. Manuel A. Hidalgo Pérez · Universidad Pablo de Olavide
+  </footer>
+
+  <script>
+    function aplicarPreset(tipo) {
+      document.querySelectorAll('.btn-preset').forEach(b => b.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+
+      if (tipo === 'espana') {
+        document.getElementById('rng-orient').value = 70;
+        document.getElementById('rng-form').value = 130;
+        document.getElementById('rng-bonif').value = 350;
+        document.getElementById('rng-pub').value = 150;
+        document.getElementById('rng-pasiv').value = 300;
+      } else if (tipo === 'nordico') {
+        document.getElementById('rng-orient').value = 350;
+        document.getElementById('rng-form').value = 350;
+        document.getElementById('rng-bonif').value = 120;
+        document.getElementById('rng-pub').value = 30;
+        document.getElementById('rng-pasiv').value = 150;
+      } else if (tipo === 'empleo_publico') {
+        document.getElementById('rng-orient').value = 60;
+        document.getElementById('rng-form').value = 80;
+        document.getElementById('rng-bonif').value = 200;
+        document.getElementById('rng-pub').value = 460;
+        document.getElementById('rng-pasiv').value = 200;
+      }
+      actualizar();
+    }
+
+    function actualizar() {
+      const orient = parseInt(document.getElementById('rng-orient').value);
+      const form = parseInt(document.getElementById('rng-form').value);
+      const bonif = parseInt(document.getElementById('rng-bonif').value);
+      const pub = parseInt(document.getElementById('rng-pub').value);
+      const pasiv = parseInt(document.getElementById('rng-pasiv').value);
+
+      document.getElementById('val-orient').textContent = orient + ' M€';
+      document.getElementById('val-form').textContent = form + ' M€';
+      document.getElementById('val-bonif').textContent = bonif + ' M€';
+      document.getElementById('val-pub').textContent = pub + ' M€';
+      document.getElementById('val-pasiv').textContent = pasiv + ' M€';
+
+      const total = orient + form + bonif + pub + pasiv;
+      const txtBudget = document.getElementById('txt-budget');
+      txtBudget.textContent = `Asignado: ${total} M€ (${Math.round(total / 10)}%)`;
+      if (total > 1000) {
+        txtBudget.className = 'budget-amount warning';
+        txtBudget.textContent += ' ⚠️ Supera presupuesto';
+      } else if (total < 1000) {
+        txtBudget.className = 'budget-amount warning';
+        txtBudget.textContent += ' (Fondos sobrantes)';
+      } else {
+        txtBudget.className = 'budget-amount';
+      }
+
+      // 1. Eficiencia Matching A (base 100)
+      // La orientación y la formación desplazan la curva fuertemente hacia el origen
+      const gainA = (orient * 0.08) + (form * 0.07);
+      const A_val = Math.round(100 + gainA);
+      document.getElementById('stat-A').textContent = A_val;
+
+      // 2. Efecto Peso Muerto (Deadweight)
+      // A más bonificaciones generalizadas, mayor peso muerto
+      let dw = 45 + (bonif * 0.09);
+      if (dw > 85) dw = 85;
+      if (dw < 40) dw = 40;
+      document.getElementById('stat-deadweight').textContent = Math.round(dw) + '%';
+
+      // 3. Empleo neto creado
+      const empOrient = orient * 110; 
+      const empForm = form * 125;
+      const empBonif = bonif * 80 * (1 - (dw / 100)); // Deducido peso muerto
+      const empPub = pub * 95 * 0.55; // Descontando sustitución
+      const totalEmpleo = Math.round(empOrient + empForm + empBonif + empPub);
+      document.getElementById('stat-empleo').textContent = '+' + totalEmpleo.toLocaleString('es-ES');
+
+      // 4. Tasa de Desempleo de equilibrio (u*)
+      // Base: 11.5%
+      const reduccionParo = (totalEmpleo / 23500000) * 100; // sobre población activa aprox 23.5M
+      let u_final = 11.5 - reduccionParo;
+      if (u_final < 6.8) u_final = 6.8;
+      const u_rounded = u_final.toFixed(1);
+      document.getElementById('stat-u').textContent = u_rounded + '%';
+      const diff = (u_final - 11.5).toFixed(1);
+      document.getElementById('stat-u-diff').textContent = `Inicial: 11.5% (${diff} p.p.)`;
+
+      // 5. Gráfico Beveridge SVG
+      // Desplazamiento hacia el origen: se traslada el centro de la curva hacia abajo y a la izquierda
+      const shift = (A_val - 100) * 1.5; 
+      const cx_active = 280 - (shift * 1.1);
+      const cy_active = 180 + (shift * 0.4);
+      
+      const qx = 120 - shift;
+      const qy = 180 - shift * 0.8;
+      const ex = 430 - shift * 1.4;
+      const ey = 230 - shift * 0.3;
+
+      document.getElementById('curve-active').setAttribute('d', `M 70 45 Q ${qx} ${qy} ${ex} ${ey}`);
+      document.getElementById('pt-active').setAttribute('cx', cx_active);
+      document.getElementById('pt-active').setAttribute('cy', cy_active);
+      document.getElementById('lbl-active').setAttribute('x', cx_active + 12);
+      document.getElementById('lbl-active').setAttribute('y', cy_active + 5);
+      document.getElementById('lbl-active').textContent = `u* = ${u_rounded}%`;
+
+      // 6. Diagnóstico Cualitativo
+      const diagTitle = document.getElementById('diag-title');
+      const diagText = document.getElementById('diag-text');
+
+      if (orient >= 250 && form >= 250) {
+        diagTitle.innerHTML = '🌟 Estrategia de Flexiseguridad de Alta Eficiencia (Desplazamiento Estructural)';
+        diagText.innerHTML = `Has priorizado los dos pilares que realmente desplazan la <strong>Curva de Beveridge hacia el origen</strong>: la orientación individualizada (reducción de asimetrías de información) y la formación continua (corrección del <em>skills mismatch</em>). El parámetro de eficiencia tecnológica del matching sube a <strong>A = ${A_val}</strong> y el desempleo estructural cae de forma neta y permanente sin generar distorsiones ni coste de peso muerto significativo.`;
+      } else if (bonif >= 250) {
+        diagTitle.innerHTML = '⚠️ Trampa de Peso Muerto en Subvenciones a la Contratación';
+        diagText.innerHTML = `Gran parte de tu presupuesto se consume en bonificaciones de cuotas empresariales con un <strong>peso muerto estimado del ${Math.round(dw)}%</strong>. Esto significa que más de dos tercios de las contrataciones subvencionadas se habrían realizado igualmente sin ayuda pública. Has gastado muchos recursos para un empleo neto limitado y la Curva de Beveridge apenas se desplaza.`;
+      } else if (pub >= 300) {
+        diagTitle.innerHTML = '⏱️ Alivio Temporal sin Ganancia de Empleabilidad (Efecto Sustitución)';
+        diagText.innerHTML = `El empleo público municipal genera una absorción rápida de parados a corto plazo, pero no mejora el capital humano de los participantes ni resuelve los desajustes formativos con las empresas. Cuando concluye el contrato de obra, los trabajadores regresan al desempleo sin que la tasa estructural NAIRU haya disminuido.`;
+      } else {
+        diagTitle.innerHTML = '⚖️ Modelo Mixto Tradicional';
+        diagText.innerHTML = `Mantienes un reparto disperso de recursos. Para maximizar el impacto sobre el desempleo de equilibrio, las recomendaciones internacionales (OCDE y Comisión Europea) aconsejan concentrar los fondos de las PAE en <strong>itinerarios de orientación con ratio bajo orientador/parado</strong> y programas de <strong>formación dual comprometida con vacantes reales</strong>.`;
+      }
+    }
+
+    // Inicializar al cargar
+    window.addEventListener('DOMContentLoaded', () => {
+      actualizar();
+    });
+  </script>
+</body>
+</html>
