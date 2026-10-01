@@ -764,7 +764,7 @@
 
       <div class="auth-card">
         <!-- Pestañas de modo -->
-        <div class="auth-tabs">
+        <div class="auth-tabs" id="authTabsHeader">
           <button id="tabBtnLogin" class="auth-tab-btn active" onclick="switchAuthTab('login');">
             🔑 Acceso con Código
           </button>
@@ -778,7 +778,12 @@
           <div id="loginAlert" class="auth-alert"></div>
           <form onsubmit="handleLoginSubmit(event);">
             <div class="form-group">
-              <label class="form-label" for="loginUser">Usuario / Acrónimo UPO</label>
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 7px;">
+                <label class="form-label" for="loginUser" style="margin: 0;">Usuario / Acrónimo UPO</label>
+                <span id="loginUserBadge" style="display: none; font-size: 0.78rem; color: var(--success); font-weight: 600;">
+                  (Activado ✅ <a href="javascript:void(0);" onclick="resetCurrentUser();" style="color: var(--coral); text-decoration: underline; margin-left: 4px;">Cambiar</a>)
+                </span>
+              </div>
               <input 
                 type="text" 
                 id="loginUser" 
@@ -804,7 +809,7 @@
               Entrar al Laboratorio
             </button>
           </form>
-          <div style="margin-top: 16px; font-size: 0.82rem; text-align: center; color: var(--text-muted);">
+          <div id="firstTimeHint" style="margin-top: 16px; font-size: 0.82rem; text-align: center; color: var(--text-muted);">
             ¿Es tu primera sesión en el laboratorio? <a href="javascript:void(0);" onclick="switchAuthTab('register');" style="color: var(--coral); font-weight: 600; text-decoration: underline;">Obtén tu código EPD aquí</a>.
           </div>
         </div>
@@ -1060,7 +1065,10 @@
             </tbody>
           </table>
         </div>
-        <div style="margin-top: 12px; text-align: right;">
+        <div style="margin-top: 12px; display: flex; justify-content: space-between; align-items: center;">
+          <button class="btn-audit" onclick="resetAllLocalActivations();" style="border: 1px solid #DC2626; color: #DC2626;" title="Elimina los datos de activación guardados en este navegador para pruebas">
+            🔄 Resetear Activaciones Locales
+          </button>
           <button class="btn btn-coral" onclick="exportCodesCSV();">📥 Descargar Listado en CSV</button>
         </div>
       </div>
@@ -1276,8 +1284,47 @@
     }, 1000);
 
     // =========================================================================
-    // CONTROL DE PESTAÑAS DE LOGIN (Acceso vs Primera Vez)
+    // CONTROL DE PESTAÑAS DE LOGIN (Acceso vs Primera Vez) Y ESTADO DE ACTIVACIÓN
     // =========================================================================
+    function getActivatedUsers() {
+      try {
+        return JSON.parse(localStorage.getItem('psll_activated_users') || '{}');
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function checkActivationState() {
+      const lastUser = localStorage.getItem('psll_last_user');
+      const activated = getActivatedUsers();
+
+      if (lastUser && activated[lastUser]) {
+        // El usuario ya se ha activado previamente en este equipo: desactivar y ocultar "Primera vez"
+        document.getElementById('tabBtnRegister').style.display = 'none';
+        document.getElementById('firstTimeHint').style.display = 'none';
+
+        const loginUserInput = document.getElementById('loginUser');
+        loginUserInput.value = lastUser;
+        loginUserInput.readOnly = true;
+        loginUserInput.style.background = '#F1F5F2';
+
+        document.getElementById('loginUserBadge').style.display = 'inline-block';
+        document.getElementById('loginPass').focus();
+      }
+    }
+
+    function resetCurrentUser() {
+      const loginUserInput = document.getElementById('loginUser');
+      loginUserInput.value = '';
+      loginUserInput.readOnly = false;
+      loginUserInput.style.background = '#FFFFFF';
+
+      document.getElementById('loginUserBadge').style.display = 'none';
+      document.getElementById('tabBtnRegister').style.display = 'block';
+      document.getElementById('firstTimeHint').style.display = 'block';
+      loginUserInput.focus();
+    }
+
     function switchAuthTab(tab) {
       const btnLogin = document.getElementById('tabBtnLogin');
       const btnReg = document.getElementById('tabBtnRegister');
@@ -1318,9 +1365,15 @@
       // Acepta código completo (PSLL-EPD-XXXX) o solo los 4 dígitos
       const cleanPass = pass.replace(/\s+/g, '');
       if (cleanPass === expectedCode || cleanPass === expectedDigits || cleanPass === `EPD-${expectedDigits}`) {
+        // Recordar activación en este equipo
+        let activated = getActivatedUsers();
+        activated[user] = { code: expectedCode, lastLogin: new Date().toISOString() };
+        localStorage.setItem('psll_activated_users', JSON.stringify(activated));
+        localStorage.setItem('psll_last_user', user);
+
         launchSession(user);
       } else {
-        alertBox.innerHTML = `Contraseña o Código EPD incorrecto para el usuario <strong>${user}</strong>. Si no recuerdas tu código, puedes consultarlo en la pestaña <em>"Primera Vez"</em>.`;
+        alertBox.innerHTML = `Contraseña o Código EPD incorrecto para el usuario <strong>${user}</strong>. Si no recuerdas tu código, solicítaselo al profesor.`;
         alertBox.style.display = 'block';
       }
     }
@@ -1337,6 +1390,14 @@
 
       if (!DB_USERS[user]) {
         alertBox.textContent = `El acrónimo "${user}" no se encuentra en el listado oficial de clase (gc_EUG_380). Revisa que esté bien escrito (ej. sin @upo.es).`;
+        alertBox.style.display = 'block';
+        return;
+      }
+
+      // Comprobar si ya fue activado previamente
+      const activated = getActivatedUsers();
+      if (activated[user]) {
+        alertBox.innerHTML = `⚠️ <strong>Usuario ya activado previamente:</strong> El código para <strong>${user}</strong> ya fue generado y activado con anterioridad.<br>Accede mediante la pestaña <em>"Acceso con Código"</em> introduciendo tu contraseña. Si has olvidado tu código, solicítaselo al profesor.`;
         alertBox.style.display = 'block';
         return;
       }
@@ -1371,6 +1432,19 @@
     function acceptCodeAndLaunch() {
       document.getElementById('firstTimeModal').style.display = 'none';
       if (pendingRegisterUser) {
+        // Marcar definitivamente como activado en este equipo
+        let activated = getActivatedUsers();
+        activated[pendingRegisterUser] = {
+          code: getEPDCode(pendingRegisterUser),
+          activatedAt: new Date().toISOString()
+        };
+        localStorage.setItem('psll_activated_users', JSON.stringify(activated));
+        localStorage.setItem('psll_last_user', pendingRegisterUser);
+
+        // Desactivar opción primera vez
+        document.getElementById('tabBtnRegister').style.display = 'none';
+        document.getElementById('firstTimeHint').style.display = 'none';
+
         launchSession(pendingRegisterUser);
       }
     }
@@ -1634,6 +1708,20 @@
       a.download = `telemetria_psll_${currentSession.userCode || 'estacion'}.json`;
       a.click();
     }
+
+    function resetAllLocalActivations() {
+      if (confirm("¿Deseas resetear todas las activaciones locales en este navegador? Volverá a aparecer la pestaña 'Primera Vez'.")) {
+        localStorage.removeItem('psll_activated_users');
+        localStorage.removeItem('psll_last_user');
+        alert("Activaciones reseteadas con éxito.");
+        location.reload();
+      }
+    }
+
+    // Inicializar comprobación de estado al cargar la página
+    window.addEventListener('DOMContentLoaded', () => {
+      checkActivationState();
+    });
   </script>
 </body>
 </html>
