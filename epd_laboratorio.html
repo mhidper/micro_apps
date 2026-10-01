@@ -128,6 +128,21 @@
       color: #E2E8F0;
     }
 
+    .btn-logout {
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .btn-logout:hover {
+      background: var(--coral);
+    }
+
     /* Router de Sesiones */
     nav.session-router {
       background: #FFFFFF;
@@ -241,55 +256,85 @@
       border: 1px solid var(--border-subtle);
     }
 
-    /* Pantalla de Identificación Inicial */
+    /* Pestañas de Acceso (Login vs Primera Vez) */
     .auth-hero {
       text-align: center;
-      padding: 40px 20px;
-      max-width: 650px;
-      margin: 30px auto;
+      padding: 24px 20px;
+      max-width: 580px;
+      margin: 20px auto;
     }
 
     .auth-hero h2 {
       font-family: 'Outfit', sans-serif;
       font-size: 1.9rem;
       color: var(--pino);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       font-weight: 800;
     }
 
     .auth-hero p {
       color: var(--text-muted);
-      font-size: 0.98rem;
-      margin-bottom: 26px;
+      font-size: 0.95rem;
+      margin-bottom: 24px;
     }
 
-    .auth-form-card {
+    .auth-card {
       background: white;
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-lg);
-      padding: 32px;
       box-shadow: var(--shadow-md);
+      overflow: hidden;
       text-align: left;
     }
 
+    .auth-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border-subtle);
+      background: var(--menta-soft);
+    }
+
+    .auth-tab-btn {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      background: transparent;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .auth-tab-btn.active {
+      background: white;
+      color: var(--pino);
+      border-bottom: 3px solid var(--coral);
+    }
+
+    .auth-tab-content {
+      padding: 28px;
+    }
+
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     .form-label {
       display: block;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       font-weight: 600;
       color: var(--tinta);
-      margin-bottom: 8px;
+      margin-bottom: 7px;
     }
 
     .form-control {
       width: 100%;
-      padding: 12px 16px;
+      padding: 11px 15px;
       border: 1.5px solid var(--border-subtle);
       border-radius: var(--radius-sm);
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-family: inherit;
       color: var(--tinta);
       transition: all 0.2s ease;
@@ -308,9 +353,9 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 12px 24px;
+      padding: 11px 22px;
       border-radius: var(--radius-sm);
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 600;
       cursor: pointer;
       border: none;
@@ -343,14 +388,26 @@
       width: 100%;
     }
 
-    /* Modal / Aviso de Código Asignado */
+    /* Alerta de Error en Formulario */
+    .auth-alert {
+      background: var(--danger-bg);
+      border: 1px solid #FCA5A5;
+      color: var(--danger);
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 0.84rem;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    /* Modal de Código Revelado */
     .modal-overlay {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(11, 28, 54, 0.65);
+      background: rgba(11, 28, 54, 0.7);
       backdrop-filter: blur(5px);
       display: flex;
       align-items: center;
@@ -376,17 +433,59 @@
       100% { transform: scale(1); opacity: 1; }
     }
 
+    .code-box-wrapper {
+      position: relative;
+      margin: 18px 0;
+    }
+
     .modal-code-display {
       background: var(--menta-soft);
       border: 2px dashed var(--salvia);
       border-radius: var(--radius-md);
-      padding: 18px;
-      margin: 20px 0;
+      padding: 16px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 1.55rem;
+      font-size: 1.6rem;
       color: var(--pino);
       font-weight: 700;
       letter-spacing: 1px;
+      user-select: all;
+    }
+
+    .btn-copy {
+      background: var(--pino);
+      color: white;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      margin-top: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-copy:hover {
+      background: var(--pino-dark);
+    }
+
+    .copy-success-msg {
+      font-size: 0.8rem;
+      color: var(--success);
+      margin-top: 4px;
+      display: none;
+      font-weight: 600;
+    }
+
+    .checkbox-confirm {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--tinta);
+      margin: 16px 0;
+      text-align: left;
+      cursor: pointer;
     }
 
     /* Panel de Misión y Caso Asignado */
@@ -448,20 +547,7 @@
       cursor: pointer;
     }
 
-    .chart-container {
-      background: #FFFFFF;
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-
-    .svg-chart {
-      width: 100%;
-      height: 280px;
-    }
-
-    /* Tabla de Datos Limpia */
+    /* Tabla de Datos */
     .data-table {
       width: 100%;
       border-collapse: collapse;
@@ -506,7 +592,6 @@
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-sm);
       padding: 18px;
-      position: relative;
     }
 
     .checkpoint-item.correct {
@@ -640,7 +725,6 @@
   <header class="main-header">
     <div class="header-brand">
       <svg class="brand-rings" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Dos anillos entrelazados con onda coral -->
         <circle cx="32" cy="40" r="22" stroke="#113927" stroke-width="6" fill="none" opacity="0.95"/>
         <circle cx="48" cy="40" r="22" stroke="#76927A" stroke-width="6" fill="none" opacity="0.85"/>
         <path d="M12 52 C 26 28, 54 28, 68 52" stroke="#E98F71" stroke-width="5" stroke-linecap="round"/>
@@ -654,6 +738,7 @@
       <div id="userBadge" class="user-badge" style="display: none;">
         <span>Estación:</span>
         <span id="displayUserCode" class="code-highlight">PSLL-EPD-XXXX</span>
+        <button class="btn-logout" onclick="handleLogout();" title="Cerrar sesión">Salir</button>
       </div>
       <div class="session-timer" id="sessionTimer">⏱️ 00:00</div>
     </div>
@@ -672,33 +757,85 @@
   <!-- Contenedor Principal -->
   <main class="container">
 
-    <!-- VISTA 1: IDENTIFICACIÓN INICIAL -->
+    <!-- VISTA 1: IDENTIFICACIÓN CON PESTAÑAS (LOGIN vs PRIMERA VEZ) -->
     <section id="authSection" class="auth-hero">
       <h2>Estación de Trabajo de Prácticas EPD</h2>
-      <p>Accede con tu acrónimo oficial UPO. La plataforma generará tu Código EPD Permanente y te asignará de forma personalizada tu caso de estudio.</p>
+      <p>Accede con tu acrónimo oficial UPO y tu código de acceso personal.</p>
 
-      <div class="auth-form-card">
-        <form id="authForm" onsubmit="handleLogin(event);">
-          <div class="form-group">
-            <label class="form-label" for="usernameInput">Usuario / Acrónimo Institucional UPO</label>
-            <input 
-              type="text" 
-              id="usernameInput" 
-              class="form-control" 
-              placeholder="Ej: sagudel, laltucl, etc. (o tu Código EPD)" 
-              required
-              autocapitalize="none"
-              autocomplete="username"
-            >
-          </div>
-          <button type="submit" class="btn btn-primary btn-block">
-            Acceder a la Sesión 01
+      <div class="auth-card">
+        <!-- Pestañas de modo -->
+        <div class="auth-tabs">
+          <button id="tabBtnLogin" class="auth-tab-btn active" onclick="switchAuthTab('login');">
+            🔑 Acceso con Código
           </button>
-        </form>
+          <button id="tabBtnRegister" class="auth-tab-btn" onclick="switchAuthTab('register');">
+            ✨ Primera Vez (Obtener Código)
+          </button>
+        </div>
+
+        <!-- Pestaña 1: Login con Acrónimo + Password/Código -->
+        <div id="tabContentLogin" class="auth-tab-content">
+          <div id="loginAlert" class="auth-alert"></div>
+          <form onsubmit="handleLoginSubmit(event);">
+            <div class="form-group">
+              <label class="form-label" for="loginUser">Usuario / Acrónimo UPO</label>
+              <input 
+                type="text" 
+                id="loginUser" 
+                class="form-control" 
+                placeholder="Ej: mhidper, sagudel, etc." 
+                required 
+                autocapitalize="none"
+                autocomplete="username"
+              >
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="loginPass">Contraseña / Código EPD de Acceso</label>
+              <input 
+                type="password" 
+                id="loginPass" 
+                class="form-control" 
+                placeholder="Ej: PSLL-EPD-4909 (o los 4 dígitos)" 
+                required
+                autocomplete="current-password"
+              >
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+              Entrar al Laboratorio
+            </button>
+          </form>
+          <div style="margin-top: 16px; font-size: 0.82rem; text-align: center; color: var(--text-muted);">
+            ¿Es tu primera sesión en el laboratorio? <a href="javascript:void(0);" onclick="switchAuthTab('register');" style="color: var(--coral); font-weight: 600; text-decoration: underline;">Obtén tu código EPD aquí</a>.
+          </div>
+        </div>
+
+        <!-- Pestaña 2: Primera Vez (Acrónimo -> Revelar Código) -->
+        <div id="tabContentRegister" class="auth-tab-content" style="display: none;">
+          <div id="registerAlert" class="auth-alert"></div>
+          <p style="font-size: 0.86rem; color: var(--text-muted); margin-bottom: 16px;">
+            Introduce tu acrónimo oficial UPO (el mismo de los Servicios Personales). El sistema comprobará la lista oficial de clase y te revelará tu Código EPD Permanente para que lo copies.
+          </p>
+          <form onsubmit="handleFirstTimeSubmit(event);">
+            <div class="form-group">
+              <label class="form-label" for="registerUser">Acrónimo Institucional UPO</label>
+              <input 
+                type="text" 
+                id="registerUser" 
+                class="form-control" 
+                placeholder="Ej: mhidper o tu acrónimo de estudiante" 
+                required
+                autocapitalize="none"
+              >
+            </div>
+            <button type="submit" class="btn btn-coral btn-block">
+              Comprobar y Obtener mi Código EPD
+            </button>
+          </form>
+        </div>
       </div>
     </section>
 
-    <!-- VISTA 2: CONTENIDO DE LA EPD 1 -->
+    <!-- VISTA 2: ESPACIO DE TRABAJO EPD 1 -->
     <section id="epd1Workspace" style="display: none;">
 
       <!-- Banner de Caso Asignado -->
@@ -757,7 +894,7 @@
             </tr>
           </thead>
           <tbody id="dataTableBody">
-            <!-- Filas inyectadas por JS -->
+            <!-- Inyectado por JS -->
           </tbody>
         </table>
       </div>
@@ -775,24 +912,21 @@
         </p>
 
         <div class="checkpoint-grid">
-          <!-- Campo 1 -->
           <div class="checkpoint-item" id="checkItem1">
             <label class="form-label" id="labelQ1">1. Tasa de Paro de tu cohorte en Andalucía (%):</label>
-            <input type="number" step="0.1" class="form-control" id="inputQ1" placeholder="Ej: 14.2" oninput="validateCheckpoint();">
+            <input type="number" step="0.1" class="form-control" id="inputQ1" placeholder="Ej: 13.9" oninput="validateCheckpoint();">
             <div class="checkpoint-feedback" id="feedbackQ1">Pendiente de comprobar...</div>
           </div>
 
-          <!-- Campo 2 -->
           <div class="checkpoint-item" id="checkItem2">
             <label class="form-label" id="labelQ2">2. Peso sobre el total de parados andaluces (%):</label>
-            <input type="number" step="0.1" class="form-control" id="inputQ2" placeholder="Ej: 28.5" oninput="validateCheckpoint();">
+            <input type="number" step="0.1" class="form-control" id="inputQ2" placeholder="Ej: 25.4" oninput="validateCheckpoint();">
             <div class="checkpoint-feedback" id="feedbackQ2">Pendiente de comprobar...</div>
           </div>
 
-          <!-- Campo 3 -->
           <div class="checkpoint-item" id="checkItem3">
             <label class="form-label" id="labelQ3">3. Parados de muy larga duración (>24 meses) (%):</label>
-            <input type="number" step="0.1" class="form-control" id="inputQ3" placeholder="Ej: 46.8" oninput="validateCheckpoint();">
+            <input type="number" step="0.1" class="form-control" id="inputQ3" placeholder="Ej: 42.6" oninput="validateCheckpoint();">
             <div class="checkpoint-feedback" id="feedbackQ3">Pendiente de comprobar...</div>
           </div>
         </div>
@@ -808,7 +942,7 @@
         </div>
         <p style="color: var(--text-muted); font-size: 0.9rem;">
           A la luz de los datos que acabas de verificar, responde con tus propias palabras: 
-          <strong>¿Por qué la Tasa de Paro por sí sola engaña sobre la verdadera gravedad del desempleo sénior en Andalucía? Explica cómo influye llevar más de 2 años en el paro sobre el desánimo y la empleabilidad (entre 200 y 250 palabras).</strong>
+          <strong>¿Por qué la Tasa de Paro por sí sola oculta la gravedad del desempleo sénior en Andalucía frente al paro juvenil? Explica el impacto de la duración en el desánimo y las dificultades de reinserción (entre 200 y 250 palabras).</strong>
         </p>
 
         <div class="editor-wrapper">
@@ -860,38 +994,82 @@
 
   </main>
 
-  <!-- Modal Inicial de Código EPD -->
-  <div id="welcomeCodeModal" class="modal-overlay" style="display: none;">
+  <!-- Modal Inicial: Revelación y Copia de Código EPD (Primera Vez) -->
+  <div id="firstTimeModal" class="modal-overlay" style="display: none;">
     <div class="modal-box">
-      <h3 style="font-family: 'Outfit', sans-serif; color: var(--pino); font-size: 1.4rem;">
-        🎉 ¡Bienvenido/a a las Prácticas de PSLL!
+      <h3 style="font-family: 'Outfit', sans-serif; color: var(--pino); font-size: 1.35rem;">
+        🎉 ¡Identificación Oficial Confirmada!
       </h3>
-      <p style="color: var(--text-muted); font-size: 0.92rem; margin-top: 8px;">
-        Tu acrónimo institucional ha sido validado. Se te ha asignado tu <strong>Código de Estación EPD Permanente</strong>:
+      <p style="color: var(--text-muted); font-size: 0.92rem; margin-top: 6px;" id="modalStudentName">
+        Hola, estudiante.
       </p>
-      <div class="modal-code-display" id="modalCodeText">PSLL-EPD-XXXX</div>
-      <p style="font-size: 0.82rem; color: #64748B; margin-bottom: 20px;">
-        📌 <strong>Importante:</strong> Este código identificará tu trabajo en todas las prácticas del cuatrimestre. Ha quedado registrado en tu navegador.
+      <p style="font-size: 0.88rem; color: var(--tinta); margin-top: 8px;">
+        Este es tu <strong>Código de Acceso EPD Permanente</strong>. Cópialo y guárdalo, porque a partir de ahora será tu <strong>contraseña</strong> para entrar:
       </p>
-      <button class="btn btn-coral btn-block" onclick="closeWelcomeModal();">
-        Comenzar la Sesión 01
+      
+      <div class="code-box-wrapper">
+        <div class="modal-code-display" id="modalCodeText">PSLL-EPD-XXXX</div>
+        <button class="btn-copy" onclick="copyCodeToClipboard();">
+          📋 Copiar Código al Portapapeles
+        </button>
+        <div id="copySuccessMsg" class="copy-success-msg">✅ ¡Código copiado al portapapeles!</div>
+      </div>
+
+      <label class="checkbox-confirm">
+        <input type="checkbox" id="chkCodeSaved" onchange="toggleAcceptButton();">
+        <span>He copiado mi código y lo he guardado en un lugar seguro.</span>
+      </label>
+
+      <button id="btnAcceptAndStart" class="btn btn-coral btn-block" onclick="acceptCodeAndLaunch();" disabled>
+        Aceptar y Entrar al Laboratorio
       </button>
     </div>
   </div>
 
-  <!-- Modal del Profesor (Auditoría y Telemetría) -->
+  <!-- Modal del Profesor (Auditoría, Códigos y Telemetría) -->
   <div id="auditModal" class="modal-overlay" style="display: none;">
-    <div class="modal-box" style="max-width: 700px; text-align: left;">
-      <h3 style="font-family: 'Outfit', sans-serif; color: var(--pino); margin-bottom: 12px;">
-        👨‍🏫 Panel Docente de Telemetría y Seguimiento
-      </h3>
-      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
-        Registro acumulado de accesos, tiempos de trabajo efectivo y validación anti-IA en esta estación.
-      </p>
-      <div id="auditLogDisplay" style="background: #0B2419; color: #A7F3D0; font-family: monospace; font-size: 0.75rem; padding: 14px; border-radius: 6px; max-height: 250px; overflow-y: auto; white-space: pre-wrap;"></div>
-      <div style="margin-top: 18px; display: flex; justify-content: space-between;">
-        <button class="btn btn-primary" onclick="exportTelemetryJSON();">Descargar Log JSON</button>
-        <button class="btn btn-coral" onclick="document.getElementById('auditModal').style.display='none';">Cerrar</button>
+    <div class="modal-box" style="max-width: 780px; text-align: left;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <h3 style="font-family: 'Outfit', sans-serif; color: var(--pino); font-size: 1.3rem;">
+          👨‍🏫 Panel Docente de Administración y Seguimiento
+        </h3>
+        <button class="btn-audit" onclick="document.getElementById('auditModal').style.display='none';">✕</button>
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-bottom: 14px;">
+        <button class="btn btn-primary" onclick="showAuditTab('users');">📋 Lista de Códigos de Alumnos (78)</button>
+        <button class="btn btn-primary" onclick="showAuditTab('logs');">📊 Telemetría de la Estación</button>
+      </div>
+
+      <div id="auditTabUsers">
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 8px;">
+          Listado de los 78 alumnos oficiales y sus Códigos EPD (contraseñas permanentes):
+        </p>
+        <div style="max-height: 280px; overflow-y: auto; border: 1px solid var(--border-subtle); border-radius: 6px;">
+          <table class="data-table" style="margin: 0; font-size: 0.78rem;">
+            <thead>
+              <tr>
+                <th>Acrónimo</th>
+                <th>Nombre Completo</th>
+                <th>Código EPD (Password)</th>
+                <th>Caso</th>
+              </tr>
+            </thead>
+            <tbody id="auditTableBody">
+              <!-- Inyectado por JS -->
+            </tbody>
+          </table>
+        </div>
+        <div style="margin-top: 12px; text-align: right;">
+          <button class="btn btn-coral" onclick="exportCodesCSV();">📥 Descargar Listado en CSV</button>
+        </div>
+      </div>
+
+      <div id="auditTabLogs" style="display: none;">
+        <div id="auditLogDisplay" style="background: #0B2419; color: #A7F3D0; font-family: monospace; font-size: 0.75rem; padding: 14px; border-radius: 6px; max-height: 250px; overflow-y: auto; white-space: pre-wrap;"></div>
+        <div style="margin-top: 12px; text-align: right;">
+          <button class="btn btn-primary" onclick="exportTelemetryJSON();">Descargar Log JSON</button>
+        </div>
       </div>
     </div>
   </div>
@@ -908,6 +1086,90 @@
 
   <!-- LÓGICA JAVASCRIPT DEL LABORATORIO -->
   <script>
+    // =========================================================================
+    // BASE DE DATOS OFICIAL DE ALUMNOS (78 USUARIOS DE gc_EUG_380)
+    // =========================================================================
+    const DB_USERS = {
+      "sagudel": "Sofia Agudo Delgado",
+      "laltucl": "Lucia Altamirano Ucles",
+      "capacam": "Cristina Aparicio Camacho",
+      "maarerot": "Maria de los Angeles Areal Rotllan",
+      "fartde": "Francisco Arteaga De Cozar",
+      "mbercam": "Miguel Bernabeu Campos",
+      "rbizrod": "Ruben Bizcocho Rodriguez",
+      "lcamtos": "Leire Camino Toscano",
+      "mcamfer": "Maria Campos Fernandez",
+      "mcarnie": "Marta Cardenas Nieto",
+      "hcarrod": "Hugo Caridad Rodriguez",
+      "ccesbru": "Claudia Cesar Bruque",
+      "ecidher": "Esther Cid Hermosin",
+      "mconmat": "Miguel Condeco Matusse",
+      "pdazsan": "Pilar Daza Sanchez",
+      "lmdebaz": "Luis Miguel De la Rosa Bazan",
+      "fdelcar": "Felipe Del Rio Carbonell",
+      "rdomini": "Raquel Dominguez Iniguez",
+      "jmespben": "Juan Manuel Espejo Benítez",
+      "pfermol": "Paula Fernandez Molina",
+      "mfernav3": "Maria Fernandez Navajas",
+      "arfersan": "Ana Rosa Fernandez Sanchez",
+      "dfonaca": "Daniel Fontalba Acal",
+      "lgarcan1": "Lucia Garcia Cantero",
+      "pgarjim": "Paula Garcia Jimenez",
+      "lgarmej": "Loreto Garcia Mejias",
+      "lgilmar1": "Laura Gil Martin",
+      "jgombev": "Jesus Gomez Bevia",
+      "lgomgar": "Lucia Gomez Garcia",
+      "sgonpra": "Sandra Gonzalez Prados",
+      "lgonsan5": "Lucia Gonzalez Sanchez",
+      "cgonsua": "Clara Gonzalez Suarez",
+      "jguagal": "Jeronimo Guardiola Galan",
+      "jherand": "Julia Hernandez Anduaga",
+      "mhidper": "Manuel Alejandro Hidalgo Perez",
+      "ainibel": "Angeles Iniguez Belloso",
+      "jjarher": "Julia Jardi Hermoso",
+      "clangar": "Carla Lanzarote Garcia",
+      "rlariba": "Raul Larios Ibanez",
+      "alecdie": "Alejandro Lechuga Die",
+      "slobter": "Sara Lobo Terron",
+      "ilopchi": "Irene Lopez Chiara",
+      "mmargav1": "Manuel Martinez Gavira",
+      "cmargon6": "Carlos Martin Gonzalez",
+      "mmarpin3": "Marta Martin Pinon",
+      "amarrod9": "Abril Martin Rodriguez",
+      "mmilcac": "Margherita Millan Cacciatori",
+      "jmoncam": "Jaime Monino Campano",
+      "bmonruz": "Blanca Montero Ruz",
+      "amorber1": "Alejandra Morales Berlanga",
+      "smordom": "Salvador Morales Dominguez",
+      "emoyagu": "Enrique Moya Aguera",
+      "crnorpus": "Cristian Raul Noretu Puscas",
+      "cortpav": "Claudia Ortiz Pavo",
+      "epatmos": "Elena Paton Mosquera",
+      "apensan1": "Ana Pena Sanchez",
+      "ppercas": "Paula Perez Castellano",
+      "aperflo2": "Alberto Perez Flores",
+      "equican": "Estela Quinto Cano",
+      "mrabrod": "Maria Rabel Rodriguez",
+      "tsramde": "Tomas de Santa Maria Ramires Santana De Oliveira Viotty",
+      "erecpen": "Elena Reche Pena",
+      "mdricgal": "Maria Dolores Rico Gallardo",
+      "frodgar3": "Francisco Rodriguez Garces",
+      "jrodpuy": "Julia Rodriguez Puyana",
+      "mrodvid1": "Marta Rodriguez Vidal de Torres",
+      "sromros": "Sara Roman Rosa",
+      "mgrommat": "Maria de Gracia Romero Mateo",
+      "eromveg": "Emilio Romero Vega",
+      "mrueagu": "Marcos Rueda Aguayo",
+      "lsanrod2": "Libertad Sanchez Rodriguez",
+      "resanley": "Reyna Elizabeth Sandoval Leyton",
+      "aseivar": "Antia Seixo Varela",
+      "jsevmor": "Julia Sevillano Morales",
+      "amtrogar": "Ana Maria Troncoso Garcia",
+      "bvargue": "Barbara Vargas Guerrero",
+      "cvelgal2": "Carmen Velazquez Galvan",
+      "jvidgar": "Jesus Vidal Garrido"
+    };
+
     // =========================================================================
     // BASE DE DATOS ESTADÍSTICA OFICIAL (EPA Y EUROSTAT)
     // =========================================================================
@@ -957,14 +1219,31 @@
     };
 
     // =========================================================================
-    // ESTADO DE LA SESIÓN Y TELEMETRÍA
+    // CÁLCULO DETERMINISTA DEL CÓDIGO EPD
+    // =========================================================================
+    function getEPDCode(username) {
+      const clean = username.trim().toLowerCase();
+      const salt = "PSLL_UPO_2026_27";
+      let hash = 0;
+      const str = clean + salt;
+      for (let i = 0; i < str.length; i++) {
+        hash = (hash << 5) - hash + str.charCodeAt(i);
+        hash |= 0;
+      }
+      const num = Math.abs(hash) % 9000 + 1000;
+      return `PSLL-EPD-${num}`;
+    }
+
+    // =========================================================================
+    // GESTIÓN DE SESIÓN Y TELEMETRÍA
     // =========================================================================
     let currentSession = {
       username: "",
+      fullName: "",
       userCode: "",
       startTime: null,
       timeSpentSeconds: 0,
-      assignedCase: null, // "A" (45-54) o "B" (55+)
+      assignedCase: null,
       pasteAttempts: 0,
       validationSuccess: false,
       completed: false
@@ -987,7 +1266,6 @@
       } catch (e) {}
     }
 
-    // Temporizador en pantalla
     setInterval(() => {
       if (currentSession.startTime) {
         currentSession.timeSpentSeconds++;
@@ -998,29 +1276,112 @@
     }, 1000);
 
     // =========================================================================
-    // GENERACIÓN DETERMINISTA DE CÓDIGO EPD Y ASIGNACIÓN DE CASO
+    // CONTROL DE PESTAÑAS DE LOGIN (Acceso vs Primera Vez)
     // =========================================================================
-    function generateUserCode(username) {
-      let hash = 0;
-      const clean = username.trim().toLowerCase();
-      for (let i = 0; i < clean.length; i++) {
-        hash = (hash << 5) - hash + clean.charCodeAt(i);
-        hash |= 0;
+    function switchAuthTab(tab) {
+      const btnLogin = document.getElementById('tabBtnLogin');
+      const btnReg = document.getElementById('tabBtnRegister');
+      const contLogin = document.getElementById('tabContentLogin');
+      const contReg = document.getElementById('tabContentRegister');
+
+      if (tab === 'login') {
+        btnLogin.classList.add('active');
+        btnReg.classList.remove('active');
+        contLogin.style.display = 'block';
+        contReg.style.display = 'none';
+      } else {
+        btnLogin.classList.remove('active');
+        btnReg.classList.add('active');
+        contLogin.style.display = 'none';
+        contReg.style.display = 'block';
       }
-      const numCode = Math.abs(hash) % 9000 + 1000;
-      return `PSLL-EPD-${numCode}`;
     }
 
-    function handleLogin(e) {
+    // 1. Acceso Habitual: Usuario + Password/Código
+    function handleLoginSubmit(e) {
       e.preventDefault();
-      const rawUser = document.getElementById('usernameInput').value.trim();
-      if (!rawUser) return;
+      const user = document.getElementById('loginUser').value.trim().toLowerCase();
+      const pass = document.getElementById('loginPass').value.trim().toUpperCase();
+      const alertBox = document.getElementById('loginAlert');
 
-      currentSession.username = rawUser.toLowerCase();
-      currentSession.userCode = generateUserCode(rawUser);
+      alertBox.style.display = 'none';
+
+      if (!DB_USERS[user]) {
+        alertBox.textContent = `El usuario "${user}" no figura en la lista oficial de clase. Si te acabas de matricular o hay una errata, contacta con el profesor.`;
+        alertBox.style.display = 'block';
+        return;
+      }
+
+      const expectedCode = getEPDCode(user);
+      const expectedDigits = expectedCode.replace('PSLL-EPD-', '');
+
+      // Acepta código completo (PSLL-EPD-XXXX) o solo los 4 dígitos
+      const cleanPass = pass.replace(/\s+/g, '');
+      if (cleanPass === expectedCode || cleanPass === expectedDigits || cleanPass === `EPD-${expectedDigits}`) {
+        launchSession(user);
+      } else {
+        alertBox.innerHTML = `Contraseña o Código EPD incorrecto para el usuario <strong>${user}</strong>. Si no recuerdas tu código, puedes consultarlo en la pestaña <em>"Primera Vez"</em>.`;
+        alertBox.style.display = 'block';
+      }
+    }
+
+    // 2. Primera Vez: Revelar Código para que lo copie
+    let pendingRegisterUser = null;
+
+    function handleFirstTimeSubmit(e) {
+      e.preventDefault();
+      const user = document.getElementById('registerUser').value.trim().toLowerCase();
+      const alertBox = document.getElementById('registerAlert');
+
+      alertBox.style.display = 'none';
+
+      if (!DB_USERS[user]) {
+        alertBox.textContent = `El acrónimo "${user}" no se encuentra en el listado oficial de clase (gc_EUG_380). Revisa que esté bien escrito (ej. sin @upo.es).`;
+        alertBox.style.display = 'block';
+        return;
+      }
+
+      pendingRegisterUser = user;
+      const code = getEPDCode(user);
+      const studentName = DB_USERS[user];
+
+      document.getElementById('modalStudentName').innerHTML = `Hola, <strong>${studentName}</strong> (<em>${user}</em>).`;
+      document.getElementById('modalCodeText').textContent = code;
+      document.getElementById('chkCodeSaved').checked = false;
+      document.getElementById('btnAcceptAndStart').disabled = true;
+      document.getElementById('copySuccessMsg').style.display = 'none';
+
+      document.getElementById('firstTimeModal').style.display = 'flex';
+    }
+
+    function copyCodeToClipboard() {
+      const codeText = document.getElementById('modalCodeText').textContent;
+      navigator.clipboard.writeText(codeText).then(() => {
+        const msg = document.getElementById('copySuccessMsg');
+        msg.style.display = 'block';
+        setTimeout(() => { msg.style.display = 'none'; }, 3000);
+      });
+    }
+
+    function toggleAcceptButton() {
+      const chk = document.getElementById('chkCodeSaved');
+      document.getElementById('btnAcceptAndStart').disabled = !chk.checked;
+    }
+
+    function acceptCodeAndLaunch() {
+      document.getElementById('firstTimeModal').style.display = 'none';
+      if (pendingRegisterUser) {
+        launchSession(pendingRegisterUser);
+      }
+    }
+
+    // Iniciar Sesión de Trabajo
+    function launchSession(username) {
+      currentSession.username = username;
+      currentSession.fullName = DB_USERS[username];
+      currentSession.userCode = getEPDCode(username);
       currentSession.startTime = new Date();
 
-      // Caso A (pares) o Caso B (impares)
       const lastDigit = parseInt(currentSession.userCode.slice(-1)) || 0;
       currentSession.assignedCase = (lastDigit % 2 === 0) ? "A" : "B";
 
@@ -1030,18 +1391,18 @@
       document.getElementById('userBadge').style.display = 'flex';
       document.getElementById('displayUserCode').textContent = currentSession.userCode;
 
-      // Mostrar Modal Inicial con el código permanente
-      document.getElementById('modalCodeText').textContent = currentSession.userCode;
-      document.getElementById('welcomeCodeModal').style.display = 'flex';
-    }
-
-    function closeWelcomeModal() {
-      document.getElementById('welcomeCodeModal').style.display = 'none';
+      // Ocultar Auth y Mostrar Workspace
       document.getElementById('authSection').style.display = 'none';
       document.getElementById('epd1Workspace').style.display = 'block';
 
       setupAssignedCase();
       updateDataView();
+    }
+
+    function handleLogout() {
+      if (confirm("¿Deseas cerrar la sesión en este equipo?")) {
+        location.reload();
+      }
     }
 
     function setupAssignedCase() {
@@ -1050,16 +1411,16 @@
       const desc = document.getElementById('assignedCaseDesc');
       const studentBadge = document.getElementById('assignedStudentBadge');
 
-      studentBadge.textContent = `Usuario: ${currentSession.username} · ${currentSession.userCode}`;
+      studentBadge.textContent = `${currentSession.fullName} (${currentSession.username}) · ${currentSession.userCode}`;
 
       if (isCaseA) {
-        title.textContent = "Cohorte: Mayores de 45 a 54 años · Foco: Persistencia y Larga Duración";
+        title.textContent = "Caso A: Mayores de 45 a 54 años · Foco: Persistencia y Paro de Larga Duración";
         desc.textContent = "Analiza la situación del tramo central sénior (45 a 54 años) en Andalucía en 2024 frente a la media de España. Presta especial atención al porcentaje de parados que acumulan más de 2 años en desempleo.";
         document.getElementById('labelQ1').textContent = "1. Tasa de Paro de 45-54 años en Andalucía (%):";
         document.getElementById('labelQ2').textContent = "2. Peso sobre el total de parados andaluces (%):";
         document.getElementById('labelQ3').textContent = "3. Parados de más de 24 meses en 45-54 años (%):";
       } else {
-        title.textContent = "Cohorte: Mayores de 55 años · Foco: Desconexión del Mercado y Trampa de Salida";
+        title.textContent = "Caso B: Mayores de 55 y más años · Foco: Desconexión del Mercado y Trampa de Salida";
         desc.textContent = "Analiza la situación del tramo sénior de más edad (55 y más años) en Andalucía en 2024 frente a la Unión Europea. Observa cómo más de la mitad de quienes buscan empleo en esta cohorte superan los 2 años en paro.";
         document.getElementById('labelQ1').textContent = "1. Tasa de Paro de 55+ años en Andalucía (%):";
         document.getElementById('labelQ2').textContent = "2. Peso sobre el total de parados andaluces (%):";
@@ -1103,9 +1464,6 @@
     // =========================================================================
     function validateCheckpoint() {
       const isCaseA = (currentSession.assignedCase === "A");
-      // Soluciones oficiales Andalucía 2024
-      // Caso A: 45-54 años -> tasa: 13.9, peso: 25.4, pld24: 42.6
-      // Caso B: 55+ años   -> tasa: 13.5, peso: 19.7, pld24: 53.4
       const expQ1 = isCaseA ? 13.9 : 13.5;
       const expQ2 = isCaseA ? 25.4 : 19.7;
       const expQ3 = isCaseA ? 42.6 : 53.4;
@@ -1151,9 +1509,7 @@
 
       const toast = document.getElementById('pasteAlertToast');
       toast.style.display = 'block';
-      setTimeout(() => {
-        toast.style.display = 'none';
-      }, 4000);
+      setTimeout(() => { toast.style.display = 'none'; }, 4000);
     }
 
     function handleTyping(e) {
@@ -1213,23 +1569,61 @@
       document.getElementById('displayHash').textContent = hash;
       document.getElementById('finalTicketArea').style.display = 'block';
       document.getElementById('btnSubmitDelivery').style.display = 'none';
-
-      // Bloquear textarea
       document.getElementById('reportTextarea').readOnly = true;
     }
 
     // =========================================================================
-    // AUDITORÍA Y PANEL DOCENTE
+    // AUDITORÍA Y PANEL DOCENTE (Para Manuel)
     // =========================================================================
     function openAuditModal() {
       const pass = prompt("Introduzca clave de acceso docente:");
       if (pass === "psll2026") {
-        const display = document.getElementById('auditLogDisplay');
-        display.textContent = JSON.stringify(telemetryLog, null, 2);
+        renderAuditUsers();
+        document.getElementById('auditLogDisplay').textContent = JSON.stringify(telemetryLog, null, 2);
+        showAuditTab('users');
         document.getElementById('auditModal').style.display = 'flex';
       } else if (pass !== null) {
         alert("Clave incorrecta.");
       }
+    }
+
+    function showAuditTab(tab) {
+      document.getElementById('auditTabUsers').style.display = (tab === 'users') ? 'block' : 'none';
+      document.getElementById('auditTabLogs').style.display = (tab === 'logs') ? 'block' : 'none';
+    }
+
+    function renderAuditUsers() {
+      const tbody = document.getElementById('auditTableBody');
+      tbody.innerHTML = '';
+      Object.keys(DB_USERS).sort().forEach(u => {
+        const code = getEPDCode(u);
+        const last = parseInt(code.slice(-1)) || 0;
+        const caso = (last % 2 === 0) ? "Caso A (45-54)" : "Caso B (55+)";
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><code>${u}</code></td>
+          <td>${DB_USERS[u]}</td>
+          <td><strong>${code}</strong></td>
+          <td>${caso}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function exportCodesCSV() {
+      let csv = "Acronimo;Nombre Completo;Codigo EPD;Caso Asignado\n";
+      Object.keys(DB_USERS).sort().forEach(u => {
+        const code = getEPDCode(u);
+        const last = parseInt(code.slice(-1)) || 0;
+        const caso = (last % 2 === 0) ? "Caso A (45-54)" : "Caso B (55+)";
+        csv += `${u};${DB_USERS[u]};${code};${caso}\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = "listado_alumnos_codigos_epd_psll.csv";
+      a.click();
     }
 
     function exportTelemetryJSON() {
