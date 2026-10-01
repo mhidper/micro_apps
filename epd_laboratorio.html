@@ -2348,8 +2348,9 @@
         localStorage.setItem("psll_telemetry_epd1", JSON.stringify(telemetryLog));
       } catch (e) {}
 
-      // Envío remoto a Google Sheets Webhook si está configurado
-      const remoteUrl = localStorage.getItem('psll_remote_telemetry_url');
+      // Envío remoto a Google Sheets Webhook oficial de la cátedra
+      const OFFICIAL_REMOTE_WEBHOOK = "https://script.google.com/macros/s/AKfycbyr7IVupbtb38B1ZCyclcfkGez2lnuoWH5bRy6L4yqyCqZMNmVu2jJaeurxc3ygCtT4/exec";
+      const remoteUrl = localStorage.getItem('psll_remote_telemetry_url') || OFFICIAL_REMOTE_WEBHOOK;
       if (remoteUrl && remoteUrl.startsWith('http')) {
         try {
           fetch(remoteUrl, {
@@ -2877,8 +2878,8 @@
         renderAuditUsers();
         document.getElementById('auditLogDisplay').textContent = JSON.stringify(telemetryLog, null, 2);
         
-        // Cargar webhook guardado si existe
-        const savedUrl = localStorage.getItem('psll_remote_telemetry_url') || "";
+        // Cargar webhook oficial o personalizado
+        const savedUrl = localStorage.getItem('psll_remote_telemetry_url') || "https://script.google.com/macros/s/AKfycbyr7IVupbtb38B1ZCyclcfkGez2lnuoWH5bRy6L4yqyCqZMNmVu2jJaeurxc3ygCtT4/exec";
         document.getElementById('remoteWebhookUrl').value = savedUrl;
         updateWebhookStatusDisplay();
 
@@ -2903,7 +2904,7 @@
       const url = document.getElementById('remoteWebhookUrl').value.trim();
       if (url === "") {
         localStorage.removeItem('psll_remote_telemetry_url');
-        updateWebhookStatusDisplay("Desconectado (sin endpoint remoto).");
+        updateWebhookStatusDisplay("Revertido a endpoint oficial de la cátedra.");
       } else {
         localStorage.setItem('psll_remote_telemetry_url', url);
         updateWebhookStatusDisplay("✅ URL guardada. Los eventos futuros se enviarán a esta dirección.");
@@ -2911,7 +2912,7 @@
     }
 
     function testRemoteWebhook() {
-      const url = document.getElementById('remoteWebhookUrl').value.trim();
+      const url = document.getElementById('remoteWebhookUrl').value.trim() || "https://script.google.com/macros/s/AKfycbyr7IVupbtb38B1ZCyclcfkGez2lnuoWH5bRy6L4yqyCqZMNmVu2jJaeurxc3ygCtT4/exec";
       if (!url.startsWith('http')) {
         alert("Por favor, introduce una URL válida que empiece por https://");
         return;
@@ -2919,10 +2920,11 @@
       saveRemoteWebhook();
       const testEvent = {
         timestamp: new Date().toISOString(),
-        username: "test_docente",
-        userCode: "TEST-PING",
+        username: "mhidper",
+        userCode: "DOCENTE-TEST",
         action: "TEST_PING",
-        detail: { msg: "Prueba de conexión desde Panel Docente" }
+        detail: { msg: "Prueba de conexión desde Panel Docente" },
+        elapsedSeconds: 5
       };
 
       fetch(url, {
@@ -2931,7 +2933,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(testEvent)
       }).then(() => {
-        updateWebhookStatusDisplay("🚀 Ping de prueba emitido con éxito hacia Google Sheets.");
+        updateWebhookStatusDisplay("🚀 Ping emitido con éxito hacia tu Google Sheets.");
       }).catch(err => {
         updateWebhookStatusDisplay("❌ Error al emitir el ping: " + err.message);
       });
@@ -2943,12 +2945,7 @@
         statusEl.innerHTML = customMsg;
         return;
       }
-      const saved = localStorage.getItem('psll_remote_telemetry_url');
-      if (saved) {
-        statusEl.innerHTML = `🟢 <strong>Conectado:</strong> Enviando telemetría en tiempo real a Google Sheets.`;
-      } else {
-        statusEl.innerHTML = `⚪ Sin endpoint configurado. La telemetría solo se guarda en local y en el PDF.`;
-      }
+      statusEl.innerHTML = `🟢 <strong>Conectado:</strong> Enviando telemetría en tiempo real a Google Sheets (Cátedra PSLL).`;
     }
 
     function renderAuditUsers() {
