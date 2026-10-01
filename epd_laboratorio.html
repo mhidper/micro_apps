@@ -1104,14 +1104,247 @@
       color: var(--text-muted);
     }
 
-    .btn-audit {
-      background: transparent;
+    /* DOCUMENTO OFICIAL DE ENTREGA PARA EL AULA VIRTUAL */
+    .official-report-doc {
+      background: #FFFFFF;
       border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 32px 36px;
+      margin-top: 24px;
+      text-align: left;
+      color: var(--tinta);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .report-doc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 2px solid var(--pino);
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+
+    .report-doc-inst {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--navy-upo);
+      text-transform: uppercase;
+    }
+
+    .report-doc-dept {
+      font-size: 0.82rem;
       color: var(--text-muted);
-      padding: 4px 10px;
-      border-radius: 4px;
-      cursor: pointer;
+      margin-top: 2px;
+    }
+
+    .report-doc-subject {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--pino);
+      margin-top: 4px;
+    }
+
+    .report-doc-tag {
+      background: var(--menta-mid);
+      color: var(--pino);
+      border: 1px solid var(--salvia);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .report-doc-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      background: var(--menta-soft);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      font-size: 0.84rem;
+    }
+
+    .meta-item strong {
+      color: var(--pino);
+      display: block;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .meta-item span, .meta-item code {
+      color: var(--tinta);
+      font-weight: 600;
+    }
+
+    .report-doc-audit-box {
+      background: #F8FAFC;
+      border: 1px solid #CBD5E1;
+      border-left: 4px solid var(--salvia);
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin-bottom: 24px;
+    }
+
+    .audit-box-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #334155;
+      margin-bottom: 8px;
+    }
+
+    .audit-metrics-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      font-size: 0.82rem;
+    }
+
+    .audit-metric span {
+      color: #64748B;
+    }
+
+    .audit-metric strong {
+      color: var(--pino);
+      margin-left: 4px;
+    }
+
+    .report-doc-body {
+      margin-bottom: 24px;
+    }
+
+    .doc-axis-section {
+      margin-bottom: 22px;
+      padding-bottom: 16px;
+      border-bottom: 1px dashed var(--border-subtle);
+    }
+
+    .doc-axis-section:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .doc-axis-section h4 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.98rem;
+      color: var(--pino);
+      margin: 0 0 8px 0;
+      font-weight: 700;
+    }
+
+    .doc-axis-text {
+      font-size: 0.9rem;
+      color: var(--tinta);
+      line-height: 1.6;
+      white-space: pre-wrap;
+      background: #FAFAFA;
+      padding: 12px 16px;
+      border-radius: 6px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .report-doc-footer {
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 14px;
       font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /* REGLAS PARA IMPRESIÓN Y GUARDADO EN PDF */
+    @media print {
+      body {
+        background: #FFFFFF !important;
+        color: #000000 !important;
+        font-size: 10.5pt !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      header.main-header,
+      nav.session-router,
+      .stepper-nav,
+      .card-header,
+      .paste-toast,
+      .data-switch-bar,
+      .formula-accordion,
+      .calc-grid,
+      .calc-workshop-success,
+      .multiscale-grid,
+      .data-table,
+      .news-grid,
+      .poll-box,
+      .instructions-card,
+      footer.main-footer,
+      .modal-overlay,
+      #authSection,
+      #stepSection1,
+      #stepSection2,
+      .report-axis-box,
+      #btnSubmitDelivery,
+      .ticket-action-row,
+      .btn,
+      .btn-audit {
+        display: none !important;
+      }
+
+      main.container {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+      }
+
+      .card {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      #stepSection3 {
+        display: block !important;
+      }
+
+      #finalTicketArea {
+        display: block !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        background: transparent !important;
+      }
+
+      .ticket-card > h4,
+      .ticket-card > p,
+      .ticket-hash {
+        display: none !important;
+      }
+
+      .official-report-doc {
+        display: block !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .doc-axis-text {
+        background: transparent !important;
+        border: 1px solid #E2E8F0 !important;
+      }
+
+      @page {
+        margin: 1.5cm;
+        size: A4 portrait;
+      }
     }
   </style>
 </head>
@@ -1689,17 +1922,114 @@
             </button>
           </div>
 
-          <!-- Ticket Final de Entrega -->
+          <!-- Ticket Final de Entrega y Documento Oficial -->
           <div id="finalTicketArea" class="ticket-card" style="display: none;">
-            <h4 style="color: var(--success); font-family: 'Outfit', sans-serif; font-size: 1.3rem;">
-              ✅ ¡Entregable 1 Sellado y Registrado con Éxito!
+            <div style="font-size: 2.2rem; margin-bottom: 6px;">🎉</div>
+            <h4 style="color: var(--pino); font-family: 'Outfit', sans-serif; font-size: 1.35rem; margin-bottom: 6px;">
+              ¡Entregable 1 Sellado y Registrado con Éxito!
             </h4>
-            <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 6px;">
-              Tu informe en 4 ejes ha sido validado para tu Pasaporte de Evaluación Continua.
+            <p style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 14px; max-width: 600px; margin-left: auto; margin-right: auto;">
+              Tu informe técnico ha sido validado criptográficamente para tu <strong>Pasaporte de Evaluación Continua</strong>. Descarga el documento oficial en formato PDF para adjuntarlo en la tarea del Aula Virtual.
             </p>
             <div class="ticket-hash" id="displayHash">SHA256: --------------------------------</div>
-            <div>
-              <button class="btn btn-primary" onclick="window.print();">🖨️ Descargar Comprobante Oficial (PDF)</button>
+            
+            <div class="ticket-action-row" style="margin: 18px 0 24px 0; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+              <button class="btn btn-coral" style="font-size: 1rem; padding: 13px 26px;" onclick="downloadOfficialReportPDF();">
+                📥 Descargar Informe Oficial en PDF (Formato Aula Virtual)
+              </button>
+            </div>
+
+            <!-- VISTA PREVIA Y PLANTILLA DE IMPRESIÓN OFICIAL (A4) -->
+            <div id="officialReportPrintable" class="official-report-doc">
+              <!-- Cabecera Institucional UPO / PSLL -->
+              <div class="report-doc-header">
+                <div>
+                  <div class="report-doc-inst">UNIVERSIDAD PABLO DE OLAVIDE · SEVILLA</div>
+                  <div class="report-doc-dept">Facultad de Derecho y Ciencias del Trabajo · Grado en Relaciones Laborales y RRHH</div>
+                  <div class="report-doc-subject">Políticas Sociolaborales y de Empleo (PSLL 2026-27) · Práctica EPD 1</div>
+                </div>
+                <div class="report-doc-tag">INFORME OFICIAL EVALUABLE</div>
+              </div>
+
+              <!-- Ficha Técnica del Estudiante -->
+              <div class="report-doc-meta-grid">
+                <div class="meta-item">
+                  <strong>Estudiante:</strong>
+                  <span id="docMetaStudent">-</span>
+                </div>
+                <div class="meta-item">
+                  <strong>Acrónimo UPO:</strong>
+                  <span id="docMetaUsername">-</span>
+                </div>
+                <div class="meta-item">
+                  <strong>Código EPD (ID):</strong>
+                  <span id="docMetaCode">-</span>
+                </div>
+                <div class="meta-item">
+                  <strong>Caso Asignado:</strong>
+                  <span id="docMetaCase">-</span>
+                </div>
+                <div class="meta-item">
+                  <strong>Fecha y Hora de Emisión:</strong>
+                  <span id="docMetaDate">-</span>
+                </div>
+                <div class="meta-item">
+                  <strong>Sello de Integridad SHA-256:</strong>
+                  <code id="docMetaHash" style="font-size: 0.72rem; color: var(--pino);">-</code>
+                </div>
+              </div>
+
+              <!-- Cuadro de Auditoría Técnica y Telemetría de Autoría -->
+              <div class="report-doc-audit-box">
+                <div class="audit-box-title">🛡️ REGISTRO TÉCNICO DE AUDITORÍA Y TELEMETRÍA DE LA SESIÓN</div>
+                <div class="audit-metrics-row">
+                  <div class="audit-metric">
+                    <span>⏱️ Tiempo en Laboratorio:</span>
+                    <strong id="auditDocTime">-</strong>
+                  </div>
+                  <div class="audit-metric">
+                    <span>✍️ Volumen Redactado:</span>
+                    <strong id="auditDocWords">- palabras</strong>
+                  </div>
+                  <div class="audit-metric">
+                    <span>🧮 Taller de Cálculo EPA:</span>
+                    <strong id="auditDocCalc">3 de 3 superados ✅</strong>
+                  </div>
+                  <div class="audit-metric">
+                    <span>⚠️ Alertas de Pegado Externo:</span>
+                    <strong id="auditDocPaste">0 incidencias (autoría íntegra)</strong>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Cuerpo del Informe en 4 Ejes -->
+              <div class="report-doc-body">
+                <div class="doc-axis-section">
+                  <h4>Eje 1 · Magnitud y Peso Relativo del Desempleo (Tasa vs. Stock)</h4>
+                  <div class="doc-axis-text" id="docTextAxis1">-</div>
+                </div>
+
+                <div class="doc-axis-section">
+                  <h4>Eje 2 · Evolución Temporal en la Última Década (2014 vs. 2024)</h4>
+                  <div class="doc-axis-text" id="docTextAxis2">-</div>
+                </div>
+
+                <div class="doc-axis-section">
+                  <h4>Eje 3 · La Singularidad del Mercado Laboral Andaluz (Brecha Territorial)</h4>
+                  <div class="doc-axis-text" id="docTextAxis3">-</div>
+                </div>
+
+                <div class="doc-axis-section">
+                  <h4>Eje 4 · El Cruce Edad-Duración y Diagnóstico de Causas Laborales</h4>
+                  <div class="doc-axis-text" id="docTextAxis4">-</div>
+                </div>
+              </div>
+
+              <!-- Pie de Documento con Sello Institucional -->
+              <div class="report-doc-footer">
+                Documento generado automáticamente por el Laboratorio Virtual de Políticas Sociolaborales y de Empleo (PSLL · UPO).<br>
+                La autenticidad e integridad del contenido pueden verificarse cotejando el sello criptográfico en los registros de la cátedra.
+              </div>
             </div>
           </div>
         </div>
@@ -1751,9 +2081,10 @@
         <button class="btn-audit" onclick="document.getElementById('auditModal').style.display='none';">✕</button>
       </div>
 
-      <div style="display: flex; gap: 10px; margin-bottom: 14px;">
-        <button class="btn btn-primary" onclick="showAuditTab('users');">📋 Lista de Códigos de Alumnos (78)</button>
-        <button class="btn btn-primary" onclick="showAuditTab('logs');">📊 Telemetría de la Estación</button>
+      <div style="display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap;">
+        <button class="btn btn-primary" id="btnAuditTabUsers" onclick="showAuditTab('users');">📋 Lista de Códigos de Alumnos (78)</button>
+        <button class="btn btn-primary" id="btnAuditTabLogs" onclick="showAuditTab('logs');">📊 Telemetría de la Estación</button>
+        <button class="btn btn-coral" id="btnAuditTabRemote" onclick="showAuditTab('remote');">📡 Telemetría Remota (Google Sheets)</button>
       </div>
 
       <div id="auditTabUsers">
@@ -1775,7 +2106,7 @@
             </tbody>
           </table>
         </div>
-        <div style="margin-top: 12px; display: flex; justify-content: space-between; align-items: center;">
+        <div style="margin-top: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
           <button class="btn-audit" onclick="resetAllLocalActivations();" style="border: 1px solid #DC2626; color: #DC2626;" title="Elimina los datos de activación guardados en este navegador para pruebas">
             🔄 Resetear Activaciones Locales
           </button>
@@ -1784,9 +2115,42 @@
       </div>
 
       <div id="auditTabLogs" style="display: none;">
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 8px;">
+          Bitácora de eventos locales registrados en este navegador:
+        </p>
         <div id="auditLogDisplay" style="background: #0B2419; color: #A7F3D0; font-family: monospace; font-size: 0.75rem; padding: 14px; border-radius: 6px; max-height: 250px; overflow-y: auto; white-space: pre-wrap;"></div>
         <div style="margin-top: 12px; text-align: right;">
           <button class="btn btn-primary" onclick="exportTelemetryJSON();">Descargar Log JSON</button>
+        </div>
+      </div>
+
+      <div id="auditTabRemote" style="display: none;">
+        <h4 style="font-family: 'Outfit', sans-serif; color: var(--pino); font-size: 1.05rem; margin-bottom: 8px;">
+          📡 Conexión de Telemetría Remota en Tiempo Real
+        </h4>
+        <p style="font-size: 0.84rem; color: var(--tinta); line-height: 1.5; margin-bottom: 12px;">
+          Permite que cualquier acción realizada por un alumno o evaluador en su propio dispositivo (login, respuestas, cálculos validados, alertas de pegado anti-IA y sellado) se transmita de forma instantánea a una hoja de <strong>Google Sheets</strong> de tu cuenta.
+        </p>
+
+        <div style="background: var(--menta-soft); border: 1px solid var(--border-subtle); border-radius: 6px; padding: 12px 16px; margin-bottom: 14px;">
+          <label style="font-size: 0.82rem; font-weight: 700; color: var(--pino); display: block; margin-bottom: 6px;">
+            URL del Webhook (Google Apps Script):
+          </label>
+          <div style="display: flex; gap: 8px;">
+            <input type="url" id="remoteWebhookUrl" class="form-control" style="font-size: 0.85rem; padding: 8px 12px;" placeholder="https://script.google.com/macros/s/.../exec">
+            <button class="btn btn-primary" onclick="saveRemoteWebhook();" style="white-space: nowrap;">Guardar</button>
+            <button class="btn btn-coral" onclick="testRemoteWebhook();" style="white-space: nowrap;">Test Ping</button>
+          </div>
+          <div id="remoteWebhookStatus" style="font-size: 0.78rem; margin-top: 6px; color: var(--text-muted);">
+            <!-- Estado inyectado por JS -->
+          </div>
+        </div>
+
+        <div style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5;">
+          <strong>Cómo configurarlo en 2 minutos:</strong><br>
+          1. Crea una hoja nueva en tu Google Drive.<br>
+          2. Ve a <em>Extensiones > Apps Script</em> y pega la función <code>doPost(e)</code> para agregar filas.<br>
+          3. Pulsa <em>Implementar > Nueva implementación > Aplicación web</em> (acceso: "Cualquiera") y pega el enlace aquí.
         </div>
       </div>
     </div>
@@ -1983,6 +2347,19 @@
       try {
         localStorage.setItem("psll_telemetry_epd1", JSON.stringify(telemetryLog));
       } catch (e) {}
+
+      // Envío remoto a Google Sheets Webhook si está configurado
+      const remoteUrl = localStorage.getItem('psll_remote_telemetry_url');
+      if (remoteUrl && remoteUrl.startsWith('http')) {
+        try {
+          fetch(remoteUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(event)
+          }).catch(() => {});
+        } catch (err) {}
+      }
     }
 
     setInterval(() => {
@@ -2429,27 +2806,66 @@
     function submitFinalDelivery() {
       if (currentSession.completed) return;
 
-      const t1 = document.getElementById('textAxis1').value;
-      const t2 = document.getElementById('textAxis2').value;
-      const t3 = document.getElementById('textAxis3').value;
-      const t4 = document.getElementById('textAxis4').value;
-      const fullText = t1 + t2 + t3 + t4;
+      const t1 = document.getElementById('textAxis1').value.trim();
+      const t2 = document.getElementById('textAxis2').value.trim();
+      const t3 = document.getElementById('textAxis3').value.trim();
+      const t4 = document.getElementById('textAxis4').value.trim();
+      const fullText = t1 + " " + t2 + " " + t3 + " " + t4;
+      const wordCount = fullText.split(/\s+/).filter(Boolean).length;
 
       const sealString = `${currentSession.userCode}-${currentSession.username}-${new Date().toISOString()}-${fullText.length}`;
       const hash = generateSHA256Hash(sealString);
 
       currentSession.completed = true;
-      logEvent("DELIVERY_SUBMITTED", { hash: hash, words: fullText.split(/\s+/).length });
+      logEvent("DELIVERY_SUBMITTED", { hash: hash, words: wordCount });
 
       document.getElementById('displayHash').textContent = hash;
       document.getElementById('finalTicketArea').style.display = 'block';
       document.getElementById('btnSubmitDelivery').style.display = 'none';
+
+      // Rellenar Ficha Oficial Imprimible para el Aula Virtual
+      document.getElementById('docMetaStudent').textContent = currentSession.fullName;
+      document.getElementById('docMetaUsername').textContent = currentSession.username;
+      document.getElementById('docMetaCode').textContent = currentSession.userCode;
+      document.getElementById('docMetaCase').textContent = (currentSession.assignedCase === 'A') 
+        ? "Caso A: Tramo 45-54 años (Andalucía vs. España)" 
+        : "Caso B: Tramo 55+ años (Andalucía vs. UE-27)";
+      document.getElementById('docMetaDate').textContent = new Date().toLocaleString('es-ES', { 
+        dateStyle: 'full', 
+        timeStyle: 'medium' 
+      });
+      document.getElementById('docMetaHash').textContent = hash;
+
+      // Métricas de Auditoría y Telemetría en el documento
+      const timeStr = document.getElementById('sessionTimer').textContent.replace('⏱️', '').trim();
+      document.getElementById('auditDocTime').textContent = `${timeStr} min`;
+      document.getElementById('auditDocWords').textContent = `${wordCount} palabras`;
+      document.getElementById('auditDocCalc').textContent = "3 de 3 superados ✅";
+      document.getElementById('auditDocPaste').textContent = (currentSession.pasteAttempts === 0)
+        ? "0 alertas de pegado (autoría íntegra constatada)"
+        : `${currentSession.pasteAttempts} intentos de pegado interceptados`;
+
+      // Textos del informe
+      document.getElementById('docTextAxis1').textContent = t1;
+      document.getElementById('docTextAxis2').textContent = t2;
+      document.getElementById('docTextAxis3').textContent = t3;
+      document.getElementById('docTextAxis4').textContent = t4;
 
       // Bloquear textareas
       document.getElementById('textAxis1').readOnly = true;
       document.getElementById('textAxis2').readOnly = true;
       document.getElementById('textAxis3').readOnly = true;
       document.getElementById('textAxis4').readOnly = true;
+
+      window.scrollTo({ top: document.getElementById('finalTicketArea').offsetTop - 40, behavior: 'smooth' });
+    }
+
+    function downloadOfficialReportPDF() {
+      const origTitle = document.title;
+      document.title = `Informe_EPD1_PSLL_${currentSession.username}_${currentSession.userCode}`;
+      window.print();
+      setTimeout(() => { document.title = origTitle; }, 2000);
+      logEvent("PDF_DOWNLOAD_CLICK");
     }
 
     // =========================================================================
@@ -2460,6 +2876,12 @@
       if (pass === "psll2026") {
         renderAuditUsers();
         document.getElementById('auditLogDisplay').textContent = JSON.stringify(telemetryLog, null, 2);
+        
+        // Cargar webhook guardado si existe
+        const savedUrl = localStorage.getItem('psll_remote_telemetry_url') || "";
+        document.getElementById('remoteWebhookUrl').value = savedUrl;
+        updateWebhookStatusDisplay();
+
         showAuditTab('users');
         document.getElementById('auditModal').style.display = 'flex';
       } else if (pass !== null) {
@@ -2470,6 +2892,63 @@
     function showAuditTab(tab) {
       document.getElementById('auditTabUsers').style.display = (tab === 'users') ? 'block' : 'none';
       document.getElementById('auditTabLogs').style.display = (tab === 'logs') ? 'block' : 'none';
+      document.getElementById('auditTabRemote').style.display = (tab === 'remote') ? 'block' : 'none';
+
+      document.getElementById('btnAuditTabUsers').className = (tab === 'users') ? 'btn btn-primary' : 'btn-audit';
+      document.getElementById('btnAuditTabLogs').className = (tab === 'logs') ? 'btn btn-primary' : 'btn-audit';
+      document.getElementById('btnAuditTabRemote').className = (tab === 'remote') ? 'btn btn-coral' : 'btn-audit';
+    }
+
+    function saveRemoteWebhook() {
+      const url = document.getElementById('remoteWebhookUrl').value.trim();
+      if (url === "") {
+        localStorage.removeItem('psll_remote_telemetry_url');
+        updateWebhookStatusDisplay("Desconectado (sin endpoint remoto).");
+      } else {
+        localStorage.setItem('psll_remote_telemetry_url', url);
+        updateWebhookStatusDisplay("✅ URL guardada. Los eventos futuros se enviarán a esta dirección.");
+      }
+    }
+
+    function testRemoteWebhook() {
+      const url = document.getElementById('remoteWebhookUrl').value.trim();
+      if (!url.startsWith('http')) {
+        alert("Por favor, introduce una URL válida que empiece por https://");
+        return;
+      }
+      saveRemoteWebhook();
+      const testEvent = {
+        timestamp: new Date().toISOString(),
+        username: "test_docente",
+        userCode: "TEST-PING",
+        action: "TEST_PING",
+        detail: { msg: "Prueba de conexión desde Panel Docente" }
+      };
+
+      fetch(url, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(testEvent)
+      }).then(() => {
+        updateWebhookStatusDisplay("🚀 Ping de prueba emitido con éxito hacia Google Sheets.");
+      }).catch(err => {
+        updateWebhookStatusDisplay("❌ Error al emitir el ping: " + err.message);
+      });
+    }
+
+    function updateWebhookStatusDisplay(customMsg) {
+      const statusEl = document.getElementById('remoteWebhookStatus');
+      if (customMsg) {
+        statusEl.innerHTML = customMsg;
+        return;
+      }
+      const saved = localStorage.getItem('psll_remote_telemetry_url');
+      if (saved) {
+        statusEl.innerHTML = `🟢 <strong>Conectado:</strong> Enviando telemetría en tiempo real a Google Sheets.`;
+      } else {
+        statusEl.innerHTML = `⚪ Sin endpoint configurado. La telemetría solo se guarda en local y en el PDF.`;
+      }
     }
 
     function renderAuditUsers() {
