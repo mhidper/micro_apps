@@ -406,6 +406,320 @@
       animation: fadeIn 0.3s ease;
     }
 
+    /* INSTRUCCIONES GENERALES DE LA SESIÓN */
+    .instructions-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--salvia);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .instructions-header {
+      background: linear-gradient(135deg, var(--menta-mid) 0%, var(--menta-soft) 100%);
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .instructions-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .instructions-icon {
+      font-size: 1.8rem;
+      line-height: 1;
+    }
+
+    .instructions-title h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      color: var(--pino);
+      margin: 0;
+      font-weight: 700;
+    }
+
+    .instructions-title p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin: 2px 0 0 0;
+    }
+
+    .instructions-body {
+      padding: 22px 24px;
+    }
+
+    .instructions-lead {
+      font-size: 0.92rem;
+      color: var(--tinta);
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .instructions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .instruction-box {
+      background: var(--menta-soft);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 16px 18px;
+      position: relative;
+    }
+
+    .instruction-step-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--pino);
+      color: #FFFFFF;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .instruction-box h4 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      color: var(--pino);
+      margin: 0 0 6px 0;
+      font-weight: 700;
+    }
+
+    .instruction-box p {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .instructions-rules-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--border-subtle);
+    }
+
+    .rule-chip {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 0.81rem;
+      color: var(--tinta);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* TALLER PRÁCTICO DE CÁLCULO (FASE 1) */
+    .formula-accordion {
+      margin-bottom: 20px;
+    }
+
+    .formula-toggle-btn {
+      width: 100%;
+      background: var(--menta-soft);
+      border: 1px solid var(--salvia);
+      border-radius: var(--radius-sm);
+      padding: 12px 18px;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--pino);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .formula-toggle-btn:hover {
+      background: var(--menta-mid);
+    }
+
+    .formula-drawer {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-top: none;
+      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+      padding: 18px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .formula-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 14px;
+    }
+
+    .formula-item {
+      background: var(--menta-soft);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 12px;
+      font-size: 0.82rem;
+    }
+
+    .formula-item strong {
+      color: var(--pino);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .formula-math {
+      font-family: monospace;
+      font-weight: 700;
+      color: #92400E;
+      background: #FEF3C7;
+      padding: 4px 8px;
+      border-radius: 4px;
+      margin: 6px 0;
+      font-size: 0.82rem;
+    }
+
+    .formula-item p {
+      color: var(--text-muted);
+      margin: 4px 0 0 0;
+      line-height: 1.4;
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .calc-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.2s ease;
+    }
+
+    .calc-card.completed {
+      border-color: #10B981;
+      background: #F0FDF4;
+    }
+
+    .calc-badge {
+      display: inline-block;
+      align-self: flex-start;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--pino);
+      background: var(--menta-mid);
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    .calc-card.completed .calc-badge {
+      background: #DCFCE7;
+      color: #15803D;
+    }
+
+    .calc-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.98rem;
+      color: var(--pino);
+      margin: 0 0 8px 0;
+      font-weight: 700;
+    }
+
+    .calc-text {
+      font-size: 0.85rem;
+      color: var(--tinta);
+      line-height: 1.5;
+      margin: 0 0 14px 0;
+      flex: 1;
+    }
+
+    .calc-input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    .calc-input {
+      width: 105px;
+      padding: 8px 12px;
+      border: 1.5px solid var(--border-subtle);
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-align: right;
+      color: var(--pino);
+    }
+
+    .calc-input:focus {
+      outline: none;
+      border-color: var(--pino);
+      box-shadow: 0 0 0 3px rgba(17, 57, 39, 0.12);
+    }
+
+    .calc-unit {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text-muted);
+    }
+
+    .calc-feedback {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .calc-feedback.success {
+      background: #ECFDF5;
+      border: 1px solid #A7F3D0;
+      color: #065F46;
+    }
+
+    .calc-feedback.error {
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      color: #991B1B;
+    }
+
+    .calc-workshop-success {
+      margin-top: 20px;
+      padding: 16px 20px;
+      background: linear-gradient(135deg, #ECFDF5 0%, #F0FDF4 100%);
+      border: 1.5px solid #10B981;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      animation: fadeIn 0.3s ease;
+    }
+
     /* MÓDULO 2: EXPLORADOR MULTIESCALA */
     .data-switch-bar {
       display: flex;
@@ -963,9 +1277,62 @@
       </div>
 
       <!-- ============================================================== -->
-      <!-- PASO 1: LA PRENSA DISPARADORA Y EL SONDEO PREVIO (FASE 0)      -->
+      <!-- PASO 1: INSTRUCCIONES Y DILEMA DE PRENSA (FASE 0)             -->
       <!-- ============================================================== -->
       <div id="stepSection1" class="step-section">
+        <!-- Bloque Destacado de Instrucciones Oficiales de la Sesión -->
+        <div class="instructions-card">
+          <div class="instructions-header">
+            <div class="instructions-title">
+              <span class="instructions-icon">🧭</span>
+              <div>
+                <h3>Instrucciones de la Sesión Práctica (EPD 1)</h3>
+                <p>Políticas Sociolaborales y de Empleo · Grado en Relaciones Laborales y RRHH</p>
+              </div>
+            </div>
+            <span class="badge badge-primary">⏱️ Duración: 90 minutos</span>
+          </div>
+
+          <div class="instructions-body">
+            <p class="instructions-lead">
+              Esta sesión práctica está diseñada para que aprendas a <strong>interpretar con rigor las fuentes estadísticas oficiales del mercado laboral (EPA y Eurostat)</strong>, verificar afirmaciones de prensa y fundamentar diagnósticos técnicos sólidos para la toma de decisiones en el ámbito de las relaciones laborales y los recursos humanos. Sigue la secuencia pautada en 3 fases:
+            </p>
+
+            <div class="instructions-grid">
+              <div class="instruction-box">
+                <div class="instruction-step-pill">1</div>
+                <h4>Fase 0 · Dilema y Sondeo (15 min)</h4>
+                <p>Lee los titulares de prensa económica que abordan la dualidad entre desempleo juvenil y sénior. Vota en el sondeo previo para contrastar tu intuición con la realidad estadística.</p>
+              </div>
+
+              <div class="instruction-box">
+                <div class="instruction-step-pill">2</div>
+                <h4>Fase 1 · Datos y Taller de Cálculo (35 min)</h4>
+                <p>Explora la tabla multiescala (Andalucía vs. España vs. UE) y resuelve el <strong>Taller de Cálculo de Indicadores</strong> aplicando las fórmulas aprendidas en las sesiones teóricas (EB).</p>
+              </div>
+
+              <div class="instruction-box">
+                <div class="instruction-step-pill">3</div>
+                <h4>Fase 2 · Informe Técnico en 4 Ejes (40 min)</h4>
+                <p>Redacta tus conclusiones analíticas sobre tu colectivo asignado en los 4 ejes oficiales de la cátedra y genera tu <strong>Sello Digital SHA-256</strong> como justificante oficial de entrega.</p>
+              </div>
+            </div>
+
+            <div class="instructions-rules-bar">
+              <div class="rule-chip">
+                <span>👤</span> <strong>Caso Personalizado:</strong> Los datos y preguntas se adaptan al colectivo asignado a tu usuario.
+              </div>
+              <div class="rule-chip">
+                <span>⌨️</span> <strong>Redacción Directa:</strong> La plataforma monitoriza la escritura desde teclado; redacta con tus propias palabras evitando el copiado y pegado de IA.
+              </div>
+              <div class="rule-chip">
+                <span>🔒</span> <strong>Sello Criptográfico:</strong> Al completar el informe recibirás un recibo digital oficial infalsificable para tu evaluación continua.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prensa Disparadora y Sondeo Previo -->
         <div class="card">
           <div class="card-header">
             <div class="card-title">
@@ -1100,7 +1467,119 @@
             </tbody>
           </table>
 
-          <div style="margin-top: 20px; text-align: right;">
+          <!-- ============================================================ -->
+          <!-- TALLER PRÁCTICO: CÁLCULO DE INDICADORES EPA (RECORDATORIO EB) -->
+          <!-- ============================================================ -->
+          <div style="margin-top: 28px; border-top: 2px dashed var(--border-subtle); padding-top: 22px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+              <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.12rem; color: var(--pino); margin: 0; display: flex; align-items: center; gap: 8px;">
+                <span>🧮</span> Taller Práctico: Cálculo de Indicadores EPA (Recordatorio Sesiones EB)
+              </h3>
+              <span class="badge badge-coral" id="calcWorkshopBadge">0 de 3 ejercicios validados</span>
+            </div>
+
+            <p style="color: var(--text-muted); font-size: 0.88rem; line-height: 1.55; margin-bottom: 16px;">
+              Aplica los conceptos vistos en las sesiones teóricas de EB (definiciones de la EPA, fórmulas de tasas y cálculo de variaciones). Realiza las operaciones en un borrador o con calculadora e introduce el resultado para comprobar tu comprensión antes de redactar el informe técnico:
+            </p>
+
+            <!-- Acordeón Desplegable de Fórmulas Oficiales EB -->
+            <div class="formula-accordion">
+              <button class="formula-toggle-btn" type="button" onclick="toggleFormulaDrawer();">
+                <span>📖 Consultar Chuleta de Fórmulas e Indicadores de la EPA (EB 1 y EB 2)</span>
+                <span id="formulaArrow">▼</span>
+              </button>
+              <div id="formulaDrawerContent" class="formula-drawer" style="display: none;">
+                <div class="formula-grid">
+                  <div class="formula-item">
+                    <strong>Tasa de Paro (TP):</strong>
+                    <div class="formula-math">TP = (Parados / Activos) × 100</div>
+                    <p>Mide la probabilidad de estar en desempleo dentro de la población económicamente activa.</p>
+                  </div>
+                  <div class="formula-item">
+                    <strong>Incidencia Paro Larga Duración (%PLD):</strong>
+                    <div class="formula-math">%PLD = (Parados ≥ 1 año / Total Parados) × 100</div>
+                    <p>Mide el grado de persistencia y pérdida de empleabilidad del colectivo desempleado.</p>
+                  </div>
+                  <div class="formula-item">
+                    <strong>Tasa de Variación Decenal (Δ%):</strong>
+                    <div class="formula-math">Δ% = [(Dato 2024 - Dato 2014) / Dato 2014] × 100</div>
+                    <p>Indica el ritmo porcentual de reducción o aumento de una magnitud laboral a 10 años.</p>
+                  </div>
+                  <div class="formula-item">
+                    <strong>Peso Relativo sobre el Total (%):</strong>
+                    <div class="formula-math">%Peso = (Parados Colectivo / Parados Totales) × 100</div>
+                    <p>Calcula la cuota porcentual que absorbe un grupo de edad sobre todo el desempleo.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Grid con los 3 Ejercicios de Cálculo -->
+            <div class="calc-grid">
+              <!-- Ejercicio 1 -->
+              <div class="calc-card" id="calcCard1">
+                <div class="calc-badge" id="calcBadge1">Ejercicio 1 · Tasa Específica</div>
+                <h4 class="calc-title">Tasa de Paro del Colectivo Asignado</h4>
+                <p class="calc-text" id="calcPrompt1">
+                  Cargando datos del colectivo asignado...
+                </p>
+                <div class="calc-input-row">
+                  <input type="number" id="calcInput1" class="calc-input" placeholder="Ej: 13.9" step="0.1" onkeydown="if(event.key==='Enter') verifyCalculation(1);">
+                  <span class="calc-unit">%</span>
+                  <button class="btn btn-primary" onclick="verifyCalculation(1);">Comprobar</button>
+                </div>
+                <div id="calcFeedback1" class="calc-feedback" style="display: none;"></div>
+              </div>
+
+              <!-- Ejercicio 2 -->
+              <div class="calc-card" id="calcCard2">
+                <div class="calc-badge" id="calcBadge2">Ejercicio 2 · Incidencia PLD</div>
+                <h4 class="calc-title">Incidencia de Paro de Larga Duración (> 1 año)</h4>
+                <p class="calc-text" id="calcPrompt2">
+                  Cargando datos del colectivo asignado...
+                </p>
+                <div class="calc-input-row">
+                  <input type="number" id="calcInput2" class="calc-input" placeholder="Ej: 58.2" step="0.1" onkeydown="if(event.key==='Enter') verifyCalculation(2);">
+                  <span class="calc-unit">%</span>
+                  <button class="btn btn-primary" onclick="verifyCalculation(2);">Comprobar</button>
+                </div>
+                <div id="calcFeedback2" class="calc-feedback" style="display: none;"></div>
+              </div>
+
+              <!-- Ejercicio 3 -->
+              <div class="calc-card" id="calcCard3">
+                <div class="calc-badge" id="calcBadge3">Ejercicio 3 · Evolución Decenal</div>
+                <h4 class="calc-title">Variación del Desempleo Total en Andalucía (2014-2024)</h4>
+                <p class="calc-text">
+                  En 2014, Andalucía registraba un total de <strong>1.395,7 miles de personas desempleadas</strong>. En 2024, el total de parados ha descendido a <strong>680,7 miles de personas</strong>. Calcula la <strong>tasa de variación decenal</strong> (%) de este volumen (indica el porcentaje con signo negativo si ha bajado).
+                </p>
+                <div class="calc-input-row">
+                  <input type="number" id="calcInput3" class="calc-input" placeholder="Ej: -51.2" step="0.1" onkeydown="if(event.key==='Enter') verifyCalculation(3);">
+                  <span class="calc-unit">%</span>
+                  <button class="btn btn-primary" onclick="verifyCalculation(3);">Comprobar</button>
+                </div>
+                <div id="calcFeedback3" class="calc-feedback" style="display: none;"></div>
+              </div>
+            </div>
+
+            <!-- Mensaje de Éxito al Completar los 3 Ejercicios -->
+            <div id="calcWorkshopSuccess" class="calc-workshop-success" style="display: none;">
+              <div style="font-size: 1.6rem;">🏆</div>
+              <div>
+                <h4 style="margin: 0; color: var(--pino); font-family: 'Outfit', sans-serif; font-size: 1.05rem;">
+                  ¡Taller de Cálculo Cuantitativo Superado!
+                </h4>
+                <p style="margin: 4px 0 0 0; font-size: 0.86rem; color: var(--tinta); line-height: 1.45;">
+                  Has aplicado y validado con precisión los indicadores fundamentales de la EPA. Dispones de los datos cuantitativos exactos para fundamentar con solidez tus respuestas en el Informe de la Fase 2.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <button class="btn-audit" onclick="goToStep(1);">
+              ⬅️ Volver a Fase 0 (Instrucciones y Sondeo)
+            </button>
             <button class="btn btn-primary" onclick="goToStep(3);">
               Proceder a la Redacción del Informe (Entregable 1) ➔
             </button>
@@ -1484,7 +1963,8 @@
       timeSpentSeconds: 0,
       assignedCase: null,
       pasteAttempts: 0,
-      completed: false
+      completed: false,
+      calcCompleted: { 1: false, 2: false, 3: false }
     };
 
     let telemetryLog = [];
@@ -1713,6 +2193,121 @@
       } else {
         title.textContent = "Caso B: Mayores de 55 y más años · Foco: Desconexión del Mercado y Trampa de Salida";
         desc.textContent = "Analiza el tramo sénior de más edad (55 y más años) en Andalucía frente a la Unión Europea. Observa cómo más de la mitad (53,4%) de quienes buscan empleo en esta cohorte superan los 2 años en paro.";
+      }
+
+      setupCalcWorkshop();
+    }
+
+    // =========================================================================
+    // LÓGICA DEL TALLER PRÁCTICO DE CÁLCULO DE INDICADORES EPA
+    // =========================================================================
+    function toggleFormulaDrawer() {
+      const drawer = document.getElementById('formulaDrawerContent');
+      const arrow = document.getElementById('formulaArrow');
+      if (drawer.style.display === 'none') {
+        drawer.style.display = 'block';
+        arrow.textContent = '▲';
+      } else {
+        drawer.style.display = 'none';
+        arrow.textContent = '▼';
+      }
+    }
+
+    function setupCalcWorkshop() {
+      const isCaseA = (currentSession.assignedCase === "A");
+      const p1 = document.getElementById('calcPrompt1');
+      const p2 = document.getElementById('calcPrompt2');
+      const badge1 = document.getElementById('calcBadge1');
+      const badge2 = document.getElementById('calcBadge2');
+
+      if (isCaseA) {
+        badge1.textContent = "Ejercicio 1 · Caso A (45-54 años)";
+        p1.innerHTML = "En Andalucía (2024), en el colectivo de <strong>45 a 54 años</strong>, hay <strong>172,8 miles de personas en desempleo</strong> y una población activa de <strong>1.243,2 miles de personas</strong> en esa misma cohorte. Calcula la <strong>Tasa de Paro (TP)</strong> de este grupo de edad en porcentaje (con 1 decimal).";
+        
+        badge2.textContent = "Ejercicio 2 · Caso A (45-54 años)";
+        p2.innerHTML = "En Andalucía (2024), de los <strong>172,8 miles de desempleados</strong> de 45 a 54 años, un total de <strong>100,6 miles</strong> llevan en desempleo de forma ininterrumpida durante 1 año o más. Calcula la incidencia del <strong>Paro de Larga Duración (%PLD)</strong> sobre este colectivo (con 1 decimal).";
+      } else {
+        badge1.textContent = "Ejercicio 1 · Caso B (55+ años)";
+        p1.innerHTML = "En Andalucía (2024), en el colectivo de <strong>55 y más años</strong>, hay <strong>134,1 miles de personas en desempleo</strong> y una población activa de <strong>993,3 miles de personas</strong> en esa franja de edad. Calcula la <strong>Tasa de Paro (TP)</strong> de este grupo en porcentaje (con 1 decimal).";
+        
+        badge2.textContent = "Ejercicio 2 · Caso B (55+ años)";
+        p2.innerHTML = "En Andalucía (2024), de los <strong>134,1 miles de desempleados</strong> de 55 y más años, un total de <strong>89,6 miles</strong> llevan en situación de paro durante 1 año o más. Calcula la incidencia del <strong>Paro de Larga Duración (%PLD)</strong> sobre este colectivo (con 1 decimal).";
+      }
+    }
+
+    function verifyCalculation(exNum) {
+      const isCaseA = (currentSession.assignedCase === "A");
+      const inputEl = document.getElementById(`calcInput${exNum}`);
+      const feedbackEl = document.getElementById(`calcFeedback${exNum}`);
+      const cardEl = document.getElementById(`calcCard${exNum}`);
+      
+      let rawVal = inputEl.value.trim().replace(',', '.');
+      if (rawVal === '') {
+        feedbackEl.className = "calc-feedback error";
+        feedbackEl.innerHTML = "⚠️ Por favor, introduce un valor numérico antes de comprobar.";
+        feedbackEl.style.display = 'block';
+        return;
+      }
+
+      let val = parseFloat(rawVal);
+      let isCorrect = false;
+      let msg = "";
+
+      if (exNum === 1) {
+        // Tasa de Paro: Parados / Activos * 100
+        const expected = isCaseA ? 13.9 : 13.5;
+        if (Math.abs(val - expected) <= 0.25) {
+          isCorrect = true;
+          msg = `✅ <strong>¡Exacto!</strong> Aplicando la fórmula oficial $TP = \\frac{${isCaseA ? '172,8' : '134,1'}}{${isCaseA ? '1.243,2' : '993,3'}} \\times 100 = ${expected}\\%$. Fíjate cómo coincide con la columna <em>"Tasa Paro (%)"</em> de la tabla superior. Has demostrado cómo se calcula esta magnitud a partir de los datos brutos de la EPA.`;
+        } else {
+          msg = `❌ <strong>Cálculo inexacto:</strong> Recuerda la fórmula vista en la EB 1: $TP = (\\text{Parados} / \\text{Activos}) \\times 100$. Divide ${isCaseA ? '172,8' : '134,1'} entre ${isCaseA ? '1.243,2' : '993,3'} y multiplica por 100.`;
+        }
+      } else if (exNum === 2) {
+        // Incidencia PLD: Parados >= 1 año / Total Parados * 100
+        const expected = isCaseA ? 58.2 : 66.8;
+        if (Math.abs(val - expected) <= 0.35) {
+          isCorrect = true;
+          msg = `✅ <strong>¡Excelente!</strong> La incidencia del paro de larga duración es del <strong>${expected}%</strong>. Esto confirma la trampa de empleabilidad analizada en la EB 2: más de la mitad de las personas desempleadas del colectivo sénior sufren desempleo prolongado.`;
+        } else {
+          msg = `❌ <strong>Revisa la operación:</strong> Divide las personas desempleadas de 1 año o más (${isCaseA ? '100,6' : '89,6'}) entre el total de parados del colectivo (${isCaseA ? '172,8' : '134,1'}) y multiplica por 100.`;
+        }
+      } else if (exNum === 3) {
+        // Variación decenal: (680.7 - 1395.7) / 1395.7 * 100 = -51.2%
+        if (Math.abs(val - (-51.2)) <= 0.4 || Math.abs(val - 51.2) <= 0.4 || val === -51 || val === 51) {
+          isCorrect = true;
+          msg = `✅ <strong>¡Perfecto!</strong> La reducción decenal del desempleo total en Andalucía ha sido del <strong>-51,2%</strong> (el número de desempleados se ha reducido a más de la mitad respecto a 2014). Este dato te servirá para argumentar el Eje 2 del informe.`;
+        } else {
+          msg = `❌ <strong>Revisa la fórmula de variación:</strong> $\\Delta\\% = \\frac{680,7 - 1.395,7}{1.395,7} \\times 100$. Recuerda restar el valor inicial (2014) del valor final (2024).`;
+        }
+      }
+
+      if (isCorrect) {
+        cardEl.classList.add('completed');
+        feedbackEl.className = "calc-feedback success";
+        feedbackEl.innerHTML = msg;
+        feedbackEl.style.display = 'block';
+        currentSession.calcCompleted[exNum] = true;
+        logEvent("CALC_SUCCESS", { exercise: exNum, val: val });
+      } else {
+        feedbackEl.className = "calc-feedback error";
+        feedbackEl.innerHTML = msg;
+        feedbackEl.style.display = 'block';
+        logEvent("CALC_FAIL", { exercise: exNum, val: val });
+      }
+
+      updateCalcProgress();
+    }
+
+    function updateCalcProgress() {
+      const c = currentSession.calcCompleted;
+      const count = (c[1] ? 1 : 0) + (c[2] ? 1 : 0) + (c[3] ? 1 : 0);
+      const badge = document.getElementById('calcWorkshopBadge');
+      badge.textContent = `${count} de 3 ejercicios validados ${count === 3 ? '✅' : ''}`;
+
+      if (count === 3) {
+        badge.className = "badge badge-primary";
+        document.getElementById('calcWorkshopSuccess').style.display = 'flex';
+        logEvent("CALC_WORKSHOP_COMPLETED");
       }
     }
 
