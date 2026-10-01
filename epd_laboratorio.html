@@ -1651,21 +1651,21 @@
           <div class="multiscale-grid">
             <div class="stat-card" style="border-left: 4px solid var(--pino);">
               <h4>Andalucía (2024)</h4>
-              <div class="stat-number">13,9%</div>
-              <div class="stat-detail">Tasa de paro cohorte 45-54 años</div>
-              <div style="margin-top: 8px; font-weight: 600; color: var(--coral);">42,6% parados >2 años</div>
+              <div class="stat-number" id="statNumberAnd">13,9%</div>
+              <div class="stat-detail" id="statDetailAnd">Tasa de paro cohorte 45-54 años</div>
+              <div id="statPldAnd" style="margin-top: 8px; font-weight: 600; color: var(--coral);">42,6% parados >2 años</div>
             </div>
             <div class="stat-card" style="border-left: 4px solid var(--salvia);">
               <h4>Total España (2024)</h4>
-              <div class="stat-number">9,8%</div>
-              <div class="stat-detail">Tasa de paro cohorte 45-54 años</div>
-              <div style="margin-top: 8px; font-weight: 600; color: var(--salvia);">34,5% parados >2 años</div>
+              <div class="stat-number" id="statNumberEsp">9,8%</div>
+              <div class="stat-detail" id="statDetailEsp">Tasa de paro cohorte 45-54 años</div>
+              <div id="statPldEsp" style="margin-top: 8px; font-weight: 600; color: var(--salvia);">34,5% parados >2 años</div>
             </div>
             <div class="stat-card" style="border-left: 4px solid var(--navy-upo);">
               <h4>Media UE-27 (2024)</h4>
-              <div class="stat-number">4,8%</div>
-              <div class="stat-detail">Tasa de paro cohorte 45-54 años</div>
-              <div style="margin-top: 8px; font-weight: 600; color: var(--navy-upo);">26,0% parados >2 años</div>
+              <div class="stat-number" id="statNumberUE">4,8%</div>
+              <div class="stat-detail" id="statDetailUE">Tasa de paro cohorte 45-54 años</div>
+              <div id="statPldUE" style="margin-top: 8px; font-weight: 600; color: var(--navy-upo);">26,0% parados >2 años</div>
             </div>
           </div>
 
@@ -1842,10 +1842,10 @@
           <!-- Eje 1 -->
           <div class="report-axis-box">
             <div class="report-axis-header">
-              <span class="report-axis-title">Eje 1 · Magnitud y Peso Relativo (Tasa vs. Stock)</span>
+              <span class="report-axis-title" id="axisTitle1">Eje 1 · Magnitud y Peso Relativo (Tasa vs. Stock)</span>
               <span class="badge badge-soft" id="wordsAxis1">0 palabras</span>
             </div>
-            <div class="report-axis-desc">
+            <div class="report-axis-desc" id="axisDesc1">
               ¿Qué peso representan las personas mayores de 45 años sobre el total de desempleados en Andalucía y por qué la tasa de paro por sí sola oculta la dimensión real del problema frente a la juventud?
             </div>
             <textarea 
@@ -1860,10 +1860,10 @@
           <!-- Eje 2 -->
           <div class="report-axis-box">
             <div class="report-axis-header">
-              <span class="report-axis-title">Eje 2 · Evolución en la Última Década (2014 vs. 2024)</span>
+              <span class="report-axis-title" id="axisTitle2">Eje 2 · Evolución en la Última Década (2014 vs. 2024)</span>
               <span class="badge badge-soft" id="wordsAxis2">0 palabras</span>
             </div>
-            <div class="report-axis-desc">
+            <div class="report-axis-desc" id="axisDesc2">
               ¿Cómo ha evolucionado este colectivo en los últimos 10 años? ¿Se ha absorbido el desempleo al mismo ritmo que en otros tramos de edad o muestra señales de histéresis y cronificación?
             </div>
             <textarea 
@@ -1878,10 +1878,10 @@
           <!-- Eje 3 -->
           <div class="report-axis-box">
             <div class="report-axis-header">
-              <span class="report-axis-title">Eje 3 · La Singularidad Andaluza (Brecha Territorial)</span>
+              <span class="report-axis-title" id="axisTitle3">Eje 3 · La Singularidad Andaluza (Brecha Territorial)</span>
               <span class="badge badge-soft" id="wordsAxis3">0 palabras</span>
             </div>
-            <div class="report-axis-desc">
+            <div class="report-axis-desc" id="axisDesc3">
               ¿Presenta este colectivo una situación significativamente más desfavorable en Andalucía que en la media nacional y en la Unión Europea? Justifica con los datos comparados.
             </div>
             <textarea 
@@ -1896,10 +1896,10 @@
           <!-- Eje 4 -->
           <div class="report-axis-box">
             <div class="report-axis-header">
-              <span class="report-axis-title">Eje 4 · El Cruce Edad-Duración y Causas Laborales</span>
+              <span class="report-axis-title" id="axisTitle4">Eje 4 · El Cruce Edad-Duración y Causas Laborales</span>
               <span class="badge badge-soft" id="wordsAxis4">0 palabras</span>
             </div>
-            <div class="report-axis-desc">
+            <div class="report-axis-desc" id="axisDesc4">
               ¿Qué ocurre con la duración del desempleo a medida que se cumplen años? Explica desde la perspectiva de RRLL las causas (obsolescencia, desánimo, reticencia en la selección empresarial).
             </div>
             <textarea 
@@ -2005,22 +2005,22 @@
               <!-- Cuerpo del Informe en 4 Ejes -->
               <div class="report-doc-body">
                 <div class="doc-axis-section">
-                  <h4>Eje 1 · Magnitud y Peso Relativo del Desempleo (Tasa vs. Stock)</h4>
+                  <h4 id="docAxisTitle1">Eje 1 · Magnitud y Peso Relativo del Desempleo (Tasa vs. Stock)</h4>
                   <div class="doc-axis-text" id="docTextAxis1">-</div>
                 </div>
 
                 <div class="doc-axis-section">
-                  <h4>Eje 2 · Evolución Temporal en la Última Década (2014 vs. 2024)</h4>
+                  <h4 id="docAxisTitle2">Eje 2 · Evolución Temporal en la Última Década (2014 vs. 2024)</h4>
                   <div class="doc-axis-text" id="docTextAxis2">-</div>
                 </div>
 
                 <div class="doc-axis-section">
-                  <h4>Eje 3 · La Singularidad del Mercado Laboral Andaluz (Brecha Territorial)</h4>
+                  <h4 id="docAxisTitle3">Eje 3 · La Singularidad del Mercado Laboral Andaluz (Brecha Territorial)</h4>
                   <div class="doc-axis-text" id="docTextAxis3">-</div>
                 </div>
 
                 <div class="doc-axis-section">
-                  <h4>Eje 4 · El Cruce Edad-Duración y Diagnóstico de Causas Laborales</h4>
+                  <h4 id="docAxisTitle4">Eje 4 · El Cruce Edad-Duración y Diagnóstico de Causas Laborales</h4>
                   <div class="doc-axis-text" id="docTextAxis4">-</div>
                 </div>
               </div>
@@ -2569,11 +2569,90 @@
       studentBadge.textContent = `${currentSession.fullName} (${currentSession.username}) · ${currentSession.userCode}`;
 
       if (isCaseA) {
-        title.textContent = "Caso A: Mayores de 45 a 54 años · Foco: Persistencia y Paro de Larga Duración";
-        desc.textContent = "Analiza el tramo central sénior (45 a 54 años) en Andalucía frente a la media de España. Observa cómo más del 42% de los parados de esta cohorte superan los 2 años en desempleo continuo.";
+        // =====================================================================
+        // CASO A: MAYORES DE 45 A 54 AÑOS (ANDALUCÍA VS. ESPAÑA)
+        // =====================================================================
+        title.textContent = "Caso A: Mayores de 45 a 54 años · Foco: Persistencia y Paro de Larga Duración (Andalucía vs. España)";
+        desc.innerHTML = "📌 <strong>Caso de trabajo asignado:</strong> Analiza el colectivo de <strong>45 a 54 años</strong> en Andalucía frente al Total Nacional. Fíjate en cómo el 42,6% de los desempleados de este grupo superan los 2 años en paro continuo. <em>(Tanto el taller de cálculo de la Fase 1 como las 4 preguntas de la Fase 2 están adaptadas a este colectivo).</em>";
+
+        // Tarjetas de Impacto Fase 1 (Andalucía vs. España vs. UE)
+        document.getElementById('statNumberAnd').textContent = "13,9%";
+        document.getElementById('statDetailAnd').textContent = "Tasa de paro cohorte 45-54 años";
+        document.getElementById('statPldAnd').textContent = "42,6% parados >2 años";
+
+        document.getElementById('statNumberEsp').textContent = "9,8%";
+        document.getElementById('statDetailEsp').textContent = "Tasa de paro cohorte 45-54 años";
+        document.getElementById('statPldEsp').textContent = "34,5% parados >2 años";
+
+        document.getElementById('statNumberUE').textContent = "4,8%";
+        document.getElementById('statDetailUE').textContent = "Tasa de paro cohorte 45-54 años";
+        document.getElementById('statPldUE').textContent = "26,0% parados >2 años";
+
+        // Preguntas Oficiales del Informe (Fase 2)
+        document.getElementById('axisTitle1').textContent = "Eje 1 · Magnitud y Peso Relativo (Tramo 45-54 años: Tasa vs. Stock)";
+        document.getElementById('axisDesc1').innerHTML = "¿Qué peso representan las personas de <strong>45 a 54 años</strong> sobre el total de desempleados en Andalucía y por qué su tasa de paro (13,9%) no debe analizarse de forma aislada frente a la juventud?";
+        document.getElementById('textAxis1').placeholder = "Razona apoyándote en el volumen (172,8 miles) y en el peso porcentual (25,4%) sobre el total de desempleados andaluces...";
+
+        document.getElementById('axisTitle2').textContent = "Eje 2 · Evolución Temporal en la Última Década (2014 vs. 2024 · Tramo 45-54 años)";
+        document.getElementById('axisDesc2').innerHTML = "¿Cómo ha evolucionado el colectivo de <strong>45 a 54 años</strong> en los últimos 10 años (2014-2024)? ¿Se ha absorbido el desempleo al mismo ritmo que en otros tramos de edad o muestra señales de histéresis y cronificación?";
+        document.getElementById('textAxis2').placeholder = "Compara la caída de parados de 45-54 años (de 298,4 mil a 172,8 mil) y la persistencia de parados de larga duración...";
+
+        document.getElementById('axisTitle3').textContent = "Eje 3 · La Singularidad Andaluza frente a España (Brecha Territorial)";
+        document.getElementById('axisDesc3').innerHTML = "¿Presenta el colectivo de <strong>45 a 54 años</strong> una situación significativamente más desfavorable en Andalucía que en la media nacional (13,9% vs. 9,8%)? Justifica con los datos comparados de tasa y parados de más de 2 años.";
+        document.getElementById('textAxis3').placeholder = "Contrasta la tasa de Andalucía frente a España y el porcentaje de parados >2 años (42,6% vs. 34,5%)...";
+
+        document.getElementById('axisTitle4').textContent = "Eje 4 · El Cruce Edad-Duración y Medidas de Inserción (Perspectiva RRLL)";
+        document.getElementById('axisDesc4').innerHTML = "En la cohorte de <strong>45 a 54 años</strong>, el 42,6% lleva más de 2 años en desempleo. Desde la perspectiva de Relaciones Laborales y Recursos Humanos, explica las causas (edadismo, desactualización de competencias) y qué medidas activas de inserción laboral o incentivos propondrías.";
+        document.getElementById('textAxis4').placeholder = "Explica las barreras en los procesos de selección y propone soluciones de formación continua o incentivos a la contratación...";
+
+        // Títulos de los Ejes para el Documento Oficial Imprimible (PDF)
+        document.getElementById('docAxisTitle1').textContent = "Eje 1 · Magnitud y Peso Relativo (Colectivo 45-54 años: Tasa vs. Stock)";
+        document.getElementById('docAxisTitle2').textContent = "Eje 2 · Evolución Decenal 2014-2024 (Colectivo 45-54 años)";
+        document.getElementById('docAxisTitle3').textContent = "Eje 3 · Singularidad Andaluza frente a España (Colectivo 45-54 años)";
+        document.getElementById('docAxisTitle4').textContent = "Eje 4 · Duración del Desempleo y Medidas de Inserción RRLL (Colectivo 45-54 años)";
+
       } else {
-        title.textContent = "Caso B: Mayores de 55 y más años · Foco: Desconexión del Mercado y Trampa de Salida";
-        desc.textContent = "Analiza el tramo sénior de más edad (55 y más años) en Andalucía frente a la Unión Europea. Observa cómo más de la mitad (53,4%) de quienes buscan empleo en esta cohorte superan los 2 años en paro.";
+        // =====================================================================
+        // CASO B: MAYORES DE 55 Y MÁS AÑOS (ANDALUCÍA VS. UNIÓN EUROPEA)
+        // =====================================================================
+        title.textContent = "Caso B: Mayores de 55 y más años · Foco: Desconexión del Mercado y Trampa de Salida (Andalucía vs. UE-27)";
+        desc.innerHTML = "📌 <strong>Caso de trabajo asignado:</strong> Analiza el colectivo de <strong>55 y más años</strong> en Andalucía frente a la Unión Europea. Fíjate en cómo más de la mitad (53,4%) de los desempleados de este tramo superan los 2 años en paro continuo. <em>(Tanto el taller de cálculo de la Fase 1 como las 4 preguntas de la Fase 2 están adaptadas a este colectivo).</em>";
+
+        // Tarjetas de Impacto Fase 1 (Andalucía vs. España vs. UE)
+        document.getElementById('statNumberAnd').textContent = "13,5%";
+        document.getElementById('statDetailAnd').textContent = "Tasa de paro cohorte 55+ años";
+        document.getElementById('statPldAnd').textContent = "53,4% parados >2 años";
+
+        document.getElementById('statNumberEsp').textContent = "10,1%";
+        document.getElementById('statDetailEsp').textContent = "Tasa de paro cohorte 55+ años";
+        document.getElementById('statPldEsp').textContent = "45,2% parados >2 años";
+
+        document.getElementById('statNumberUE').textContent = "4,9%";
+        document.getElementById('statDetailUE').textContent = "Tasa de paro cohorte 55+ años";
+        document.getElementById('statPldUE').textContent = "33,0% parados >2 años";
+
+        // Preguntas Oficiales del Informe (Fase 2)
+        document.getElementById('axisTitle1').textContent = "Eje 1 · Magnitud y Peso Relativo (Tramo 55+ años: Tasa vs. Stock)";
+        document.getElementById('axisDesc1').innerHTML = "¿Qué peso representan las personas de <strong>55 y más años</strong> sobre el total de desempleados en Andalucía y por qué su volumen (134,1 miles) y permanencia suponen un desafío prioritario frente al paro juvenil?";
+        document.getElementById('textAxis1').placeholder = "Razona apoyándote en el volumen (134,1 miles) y en el peso porcentual (19,7%) de los mayores de 55 años sobre el total andaluz...";
+
+        document.getElementById('axisTitle2').textContent = "Eje 2 · Evolución Temporal en la Última Década (2014 vs. 2024 · Tramo 55+ años)";
+        document.getElementById('axisDesc2').innerHTML = "¿Cómo ha evolucionado el colectivo de <strong>55 y más años</strong> en los últimos 10 años (2014-2024)? Observa cómo su peso sobre el total ha aumentado del 11,7% al 19,7%. ¿A qué factores atribuyes este incremento relativo en Andalucía?";
+        document.getElementById('textAxis2').placeholder = "Analiza por qué el tramo de 55+ años ha ganado cuota relativa sobre el desempleo total andaluz entre 2014 y 2024...";
+
+        document.getElementById('axisTitle3').textContent = "Eje 3 · La Brecha entre Andalucía y la Unión Europea (Marco Internacional)";
+        document.getElementById('axisDesc3').innerHTML = "¿Presenta el colectivo de <strong>55 y más años</strong> una brecha estructural en Andalucía frente a la media de la Unión Europea (13,5% vs. 4,9%)? Justifica contrastando las tasas y el porcentaje de parados de muy larga duración (>2 años: 53,4% vs. 33,0%).";
+        document.getElementById('textAxis3').placeholder = "Contrasta la tasa de Andalucía frente a la UE-27 y el porcentaje de parados de muy larga duración (53,4% vs. 33,0%)...";
+
+        document.getElementById('axisTitle4').textContent = "Eje 4 · La Trampa de Salida del Mercado y el Edadismo en RRHH (Perspectiva RRLL)";
+        document.getElementById('axisDesc4').innerHTML = "En los mayores de 55 años, el 53,4% lleva más de 2 años en desempleo continuo. Desde la perspectiva de Relaciones Laborales y Recursos Humanos, explica las barreras de reinserción (sesgos en selección, costes salariales) y cómo evitar la desconexión definitiva del mercado hasta la jubilación.";
+        document.getElementById('textAxis4').placeholder = "Explica los factores de expulsión laboral en mayores de 55 años y medidas preventivas desde la gestión de personas...";
+
+        // Títulos de los Ejes para el Documento Oficial Imprimible (PDF)
+        document.getElementById('docAxisTitle1').textContent = "Eje 1 · Magnitud y Peso Relativo (Colectivo 55+ años: Tasa vs. Stock)";
+        document.getElementById('docAxisTitle2').textContent = "Eje 2 · Evolución Decenal 2014-2024 (Colectivo 55+ años)";
+        document.getElementById('docAxisTitle3').textContent = "Eje 3 · Brecha Andalucía vs. Unión Europea (Colectivo 55+ años)";
+        document.getElementById('docAxisTitle4').textContent = "Eje 4 · Desconexión del Mercado y Edadismo en RRHH (Colectivo 55+ años)";
       }
 
       setupCalcWorkshop();
