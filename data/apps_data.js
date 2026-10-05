@@ -634,6 +634,32 @@ window.DOCENCIA_APPS = {
         session: "Sesión 6",
         url: "simulador_sesion_06.html"
       },
+      {
+        id: "macro_sim_sesion07",
+        type: "simulator",
+        category: "simuladores",
+        icon: "🎛️",
+        iconBg: "#EFF6FF",
+        iconColor: "#056CAA",
+        title: "La Combinación de Políticas Económicas (Policy Mix)",
+        desc: "Coordinación e interacción entre la política fiscal del Gobierno (G, T) y la política monetaria del BCE (ī), debate de expulsión de la inversión vs. efecto arrastre.",
+        meta: "Simulador interactivo · 12 min",
+        session: "Sesión 7",
+        url: "simulador_sesion_07.html"
+      },
+      {
+        id: "macro_sim_sesion08",
+        type: "simulator",
+        category: "simuladores",
+        icon: "🏛️",
+        iconBg: "#EFF6FF",
+        iconColor: "#056CAA",
+        title: "Sostenibilidad de la Deuda Pública y Presupuestos",
+        desc: "Ecuación de la deuda de Blanchard: Δb = (r - g)b + d, efecto 'bola de nieve', superávit primario de estabilización y trayectoria a 15 años.",
+        meta: "Simulador interactivo · 12 min",
+        session: "Sesión 8",
+        url: "simulador_sesion_08.html"
+      },
 {
         id: "macro_real_1",
         type: "quiz",

@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Sesión 8 · Sostenibilidad de la Deuda Pública y Presupuestos · Macro UPO</title>
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="theme.css">
+  <style>
+    :root {
+      --navy: #0b1c36;
+      --cobalt: #056caa;
+      --azure: #0776b5;
+      --gold: #d97706;
+      --crimson: #e11d48;
+      --teal: #059669;
+      --indigo: #4338ca;
+      --slate: #64748b;
+      --bg-cream: #faf8f5;
+      --card-border: #e2e8f0;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-cream);
+      color: #1e293b;
+      line-height: 1.55;
+      padding-bottom: 70px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 820px; margin: 0 auto; padding: 0 16px; }
+    
+    /* Header */
+    .intro { padding: 24px 0 12px; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cobalt);
+      margin-bottom: 8px;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 18px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--cobalt), var(--gold));
+      border-radius: 2px;
+    }
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.6rem, 5vw, 2.1rem);
+      line-height: 1.15;
+      color: var(--navy);
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+    .lede { font-size: 0.96rem; color: #475569; margin-bottom: 14px; }
+
+    /* Sticky Hero Panel */
+    .hero {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(250, 248, 245, 0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 10px 0 12px;
+      box-shadow: 0 10px 25px -20px rgba(11, 28, 54, 0.3);
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .kpi-card {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .kpi-label { font-size: 0.72rem; color: var(--slate); text-transform: uppercase; font-weight: 600; margin-bottom: 2px; }
+    .kpi-val { font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 800; color: var(--navy); }
+    .kpi-sub { font-size: 0.7rem; font-weight: 600; }
+    .kpi-sub.pos { color: var(--teal); }
+    .kpi-sub.neg { color: var(--crimson); }
+    .kpi-sub.neu { color: var(--slate); }
+
+    /* Layout Cards */
+    .card {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-top: 16px;
+      box-shadow: 0 2px 8px rgba(11, 28, 54, 0.04);
+    }
+    .card-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 8px;
+    }
+
+    /* Preset Buttons */
+    .btn-group {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    @media (min-width: 640px) {
+      .btn-group { grid-template-columns: repeat(4, 1fr); }
+    }
+    .btn-preset {
+      background: #f8fafc;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--navy);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-align: center;
+      line-height: 1.25;
+    }
+    .btn-preset:hover {
+      background: #f0f7ff;
+      border-color: var(--cobalt);
+      color: var(--cobalt);
+    }
+    .btn-preset.active {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(11, 28, 54, 0.25);
+    }
+
+    /* Sliders Grid */
+    .sliders-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 580px) {
+      .sliders-grid { grid-template-columns: 1fr; }
+    }
+    .ctrl-box {
+      background: #f8fafc;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+    .ctrl-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .ctrl-name { font-size: 0.82rem; font-weight: 700; color: var(--navy); }
+    .ctrl-val {
+      font-family: 'Outfit', monospace;
+      font-weight: 800;
+      font-size: 0.88rem;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+    }
+    input[type=range] {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #cbd5e1;
+      outline: none;
+      -webkit-appearance: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--cobalt);
+      cursor: pointer;
+      border: 2px solid #ffffff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    }
+
+    /* SVG Chart */
+    .chart-box {
+      width: 100%;
+      overflow: hidden;
+      background: #ffffff;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+    svg text { font-family: 'Inter', system-ui, sans-serif; }
+
+    /* Diagnostic Box */
+    .diag-box {
+      background: #f0f7ff;
+      border-left: 4px solid var(--cobalt);
+      border-radius: 0 8px 8px 0;
+      padding: 12px 14px;
+      margin-top: 14px;
+      font-size: 0.88rem;
+    }
+    .diag-title { font-weight: 800; color: var(--navy); margin-bottom: 4px; font-size: 0.92rem; }
+    .diag-items { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
+    .diag-item { background: #ffffff; padding: 6px 8px; border-radius: 6px; border: 1px solid #e2e8f0; text-align: center; }
+    .diag-item-lbl { font-size: 0.7rem; color: var(--slate); font-weight: 600; text-transform: uppercase; }
+    .diag-item-val { font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 800; }
+
+    /* Footer badge */
+    .brand-foot {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 0.78rem;
+      color: var(--slate);
+    }
+    .brand-foot strong { color: var(--navy); }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+  <!-- Intro Header -->
+  <header class="intro">
+    <div class="eyebrow">Macroeconomía · Doble Grado DER + FICO</div>
+    <h1>El Simulador de Sostenibilidad de la Deuda Pública</h1>
+    <p class="lede">Experimenta con la <strong>ecuación fundamental de la deuda de Blanchard</strong>: $\Delta b_t = (r - g) b_{t-1} + d_t$. Descubre cuándo se activa la <em>bola de nieve</em> financiera y cuándo el crecimiento del país rescata la solvencia presupuestaria.</p>
+  </header>
+</div>
+
+<!-- Sticky Hero Panel -->
+<div class="hero">
+  <div class="wrap">
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Diferencial (r - g)</div>
+        <div class="kpi-val" id="val-rmg" style="color: var(--teal);">-1,00 p.p.</div>
+        <div class="kpi-sub pos" id="sub-rmg">Zona Estabilidad</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Variación Anual (Δb₁)</div>
+        <div class="kpi-val" id="val-db">-0,55%</div>
+        <div class="kpi-sub pos" id="sub-db">Deuda cayendo</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Superávit Req. (s*)</div>
+        <div class="kpi-val" id="val-sreq">-1,05%</div>
+        <div class="kpi-sub neu" id="sub-sreq">Para estabilizar</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Deuda en 10 años (b₁₀)</div>
+        <div class="kpi-val" id="val-b10" style="color: var(--navy);">99,5%</div>
+        <div class="kpi-sub pos" id="sub-b10">Trayectoria sostenible</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <!-- Presets -->
+  <div class="card">
+    <div class="card-title"><span>🎯</span> Escenarios Históricos de Deuda y Sostenibilidad</div>
+    <div class="btn-group">
+      <button class="btn-preset active" id="btn-esp" onclick="setPreset('esp')">1. España 2024-2026<br><small style="font-weight:400;">r &lt; g (Desinflado gradual)</small></button>
+      <button class="btn-preset" id="btn-crisis" onclick="setPreset('crisis')">2. Crisis Soberana 2012<br><small style="font-weight:400;">r &gt; g (Bola de nieve)</small></button>
+      <button class="btn-preset" id="btn-boom" onclick="setPreset('boom')">3. Boom Años 2000<br><small style="font-weight:400;">Superávits + Fuerte g</small></button>
+      <button class="btn-preset" id="btn-maastricht" onclick="setPreset('maastricht')">4. Límite Maastricht 60%<br><small style="font-weight:400;">Regla europea estándar</small></button>
+    </div>
+
+    <!-- Sliders -->
+    <div class="sliders-grid">
+      <!-- Variables de la Ecuación -->
+      <div class="ctrl-box">
+        <div class="ctrl-head">
+          <span class="ctrl-name">📊 Deuda Inicial / PIB ($b_0$)</span>
+          <span class="ctrl-val" id="lbl-b0">105,0%</span>
+        </div>
+        <input type="range" id="rng-b0" min="20" max="150" step="1" value="105" oninput="updateSim()">
+      </div>
+
+      <div class="ctrl-box">
+        <div class="ctrl-head">
+          <span class="ctrl-name">📉 Déficit Primario / PIB ($d$)</span>
+          <span class="ctrl-val" id="lbl-d">+0,50%</span>
+        </div>
+        <input type="range" id="rng-d" min="-4.0" max="8.0" step="0.25" value="0.5" oninput="updateSim()">
+      </div>
+
+      <div class="ctrl-box">
+        <div class="ctrl-head">
+          <span class="ctrl-name">💰 Tipo de Interés Real de Deuda ($r$)</span>
+          <span class="ctrl-val" id="lbl-r" style="color: var(--indigo);">1,50%</span>
+        </div>
+        <input type="range" id="rng-r" min="-2.0" max="8.0" step="0.25" value="1.5" oninput="updateSim()">
+      </div>
+
+      <div class="ctrl-box">
+        <div class="ctrl-head">
+          <span class="ctrl-name">🚀 Crecimiento Real del PIB ($g$)</span>
+          <span class="ctrl-val" id="lbl-g" style="color: var(--teal);">2,50%</span>
+        </div>
+        <input type="range" id="rng-g" min="-4.0" max="7.0" step="0.25" value="2.5" oninput="updateSim()">
+      </div>
+    </div>
+  </div>
+
+  <!-- SVG Chart -->
+  <div class="card">
+    <div class="card-title"><span>📈</span> Proyección Temporal de la Ratio Deuda / PIB a 15 Años</div>
+    <div class="chart-box">
+      <svg id="svg-chart" viewBox="0 0 760 380" width="100%" height="auto">
+        <!-- SVG content rendered dynamically -->
+      </svg>
+    </div>
+    <div style="display:flex; justify-content:center; gap:16px; margin-top:8px; font-size:0.75rem; flex-wrap:wrap;">
+      <span style="display:flex; align-items:center; gap:4px;"><span style="width:14px; height:3px; background:var(--navy); display:inline-block;"></span> Trayectoria Proyectada ($b_t$)</span>
+      <span style="display:flex; align-items:center; gap:4px;"><span style="width:14px; height:2px; background:var(--gold); border-top:1px dashed var(--gold); display:inline-block;"></span> Límite Maastricht (60% PIB)</span>
+      <span style="display:flex; align-items:center; gap:4px;"><span style="width:14px; height:2px; background:var(--crimson); border-top:1px dotted var(--crimson); display:inline-block;"></span> Umbral Crítico (100% PIB)</span>
+    </div>
+  </div>
+
+  <!-- Diagnostic Card -->
+  <div class="card">
+    <div class="card-title"><span>🔬</span> Desglose de la Ecuación Fundamental de Blanchard</div>
+    <div id="diag-text" class="diag-box">
+      <!-- Dynamic Diagnostic -->
+    </div>
+    <div class="diag-items">
+      <div class="diag-item">
+        <div class="diag-item-lbl">Carga de Intereses vs Crecimiento</div>
+        <div class="diag-item-val" id="det-intereses">-1,05% PIB</div>
+      </div>
+      <div class="diag-item">
+        <div class="diag-item-lbl">Déficit Primario Nuevo</div>
+        <div class="diag-item-val" id="det-primario">+0,50% PIB</div>
+      </div>
+      <div class="diag-item">
+        <div class="diag-item-lbl">Equilibrio Estable (b*)</div>
+        <div class="diag-item-val" id="det-bstar">50,0% PIB</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="brand-foot">
+    <strong>Macroeconomía</strong> · Grados en DER + FICO · Universidad Pablo de Olavide<br>
+    Prof. Manuel A. Hidalgo Pérez · Basado en O. Blanchard, <em>Macroeconomía</em> (7.ª Ed.), Cap. 22.2
+  </div>
+</div>
+
+<script>
+  function setPreset(type) {
+    document.querySelectorAll('.btn-preset').forEach(b => b.classList.remove('active'));
+
+    if (type === 'esp') {
+      document.getElementById('btn-esp').classList.add('active');
+      document.getElementById('rng-b0').value = 105;
+      document.getElementById('rng-d').value = 0.5;
+      document.getElementById('rng-r').value = 1.5;
+      document.getElementById('rng-g').value = 2.5;
+    } else if (type === 'crisis') {
+      document.getElementById('btn-crisis').classList.add('active');
+      document.getElementById('rng-b0').value = 70;
+      document.getElementById('rng-d').value = 6.0;
+      document.getElementById('rng-r').value = 4.5;
+      document.getElementById('rng-g').value = -1.5;
+    } else if (type === 'boom') {
+      document.getElementById('btn-boom').classList.add('active');
+      document.getElementById('rng-b0').value = 60;
+      document.getElementById('rng-d').value = -1.5; // Superávit primario
+      document.getElementById('rng-r').value = 1.0;
+      document.getElementById('rng-g').value = 4.0;
+    } else if (type === 'maastricht') {
+      document.getElementById('btn-maastricht').classList.add('active');
+      document.getElementById('rng-b0').value = 60;
+      document.getElementById('rng-d').value = 0.0;
+      document.getElementById('rng-r').value = 2.0;
+      document.getElementById('rng-g').value = 2.0;
+    }
+    updateSim();
+  }
+
+  function updateSim() {
+    const b0 = parseFloat(document.getElementById('rng-b0').value);
+    const d = parseFloat(document.getElementById('rng-d').value);
+    const r = parseFloat(document.getElementById('rng-r').value);
+    const g = parseFloat(document.getElementById('rng-g').value);
+
+    // Actualizar etiquetas
+    document.getElementById('lbl-b0').innerText = `${b0.toFixed(1)}%`;
+    document.getElementById('lbl-d').innerText = `${d >= 0 ? '+' : ''}${d.toFixed(2)}%`;
+    document.getElementById('lbl-r').innerText = `${r.toFixed(2)}%`;
+    document.getElementById('lbl-g').innerText = `${g.toFixed(2)}%`;
+
+    const r_val = r / 100;
+    const g_val = g / 100;
+    const d_val = d / 100;
+    const b0_val = b0 / 100;
+
+    const rmg = (r - g);
+    const rmg_val = r_val - g_val;
+
+    // Variación anual primer año: Δb1 = (r - g) * b0 + d
+    const db1_val = rmg_val * b0_val + d_val;
+    const db1_pct = db1_val * 100;
+
+    // Superávit primario requerido para estabilizar la deuda: s* = (r - g) * b0
+    const s_req_val = rmg_val * b0_val;
+    const s_req_pct = s_req_val * 100;
+
+    // Simular 15 años
+    const trajectory = [b0];
+    let cur_b = b0_val;
+    for (let t = 1; t <= 15; t++) {
+      cur_b = (1 + rmg_val) * cur_b + d_val;
+      trajectory.push(Math.max(0, cur_b * 100));
+    }
+    const b10 = trajectory[10];
+
+    // Actualizar KPIs
+    const elRmg = document.getElementById('val-rmg');
+    elRmg.innerText = `${rmg >= 0 ? '+' : ''}${rmg.toFixed(2)} p.p.`;
+    elRmg.style.color = rmg > 0 ? 'var(--crimson)' : 'var(--teal)';
+
+    const elSubRmg = document.getElementById('sub-rmg');
+    if (rmg > 0) {
+      elSubRmg.innerText = "¡Peligro Bola de Nieve (r > g)!";
+      elSubRmg.className = "kpi-sub neg";
+    } else if (rmg < 0) {
+      elSubRmg.innerText = "Bonanza del Crecimiento (r < g)";
+      elSubRmg.className = "kpi-sub pos";
+    } else {
+      elSubRmg.innerText = "Crecimiento = Tipos (r = g)";
+      elSubRmg.className = "kpi-sub neu";
+    }
+
+    const elDb = document.getElementById('val-db');
+    elDb.innerText = `${db1_pct >= 0 ? '+' : ''}${db1_pct.toFixed(2)}% PIB`;
+    const elSubDb = document.getElementById('sub-db');
+    if (db1_pct > 0.05) {
+      elSubDb.innerText = "Deuda en aumento";
+      elSubDb.className = "kpi-sub neg";
+    } else if (db1_pct < -0.05) {
+      elSubDb.innerText = "Deuda reduciéndose";
+      elSubDb.className = "kpi-sub pos";
+    } else {
+      elSubDb.innerText = "Deuda estabilizada";
+      elSubDb.className = "kpi-sub neu";
+    }
+
+    const elSreq = document.getElementById('val-sreq');
+    const sReqText = s_req_pct >= 0 ? `+${s_req_pct.toFixed(2)}% PIB` : `${s_req_pct.toFixed(2)}% PIB`;
+    elSreq.innerText = sReqText;
+
+    const elB10 = document.getElementById('val-b10');
+    elB10.innerText = `${b10.toFixed(1)}%`;
+    elB10.style.color = b10 > 110 ? 'var(--crimson)' : (b10 <= 60 ? 'var(--teal)' : 'var(--navy)');
+
+    const elSubB10 = document.getElementById('sub-b10');
+    if (b10 > 120) {
+      elSubB10.innerText = "Riesgo de insolvencia";
+      elSubB10.className = "kpi-sub neg";
+    } else if (b10 < b0) {
+      elSubB10.innerText = "Trayectoria sostenible";
+      elSubB10.className = "kpi-sub pos";
+    } else {
+      elSubB10.innerText = "Deterioro fiscal acumulado";
+      elSubB10.className = "kpi-sub neg";
+    }
+
+    // Detalles numéricos
+    document.getElementById('det-intereses').innerText = `${s_req_pct >= 0 ? '+' : ''}${s_req_pct.toFixed(2)}% PIB`;
+    document.getElementById('det-primario').innerText = `${d >= 0 ? '+' : ''}${d.toFixed(2)}% PIB`;
+
+    const elBstar = document.getElementById('det-bstar');
+    if (rmg_val < -0.001) {
+      // Estado estacionario: b* = d / (g - r)
+      const bStarVal = (d_val / (-rmg_val)) * 100;
+      elBstar.innerText = bStarVal >= 0 ? `${bStarVal.toFixed(1)}% PIB` : "0% (Superávits)";
+    } else {
+      elBstar.innerText = "Inexistente (Explosión)";
+    }
+
+    // Texto de diagnóstico
+    let diagHTML = "";
+    if (rmg_val > 0.001 && d_val > 0) {
+      diagHTML = `<div class="diag-title" style="color:var(--crimson);">🚨 Efecto 'Bola de Nieve' en Marcha (Doble Motor Explosivo)</div>
+      El tipo de interés supera al crecimiento económico ($r - g = +${rmg.toFixed(2)}\\text{ p.p.}$) y además existe un déficit primario ($d = +${d.toFixed(2)}\\%$). Los intereses se acumulan más rápido de lo que el país genera riqueza. Para frenar la deuda, el Estado tendría que aplicar un superávit primario de al menos <strong>+${s_req_pct.toFixed(2)}\\% del PIB</strong>.`;
+    } else if (rmg_val < -0.001 && db1_pct < 0) {
+      diagHTML = `<div class="diag-title" style="color:var(--teal);">⭐ Sostenibilidad Sólida: La Bonanza del Crecimiento</div>
+      El crecimiento de la economía supera el coste real de la deuda ($r - g = ${rmg.toFixed(2)}\\text{ p.p.}$). El propio crecimiento del PIB diluye el peso de la deuda año tras año en <strong>${Math.abs(s_req_pct).toFixed(2)}\\% del PIB</strong>, permitiendo que la ratio se reduzca progresivamente aun existiendo un déficit primario moderado.`;
+    } else if (rmg_val > 0.001 && d_val < 0 && -d_val >= s_req_val) {
+      diagHTML = `<div class="diag-title" style="color:var(--cobalt);">⚖️ Austeridad Compensatoria Exitosa</div>
+      Aunque los tipos superan al crecimiento ($r > g$), el Gobierno genera un <strong>superávit primario</strong> suficiente ($s = +${(-d).toFixed(2)}\\%$) para pagar los intereses netos, logrando que la ratio deuda/PIB se estabilice o disminuya.`;
+    } else {
+      diagHTML = `<div class="diag-title">🔍 Ecuación Fundamental en Tiempo Real</div>
+      Variación anual: $\\Delta b = (${r.toFixed(2)}\\% - ${g.toFixed(2)}\\%) \\times ${b0.toFixed(1)}\\% + (${d.toFixed(2)}\\%) = \\mathbf{${db1_pct >= 0 ? '+' : ''}${db1_pct.toFixed(2)}\\%\\text{ del PIB}}$. En 10 años la ratio se proyecta en el <strong>${b10.toFixed(1)}\\% del PIB</strong>.`;
+    }
+    document.getElementById('diag-text').innerHTML = diagHTML;
+
+    renderChart(trajectory, b0);
+  }
+
+  function renderChart(trajectory, b0) {
+    const svg = document.getElementById('svg-chart');
+    const width = 760;
+    const height = 380;
+    const margin = { top: 30, right: 40, bottom: 45, left: 60 };
+
+    const plotW = width - margin.left - margin.right;
+    const plotH = height - margin.top - margin.bottom;
+
+    const maxDeuda = Math.max(160, Math.ceil(Math.max(...trajectory) / 20) * 20);
+    const minDeuda = 0;
+
+    function scaleX(t) {
+      return margin.left + (t / 15) * plotW;
+    }
+    function scaleY(val) {
+      return margin.top + plotH - ((val - minDeuda) / (maxDeuda - minDeuda)) * plotH;
+    }
+
+    let html = `
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#64748b"/>
+        </marker>
+        <linearGradient id="gradDeuda" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#056caa" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="#056caa" stop-opacity="0.02"/>
+        </linearGradient>
+      </defs>
+    `;
+
+    // Rejilla horizontal
+    const stepY = maxDeuda <= 160 ? 20 : 40;
+    for (let yVal = minDeuda; yVal <= maxDeuda; yVal += stepY) {
+      const yPos = scaleY(yVal);
+      html += `<line x1="${margin.left}" y1="${yPos}" x2="${margin.left + plotW}" y2="${yPos}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3" />`;
+      html += `<text x="${margin.left - 10}" y="${yPos + 4}" fill="#64748b" font-size="11" text-anchor="end" font-weight="600">${yVal}%</text>`;
+    }
+
+    // Rejilla vertical (años 0 a 15)
+    for (let t = 0; t <= 15; t += 3) {
+      const xPos = scaleX(t);
+      html += `<line x1="${xPos}" y1="${margin.top}" x2="${xPos}" y2="${margin.top + plotH}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3" />`;
+      html += `<text x="${xPos}" y="${margin.top + plotH + 20}" fill="#64748b" font-size="11" text-anchor="middle" font-weight="600">Año ${t}</text>`;
+    }
+
+    // Líneas de referencia institucionales
+    // 60% Maastricht
+    if (60 <= maxDeuda) {
+      const y60 = scaleY(60);
+      html += `<line x1="${margin.left}" y1="${y60}" x2="${margin.left + plotW}" y2="${y60}" stroke="#d97706" stroke-width="1.8" stroke-dasharray="5,4" />`;
+      html += `<text x="${margin.left + plotW - 10}" y="${y60 - 6}" fill="#b45309" font-size="11" font-weight="700">Límite Maastricht (60%)</text>`;
+    }
+    // 100% Umbral crítico
+    if (100 <= maxDeuda) {
+      const y100 = scaleY(100);
+      html += `<line x1="${margin.left}" y1="${y100}" x2="${margin.left + plotW}" y2="${y100}" stroke="#e11d48" stroke-width="1.8" stroke-dasharray="4,4" />`;
+      html += `<text x="${margin.left + plotW - 10}" y="${y100 - 6}" fill="#be123c" font-size="11" font-weight="700">Umbral Crítico (100%)</text>`;
+    }
+
+    // Ejes
+    html += `<line x1="${margin.left}" y1="${margin.top + plotH}" x2="${margin.left + plotW + 15}" y2="${margin.top + plotH}" stroke="#0b1c36" stroke-width="2" marker-end="url(#arrow)" />`;
+    html += `<line x1="${margin.left}" y1="${margin.top + plotH}" x2="${margin.left}" y2="${margin.top - 15}" stroke="#0b1c36" stroke-width="2" marker-end="url(#arrow)" />`;
+    html += `<text x="${margin.left + plotW + 18}" y="${margin.top + plotH + 4}" fill="#0b1c36" font-size="12" font-weight="700">t</text>`;
+    html += `<text x="${margin.left - 12}" y="${margin.top - 18}" fill="#0b1c36" font-size="12" font-weight="700" text-anchor="end">b_t (% PIB)</text>`;
+
+    // Curva y área de la trayectoria
+    let pathD = `M ${scaleX(0)} ${scaleY(trajectory[0])}`;
+    let areaD = `M ${scaleX(0)} ${scaleY(trajectory[0])}`;
+
+    for (let t = 1; t <= 15; t++) {
+      const xPos = scaleX(t);
+      const yPos = scaleY(trajectory[t]);
+      pathD += ` L ${xPos} ${yPos}`;
+      areaD += ` L ${xPos} ${yPos}`;
+    }
+    areaD += ` L ${scaleX(15)} ${margin.top + plotH} L ${scaleX(0)} ${margin.top + plotH} Z`;
+
+    const lineColor = trajectory[15] > trajectory[0] ? "#e11d48" : "#056caa";
+
+    html += `<path d="${areaD}" fill="url(#gradDeuda)" />`;
+    html += `<path d="${pathD}" fill="none" stroke="${lineColor}" stroke-width="3.5" />`;
+
+    // Puntos en la curva
+    for (let t = 0; t <= 15; t += 3) {
+      const xPos = scaleX(t);
+      const yPos = scaleY(trajectory[t]);
+      html += `<circle cx="${xPos}" cy="${yPos}" r="5" fill="#ffffff" stroke="${lineColor}" stroke-width="2.5" />`;
+      html += `<text x="${xPos}" y="${yPos - 10}" fill="${lineColor}" font-size="11" font-weight="800" text-anchor="middle">${trajectory[t].toFixed(1)}%</text>`;
+    }
+
+    svg.innerHTML = html;
+  }
+
+  // Inicializar
+  updateSim();
+</script>
+
+</body>
+</html>
