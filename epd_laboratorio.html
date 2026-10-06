@@ -7,6 +7,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Motor de descarga directa de PDF sin ventana de impresión -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>if (typeof html2pdf === 'undefined') { document.write('<script src="assets/html2pdf.bundle.min.js"><\/script>'); }</script>
   <style>
     :root {
       --pino: #113927;
@@ -1116,6 +1119,15 @@
       box-shadow: var(--shadow-sm);
     }
 
+    .report-doc-header,
+    .report-doc-meta-grid,
+    .report-doc-audit-box,
+    .doc-axis-section,
+    .report-doc-footer {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
     .report-doc-header {
       display: flex;
       justify-content: space-between;
@@ -1933,10 +1945,13 @@
             </p>
             <div class="ticket-hash" id="displayHash">SHA256: --------------------------------</div>
             
-            <div class="ticket-action-row" style="margin: 18px 0 24px 0; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
-              <button class="btn btn-coral" style="font-size: 1rem; padding: 13px 26px;" onclick="downloadOfficialReportPDF();">
-                📥 Descargar Informe Oficial en PDF (Formato Aula Virtual)
+            <div class="ticket-action-row" style="margin: 18px 0 20px 0; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+              <button id="btnDownloadPDF" class="btn btn-coral" style="font-size: 1rem; padding: 13px 28px; box-shadow: 0 4px 14px rgba(233, 143, 113, 0.35); transition: all 0.2s ease;" onclick="downloadOfficialReportPDF();">
+                📥 Descargar Informe Oficial en PDF
               </button>
+              <div style="font-size: 0.82rem; color: var(--text-muted);">
+                ¿Prefieres imprimir en papel o usar el diálogo clásico del sistema? <a href="javascript:void(0)" onclick="printClassicDialog();" style="color: var(--pino); text-decoration: underline; font-weight: 500;">Imprimir / Guardar clásico</a>
+              </div>
             </div>
 
             <!-- VISTA PREVIA Y PLANTILLA DE IMPRESIÓN OFICIAL (A4) -->
@@ -2943,12 +2958,61 @@
       window.scrollTo({ top: document.getElementById('finalTicketArea').offsetTop - 40, behavior: 'smooth' });
     }
 
-    function downloadOfficialReportPDF() {
+    function printClassicDialog() {
       const origTitle = document.title;
-      document.title = `Informe_EPD1_PSLL_${currentSession.username}_${currentSession.userCode}`;
+      document.title = `Informe_EPD1_PSLL_${currentSession.username || 'Alumno'}_${currentSession.userCode || 'EPD1'}`;
       window.print();
       setTimeout(() => { document.title = origTitle; }, 2000);
+      logEvent("PDF_CLASSIC_PRINT_CLICK");
+    }
+
+    function downloadOfficialReportPDF() {
+      const reportEl = document.getElementById('officialReportPrintable');
+      const filename = `Informe_EPD1_PSLL_${currentSession.username || 'Alumno'}_${currentSession.userCode || 'EPD1'}.pdf`;
+      const btn = document.getElementById('btnDownloadPDF') || document.querySelector('#finalTicketArea .btn-coral');
+      const origText = btn ? btn.innerHTML : '';
+
       logEvent("PDF_DOWNLOAD_CLICK");
+
+      if (typeof html2pdf !== 'undefined' && reportEl) {
+        if (btn) {
+          btn.innerHTML = '⏳ Generando documento PDF...';
+          btn.disabled = true;
+          btn.style.opacity = '0.75';
+        }
+
+        const opt = {
+          margin:       [8, 8, 8, 8],
+          filename:     filename,
+          image:        { type: 'jpeg', quality: 0.98 },
+          html2canvas:  { scale: 2, useCORS: true, logging: false, scrollY: 0 },
+          jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+          pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+        };
+
+        html2pdf().set(opt).from(reportEl).save().then(() => {
+          if (btn) {
+            btn.innerHTML = '✅ ¡PDF Descargado!';
+            setTimeout(() => {
+              btn.innerHTML = origText;
+              btn.disabled = false;
+              btn.style.opacity = '1';
+            }, 2500);
+          }
+          logEvent("PDF_DIRECT_DOWNLOAD_SUCCESS");
+        }).catch(err => {
+          console.error("Error generando PDF directo, aplicando fallback:", err);
+          if (btn) {
+            btn.innerHTML = origText;
+            btn.disabled = false;
+            btn.style.opacity = '1';
+          }
+          printClassicDialog();
+        });
+      } else {
+        // Fallback nativo
+        printClassicDialog();
+      }
     }
 
     // =========================================================================
