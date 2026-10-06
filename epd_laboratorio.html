@@ -1326,6 +1326,13 @@
         display: block !important;
       }
 
+      .evidence-panel,
+      .axis-hint-box,
+      .btn-table-modal,
+      .report-nav-footer {
+        display: none !important;
+      }
+
       #finalTicketArea {
         display: block !important;
         border: none !important;
@@ -1357,6 +1364,139 @@
         margin: 1.5cm;
         size: A4 portrait;
       }
+    }
+
+    /* ============================================================== */
+    /* PANEL DE EVIDENCIA EMPÍRICA CALCULADA POR EL ALUMNO (FASE 2)   */
+    /* ============================================================== */
+    .evidence-panel {
+      background: var(--menta-soft);
+      border: 1.5px solid var(--salvia-light);
+      border-radius: var(--radius-sm);
+      padding: 18px 22px;
+      margin-bottom: 24px;
+    }
+
+    .evidence-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .evidence-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--pino);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .evidence-intro {
+      font-size: 0.88rem;
+      color: var(--tinta);
+      margin-bottom: 14px;
+      line-height: 1.45;
+    }
+
+    .btn-table-modal {
+      background: #FFFFFF;
+      color: var(--pino);
+      border: 1.5px solid var(--salvia);
+      padding: 7px 15px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .btn-table-modal:hover {
+      background: var(--menta-mid);
+      border-color: var(--pino);
+    }
+
+    .evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+    }
+
+    .evidence-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 12px 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .evidence-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--salvia);
+      letter-spacing: 0.4px;
+      margin-bottom: 4px;
+    }
+
+    .evidence-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--pino);
+      margin-bottom: 4px;
+    }
+
+    .evidence-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+      margin-bottom: 6px;
+    }
+
+    .evidence-dest {
+      font-size: 0.75rem;
+      color: var(--coral-hover);
+      font-weight: 600;
+      padding-top: 4px;
+      border-top: 1px dashed var(--border-subtle);
+    }
+
+    /* PÍLDORAS CONTEXTUALES DENTRO DE LOS EJES */
+    .axis-hint-box {
+      background: #FFFFFF;
+      border-left: 3.5px solid var(--coral);
+      border-radius: 0 6px 6px 0;
+      padding: 10px 14px;
+      margin: 10px 0 12px 0;
+      font-size: 0.84rem;
+      color: var(--tinta);
+      line-height: 1.45;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+
+    .axis-hint-box strong {
+      color: var(--pino);
+    }
+
+    .hint-calc-tag {
+      background: var(--menta-mid);
+      color: var(--pino);
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--salvia-light);
     }
   </style>
 </head>
@@ -1825,7 +1965,7 @@
             <button class="btn-audit" onclick="goToStep(1);">
               ⬅️ Volver a Fase 0 (Instrucciones y Sondeo)
             </button>
-            <button class="btn btn-primary" onclick="goToStep(3);">
+            <button class="btn btn-primary" onclick="proceedToReport();">
               Proceder a la Redacción del Informe (Entregable 1) ➔
             </button>
           </div>
@@ -1851,6 +1991,54 @@
             ⚠️ <strong>Aviso de Autoría Individual:</strong> Para garantizar tu propio proceso reflexivo y el aprendizaje en RRLL, redacta tus respuestas directamente desde el teclado.
           </div>
 
+          <!-- PANEL DE EVIDENCIA EMPÍRICA CALCULADA POR EL ALUMNO (FASE 1) -->
+          <div id="empiricalEvidencePanel" class="evidence-panel">
+            <div class="evidence-header">
+              <div class="evidence-title">
+                <span>🧮 Evidencia Cuantitativa de tu Colectivo (Cálculos de la Fase 1)</span>
+              </div>
+              <button type="button" class="btn-table-modal" onclick="openTableModal();">
+                🔍 Ver Tabla Multiescala Completa
+              </button>
+            </div>
+            <p class="evidence-intro">
+              A continuación se resumen los <strong>indicadores oficiales que has calculado y validado</strong> en el taller cuantitativo. Utilízalos como evidencia obligatoria para argumentar tus respuestas en los 4 ejes:
+            </p>
+            <div class="evidence-grid" id="evidenceCardsGrid">
+              <!-- Tarjeta 1: Tasa de Paro Específica -->
+              <div class="evidence-card">
+                <div class="evidence-badge">Ejercicio 1 · Tasa Específica</div>
+                <div class="evidence-val" id="evidTasaVal">--%</div>
+                <div class="evidence-label" id="evidTasaLabel">Tasa de paro de tu cohorte en Andalucía</div>
+                <div class="evidence-dest">👉 Obligatorio citar en <strong>Eje 1</strong> y <strong>Eje 3</strong></div>
+              </div>
+
+              <!-- Tarjeta 2: Incidencia PLD -->
+              <div class="evidence-card">
+                <div class="evidence-badge">Ejercicio 2 · Incidencia PLD</div>
+                <div class="evidence-val" id="evidPldVal">--%</div>
+                <div class="evidence-label" id="evidPldLabel">Paro prolongado (> 1 año) en tu cohorte</div>
+                <div class="evidence-dest">👉 Obligatorio citar en <strong>Eje 4</strong></div>
+              </div>
+
+              <!-- Tarjeta 3: Variación Decenal -->
+              <div class="evidence-card">
+                <div class="evidence-badge">Ejercicio 3 · Evolución Decenal</div>
+                <div class="evidence-val" id="evidVarVal">--%</div>
+                <div class="evidence-label">Variación del paro andaluz (2014-2024)</div>
+                <div class="evidence-dest">👉 Obligatorio citar en <strong>Eje 2</strong></div>
+              </div>
+
+              <!-- Tarjeta 4: Stock y Peso Total -->
+              <div class="evidence-card">
+                <div class="evidence-badge">Stock EPA · Andalucía 2024</div>
+                <div class="evidence-val" id="evidStockVal">306,9 mil</div>
+                <div class="evidence-label">Parados mayores de 45 años (45,1% del total)</div>
+                <div class="evidence-dest">👉 Obligatorio citar en <strong>Eje 1</strong> y <strong>Eje 2</strong></div>
+              </div>
+            </div>
+          </div>
+
           <!-- Eje 1 -->
           <div class="report-axis-box">
             <div class="report-axis-header">
@@ -1859,6 +2047,9 @@
             </div>
             <div class="report-axis-desc" id="axisDesc1">
               ¿Qué peso representan las personas mayores de 45 años sobre el total de desempleados en Andalucía y por qué la tasa de paro por sí sola oculta la dimensión real del problema frente a la juventud?
+            </div>
+            <div class="axis-hint-box" id="hintAxis1">
+              💡 <strong>Evidencia a contrastar:</strong> Cita la <strong>Tasa de Paro</strong> que calculaste en tu cohorte (<span class="hint-dyn-tp hint-calc-tag">13,9%</span>) y compárala con el volumen absoluto de parados sénior (<strong>306,9 miles</strong> de personas, que absorben el <strong>45,1%</strong> de todo el desempleo andaluz). Contrasta por qué la juventud tiene mayor tasa de paro (<strong>36,4%</strong>) pero mucho menor stock de personas (<strong>142,3 miles</strong>).
             </div>
             <textarea 
               id="textAxis1" 
@@ -1878,6 +2069,9 @@
             <div class="report-axis-desc" id="axisDesc2">
               ¿Cómo ha evolucionado este colectivo en los últimos 10 años? ¿Se ha absorbido el desempleo al mismo ritmo que en otros tramos de edad o muestra señales de histéresis y cronificación?
             </div>
+            <div class="axis-hint-box" id="hintAxis2">
+              💡 <strong>Evidencia a contrastar:</strong> Apóyate en la <strong>Variación Decenal</strong> calculada en el Ejercicio 3 (<span class="hint-dyn-var hint-calc-tag">-51,2%</span>). Explica que el desempleo total cayó a más de la mitad (de 1.395,7 mil a 680,7 mil), pero el peso relativo de los mayores de 45 años subió del <strong>33,1%</strong> (en 2014) al <strong>45,1%</strong> (en 2024), demostrando que la recuperación no absorbió a este grupo al mismo ritmo (cronificación).
+            </div>
             <textarea 
               id="textAxis2" 
               class="axis-textarea" 
@@ -1895,6 +2089,9 @@
             </div>
             <div class="report-axis-desc" id="axisDesc3">
               ¿Presenta este colectivo una situación significativamente más desfavorable en Andalucía que en la media nacional y en la Unión Europea? Justifica con los datos comparados.
+            </div>
+            <div class="axis-hint-box" id="hintAxis3">
+              💡 <strong>Evidencia a contrastar:</strong> Compara la Tasa de Paro de tu cohorte en Andalucía (<span class="hint-dyn-tp hint-calc-tag">13,9%</span>) frente a la media de España (<span class="hint-dyn-es hint-calc-tag">9,8%</span>) y de la Unión Europea (<span class="hint-dyn-ue hint-calc-tag">4,9%</span>). Destaca también la brecha estructural de la tasa general de desempleo (Andalucía <strong>16,3%</strong> vs. España <strong>11,6%</strong> vs. UE-27 <strong>6,0%</strong>).
             </div>
             <textarea 
               id="textAxis3" 
@@ -1914,6 +2111,9 @@
             <div class="report-axis-desc" id="axisDesc4">
               ¿Qué ocurre con la duración del desempleo a medida que se cumplen años? Explica desde la perspectiva de RRLL las causas (obsolescencia, desánimo, reticencia en la selección empresarial).
             </div>
+            <div class="axis-hint-box" id="hintAxis4">
+              💡 <strong>Evidencia a contrastar:</strong> Utiliza la <strong>Incidencia de Paro de Larga Duración</strong> de tu cohorte calculada en el Ejercicio 2 (<span class="hint-dyn-pld hint-calc-tag">58,2%</span>) y el paro de muy larga duración (> 2 años: <span class="hint-dyn-pld24 hint-calc-tag">42,6%</span>). Explica cómo al cumplir años la duración se dispara respecto a la juventud (> 2 años: solo 18,2%) debido a obsolescencia competencial, sesgos de edad en selección y desánimo.
+            </div>
             <textarea 
               id="textAxis4" 
               class="axis-textarea" 
@@ -1932,6 +2132,16 @@
             <button id="btnSubmitDelivery" class="btn btn-coral" onclick="submitFinalDelivery();" disabled>
               🔒 Finalizar y Sellar Entrega Oficial (EPD 1)
             </button>
+          </div>
+
+          <!-- Navegación inferior de seguridad -->
+          <div class="report-nav-footer" style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <button class="btn-audit" onclick="goToStep(2);">
+              ⬅️ Volver a Fase 1 (Taller de Datos y Cálculos)
+            </button>
+            <span style="font-size: 0.82rem; color: var(--text-muted);">
+              💾 Tus respuestas se guardan continuamente en pantalla sin perderse al navegar
+            </span>
           </div>
 
           <!-- Ticket Final de Entrega y Documento Oficial -->
@@ -2170,6 +2380,61 @@
             📊 Abrir Hoja de Telemetría en Vivo (Google Sheets) ↗
           </a>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Consulta Rápida de la Tabla Multiescala Oficial -->
+  <div id="tableModal" class="modal-overlay" style="display: none;">
+    <div class="modal-box" style="max-width: 900px; text-align: left; max-height: 90vh; overflow-y: auto;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 2px solid var(--pino); padding-bottom: 10px;">
+        <h3 style="font-family: 'Outfit', sans-serif; color: var(--pino); font-size: 1.25rem; margin: 0;">
+          📊 Matriz Oficial EPA: Datos Comparados Multiescala
+        </h3>
+        <button class="btn-audit" onclick="closeTableModal();" style="padding: 4px 10px; font-size: 1.1rem;">✕ Cerrar</button>
+      </div>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 14px;">
+        Consulta las cohortes de edad, volúmenes de personas (miles), tasas de paro y duración en desempleo sin abandonar tu informe.
+      </p>
+
+      <div class="data-switch-bar" style="margin-bottom: 12px;">
+        <div class="data-switch-group">
+          <label for="tableModalTerritory">Territorio:</label>
+          <select id="tableModalTerritory" class="data-select" onchange="renderModalTable();">
+            <option value="andalucia">Andalucía</option>
+            <option value="espana">España (Media Nacional)</option>
+            <option value="ue">Unión Europea (UE-27)</option>
+          </select>
+        </div>
+        <div class="data-switch-group">
+          <label for="tableModalYear">Año:</label>
+          <select id="tableModalYear" class="data-select" onchange="renderModalTable();">
+            <option value="2024">2024 (Situación Actual)</option>
+            <option value="2014">2014 (Hace una Década)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="data-table" style="font-size: 0.88rem;">
+          <thead>
+            <tr>
+              <th>Grupo de Edad</th>
+              <th>Parados (miles)</th>
+              <th>Tasa Paro (%)</th>
+              <th>% s/ Total</th>
+              <th>> 1 año (%PLD)</th>
+              <th>> 2 años (%)</th>
+            </tr>
+          </thead>
+          <tbody id="modalTableBody">
+            <!-- Dinámico -->
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 16px; text-align: right;">
+        <button class="btn btn-primary" onclick="closeTableModal();">Volver a la Redacción</button>
       </div>
     </div>
   </div>
@@ -2771,6 +3036,7 @@
       }
 
       updateCalcProgress();
+      renderEmpiricalEvidence();
     }
 
     function updateCalcProgress() {
@@ -2789,6 +3055,16 @@
     // =========================================================================
     // NAVEGACIÓN ENTRE FASES DE LA EPD 1 (STEPPER)
     // =========================================================================
+    function proceedToReport() {
+      const c = currentSession.calcCompleted || {};
+      const completedCount = (c[1] ? 1 : 0) + (c[2] ? 1 : 0) + (c[3] ? 1 : 0);
+      if (completedCount < 3) {
+        const confirmGo = confirm(`⚠️ Atención pedagógica:\nHas validado ${completedCount} de los 3 cálculos del Taller Cuantitativo.\n\nEstos indicadores son la materia prima obligatoria para argumentar tus respuestas en el informe. ¿Deseas pasar a la redacción de todas formas?\n\n(Podrás volver a la Fase 1 en cualquier momento con el botón inferior para completarlos).`);
+        if (!confirmGo) return;
+      }
+      goToStep(3);
+    }
+
     function goToStep(stepNum) {
       document.getElementById('stepSection1').style.display = (stepNum === 1) ? 'block' : 'none';
       document.getElementById('stepSection2').style.display = (stepNum === 2) ? 'block' : 'none';
@@ -2800,10 +3076,98 @@
 
       if (stepNum === 2) {
         renderMultiTable();
+      } else if (stepNum === 3) {
+        renderEmpiricalEvidence();
       }
 
       logEvent("NAVIGATE_STEP", { step: stepNum });
       window.scrollTo({ top: 120, behavior: 'smooth' });
+    }
+
+    // =========================================================================
+    // PANEL DE EVIDENCIA EMPÍRICA Y MODAL DE DATOS
+    // =========================================================================
+    function renderEmpiricalEvidence() {
+      const isCaseA = (currentSession.assignedCase === "A");
+      const c = currentSession.calcCompleted || {};
+      
+      const tpEsperada = isCaseA ? "13,9%" : "13,5%";
+      const pldEsperada = isCaseA ? "58,2%" : "66,8%";
+      const varEsperada = "-51,2%";
+      const cohorteNombre = isCaseA ? "45 a 54 años" : "55 y más años";
+
+      const elTp = document.getElementById('evidTasaVal');
+      const elPld = document.getElementById('evidPldVal');
+      const elVar = document.getElementById('evidVarVal');
+
+      if (elTp) {
+        if (c[1]) {
+          elTp.innerHTML = `<span style="color: var(--success);">${tpEsperada}</span> <span style="font-size: 0.85rem;">✅</span>`;
+        } else {
+          elTp.innerHTML = `<span style="color: var(--warning);">${tpEsperada}</span> <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: normal;">(pendiente)</span>`;
+        }
+      }
+
+      if (elPld) {
+        if (c[2]) {
+          elPld.innerHTML = `<span style="color: var(--success);">${pldEsperada}</span> <span style="font-size: 0.85rem;">✅</span>`;
+        } else {
+          elPld.innerHTML = `<span style="color: var(--warning);">${pldEsperada}</span> <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: normal;">(pendiente)</span>`;
+        }
+      }
+
+      if (elVar) {
+        if (c[3]) {
+          elVar.innerHTML = `<span style="color: var(--success);">${varEsperada}</span> <span style="font-size: 0.85rem;">✅</span>`;
+        } else {
+          elVar.innerHTML = `<span style="color: var(--warning);">${varEsperada}</span> <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: normal;">(pendiente)</span>`;
+        }
+      }
+
+      // Dinámicos en las pistas de los ejes
+      document.querySelectorAll('.hint-dyn-tp').forEach(el => el.textContent = tpEsperada);
+      document.querySelectorAll('.hint-dyn-pld').forEach(el => el.textContent = pldEsperada);
+      document.querySelectorAll('.hint-dyn-var').forEach(el => el.textContent = varEsperada);
+      document.querySelectorAll('.hint-dyn-cohorte').forEach(el => el.textContent = cohorteNombre);
+      document.querySelectorAll('.hint-dyn-es').forEach(el => el.textContent = isCaseA ? "9,8%" : "10,1%");
+      document.querySelectorAll('.hint-dyn-ue').forEach(el => el.textContent = isCaseA ? "4,9%" : "5,2%");
+      document.querySelectorAll('.hint-dyn-pld24').forEach(el => el.textContent = isCaseA ? "42,6%" : "53,4%");
+    }
+
+    function openTableModal() {
+      renderModalTable();
+      document.getElementById('tableModal').style.display = 'flex';
+      logEvent("TABLE_MODAL_OPEN");
+    }
+
+    function closeTableModal() {
+      document.getElementById('tableModal').style.display = 'none';
+    }
+
+    function renderModalTable() {
+      const terr = document.getElementById('tableModalTerritory').value;
+      const yr = document.getElementById('tableModalYear').value;
+      const rows = DB_LABORAL[terr][yr];
+      const tbody = document.getElementById('modalTableBody');
+      tbody.innerHTML = '';
+
+      const targetCohorte = (currentSession.assignedCase === "A") ? "45-54 años" : "55+ años";
+
+      rows.forEach(r => {
+        const tr = document.createElement('tr');
+        if (r.cohorte === targetCohorte && terr === 'andalucia') {
+          tr.className = 'highlight';
+        }
+        tr.innerHTML = `
+          <td><strong>${r.cohorte}</strong></td>
+          <td>${r.paradosMiles.toLocaleString('es-ES')} mil</td>
+          <td>${r.tasaParo.toFixed(1)}%</td>
+          <td>${r.pesoTotal.toFixed(1)}%</td>
+          <td>${r.pld12.toFixed(1)}%</td>
+          <td>${r.pld24.toFixed(1)}%</td>
+        `;
+        tbody.appendChild(tr);
+      });
     }
 
     // =========================================================================
