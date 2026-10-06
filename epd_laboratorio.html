@@ -10,6 +10,10 @@
   <!-- Motor de descarga directa de PDF sin ventana de impresión -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>if (typeof html2pdf === 'undefined') { document.write('<script src="assets/html2pdf.bundle.min.js"><\/script>'); }</script>
+  <!-- Motor de renderizado matemático LaTeX (KaTeX) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
   <style>
     :root {
       --pino: #113927;
@@ -1498,6 +1502,20 @@
       border-radius: 4px;
       border: 1px solid var(--salvia-light);
     }
+
+    /* BANNER DE ENTREGA BLOQUEADA TRAS PDF */
+    .locked-banner {
+      background: #FEF3C7;
+      border: 2px solid #F59E0B;
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      color: #92400E;
+    }
+
+    .katex-display {
+      margin: 8px 0 !important;
+    }
   </style>
 </head>
 <body>
@@ -1519,6 +1537,8 @@
       <div id="userBadge" class="user-badge" style="display: none;">
         <span>Estación:</span>
         <span id="displayUserCode" class="code-highlight">PSLL-EPD-XXXX</span>
+        <span id="autoSaveIndicator" style="font-size: 0.75rem; color: #A7F3D0; margin: 0 4px; display: none;">💾 Guardado</span>
+        <button class="btn-logout" onclick="exportDraftJSON();" title="Descargar copia de tu borrador para abrirlo en otro ordenador" style="background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.4); margin-right: 4px;">💾 Borrador</button>
         <button class="btn-logout" onclick="handleLogout();" title="Cerrar sesión">Salir</button>
       </div>
       <div class="session-timer" id="sessionTimer">⏱️ 00:00</div>
@@ -1590,8 +1610,17 @@
               Entrar al Laboratorio
             </button>
           </form>
-          <div id="firstTimeHint" style="margin-top: 16px; font-size: 0.82rem; text-align: center; color: var(--text-muted);">
+          <div id="firstTimeHint" style="margin-top: 14px; font-size: 0.82rem; text-align: center; color: var(--text-muted);">
             ¿Es tu primera sesión en el laboratorio? <a href="javascript:void(0);" onclick="switchAuthTab('register');" style="color: var(--coral); font-weight: 600; text-decoration: underline;">Obtén tu código EPD aquí</a>.
+          </div>
+          <div style="margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--border-subtle); text-align: center;">
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px;">
+              🔄 ¿Te has cambiado de ordenador o traes un borrador previo?
+            </div>
+            <button type="button" class="btn btn-audit" onclick="document.getElementById('fileDraftInput').click();" style="font-size: 0.82rem; padding: 6px 14px;">
+              📂 Cargar Borrador Portátil (.json)
+            </button>
+            <input type="file" id="fileDraftInput" style="display: none;" accept=".json" onchange="importDraftJSON(event);">
           </div>
         </div>
 
@@ -1877,22 +1906,22 @@
                 <div class="formula-grid">
                   <div class="formula-item">
                     <strong>Tasa de Paro (TP):</strong>
-                    <div class="formula-math">TP = (Parados / Activos) × 100</div>
+                    <div class="formula-math">$$TP = \frac{\text{Parados}}{\text{Población Activa}} \times 100$$</div>
                     <p>Mide la probabilidad de estar en desempleo dentro de la población económicamente activa.</p>
                   </div>
                   <div class="formula-item">
                     <strong>Incidencia Paro Larga Duración (%PLD):</strong>
-                    <div class="formula-math">%PLD = (Parados ≥ 1 año / Total Parados) × 100</div>
+                    <div class="formula-math">$$\%PLD = \frac{\text{Parados } \ge 1\text{ año}}{\text{Total Parados}} \times 100$$</div>
                     <p>Mide el grado de persistencia y pérdida de empleabilidad del colectivo desempleado.</p>
                   </div>
                   <div class="formula-item">
                     <strong>Tasa de Variación Decenal (Δ%):</strong>
-                    <div class="formula-math">Δ% = [(Dato 2024 - Dato 2014) / Dato 2014] × 100</div>
+                    <div class="formula-math">$$\Delta\% = \frac{\text{Dato}_{2024} - \text{Dato}_{2014}}{\text{Dato}_{2014}} \times 100$$</div>
                     <p>Indica el ritmo porcentual de reducción o aumento de una magnitud laboral a 10 años.</p>
                   </div>
                   <div class="formula-item">
                     <strong>Peso Relativo sobre el Total (%):</strong>
-                    <div class="formula-math">%Peso = (Parados Colectivo / Parados Totales) × 100</div>
+                    <div class="formula-math">$$\%\text{Peso} = \frac{\text{Parados del Colectivo}}{\text{Parados Totales}} \times 100$$</div>
                     <p>Calcula la cuota porcentual que absorbe un grupo de edad sobre todo el desempleo.</p>
                   </div>
                 </div>
@@ -2652,6 +2681,11 @@
         const mins = String(Math.floor(currentSession.timeSpentSeconds / 60)).padStart(2, '0');
         const secs = String(currentSession.timeSpentSeconds % 60).padStart(2, '0');
         document.getElementById('sessionTimer').textContent = `⏱️ ${mins}:${secs}`;
+
+        // Autoguardado periódico en segundo plano cada 15 segundos
+        if (currentSession.timeSpentSeconds % 15 === 0 && !currentSession.completed) {
+          autoSaveDraft();
+        }
       }
     }, 1000);
 
@@ -2831,11 +2865,37 @@
       document.getElementById('epd1Workspace').style.display = 'block';
 
       setupAssignedCase();
-      goToStep(1);
+
+      // 1. Comprobar si este alumno YA ha entregado y cerrado oficialmente su informe (Bloqueo post-PDF)
+      const deliveredStr = localStorage.getItem(getDeliveredStorageKey(currentSession.userCode));
+      if (deliveredStr) {
+        try {
+          const dData = JSON.parse(deliveredStr);
+          goToStep(3);
+          showLockedDeliveredView(dData);
+          return;
+        } catch(e) {}
+      }
+
+      // 2. Si no ha entregado, comprobar si tiene borrador guardado en este equipo
+      const draftStr = localStorage.getItem(getDraftStorageKey(currentSession.userCode));
+      if (draftStr) {
+        try {
+          const draft = JSON.parse(draftStr);
+          restoreDraft(draft);
+          showToastRestored();
+        } catch(e) {
+          goToStep(1);
+        }
+      } else {
+        goToStep(1);
+      }
+      renderKaTeXInDocument();
     }
 
     function handleLogout() {
-      if (confirm("¿Deseas cerrar la sesión en este equipo?")) {
+      if (confirm("¿Deseas cerrar la sesión en este equipo?\n\nTu progreso se ha guardado automáticamente en este navegador y podrás recuperarlo al volver a entrar.")) {
+        autoSaveDraft();
         location.reload();
       }
     }
@@ -2944,9 +3004,10 @@
     function toggleFormulaDrawer() {
       const drawer = document.getElementById('formulaDrawerContent');
       const arrow = document.getElementById('formulaArrow');
-      if (drawer.style.display === 'none') {
+      if (drawer.style.display === 'none' || drawer.style.display === '') {
         drawer.style.display = 'block';
         arrow.textContent = '▲';
+        renderKaTeXInDocument();
       } else {
         drawer.style.display = 'none';
         arrow.textContent = '▼';
@@ -2998,16 +3059,16 @@
         const expected = isCaseA ? 13.9 : 13.5;
         if (Math.abs(val - expected) <= 0.25) {
           isCorrect = true;
-          msg = `✅ <strong>¡Exacto!</strong> Aplicando la fórmula oficial $TP = \\frac{${isCaseA ? '172,8' : '134,1'}}{${isCaseA ? '1.243,2' : '993,3'}} \\times 100 = ${expected}\\%$. Fíjate cómo coincide con la columna <em>"Tasa Paro (%)"</em> de la tabla superior. Has demostrado cómo se calcula esta magnitud a partir de los datos brutos de la EPA.`;
+          msg = `✅ <strong>¡Exacto!</strong> Aplicando la fórmula oficial: $$TP = \\frac{${isCaseA ? '172,8' : '134,1'}}{${isCaseA ? '1.243,2' : '993,3'}} \\times 100 = ${expected}\\%$$ Fíjate cómo coincide con la columna <em>"Tasa Paro (%)"</em> de la tabla superior. Has demostrado cómo se calcula esta magnitud a partir de los datos brutos de la EPA.`;
         } else {
-          msg = `❌ <strong>Cálculo inexacto:</strong> Recuerda la fórmula vista en la EB 1: $TP = (\\text{Parados} / \\text{Activos}) \\times 100$. Divide ${isCaseA ? '172,8' : '134,1'} entre ${isCaseA ? '1.243,2' : '993,3'} y multiplica por 100.`;
+          msg = `❌ <strong>Cálculo inexacto:</strong> Recuerda la fórmula vista en la EB 1: $$TP = \\frac{\\text{Parados}}{\\text{Activos}} \\times 100$$ Divide ${isCaseA ? '172,8' : '134,1'} entre ${isCaseA ? '1.243,2' : '993,3'} y multiplica por 100.`;
         }
       } else if (exNum === 2) {
         // Incidencia PLD: Parados >= 1 año / Total Parados * 100
         const expected = isCaseA ? 58.2 : 66.8;
         if (Math.abs(val - expected) <= 0.35) {
           isCorrect = true;
-          msg = `✅ <strong>¡Excelente!</strong> La incidencia del paro de larga duración es del <strong>${expected}%</strong>. Esto confirma la trampa de empleabilidad analizada en la EB 2: más de la mitad de las personas desempleadas del colectivo sénior sufren desempleo prolongado.`;
+          msg = `✅ <strong>¡Excelente!</strong> La incidencia del paro de larga duración es: $$\\%PLD = \\frac{${isCaseA ? '100,6' : '89,6'}}{${isCaseA ? '172,8' : '134,1'}} \\times 100 = ${expected}\\%$$ Esto confirma la trampa de empleabilidad analizada en la EB 2: más de la mitad de las personas desempleadas del colectivo sénior sufren desempleo prolongado.`;
         } else {
           msg = `❌ <strong>Revisa la operación:</strong> Divide las personas desempleadas de 1 año o más (${isCaseA ? '100,6' : '89,6'}) entre el total de parados del colectivo (${isCaseA ? '172,8' : '134,1'}) y multiplica por 100.`;
         }
@@ -3015,9 +3076,9 @@
         // Variación decenal: (680.7 - 1395.7) / 1395.7 * 100 = -51.2%
         if (Math.abs(val - (-51.2)) <= 0.4 || Math.abs(val - 51.2) <= 0.4 || val === -51 || val === 51) {
           isCorrect = true;
-          msg = `✅ <strong>¡Perfecto!</strong> La reducción decenal del desempleo total en Andalucía ha sido del <strong>-51,2%</strong> (el número de desempleados se ha reducido a más de la mitad respecto a 2014). Este dato te servirá para argumentar el Eje 2 del informe.`;
+          msg = `✅ <strong>¡Perfecto!</strong> La reducción decenal del desempleo total en Andalucía ha sido: $$\\Delta\\% = \\frac{680,7 - 1.395,7}{1.395,7} \\times 100 = -51,2\\%$$ El desempleo total cayó a más de la mitad respecto a 2014. Este dato te servirá para argumentar el Eje 2 del informe.`;
         } else {
-          msg = `❌ <strong>Revisa la fórmula de variación:</strong> $\\Delta\\% = \\frac{680,7 - 1.395,7}{1.395,7} \\times 100$. Recuerda restar el valor inicial (2014) del valor final (2024).`;
+          msg = `❌ <strong>Revisa la fórmula de variación:</strong> $$\\Delta\\% = \\frac{680,7 - 1.395,7}{1.395,7} \\times 100$$ Recuerda restar el valor inicial (2014) del valor final (2024).`;
         }
       }
 
@@ -3035,8 +3096,10 @@
         logEvent("CALC_FAIL", { exercise: exNum, val: val });
       }
 
+      renderKaTeXInElement(feedbackEl);
       updateCalcProgress();
       renderEmpiricalEvidence();
+      autoSaveDraft();
     }
 
     function updateCalcProgress() {
@@ -3236,6 +3299,7 @@
       document.getElementById(`wordsAxis${axisNum}`).textContent = `${words} palabras`;
 
       checkAllAxesComplete();
+      autoSaveDraft();
     }
 
     function checkAllAxesComplete() {
@@ -3277,47 +3341,30 @@
 
       const sealString = `${currentSession.userCode}-${currentSession.username}-${new Date().toISOString()}-${fullText.length}`;
       const hash = generateSHA256Hash(sealString);
-
-      currentSession.completed = true;
-      logEvent("DELIVERY_SUBMITTED", { hash: hash, words: wordCount });
-
-      document.getElementById('displayHash').textContent = hash;
-      document.getElementById('finalTicketArea').style.display = 'block';
-      document.getElementById('btnSubmitDelivery').style.display = 'none';
-
-      // Rellenar Ficha Oficial Imprimible para el Aula Virtual
-      document.getElementById('docMetaStudent').textContent = currentSession.fullName;
-      document.getElementById('docMetaUsername').textContent = currentSession.username;
-      document.getElementById('docMetaCode').textContent = currentSession.userCode;
-      document.getElementById('docMetaCase').textContent = (currentSession.assignedCase === 'A') 
-        ? "Caso A: Tramo 45-54 años (Andalucía vs. España)" 
-        : "Caso B: Tramo 55+ años (Andalucía vs. UE-27)";
-      document.getElementById('docMetaDate').textContent = new Date().toLocaleString('es-ES', { 
+      const deliveryDate = new Date().toLocaleString('es-ES', { 
         dateStyle: 'full', 
         timeStyle: 'medium' 
       });
-      document.getElementById('docMetaHash').textContent = hash;
 
-      // Métricas de Auditoría y Telemetría en el documento
-      const timeStr = document.getElementById('sessionTimer').textContent.replace('⏱️', '').trim();
-      document.getElementById('auditDocTime').textContent = `${timeStr} min`;
-      document.getElementById('auditDocWords').textContent = `${wordCount} palabras`;
-      document.getElementById('auditDocCalc').textContent = "3 de 3 superados ✅";
-      document.getElementById('auditDocPaste').textContent = (currentSession.pasteAttempts === 0)
-        ? "0 alertas de pegado (autoría íntegra constatada)"
-        : `${currentSession.pasteAttempts} intentos de pegado interceptados`;
+      const deliveryData = {
+        username: currentSession.username,
+        userCode: currentSession.userCode,
+        fullName: currentSession.fullName,
+        assignedCase: currentSession.assignedCase,
+        date: deliveryDate,
+        hash: hash,
+        t1: t1,
+        t2: t2,
+        t3: t3,
+        t4: t4,
+        words: wordCount,
+        timeStr: document.getElementById('sessionTimer').textContent.replace('⏱️', '').trim(),
+        pasteAttempts: currentSession.pasteAttempts,
+        completedAt: new Date().toISOString()
+      };
 
-      // Textos del informe
-      document.getElementById('docTextAxis1').textContent = t1;
-      document.getElementById('docTextAxis2').textContent = t2;
-      document.getElementById('docTextAxis3').textContent = t3;
-      document.getElementById('docTextAxis4').textContent = t4;
-
-      // Bloquear textareas
-      document.getElementById('textAxis1').readOnly = true;
-      document.getElementById('textAxis2').readOnly = true;
-      document.getElementById('textAxis3').readOnly = true;
-      document.getElementById('textAxis4').readOnly = true;
+      logEvent("DELIVERY_SUBMITTED", { hash: hash, words: wordCount });
+      markAsDeliveredAndLocked(deliveryData);
 
       window.scrollTo({ top: document.getElementById('finalTicketArea').offsetTop - 40, behavior: 'smooth' });
     }
@@ -3364,6 +3411,10 @@
             }, 2500);
           }
           logEvent("PDF_DIRECT_DOWNLOAD_SUCCESS");
+          // Si por alguna razón no se hubiera sellado, asegura el bloqueo post-PDF
+          if (!currentSession.completed) {
+            submitFinalDelivery();
+          }
         }).catch(err => {
           console.error("Error generando PDF directo, aplicando fallback:", err);
           if (btn) {
@@ -3465,12 +3516,18 @@
         const code = getEPDCode(u);
         const last = parseInt(code.slice(-1)) || 0;
         const caso = (last % 2 === 0) ? "Caso A (45-54)" : "Caso B (55+)";
+        const isDelivered = !!localStorage.getItem(getDeliveredStorageKey(code));
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td><code>${u}</code></td>
           <td>${DB_USERS[u]}</td>
           <td><strong>${code}</strong></td>
           <td>${caso}</td>
+          <td>
+            ${isDelivered 
+              ? `<span style="color: var(--success); font-weight: 700;">Entregado 🔒</span> <button class="btn btn-audit" onclick="unlockStudentDelivery('${code}');" style="padding: 2px 6px; font-size: 0.72rem; margin-left: 6px;">🔓 Desbloquear</button>` 
+              : `<span style="color: var(--text-muted);">En proceso</span>`}
+          </td>
         `;
         tbody.appendChild(tr);
       });
@@ -3510,8 +3567,293 @@
       }
     }
 
+    // =========================================================================
+    // PERSISTENCIA DE SESIÓN, BORRADORES Y BLOQUEO POST-ENTREGA
+    // =========================================================================
+    function getDraftStorageKey(userCode) {
+      return `psll_epd1_draft_${userCode || currentSession.userCode}`;
+    }
+
+    function getDeliveredStorageKey(userCode) {
+      return `psll_epd1_delivered_${userCode || currentSession.userCode}`;
+    }
+
+    function autoSaveDraft() {
+      if (!currentSession.userCode || currentSession.completed) return;
+
+      const draft = {
+        username: currentSession.username,
+        userCode: currentSession.userCode,
+        fullName: currentSession.fullName,
+        assignedCase: currentSession.assignedCase,
+        lastSaved: new Date().toISOString(),
+        timeSpentSeconds: currentSession.timeSpentSeconds,
+        currentStep: (document.getElementById('stepSection3') && document.getElementById('stepSection3').style.display === 'block') ? 3 :
+                     (document.getElementById('stepSection2') && document.getElementById('stepSection2').style.display === 'block') ? 2 : 1,
+        pollChoice: currentSession.pollChoice || null,
+        calcCompleted: currentSession.calcCompleted,
+        calcValues: {
+          1: document.getElementById('calcInput1') ? document.getElementById('calcInput1').value : '',
+          2: document.getElementById('calcInput2') ? document.getElementById('calcInput2').value : '',
+          3: document.getElementById('calcInput3') ? document.getElementById('calcInput3').value : ''
+        },
+        reportAnswers: {
+          axis1: document.getElementById('textAxis1') ? document.getElementById('textAxis1').value : '',
+          axis2: document.getElementById('textAxis2') ? document.getElementById('textAxis2').value : '',
+          axis3: document.getElementById('textAxis3') ? document.getElementById('textAxis3').value : '',
+          axis4: document.getElementById('textAxis4') ? document.getElementById('textAxis4').value : ''
+        }
+      };
+
+      try {
+        localStorage.setItem(getDraftStorageKey(), JSON.stringify(draft));
+        const ind = document.getElementById('autoSaveIndicator');
+        if (ind) {
+          ind.style.display = 'inline';
+          setTimeout(() => { ind.style.display = 'none'; }, 2000);
+        }
+      } catch (e) {
+        console.warn("Error guardando borrador en localStorage", e);
+      }
+    }
+
+    function showToastRestored() {
+      const toast = document.createElement('div');
+      toast.className = 'paste-toast';
+      toast.style.display = 'block';
+      toast.style.backgroundColor = '#ECFDF5';
+      toast.style.borderColor = '#10B981';
+      toast.style.color = '#065F46';
+      toast.innerHTML = `✅ <strong>¡Bienvenido/a de nuevo, ${currentSession.fullName}!</strong> Se ha recuperado automáticamente tu progreso guardado en este equipo.`;
+      const main = document.querySelector('main.container');
+      if (main) {
+        main.insertBefore(toast, main.firstChild);
+        setTimeout(() => { toast.remove(); }, 5000);
+      }
+    }
+
+    function restoreDraft(draft) {
+      if (!draft) return false;
+
+      if (draft.timeSpentSeconds) {
+        currentSession.timeSpentSeconds = draft.timeSpentSeconds;
+      }
+
+      if (draft.calcCompleted) {
+        currentSession.calcCompleted = draft.calcCompleted;
+        for (let i = 1; i <= 3; i++) {
+          if (draft.calcCompleted[i]) {
+            const cardEl = document.getElementById(`calcCard${i}`);
+            const inputEl = document.getElementById(`calcInput${i}`);
+            if (cardEl) cardEl.classList.add('completed');
+            if (inputEl && draft.calcValues && draft.calcValues[i]) {
+              inputEl.value = draft.calcValues[i];
+            }
+          }
+        }
+        updateCalcProgress();
+      }
+
+      if (draft.reportAnswers) {
+        if (draft.reportAnswers.axis1) document.getElementById('textAxis1').value = draft.reportAnswers.axis1;
+        if (draft.reportAnswers.axis2) document.getElementById('textAxis2').value = draft.reportAnswers.axis2;
+        if (draft.reportAnswers.axis3) document.getElementById('textAxis3').value = draft.reportAnswers.axis3;
+        if (draft.reportAnswers.axis4) document.getElementById('textAxis4').value = draft.reportAnswers.axis4;
+
+        handleAxisTyping(1);
+        handleAxisTyping(2);
+        handleAxisTyping(3);
+        handleAxisTyping(4);
+      }
+
+      if (draft.pollChoice) {
+        currentSession.pollChoice = draft.pollChoice;
+        const c = document.getElementById('pollOptionsContainer');
+        const r = document.getElementById('pollResultArea');
+        if (c) c.style.display = 'none';
+        if (r) r.style.display = 'block';
+      }
+
+      renderEmpiricalEvidence();
+      renderKaTeXInDocument();
+
+      if (draft.currentStep && draft.currentStep > 1) {
+        goToStep(draft.currentStep);
+      }
+
+      return true;
+    }
+
+    function exportDraftJSON() {
+      autoSaveDraft();
+      const draftStr = localStorage.getItem(getDraftStorageKey());
+      if (!draftStr) {
+        alert("Aún no tienes respuestas ni cálculos registrados para exportar.");
+        return;
+      }
+
+      const blob = new Blob([draftStr], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `borrador_epd1_${currentSession.username || 'alumno'}_${currentSession.userCode || 'sesion'}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      logEvent("DRAFT_EXPORTED");
+      alert("✅ Borrador descargado con éxito.\n\nGuarda este archivo (.json). Si te cambias de ordenador, solo tienes que cargarlo con el botón 'Cargar Borrador' de la pantalla inicial para continuar exactamente donde lo dejaste.");
+    }
+
+    function importDraftJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const draft = JSON.parse(e.target.result);
+          if (!draft.username || !draft.userCode) {
+            alert("⚠️ El archivo seleccionado no parece ser un borrador válido de la EPD 1.");
+            return;
+          }
+
+          if (!currentSession.userCode) {
+            launchSession(draft.username);
+          }
+
+          restoreDraft(draft);
+          alert(`✅ ¡Borrador restaurado con éxito para ${draft.fullName || draft.username}!\nPuedes continuar tu trabajo normalmente.`);
+          logEvent("DRAFT_IMPORTED", { code: draft.userCode });
+        } catch (err) {
+          alert("Error leyendo el archivo de borrador: " + err.message);
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    }
+
+    function markAsDeliveredAndLocked(deliveryData) {
+      currentSession.completed = true;
+      const key = getDeliveredStorageKey(currentSession.userCode);
+      localStorage.setItem(key, JSON.stringify(deliveryData));
+      
+      // Eliminar borrador temporal editable (ya es entrega final oficial)
+      localStorage.removeItem(getDraftStorageKey(currentSession.userCode));
+      
+      showLockedDeliveredView(deliveryData);
+    }
+
+    function showLockedDeliveredView(data) {
+      // Bloquear textareas y cambiarles el fondo
+      ['textAxis1', 'textAxis2', 'textAxis3', 'textAxis4'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.readOnly = true;
+          el.style.backgroundColor = '#F8FAF8';
+        }
+      });
+
+      const btnSubmit = document.getElementById('btnSubmitDelivery');
+      if (btnSubmit) btnSubmit.style.display = 'none';
+
+      // Insertar o actualizar banner de bloqueo
+      let lockedBanner = document.getElementById('deliveryLockedBanner');
+      if (!lockedBanner) {
+        lockedBanner = document.createElement('div');
+        lockedBanner.id = 'deliveryLockedBanner';
+        lockedBanner.className = 'locked-banner';
+        const card = document.querySelector('#stepSection3 .card');
+        if (card) {
+          card.insertBefore(lockedBanner, card.children[1]);
+        }
+      }
+
+      lockedBanner.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <div style="font-size: 2.2rem;">🔒</div>
+          <div>
+            <h4 style="margin: 0; color: #92400E; font-family: 'Outfit', sans-serif; font-size: 1.15rem;">
+              Entrega Oficial Finalizada y Registrada
+            </h4>
+            <p style="margin: 4px 0 0 0; font-size: 0.88rem; color: #78350F; line-height: 1.45;">
+              Este informe fue sellado el <strong>${data.date || 'recientemente'}</strong> con Sello de Integridad <code>${data.hash}</code>.<br>
+              Por motivos de rigor académico y evaluación continua, <strong>no admite nuevas modificaciones ni reintentos</strong>. Puedes volver a descargar una copia oficial de tu documento a continuación.
+            </p>
+          </div>
+        </div>
+      `;
+
+      // Rellenar Ficha Oficial y Ticket
+      document.getElementById('finalTicketArea').style.display = 'block';
+      document.getElementById('displayHash').textContent = data.hash;
+      document.getElementById('docMetaDate').textContent = data.date;
+      document.getElementById('docMetaHash').textContent = data.hash;
+      document.getElementById('docMetaStudent').textContent = data.fullName || currentSession.fullName;
+      document.getElementById('docMetaUsername').textContent = data.username || currentSession.username;
+      document.getElementById('docMetaCode').textContent = data.userCode || currentSession.userCode;
+      document.getElementById('docMetaCase').textContent = (data.assignedCase === 'A')
+        ? "Caso A: Tramo 45-54 años (Andalucía vs. España)"
+        : "Caso B: Tramo 55+ años (Andalucía vs. UE-27)";
+
+      if (data.t1) {
+        document.getElementById('textAxis1').value = data.t1;
+        document.getElementById('docTextAxis1').textContent = data.t1;
+      }
+      if (data.t2) {
+        document.getElementById('textAxis2').value = data.t2;
+        document.getElementById('docTextAxis2').textContent = data.t2;
+      }
+      if (data.t3) {
+        document.getElementById('textAxis3').value = data.t3;
+        document.getElementById('docTextAxis3').textContent = data.t3;
+      }
+      if (data.t4) {
+        document.getElementById('textAxis4').value = data.t4;
+        document.getElementById('docTextAxis4').textContent = data.t4;
+      }
+
+      handleAxisTyping(1);
+      handleAxisTyping(2);
+      handleAxisTyping(3);
+      handleAxisTyping(4);
+    }
+
+    function renderKaTeXInDocument() {
+      if (typeof renderMathInElement !== 'undefined') {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    function renderKaTeXInElement(el) {
+      if (typeof renderMathInElement !== 'undefined' && el) {
+        renderMathInElement(el, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    function unlockStudentDelivery(userCode) {
+      if (confirm(`¿Estás seguro de que deseas desbloquear y permitir un nuevo reintento para el código ${userCode}?`)) {
+        localStorage.removeItem(getDeliveredStorageKey(userCode));
+        alert(`Entrega desbloqueada para ${userCode}.`);
+        renderAuditUsers();
+      }
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       checkActivationState();
+      setTimeout(renderKaTeXInDocument, 300);
     });
   </script>
 </body>
