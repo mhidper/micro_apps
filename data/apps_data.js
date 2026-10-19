@@ -429,16 +429,16 @@ window.DOCENCIA_APPS = {
       },
       {
         id: "psll_pasivas_sim",
-        interactive: false,
+        interactive: true,
         type: "simulator",
         category: "pasivas",
         icon: "⚖️",
-        iconBg: "#FEF3C7",
-        iconColor: "#D97706",
+        iconBg: "#EAF4EE",
+        iconColor: "#113927",
         title: "La Balanza de la Protección Social",
-        desc: "Dilemas éticos y económicos: ajusta el nivel de protección y evalúa el impacto sobre el déficit y el tiempo de paro.",
-        meta: "Herramienta interactiva · 8 min",
-        session: "Tema 3",
+        desc: "Simulador interactivo del Sistema Dual de Desempleo (SEPE): cálculo de prestaciones contributivas, nivel asistencial y trade-offs de generosidad.",
+        meta: "Simulador interactivo · 10 min",
+        session: "Tema 3 (Sesión 09)",
         url: "balanza_proteccion.html"
       },
       {
