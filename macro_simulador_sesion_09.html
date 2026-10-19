@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Sesión 9 · El Modelo IS-LM Ampliado con Sistema Financiero · Macro UPO</title>
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="theme.css">
+  <style>
+    :root {
+      --navy: #0b1c36;
+      --cobalt: #056caa;
+      --azure: #0776b5;
+      --gold: #d97706;
+      --crimson: #e11d48;
+      --teal: #059669;
+      --indigo: #4338ca;
+      --slate: #64748b;
+      --bg-cream: #faf8f5;
+      --card-border: #e2e8f0;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-cream);
+      color: #1e293b;
+      line-height: 1.55;
+      padding-bottom: 70px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 840px; margin: 0 auto; padding: 0 16px; }
+    
+    /* Header */
+    .intro { padding: 24px 0 12px; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cobalt);
+      margin-bottom: 8px;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 18px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--cobalt), var(--gold));
+      border-radius: 2px;
+    }
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.6rem, 5vw, 2.1rem);
+      line-height: 1.15;
+      color: var(--navy);
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+    .lede { font-size: 0.96rem; color: #475569; margin-bottom: 14px; }
+
+    /* Sticky Hero Panel */
+    .hero {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(250, 248, 245, 0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 10px 0 12px;
+      box-shadow: 0 10px 25px -20px rgba(11, 28, 54, 0.3);
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .kpi-card {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .kpi-label { font-size: 0.70rem; color: var(--slate); text-transform: uppercase; font-weight: 600; margin-bottom: 2px; }
+    .kpi-val { font-family: 'Outfit', sans-serif; font-size: 1.22rem; font-weight: 800; color: var(--navy); }
+    .kpi-sub { font-size: 0.70rem; font-weight: 600; }
+    .kpi-sub.pos { color: var(--teal); }
+    .kpi-sub.neg { color: var(--crimson); }
+    .kpi-sub.neu { color: var(--slate); }
+
+    /* Layout Cards */
+    .card {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-top: 16px;
+      box-shadow: 0 2px 8px rgba(11, 28, 54, 0.04);
+    }
+    .card-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 8px;
+    }
+
+    /* Preset Buttons */
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .btn-preset {
+      appearance: none;
+      border: 1px solid var(--card-border);
+      background: #f8fafc;
+      color: #334155;
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-preset:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+      color: var(--navy);
+    }
+    .btn-preset.active {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: #ffffff;
+    }
+
+    /* Control Sliders */
+    .control-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px 18px;
+    }
+    @media (max-width: 600px) {
+      .control-grid { grid-template-columns: 1fr; }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .ctrl-item { display: flex; flex-direction: column; gap: 4px; }
+    .ctrl-head { display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 600; color: #334155; }
+    .ctrl-val { font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--cobalt); }
+    input[type=range] {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #e2e8f0;
+      outline: none;
+      accent-color: var(--cobalt);
+      cursor: pointer;
+    }
+
+    /* Canvas Chart Container */
+    .canvas-wrap {
+      position: relative;
+      width: 100%;
+      height: 380px;
+      background: #ffffff;
+      border-radius: 8px;
+      border: 1px solid #f1f5f9;
+    }
+    canvas { width: 100%; height: 100%; display: block; }
+
+    /* Alert / Callout Box */
+    .callout {
+      background: #eff6ff;
+      border-left: 4px solid var(--cobalt);
+      padding: 12px 14px;
+      border-radius: 0 8px 8px 0;
+      margin-top: 14px;
+      font-size: 0.88rem;
+      color: #1e3a8a;
+    }
+    .callout.warn {
+      background: #fff1f2;
+      border-left-color: var(--crimson);
+      color: #9f1239;
+    }
+    .callout.gold {
+      background: #fefce8;
+      border-left-color: var(--gold);
+      color: #854d0e;
+    }
+    .callout-title { font-weight: 700; margin-bottom: 3px; display: flex; align-items: center; gap: 6px; }
+
+    /* Mathematical details box */
+    .math-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.83rem;
+      color: #0f172a;
+      line-height: 1.6;
+    }
+    .math-row { display: flex; justify-content: space-between; border-bottom: 1px dashed #e2e8f0; padding: 4px 0; }
+    .math-row:last-child { border-bottom: none; }
+
+    /* Quiz Challenge */
+    .quiz-opt {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: #f8fafc;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-top: 8px;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .quiz-opt:hover { background: #f1f5f9; border-color: #cbd5e1; }
+    .quiz-opt.correct { background: #ecfdf5; border-color: var(--teal); color: #065f46; font-weight: 600; }
+    .quiz-opt.incorrect { background: #fef2f2; border-color: var(--crimson); color: #991b1b; }
+    .quiz-fb { margin-top: 10px; font-size: 0.86rem; padding: 10px; border-radius: 8px; display: none; }
+
+    /* Footer */
+    footer { text-align: center; font-size: 0.78rem; color: var(--slate); margin-top: 30px; }
+  </style>
+</head>
+<body>
+
+  <div class="wrap">
+    <header class="intro">
+      <div class="eyebrow">Macroeconomía UPO · Enseñanzas Básicas</div>
+      <h1>El Modelo IS-LM Ampliado</h1>
+      <p class="lede">Simulador interactivo del sistema financiero: Ecuación de Fisher ($r \approx i - \pi^e$), prima de riesgo crediticia ($x$), desplazamientos de la curva IS y el límite inferior cero (ZLB).</p>
+    </header>
+  </div>
+
+  <!-- Sticky Hero Bar with KPIs -->
+  <div class="hero">
+    <div class="wrap">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Producción Equilibrio (Y*)</div>
+          <div class="kpi-val" id="kpi-Y">1.000</div>
+          <div class="kpi-sub neu" id="kpi-gap">Brecha: 0.0%</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Tipo Real Política (r)</div>
+          <div class="kpi-val" id="kpi-r">0.0%</div>
+          <div class="kpi-sub neu" id="kpi-r-sub">i = 2.0% | πᵉ = 2.0%</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Tipo Endeudamiento (r + x)</div>
+          <div class="kpi-val" id="kpi-rx">2.0%</div>
+          <div class="kpi-sub pos" id="kpi-x-sub">Prima x = +2.0%</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Inversión Privada (I*)</div>
+          <div class="kpi-val" id="kpi-I">190</div>
+          <div class="kpi-sub neu" id="kpi-C">Consumo C = 610</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <!-- Card: Presets -->
+    <div class="card">
+      <div class="card-title">
+        <span>⚡</span> Escenarios Macroeconómicos Predefinidos
+      </div>
+      <div class="btn-group">
+        <button class="btn-preset active" onclick="setPreset('normal')">🏛️ 1. Equilibrio Normal (Pre-crisis)</button>
+        <button class="btn-preset" onclick="setPreset('shock_x')">💥 2. Shock Financiero (+3% prima x)</button>
+        <button class="btn-preset" onclick="setPreset('zlb')">🛑 3. Respuesta BCE al Límite Cero (ZLB)</button>
+        <button class="btn-preset" onclick="setPreset('fiscal')">🛡️ 4. Estímulo Fiscal Contracíclico (+45 G)</button>
+      </div>
+      <p id="preset-desc" style="font-size:0.85rem; color:#475569; margin-top:4px;">
+        Situación estacionaria: El Banco Central fija i = 3.0% con inflación esperada πᵉ = 2.0%, resultando en un tipo real r = 1.0%. La prima de riesgo del crédito a empresas es moderada (x = 1.0%). La economía opera en su nivel inicial de equilibrio (Y₀* = 1.000).
+      </p>
+    </div>
+
+    <!-- Card: Interactive Controls -->
+    <div class="card">
+      <div class="card-title">
+        <span>🎛️</span> Parámetros del Sistema Financiero y Política Económica
+      </div>
+      <div class="control-grid">
+        <div class="ctrl-item">
+          <div class="ctrl-head">
+            <span>Tipo Oficial Nominal BCE (i)</span>
+            <span class="ctrl-val" id="val-i">2.00%</span>
+          </div>
+          <input type="range" id="slider-i" min="-1.0" max="8.0" step="0.25" value="2.0" oninput="updateSim()">
+          <span style="font-size:0.72rem; color:var(--slate);">Tipo de las Operaciones Principales de Financiación (MRO)</span>
+        </div>
+
+        <div class="ctrl-item">
+          <div class="ctrl-head">
+            <span>Inflación Esperada (πᵉ)</span>
+            <span class="ctrl-val" id="val-pie">2.00%</span>
+          </div>
+          <input type="range" id="slider-pie" min="-1.0" max="8.0" step="0.25" value="2.0" oninput="updateSim()">
+          <span style="font-size:0.72rem; color:var(--slate);">Expectativas de inflación a 1 año (Ecuación de Fisher)</span>
+        </div>
+
+        <div class="ctrl-item">
+          <div class="ctrl-head">
+            <span>Prima de Riesgo Crediticia (x)</span>
+            <span class="ctrl-val" id="val-x">1.00%</span>
+          </div>
+          <input type="range" id="slider-x" min="0.0" max="8.0" step="0.25" value="1.0" oninput="updateSim()">
+          <span style="font-size:0.72rem; color:var(--slate);">Diferencial por riesgo de insolvencia y aversión bancaria</span>
+        </div>
+
+        <div class="ctrl-item">
+          <div class="ctrl-head">
+            <span>Gasto Público (G)</span>
+            <span class="ctrl-val" id="val-G">200</span>
+          </div>
+          <input type="range" id="slider-G" min="100" max="350" step="5" value="200" oninput="updateSim()">
+          <span style="font-size:0.72rem; color:var(--slate);">Compras públicas de bienes y servicios</span>
+        </div>
+
+        <div class="ctrl-item">
+          <div class="ctrl-head">
+            <span>Impuestos Netos (T)</span>
+            <span class="ctrl-val" id="val-T">200</span>
+          </div>
+          <input type="range" id="slider-T" min="100" max="350" step="5" value="200" oninput="updateSim()">
+          <span style="font-size:0.72rem; color:var(--slate);">Recaudación neta de transferencias</span>
+        </div>
+
+        <div class="ctrl-item">
+          <div class="ctrl-head">
+            <span>Sensibilidad Inversión al Crédito (d₂)</span>
+            <span class="ctrl-val" id="val-d2">30</span>
+          </div>
+          <input type="range" id="slider-d2" min="10" max="50" step="5" value="30" oninput="updateSim()">
+          <span style="font-size:0.72rem; color:var(--slate);">Respuesta de I ante variaciones en el coste (r + x)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card: Canvas Chart IS-LM Ampliado -->
+    <div class="card">
+      <div class="card-title">
+        <span>📈</span> Diagrama del Modelo IS-LM Ampliado en el Plano (Y, r)
+      </div>
+      <div class="canvas-wrap">
+        <canvas id="chartCanvas"></canvas>
+      </div>
+
+      <div id="callout-msg" class="callout">
+        <div class="callout-title" id="callout-title">ℹ️ Diagnóstico Macroeconómico</div>
+        <div id="callout-text">La economía se encuentra en equilibrio con pleno empleo y estabilidad financiera.</div>
+      </div>
+    </div>
+
+    <!-- Card: Desglose Matemático -->
+    <div class="card">
+      <div class="card-title">
+        <span>📐</span> Anatomía Matemática del Modelo de Blanchard (Cap. 6)
+      </div>
+      <div class="math-box">
+        <div class="math-row">
+          <span>1. Ecuación de Fisher (Tipo Real):</span>
+          <strong>r = i - πᵉ = <span id="m-i">2.00%</span> - <span id="m-pie">2.00%</span> = <span id="m-r">0.00%</span></strong>
+        </div>
+        <div class="math-row">
+          <span>2. Coste del Crédito para Empresas:</span>
+          <strong>r + x = <span id="m-r2">0.00%</span> + <span id="m-x">2.00%</span> = <span id="m-rx">2.00%</span></strong>
+        </div>
+        <div class="math-row">
+          <span>3. Función de Inversión Ampliada:</span>
+          <strong>I = 150 + 0,10·Y - <span id="m-d2">25</span>·(r + x) = <span id="m-I">190.0</span></strong>
+        </div>
+        <div class="math-row">
+          <span>4. Multiplicador Keynesiano Ampliado (α):</span>
+          <strong>α = 1 / (1 - c₁ - d₁) = 1 / (1 - 0.60 - 0.10) = 3.33</strong>
+        </div>
+        <div class="math-row">
+          <span>5. Producción de Equilibrio (Y*):</span>
+          <strong>Y* = α · [c₀ - c₁T + d₀ + G - d₂(r+x)] = <span id="m-Y">1.000.0</span></strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card: Reto y Micro-Quiz -->
+    <div class="card">
+      <div class="card-title">
+        <span>🎯</span> Reto Rápido: Comprensión In Situ de Examen
+      </div>
+      <p style="font-size:0.9rem; font-weight:600; color:#1e293b;">
+        ¿Por qué un banco central que sitúa sus tipos de interés nominales en el cero por ciento (i = 0%) puede ser incapaz de reactivar la inversión privada si se desata un pánico bancario?
+      </p>
+
+      <button class="quiz-opt" onclick="checkQuiz(this, false)">
+        A) Porque cuando i = 0%, la curva IS se vuelve totalmente vertical impidiendo cualquier cambio en el PIB.
+      </button>
+      <button class="quiz-opt" onclick="checkQuiz(this, true)">
+        B) Porque el límite inferior cero impide que el tipo real baje de -πᵉ, y si la prima de riesgo (x) se dispara por desconfianza, el coste real del crédito para las empresas (r + x) sigue siendo prohibitivamente alto.
+      </button>
+      <button class="quiz-opt" onclick="checkQuiz(this, false)">
+        C) Porque el multiplicador del gasto se convierte en negativo cuando los tipos nominales llegan a cero.
+      </button>
+
+      <div id="quiz-feedback" class="quiz-fb"></div>
+    </div>
+
+    <footer>
+      Macroeconomía (Curso 2026-2027) · Grados en Derecho y Finanzas y Contabilidad (DER + FICO)<br>
+      Profesor Manuel A. Hidalgo Pérez · Universidad Pablo de Olavide
+    </footer>
+
+  </div>
+
+  <script>
+    // Parámetros macroeconómicos del modelo
+    const c0 = 130;  // Consumo autónomo
+    const c1 = 0.60; // Propensión marginal a consumir
+    const d0 = 150;  // Inversión autónoma
+    const d1 = 0.10; // Sensibilidad de I a la renta (ventas)
+    const Yn = 1000; // Producción potencial
+
+    let currentPreset = 'normal';
+
+    function getInputs() {
+      return {
+        i: parseFloat(document.getElementById('slider-i').value),
+        pie: parseFloat(document.getElementById('slider-pie').value),
+        x: parseFloat(document.getElementById('slider-x').value),
+        G: parseFloat(document.getElementById('slider-G').value),
+        T: parseFloat(document.getElementById('slider-T').value),
+        d2: parseFloat(document.getElementById('slider-d2').value)
+      };
+    }
+
+    function calcModel(p) {
+      const r = p.i - p.pie;
+      const rx = r + p.x;
+      const alpha = 1 / (1 - c1 - d1); // Multiplicador = 1 / 0.3 = 3.333
+      
+      // Demanda autónoma: A = c0 - c1*T + d0 + G - d2*(r + x)
+      // Nota: r + x está en porcentaje, por convención d2 escala con el porcentaje directo
+      const A = c0 - c1 * p.T + d0 + p.G - p.d2 * rx;
+      const Y = alpha * A;
+      const C = c0 + c1 * (Y - p.T);
+      const I = d0 + d1 * Y - p.d2 * rx;
+      const gap = ((Y - Yn) / Yn) * 100;
+      const zlbActive = p.i <= 0;
+
+      return { r, rx, alpha, A, Y, C, I, gap, zlbActive };
+    }
+
+    function updateSim() {
+      const p = getInputs();
+      const m = calcModel(p);
+
+      // Actualizar valores textuales de controles
+      document.getElementById('val-i').innerText = p.i.toFixed(2) + '%';
+      document.getElementById('val-pie').innerText = p.pie.toFixed(2) + '%';
+      document.getElementById('val-x').innerText = p.x.toFixed(2) + '%';
+      document.getElementById('val-G').innerText = p.G.toFixed(0);
+      document.getElementById('val-T').innerText = p.T.toFixed(0);
+      document.getElementById('val-d2').innerText = p.d2.toFixed(0);
+
+      // Actualizar KPIs
+      const kpiY = document.getElementById('kpi-Y');
+      kpiY.innerText = Math.round(m.Y).toLocaleString('es-ES');
+      if (m.Y < Yn - 25) { kpiY.style.color = 'var(--crimson)'; }
+      else if (m.Y > Yn + 25) { kpiY.style.color = 'var(--teal)'; }
+      else { kpiY.style.color = 'var(--navy)'; }
+
+      const kpiGap = document.getElementById('kpi-gap');
+      kpiGap.innerText = `Brecha: ${m.gap >= 0 ? '+' : ''}${m.gap.toFixed(1)}%`;
+      kpiGap.className = 'kpi-sub ' + (m.gap > 1 ? 'pos' : (m.gap < -1 ? 'neg' : 'neu'));
+
+      document.getElementById('kpi-r').innerText = m.r.toFixed(2) + '%';
+      document.getElementById('kpi-r-sub').innerText = `i = ${p.i.toFixed(1)}% | πᵉ = ${p.pie.toFixed(1)}%`;
+
+      const kpiRx = document.getElementById('kpi-rx');
+      kpiRx.innerText = m.rx.toFixed(2) + '%';
+      kpiRx.style.color = m.rx > 3.5 ? 'var(--crimson)' : 'var(--navy)';
+      document.getElementById('kpi-x-sub').innerText = `Prima x = +${p.x.toFixed(1)}%`;
+
+      document.getElementById('kpi-I').innerText = Math.round(m.I);
+      document.getElementById('kpi-C').innerText = `Consumo C = ${Math.round(m.C)}`;
+
+      // Actualizar Desglose Matemático
+      document.getElementById('m-i').innerText = p.i.toFixed(2) + '%';
+      document.getElementById('m-pie').innerText = p.pie.toFixed(2) + '%';
+      document.getElementById('m-r').innerText = m.r.toFixed(2) + '%';
+      document.getElementById('m-r2').innerText = m.r.toFixed(2) + '%';
+      document.getElementById('m-x').innerText = p.x.toFixed(2) + '%';
+      document.getElementById('m-rx').innerText = m.rx.toFixed(2) + '%';
+      document.getElementById('m-d2').innerText = p.d2.toFixed(0);
+      document.getElementById('m-I').innerText = m.I.toFixed(1);
+      document.getElementById('m-Y').innerText = m.Y.toFixed(1);
+
+      // Diagnóstico / Callout
+      const callBox = document.getElementById('callout-msg');
+      const callTitle = document.getElementById('callout-title');
+      const callText = document.getElementById('callout-text');
+
+      if (p.x >= 4.0 && m.Y < 920) {
+        callBox.className = 'callout warn';
+        callTitle.innerHTML = '⚠️ Crisis Crediticia Severa (Credit Crunch)';
+        callText.innerHTML = `La elevada prima de riesgo crediticia (x = ${p.x.toFixed(1)}%) desplaza la curva IS fuertemente hacia la izquierda. El coste real que soportan las empresas (r + x = ${m.rx.toFixed(1)}%) asfixia la inversión privada, desplomando la producción a ${Math.round(m.Y)} (-${Math.abs(m.gap).toFixed(1)}% de brecha).`;
+      } else if (p.i <= 0.0) {
+        callBox.className = 'callout gold';
+        callTitle.innerHTML = '🛑 Trampa del Límite Inferior Cero (ZLB)';
+        callText.innerHTML = `El tipo de interés nominal del Banco Central ha tocado suelo (i = 0.0%). Con una inflación esperada del ${p.pie.toFixed(1)}%, el tipo real no puede reducirse más allá de ${(-p.pie).toFixed(1)}%. La política monetaria convencional ha agotado su munición.`;
+      } else if (m.gap > 3.0) {
+        callBox.className = 'callout';
+        callTitle.innerHTML = '🔥 Expansión Fuerte de la Demanda';
+        callText.innerHTML = `La producción efectiva supera el nivel inicial de referencia (${Math.round(m.Y)} vs. ${Yn}). El tirón de la demanda y el crédito barato impulsan la actividad económica por encima del equilibrio de partida.`;
+      } else {
+        callBox.className = 'callout';
+        callTitle.innerHTML = 'ℹ️ Estabilidad Macroeconómica';
+        callText.innerHTML = `La economía opera en torno a su nivel inicial de equilibrio (Y₀* ≈ 1.000). El coste del crédito empresarial está bien alineado con el rendimiento del capital.`;
+      }
+
+      drawChart(p, m);
+    }
+
+    function drawChart(p, m) {
+      const canvas = document.getElementById('chartCanvas');
+      const ctx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+
+      const w = rect.width;
+      const h = rect.height;
+
+      ctx.clearRect(0, 0, w, h);
+
+      const padL = 65, padR = 40, padT = 30, padB = 45;
+      const plotW = w - padL - padR;
+      const plotH = h - padT - padB;
+
+      // Rangos de los ejes
+      const minX = 650, maxX = 1250;
+      const minY = -3.5, maxY = 7.5;
+
+      function toX(val) { return padL + ((val - minX) / (maxX - minX)) * plotW; }
+      function toY(val) { return padT + ((maxY - val) / (maxY - minY)) * plotH; }
+
+      // 1. ZLB Shading (r < -pie)
+      const r_zlb = -p.pie;
+      const y_zlb = toY(r_zlb);
+      ctx.fillStyle = 'rgba(225, 29, 72, 0.06)';
+      ctx.fillRect(padL, y_zlb, plotW, toY(minY) - y_zlb);
+
+      ctx.strokeStyle = '#fca5a5';
+      ctx.lineWidth = 1.2;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(padL, y_zlb);
+      ctx.lineTo(padL + plotW, y_zlb);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.fillStyle = '#b91c1c';
+      ctx.font = '600 10px Inter, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(`Límite Inferior Cero (ZLB): r_mín = -πᵉ (${r_zlb.toFixed(1)}%)`, padL + 8, y_zlb - 5);
+
+      // 2. Grid lines
+      ctx.strokeStyle = '#f1f5f9';
+      ctx.lineWidth = 1;
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '10px Inter, sans-serif';
+
+      for (let r_val = -2; r_val <= 6; r_val += 2) {
+        const yCoord = toY(r_val);
+        ctx.beginPath();
+        ctx.moveTo(padL, yCoord);
+        ctx.lineTo(padL + plotW, yCoord);
+        ctx.stroke();
+        ctx.textAlign = 'right';
+        ctx.fillText(r_val + '%', padL - 8, yCoord + 3);
+      }
+
+      for (let y_val = 700; y_val <= 1200; y_val += 100) {
+        const xCoord = toX(y_val);
+        ctx.beginPath();
+        ctx.moveTo(xCoord, padT);
+        ctx.lineTo(xCoord, padT + plotH);
+        ctx.stroke();
+        ctx.textAlign = 'center';
+        ctx.fillText(y_val, xCoord, padT + plotH + 16);
+      }
+
+      // Eje vertical en Y_n (1000)
+      const xYn = toX(Yn);
+      ctx.strokeStyle = '#cbd5e1';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([2, 2]);
+      ctx.beginPath();
+      ctx.moveTo(xYn, padT);
+      ctx.lineTo(xYn, padT + plotH);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#64748b';
+      ctx.textAlign = 'center';
+      ctx.fillText('Y₀* (Inicial)', xYn, padT - 8);
+
+      // 3. Ejes principales
+      ctx.strokeStyle = '#0b1c36';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(padL, padT);
+      ctx.lineTo(padL, padT + plotH);
+      ctx.lineTo(padL + plotW, padT + plotH);
+      ctx.stroke();
+
+      // Etiquetas de ejes
+      ctx.fillStyle = '#0b1c36';
+      ctx.font = 'bold 11px Outfit, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Producción / Renta (Y)', padL + plotW / 2, padT + plotH + 34);
+
+      ctx.save();
+      ctx.translate(18, padT + plotH / 2);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillText('Tipo de Interés Real de Política (r)', 0, 0);
+      ctx.restore();
+
+      // 4. Curva IS Inicial / Referencia (con x = 2%)
+      const alpha = 1 / (1 - c1 - d1);
+      function isFunc(r_arg, x_arg, g_arg, t_arg, d2_arg) {
+        return alpha * (c0 - c1 * t_arg + d0 + g_arg - d2_arg * (r_arg + x_arg));
+      }
+
+      // Trazo de la curva IS de referencia (G=200, T=200, x=2%, d2=25)
+      ctx.strokeStyle = '#cbd5e1';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([5, 5]);
+      ctx.beginPath();
+      for (let r_val = -3; r_val <= 7; r_val += 0.5) {
+        const y_calc = isFunc(r_val, 2.0, 200, 200, 25);
+        const px = toX(y_calc);
+        const py = toY(r_val);
+        if (r_val === -3) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // 5. Curva IS Actual (con parámetros del usuario)
+      ctx.strokeStyle = '#056caa';
+      ctx.lineWidth = 3.2;
+      ctx.beginPath();
+      for (let r_val = -3; r_val <= 7; r_val += 0.5) {
+        const y_calc = isFunc(r_val, p.x, p.G, p.T, p.d2);
+        const px = toX(y_calc);
+        const py = toY(r_val);
+        if (r_val === -3) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+
+      // Etiqueta de la curva IS
+      const isTopY = 6.0;
+      const isTopX = toX(isFunc(isTopY, p.x, p.G, p.T, p.d2));
+      ctx.fillStyle = '#056caa';
+      ctx.font = 'bold 11px Outfit, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(`IS [r + x = r + ${p.x.toFixed(1)}%]`, isTopX + 8, toY(isTopY));
+
+      // 6. Curva LM Horizontal: r = p.i - p.pie
+      const pyLM = toY(m.r);
+      ctx.strokeStyle = '#4338ca';
+      ctx.lineWidth = 3.2;
+      ctx.beginPath();
+      ctx.moveTo(padL, pyLM);
+      ctx.lineTo(padL + plotW, pyLM);
+      ctx.stroke();
+
+      ctx.fillStyle = '#4338ca';
+      ctx.font = 'bold 11px Outfit, sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText(`LM (r̄ = ${m.r.toFixed(1)}%)`, padL + plotW - 8, pyLM - 6);
+
+      // 7. Punto de Equilibrio E* (m.Y, m.r)
+      const pxE = toX(m.Y);
+      const pyE = toY(m.r);
+
+      // Líneas de proyección punteadas
+      ctx.strokeStyle = '#94a3b8';
+      ctx.lineWidth = 1.2;
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath();
+      ctx.moveTo(pxE, pyE);
+      ctx.lineTo(pxE, padT + plotH);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(pxE, pyE);
+      ctx.lineTo(padL, pyE);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Círculo de equilibrio
+      ctx.fillStyle = '#d97706';
+      ctx.strokeStyle = '#0b1c36';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(pxE, pyE, 6.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#0b1c36';
+      ctx.font = 'bold 11px Outfit, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(`E* (${Math.round(m.Y)}, ${m.r.toFixed(1)}%)`, pxE + 10, pyE - 6);
+    }
+
+    function setPreset(key) {
+      currentPreset = key;
+      const desc = document.getElementById('preset-desc');
+      const btns = document.querySelectorAll('.btn-preset');
+      btns.forEach(b => b.classList.remove('active'));
+
+      if (key === 'normal') {
+        btns[0].classList.add('active');
+        document.getElementById('slider-i').value = 3.0;
+        document.getElementById('slider-pie').value = 2.0;
+        document.getElementById('slider-x').value = 1.0;
+        document.getElementById('slider-G').value = 200;
+        document.getElementById('slider-T').value = 200;
+        document.getElementById('slider-d2').value = 30;
+        desc.innerHTML = '<strong>1. Equilibrio Normal:</strong> El BCE fija i = 3.0% con πᵉ = 2.0% ⟹ r = 1.0%. La prima de riesgo es moderada (x = 1.0%) y el coste de endeudamiento es r + x = 2.0%. La economía opera en su producción de equilibrio inicial (Y₀* = 1.000).';
+      } else if (key === 'shock_x') {
+        btns[1].classList.add('active');
+        document.getElementById('slider-i').value = 3.0;
+        document.getElementById('slider-pie').value = 2.0;
+        document.getElementById('slider-x').value = 4.0; // Shock de 300 pb
+        document.getElementById('slider-G').value = 200;
+        document.getElementById('slider-T').value = 200;
+        document.getElementById('slider-d2').value = 30;
+        desc.innerHTML = '<strong>2. Shock Financiero (Pánico Bancario):</strong> Dudas de solvencia disparan la prima de riesgo a x = 4.0% (+300 pb). Aunque el BCE no toque tipos (r = 1%), el coste del crédito para familias y pymes sube al 5.0%, hundiendo la inversión y desplazando la IS a la izquierda (Y cae a 700).';
+      } else if (key === 'zlb') {
+        btns[2].classList.add('active');
+        document.getElementById('slider-i').value = 0.0; // Recorte a cero
+        document.getElementById('slider-pie').value = 2.0;
+        document.getElementById('slider-x').value = 4.0;
+        document.getElementById('slider-G').value = 200;
+        document.getElementById('slider-T').value = 200;
+        document.getElementById('slider-d2').value = 30;
+        desc.innerHTML = '<strong>3. Respuesta Monetaria al ZLB:</strong> El BCE recorta agresivamente su tipo oficial a i = 0.0%, situando el tipo real en r = -2.0%. El coste efectivo del crédito regresa a r + x = 2.0%, restaurando la producción en Y₀* = 1.000 exactamente en el suelo del ZLB.';
+      } else if (key === 'fiscal') {
+        btns[3].classList.add('active');
+        document.getElementById('slider-i').value = 0.0;
+        document.getElementById('slider-pie').value = 2.0;
+        document.getElementById('slider-x').value = 5.0; // Shock severo
+        document.getElementById('slider-G').value = 290; // Estímulo fiscal +90
+        document.getElementById('slider-T').value = 200;
+        document.getElementById('slider-d2').value = 30;
+        desc.innerHTML = '<strong>4. Estímulo Fiscal Contracíclico:</strong> Cuando un pánico severo (x = 5.0%) desborda la política monetaria en el ZLB, el Gobierno interviene aumentando el gasto público (ΔG = +90 M€). La IS se desplaza hacia la derecha, devolviendo la producción a su nivel de equilibrio inicial (Y₀* = 1.000).';
+      }
+
+      updateSim();
+    }
+
+    function checkQuiz(btn, isCorrect) {
+      const parent = btn.parentElement;
+      const opts = parent.querySelectorAll('.quiz-opt');
+      opts.forEach(o => {
+        o.disabled = true;
+        o.classList.remove('correct', 'incorrect');
+      });
+
+      const fb = document.getElementById('quiz-feedback');
+      fb.style.display = 'block';
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+        fb.style.background = '#ecfdf5';
+        fb.style.color = '#065f46';
+        fb.style.border = '1px solid #10b981';
+        fb.innerHTML = '<strong>¡Respuesta Exacta! (Examen UPO):</strong> El Banco Central solo fija el tipo oficial libre de riesgo (i). En el límite cero (i = 0%), el tipo real mínimo posible es r_mín = -πᵉ. Si la prima de riesgo crediticia (x) se eleva bruscamente por miedo a quiebras, el tipo de endeudamiento que afrontan las empresas es r + x. Al no poder bajar más r, la política monetaria queda maniatada y la economía atrapada en recesión.';
+      } else {
+        btn.classList.add('incorrect');
+        opts[1].classList.add('correct');
+        fb.style.background = '#fff1f2';
+        fb.style.color = '#9f1239';
+        fb.style.border = '1px solid #f43f5e';
+        fb.innerHTML = '<strong>Incorrecto.</strong> La opción correcta es la B. La curva IS no se vuelve vertical ni el multiplicador se hace negativo. El problema radica en que el coste del crédito a la economía real es r + x: si x sube más de lo que el Banco Central puede bajar r antes de toparse con el límite cero (i = 0%), la inversión se paraliza.';
+      }
+    }
+
+    window.addEventListener('load', () => {
+      updateSim();
+    });
+    window.addEventListener('resize', () => {
+      updateSim();
+    });
+  </script>
+</body>
+</html>

@@ -660,7 +660,20 @@ window.DOCENCIA_APPS = {
         session: "Sesión 8",
         url: "simulador_sesion_08.html"
       },
-{
+      {
+        id: "macro_sim_sesion09",
+        type: "simulator",
+        category: "simuladores",
+        icon: "💳",
+        iconBg: "#EFF6FF",
+        iconColor: "#056CAA",
+        title: "El Modelo IS-LM Ampliado con Sistema Financiero",
+        desc: "Tipos reales vs. nominales (Fisher), prima de riesgo (x), desplazamientos de la curva IS y el límite inferior cero (ZLB) del Banco Central.",
+        meta: "Simulador interactivo · 15 min",
+        session: "Sesión 9",
+        url: "macro_simulador_sesion_09.html"
+      },
+      {
         id: "macro_real_1",
         type: "quiz",
         category: "real",
