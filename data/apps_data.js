@@ -531,6 +531,19 @@ window.DOCENCIA_APPS = {
         url: "pasaporte_macro.html"
       },
       {
+        id: "macro_examenes_graficos",
+        type: "simulator",
+        category: "evaluacion",
+        icon: "📈",
+        iconBg: "#EFF6FF",
+        iconColor: "#056CAA",
+        title: "Entrenador de Examen: Gráficos y Shocks IS-LM",
+        desc: "Visualizador interactivo de ejercicios de examen: desplazamientos de IS y LM, Policy Mix, shock crediticio y rescate fiscal en el ZLB con rúbricas de corrección.",
+        meta: "Simulador interactivo · Práctica de Examen",
+        session: "Exámenes y Simulacros",
+        url: "macro_examenes_graficos.html"
+      },
+      {
         id: "macro_lab_sesion01",
         type: "simulator",
         category: "simuladores",
