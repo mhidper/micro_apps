@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Entrenador de Examen · Gráficos y Shocks IS-LM · Macro UPO</title>
+  <title>Entrenador de Examen · Preguntas con Resolución Gráfica y Analítica · Macro UPO</title>
   <link rel="stylesheet" href="fonts.css">
   <link rel="stylesheet" href="theme.css">
   <style>
@@ -14,6 +14,7 @@
       --azure: #0776b5;
       --gold: #d97706;
       --gold-light: #fef3c7;
+      --gold-border: #f59e0b;
       --crimson: #e11d48;
       --crimson-light: #ffe4e6;
       --emerald: #059669;
@@ -33,12 +34,12 @@
       background: var(--bg-cream);
       color: #1e293b;
       line-height: 1.5;
-      padding-bottom: 50px;
+      padding-bottom: 60px;
       -webkit-font-smoothing: antialiased;
     }
 
     .wrap {
-      max-width: 1200px;
+      max-width: 1260px;
       margin: 0 auto;
       padding: 0 16px;
     }
@@ -79,7 +80,7 @@
     h1 {
       font-family: 'Outfit', 'Segoe UI', sans-serif;
       font-weight: 800;
-      font-size: clamp(1.4rem, 4vw, 2.0rem);
+      font-size: clamp(1.4rem, 4vw, 1.95rem);
       line-height: 1.2;
       color: #ffffff;
       margin-bottom: 6px;
@@ -88,7 +89,7 @@
     .subtitle {
       font-size: 0.92rem;
       color: #cbd5e1;
-      max-width: 780px;
+      max-width: 820px;
     }
     .badge-upo {
       background: rgba(255, 255, 255, 0.12);
@@ -98,55 +99,83 @@
       font-size: 0.78rem;
       font-weight: 700;
       color: #f8fafc;
-      white-space: nowrap;
-    }
-
-    /* Navegación por Casos de Examen */
-    .cases-nav {
-      background: #ffffff;
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
-      padding: 12px;
-      margin-bottom: 20px;
-      box-shadow: var(--shadow-sm);
-    }
-    .cases-nav-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--slate);
-      margin-bottom: 10px;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 6px;
     }
-    .cases-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+
+    /* Barra de Filtros de Examen */
+    .filter-bar {
+      display: flex;
+      align-items: center;
       gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .filter-label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-right: 4px;
+    }
+    .filter-pill {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      color: var(--navy);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .filter-pill:hover {
+      border-color: var(--cobalt);
+      background: #f0f7ff;
+    }
+    .filter-pill.active {
+      background: var(--cobalt);
+      color: #ffffff;
+      border-color: var(--cobalt);
+      box-shadow: 0 2px 6px rgba(5, 108, 170, 0.25);
+    }
+
+    /* Selector de Preguntas */
+    .case-nav {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 4px 2px 14px;
+      margin-bottom: 20px;
+      scrollbar-width: thin;
     }
     .case-btn {
+      flex: 0 0 auto;
       background: #ffffff;
-      border: 1.5px solid var(--card-border);
-      border-radius: 8px;
-      padding: 10px 12px;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 8px 14px;
       text-align: left;
       cursor: pointer;
       transition: all 0.2s ease;
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 2px;
+      min-width: 170px;
+      box-shadow: var(--shadow-sm);
     }
     .case-btn:hover {
       border-color: var(--cobalt);
-      background: #f0f7ff;
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
     }
     .case-btn.active {
+      background: #f0f7ff;
       border-color: var(--cobalt);
-      background: #e0f2fe;
+      border-width: 2px;
       box-shadow: 0 0 0 2px rgba(5, 108, 170, 0.2);
     }
     .case-btn-tag {
@@ -154,25 +183,182 @@
       font-weight: 800;
       text-transform: uppercase;
       color: var(--cobalt);
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
     .case-btn-title {
       font-size: 0.82rem;
       font-weight: 700;
       color: var(--navy);
       line-height: 1.25;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 220px;
+    }
+    .case-btn-meta {
+      font-size: 0.70rem;
+      color: var(--slate);
     }
 
-    /* Layout principal: 2 columnas */
-    .main-grid {
+    /* Banner de Identificación Oficial de Examen */
+    .exam-id-banner {
+      background: linear-gradient(135deg, #0b1c36 0%, #17325c 100%);
+      color: #ffffff;
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+    .exam-id-left {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .exam-id-source {
+      font-family: 'Outfit', monospace;
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #38bdf8;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .exam-id-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+    .exam-id-badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .tag-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+    .tag-obligatoria {
+      background: #e11d48;
+      color: #ffffff;
+    }
+    .tag-comodin {
+      background: #d97706;
+      color: #ffffff;
+    }
+    .tag-tipo {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    /* Recuadro de Enunciado Oficial */
+    .statement-card {
+      background: #ffffff;
+      border: 2px solid #e2e8f0;
+      border-left: 6px solid var(--cobalt);
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+    .statement-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px dashed #e2e8f0;
+    }
+    .statement-header-title {
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--cobalt);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .statement-body {
+      font-size: 0.94rem;
+      line-height: 1.65;
+      color: #1e293b;
+    }
+    .statement-body em {
+      color: var(--navy);
+      font-weight: 600;
+      font-style: normal;
+      background: #eff6ff;
+      padding: 1px 4px;
+      border-radius: 4px;
+    }
+    .statement-body ul {
+      margin: 8px 0 8px 20px;
+    }
+    .statement-body li {
+      margin-bottom: 4px;
+    }
+
+    /* Pestañas de Navegación de la Solución */
+    .tabs-nav {
+      display: flex;
+      gap: 4px;
+      border-bottom: 2px solid #e2e8f0;
+      margin-bottom: 18px;
+    }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      padding: 10px 18px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.90rem;
+      font-weight: 700;
+      color: var(--slate);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tab-btn:hover {
+      color: var(--cobalt);
+    }
+    .tab-btn.active {
+      color: var(--cobalt);
+      border-bottom-color: var(--cobalt);
+    }
+
+    /* Contenedor de Pestañas */
+    .tab-panel {
+      display: none;
+    }
+    .tab-panel.active {
+      display: block;
+    }
+
+    /* Layout de Simulación: 2 columnas */
+    .sim-grid {
       display: grid;
-      grid-template-columns: 1fr 1.2fr;
+      grid-template-columns: 1fr 1.25fr;
       gap: 20px;
     }
-    @media (max-width: 950px) {
-      .main-grid { grid-template-columns: 1fr; }
+    @media (max-width: 980px) {
+      .sim-grid { grid-template-columns: 1fr; }
     }
 
-    /* Tarjetas */
+    /* Tarjetas Interactivas */
     .card {
       background: #ffffff;
       border: 1px solid var(--card-border);
@@ -199,19 +385,6 @@
       gap: 8px;
     }
 
-    /* Enunciado de Examen */
-    .statement-box {
-      background: #f8fafc;
-      border-left: 4px solid var(--cobalt);
-      border-radius: 4px 8px 8px 4px;
-      padding: 12px 14px;
-      margin-bottom: 14px;
-      font-size: 0.88rem;
-      line-height: 1.5;
-      color: #334155;
-    }
-    .statement-box strong { color: var(--navy); }
-
     /* KPIs de resultados */
     .kpi-row {
       display: grid;
@@ -223,11 +396,11 @@
       background: #ffffff;
       border: 1px solid var(--card-border);
       border-radius: 8px;
-      padding: 8px 10px;
+      padding: 8px 8px;
       text-align: center;
     }
     .kpi-label {
-      font-size: 0.68rem;
+      font-size: 0.67rem;
       font-weight: 700;
       text-transform: uppercase;
       color: var(--slate);
@@ -235,45 +408,78 @@
     }
     .kpi-value {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.15rem;
+      font-size: 1.12rem;
       font-weight: 800;
       color: var(--navy);
     }
     .kpi-delta {
-      font-size: 0.7rem;
+      font-size: 0.70rem;
       font-weight: 700;
     }
     .delta-pos { color: var(--emerald); }
     .delta-neg { color: var(--crimson); }
     .delta-neu { color: var(--slate); }
 
+    /* Presets de Botones Rápidos */
+    .btn-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .btn-action {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      color: var(--navy);
+      padding: 7px 12px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .btn-action:hover {
+      background: #f0f7ff;
+      border-color: var(--cobalt);
+      color: var(--cobalt);
+    }
+    .btn-action.primary {
+      background: var(--cobalt);
+      color: #ffffff;
+      border-color: var(--cobalt);
+    }
+    .btn-action.primary:hover {
+      background: #045282;
+    }
+
     /* Sliders de control */
     .controls-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: 12px;
-      margin-bottom: 14px;
-    }
-    .ctrl-item {
+      margin-bottom: 16px;
       background: #f8fafc;
-      border: 1px solid #e2e8f0;
+      padding: 14px;
       border-radius: 8px;
-      padding: 10px 12px;
+      border: 1px solid #e2e8f0;
     }
-    .ctrl-head {
+    .control-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .control-header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-    }
-    .ctrl-name {
-      font-size: 0.78rem;
+      font-size: 0.80rem;
       font-weight: 700;
-      color: var(--navy);
+      color: #334155;
     }
-    .ctrl-val {
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.88rem;
+    .control-val {
+      font-family: monospace;
       font-weight: 800;
       color: var(--cobalt);
     }
@@ -281,102 +487,32 @@
       width: 100%;
       height: 6px;
       background: #cbd5e1;
-      border-radius: 3px;
+      border-radius: 4px;
       outline: none;
-      -webkit-appearance: none;
-    }
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: var(--cobalt);
+      accent-color: var(--cobalt);
       cursor: pointer;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
     }
 
-    /* Acciones rápidas de examen */
-    .btn-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-    .btn-action {
-      background: #f1f5f9;
-      border: 1px solid var(--card-border);
-      color: var(--navy);
-      font-size: 0.78rem;
-      font-weight: 700;
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-    .btn-action:hover {
-      background: #e2e8f0;
-      border-color: #94a3b8;
-    }
-    .btn-action.primary {
-      background: var(--cobalt);
-      border-color: var(--cobalt);
-      color: #ffffff;
-    }
-    .btn-action.primary:hover {
-      background: #045384;
-    }
-
-    /* Explicación y Solucionario */
-    .solution-box {
-      background: #fffbeb;
-      border: 1px solid #fde68a;
-      border-radius: 8px;
-      padding: 12px 14px;
-      margin-top: 12px;
-      display: none;
-    }
-    .solution-box.open { display: block; }
-    .solution-title {
-      font-size: 0.82rem;
-      font-weight: 800;
-      color: #92400e;
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .solution-text {
-      font-size: 0.8rem;
-      color: #78350f;
-      line-height: 1.45;
-    }
-    .solution-text ul {
-      margin-left: 18px;
-      margin-top: 4px;
-    }
-
-    /* SVG Chart */
+    /* Gráfico SVG */
     .chart-container {
       background: #ffffff;
       border: 1px solid var(--card-border);
       border-radius: var(--radius);
-      padding: 16px;
+      padding: 18px 20px;
       box-shadow: var(--shadow-sm);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
     }
     .chart-title-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 12px;
       flex-wrap: wrap;
       gap: 8px;
     }
     .legend-box {
       display: flex;
       gap: 12px;
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       font-weight: 700;
     }
     .legend-item {
@@ -386,42 +522,172 @@
     }
     .legend-color {
       width: 14px;
-      height: 3px;
+      height: 4px;
       border-radius: 2px;
     }
-
-    svg {
+    #macro-svg {
       width: 100%;
       height: auto;
-      max-height: 480px;
-      display: block;
       background: #ffffff;
+      border: 1px solid #f1f5f9;
       border-radius: 8px;
+      margin-bottom: 10px;
     }
 
-    /* Alerta de Examen */
+    /* Alerta de Trampa de Examen */
     .exam-alert {
-      background: var(--crimson-light);
-      border: 1px solid #fecdd3;
-      border-radius: 8px;
-      padding: 10px 14px;
-      font-size: 0.8rem;
-      color: #9f1239;
+      background: var(--gold-light);
+      border-left: 4px solid var(--gold-border);
+      border-radius: 4px 8px 8px 4px;
+      padding: 12px 14px;
+      margin-top: 14px;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: #78350f;
       display: flex;
+      gap: 10px;
       align-items: flex-start;
-      gap: 8px;
-      margin-top: 10px;
     }
-    .exam-alert strong { color: #881337; }
+
+    /* Pestaña de Resolución Analítica */
+    .analytical-card {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    .step-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid var(--cobalt);
+      border-radius: 6px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+    }
+    .step-header {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .math-block {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin: 10px 0;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.90rem;
+      line-height: 1.6;
+      color: #0f172a;
+      overflow-x: auto;
+    }
+    .math-highlight {
+      font-weight: 800;
+      color: var(--cobalt);
+    }
+
+    /* Pestaña de Rúbrica de Corrección */
+    .rubric-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 0.88rem;
+    }
+    .rubric-table th, .rubric-table td {
+      border: 1px solid #cbd5e1;
+      padding: 10px 14px;
+      text-align: left;
+    }
+    .rubric-table th {
+      background: #f1f5f9;
+      color: var(--navy);
+      font-weight: 800;
+    }
+    .rubric-score-100 { color: var(--emerald); font-weight: 800; }
+    .rubric-score-50 { color: var(--gold); font-weight: 800; }
+    .rubric-score-0 { color: var(--crimson); font-weight: 800; }
+
+    /* Pestaña de Test de Autoevaluación */
+    .quiz-card {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+    }
+    .quiz-question {
+      font-size: 1.0rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .quiz-opt {
+      background: #f8fafc;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .quiz-opt:hover {
+      background: #f0f7ff;
+      border-color: var(--cobalt);
+    }
+    .quiz-opt.selected-correct {
+      background: var(--emerald-light);
+      border-color: var(--emerald);
+      color: #065f46;
+      font-weight: 700;
+    }
+    .quiz-opt.selected-wrong {
+      background: var(--crimson-light);
+      border-color: var(--crimson);
+      color: #9f1239;
+    }
+    .quiz-feedback {
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      display: none;
+      line-height: 1.5;
+    }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct { background: var(--emerald-light); color: #065f46; border: 1px solid #a7f3d0; }
+    .quiz-feedback.wrong { background: var(--crimson-light); color: #9f1239; border: 1px solid #fecdd3; }
 
     /* Footer */
     .app-footer {
       text-align: center;
-      margin-top: 30px;
-      font-size: 0.78rem;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #e2e8f0;
+      font-size: 0.80rem;
       color: var(--slate);
     }
-    .app-footer a { color: var(--cobalt); text-decoration: none; font-weight: 600; }
+    .app-footer a {
+      color: var(--cobalt);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .app-footer a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -430,656 +696,1666 @@
   <div class="wrap">
     <div class="header-content">
       <div>
-        <div class="eyebrow">Macroeconomía · Doble Grado DER + FICO · UPO</div>
-        <h1>Entrenador de Examen: Shocks y Gráficos IS-LM</h1>
-        <p class="subtitle">Laboratorio gráfico interactivo de los ejercicios de examen y simulacros: experimenta con desplazamientos de curvas, decisiones del Banco Central, ZLB y políticas fiscales.</p>
+        <div class="eyebrow">Universidad Pablo de Olavide · Grados en DER + FICO</div>
+        <h1>Entrenador de Examen: Gráficos y Análisis Cuantitativo</h1>
+        <div class="subtitle">
+          Banco vivo de preguntas oficiales de simulacros y exámenes (Sesiones 01 a 09): desplazamientos vs. movimientos de curvas, multiplicadores, Policy Mix, shock de prima de riesgo y trampa ZLB.
+        </div>
       </div>
-      <div class="badge-upo">Prof. Manuel A. Hidalgo</div>
+      <div>
+        <span class="badge-upo">🏛️ Macroeconomía · Código 903029</span>
+      </div>
     </div>
   </div>
 </header>
 
 <div class="wrap">
-  <!-- Selector de Casos de Examen -->
-  <div class="cases-nav">
-    <div class="cases-nav-title"><span>🎯</span> Selecciona un Caso de Examen para Entrenar:</div>
-    <div class="cases-grid">
-      <button class="case-btn active" id="btn-case-1" onclick="loadCase(1)">
-        <span class="case-btn-tag">Caso 1 · Sesión 03 / 06</span>
-        <span class="case-btn-title">Expansión Fiscal y Arrastre (Crowding In)</span>
-      </button>
-      <button class="case-btn" id="btn-case-2" onclick="loadCase(2)">
-        <span class="case-btn-tag">Caso 2 · Sesión 06</span>
-        <span class="case-btn-title">Desequilibrio y Ajuste de Inventarios</span>
-      </button>
-      <button class="case-btn" id="btn-case-3" onclick="loadCase(3)">
-        <span class="case-btn-tag">Caso 3 · Sesión 07</span>
-        <span class="case-btn-title">Conflicto Institucional (Policy Clash)</span>
-      </button>
-      <button class="case-btn" id="btn-case-4" onclick="loadCase(4)">
-        <span class="case-btn-tag">Caso 4 · Sesión 07</span>
-        <span class="case-btn-title">Policy Mix Óptimo de Consolidación</span>
-      </button>
-      <button class="case-btn" id="btn-case-5" onclick="loadCase(5)">
-        <span class="case-btn-tag">Caso 5 · Sesión 09</span>
-        <span class="case-btn-title">Shock Financiero en IS-LM Ampliado</span>
-      </button>
-      <button class="case-btn" id="btn-case-6" onclick="loadCase(6)">
-        <span class="case-btn-tag">Caso 6 · Sesión 09</span>
-        <span class="case-btn-title">La Trampa del Límite Cero (ZLB) y Rescate</span>
-      </button>
+
+  <!-- Barra de Filtros -->
+  <div class="filter-bar">
+    <span class="filter-label">Filtrar por:</span>
+    <button class="filter-pill active" onclick="filterCases('todos')">Todos los Ejercicios (10)</button>
+    <button class="filter-pill" onclick="filterCases('s07')">Simulacro S07 (5)</button>
+    <button class="filter-pill" onclick="filterCases('s09')">Simulacro S09 (5)</button>
+    <button class="filter-pill" onclick="filterCases('cuantitativo')">Problemas Cuantitativos (4)</button>
+    <button class="filter-pill" onclick="filterCases('conceptual')">Preguntas Conceptuales (6)</button>
+  </div>
+
+  <!-- Barra de Navegación de Ejercicios -->
+  <div class="case-nav" id="case-nav-list">
+    <!-- Generado dinámicamente -->
+  </div>
+
+  <!-- Banner de Identificación Oficial de Examen -->
+  <div class="exam-id-banner">
+    <div class="exam-id-left">
+      <div class="exam-id-source" id="exam-source-badge">Simulacro_s07 · Pregunta 2 · Sesión 03</div>
+      <div class="exam-id-title" id="exam-main-title">Movimiento a lo largo de la IS y Canal de la Inversión</div>
+    </div>
+    <div class="exam-id-badges">
+      <span class="tag-badge tag-tipo" id="exam-type-badge">Pregunta Corta (&lt;100 palabras)</span>
+      <span class="tag-badge tag-comodin" id="exam-regime-badge">Sujeta a Comodín</span>
+      <span class="tag-badge tag-tipo" id="exam-model-badge">Modelo IS-LM Convencional</span>
     </div>
   </div>
 
-  <!-- Contenedor Principal: 2 Columnas -->
-  <div class="main-grid">
-    <!-- Columna Izquierda: Enunciado, Controles y Rúbrica -->
-    <div>
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title" id="case-title"><span>📝</span> Caso 1: Expansión Fiscal y Arrastre de la Inversión</div>
-          <span class="badge-upo" id="case-topic" style="background:#f0f7ff; color:var(--cobalt); border-color:#bae6fd;">Tema 2 · IS-LM</span>
-        </div>
+  <!-- Recuadro del Enunciado Oficial de Examen -->
+  <div class="statement-card">
+    <div class="statement-header">
+      <div class="statement-header-title">
+        <span>📜</span> Enunciado Oficial del Examen (Texto Íntegro del Cuadernillo)
+      </div>
+      <div style="font-size:0.75rem; color:var(--slate); font-weight:700;" id="exam-time-estimate">
+        ⏱️ Tiempo sugerido: 4 min
+      </div>
+    </div>
+    <div class="statement-body" id="exam-statement-text">
+      <!-- Inyectado por JS -->
+    </div>
+  </div>
 
-        <!-- Enunciado de Examen -->
-        <div class="statement-box" id="case-statement">
-          <!-- Inyectado por JS -->
-        </div>
+  <!-- Pestañas de Resolución para el Alumno -->
+  <div class="tabs-nav">
+    <button class="tab-btn active" onclick="switchTab('sim')">
+      <span>📊</span> 1. Simulación Gráfica Interactiva
+    </button>
+    <button class="tab-btn" onclick="switchTab('analytical')">
+      <span>📐</span> 2. Resolución Analítica y Cuantitativa
+    </button>
+    <button class="tab-btn" onclick="switchTab('rubric')">
+      <span>📋</span> 3. Criterios de Corrección y Rúbrica Oficial
+    </button>
+    <button class="tab-btn" onclick="switchTab('quiz')">
+      <span>✍️</span> 4. Test de Autocomprobación
+    </button>
+  </div>
 
-        <!-- KPIs Cuantitativos -->
-        <div class="kpi-row">
-          <div class="kpi-cell">
-            <div class="kpi-label">Renta (Y*)</div>
-            <div class="kpi-value" id="kpi-y">7.700</div>
-            <div class="kpi-delta delta-neu" id="kpi-dy">ΔY: 0 M€</div>
+  <!-- ========================================================================= -->
+  <!-- TAB 1: SIMULACIÓN GRÁFICA INTERACTIVA -->
+  <!-- ========================================================================= -->
+  <div class="tab-panel active" id="tab-sim">
+    <div class="sim-grid">
+      <!-- Columna Izquierda: KPIs y Controles -->
+      <div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <span>🎯</span> Indicadores de Equilibrio en Vivo
+            </div>
+            <span style="font-size:0.72rem; font-weight:700; color:var(--slate);" id="sim-model-tag">
+              Plano (Y, i)
+            </span>
           </div>
-          <div class="kpi-cell">
-            <div class="kpi-label" id="kpi-lbl-rate">Tipo (ī)</div>
-            <div class="kpi-value" id="kpi-r">4,00%</div>
-            <div class="kpi-delta delta-neu" id="kpi-dr">Δi: 0 pb</div>
+
+          <!-- Marcadores KPIs -->
+          <div class="kpi-row">
+            <div class="kpi-cell">
+              <div class="kpi-label">Producción (Y*)</div>
+              <div class="kpi-value" id="kpi-y">7.700</div>
+              <div class="kpi-delta delta-neu" id="kpi-dy">ΔY: 0 M€</div>
+            </div>
+            <div class="kpi-cell">
+              <div class="kpi-label" id="kpi-rate-label">Tipo BCE (ī)</div>
+              <div class="kpi-value" id="kpi-rate">4,0%</div>
+              <div class="kpi-delta delta-neu" id="kpi-drate">Δi: 0 pb</div>
+            </div>
+            <div class="kpi-cell">
+              <div class="kpi-label">Inversión (I*)</div>
+              <div class="kpi-value" id="kpi-i">2.035</div>
+              <div class="kpi-delta delta-neu" id="kpi-di">ΔI: 0 M€</div>
+            </div>
+            <div class="kpi-cell">
+              <div class="kpi-label">Saldo (T - G)</div>
+              <div class="kpi-value" id="kpi-sp">+50</div>
+              <div class="kpi-delta delta-neu" id="kpi-dsp">ΔSP: 0 M€</div>
+            </div>
           </div>
-          <div class="kpi-cell">
-            <div class="kpi-label">Inversión (I)</div>
-            <div class="kpi-value" id="kpi-i">2.035</div>
-            <div class="kpi-delta delta-neu" id="kpi-di">ΔI: 0 M€</div>
+
+          <!-- Presets de Shocks del Examen -->
+          <div style="font-size:0.75rem; font-weight:800; text-transform:uppercase; color:var(--slate); margin-bottom:6px;">
+            ⚡ Shocks Preconfigurados de la Pregunta:
           </div>
-          <div class="kpi-cell">
-            <div class="kpi-label">Saldo (T - G)</div>
-            <div class="kpi-value" id="kpi-sp">+50</div>
-            <div class="kpi-delta delta-neu" id="kpi-dsp">ΔSP: 0 M€</div>
-          </div>
-        </div>
-
-        <!-- Botones de Acción de Examen -->
-        <div class="btn-actions" id="case-presets">
-          <!-- Inyectado por JS -->
-        </div>
-
-        <!-- Sliders Dinámicos -->
-        <div class="controls-grid" id="case-controls">
-          <!-- Inyectado por JS -->
-        </div>
-
-        <!-- Botón para alternar Solución Oficial -->
-        <button class="btn-action primary" onclick="toggleSolution()" style="width:100%; padding:10px; font-size:0.85rem;">
-          🔍 Ver Solución Oficial y Rúbrica de Corrección
-        </button>
-
-        <!-- Solucionario Oculto / Desplegable -->
-        <div class="solution-box" id="solution-box">
-          <div class="solution-title"><span>📋</span> Criterios de Corrección y Rúbrica Oficial UPO:</div>
-          <div class="solution-text" id="solution-text">
+          <div class="btn-actions" id="case-presets">
             <!-- Inyectado por JS -->
           </div>
-        </div>
 
-        <!-- Alerta de Trampa de Examen -->
-        <div class="exam-alert" id="exam-alert">
-          <span>⚠️</span>
-          <div id="exam-alert-text">
-            <strong>Trampa Clásica de Examen:</strong> No desplaces la curva LM ante cambios en el gasto público (G). El Banco Central fija el tipo y la LM es horizontal.
+          <!-- Sliders de Modificación Paramétrica -->
+          <div style="font-size:0.75rem; font-weight:800; text-transform:uppercase; color:var(--slate); margin-bottom:6px;">
+            🎛️ Modificación Dinámica de Parámetros:
+          </div>
+          <div class="controls-grid" id="case-controls">
+            <!-- Inyectado por JS -->
+          </div>
+
+          <!-- Alerta de Trampa de Examen -->
+          <div class="exam-alert" id="exam-alert">
+            <span>⚠️</span>
+            <div id="exam-alert-text">
+              <!-- Inyectado por JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna Derecha: Gráfico SVG -->
+      <div>
+        <div class="chart-container">
+          <div class="chart-title-bar">
+            <div class="card-title" id="chart-plane-title">
+              <span>📉</span> Representación Gráfica del Examen
+            </div>
+            <div class="legend-box">
+              <div class="legend-item"><div class="legend-color" style="background:#94a3b8; border-top:1px dashed #64748b;"></div><span>Inicial (E₀)</span></div>
+              <div class="legend-item"><div class="legend-color" style="background:var(--cobalt);"></div><span>Curva IS</span></div>
+              <div class="legend-item"><div class="legend-color" style="background:var(--gold);"></div><span>Curva LM</span></div>
+            </div>
+          </div>
+
+          <svg id="macro-svg" viewBox="0 0 650 430">
+            <!-- Renderizado dinámicamente -->
+          </svg>
+
+          <div style="font-size:0.75rem; color:var(--slate); display:flex; justify-content:space-between; align-items:center;">
+            <span>Ejes normalizados con rigurosidad matemática (Blanchard, 7.ª ed.)</span>
+            <span id="chart-status-badge" style="font-weight:700; color:var(--cobalt);">Equilibrio Estable E₁</span>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Columna Derecha: Gráfico Dinámico SVG -->
-    <div>
-      <div class="chart-container">
-        <div class="chart-title-bar">
-          <div class="card-title" id="chart-plane-title"><span>📉</span> Plano Macroeconómico $(Y, i)$ de Blanchard</div>
-          <div class="legend-box">
-            <div class="legend-item"><div class="legend-color" style="background:#94a3b8; border-top:1px dashed #64748b;"></div><span>Posición Inicial ($E_0$)</span></div>
-            <div class="legend-item"><div class="legend-color" style="background:var(--cobalt);"></div><span>Curva IS</span></div>
-            <div class="legend-item"><div class="legend-color" style="background:var(--gold);"></div><span>Curva LM</span></div>
-          </div>
-        </div>
+  <!-- ========================================================================= -->
+  <!-- TAB 2: RESOLUCIÓN ANALÍTICA Y CUANTITATIVA -->
+  <!-- ========================================================================= -->
+  <div class="tab-panel" id="tab-analytical">
+    <div class="analytical-card" id="analytical-content">
+      <!-- Inyectado por JS -->
+    </div>
+  </div>
 
-        <svg id="macro-svg" viewBox="0 0 650 430">
-          <!-- Ejes, Curvas y Elementos generados dinámicamente por JS -->
-        </svg>
+  <!-- ========================================================================= -->
+  <!-- TAB 3: CRITERIOS DE CORRECCIÓN Y RÚBRICA DOCENTE -->
+  <!-- ========================================================================= -->
+  <div class="tab-panel" id="tab-rubric">
+    <div class="analytical-card" id="rubric-content">
+      <!-- Inyectado por JS -->
+    </div>
+  </div>
 
-        <div style="font-size:0.75rem; color:var(--slate); display:flex; justify-content:space-between; align-items:center;">
-          <span>Visualización conforme a Olivier Blanchard (7.ª ed.)</span>
-          <span id="chart-status-badge" style="font-weight:700; color:var(--cobalt);">Equilibrio Estable</span>
-        </div>
+  <!-- ========================================================================= -->
+  <!-- TAB 4: TEST DE AUTOCOMPROBACIÓN -->
+  <!-- ========================================================================= -->
+  <div class="tab-panel" id="tab-quiz">
+    <div class="quiz-card">
+      <div class="quiz-question" id="quiz-question-text">
+        <!-- Inyectado por JS -->
+      </div>
+      <div class="quiz-options" id="quiz-options-list">
+        <!-- Inyectado por JS -->
+      </div>
+      <div class="quiz-feedback" id="quiz-feedback-box">
+        <!-- Inyectado por JS -->
       </div>
     </div>
   </div>
 
   <footer class="app-footer">
-    Universidad Pablo de Olavide · Grados en Derecho y Finanzas y Contabilidad (DER + FICO)<br>
-    Asignatura: Macroeconomía (Código 903029) · <a href="index.html?subject=macro">Volver al Portal de Micro-Apps</a>
+    Universidad Pablo de Olavide · Facultades de Derecho y Ciencias Empresariales<br>
+    Asignatura: Macroeconomía (Código 903029) · Profesor: Manuel A. Hidalgo Pérez · <a href="index.html?subject=macro">Volver al Portal de Micro-Apps</a>
   </footer>
 </div>
 
 <script>
 // =============================================================================
-// ESTADO GLOBAL Y DEFINICIÓN DE CASOS DE EXAMEN
+// CATÁLOGO COMPLETO DE EJERCICIOS DE EXAMEN (GRÁFICOS + ANALÍTICOS)
 // =============================================================================
 
-let currentCaseId = 1;
-let showSolution = false;
+const EXERCISES_DATABASE = [
+  // ---------------------------------------------------------------------------
+  // EXERCICIO 1
+  // ---------------------------------------------------------------------------
+  {
+    id: 1,
+    simulacro: "s07",
+    category: "s07",
+    type: "conceptual",
+    sourceBadge: "Simulacro_s07 , Pregunta 2, S03",
+    title: "Movimiento a lo largo de la IS y Canal de la Inversión",
+    typeBadge: "Pregunta Corta (<100 palabras)",
+    regimeBadge: "Sujeta a Comodín",
+    regimeClass: "tag-comodin",
+    modelBadge: "Plano (Y, i) · IS-LM",
+    timeEstimate: "⏱️ Tiempo sugerido: 4 min",
+    planeTitle: "Plano Macroeconómico (Y, i) · Movimiento a lo largo de la IS",
+    rateLabel: "Tipo BCE (ī)",
+    statement: "<em>«Si el Banco Central sube los tipos oficiales del 2% al 4%, ¿se desplaza la curva IS hacia la izquierda o nos movemos a lo largo de ella? Explique económicamente a través de qué canal de transmisión la inversión empresarial privada (I) reduce la renta de equilibrio final de la economía.»</em>",
+    alertText: "<strong>¡Trampa Clásica de Examen!</strong> Al ser el tipo de interés (i) la variable representada en el eje vertical, su variación <strong>NUNCA desplaza la curva IS</strong>; provoca un movimiento a lo largo de ella. Desplazar la IS a la izquierda supone calificación de 0 puntos.",
+    initState: { G: 200, T: 250, i: 2.0, baseI: 2.0, c0: 250, c1: 0.70, d0: 150, d1: 0.25, d2: 1000 },
+    presets: [
+      { name: "Punto de Partida (ī = 2,0%)", fn: () => { state.i = 2.0; } },
+      { name: "Subida de Tipos del BCE (ī = 4,0%)", fn: () => { state.i = 4.0; } },
+      { name: "Endurecimiento Severo (ī = 5,5%)", fn: () => { state.i = 5.5; } }
+    ],
+    controls: [
+      { id: "i", label: "🏦 Tipo Oficial del BCE (ī)", min: 1.0, max: 6.0, step: 0.25, unit: " %", key: "i" }
+    ],
+    analytical: `
+      <div class="step-box">
+        <div class="step-header"><span>1️⃣</span> Distinción Metodológica: Movimiento a lo Largo vs. Desplazamiento</div>
+        <p>Al estar la variable <em>i</em> representada explícitamente en el eje vertical del plano <em>(Y, i)</em>, un cambio en la política monetaria del BCE desplaza verticalmente la curva LM hacia arriba (de <em>i = 2%</em> a <em>i = 4%</em>), pero genera un <strong>movimiento a lo largo de la misma curva IS existente</strong> hacia arriba y hacia la izquierda.</p>
+        <div class="math-block">
+          LM₀: i = 2,0%  →  LM₁: i = 4,0%  (Δi = +2,0% = +200 pb)<br/>
+          Curva IS: Y = f(i) permanece INALTERADA.
+        </div>
+      </div>
+      <div class="step-box">
+        <div class="step-header"><span>2️⃣</span> Doble Canal de Transmisión Económica de la Inversión</div>
+        <p>A través de la función de inversión empresarial <em>I = I(Y, i) = d₀ + d₁·Y - d₂·i</em>:</p>
+        <div class="math-block">
+          1. <strong>Canal Directo (Coste Financiero del Capital):</strong><br/>
+          &nbsp;&nbsp;Δi = +0,02  ⇒  ΔI_directo = -d₂ · Δi = -1.000 · (0,02) = <span class="math-highlight">-20 M€</span>.<br/>
+          &nbsp;&nbsp;La subida de tipos encarece la financiación bancaria y eleva el coste de oportunidad del capital propio, cancelando proyectos cuya TIR sea inferior al nuevo tipo.<br/><br/>
+          2. <strong>Efecto Multiplicador sobre la Demanda y las Ventas (Canal Indirecto):</strong><br/>
+          &nbsp;&nbsp;La caída inicial de la inversión reduce la demanda agregada (Z), provocando un recorte de producción:<br/>
+          &nbsp;&nbsp;ΔY = m_IS · ΔI_directo = 20 · (-20) = <span class="math-highlight">-400 M€</span>.<br/>
+          &nbsp;&nbsp;Al contraerse las ventas, las empresas recortan aún más su inversión (ΔI_indirecto = d₁·ΔY = 0,25·(-400) = -100 M€).
+        </div>
+      </div>
+    `,
+    rubric: `
+      <table class="rubric-table">
+        <thead>
+          <tr>
+            <th>Calificación</th>
+            <th>Criterio de Evaluación de la Cátedra</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="rubric-score-100">100% (Sobresaliente)</td>
+            <td>Afirma con rotundidad que es un <strong>movimiento a lo largo de la IS</strong> y explica detalladamente tanto el canal del coste del capital (TIR frente a tipo de interés) como el efecto de arrastre multiplicador sobre las ventas empresariales.</td>
+          </tr>
+          <tr>
+            <td class="rubric-score-50">50% (Aprobado)</td>
+            <td>Identifica correctamente que es un movimiento a lo largo de la curva, pero su explicación del canal de transmisión de la inversión es meramente intuitiva u omite el vínculo formal con la función I = I(Y, i).</td>
+          </tr>
+          <tr>
+            <td class="rubric-score-0">0% (Suspenso)</td>
+            <td><strong>Error descalificante:</strong> Afirma que la curva IS se desplaza hacia la izquierda en bloque, confundiendo una variable endógena del eje (i) con un shock en el gasto autónomo.</td>
+          </tr>
+        </tbody>
+      </table>
+    `,
+    quiz: {
+      question: "¿Por qué una subida de tipos del Banco Central no desplaza la curva IS?",
+      options: [
+        "Porque el tipo de interés es una variable exógena no relacionada con la economía real.",
+        "Porque el tipo de interés ya está representado en el eje de ordenadas (vertical) del plano macroeconómico (Y, i).",
+        "Porque el Banco Central nunca interviene en el mercado de bienes y servicios.",
+        "Porque la inversión privada no depende de los tipos de interés en el modelo de Blanchard."
+      ],
+      correctIndex: 1,
+      feedbackCorrect: "¡Exacto! Cualquier alteración de una variable presente en los ejes (como el tipo de interés i en el eje Y) genera un movimiento a lo largo de la curva, no un desplazamiento de toda la función.",
+      feedbackWrong: "Incorrecto. Recuerda la regla de oro: las variables representadas en los ejes coordenados (Y en abscisas, i en ordenadas) provocan movimientos a lo largo de las curvas; solo los factores exógenos fuera de los ejes (G, T, c0, d0, x) desplazan las curvas."
+    }
+  },
 
-// Estado del simulador
+  // ---------------------------------------------------------------------------
+  // EXERCICIO 2
+  // ---------------------------------------------------------------------------
+  {
+    id: 2,
+    simulacro: "s07",
+    category: "s07",
+    type: "conceptual",
+    sourceBadge: "Simulacro_s07 , Pregunta 5, S06",
+    title: "Dinámica de Ajuste fuera de la IS sobre la Recta LM",
+    typeBadge: "Pregunta Corta (<100 palabras)",
+    regimeBadge: "Sujeta a Comodín",
+    regimeClass: "tag-comodin",
+    modelBadge: "Plano (Y, i) · Desequilibrio",
+    timeEstimate: "⏱️ Tiempo sugerido: 4 min",
+    planeTitle: "Plano Macroeconómico (Y, i) · Acumulación Involuntaria de Existencias",
+    rateLabel: "Tipo BCE (ī)",
+    statement: "<em>«Si las empresas se sitúan a la DERECHA de la curva IS sobre la recta LM fijada por el Banco Central, ¿qué ocurre con sus inventarios y por qué el ajuste de la producción se produce horizontalmente sobre la LM?»</em>",
+    alertText: "<strong>Concepto Clave de Examen:</strong> A la derecha de la curva IS la producción supera a la demanda (Y > Z). La acumulación involuntaria de existencias (I_s > 0) fuerza un recorte de producción horizontal hacia la izquierda sobre la recta LM.",
+    initState: { G: 200, T: 250, i: 4.0, c0: 250, c1: 0.70, d0: 150, d1: 0.25, d2: 1000, Y_obs: 8200 },
+    presets: [
+      { name: "Punto Desequilibrio A (Y = 8.200 M€ > Z)", fn: () => { state.Y_obs = 8200; } },
+      { name: "Ajuste Intermedio (Y = 7.950 M€)", fn: () => { state.Y_obs = 7950; } },
+      { name: "Equilibrio Restablecido (Y* = 7.700 M€)", fn: () => { state.Y_obs = 7700; } }
+    ],
+    controls: [
+      { id: "y_obs", label: "📦 Producción Observada en Planta (Y)", min: 7200, max: 8400, step: 50, unit: " M€", key: "Y_obs" }
+    ],
+    analytical: `
+      <div class="step-box">
+        <div class="step-header"><span>1️⃣</span> Diagnóstico del Desequilibrio en el Mercado de Bienes</div>
+        <p>Cualquier punto situado a la derecha de la curva IS satisface <strong>Y > Z</strong> (la producción real supera la demanda de bienes planeada por consumidores, empresas y Estado).</p>
+        <div class="math-block">
+          Y_observada = 8.200 M€  >  Z = 7.700 M€<br/>
+          Inversión no deseada en existencias: <span class="math-highlight">I_s = Y - Z = +500 M€ &gt; 0</span> (acumulación involuntaria).
+        </div>
+      </div>
+      <div class="step-box">
+        <div class="step-header"><span>2️⃣</span> Mecanismo de Ajuste Horizontal sobre la Recta LM</div>
+        <p>Las empresas observan cómo se llenan sus almacenes de productos no vendidos. En respuesta, revisan a la baja sus programas de producción y despiden mano de obra (ΔY < 0).</p>
+        <div class="math-block">
+          ¿Por qué horizontal? Porque el Banco Central mantiene fijado el tipo oficial en ī = 4,0%.<br/>
+          A medida que la renta se contrae, la demanda de dinero cae, pero el BCE absorbe pasivamente el exceso de liquidez.<br/>
+          El ajuste transcurre estrictamente sobre la recta horizontal de la LM hasta retornar a la IS en Y* = 7.700 M€.
+        </div>
+      </div>
+    `,
+    rubric: `
+      <table class="rubric-table">
+        <thead>
+          <tr>
+            <th>Calificación</th>
+            <th>Criterio de Evaluación de la Cátedra</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="rubric-score-100">100% (Sobresaliente)</td>
+            <td>Identifica con precisión la acumulación involuntaria de existencias (I_s > 0) y razona que el ajuste es horizontal porque el BCE suministra pasivamente la liquidez necesaria para blindar ī.</td>
+          </tr>
+          <tr>
+            <td class="rubric-score-50">50% (Aprobado)</td>
+            <td>Señala que hay sobreproducción pero olvida cuantificar o nombrar la inversión en inventarios/existencias, o no explica por qué el ajuste es horizontal.</td>
+          </tr>
+          <tr>
+            <td class="rubric-score-0">0% (Suspenso)</td>
+            <td>Afirma que los precios bajan inmediatamente (confundiendo el modelo IS-LM de precios fijos a corto plazo con un modelo de oferta y demanda clásica) o dice que los tipos suben.</td>
+          </tr>
+        </tbody>
+      </table>
+    `,
+    quiz: {
+      question: "Si una economía se ubica a la derecha de la IS sobre la LM, ¿qué variable lidera el retorno al equilibrio?",
+      options: [
+        "El tipo de interés, que sube para frenar el exceso de demanda.",
+        "La producción de las empresas (Y), que disminuye para eliminar el exceso de existencias involuntarias.",
+        "El tipo de cambio, que se aprecia para estimular importaciones.",
+        "El gasto público, que aumenta de forma automática por estabilizadores fiscales."
+      ],
+      correctIndex: 1,
+      feedbackCorrect: "¡Correcto! En el modelo de Blanchard, la producción responde a las señales de inventarios: existencias no deseadas (Is > 0) provocan recortes inmediatos de producción.",
+      feedbackWrong: "Incorrecto. En el corto plazo, el tipo de interés está anclado por el BCE (i = ī) y el gasto público es exógeno. Son las empresas las que recortan la producción Y."
+    }
+  },
+
+  // ---------------------------------------------------------------------------
+  // EXERCICIO 3
+  // ---------------------------------------------------------------------------
+  {
+    id: 3,
+    simulacro: "s07",
+    category: "s07",
+    type: "cuantitativo",
+    sourceBadge: "Simulacro_s07 , Problema 7, S02-S03",
+    title: "Mercado de Bienes, Deducción de la IS y Multiplicador",
+    typeBadge: "Problema Numérico Obligatorio",
+    regimeBadge: "100% Obligatoria (Sin Comodín)",
+    regimeClass: "tag-obligatoria",
+    modelBadge: "Deducción Analítica IS",
+    timeEstimate: "⏱️ Tiempo sugerido: 8 min",
+    planeTitle: "Plano Macroeconómico (Y, i) · Deducción y Shock de Inversión",
+    rateLabel: "Tipo BCE (ī)",
+    statement: "<em>Considere una economía cerrada cuyas relaciones de comportamiento vienen descritas por:<br/>" +
+               "• Consumo privado: C = 250 + 0,70·(Y − T)<br/>" +
+               "• Inversión empresarial: I = 150 + 0,25·Y − 1.000·i<br/>" +
+               "• Compras del Estado: G = 200 M€ &nbsp;|&nbsp; Impuestos netos: T = 250 M€<br/>" +
+               "• Tipo fijado por el Banco Central: ī = 4,0% (0,04)<br/>" +
+               "a) Deduzca analíticamente la ecuación explícita de la Curva IS en la forma Y = f(i), identificando el multiplicador (m_IS) y el gasto autónomo.<br/>" +
+               "b) Calcule la producción de equilibrio conjunto (Y*), el volumen de inversión privada (I*) y el saldo presupuestario (SP = T − G).<br/>" +
+               "c) Si la incertidumbre empresarial reduce la inversión autónoma en Δd₀ = −20 M€, calcule la nueva renta (Y**) y razone por qué el saldo presupuestario se mantiene inalterado.</em>",
+    alertText: "<strong>Cálculo Crítico:</strong> El multiplicador con inversión endógena es m_IS = 1 / (1 - c₁ - d₁) = 1 / (1 - 0,70 - 0,25) = <strong>20</strong>. Un shock de Δd₀ = -20 M€ desplaza la renta en ΔY = 20 × (-20) = -400 M€.",
+    initState: { G: 200, T: 250, i: 4.0, c0: 250, c1: 0.70, d0: 150, d1: 0.25, d2: 1000 },
+    presets: [
+      { name: "Apartado b: Equilibrio Inicial (d₀ = 150)", fn: () => { state.d0 = 150; state.i = 4.0; } },
+      { name: "Apartado c: Shock Incertidumbre (Δd₀ = -20 M€)", fn: () => { state.d0 = 130; state.i = 4.0; } }
+    ],
+    controls: [
+      { id: "d0", label: "🏭 Inversión Autónoma (d₀)", min: 100, max: 200, step: 5, unit: " M€", key: "d0" },
+      { id: "i", label: "🏦 Tipo BCE (ī)", min: 1.0, max: 6.0, step: 0.25, unit: " %", key: "i" }
+    ],
+    analytical: `
+      <div class="step-box">
+        <div class="step-header"><span>1️⃣</span> Apartado a) Deducción Formal de la Curva IS</div>
+        <p>Condición de equilibrio en el mercado de bienes: <em>Y = Z = C + I + G</em>.</p>
+        <div class="math-block">
+          Y = [250 + 0,70(Y - 250)] + [150 + 0,25Y - 1.000i] + 200<br/>
+          Y = 250 + 0,70Y - 175 + 150 + 0,25Y - 1.000i + 200<br/>
+          Y = [250 - 175 + 150 + 200] + (0,70 + 0,25)Y - 1.000i<br/>
+          Y = 425 + 0,95Y - 1.000i  ⇒  Y(1 - 0,95) = 425 - 1.000i<br/>
+          0,05·Y = 425 - 1.000i<br/><br/>
+          Multiplicador ampliado: <span class="math-highlight">m_IS = 1 / (1 - 0,70 - 0,25) = 1 / 0,05 = 20,0</span><br/>
+          Ecuación explícita IS: Y = 20 · (425 - 1.000i)  ⇒  <span class="math-highlight">Y = 8.500 - 20.000·i</span>
+        </div>
+      </div>
+      <div class="step-box">
+        <div class="step-header"><span>2️⃣</span> Apartado b) Equilibrio con ī = 4,0% (0,04)</div>
+        <div class="math-block">
+          • Renta de Equilibrio: Y* = 8.500 - 20.000·(0,04) = 8.500 - 800 = <span class="math-highlight">7.700 M€</span><br/>
+          • Inversión Privada: I* = 150 + 0,25·(7.700) - 1.000·(0,04) = 150 + 1.925 - 40 = <span class="math-highlight">2.035 M€</span><br/>
+          • Consumo Privado: C* = 250 + 0,70·(7.700 - 250) = 250 + 5.215 = 5.465 M€<br/>
+          • Comprobación PIB: Z = 5.465 + 2.035 + 200 = 7.700 M€ (exacto)<br/>
+          • Saldo Presupuestario: SP = T - G = 250 - 200 = <span class="math-highlight">+50 M€</span> (Superávit fiscal).
+        </div>
+      </div>
+      <div class="step-box">
+        <div class="step-header"><span>3️⃣</span> Apartado c) Shock de Incertidumbre Empresarial (Δd₀ = -20 M€)</div>
+        <div class="math-block">
+          • Desplazamiento horizontal de la IS: ΔY = m_IS · Δd₀ = 20 × (-20) = <span class="math-highlight">-400 M€</span>.<br/>
+          • Nueva renta de equilibrio: Y** = 7.700 - 400 = <span class="math-highlight">7.300 M€</span>.<br/>
+          • ¿Qué ocurre con el Saldo Presupuestario? Permanece en SP' = 250 - 200 = <span class="math-highlight">+50 M€</span> inalterado, debido a que los impuestos son de suma fija (T = 250) y no dependen de la renta.
+        </div>
+      </div>
+    `,
+    rubric: `
+      <table class="rubric-table">
+        <thead>
+          <tr>
+            <th>Calificación</th>
+            <th>Criterio de Evaluación de la Cátedra</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="rubric-score-100">100% (Sobresaliente)</td>
+            <td>Deducción algebraica impecable paso a paso, valor m_IS = 20, ecuación Y = 8.500 - 20.000i, cálculo correcto de Y* = 7.700 M€, I* = 2.035 M€, y justificación de por qué SP no varía al ser T de suma fija.</td>
+          </tr>
+          <tr>
+            <td class="rubric-score-50">50% (Aprobado)</td>
+            <td>Acierta la renta de equilibrio pero olvida incorporar d₁ en el multiplicador (usando 1/(1-0,70) = 3,33 en lugar de 20) o comete fallos aritméticos al sustituir el 4% (usando 4 en vez de 0,04).</td>
+          </tr>
+          <tr>
+            <td class="rubric-score-0">0% (Suspenso)</td>
+            <td>No sabe plantear la condición Y = C + I + G o mezcla variables de oferta monetaria en el mercado de bienes.</td>
+          </tr>
+        </tbody>
+      </table>
+    `,
+    quiz: {
+      question: "¿Cuál es el valor del multiplicador del gasto autónomo si c1 = 0,70 y d1 = 0,25?",
+      options: [
+        "m_IS = 3,33",
+        "m_IS = 20,0",
+        "m_IS = 4,00",
+        "m_IS = 1,05"
+      ],
+      correctIndex: 1,
+      feedbackCorrect: "¡Brillante! m_IS = 1 / (1 - c1 - d1) = 1 / (1 - 0,70 - 0,25) = 1 / 0,05 = 20.",
+      feedbackWrong: "Incorrecto. La fórmula con inversión endógena sensible a las ventas es 1 / (1 - c1 - d1) = 1 / (1 - 0,95) = 1 / 0,05 = 20."
+    }
+  },
+
+  // ---------------------------------------------------------------------------
+  // EXERCICIO 4
+  // ---------------------------------------------------------------------------
+  {
+    id: 4,
+    simulacro: "s07",
+    category: "s07",
+    type: "conceptual",
+    sourceBadge: "Simulacro_s07 , Pregunta 8, S06-S07",
+    title: "Canales de Transmisión, Crowding In vs Crowding Out y Policy Clash",
+    typeBadge: "Pregunta Conceptual de Gran Desarrollo",
+    regimeBadge: "100% Obligatoria (Sin Comodín)",
+    regimeClass: "tag-obligatoria",
+    modelBadge: "Interacción Institucional",
+    timeEstimate: "⏱️ Tiempo sugerido: 12 min",
+    planeTitle: "Plano Macroeconómico (Y, i) · Policy Clash vs Cooperación",
+    rateLabel: "Tipo BCE (ī)",
+    statement: "<em>Analice detalladamente los mecanismos analíticos y la interacción institucional en el marco IS-LM de Blanchard:<br/>" +
+               "a) Efecto Expulsión (Crowding Out) vs. Arrastre de la Inversión: Compare la visión tradicional de LM con pendiente positiva frente al modelo contemporáneo de LM horizontal a la altura de ī. Justifique analíticamente con I = I(Y, i) por qué en Blanchard la inversión aumenta inequívocamente tras ΔG > 0.<br/>" +
+               "b) Conflicto Institucional (Policy Clash): Explique qué función de reacción del Banco Central provocaría una caída de la inversión privada tras un estímulo fiscal y detalle su representación geométrica.<br/>" +
+               "c) Coordinación Virtuosa mediante Policy Mix: Diseñe la combinación para sanear cuentas públicas (ΔG < 0) blindando la actividad (ΔY = 0) mediante Δī < 0. Valore su impacto sobre la estructura del PIB.</em>",
+    alertText: "<strong>Lección de Examen:</strong> En el modelo tradicional con oferta monetaria fija, ΔG > 0 eleva tipos y expulsa inversión (Crowding Out). Pero en Blanchard, con tipo ī fijado, <strong>Δi = 0 ⇒ ΔI = d₁·ΔY > 0 (Crowding In)</strong>.",
+    initState: { G: 200, T: 250, i: 4.0, c0: 250, c1: 0.70, d0: 150, d1: 0.25, d2: 1000 },
+    presets: [
+      { name: "Equilibrio Inicial (G=200, ī=4%)", fn: () => { state.G = 200; state.i = 4.0; } },
+      { name: "a) Expansión Fiscal Pura (ΔG = +20 M€)", fn: () => { state.G = 220; state.i = 4.0; } },
+      { name: "b) Policy Clash (G = 220, ī = 5,5%)", fn: () => { state.G = 220; state.i = 5.5; } },
+      { name: "c) Policy Mix Saneamiento (G = 180, ī = 3,0%)", fn: () => { state.G = 180; state.i = 3.0; } }
+    ],
+    controls: [
+      { id: "g", label: "🏛️ Política Fiscal (G)", min: 160, max: 250, step: 10, unit: " M€", key: "G" },
+      { id: "i", label: "🏦 Reacción del BCE (ī)", min: 1.5, max: 6.5, step: 0.25, unit: " %", key: "i" }
+    ],
+    analytical: `
+      <div class="step-box">
+        <div class="step-header"><span>1️⃣</span> Apartado a) Por qué no hay Crowding Out en Blanchard</div>
+        <p>En el modelo clásico de curva LM creciente (M fija), el aumento de renta elevaba la demanda de dinero, forzando una subida de tipos de interés que expulsaba la inversión privada.</p>
+        <div class="math-block">
+          En Blanchard (7.ª ed.): El Banco Central fija el tipo de interés en i = ī.<br/>
+          Al aplicar ΔG &gt; 0, la curva IS se desplaza a la derecha. Como Δi = 0:<br/>
+          ΔI = d₁ · ΔY - d₂ · (Δi) = <span class="math-highlight">d₁ · ΔY &gt; 0</span>.<br/>
+          La inversión empresarial aumenta inequívocamente gracias al incremento de ventas (efecto arrastre o <em>Crowding In</em>).
+        </div>
+      </div>
+      <div class="step-box">
+        <div class="step-header"><span>2️⃣</span> Apartado b) Geometría del Policy Clash</div>
+        <p>Si el Banco Central actúa como un 'halcón' y endurece la política monetaria (Δī > 0) para frenar presiones de precios generadas por el déficit:</p>
+        <div class="math-block">
+          • La IS se desplaza hacia la derecha (ΔG &gt; 0).<br/>
+          • La LM se desplaza hacia arriba (Δī &gt; 0).<br/>
+          Efecto neto en la inversión: ΔI = d₁·ΔY - d₂·(Δī). Si la subida de tipos es enérgica, el encarecimiento del crédito supera el efecto ventas y la inversión privada se desploma.
+        </div>
+      </div>
+      <div class="step-box">
+        <div class="step-header"><span>3️⃣</span> Apartado c) Coordinación Virtuosa del Policy Mix</div>
+        <p>Condición de blindaje de la producción: ΔY = m_IS · [ΔG - d₂ · Δī] = 0 ⇒ <strong>Δī = ΔG / d₂</strong>.</p>
+        <div class="math-block">
+          Al sanear cuentas (ΔG &lt; 0), el BCE baja tipos (Δī &lt; 0) en la cuantía exacta para mantener Y constante.<br/>
+          Recomposición del PIB: ΔY = 0 ⇒ ΔC = 0. Como el gasto público cae (ΔG &lt; 0), la inversión privada crece exactamente en la misma magnitud (ΔI = -ΔG &gt; 0).<br/>
+          Se sanea el presupuesto y se potencia la formación bruta de capital para el crecimiento a largo plazo.
+        </div>
+      </div>
+    `,
+    rubric: `
+      <table class="rubric-table">
+        <thead>
+          <tr>
+            <th>Calificación</th>
+            <th>Criterio de Evaluación de la Cátedra</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="rubric-score-100">100% (Sobresaliente)</td>
+            <td>Distingue rigurosamente entre LM clásica vs moderna, formula analíticamente la variación de la inversión dI = d1·dY, grafica el Policy Clash y deduce la condición matemática de sustitución de G por I en el Policy Mix.</td>
+          </tr>
+          <tr>
+            <td class="rubric-score-50">50% (Aprobado)</td>
+            <td>Explica el Crowding In intuitivamente pero no formaliza la función I(Y, i) o no demuestra la recomposición de la demanda en el Policy Mix.</td>
+          </tr>
+          <tr>
+            <td class="rubric-score-0">0% (Suspenso)</td>
+            <td>Afirma que un aumento del gasto público siempre sube los tipos de interés en Blanchard ignorando la regla de tipo de interés fijado.</td>
+          </tr>
+        </tbody>
+      </table>
+    `,
+    quiz: {
+      question: "¿Qué ocurre con la composición del PIB en un Policy Mix donde ΔG < 0 se compensa con Δī < 0 para que ΔY = 0?",
+      options: [
+        "El consumo aumenta y la inversión permanece inalterada.",
+        "El gasto público se reduce y la inversión privada se incrementa en idéntica cuantía, acelerando la capacidad productiva futura.",
+        "Todas las componentes del PIB se reducen simultáneamente.",
+        "El déficit público aumenta debido a la bajada de tipos de interés."
+      ],
+      correctIndex: 1,
+      feedbackCorrect: "¡Perfecto! Como ΔY = 0, el consumo C permanece constante; el recorte de gasto público improductivo (ΔG < 0) es absorbido exactamente por mayor inversión privada (ΔI > 0).",
+      feedbackWrong: "Incorrecto. Si la renta no cambia (ΔY = 0), el consumo no varía. Como Y = C + I + G, si G disminuye, I debe aumentar exactamente en la misma cantidad."
+    }
+  },
+
+  // ---------------------------------------------------------------------------
+  // EXERCICIO 5
+  // ---------------------------------------------------------------------------
+  {
+    id: 5,
+    simulacro: "s07",
+    category: "s07",
+    type: "cuantitativo",
+    sourceBadge: "Simulacro_s07 , Problema 9, S07",
+    title: "Modelo IS-LM Completo, Multiplicadores y Policy Mix Óptimo",
+    typeBadge: "Problema Numérico Obligatorio",
+    regimeBadge: "100% Obligatoria (Sin Comodín)",
+    regimeClass: "tag-obligatoria",
+    modelBadge: "Policy Mix Cuantitativo",
+    timeEstimate: "⏱️ Tiempo sugerido: 10 min",
+    planeTitle: "Plano Macroeconómico (Y, i) · Calibración Numérica del Policy Mix",
+    rateLabel: "Tipo BCE (ī)",
+    statement: "<em>Considere una economía canónica de Blanchard (en millones de euros):<br/>" +
+               "• Consumo privado: C = 300 + 0,65·(Y − T)<br/>" +
+               "• Inversión privada: I = 200 + 0,15·Y − 1.200·i<br/>" +
+               "• Gasto público inicial: G₁ = 350 M€ &nbsp;|&nbsp; Impuestos: T = 300 M€<br/>" +
+               "• Tipo fijado por el BCE: ī₁ = 4,0% (0,04)<br/>" +
+               "a) Determine el multiplicador (m_IS), la renta de equilibrio inicial (Y₁*), la inversión (I₁) y el saldo presupuestario (SP₁ = T − G₁).<br/>" +
+               "b) Para cumplir las reglas fiscales, el Gobierno recorta el gasto en ΔG = −30 M€. Si el BCE no mueve tipos, calcule la nueva renta (Y') y la nueva inversión (I').<br/>" +
+               "c) Diseñe el Policy Mix óptimo: calcule qué reducción exacta del tipo de interés (Δī) debe aplicar el BCE para blindar la actividad (Y₂* = Y₁*). Calcule la inversión final (I₂).</em>",
+    alertText: "<strong>Paso Clave del Policy Mix Óptimo:</strong> Para que ΔY = 0 tras un recorte de ΔG = -30 M€, el BCE debe bajar tipos en <strong>Δī = ΔG / d₂ = -30 / 1.200 = -0,025 (-250 pb)</strong>, bajando del 4,0% al 1,50%.",
+    initState: { G: 350, T: 300, i: 4.0, c0: 300, c1: 0.65, d0: 200, d1: 0.15, d2: 1200 },
+    presets: [
+      { name: "Apartado a: Equilibrio Inicial (G = 350, ī = 4%)", fn: () => { state.G = 350; state.i = 4.0; } },
+      { name: "Apartado b: Austeridad en Solitario (ΔG = -30)", fn: () => { state.G = 320; state.i = 4.0; } },
+      { name: "Apartado c: Policy Mix Óptimo (G = 320, ī = 1,5%)", fn: () => { state.G = 320; state.i = 1.5; } }
+    ],
+    controls: [
+      { id: "g", label: "🏛️ Gasto Público (G)", min: 280, max: 400, step: 5, unit: " M€", key: "G" },
+      { id: "i", label: "🏦 Tipo Oficial BCE (ī)", min: 0.5, max: 6.0, step: 0.25, unit: " %", key: "i" }
+    ],
+    analytical: `
+      <div class="step-box">
+        <div class="step-header"><span>1️⃣</span> Apartado a) Equilibrio Macroeconómico Inicial</div>
+        <div class="math-block">
+          • Multiplicador: m_IS = 1 / (1 - c₁ - d₁) = 1 / (1 - 0,65 - 0,15) = 1 / 0,20 = <span class="math-highlight">5,0</span><br/>
+          • Gasto Autónomo: A = 300 - 0,65(300) + 200 + 350 = 300 - 195 + 550 = 655 M€<br/>
+          • Ecuación Curva IS: Y = 5,0 · (655 - 1.200i) = 3.275 - 6.000·i<br/>
+          • Con ī₁ = 4,0% (0,04): Y₁* = 3.275 - 6.000(0,04) = 3.275 - 240 = <span class="math-highlight">3.035 M€</span><br/>
+          • Inversión Privada: I₁ = 200 + 0,15(3.035) - 1.200(0,04) = 200 + 455,25 - 48 = <span class="math-highlight">607,25 M€</span><br/>
+          • Saldo Presupuestario: SP₁ = T - G₁ = 300 - 350 = <span class="math-highlight">-50 M€</span> (Déficit de 50 M€).
+        </div>
+      </div>
+      <div class="step-box">
+        <div class="step-header"><span>2️⃣</span> Apartado b) Austeridad en Solitario (ΔG = -30 M€ con ī inalterado)</div>
+        <div class="math-block">
+          • Contracción de la Renta: ΔY = m_IS · ΔG = 5,0 × (-30) = <span class="math-highlight">-150 M€</span> ⇒ Y' = <span class="math-highlight">2.885 M€</span>.<br/>
+          • Caída de la Inversión: ΔI = d₁ · ΔY = 0,15 × (-150) = <span class="math-highlight">-22,5 M€</span> ⇒ I' = 584,75 M€.<br/>
+          • Saldo Presupuestario: SP' = 300 - 320 = -20 M€ (el déficit mejora en 30 M€ a costa de recesión y destrucción de inversión).
+        </div>
+      </div>
+      <div class="step-box">
+        <div class="step-header"><span>3️⃣</span> Apartado c) Diseño del Policy Mix Óptimo</div>
+        <div class="math-block">
+          Condición: ΔY = m_IS · [ΔG - d₂ · Δī] = 0  ⇒  ΔG = d₂ · Δī<br/>
+          <span class="math-highlight">Δī = ΔG / d₂ = -30 / 1.200 = -0,025 (-250 pb)</span>.<br/>
+          • Nuevo tipo del BCE: ī₂ = 4,0% - 2,5% = <span class="math-highlight">1,50%</span> (0,015).<br/>
+          • Producción final: Y₂* = 3.035 M€ (blindada íntegramente).<br/>
+          • Inversión final: I₂ = 200 + 0,15(3.035) - 1.200(0,015) = 655,25 - 18 = <span class="math-highlight">637,25 M€</span>.<br/>
+          La inversión aumenta en ΔI = +30 M€, compensando exactamente el recorte del gasto público.
+        </div>
+      </div>
+    `,
+    rubric: `
+      <table class="rubric-table">
+        <thead>
+          <tr>
+            <th>Calificación</th>
+            <th>Criterio de Evaluación de la Cátedra</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="rubric-score-100">100% (Sobresaliente)</td>
+            <td>Obtiene m_IS = 5, Y₁* = 3.035, desglosa la caída recesiva en solitario y deduce rigurosamente que el tipo debe descender en 250 pb hasta el 1,50%, con aumento de inversión de +30 M€.</td>
+          </tr>
+          <tr>
+            <td class="rubric-score-50">50% (Aprobado)</td>
+            <td>Calcula bien los apartados a) y b) pero se atasca en el cálculo algebraico de Δī o confunde 0,025 con 0,25%.</td>
+          </tr>
+          <tr>
+            <td class="rubric-score-0">0% (Suspenso)</td>
+            <td>Desconoce la fórmula del multiplicador o afirma que una consolidación fiscal debe acompañarse de subida de tipos de interés.</td>
+          </tr>
+        </tbody>
+      </table>
+    `,
+    quiz: {
+      question: "Para neutralizar un recorte fiscal de ΔG = -30 M€ con d2 = 1.200, ¿cuánto debe reducir tipos el Banco Central?",
+      options: [
+        "Δī = -0,50% (-50 pb)",
+        "Δī = -2,50% (-250 pb)",
+        "Δī = -1,00% (-100 pb)",
+        "Δī = -4,00% (-400 pb)"
+      ],
+      correctIndex: 1,
+      feedbackCorrect: "¡Excelente! Δī = ΔG / d2 = -30 / 1.200 = -0,025 = -2,50% (-250 pb).",
+      feedbackWrong: "Incorrecto. Aplica la condición de equilibrio: d2 · Δī = ΔG  ⇒  Δī = -30 / 1.200 = -0,025 = -2,5%."
+    }
+  },
+
+  // ---------------------------------------------------------------------------
+  // EXERCICIO 6
+  // ---------------------------------------------------------------------------
+  {
+    id: 6,
+    simulacro: "s09",
+    category: "s09",
+    type: "conceptual",
+    sourceBadge: "Simulacro_s09 , Pregunta 1, S02",
+    title: "La Paradoja de la Frugalidad (Paradoja del Ahorro)",
+    typeBadge: "Pregunta Corta (<100 palabras)",
+    regimeBadge: "Sujeta a Comodín",
+    regimeClass: "tag-comodin",
+    modelBadge: "Cruz Keynesiana / S = I",
+    timeEstimate: "⏱️ Tiempo sugerido: 4 min",
+    planeTitle: "Plano Macroeconómico de la Demanda · Cruz Keynesiana y Ahorro",
+    rateLabel: "Ahorro Total (S)",
+    statement: "<em>«La Paradoja de la Frugalidad (Paradoja del Ahorro): En el modelo del mercado de bienes, suponga que las familias deciden aumentar su deseo de ahorrar reduciendo su consumo autónomo (Δc₀ < 0). Explique analíticamente por qué la renta de equilibrio cae de forma multiplicada y demuestre por qué el ahorro total de la economía al final del ajuste permanece exactamente invariable.»</em>",
+    alertText: "<strong>La Gran Paradoja Keynesiana:</strong> A nivel individual ahorrar parece virtuoso, pero si todos intentan ahorrar a la vez, <strong>la renta cae de forma multiplicada</strong>. Al final, el ahorro agregado de la economía S = I + G - T queda <strong>estrictamente inalterado</strong>.",
+    initState: { G: 200, T: 200, i: 0.0, c0: 250, c1: 0.60, d0: 150, d1: 0.0, d2: 0 },
+    presets: [
+      { name: "Situación Inicial (c₀ = 250)", fn: () => { state.c0 = 250; } },
+      { name: "Aumento de Ahorro (Δc₀ = -30 M€)", fn: () => { state.c0 = 220; } },
+      { name: "Fuerte Frugalidad (Δc₀ = -60 M€)", fn: () => { state.c0 = 190; } }
+    ],
+    controls: [
+      { id: "c0", label: "🛒 Consumo Autónomo de las Familias (c₀)", min: 160, max: 280, step: 10, unit: " M€", key: "c0" }
+    ],
+    analytical: `
+      <div class="step-box">
+        <div class="step-header"><span>1️⃣</span> Caída Multiplicada de la Producción</div>
+        <p>Un mayor deseo de ahorrar se traduce en un recorte del consumo autónomo (Δc₀ < 0). A través del multiplicador del gasto:</p>
+        <div class="math-block">
+          ΔY = [1 / (1 - c₁)] · Δc₀ &lt; 0.<br/>
+          La caída de la demanda agregada provoca despidos y recortes de producción en las empresas.
+        </div>
+      </div>
+      <div class="step-box">
+        <div class="step-header"><span>2️⃣</span> Demostración Analítica de la Invariabilidad del Ahorro</div>
+        <p>Por la condición macroeconómica de equilibrio entre inversión y ahorro nacional: <em>I = S + (T - G)</em>.</p>
+        <div class="math-block">
+          Despejando el ahorro privado: <span class="math-highlight">S = I + G - T</span>.<br/>
+          Dado que en este modelo la inversión empresarial (I), el gasto público (G) y los impuestos (T) son constantes:<br/>
+          ΔS = ΔI + ΔG - ΔT = 0 + 0 - 0 = <span class="math-highlight">0</span>.<br/><br/>
+          <strong>Mecanismo Económico:</strong> Aunque la propensión al ahorro sube [s = (1 - c₁)], la renta disponible sobre la que se ahorra (Y - T) se ha desplomado exactamente en la proporción necesaria para que el volumen final de euros ahorrados sea idéntico al inicial.
+        </div>
+      </div>
+    `,
+    rubric: `
+      <table class="rubric-table">
+        <thead>
+          <tr>
+            <th>Calificación</th>
+            <th>Criterio de Evaluación de la Cátedra</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="rubric-score-100">100% (Sobresaliente)</td>
+            <td>Explica la contracción multiplicada de la renta y demuestra algebraicamente mediante la igualdad S = I + G - T que el ahorro final no varía al ser I, G y T fijos.</td>
+          </tr>
+          <tr>
+            <td class="rubric-score-50">50% (Aprobado)</td>
+            <td>Explica intuitivamente la paradoja pero no aporta la demostración formal con la ecuación S = I + G - T.</td>
+          </tr>
+          <tr>
+            <td class="rubric-score-0">0% (Suspenso)</td>
+            <td>Afirma que el ahorro total de la economía aumenta, cayendo en la falacia de composición.</td>
+          </tr>
+        </tbody>
+      </table>
+    `,
+    quiz: {
+      question: "¿Por qué el ahorro total de la economía no aumenta tras un deseo generalizado de ahorrar?",
+      options: [
+        "Porque los bancos confiscan el exceso de ahorro.",
+        "Porque la renta de equilibrio cae en la proporción exacta para neutralizar el aumento de la tasa de ahorro, al ser I y (G-T) constantes.",
+        "Porque el gobierno siempre aumenta los impuestos para absorber el ahorro.",
+        "Porque los tipos de interés bajan inmediatamente a cero."
+      ],
+      correctIndex: 1,
+      feedbackCorrect: "¡Exacto! S = I + G - T. Como I, G y T no han cambiado, el ahorro total agregado no puede alterarse.",
+      feedbackWrong: "Incorrecto. La demostración matemática surge de S = I + G - T: si la inversión y el déficit público no cambian, el ahorro agregado total es matemáticamente invariable."
+    }
+  },
+
+  // ---------------------------------------------------------------------------
+  // EXERCICIO 7
+  // ---------------------------------------------------------------------------
+  {
+    id: 7,
+    simulacro: "s09",
+    category: "s09",
+    type: "conceptual",
+    sourceBadge: "Simulacro_s09 , Pregunta 4, S07",
+    title: "Efecto Arrastre de la Inversión Privada (Crowding In)",
+    typeBadge: "Pregunta Corta (<100 palabras)",
+    regimeBadge: "Sujeta a Comodín",
+    regimeClass: "tag-comodin",
+    modelBadge: "Canal Inversión Blanchard",
+    timeEstimate: "⏱️ Tiempo sugerido: 4 min",
+    planeTitle: "Plano Macroeconómico (Y, i) · Expansión Fiscal y Crowding In",
+    rateLabel: "Tipo BCE (ī)",
+    statement: "<em>«Efecto Arrastre de la Inversión Privada (Crowding In): Frente a la creencia clásica de que un incremento del gasto público (ΔG > 0) expulsa a la inversión privada, demuestre analíticamente mediante la función I = d₀ + d₁·Y − d₂·i por qué en el modelo de Blanchard la inversión empresarial privada aumenta inequívocamente tras una expansión fiscal.»</em>",
+    alertText: "<strong>Punto Clave:</strong> Con LM horizontal a la altura de ī, la subida del gasto público no encarece el crédito (Δi = 0). Toda la variación de la inversión viene dada por <strong>ΔI = d₁·ΔY > 0</strong>.",
+    initState: { G: 200, T: 250, i: 4.0, c0: 250, c1: 0.70, d0: 150, d1: 0.25, d2: 1000 },
+    presets: [
+      { name: "Equilibrio Base (G = 200 M€)", fn: () => { state.G = 200; state.i = 4.0; } },
+      { name: "Expansión Fiscal (ΔG = +30 M€)", fn: () => { state.G = 230; state.i = 4.0; } }
+    ],
+    controls: [
+      { id: "g", label: "🏛️ Gasto Público (G)", min: 160, max: 260, step: 10, unit: " M€", key: "G" }
+    ],
+    analytical: `
+      <div class="step-box">
+        <div class="step-header"><span>1️⃣</span> Demostración Algebraica del Crowding In</div>
+        <p>Partiendo de la especificación de la inversión de Olivier Blanchard:</p>
+        <div class="math-block">
+          I = d₀ + d₁·Y - d₂·i<br/>
+          Diferenciando totalmente:<br/>
+          <span class="math-highlight">dI = d₁·dY - d₂·di</span>
+        </div>
+      </div>
+      <div class="step-box">
+        <div class="step-header"><span>2️⃣</span> Inyección de la Regla de Política Monetaria Moderna</div>
+        <div class="math-block">
+          En el modelo moderno, el Banco Central fija el tipo oficial en i = ī y suministra pasivamente la liquidez demandada:<br/>
+          di = 0.<br/>
+          Sustituyendo en la diferencial:<br/>
+          <span class="math-highlight">dI = d₁·dY</span>.<br/><br/>
+          Como la expansión fiscal eleva la renta de equilibrio (dY = m_IS · dG &gt; 0) y el parámetro de sensibilidad a las ventas es positivo (d₁ &gt; 0):<br/>
+          <span class="math-highlight">dI = d₁ · (m_IS · dG) &gt; 0</span> (Inequívocamente positiva).
+        </div>
+      </div>
+    `,
+    rubric: `
+      <table class="rubric-table">
+        <thead>
+          <tr>
+            <th>Calificación</th>
+            <th>Criterio de Evaluación de la Cátedra</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="rubric-score-100">100% (Sobresaliente)</td>
+            <td>Diferencia la función de inversión y demuestra rigurosamente que al ser di = 0 por la regla LM horizontal, dI = d1·dY > 0.</td>
+          </tr>
+          <tr>
+            <td class="rubric-score-50">50% (Aprobado)</td>
+            <td>Afirma que la inversión sube por mayores ventas pero no presenta la derivación analítica formal con dI = d1·dY.</td>
+          </tr>
+          <tr>
+            <td class="rubric-score-0">0% (Suspenso)</td>
+            <td>Dice que la inversión cae por efecto expulsión de tipos de interés, ignorando la naturaleza de la LM horizontal.</td>
+          </tr>
+        </tbody>
+      </table>
+    `,
+    quiz: {
+      question: "¿Por qué en el modelo de Blanchard la inversión aumenta tras una expansión fiscal?",
+      options: [
+        "Porque el tipo de interés baja automáticamente.",
+        "Porque el tipo de interés no cambia (di = 0) y las mayores ventas de las empresas elevan la inversión (dI = d1·dY > 0).",
+        "Porque el gobierno subsidia directamente a las empresas.",
+        "Porque las exportaciones netas crecen fuertemente."
+      ],
+      correctIndex: 1,
+      feedbackCorrect: "¡Exacto! El BCE mantiene anclado el tipo oficial y el aumento de la demanda agregada arrastra a la inversión privada.",
+      feedbackWrong: "Incorrecto. El BCE mantiene el tipo de interés constante. El motor es el efecto ventas: al aumentar la producción Y, las empresas compran más maquinaria."
+    }
+  },
+
+  // ---------------------------------------------------------------------------
+  // EXERCICIO 8
+  // ---------------------------------------------------------------------------
+  {
+    id: 8,
+    simulacro: "s09",
+    category: "s09",
+    type: "conceptual",
+    sourceBadge: "Simulacro_s09 , Pregunta 6, S09",
+    title: "Trampa de Examen: Shock en Prima de Riesgo y Curva LM",
+    typeBadge: "Pregunta Corta (<100 palabras)",
+    regimeBadge: "Sujeta a Comodín",
+    regimeClass: "tag-comodin",
+    modelBadge: "Plano (Y, r) · Prima de Riesgo",
+    timeEstimate: "⏱️ Tiempo sugerido: 4 min",
+    planeTitle: "Plano Macroeconómico (Y, r) · IS-LM Ampliado con Prima x",
+    rateLabel: "Coste Real (r + x)",
+    statement: "<em>«Trampa de Examen: Shock en Prima de Riesgo y Curva LM: ¿Por qué un aumento de la prima de riesgo crediticia (Δx > 0) desplaza la curva IS hacia la izquierda y deja la curva LM completamente inmóvil? Indique por qué el Banco Central no puede compensar una crisis de riesgo severa si tropieza con el Límite Inferior Cero (i ≥ 0%).»</em>",
+    alertText: "<strong>¡LA TRAMPA SUPREMA DE LA SESIÓN 09!</strong> La prima de riesgo crediticia 'x' <strong>SOLO AFECTA A LA CURVA IS</strong> porque encarece el crédito a las empresas. La curva LM depende de r = i - πᵉ y permanece <strong>COMPLETAMENTE QUIETA</strong>.",
+    initState: { G: 200, T: 200, i: 3.0, x: 1.0, pi_e: 2.0, c0: 130, c1: 0.60, d0: 150, d1: 0.10, d2: 30 },
+    presets: [
+      { name: "Equilibrio Inicial (x = 1,0%)", fn: () => { state.x = 1.0; state.i = 3.0; } },
+      { name: "Pánico Bancario (Δx = +300 pb · x = 4%)", fn: () => { state.x = 4.0; state.i = 3.0; } },
+      { name: "Límite Inferior Cero (i = 0% con x = 5%)", fn: () => { state.x = 5.0; state.i = 0.0; } }
+    ],
+    controls: [
+      { id: "x", label: "💳 Prima de Riesgo Crediticia (x)", min: 0.5, max: 6.0, step: 0.5, unit: " %", key: "x" },
+      { id: "i", label: "🏦 Tipo Nominal del BCE (i)", min: 0.0, max: 5.0, step: 0.25, unit: " %", key: "i" }
+    ],
+    analytical: `
+      <div class="step-box">
+        <div class="step-header"><span>1️⃣</span> Por qué la prima x desplaza la IS y deja la LM inmóvil</div>
+        <p>En el modelo IS-LM ampliado de Blanchard (Capítulo 6), las dos ecuaciones fundamentales en el plano <em>(Y, r)</em> son:</p>
+        <div class="math-block">
+          Curva IS: Y = C(Y - T) + I(Y, <span class="math-highlight">r + x</span>) + G<br/>
+          Curva LM: r = <span class="math-highlight">ī - πᵉ</span>
+        </div>
+        <p>Como se observa formalmente, la prima de riesgo crediticia <strong>x</strong> entra exclusivamente en la función de inversión privada. Un incremento en la desconfianza bancaria (Δx > 0) encarece el coste de financiación de los prestatarios privados (r + x), hundiendo la inversión y desplazando la IS hacia la izquierda. La LM no contiene la variable x, por lo que <strong>permanece estrictamente inmóvil</strong>.</p>
+      </div>
+      <div class="step-box">
+        <div class="step-header"><span>2️⃣</span> La Trampa del Límite Inferior Cero (Zero Lower Bound, ZLB)</div>
+        <div class="math-block">
+          El Banco Central solo controla el tipo de interés nominal oficial (i), el cual no puede ser negativo: i ≥ 0%.<br/>
+          Por la ecuación de Fisher, el tipo real mínimo es:<br/>
+          <span class="math-highlight">r_mín = 0% - πᵉ = -πᵉ</span>.<br/><br/>
+          Si el pánico crediticio eleva x a niveles desorbitados (ej. x = 5%), el coste real mínimo que pueden recibir las empresas es:<br/>
+          (r_mín + x) = -2% + 5% = +3% &gt; 2%.<br/>
+          El Banco Central agota todo su arsenal monetario y la economía queda atrapada en una profunda recesión sin poder recuperarse en solitario.
+        </div>
+      </div>
+    `,
+    rubric: `
+      <table class="rubric-table">
+        <thead>
+          <tr>
+            <th>Calificación</th>
+            <th>Criterio de Evaluación de la Cátedra</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="rubric-score-100">100% (Sobresaliente)</td>
+            <td>Identifica con exactitud matemática que x solo aparece en la ecuación de la IS y no en la LM, y deduce que el ZLB (i ≥ 0%) fija un suelo al tipo real en r_mín = -πᵉ.</td>
+          </tr>
+          <tr>
+            <td class="rubric-score-50">50% (Aprobado)</td>
+            <td>Acierta que la IS se desplaza a la izquierda pero duda sobre la LM o no formula analíticamente el tipo real mínimo r_mín.</td>
+          </tr>
+          <tr>
+            <td class="rubric-score-0">0% (Suspenso)</td>
+            <td><strong>Error descalificante de examen:</strong> Afirma que un aumento de la prima de riesgo desplaza la curva LM hacia arriba.</td>
+          </tr>
+        </tbody>
+      </table>
+    `,
+    quiz: {
+      question: "¿Por qué un aumento de la prima de riesgo (x) no desplaza la curva LM?",
+      options: [
+        "Porque el Banco Central rescata automáticamente a todos los bancos quebrados.",
+        "Porque la curva LM solo depende del tipo de interés de política fijado por el Banco Central y la inflación esperada (r = ī - πᵉ), sin contener la prima crediticia x.",
+        "Porque los bancos comerciales no cobran intereses a las empresas.",
+        "Porque la prima de riesgo solo afecta al tipo impositivo de la economía."
+      ],
+      correctIndex: 1,
+      feedbackCorrect: "¡Exacto! La LM representa la política del Banco Central (r = i - πe). El riesgo de crédito privado x entra exclusivamente en la curva IS.",
+      feedbackWrong: "Incorrecto. Revisa las ecuaciones de Blanchard: LM es r = i - πe (no depende de x). La prima x entra en I(Y, r + x) dentro de la IS."
+    }
+  },
+
+  // ---------------------------------------------------------------------------
+  // EXERCICIO 9
+  // ---------------------------------------------------------------------------
+  {
+    id: 9,
+    simulacro: "s09",
+    category: "s09",
+    type: "conceptual",
+    sourceBadge: "Simulacro_s09 , Pregunta 8, S09",
+    title: "Modelo IS-LM Ampliado, Transmisión Financiera y Límite ZLB",
+    typeBadge: "Pregunta Conceptual de Gran Desarrollo",
+    regimeBadge: "100% Obligatoria (Sin Comodín)",
+    regimeClass: "tag-obligatoria",
+    modelBadge: "Sistema Financiero y ZLB",
+    timeEstimate: "⏱️ Tiempo sugerido: 12 min",
+    planeTitle: "Plano Macroeconómico (Y, r) · Transmisión del Shock Financiero",
+    rateLabel: "Coste Real (r + x)",
+    statement: "<em>Analice detalladamente los fundamentos microeconómicos y los canales del modelo IS-LM ampliado con sistema financiero de Blanchard (Cap. 6):<br/>" +
+               "a) Ecuación de Fisher y Prima de Riesgo Crediticia: Explique analíticamente por qué la inversión empresarial depende de (r + x) y no de i. Formule la ecuación de Fisher e identifique los dos factores financieros de la prima x.<br/>" +
+               "b) Transmisión Macroeconómica de un Shock Financiero: Represente formal y geométricamente en el plano (Y, r) un pánico bancario (Δx > 0). Detalle el canal directo en la inversión y el canal indirecto en el consumo.<br/>" +
+               "c) Límite Inferior Cero (ZLB) y Asimetría de Políticas: Demuestre matemáticamente qué limitación impone el ZLB (i ≥ 0%) sobre r_mín y razone por qué la política fiscal expansiva (ΔG > 0) pasa a ser el único instrumento eficaz.</em>",
+    alertText: "<strong>Asimetría Fundamental de Políticas:</strong> En una crisis crediticia con ZLB, la política monetaria queda 'maniatada' (no puede bajar i por debajo de 0%). El estímulo fiscal directo (ΔG > 0) es la única vía para desplazar la IS a la derecha y recuperar el empleo.",
+    initState: { G: 200, T: 200, i: 3.0, x: 1.0, pi_e: 2.0, c0: 130, c1: 0.60, d0: 150, d1: 0.10, d2: 30 },
+    presets: [
+      { name: "Equilibrio Inicial (x=1%, i=3%)", fn: () => { state.x = 1.0; state.i = 3.0; } },
+      { name: "Pánico Financiero (x=4%, i=3%)", fn: () => { state.x = 4.0; state.i = 3.0; } },
+      { name: "Atrapados en ZLB (x=5%, i=0%)", fn: () => { state.x = 5.0; state.i = 0.0; } },
+      { name: "Rescate Fiscal Exitoso (G=230, x=5%, i=0%)", fn: () => { state.G = 230; state.x = 5.0; state.i = 0.0; } }
+    ],
+    controls: [
+      { id: "x", label: "💳 Prima de Riesgo (x)", min: 1.0, max: 6.0, step: 0.5, unit: " %", key: "x" },
+      { id: "i", label: "🏦 Tipo Oficial BCE (i)", min: 0.0, max: 4.5, step: 0.25, unit: " %", key: "i" },
+      { id: "g", label: "🏛️ Gasto Público de Rescate (G)", min: 180, max: 260, step: 5, unit: " M€", key: "G" }
+    ],
+    analytical: `
+      <div class="step-box">
+        <div class="step-header"><span>1️⃣</span> Apartado a) Ecuación de Fisher y Determinantes de la Prima x</div>
+        <div class="math-block">
+          • Ecuación de Fisher: <span class="math-highlight">r ≈ i - πᵉ</span>.<br/>
+          Las empresas invierten en bienes de capital duraderos cuya rentabilidad se mide en unidades de producto, por lo que descuentan la inflación esperada.<br/>
+          • Coste efectivo del crédito: <strong>(r + x)</strong>.<br/>
+          • Los dos factores financieros que determinan la prima x:<br/>
+          &nbsp;&nbsp;1. <em>Probabilidad de quiebra / impago del prestatario</em>.<br/>
+          &nbsp;&nbsp;2. <em>Grado de aversión al riesgo y apalancamiento de los bancos comerciales</em> (capital propio vs pasivos).
+        </div>
+      </div>
+      <div class="step-box">
+        <div class="step-header"><span>2️⃣</span> Apartado b) Cadena de Transmisión del Pánico Financiero (Δx > 0)</div>
+        <div class="math-block">
+          1. <strong>Canal Directo de Inversión:</strong> Δ(r+x) &gt; 0 ⇒ ΔI_directo = -d₂ · Δx &lt; 0.<br/>
+          2. <strong>Canal Indirecto del Multiplicador:</strong> La menor inversión contrae el PIB (ΔY = m_IS · ΔI &lt; 0), reduciendo la renta disponible de los hogares (Y - T) y deprimiendo el consumo privado (ΔC = c₁·ΔY &lt; 0).<br/>
+          3. <strong>Geometría:</strong> La curva IS se desplaza horizontalmente a la izquierda; la LM queda intacta.
+        </div>
+      </div>
+      <div class="step-box">
+        <div class="step-header"><span>3️⃣</span> Apartado c) Trampa del ZLB y el Rescate Fiscal</div>
+        <div class="math-block">
+          Con i = 0%, el tipo real mínimo queda bloqueado en r_mín = -πᵉ.<br/>
+          Si la prima x sube más que la inflación esperada, el coste del crédito sube obligatoriamente sin que el BCE pueda evitarlo con política monetaria convencional.<br/>
+          La política fiscal (ΔG &gt; 0) pasa a ser la única tabla de salvación: inyecta demanda agregada directamente, desplazando la IS hacia la derecha para devolver la economía al pleno empleo.
+        </div>
+      </div>
+    `,
+    rubric: `
+      <table class="rubric-table">
+        <thead>
+          <tr>
+            <th>Calificación</th>
+            <th>Criterio de Evaluación de la Cátedra</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="rubric-score-100">100% (Sobresaliente)</td>
+            <td>Formula con rigor r ≈ i - πe, identifica los dos factores de x (impago y apalancamiento bancario), desglosa los canales directo e indirecto de la contracción, y justifica por qué el ZLB exige rescate fiscal directo.</td>
+          </tr>
+          <tr>
+            <td class="rubric-score-50">50% (Aprobado)</td>
+            <td>Describe el impacto general pero omite la ecuación de Fisher o no explica con rigor por qué la política monetaria queda bloqueada en el ZLB.</td>
+          </tr>
+          <tr>
+            <td class="rubric-score-0">0% (Suspenso)</td>
+            <td>Confunde tipo nominal con real o afirma que en el ZLB el Banco Central puede seguir bajando el tipo de interés oficial por debajo de cero de forma convencional.</td>
+          </tr>
+        </tbody>
+      </table>
+    `,
+    quiz: {
+      question: "¿Por qué la política fiscal expansiva es indispensable cuando una crisis financiera coincide con el ZLB?",
+      options: [
+        "Porque el Banco Central tiene prohibido prestar a los bancos.",
+        "Porque con i = 0% el tipo de interés no puede bajar más (r_mín = -πᵉ), dejando la política monetaria convencional incapacitada para estimular la demanda.",
+        "Porque los impuestos deben ser siempre iguales al gasto público.",
+        "Porque la política fiscal altera directamente la prima de riesgo crediticia de los bancos."
+      ],
+      correctIndex: 1,
+      feedbackCorrect: "¡Exacto! Al chocar con el Límite Inferior Cero (i = 0%), el BCE no puede desplazar más la LM hacia abajo. Solo el gasto público (ΔG > 0) puede empujar la IS hacia la derecha.",
+      feedbackWrong: "Incorrecto. En el ZLB, el tipo oficial no puede recortarse más allá de 0%. Al estar maniatada la política monetaria, la política fiscal expansiva es el único instrumento estabilizador eficaz."
+    }
+  },
+
+  // ---------------------------------------------------------------------------
+  // EXERCICIO 10
+  // ---------------------------------------------------------------------------
+  {
+    id: 10,
+    simulacro: "s09",
+    category: "s09",
+    type: "cuantitativo",
+    sourceBadge: "Simulacro_s09 , Problema 9, S09",
+    title: "Modelo IS-LM Ampliado, Shock Financiero, ZLB y Rescate Fiscal",
+    typeBadge: "Problema Numérico Obligatorio",
+    regimeBadge: "100% Obligatoria (Sin Comodín)",
+    regimeClass: "tag-obligatoria",
+    modelBadge: "Cálculo Cuantitativo Ampliado",
+    timeEstimate: "⏱️ Tiempo sugerido: 10 min",
+    planeTitle: "Plano Macroeconómico (Y, r) · Calibración Cuantitativa ZLB y Rescate",
+    rateLabel: "Coste Real (r + x)",
+    statement: "<em>Considere una economía descrita por las siguientes ecuaciones (en millones de euros):<br/>" +
+               "• Consumo privado: C = 130 + 0,60·(Y − T)<br/>" +
+               "• Inversión privada: I = 150 + 0,10·Y − 30·(r + x)<br/>" +
+               "• Compras del Estado: G = 200 M€ &nbsp;|&nbsp; Impuestos netos: T = 200 M€<br/>" +
+               "• Tipo de interés nominal oficial: i₀ = 3,0% (0,03) &nbsp;|&nbsp; Inflación esperada: πᵉ = 2,0% (0,02)<br/>" +
+               "• Prima de riesgo crediticia inicial: x₀ = 1,0% (0,01)<br/>" +
+               "a) Deduzca la ecuación analítica explícita de la Curva IS en el plano (Y, r). Calcule r₀, el coste del crédito (r₀ + x₀), la renta inicial (Y₀*), la inversión (I₀*) y el consumo (C₀*).<br/>" +
+               "b) Un pánico bancario eleva la prima a x₁ = 4,0% (Δx = +300 pb). Calcule la nueva renta (Y₁*) y la nueva inversión (I₁*). Desglose la caída de la inversión entre coste directo y contracción de ventas.<br/>" +
+               "c) Calcule a qué tipo nominal (i') debería situarse el BCE para restaurar Y₀*. Si la prima sube a x₂ = 5,0%, demuestre por qué el ZLB (i ≥ 0%) impide el rescate monetario en solitario y calcule qué incremento de gasto público (ΔG) debe ejecutar el Gobierno para devolver el PIB a Y₀*.</em>",
+    alertText: "<strong>Cálculo Crítico:</strong> Ecuación IS: <strong>Y = 1.200 - 100·(r + x)</strong>. Con x = 5% y ZLB (i = 0% ⇒ r = -2%), el coste del crédito es 3%, dejando Y = 900 M€. Se requiere un rescate fiscal de <strong>ΔG = +30 M€</strong> para restaurar Y = 1.000 M€.",
+    initState: { G: 200, T: 200, i: 3.0, x: 1.0, pi_e: 2.0, c0: 130, c1: 0.60, d0: 150, d1: 0.10, d2: 30 },
+    presets: [
+      { name: "Apartado a: Equilibrio Inicial (x = 1%, i = 3%)", fn: () => { state.G = 200; state.x = 1.0; state.i = 3.0; } },
+      { name: "Apartado b: Pánico Bancario (x = 4%, i = 3%)", fn: () => { state.G = 200; state.x = 4.0; state.i = 3.0; } },
+      { name: "Apartado c: Rescate Monetario Pleno (x = 4%, i = 0%)", fn: () => { state.G = 200; state.x = 4.0; state.i = 0.0; } },
+      { name: "Apartado c: Parálisis ZLB (x = 5%, i = 0%)", fn: () => { state.G = 200; state.x = 5.0; state.i = 0.0; } },
+      { name: "Apartado c: Rescate Fiscal Exitoso (ΔG = +30 M€)", fn: () => { state.G = 230; state.x = 5.0; state.i = 0.0; } }
+    ],
+    controls: [
+      { id: "x", label: "💳 Prima de Riesgo (x)", min: 0.5, max: 6.0, step: 0.5, unit: " %", key: "x" },
+      { id: "i", label: "🏦 Tipo Oficial BCE (i)", min: 0.0, max: 4.5, step: 0.25, unit: " %", key: "i" },
+      { id: "g", label: "🏛️ Gasto Público (G)", min: 180, max: 260, step: 5, unit: " M€", key: "G" }
+    ],
+    analytical: `
+      <div class="step-box">
+        <div class="step-header"><span>1️⃣</span> Apartado a) Deducción de la Curva IS y Equilibrio Inicial</div>
+        <div class="math-block">
+          Condición de equilibrio: Y = C + I + G<br/>
+          Y = [130 + 0,60(Y - 200)] + [150 + 0,10Y - 30(r + x)] + 200<br/>
+          Y = 130 + 0,60Y - 120 + 150 + 0,10Y - 30(r + x) + 200<br/>
+          Y = 360 + 0,70Y - 30(r + x)  ⇒  0,30·Y = 360 - 30(r + x)<br/>
+          Curva IS explícita: <span class="math-highlight">Y = 1.200 - 100·(r + x)</span><br/><br/>
+          • Tipo real inicial: r₀ = i₀ - πᵉ = 3,0% - 2,0% = <span class="math-highlight">1,0% (0,01)</span>.<br/>
+          • Coste efectivo del crédito: r₀ + x₀ = 1,0% + 1,0% = <span class="math-highlight">2,0% (0,02)</span>.<br/>
+          • Renta de equilibrio inicial: Y₀* = 1.200 - 100·(2) = <span class="math-highlight">1.000 M€</span>.<br/>
+          • Inversión privada: I₀* = 150 + 0,10·(1.000) - 30·(2) = 150 + 100 - 60 = <span class="math-highlight">190 M€</span>.<br/>
+          • Consumo privado: C₀* = 130 + 0,60·(1.000 - 200) = 130 + 480 = <span class="math-highlight">610 M€</span>.
+        </div>
+      </div>
+      <div class="step-box">
+        <div class="step-header"><span>2️⃣</span> Apartado b) Pánico Bancario (Δx = +300 pb ⇒ x₁ = 4,0%)</div>
+        <div class="math-block">
+          Nuevo coste del crédito: r + x₁ = 1,0% + 4,0% = 5,0% (0,05).<br/>
+          • Nueva renta de equilibrio: Y₁* = 1.200 - 100·(5) = <span class="math-highlight">700 M€</span> (caída de <strong>ΔY = -300 M€</strong>).<br/>
+          • Nueva inversión: I₁* = 150 + 0,10·(700) - 30·(5) = 150 + 70 - 150 = <span class="math-highlight">70 M€</span> (caída de <strong>ΔI = -120 M€</strong>).<br/><br/>
+          Desglose riguroso de la contracción de la inversión:<br/>
+          1. <em>Efecto directo coste del crédito:</em> -30 · Δx = -30 · (+3) = <span class="math-highlight">-90 M€</span>.<br/>
+          2. <em>Efecto indirecto por caída de ventas:</em> +0,10 · ΔY = 0,10 · (-300) = <span class="math-highlight">-30 M€</span>.<br/>
+          Total: -90 M€ + (-30 M€) = -120 M€ (exacto).
+        </div>
+      </div>
+      <div class="step-box">
+        <div class="step-header"><span>3️⃣</span> Apartado c) Límite Inferior Cero y Rescate Fiscal</div>
+        <div class="math-block">
+          1. <strong>Rescate Monetario con x₁ = 4%:</strong><br/>
+          Para restaurar Y = 1.000 M€ se necesita r + x = 2% ⇒ r = 2% - 4% = -2%.<br/>
+          Tipo nominal requerido: i' = r + πᵉ = -2% + 2% = <span class="math-highlight">0,0%</span> (el BCE puede rescatar la economía situando i en el límite 0%).<br/><br/>
+          2. <strong>Parálisis en el ZLB con x₂ = 5%:</strong><br/>
+          Como i ≥ 0%, r_mín = -2%. Coste mínimo del crédito = -2% + 5% = 3% &gt; 2%.<br/>
+          Producción máxima que puede lograr el BCE: Y = 1.200 - 100·(3) = 900 M€ &lt; 1.000 M€. La política monetaria queda maniatada.<br/><br/>
+          3. <strong>Rescate Fiscal Cuantitativo:</strong><br/>
+          Brecha de producción a cubrir: ΔY = 1.000 - 900 = +100 M€.<br/>
+          Como 0,30·ΔY = ΔG ⇒ <span class="math-highlight">ΔG = 0,30 · (+100) = +30 M€</span>.<br/>
+          El Gobierno debe aumentar el gasto de 200 a 230 M€ para devolver la producción a 1.000 M€.
+        </div>
+      </div>
+    `,
+    rubric: `
+      <table class="rubric-table">
+        <thead>
+          <tr>
+            <th>Calificación</th>
+            <th>Criterio de Evaluación de la Cátedra</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="rubric-score-100">100% (Sobresaliente)</td>
+            <td>Deduce la ecuación IS Y = 1.200 - 100(r+x), calcula los equilibrios Y₀* = 1.000 e Y₁* = 700, desglosa la inversión en -90 y -30 M€, y demuestra algebraicamente que con x = 5% el ZLB exige un estímulo fiscal de ΔG = +30 M€.</td>
+          </tr>
+          <tr>
+            <td class="rubric-score-50">50% (Aprobado)</td>
+            <td>Calcula bien los apartados a) y b) pero no desglosa la caída de la inversión en efecto directo e indirecto o comete un error en el rescate fiscal ΔG.</td>
+          </tr>
+          <tr>
+            <td class="rubric-score-0">0% (Suspenso)</td>
+            <td>Propone bajar el tipo nominal por debajo de cero en el régimen convencional o ignora que el tipo real se determina por la ecuación de Fisher r = i - πe.</td>
+          </tr>
+        </tbody>
+      </table>
+    `,
+    quiz: {
+      question: "Si la prima de riesgo sube a x = 5% y πᵉ = 2%, ¿cuál es el coste mínimo del crédito que puede alcanzar el BCE bajo el ZLB (i ≥ 0%)?",
+      options: [
+        "Coste del crédito = 0%",
+        "Coste del crédito = 2%",
+        "Coste del crédito = 3% (r_mín = -2% más x = 5%)",
+        "Coste del crédito = 5%"
+      ],
+      correctIndex: 2,
+      feedbackCorrect: "¡Impecable! Con i = 0%, r_mín = 0% - 2% = -2%. Sumando la prima x = 5%, el coste efectivo mínimo del crédito es -2% + 5% = +3%.",
+      feedbackWrong: "Incorrecto. Aplica la ecuación de Fisher: i ≥ 0% implica r_mín = -πe = -2%. El coste del crédito es r + x = -2% + 5% = +3%."
+    }
+  }
+];
+
+// =============================================================================
+// ESTADO GLOBAL Y LÓGICA DE CONTROL
+// =============================================================================
+
+let activeFilter = 'todos';
+let currentExerciseId = 1;
+let currentTab = 'sim';
+
+// Variables de cálculo en vivo
 let state = {
   G: 200,
   T: 250,
-  i: 4.0,       // en %
-  x: 1.0,       // prima en %
-  pi_e: 2.0,    // inflacion esperada en %
+  i: 4.0,
+  x: 1.0,
+  pi_e: 2.0,
   c0: 250,
   c1: 0.70,
   d0: 150,
   d1: 0.25,
   d2: 1000,
-  Y_obs: 8000,  // para inventarios
-  // Posición inicial fija para comparar
-  base: {}
+  Y_obs: 8200
 };
 
-const CASES_DATA = {
-  1: {
-    title: "Caso 1: Expansión Fiscal y Arrastre de la Inversión (Crowding In)",
-    topic: "Tema 2 · IS-LM en (Y, i)",
-    planeTitle: "Plano Macroeconómico (Y, i) · Modelo de Blanchard",
-    rateLabel: "Tipo BCE (ī)",
-    statement: "<strong>Problema de Examen:</strong> Una economía cerrada se encuentra en equilibrio con <em>G = 200 M€</em>, <em>T = 250 M€</em> e <em>ī = 4,0%</em> (Y* = 7.700 M€, I* = 2.035 M€). El Gobierno aprueba un plan de infraestructuras aumentando el gasto en <strong>ΔG = +20 M€</strong>. Muestre gráficamente el desplazamiento de las curvas, calcule la nueva renta y demuestre por qué la inversión privada aumenta en lugar de ser expulsada.",
-    alertText: "<strong>Trampa Clásica de Examen:</strong> En el modelo moderno de Blanchard con LM horizontal, el estímulo fiscal <strong>NUNCA expulsa la inversión privada</strong>. Como el BCE mantiene <em>ī</em> constante, el aumento de ventas genera un efecto arrastre virtuoso (<em>ΔI = d₁·ΔY > 0</em>).",
-    solution: "<strong>1. Multiplicador de la IS:</strong> m_IS = 1 / (1 - c₁ - d₁) = 1 / (1 - 0,70 - 0,25) = 1 / 0,05 = <strong>20</strong>.<br/>" +
-              "<strong>2. Desplazamiento de la Curva IS:</strong> La curva IS se desplaza hacia la derecha en ΔY = m_IS · ΔG = 20 · (+20) = <strong>+400 M€</strong> (Y** = 8.100 M€). La curva LM permanece inmóvil.<br/>" +
-              "<strong>3. Efecto Arrastre en la Inversión:</strong> ΔI = d₁ · ΔY - d₂ · Δi = 0,25 · (+400) - 1.000 · (0) = <strong>+100 M€</strong> (la inversión aumenta a 2.135 M€).",
-    initState: { G: 200, T: 250, i: 4.0, c0: 250, c1: 0.70, d0: 150, d1: 0.25, d2: 1000, x: 0, pi_e: 0 },
-    presets: [
-      { name: "Equilibrio Inicial (G = 200)", fn: () => { state.G = 200; state.i = 4.0; } },
-      { name: "Estímulo Fiscal (ΔG = +20 M€)", fn: () => { state.G = 220; state.i = 4.0; } },
-      { name: "Gran Estímulo (ΔG = +40 M€)", fn: () => { state.G = 240; state.i = 4.0; } }
-    ],
-    controls: [
-      { id: "g", label: "🏛️ Gasto Público (G)", min: 150, max: 280, step: 5, unit: " M€", key: "G" },
-      { id: "i", label: "🏦 Tipo BCE (ī)", min: 1.0, max: 7.0, step: 0.25, unit: " %", key: "i" }
-    ]
-  },
+// Renderizar la barra de ejercicios según filtro
+function renderNavList() {
+  const navContainer = document.getElementById("case-nav-list");
+  navContainer.innerHTML = "";
 
-  2: {
-    title: "Caso 2: Desequilibrio Dinámico y Ajuste de Inventarios",
-    topic: "Tema 2 · Dinámica Fuera de la IS",
-    planeTitle: "Plano Macroeconómico (Y, i) · Existencias Involuntarias",
-    rateLabel: "Tipo BCE (ī)",
-    statement: "<strong>Pregunta Corta de Examen:</strong> Suponga que las empresas de una economía se sitúan en un punto <em>A</em> a la <strong>DERECHA de la curva IS</strong> sobre la recta LM fijada por el Banco Central (<em>Y = 8.200 M€ > Z = 7.700 M€</em>). Explique qué ocurre con las existencias empresariales y describa formal y gráficamente la trayectoria de ajuste hacia el equilibrio.",
-    alertText: "<strong>Concepto Clave de Examen:</strong> A la derecha de la IS hay <strong>exceso de oferta (Y > Z)</strong>. Las empresas sufren acumulación involuntaria de existencias (<em>I_s > 0</em>) y recortan producción horizontalmente a lo largo de la recta LM.",
-    solution: "<strong>1. Diagnóstico del desequilibrio:</strong> La producción supera a la demanda planeada (Y > Z), provocando una acumulación no deseada de inventarios: I_s = Y - Z > 0.<br/>" +
-              "<strong>2. Ajuste Dinámico:</strong> Las empresas ajustan sus planes despidiendo trabajadores y reduciendo producción (ΔY < 0). Como el Banco Central fija el tipo ī proveyendo la liquidez demandada, el ajuste se realiza <strong>horizontalmente hacia la izquierda sobre la recta LM</strong> hasta cortar la curva IS.",
-    initState: { G: 200, T: 250, i: 4.0, c0: 250, c1: 0.70, d0: 150, d1: 0.25, d2: 1000, Y_obs: 8200 },
-    presets: [
-      { name: "Punto A (Exceso de Oferta: Y = 8.200)", fn: () => { state.Y_obs = 8200; } },
-      { name: "Ajuste Intermedio (Y = 7.950)", fn: () => { state.Y_obs = 7950; } },
-      { name: "Equilibrio Restablecido (Y = 7.700)", fn: () => { state.Y_obs = 7700; } }
-    ],
-    controls: [
-      { id: "y_obs", label: "📦 Producción Observada (Y)", min: 7200, max: 8400, step: 50, unit: " M€", key: "Y_obs" }
-    ]
-  },
-
-  3: {
-    title: "Caso 3: Conflicto Institucional (Policy Clash)",
-    topic: "Tema 2 · Interacción de Políticas",
-    planeTitle: "Plano Macroeconómico (Y, i) · Policy Clash",
-    rateLabel: "Tipo BCE (ī)",
-    statement: "<strong>Pregunta Conceptual de Examen:</strong> El Gobierno aprueba un gran estímulo fiscal expansivo (<em>ΔG = +30 M€</em>), pero el Banco Central, temiendo presiones inflacionistas, reacciona subiendo agresivamente el tipo de interés en <strong>Δī = +150 pb (del 4,0% al 5,5%)</strong>. Muestre el doble movimiento de curvas y evalúe el impacto neto sobre la producción y la inversión privada.",
-    alertText: "<strong>Trampa de Examen:</strong> En un <em>Policy Clash</em>, la subida de tipos del Banco Central contrarresta la expansión fiscal. Si la subida de tipos es suficientemente fuerte, la inversión privada se desploma por el doble castigo de menor PIB y mayor coste de capital.",
-    solution: "<strong>1. Movimiento de Curvas:</strong> La IS se desplaza a la derecha por ΔG > 0. Simultáneamente, la LM se desplaza hacia arriba por la subida de tipos oficiales Δī > 0.<br/>" +
-              "<strong>2. Impacto sobre el PIB:</strong> La expansión fiscal eleva la renta en m_IS · ΔG = 20 · 30 = +600 M€, pero la subida de tipos la deprime en m_IS · d₂ · Δi = 20 · 1.000 · (0,015) = -300 M€. Renta neta: ΔY = +300 M€.<br/>" +
-              "<strong>3. Castigo a la Inversión:</strong> ΔI = 0,25 · (+300) - 1.000 · (0,015) = +75 - 15 = <strong>-75 M€</strong>. La inversión privada se contrae fuertemente debido al endurecimiento monetario.",
-    initState: { G: 200, T: 250, i: 4.0, c0: 250, c1: 0.70, d0: 150, d1: 0.25, d2: 1000 },
-    presets: [
-      { name: "Equilibrio Inicial", fn: () => { state.G = 200; state.i = 4.0; } },
-      { name: "Solo Estímulo Fiscal (G = 230)", fn: () => { state.G = 230; state.i = 4.0; } },
-      { name: "Policy Clash (G = 230 + ī = 5,5%)", fn: () => { state.G = 230; state.i = 5.5; } }
-    ],
-    controls: [
-      { id: "g", label: "🏛️ Gasto Público (G)", min: 180, max: 260, step: 10, unit: " M€", key: "G" },
-      { id: "i", label: "🏦 Reacción Tipos BCE (ī)", min: 2.0, max: 7.0, step: 0.25, unit: " %", key: "i" }
-    ]
-  },
-
-  4: {
-    title: "Caso 4: Policy Mix Óptimo de Consolidación Presupuestaria",
-    topic: "Tema 2 · Coordinación de Políticas",
-    planeTitle: "Plano Macroeconómico (Y, i) · Saneamiento Presupuestario",
-    rateLabel: "Tipo BCE (ī)",
-    statement: "<strong>Problema Cuantitativo de Examen:</strong> Para corregir un déficit excesivo, el Gobierno recorta el gasto público en <strong>ΔG = -30 M€</strong>. Diseñe el <em>Policy Mix</em> óptimo: calcule qué bajada de tipos (<em>Δī</em>) debe aplicar el Banco Central para blindar la actividad económica (<em>ΔY = 0</em>). Muestre qué ocurre con la inversión privada y el saldo presupuestario.",
-    alertText: "<strong>Lección de Examen:</strong> La austeridad fiscal en solitario provoca recesión. Pero combinada con relajación monetaria coordinada, sanea las cuentas públicas sin destruir empleo y sustituye gasto público improductivo por inversión privada.",
-    solution: "<strong>1. Condición de Neutralidad:</strong> ΔY = m_IS · [ΔG - d₂ · Δī] = 0 ⇒ ΔG = d₂ · Δī.<br/>" +
-              "<strong>2. Recorte de Tipos Óptimo:</strong> Δī = ΔG / d₂ = -30 / 1.000 = <strong>-0,025 (-250 pb)</strong>. El BCE debe bajar tipos del 4,0% al <strong>1,50%</strong>.<br/>" +
-              "<strong>3. Recomposición del PIB:</strong> Como ΔY = 0, el consumo permanece constante, el déficit cae en 30 M€ y la inversión privada se expande en ΔI = -1.000 · (-0,025) = <strong>+30 M€</strong>.",
-    initState: { G: 200, T: 250, i: 4.0, c0: 250, c1: 0.70, d0: 150, d1: 0.25, d2: 1000 },
-    presets: [
-      { name: "Equilibrio Inicial", fn: () => { state.G = 200; state.i = 4.0; } },
-      { name: "Austeridad en Solitario (ΔG = -30)", fn: () => { state.G = 170; state.i = 4.0; } },
-      { name: "Policy Mix Óptimo (ΔG = -30 e ī = 1,5%)", fn: () => { state.G = 170; state.i = 1.5; } }
-    ],
-    controls: [
-      { id: "g", label: "🏛️ Gasto Público (G)", min: 150, max: 240, step: 5, unit: " M€", key: "G" },
-      { id: "i", label: "🏦 Acomodación Tipos BCE (ī)", min: 0.5, max: 5.5, step: 0.25, unit: " %", key: "i" }
-    ]
-  },
-
-  5: {
-    title: "Caso 5: Shock Financiero en el Modelo IS-LM Ampliado (Sesión 09)",
-    topic: "Tema 3 · IS-LM en el Plano (Y, r)",
-    planeTitle: "Plano Macroeconómico (Y, r) · Ecuación de Fisher y Prima de Riesgo",
-    rateLabel: "Coste Real (r + x)",
-    statement: "<strong>Problema Cuantitativo de Examen:</strong> En una economía descrita por <em>C = 130 + 0,60(Y - 200)</em> e <em>I = 150 + 0,10Y - 30(r + x)</em> con <em>i = 3%, πᵉ = 2% (r = 1%)</em> y <em>x = 1%</em> (Y* = 1.000 M€). Un pánico bancario dispara la prima de riesgo a <strong>x = 4% (+300 pb)</strong>. ¿Qué curva se desplaza? Calcule el desplome de la producción y de la inversión privada.",
-    alertText: "<strong>¡La Gran Trampa de Examen de la Sesión 09!</strong> La prima de riesgo crediticia <em>x</em> <strong>DESPLAZA LA CURVA IS HACIA LA IZQUIERDA Y DEJA LA LM INMÓVIL</strong>. Desplazar la curva LM ante un cambio en x supone un error conceptual descalificante.",
-    solution: "<strong>1. Ecuación de la IS:</strong> Y = 1.200 - 100·(r + x). Inicialmente r + x = 2% ⇒ Y₀* = 1.000 M€, I₀* = 190 M€.<br/>" +
-              "<strong>2. Impacto del Pánico Financiero (x = 4%):</strong> El coste del crédito salta a r + x = 1% + 4% = 5%.<br/>" +
-              "• Nueva renta: Y₁* = 1.200 - 100·(5) = <strong>700 M€</strong> (<strong>ΔY = -300 M€</strong>). La IS se desplaza a la izquierda y la LM se queda quieta.<br/>" +
-              "• Nueva inversión: I₁* = 150 + 0,10·(700) - 30·(5) = <strong>70 M€</strong> (<strong>ΔI = -120 M€</strong>). Desglose: -90 M€ por coste financiero y -30 M€ por caída de ventas.",
-    initState: { G: 200, T: 200, i: 3.0, x: 1.0, pi_e: 2.0, c0: 130, c1: 0.60, d0: 150, d1: 0.10, d2: 30 },
-    presets: [
-      { name: "Equilibrio Inicial (x = 1%)", fn: () => { state.x = 1.0; state.i = 3.0; } },
-      { name: "Pánico Bancario (+300 pb · x = 4%)", fn: () => { state.x = 4.0; state.i = 3.0; } },
-      { name: "Respuesta BCE al 0% (i = 0%)", fn: () => { state.x = 4.0; state.i = 0.0; } }
-    ],
-    controls: [
-      { id: "x", label: "💳 Prima de Riesgo Crediticia (x)", min: 0.5, max: 6.0, step: 0.5, unit: " %", key: "x" },
-      { id: "i", label: "🏦 Tipo Nominal BCE (i)", min: 0.0, max: 5.0, step: 0.25, unit: " %", key: "i" }
-    ]
-  },
-
-  6: {
-    title: "Caso 6: La Trampa del Límite Inferior Cero (ZLB) y Rescate Fiscal",
-    topic: "Tema 3 · ZLB y Rescate Fiscal en (Y, r)",
-    planeTitle: "Plano Macroeconómico (Y, r) · Trampa del ZLB (i = 0%)",
-    rateLabel: "Coste Real (r + x)",
-    statement: "<strong>Problema de Examen:</strong> Continuando con la economía de la Sesión 09, suponga que el pánico bancario eleva la prima de riesgo a <strong>x = 5,0%</strong>. El Banco Central recorta sus tipos hasta el suelo absoluto del <strong>Límite Cero (i = 0%)</strong>. Demuestre por qué la política monetaria queda maniatada y calcule el incremento del gasto público (<strong>ΔG</strong>) necesario para devolver el PIB a 1.000 M€.",
-    alertText: "<strong>Condición Matemática del ZLB:</strong> Como i ≥ 0%, el tipo real mínimo es <em>r_mín = -πᵉ = -2%</em>. El coste mínimo del crédito es r_mín + x = -2% + 5% = 3% > 2%. Al estar el BCE maniatado, la política fiscal expansiva (ΔG > 0) es la única herramienta eficaz.",
-    solution: "<strong>1. Parálisis Monetaria en el ZLB:</strong> Con i = 0% y πᵉ = 2%, r_mín = -2%. Con x = 5%, el coste efectivo del crédito es r + x = 3%, dejando la producción estancada en Y = 1.200 - 100·(3) = 900 M€ < 1.000 M€.<br/>" +
-              "<strong>2. Brecha de Producción:</strong> ΔY requerida = 1.000 - 900 = +100 M€.<br/>" +
-              "<strong>3. Rescate Fiscal Requerido:</strong> Como 0,30·ΔY = ΔG ⇒ ΔG = 0,30 · (+100) = <strong>+30 M€</strong> (el gasto público debe aumentar de 200 a 230 M€ para desplazar la IS hacia la derecha y restablecer el pleno empleo).",
-    initState: { G: 200, T: 200, i: 0.0, x: 5.0, pi_e: 2.0, c0: 130, c1: 0.60, d0: 150, d1: 0.10, d2: 30 },
-    presets: [
-      { name: "Pánico con Tipos al 0% (ZLB Atrapado)", fn: () => { state.G = 200; state.x = 5.0; state.i = 0.0; } },
-      { name: "Rescate Fiscal Parcial (ΔG = +15 M€)", fn: () => { state.G = 215; state.x = 5.0; state.i = 0.0; } },
-      { name: "Rescate Fiscal Pleno (ΔG = +30 M€)", fn: () => { state.G = 230; state.x = 5.0; state.i = 0.0; } }
-    ],
-    controls: [
-      { id: "g", label: "🏛️ Estímulo Fiscal (G)", min: 180, max: 260, step: 5, unit: " M€", key: "G" },
-      { id: "x", label: "💳 Prima de Riesgo (x)", min: 2.0, max: 7.0, step: 0.5, unit: " %", key: "x" }
-    ]
-  }
-};
-
-// =============================================================================
-// MOTOR DE CÁLCULO Y RENDERIZADO
-// =============================================================================
-
-function loadCase(caseNum) {
-  currentCaseId = caseNum;
-  showSolution = false;
-  document.getElementById("solution-box").classList.remove("open");
-
-  // Botones activos
-  document.querySelectorAll(".case-btn").forEach((btn, idx) => {
-    btn.classList.toggle("active", (idx + 1) === caseNum);
+  const filtered = EXERCISES_DATABASE.filter(ex => {
+    if (activeFilter === 'todos') return true;
+    if (activeFilter === 's07') return ex.simulacro === 's07';
+    if (activeFilter === 's09') return ex.simulacro === 's09';
+    if (activeFilter === 'cuantitativo') return ex.type === 'cuantitativo';
+    if (activeFilter === 'conceptual') return ex.type === 'conceptual';
+    return true;
   });
 
-  const c = CASES_DATA[caseNum];
-  document.getElementById("case-title").innerHTML = `<span>📝</span> ${c.title}`;
-  document.getElementById("case-topic").innerText = c.topic;
-  document.getElementById("case-statement").innerHTML = c.statement;
-  document.getElementById("chart-plane-title").innerHTML = `<span>📉</span> ${c.planeTitle}`;
-  document.getElementById("kpi-lbl-rate").innerText = c.rateLabel;
-  document.getElementById("exam-alert-text").innerHTML = c.alertText;
-  document.getElementById("solution-text").innerHTML = c.solution;
-
-  // Restaurar estado base para este caso
-  state = Object.assign({}, c.initState);
-  state.base = Object.assign({}, c.initState);
-
-  // Renderizar presets
-  const presetsBox = document.getElementById("case-presets");
-  presetsBox.innerHTML = "";
-  c.presets.forEach((p, idx) => {
+  filtered.forEach(ex => {
     const btn = document.createElement("button");
-    btn.className = "btn-action" + (idx === 0 ? " primary" : "");
-    btn.innerText = p.name;
-    btn.onclick = () => {
-      p.fn();
-      updateControlsUI();
-      recalc();
-    };
-    presetsBox.appendChild(btn);
-  });
+    btn.className = `case-btn ${ex.id === currentExerciseId ? 'active' : ''}`;
+    btn.onclick = () => loadExercise(ex.id);
 
-  // Renderizar sliders de control
-  const ctrlBox = document.getElementById("case-controls");
-  ctrlBox.innerHTML = "";
-  c.controls.forEach(ctrl => {
-    const div = document.createElement("div");
-    div.className = "ctrl-item";
-    div.innerHTML = `
-      <div class="ctrl-head">
-        <span class="ctrl-name">${ctrl.label}</span>
-        <span class="ctrl-val" id="ctrl-val-${ctrl.id}">${state[ctrl.key]}${ctrl.unit}</span>
+    btn.innerHTML = `
+      <div class="case-btn-tag">
+        <span>${ex.simulacro.toUpperCase()}</span> · ${ex.type === 'cuantitativo' ? '🔢 CUANTITATIVA' : '💡 CONCEPTUAL'}
       </div>
-      <input type="range" id="ctrl-rng-${ctrl.id}" min="${ctrl.min}" max="${ctrl.max}" step="${ctrl.step}" value="${state[ctrl.key]}" oninput="onSliderChange('${ctrl.key}', this.value, '${ctrl.id}', '${ctrl.unit}')">
+      <div class="case-btn-title" title="${ex.title}">${ex.title}</div>
+      <div class="case-btn-meta">${ex.sourceBadge.split(',')[1] || ''}</div>
     `;
-    ctrlBox.appendChild(div);
-  });
-
-  recalc();
-}
-
-function onSliderChange(key, val, id, unit) {
-  state[key] = parseFloat(val);
-  const el = document.getElementById(`ctrl-val-${id}`);
-  if (el) el.innerText = state[key] + unit;
-  recalc();
-}
-
-function updateControlsUI() {
-  const c = CASES_DATA[currentCaseId];
-  c.controls.forEach(ctrl => {
-    const rng = document.getElementById(`ctrl-rng-${ctrl.id}`);
-    const val = document.getElementById(`ctrl-val-${ctrl.id}`);
-    if (rng) rng.value = state[ctrl.key];
-    if (val) val.innerText = state[ctrl.key] + ctrl.unit;
+    navContainer.appendChild(btn);
   });
 }
 
-function toggleSolution() {
-  showSolution = !showSolution;
-  const box = document.getElementById("solution-box");
-  box.classList.toggle("open", showSolution);
+function filterCases(filter) {
+  activeFilter = filter;
+  document.querySelectorAll(".filter-pill").forEach(pill => {
+    pill.classList.remove("active");
+  });
+  event.target.classList.add("active");
+
+  renderNavList();
+
+  // Si el ejercicio actual no está en el filtro, saltar al primero disponible
+  const filtered = EXERCISES_DATABASE.filter(ex => {
+    if (activeFilter === 'todos') return true;
+    if (activeFilter === 's07') return ex.simulacro === 's07';
+    if (activeFilter === 's09') return ex.simulacro === 's09';
+    if (activeFilter === 'cuantitativo') return ex.type === 'cuantitativo';
+    if (activeFilter === 'conceptual') return ex.type === 'conceptual';
+    return true;
+  });
+
+  if (filtered.length > 0 && !filtered.some(e => e.id === currentExerciseId)) {
+    loadExercise(filtered[0].id);
+  }
 }
 
-// =============================================================================
-// MATEMÁTICAS MACROECONÓMICAS Y DIBUJO SVG
-// =============================================================================
+function switchTab(tabId) {
+  currentTab = tabId;
+  document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+  document.querySelectorAll(".tab-panel").forEach(panel => panel.classList.remove("active"));
 
-function recalc() {
-  let Y, r_eff, I, SP, base_Y, base_r, base_I, base_SP;
+  event.currentTarget.classList.add("active");
+  document.getElementById(`tab-${tabId}`).classList.add("active");
 
-  if (currentCaseId <= 4) {
-    // Casos 1 a 4: Modelo IS-LM estándar en (Y, i)
-    // C = 250 + 0.70(Y - T), I = 150 + 0.25Y - 1000i
-    const m_IS = 1 / (1 - state.c1 - state.d1); // 20
-    const A = state.c0 - state.c1 * state.T + state.d0 + state.G; // gasto autonomo
-    const rate = state.i / 100.0;
-    Y = m_IS * (A - state.d2 * rate);
-    r_eff = state.i;
-    I = state.d0 + state.d1 * Y - state.d2 * rate;
-    SP = state.T - state.G;
+  if (tabId === 'sim') {
+    updateCalculations();
+  }
+}
 
-    // Base
-    const base_A = state.base.c0 - state.base.c1 * state.base.T + state.base.d0 + state.base.G;
-    const base_rate = state.base.i / 100.0;
-    base_Y = m_IS * (base_A - state.base.d2 * base_rate);
-    base_r = state.base.i;
-    base_I = state.base.d0 + state.base.d1 * base_Y - state.base.d2 * base_rate;
-    base_SP = state.base.T - state.base.G;
+// Cargar un ejercicio en memoria y en pantalla
+function loadExercise(id) {
+  currentExerciseId = id;
+  const ex = EXERCISES_DATABASE.find(e => e.id === id);
+  if (!ex) return;
 
-    if (currentCaseId === 2) {
-      // Caso 2: Punto fuera de la IS
-      Y = state.Y_obs;
-    }
-  } else {
-    // Casos 5 y 6: Modelo IS-LM ampliado en (Y, r)
-    // C = 130 + 0.60(Y - 200), I = 150 + 0.10Y - 30(r + x)
-    const m_IS = 1 / (1 - state.c1 - state.d1); // 1 / 0.30 = 3.333
-    const rate_real = state.i - state.pi_e; // r en %
-    const cost_credit = rate_real + state.x; // (r + x) en %
-    const A = state.c0 - state.c1 * state.T + state.d0 + state.G;
-    Y = (A - state.d2 * cost_credit) / (1 - state.c1 - state.d1);
-    r_eff = cost_credit;
-    I = state.d0 + state.d1 * Y - state.d2 * cost_credit;
-    SP = state.T - state.G;
+  // Actualizar botones de navegación
+  renderNavList();
 
-    // Base
-    const base_cost = (state.base.i - state.base.pi_e) + state.base.x;
-    const base_A = state.base.c0 - state.base.c1 * state.base.T + state.base.d0 + state.base.G;
-    base_Y = (base_A - state.base.d2 * base_cost) / (1 - state.base.c1 - state.base.d1);
-    base_r = base_cost;
-    base_I = state.base.d0 + state.base.d1 * base_Y - state.base.d2 * base_cost;
-    base_SP = state.base.T - state.base.G;
+  // Banner Oficial de Examen
+  document.getElementById("exam-source-badge").innerText = ex.sourceBadge;
+  document.getElementById("exam-main-title").innerText = ex.title;
+  document.getElementById("exam-type-badge").innerText = ex.typeBadge;
+  document.getElementById("exam-regime-badge").innerText = ex.regimeBadge;
+  document.getElementById("exam-regime-badge").className = `tag-badge ${ex.regimeClass}`;
+  document.getElementById("exam-model-badge").innerText = ex.modelBadge;
+  document.getElementById("exam-time-estimate").innerText = ex.timeEstimate;
+
+  // Enunciado
+  document.getElementById("exam-statement-text").innerHTML = ex.statement;
+
+  // Alerta de Trampa
+  document.getElementById("exam-alert-text").innerHTML = ex.alertText;
+
+  // Título del Plano
+  document.getElementById("chart-plane-title").innerHTML = `<span>📉</span> ${ex.planeTitle}`;
+  document.getElementById("kpi-rate-label").innerText = ex.rateLabel;
+  document.getElementById("sim-model-tag").innerText = ex.modelBadge;
+
+  // Resetear estado con initState
+  state = Object.assign({}, ex.initState);
+  state.base = Object.assign({}, ex.initState);
+
+  // Inyectar Presets
+  const presetsContainer = document.getElementById("case-presets");
+  presetsContainer.innerHTML = "";
+  if (ex.presets) {
+    ex.presets.forEach((p, idx) => {
+      const b = document.createElement("button");
+      b.className = `btn-action ${idx === 0 ? 'primary' : ''}`;
+      b.innerText = p.name;
+      b.onclick = () => {
+        p.fn();
+        updateSlidersUI();
+        updateCalculations();
+      };
+      presetsContainer.appendChild(b);
+    });
   }
 
-  // Actualizar KPIs en pantalla
-  document.getElementById("kpi-y").innerText = Math.round(Y).toLocaleString("es-ES");
-  document.getElementById("kpi-r").innerText = r_eff.toFixed(2) + "%";
-  document.getElementById("kpi-i").innerText = Math.round(I).toLocaleString("es-ES");
-  document.getElementById("kpi-sp").innerText = (SP >= 0 ? "+" : "") + Math.round(SP) + " M€";
+  // Inyectar Controles
+  const controlsContainer = document.getElementById("case-controls");
+  controlsContainer.innerHTML = "";
+  if (ex.controls) {
+    ex.controls.forEach(c => {
+      const row = document.createElement("div");
+      row.className = "control-row";
+      row.innerHTML = `
+        <div class="control-header">
+          <span>${c.label}</span>
+          <span class="control-val" id="val-${c.id}">${state[c.key]}${c.unit}</span>
+        </div>
+        <input type="range" id="input-${c.id}" min="${c.min}" max="${c.max}" step="${c.step}" value="${state[c.key]}">
+      `;
+      controlsContainer.appendChild(row);
 
-  const dY = Y - base_Y;
-  const dr = (r_eff - base_r) * 100; // en pb
-  const dI = I - base_I;
-  const dSP = SP - base_SP;
+      const slider = row.querySelector(`#input-${c.id}`);
+      slider.oninput = (e) => {
+        state[c.key] = parseFloat(e.target.value);
+        document.getElementById(`val-${c.id}`).innerText = `${state[c.key]}${c.unit}`;
+        updateCalculations();
+      };
+    });
+  }
 
-  setKpiDelta("kpi-dy", dY, "ΔY: ", " M€", true);
-  setKpiDelta("kpi-dr", dr, "Δ: ", " pb", false);
-  setKpiDelta("kpi-di", dI, "ΔI: ", " M€", true);
-  setKpiDelta("kpi-dsp", dSP, "ΔSP: ", " M€", true);
+  // Inyectar Contenido Analítico y Rúbrica
+  document.getElementById("analytical-content").innerHTML = ex.analytical;
+  document.getElementById("rubric-content").innerHTML = `
+    <h3 style="font-family:'Outfit', sans-serif; font-size:1.1rem; color:var(--navy); margin-bottom:12px;">
+      📋 Rúbrica Oficial de Calificación y Criterios Docentes UPO
+    </h3>
+    <p style="font-size:0.88rem; color:var(--slate); margin-bottom:14px;">
+      Criterios rigurosos aplicados en la corrección de este ejercicio para el Doble Grado en Derecho y Finanzas y Contabilidad (DER + FICO):
+    </p>
+    ${ex.rubric}
+  `;
+
+  // Inyectar Quiz
+  if (ex.quiz) {
+    document.getElementById("quiz-question-text").innerText = ex.quiz.question;
+    const optsContainer = document.getElementById("quiz-options-list");
+    optsContainer.innerHTML = "";
+    document.getElementById("quiz-feedback-box").className = "quiz-feedback";
+    document.getElementById("quiz-feedback-box").innerHTML = "";
+
+    ex.quiz.options.forEach((opt, idx) => {
+      const optBtn = document.createElement("button");
+      optBtn.className = "quiz-opt";
+      optBtn.innerText = `${String.fromCharCode(65 + idx)}) ${opt}`;
+      optBtn.onclick = () => handleQuizAnswer(idx, ex.quiz);
+      optsContainer.appendChild(optBtn);
+    });
+  }
+
+  updateCalculations();
+}
+
+function updateSlidersUI() {
+  const ex = EXERCISES_DATABASE.find(e => e.id === currentExerciseId);
+  if (!ex || !ex.controls) return;
+  ex.controls.forEach(c => {
+    const input = document.getElementById(`input-${c.id}`);
+    const valSpan = document.getElementById(`val-${c.id}`);
+    if (input && valSpan) {
+      input.value = state[c.key];
+      valSpan.innerText = `${state[c.key]}${c.unit}`;
+    }
+  });
+}
+
+function handleQuizAnswer(selectedIdx, quiz) {
+  const opts = document.querySelectorAll(".quiz-opt");
+  opts.forEach((btn, idx) => {
+    btn.disabled = true;
+    if (idx === quiz.correctIndex) {
+      btn.classList.add("selected-correct");
+    } else if (idx === selectedIdx) {
+      btn.classList.add("selected-wrong");
+    }
+  });
+
+  const fb = document.getElementById("quiz-feedback-box");
+  fb.classList.add("show");
+  if (selectedIdx === quiz.correctIndex) {
+    fb.className = "quiz-feedback show correct";
+    fb.innerHTML = `<strong>¡Respuesta Correcta!</strong> ${quiz.feedbackCorrect}`;
+  } else {
+    fb.className = "quiz-feedback show wrong";
+    fb.innerHTML = `<strong>Respuesta Errónea.</strong> ${quiz.feedbackWrong}`;
+  }
+}
+
+// =============================================================================
+// MOTOR DE CÁLCULO Y RENDERIZADO GRÁFICO
+// =============================================================================
+
+function updateCalculations() {
+  const ex = EXERCISES_DATABASE.find(e => e.id === currentExerciseId);
+  if (!ex) return;
+
+  let Y_star = 0;
+  let I_star = 0;
+  let SP_star = 0;
+  let effectiveRate = 0;
+
+  let Y_base = 0;
+  let I_base = 0;
+  let SP_base = 0;
+  let effectiveRateBase = 0;
+
+  // CASOS DEL MODELO IS-LM ESTÁNDAR (1 a 5 y 7)
+  if ([1, 2, 3, 4, 5, 7].includes(ex.id)) {
+    const m_IS = 1 / (1 - state.c1 - state.d1);
+    const A = state.c0 - state.c1 * state.T + state.d0 + state.G;
+    Y_star = m_IS * (A - state.d2 * (state.i / 100));
+    I_star = state.d0 + state.d1 * Y_star - state.d2 * (state.i / 100);
+    SP_star = state.T - state.G;
+    effectiveRate = state.i;
+
+    // Base
+    const A_base = state.base.c0 - state.base.c1 * state.base.T + state.base.d0 + state.base.G;
+    Y_base = m_IS * (A_base - state.base.d2 * (state.base.i / 100));
+    I_base = state.base.d0 + state.base.d1 * Y_base - state.base.d2 * (state.base.i / 100);
+    SP_base = state.base.T - state.base.G;
+    effectiveRateBase = state.base.i;
+  }
+  // CASO DE PARADOJA DEL AHORRO (6)
+  else if (ex.id === 6) {
+    const m = 1 / (1 - state.c1);
+    const A = state.c0 - state.c1 * state.T + state.d0 + state.G;
+    Y_star = m * A;
+    I_star = state.d0;
+    SP_star = state.T - state.G;
+    effectiveRate = state.d0 + state.G - state.T; // S_total = I + G - T
+
+    const A_base = state.base.c0 - state.base.c1 * state.base.T + state.base.d0 + state.base.G;
+    Y_base = m * A_base;
+    I_base = state.base.d0;
+    SP_base = state.base.T - state.base.G;
+    effectiveRateBase = state.base.d0 + state.base.G - state.base.T;
+  }
+  // CASOS DEL MODELO AMPLIADO CON PRIMA X Y ZLB (8, 9, 10)
+  else {
+    const r = Math.max(state.i, 0) - state.pi_e;
+    const r_base = Math.max(state.base.i, 0) - state.base.pi_e;
+
+    effectiveRate = r + state.x;
+    effectiveRateBase = r_base + state.base.x;
+
+    // IS ampliada: Y = [c0 - c1*T + d0 + G - d2*(r+x)] / (1 - c1 - d1)
+    const m_IS = 1 / (1 - state.c1 - state.d1);
+    const A = state.c0 - state.c1 * state.T + state.d0 + state.G;
+    Y_star = m_IS * (A - state.d2 * (effectiveRate / 100));
+    I_star = state.d0 + state.d1 * Y_star - state.d2 * (effectiveRate / 100);
+    SP_star = state.T - state.G;
+
+    const A_base = state.base.c0 - state.base.c1 * state.base.T + state.base.d0 + state.base.G;
+    Y_base = m_IS * (A_base - state.base.d2 * (effectiveRateBase / 100));
+    I_base = state.base.d0 + state.base.d1 * Y_base - state.base.d2 * (effectiveRateBase / 100);
+    SP_base = state.base.T - state.base.G;
+  }
+
+  // Actualizar DOM KPIs
+  document.getElementById("kpi-y").innerText = Math.round(Y_star).toLocaleString('es-ES');
+  document.getElementById("kpi-i").innerText = Math.round(I_star).toLocaleString('es-ES');
+  document.getElementById("kpi-sp").innerText = (SP_star >= 0 ? "+" : "") + Math.round(SP_star).toLocaleString('es-ES');
+  document.getElementById("kpi-rate").innerText = effectiveRate.toFixed(ex.id === 6 ? 0 : 2) + (ex.id === 6 ? " M€" : "%");
+
+  const dY = Y_star - Y_base;
+  const dI = I_star - I_base;
+  const dSP = SP_star - SP_base;
+  const dRate = effectiveRate - effectiveRateBase;
+
+  setDeltaLabel("kpi-dy", dY, " M€");
+  setDeltaLabel("kpi-di", dI, " M€");
+  setDeltaLabel("kpi-dsp", dSP, " M€");
+  setDeltaLabel("kpi-drate", ex.id === 6 ? dRate : dRate * 100, ex.id === 6 ? " M€" : " pb");
 
   // Renderizar Gráfico SVG
-  drawChart(Y, r_eff, base_Y, base_r);
+  renderSvgGraph(Y_star, effectiveRate, Y_base, effectiveRateBase);
 }
 
-function setKpiDelta(elId, val, prefix, suffix, posIsGreen) {
-  const el = document.getElementById(elId);
-  if (!el) return;
-  const rounded = Math.round(val);
-  const sign = rounded > 0 ? "+" : "";
-  el.innerText = `${prefix}${sign}${rounded}${suffix}`;
-  el.className = "kpi-delta " + (rounded === 0 ? "delta-neu" : (rounded > 0 === posIsGreen ? "delta-pos" : "delta-neg"));
+function setDeltaLabel(elementId, value, unit) {
+  const el = document.getElementById(elementId);
+  const rounded = Math.round(value * 10) / 10;
+  if (Math.abs(rounded) < 0.05) {
+    el.className = "kpi-delta delta-neu";
+    el.innerText = `Δ: 0${unit}`;
+  } else if (rounded > 0) {
+    el.className = "kpi-delta delta-pos";
+    el.innerText = `▲ +${rounded}${unit}`;
+  } else {
+    el.className = "kpi-delta delta-neg";
+    el.innerText = `▼ ${rounded}${unit}`;
+  }
 }
 
-// =============================================================================
-// DIBUJO DE ALTA DEFINICIÓN EN SVG
-// =============================================================================
-
-function drawChart(currentY, currentRate, baseY, baseRate) {
+// Renderizado del Diagrama Macroeconómico Vectorial
+function renderSvgGraph(Y_act, r_act, Y_base, r_base) {
   const svg = document.getElementById("macro-svg");
-  const w = 650;
-  const h = 420;
-  const padL = 65;
-  const padR = 40;
-  const padT = 30;
-  const padB = 55;
+  const ex = EXERCISES_DATABASE.find(e => e.id === currentExerciseId);
 
-  const plotW = w - padL - padR;
-  const plotH = h - padT - padB;
+  // Dimensiones del canvas
+  const W = 650;
+  const H = 430;
+  const padL = 70;
+  const padR = 40;
+  const padT = 40;
+  const padB = 60;
 
   // Escalas
-  let minX, maxX, minY, maxY, labelYAxis;
-  if (currentCaseId <= 4) {
-    minX = 7000; maxX = 8600;
-    minY = 0.5; maxY = 7.5;
-    labelYAxis = "Tipo de interés oficial (i)";
-  } else {
-    minX = 600; maxX = 1200;
-    minY = -2.5; maxY = 7.0;
-    labelYAxis = (currentCaseId === 5 ? "Tipo real de política (r) / Coste (r + x)" : "Tipo de interés real de política (r)");
+  let yMin = 6500, yMax = 9000;
+  let rMin = 0.0, rMax = 7.0;
+
+  if (ex.id === 5) { // Problema 9 S07
+    yMin = 2400; yMax = 3800;
+    rMin = 0.5; rMax = 6.0;
+  } else if (ex.id === 6) { // Paradoja del ahorro
+    yMin = 800; yMax = 1700;
+    rMin = 0; rMax = 400;
+  } else if ([8, 9, 10].includes(ex.id)) { // IS-LM Ampliado
+    yMin = 500; yMax = 1400;
+    rMin = -1.0; rMax = 6.5;
   }
 
-  function xToPx(xVal) { return padL + ((xVal - minX) / (maxX - minX)) * plotW; }
-  function yToPx(yVal) { return padT + plotH - ((yVal - minY) / (maxY - minY)) * plotH; }
-
-  let html = "";
-
-  // 1. Grid horizontal muy suave
-  for (let yGrid = Math.ceil(minY); yGrid <= Math.floor(maxY); yGrid += (currentCaseId <= 4 ? 1 : 2)) {
-    const py = yToPx(yGrid);
-    html += `<line x1="${padL}" y1="${py}" x2="${w - padR}" y2="${py}" stroke="#f1f5f9" stroke-dasharray="3,3" stroke-width="1"/>`;
-    html += `<text x="${padL - 10}" y="${py + 4}" font-family="Segoe UI" font-size="10" fill="#94a3b8" text-anchor="end">${yGrid}%</text>`;
+  function mapX(val) {
+    return padL + ((val - yMin) / (yMax - yMin)) * (W - padL - padR);
+  }
+  function mapY(val) {
+    return (H - padB) - ((val - rMin) / (rMax - rMin)) * (H - padT - padB);
   }
 
-  // 2. Zona ZLB si aplica (Caso 6)
-  if (currentCaseId === 6) {
-    const pyZlb = yToPx(-state.pi_e); // r_min = -2%
-    const pyZero = yToPx(minY);
-    html += `<rect x="${padL}" y="${pyZlb}" width="${plotW}" height="${pyZero - pyZlb}" fill="#fee2e2" opacity="0.6"/>`;
-    html += `<line x1="${padL}" y1="${pyZlb}" x2="${w - padR}" y2="${pyZlb}" stroke="#e11d48" stroke-dasharray="4,3" stroke-width="1.5"/>`;
-    html += `<text x="${w - padR - 8}" y="${pyZlb - 6}" font-family="Segoe UI" font-size="10" font-weight="700" fill="#e11d48" text-anchor="end">Suelo ZLB: r_mín = -πᵉ = -2,0% (i = 0%)</text>`;
-    html += `<text x="${padL + 12}" y="${pyZlb + 18}" font-family="Segoe UI" font-size="9" font-weight="700" fill="#991b1b">ZONA PROHIBIDA / TRAMPA DE LIQUIDEZ</text>`;
-  }
+  // Generar marcado SVG
+  let content = `
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b"/>
+      </marker>
+      <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="#056caa"/>
+      </marker>
+    </defs>
 
-  // 3. Ejes de coordenadas
-  const pyAxisX = yToPx(minY);
-  html += `<line x1="${padL}" y1="${pyAxisX}" x2="${w - padR + 15}" y2="${pyAxisX}" stroke="#0b1c36" stroke-width="2"/>`;
-  html += `<line x1="${padL}" y1="${padT - 10}" x2="${padL}" y2="${pyAxisX}" stroke="#0b1c36" stroke-width="2"/>`;
-
-  // Flechas de ejes
-  html += `<polygon points="${w - padR + 20},${pyAxisX} ${w - padR + 12},${pyAxisX - 4} ${w - padR + 12},${pyAxisX + 4}" fill="#0b1c36"/>`;
-  html += `<polygon points="${padL},${padT - 15} ${padL - 4},${padT - 7} ${padL + 4},${padT - 7}" fill="#0b1c36"/>`;
+    <!-- Fondo y Cuadrícula -->
+    <rect width="${W}" height="${H}" fill="#ffffff"/>
+    <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${H - padB}" stroke="#1e293b" stroke-width="2"/>
+    <line x1="${padL}" y1="${H - padB}" x2="${W - padR}" y2="${H - padB}" stroke="#1e293b" stroke-width="2"/>
+  `;
 
   // Etiquetas de Ejes
-  html += `<text x="${w - padR + 5}" y="${pyAxisX + 26}" font-family="Segoe UI" font-size="11" font-weight="700" fill="#0b1c36" text-anchor="end">Producción / Renta (Y)</text>`;
-  html += `<text x="${padL - 8}" y="${padT - 14}" font-family="Segoe UI" font-size="11" font-weight="700" fill="#0b1c36" text-anchor="start">${labelYAxis}</text>`;
+  const xLabel = "Producción de Equilibrio / Renta Real (Y)";
+  const yLabel = ex.id === 6 ? "Demanda Agregada / Ahorro (Z, S)" : (([8, 9, 10].includes(ex.id)) ? "Tipo de Interés Real / Coste (r, r+x)" : "Tipo de Interés Oficial (i)");
 
-  // 4. CURVA IS BASE (Referencia inicial desvanecida)
-  if (currentCaseId <= 4) {
-    // IS base: Y = 8.500 - 20.000*i
-    const xBaseIS1 = xToPx(8500 - 20000 * (minY / 100));
-    const xBaseIS2 = xToPx(8500 - 20000 * (maxY / 100));
-    const yBaseIS1 = yToPx(minY);
-    const yBaseIS2 = yToPx(maxY);
-    html += `<line x1="${xBaseIS1}" y1="${yBaseIS1}" x2="${xBaseIS2}" y2="${yBaseIS2}" stroke="#94a3b8" stroke-dasharray="4,4" stroke-width="2"/>`;
-    html += `<text x="${xBaseIS2 + 6}" y="${yBaseIS2 + 14}" font-family="Segoe UI" font-size="10" font-weight="700" fill="#94a3b8">IS₀</text>`;
-  } else {
-    // IS base en plano ampliado
-    const xBaseIS1 = xToPx(1200 - 100 * (minY + state.base.x));
-    const xBaseIS2 = xToPx(1200 - 100 * (maxY + state.base.x));
-    html += `<line x1="${xBaseIS1}" y1="${yToPx(minY)}" x2="${xBaseIS2}" y2="${yToPx(maxY)}" stroke="#94a3b8" stroke-dasharray="4,4" stroke-width="2"/>`;
-    html += `<text x="${xBaseIS2 + 6}" y="${yToPx(maxY) + 14}" font-family="Segoe UI" font-size="10" font-weight="700" fill="#94a3b8">IS₀</text>`;
+  content += `
+    <text x="${W - padR}" y="${H - padB + 34}" text-anchor="end" font-size="12" font-weight="700" fill="#0b1c36">${xLabel}</text>
+    <text x="${padL - 12}" y="${padT - 12}" text-anchor="start" font-size="12" font-weight="700" fill="#0b1c36">${yLabel}</text>
+  `;
+
+  // Curvas Base Iniciales E0 (Discontinuas)
+  const isBase_x1 = mapX(Y_base * 0.88);
+  const isBase_y1 = mapY(r_base + (ex.id === 6 ? -80 : 1.8));
+  const isBase_x2 = mapX(Y_base * 1.12);
+  const isBase_y2 = mapY(r_base - (ex.id === 6 ? -80 : 1.8));
+
+  content += `
+    <!-- Curva IS Base E0 -->
+    <line x1="${isBase_x1}" y1="${isBase_y1}" x2="${isBase_x2}" y2="${isBase_y2}" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5,5"/>
+    <text x="${isBase_x2 + 4}" y="${isBase_y2 + 4}" font-size="11" font-weight="700" fill="#94a3b8">IS₀</text>
+
+    <!-- Curva LM Base E0 -->
+    <line x1="${padL}" y1="${mapY(r_base)}" x2="${W - padR}" y2="${mapY(r_base)}" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5,5"/>
+    <text x="${W - padR - 25}" y="${mapY(r_base) - 6}" font-size="11" font-weight="700" fill="#94a3b8">LM₀</text>
+
+    <!-- Punto E0 -->
+    <circle cx="${mapX(Y_base)}" cy="${mapY(r_base)}" r="4.5" fill="#64748b"/>
+    <text x="${mapX(Y_base) + 8}" y="${mapY(r_base) - 8}" font-size="11" font-weight="800" fill="#64748b">E₀ (${Math.round(Y_base)})</text>
+  `;
+
+  // Curvas Activas Finales E1
+  const isAct_x1 = mapX(Y_act * 0.88);
+  const isAct_y1 = mapY(r_act + (ex.id === 6 ? -80 : 1.8));
+  const isAct_x2 = mapX(Y_act * 1.12);
+  const isAct_y2 = mapY(r_act - (ex.id === 6 ? -80 : 1.8));
+
+  content += `
+    <!-- Curva IS Activa -->
+    <line x1="${isAct_x1}" y1="${isAct_y1}" x2="${isAct_x2}" y2="${isAct_y2}" stroke="#056caa" stroke-width="3"/>
+    <text x="${isAct_x2 + 4}" y="${isAct_y2 + 4}" font-size="12" font-weight="800" fill="#056caa">IS₁</text>
+
+    <!-- Curva LM Activa -->
+    <line x1="${padL}" y1="${mapY(r_act)}" x2="${W - padR}" y2="${mapY(r_act)}" stroke="#d97706" stroke-width="3"/>
+    <text x="${W - padR - 25}" y="${mapY(r_act) - 6}" font-size="12" font-weight="800" fill="#d97706">LM₁</text>
+
+    <!-- Líneas de Proyección al Equilibrio E1 -->
+    <line x1="${mapX(Y_act)}" y1="${mapY(r_act)}" x2="${mapX(Y_act)}" y2="${H - padB}" stroke="#056caa" stroke-width="1.5" stroke-dasharray="3,3"/>
+    <line x1="${padL}" y1="${mapY(r_act)}" x2="${mapX(Y_act)}" y2="${mapY(r_act)}" stroke="#d97706" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+    <!-- Punto de Equilibrio Final E1 -->
+    <circle cx="${mapX(Y_act)}" cy="${mapY(r_act)}" r="6" fill="#d97706" stroke="#ffffff" stroke-width="2"/>
+    <text x="${mapX(Y_act) + 8}" y="${mapY(r_act) - 10}" font-size="12" font-weight="800" fill="#0b1c36">E₁* (${Math.round(Y_act)})</text>
+  `;
+
+  // En caso 2: Punto fuera del equilibrio A
+  if (ex.id === 2 && state.Y_obs) {
+    const pAx = mapX(state.Y_obs);
+    const pAy = mapY(state.i);
+    content += `
+      <!-- Punto Desequilibrio A -->
+      <circle cx="${pAx}" cy="${pAy}" r="6.5" fill="#e11d48" stroke="#ffffff" stroke-width="2"/>
+      <text x="${pAx - 15}" y="${pAy - 12}" font-size="12" font-weight="800" fill="#e11d48">Punto A (Is > 0)</text>
+      <!-- Flecha de Ajuste Horizontal -->
+      <line x1="${pAx - 10}" y1="${pAy}" x2="${mapX(Y_act) + 12}" y2="${pAy}" stroke="#e11d48" stroke-width="2.5" marker-end="url(#arrow)"/>
+    `;
   }
 
-  // 5. CURVA LM BASE (Referencia desvanecida)
-  let yPxBaseLM;
-  if (currentCaseId <= 4) {
-    yPxBaseLM = yToPx(state.base.i);
-    html += `<line x1="${padL}" y1="${yPxBaseLM}" x2="${w - padR}" y2="${yPxBaseLM}" stroke="#cbd5e1" stroke-dasharray="4,4" stroke-width="1.8"/>`;
-    html += `<text x="${w - padR - 5}" y="${yPxBaseLM - 5}" font-family="Segoe UI" font-size="10" font-weight="700" fill="#94a3b8" text-anchor="end">LM₀ (ī₀ = ${state.base.i.toFixed(1)}%)</text>`;
-  } else {
-    yPxBaseLM = yToPx(state.base.i - state.base.pi_e);
-    html += `<line x1="${padL}" y1="${yPxBaseLM}" x2="${w - padR}" y2="${yPxBaseLM}" stroke="#cbd5e1" stroke-dasharray="4,4" stroke-width="1.8"/>`;
-    html += `<text x="${w - padR - 5}" y="${yPxBaseLM - 5}" font-family="Segoe UI" font-size="10" font-weight="700" fill="#94a3b8" text-anchor="end">LM₀ (r̄₀ = ${(state.base.i - state.base.pi_e).toFixed(1)}%)</text>`;
+  // En casos de ZLB: Línea de suelo ZLB
+  if ([8, 9, 10].includes(ex.id)) {
+    const zlbY = mapY(-state.pi_e);
+    content += `
+      <!-- Suelo ZLB r_mín = -πe -->
+      <line x1="${padL}" y1="${zlbY}" x2="${W - padR}" y2="${zlbY}" stroke="#e11d48" stroke-width="1.5" stroke-dasharray="4,4"/>
+      <text x="${W - padR - 120}" y="${zlbY + 14}" font-size="10" font-weight="800" fill="#e11d48">Suelo ZLB (r_mín = -${state.pi_e}%)</text>
+    `;
   }
 
-  // 6. CURVA IS ACTIVA
-  let curIS_x1, curIS_x2, curIS_y1, curIS_y2;
-  if (currentCaseId <= 4) {
-    const m_IS = 20;
-    const A = state.c0 - state.c1 * state.T + state.d0 + state.G;
-    curIS_x1 = xToPx(m_IS * (A - state.d2 * (minY / 100)));
-    curIS_x2 = xToPx(m_IS * (A - state.d2 * (maxY / 100)));
-    curIS_y1 = yToPx(minY);
-    curIS_y2 = yToPx(maxY);
-  } else {
-    const cost_r_min = minY + state.x;
-    const cost_r_max = maxY + state.x;
-    const A = state.c0 - state.c1 * state.T + state.d0 + state.G;
-    curIS_x1 = xToPx((A - state.d2 * cost_r_min) / 0.30);
-    curIS_x2 = xToPx((A - state.d2 * cost_r_max) / 0.30);
-    curIS_y1 = yToPx(minY);
-    curIS_y2 = yToPx(maxY);
-  }
-
-  html += `<line x1="${curIS_x1}" y1="${curIS_y1}" x2="${curIS_x2}" y2="${curIS_y2}" stroke="#056caa" stroke-width="3.2"/>`;
-  html += `<text x="${curIS_x2 + 8}" y="${curIS_y2 + 8}" font-family="Segoe UI" font-size="12" font-weight="800" fill="#056caa">IS₁</text>`;
-
-  // 7. CURVA LM ACTIVA (Recta horizontal de Blanchard)
-  let curLM_y;
-  let curLM_label;
-  if (currentCaseId <= 4) {
-    curLM_y = yToPx(state.i);
-    curLM_label = `LM₁ (ī = ${state.i.toFixed(2)}%)`;
-  } else {
-    const r_pol = state.i - state.pi_e;
-    curLM_y = yToPx(r_pol);
-    curLM_label = `LM₁ (r = ${r_pol.toFixed(1)}%)`;
-  }
-
-  html += `<line x1="${padL}" y1="${curLM_y}" x2="${w - padR}" y2="${curLM_y}" stroke="#d97706" stroke-width="3"/>`;
-  html += `<text x="${w - padR - 5}" y="${curLM_y - 6}" font-family="Segoe UI" font-size="11" font-weight="800" fill="#d97706" text-anchor="end">${curLM_label}</text>`;
-
-  // 8. PUNTOS DE EQUILIBRIO
-  // Punto Base E0
-  const pxBaseX = xToPx(baseY);
-  html += `<circle cx="${pxBaseX}" cy="${yPxBaseLM}" r="5" fill="#94a3b8" stroke="#ffffff" stroke-width="2"/>`;
-  html += `<text x="${pxBaseX - 8}" y="${yPxBaseLM - 8}" font-family="Segoe UI" font-size="10" font-weight="800" fill="#64748b" text-anchor="end">E₀ (${Math.round(baseY)})</text>`;
-
-  // Punto Activo E1
-  let pxCurX = xToPx(currentY);
-  let pxCurY = curLM_y;
-
-  if (currentCaseId === 2) {
-    // En el caso 2, el punto observado está fuera de la IS
-    pxCurX = xToPx(state.Y_obs);
-    html += `<circle cx="${pxCurX}" cy="${pxCurY}" r="6.5" fill="#e11d48" stroke="#ffffff" stroke-width="2"/>`;
-    html += `<text x="${pxCurX + 8}" y="${pxCurY - 10}" font-family="Segoe UI" font-size="11" font-weight="800" fill="#e11d48">Punto A (Y = ${state.Y_obs})</text>`;
-
-    // Flecha de ajuste de inventarios horizontal hacia la izquierda
-    const eqX = xToPx(baseY);
-    if (state.Y_obs > baseY) {
-      html += `<line x1="${pxCurX - 10}" y1="${pxCurY}" x2="${eqX + 10}" y2="${pxCurY}" stroke="#e11d48" stroke-width="2.5" stroke-dasharray="4,2"/>`;
-      html += `<polygon points="${eqX + 8},${pxCurY} ${eqX + 16},${pxCurY - 4} ${eqX + 16},${pxCurY + 4}" fill="#e11d48"/>`;
-      html += `<text x="${(pxCurX + eqX)/2}" y="${pxCurY + 18}" font-family="Segoe UI" font-size="10" font-weight="700" fill="#e11d48" text-anchor="middle">Ajuste horizontal: recortes de producción (I_s > 0)</text>`;
-    }
-  } else {
-    // Punto de equilibrio E1
-    html += `<circle cx="${pxCurX}" cy="${pxCurY}" r="6.5" fill="#0b1c36" stroke="#ffffff" stroke-width="2"/>`;
-    html += `<text x="${pxCurX + 8}" y="${pxCurY - 10}" font-family="Segoe UI" font-size="11" font-weight="800" fill="#0b1c36">E₁ (${Math.round(currentY)})</text>`;
-
-    // Líneas de cota hacia los ejes
-    html += `<line x1="${pxCurX}" y1="${pxCurY}" x2="${pxCurX}" y2="${pyAxisX}" stroke="#0b1c36" stroke-dasharray="2,2" stroke-width="1.2"/>`;
-    html += `<text x="${pxCurX}" y="${pyAxisX + 15}" font-family="Segoe UI" font-size="10" font-weight="800" fill="#0b1c36" text-anchor="middle">Y₁* = ${Math.round(currentY)}</text>`;
-
-    // Flecha de desplazamiento de la IS si cambia
-    const dX_IS = curIS_x1 - xToPx(baseY);
-    if (Math.abs(currentY - baseY) > 20) {
-      const midY = (padT + plotH) * 0.45;
-      const arrX1 = (currentCaseId <= 4 ? xToPx(8500 - 20000*(4/100)) : xToPx(1000));
-      const arrX2 = pxCurX;
-      const arrowColor = (currentY > baseY ? "#059669" : "#e11d48");
-      html += `<line x1="${arrX1}" y1="${midY}" x2="${arrX2}" y2="${midY}" stroke="${arrowColor}" stroke-width="2"/>`;
-      if (currentY > baseY) {
-        html += `<polygon points="${arrX2},${midY} ${arrX2 - 6},${midY - 3} ${arrX2 - 6},${midY + 3}" fill="${arrowColor}"/>`;
-        html += `<text x="${(arrX1 + arrX2)/2}" y="${midY - 6}" font-family="Segoe UI" font-size="9" font-weight="700" fill="${arrowColor}" text-anchor="middle">Desplazamiento IS (ΔG > 0)</text>`;
-      } else {
-        html += `<polygon points="${arrX2},${midY} ${arrX2 + 6},${midY - 3} ${arrX2 + 6},${midY + 3}" fill="${arrowColor}"/>`;
-        html += `<text x="${(arrX1 + arrX2)/2}" y="${midY - 6}" font-family="Segoe UI" font-size="9" font-weight="700" fill="${arrowColor}" text-anchor="middle">Desplazamiento IS hacia la izquierda</text>`;
-      }
-    }
-  }
-
-  svg.innerHTML = html;
+  svg.innerHTML = content;
 }
 
-// Inicialización
+// Inicialización al cargar la página
 window.addEventListener("DOMContentLoaded", () => {
-  loadCase(1);
+  renderNavList();
+  loadExercise(1);
 });
 </script>
 
