@@ -665,6 +665,7 @@
       </div>
     </div>
     <div class="header-status">
+      <a href="epd_laboratorio.html" class="btn-header" style="text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">🏠 Panel de Sesiones</a>
       <div id="teamBadge" class="team-badge" style="display: none;">
         <span>👥 Equipo:</span>
         <span id="displayTeamCode" class="code-highlight">PSLL-EPD2-0000</span>
@@ -677,7 +678,8 @@
 
   <!-- Router de Sesiones Modular -->
   <nav class="session-router">
-    <a href="epd_laboratorio.html" class="router-tab" data-tab="epd1">📍 Sesión 01: Radiografía del Desempleo</a>
+    <a href="epd_laboratorio.html" class="router-tab" id="routerTabPortal">🏠 Panel de Sesiones</a>
+    <a href="epd_laboratorio.html?sesion=1" class="router-tab" data-tab="epd1">📍 Sesión 01: Radiografía del Desempleo</a>
     <a href="epd2_laboratorio.html" class="router-tab active" data-tab="epd2">📍 Sesión 02: Gobernanza UE y FSE+</a>
     <div class="router-tab disabled" title="Se desbloqueará en Semana 9">🔒 Sesión 03: PAE y Talento 45+</div>
     <div class="router-tab disabled" title="Se desbloqueará en Semana 10">🔒 Sesión 04: Incentivos Emplea-T</div>
@@ -695,13 +697,39 @@
           <p>Configuración del Equipo de Trabajo (de 1 a 3 estudiantes) · Convocatoria Oficial</p>
         </div>
 
-        <div class="form-group">
+        <div id="leaderWelcomeBanner" style="display: none; background: var(--menta-soft); border: 1.5px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 12px 18px; margin-bottom: 18px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <div>
+              <span style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.03em;">Responsable de Entrega Autenticado/a</span>
+              <h4 id="leaderWelcomeName" style="color: var(--pino); font-family: 'Outfit', sans-serif; font-size: 1.15rem; margin: 2px 0 0 0;">---</h4>
+            </div>
+            <a href="epd_laboratorio.html" style="font-size: 0.82rem; color: var(--coral); text-decoration: underline; font-weight: 600;">← Volver al Panel</a>
+          </div>
+        </div>
+
+        <div class="form-group" id="groupAcronymInput">
           <label for="inputAcronym">Tu Acrónimo Institucional UPO (Responsable de la entrega):</label>
           <input type="text" id="inputAcronym" class="form-control" placeholder="Ej: sagudel, laltucl, capacam..." autofocus>
           <small style="color: var(--text-muted); font-size: 0.78rem;">Introduce tu nombre de usuario del correo institucional de la UPO (@alu.upo.es).</small>
         </div>
 
         <div id="teamMembersArea" class="team-setup-box" style="display: none;">
+          <!-- AVISO ESTRICTO DE ASISTENCIA OBLIGATORIA EN EL AULA -->
+          <div style="background: #FEF2F2; border: 2px solid #DC2626; border-radius: 10px; padding: 14px 18px; margin-bottom: 18px;">
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+              <span style="font-size: 1.6rem; line-height: 1;">⚠️</span>
+              <div>
+                <strong style="color: #991B1B; font-size: 0.95rem; display: block; margin-bottom: 4px;">
+                  REGLA OBLIGATORIA DE ASISTENCIA Y PARTICIPACIÓN EN EL AULA:
+                </strong>
+                <p style="color: #7F1D1D; font-size: 0.86rem; margin: 0; line-height: 1.45;">
+                  Las personas que selecciones a continuación <strong>SOLO pueden ser compañeros/as que estén físicamente presentes en el aula durante la clase de hoy</strong>.<br>
+                  <strong>Está terminantemente prohibido elegir a personas que no hayan asistido</strong>. La inclusión fraudulenta de compañeros ausentes conllevará la <strong>anulación automática de la entrega (calificación 0,00 pts)</strong> para todos los miembros del equipo.
+                </p>
+              </div>
+            </div>
+          </div>
+
           <h4 style="color: var(--pino); font-family: 'Outfit', sans-serif; margin-bottom: 10px;">
             👥 Configuración de Miembros del Equipo (Máx. 3 estudiantes)
           </h4>
@@ -1303,10 +1331,18 @@ Verifica que está bien escrito (sin @alu.upo.es). Si eres alumno de intercambio
       currentSession.leaderUsername = raw;
       currentSession.leaderFullName = DB_USERS[raw];
 
+      const banner = document.getElementById('leaderWelcomeBanner');
+      const nameEl = document.getElementById('leaderWelcomeName');
+      const inputGrp = document.getElementById('groupAcronymInput');
+      if (banner && nameEl) {
+        nameEl.textContent = `${currentSession.leaderFullName} (${raw})`;
+        banner.style.display = 'block';
+        if (inputGrp) inputGrp.style.display = 'none';
+      }
+
       populateStudentSelects(raw);
       document.getElementById('teamMembersArea').style.display = 'block';
       document.getElementById('btnVerifyLeader').style.display = 'none';
-      document.getElementById('inputAcronym').readOnly = true;
       document.getElementById('btnStartSession').style.display = 'inline-flex';
     }
 
@@ -1639,6 +1675,28 @@ Verifica que está bien escrito (sin @alu.upo.es). Si eres alumno de intercambio
         location.reload();
       }
     }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // 1. Auto-login si ya viene autenticado del portal EPD
+      const authUser = localStorage.getItem('psll_auth_user');
+      if (authUser) {
+        document.getElementById('inputAcronym').value = authUser;
+        verifyTeamLeader();
+      }
+
+      // 2. Comprobar fecha límite de entrega (Domingo 01/11/2026 23:59:59)
+      const closesDate = new Date("2026-11-01T23:59:59");
+      const now = new Date();
+      if (now > closesDate && authUser !== 'mhidper') {
+        const authCard = document.querySelector('#authSection .auth-card');
+        if (authCard) {
+          const closedBanner = document.createElement('div');
+          closedBanner.style.cssText = 'background: #FEF2F2; border: 1.5px solid #DC2626; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; color: #991B1B; font-size: 0.88rem;';
+          closedBanner.innerHTML = '🔒 <strong>Plazo Oficial Finalizado:</strong> El acceso a la entrega de la EPD 2 cerró el domingo 01/11/2026 a las 23:59:59. Puedes consultar tus borradores o documentos previos en modo lectura.';
+          authCard.insertBefore(closedBanner, authCard.firstChild);
+        }
+      }
+    });
   </script>
 </body>
 </html>
