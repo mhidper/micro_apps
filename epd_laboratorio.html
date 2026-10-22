@@ -1703,8 +1703,8 @@
   <!-- Router de Sesiones Modular -->
   <nav class="session-router">
     <a href="javascript:void(0);" onclick="showPortalSection();" class="router-tab active" id="routerTabPortal">🏠 Panel de Sesiones</a>
-    <a href="javascript:void(0);" onclick="openEPD1Workspace();" class="router-tab" id="routerTabEPD1" data-tab="epd1">📍 Sesión 01: Radiografía del Desempleo</a>
-    <a href="epd2_laboratorio.html" class="router-tab" id="routerTabEPD2" data-tab="epd2">📍 Sesión 02: Gobernanza UE y FSE+</a>
+    <a href="javascript:void(0);" onclick="openEPD1Workspace();" class="router-tab" id="routerTabEPD1" data-tab="epd1">📦 Sesión 01 (Cerrada)</a>
+    <a href="epd2_laboratorio.html" class="router-tab" id="routerTabEPD2" data-tab="epd2" style="font-weight: 700; color: var(--pino);">🟢 Sesión 02: Gobernanza UE y FSE+ (Activa)</a>
     <div class="router-tab disabled" title="Se desbloqueará en Semana 9">🔒 Sesión 03: PAE y Talento 45+</div>
     <div class="router-tab disabled" title="Se desbloqueará en Semana 10">🔒 Sesión 04: Incentivos Emplea-T</div>
     <div class="router-tab disabled" title="Se desbloqueará en Semana 11">🔒 Sesión 05: Clínica de Informes</div>
@@ -3068,6 +3068,8 @@
     // =========================================================================
     // CALENDARIO OFICIAL Y GESTIÓN DEL PORTAL DE SESIONES EPD
     // =========================================================================
+    // CALENDARIO OFICIAL Y GESTIÓN DEL PORTAL DE SESIONES EPD
+    // =========================================================================
     const EPD_SESSIONS_DATA = [
       {
         num: 1,
@@ -3080,7 +3082,8 @@
         closesDate: new Date("2026-10-11T23:59:59"),
         type: "Individual",
         points: "0,50 pt",
-        url: "epd_laboratorio.html?sesion=1"
+        url: "epd_laboratorio.html?sesion=1",
+        forceStatus: "closed" // Sesión 01 cerrada definitivamente tras Semana 4
       },
       {
         num: 2,
@@ -3089,11 +3092,12 @@
         week: "Semana 7",
         dates: "26/10/2026 – 30/10/2026",
         closesText: "Domingo 01/11/2026 a las 23:59:59",
-        startDate: new Date("2026-10-19T00:00:00"), // Activo desde semana previa para pruebas y durante Semana 7
+        startDate: new Date("2026-10-19T00:00:00"),
         closesDate: new Date("2026-11-01T23:59:59"),
         type: "Equipos de hasta 3",
         points: "0,50 pt",
-        url: "epd2_laboratorio.html"
+        url: "epd2_laboratorio.html",
+        forceStatus: "active" // Sesión activa actual
       },
       {
         num: 3,
@@ -3106,7 +3110,8 @@
         closesDate: new Date("2026-11-15T23:59:59"),
         type: "Equipos de hasta 3",
         points: "—",
-        url: "epd3_laboratorio.html"
+        url: "epd3_laboratorio.html",
+        forceStatus: "locked"
       },
       {
         num: 4,
@@ -3119,7 +3124,8 @@
         closesDate: new Date("2026-11-22T23:59:59"),
         type: "Equipos de hasta 3",
         points: "0,50 pt",
-        url: "epd4_laboratorio.html"
+        url: "epd4_laboratorio.html",
+        forceStatus: "locked"
       },
       {
         num: 5,
@@ -3132,7 +3138,8 @@
         closesDate: new Date("2026-11-29T23:59:59"),
         type: "Equipos de hasta 3",
         points: "—",
-        url: "epd5_laboratorio.html"
+        url: "epd5_laboratorio.html",
+        forceStatus: "locked"
       },
       {
         num: 6,
@@ -3145,7 +3152,8 @@
         closesDate: new Date("2026-12-06T23:59:59"),
         type: "Equipos de hasta 3",
         points: "1,50 pt",
-        url: "epd6_laboratorio.html"
+        url: "epd6_laboratorio.html",
+        forceStatus: "locked"
       }
     ];
 
@@ -3175,27 +3183,35 @@
       container.innerHTML = '';
 
       const now = new Date();
-      const isTeacher = (currentSession.username === 'mhidper' || forceTeacherMode);
 
       EPD_SESSIONS_DATA.forEach(s => {
-        let status = 'locked';
+        let status = s.forceStatus || 'locked';
+
+        if (!s.forceStatus) {
+          if (now > s.closesDate) {
+            status = 'closed';
+          } else if (now >= s.startDate && now <= s.closesDate) {
+            status = 'active';
+          } else {
+            status = 'locked';
+          }
+        }
+
         let badgeHtml = '';
         let btnHtml = '';
         let timeHint = '';
 
         const hasDeliveredEPD1 = (s.num === 1 && !!localStorage.getItem(getDeliveredStorageKey(currentSession.userCode)));
 
-        if (now > s.closesDate && !isTeacher) {
-          status = 'closed';
-          badgeHtml = `<span class="session-badge badge-cls">📦 Sesión Cerrada</span>`;
+        if (status === 'closed') {
+          badgeHtml = `<span class="session-badge badge-cls">📦 Sesión Cerrada · Plazo Finalizado</span>`;
           timeHint = `<div class="session-timer-hint" style="color: #64748B;">🔒 Cerró el ${s.closesText}</div>`;
           if (s.num === 1) {
-            btnHtml = `<button class="btn btn-audit btn-block" onclick="openEPD1Workspace();" style="font-size: 0.85rem;">${hasDeliveredEPD1 ? '📄 Consultar Mi Entrega' : '👁️ Ver Práctica (Solo Lectura)'}</button>`;
+            btnHtml = `<button class="btn btn-audit btn-block" onclick="openEPD1Workspace();" style="font-size: 0.85rem;">${hasDeliveredEPD1 ? '📄 Consultar Mi Entrega Oficial' : '👁️ Ver Práctica (Solo Lectura · Cerrada)'}</button>`;
           } else {
             btnHtml = `<button class="btn btn-audit btn-block" disabled style="opacity: 0.6; cursor: not-allowed; font-size: 0.85rem;">Plazo de entrega finalizado</button>`;
           }
-        } else if ((now >= s.startDate && now <= s.closesDate) || isTeacher) {
-          status = 'active';
+        } else if (status === 'active') {
           badgeHtml = `<span class="session-badge badge-act">🟢 SESIÓN ACTIVA · EN CURSO</span>`;
           timeHint = `<div class="session-timer-hint">⏳ Acceso abierto hasta el domingo a las 23:59:59 (${s.closesText.split(' a las')[0]})</div>`;
           if (s.num === 1) {
@@ -3206,9 +3222,8 @@
             btnHtml = `<button class="btn btn-primary btn-block" onclick="alert('La aplicación de la Sesión 0${s.num} se cargará para la semana correspondiente.');">Entrar a Sesión 0${s.num}</button>`;
           }
         } else {
-          status = 'locked';
           badgeHtml = `<span class="session-badge badge-lck">🔒 Próximamente</span>`;
-          timeHint = `<div class="session-timer-hint" style="color: #94A3B8;">📅 Se activará el lunes de la ${s.week}</div>`;
+          timeHint = `<div class="session-timer-hint" style="color: #94A3B8;">📅 Se activará en ${s.week} (${s.dates})</div>`;
           btnHtml = `<button class="btn btn-audit btn-block" disabled style="opacity: 0.6; cursor: not-allowed; font-size: 0.85rem;">Disponible en ${s.week}</button>`;
         }
 
@@ -3255,6 +3270,44 @@
           showLockedDeliveredView(dData);
           return;
         } catch(e) {}
+      }
+
+      // Si la sesión 01 está cerrada y el alumno no entregó en plazo:
+      const s1 = EPD_SESSIONS_DATA.find(s => s.num === 1);
+      const isS1Closed = (s1 && (s1.forceStatus === 'closed' || new Date() > s1.closesDate));
+      let closedNotice = document.getElementById('epd1ClosedNotice');
+      if (isS1Closed) {
+        if (!closedNotice) {
+          closedNotice = document.createElement('div');
+          closedNotice.id = 'epd1ClosedNotice';
+          closedNotice.className = 'locked-banner';
+          closedNotice.style.background = '#F8FAFC';
+          closedNotice.style.borderColor = '#94A3B8';
+          closedNotice.style.color = '#334155';
+          closedNotice.style.margin = '16px 0 20px 0';
+          closedNotice.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <div style="font-size: 2rem;">🔒</div>
+              <div>
+                <h4 style="margin: 0; color: #1E293B; font-family: 'Outfit', sans-serif; font-size: 1.1rem;">
+                  Sesión 01 Finalizada · Modo Consulta (Solo Lectura)
+                </h4>
+                <p style="margin: 4px 0 0 0; font-size: 0.86rem; color: #475569; line-height: 1.45;">
+                  El plazo oficial para la entrega de la Sesión 01 finalizó el <strong>Domingo 11/10/2026 a las 23:59:59</strong>. La práctica se muestra en modo solo lectura para consulta y repaso pedagógico; no admite nuevas entregas ni modificaciones.
+                </p>
+              </div>
+            </div>
+          `;
+          const ws = document.getElementById('epd1Workspace');
+          if (ws) ws.insertBefore(closedNotice, ws.children[1]);
+        }
+        const submitBtn = document.getElementById('btnSubmitDelivery');
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = '🔒 Plazo de Entrega Finalizado';
+          submitBtn.style.opacity = '0.6';
+          submitBtn.style.cursor = 'not-allowed';
+        }
       }
 
       // 2. Comprobar si tiene borrador guardado
