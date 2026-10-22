@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laboratorio Digital EPD 2 · Gobernanza Europea y Financiación FSE+ (PSLL · UPO)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Motor de descarga directa de PDF sin ventana de impresión -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <!-- KaTeX para fórmulas matemáticas y porcentajes -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <style>
+    :root {
+      --pino: #113927;
+      --pino-dark: #0B2419;
+      --salvia: #76927A;
+      --salvia-light: #A3B8A7;
+      --coral: #E98F71;
+      --coral-hover: #D77B5D;
+      --menta-soft: #F4F8F5;
+      --menta-mid: #E8F1EC;
+      --tinta: #2F3A30;
+      --text-muted: #5E7162;
+      --navy-upo: #0B1C36;
+      --bg-page: #F8FAF8;
+      --card-bg: #FFFFFF;
+      --border-subtle: #DCE5DF;
+      --border-focus: #113927;
+      --success: #15803D;
+      --success-bg: #ECFDF5;
+      --warning: #B45309;
+      --warning-bg: #FFFBEB;
+      --danger: #DC2626;
+      --danger-bg: #FEF2F2;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow-sm: 0 2px 8px rgba(17, 57, 39, 0.05);
+      --shadow-md: 0 8px 24px rgba(17, 57, 39, 0.08);
+      --shadow-lg: 0 16px 36px rgba(17, 57, 39, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--tinta);
+      line-height: 1.55;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Cabecera Principal */
+    header.main-header {
+      background: linear-gradient(135deg, var(--pino) 0%, var(--pino-dark) 100%);
+      color: #FFFFFF;
+      padding: 16px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3.5px solid var(--coral);
+      box-shadow: var(--shadow-md);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-title h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .brand-title p {
+      font-size: 0.8rem;
+      color: var(--salvia-light);
+      font-weight: 400;
+    }
+
+    .header-status {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .team-badge {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 30px;
+      padding: 6px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      backdrop-filter: blur(8px);
+    }
+
+    .team-badge .code-highlight {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      color: var(--coral);
+    }
+
+    .session-timer {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 5px 10px;
+      border-radius: 6px;
+      color: #E2E8F0;
+    }
+
+    .btn-header {
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-header:hover {
+      background: var(--coral);
+    }
+
+    /* Router de Sesiones Modular */
+    nav.session-router {
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 8px 28px;
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+    }
+
+    .router-tab {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      color: var(--text-muted);
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .router-tab:hover {
+      background: var(--menta-soft);
+      color: var(--pino);
+    }
+
+    .router-tab.active {
+      background: var(--menta-mid);
+      color: var(--pino);
+      border-color: var(--salvia);
+      font-weight: 600;
+    }
+
+    .router-tab.disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      background: transparent !important;
+      color: #94A3B8 !important;
+      border-color: transparent !important;
+    }
+
+    /* Contenedor */
+    main.container {
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 20px;
+      width: 100%;
+      flex: 1;
+    }
+
+    /* Barra de Navegación de Fases (Stepper) */
+    .stepper-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      gap: 12px;
+    }
+
+    .step-item {
+      flex: 1;
+      background: white;
+      border: 1.5px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .step-item.active {
+      border-color: var(--pino);
+      background: var(--menta-soft);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .step-item.completed {
+      border-color: var(--salvia);
+    }
+
+    .step-number {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--border-subtle);
+      color: var(--tinta);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .step-item.active .step-number {
+      background: var(--pino);
+      color: white;
+    }
+
+    .step-item.completed .step-number {
+      background: var(--success);
+      color: white;
+    }
+
+    .step-label h4 {
+      font-size: 0.86rem;
+      color: var(--pino);
+      margin-bottom: 2px;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .step-label p {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    /* Tarjetas y Contenedores */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--menta-soft);
+      padding-bottom: 14px;
+    }
+
+    .card-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      color: var(--pino);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .badge-primary { background: var(--pino); color: white; }
+    .badge-coral { background: var(--coral); color: white; }
+    .badge-soft { background: var(--menta-soft); color: var(--pino); border: 1px solid var(--border-subtle); }
+
+    /* Formularios y Botones */
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: var(--pino);
+      margin-bottom: 6px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: var(--tinta);
+      background: #FFFFFF;
+      transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(17, 57, 39, 0.12);
+    }
+
+    textarea.form-control {
+      min-height: 120px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.92rem;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--pino);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--pino-dark);
+    }
+
+    .btn-coral {
+      background: var(--coral);
+      color: white;
+    }
+
+    .btn-coral:hover {
+      background: var(--coral-hover);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--pino);
+      color: var(--pino);
+    }
+
+    .btn-outline:hover {
+      background: var(--menta-soft);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Pantalla de Autenticación / Configuración de Grupo */
+    .auth-card {
+      max-width: 680px;
+      margin: 40px auto;
+      background: white;
+      border-radius: var(--radius-lg);
+      border: 1.5px solid var(--border-subtle);
+      box-shadow: var(--shadow-lg);
+      padding: 36px;
+    }
+
+    .auth-header {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+
+    .auth-header h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.6rem;
+      color: var(--pino);
+      margin-bottom: 6px;
+    }
+
+    .auth-header p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .team-setup-box {
+      background: var(--menta-soft);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-top: 16px;
+    }
+
+    /* Simulador de Cofinanciación 85% */
+    .sim-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 18px;
+    }
+
+    @media (max-width: 768px) {
+      .sim-grid {
+        grid-template-columns: 1fr;
+      }
+      .stepper-nav {
+        flex-direction: column;
+      }
+    }
+
+    .sim-card {
+      background: var(--menta-soft);
+      border: 1.5px solid var(--salvia-light);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      text-align: center;
+    }
+
+    .sim-card.eu {
+      border-top: 6px solid var(--coral);
+      background: #FFFFFF;
+    }
+
+    .sim-card.junta {
+      border-top: 6px solid var(--pino);
+      background: #FFFFFF;
+    }
+
+    .sim-amount {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--pino);
+      margin: 10px 0;
+    }
+
+    .sim-percent {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--salvia);
+    }
+
+    /* Visualizador de Principios PEDS */
+    .peds-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .peds-card {
+      border: 1.5px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      background: white;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .peds-card:hover, .peds-card.active {
+      border-color: var(--pino);
+      background: var(--menta-soft);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .peds-card.highlight {
+      border-left: 5px solid var(--coral);
+    }
+
+    .peds-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--coral);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .peds-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--pino);
+      margin: 4px 0 8px 0;
+    }
+
+    .peds-desc {
+      font-size: 0.84rem;
+      color: var(--tinta);
+      line-height: 1.45;
+    }
+
+    /* Matriz Comparativa */
+    .table-responsive {
+      overflow-x: auto;
+      margin-top: 14px;
+    }
+
+    table.comparative-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    table.comparative-table th {
+      background: var(--pino);
+      color: white;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 16px;
+    }
+
+    table.comparative-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      vertical-align: top;
+    }
+
+    table.comparative-table tr:nth-child(even) td {
+      background: var(--menta-soft);
+    }
+
+    /* Alerta de bloqueo y pegado */
+    .paste-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--navy-upo);
+      color: white;
+      padding: 14px 20px;
+      border-radius: var(--radius-sm);
+      border-left: 5px solid var(--coral);
+      box-shadow: var(--shadow-lg);
+      display: none;
+      z-index: 1000;
+      font-size: 0.88rem;
+    }
+
+    /* Documento Oficial para PDF */
+    #officialReportPrintable {
+      display: none;
+      background: white;
+      padding: 30px 40px;
+      color: var(--tinta);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .doc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--pino);
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+
+    .doc-header-info h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      color: var(--pino);
+      margin-bottom: 2px;
+    }
+
+    .doc-header-info p {
+      font-size: 0.8rem;
+      color: var(--salvia);
+    }
+
+    .doc-team-box {
+      background: var(--menta-soft);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 20px;
+      font-size: 0.85rem;
+    }
+
+    .doc-axis-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--pino);
+      margin: 18px 0 6px 0;
+      border-bottom: 1px solid var(--salvia-light);
+      padding-bottom: 4px;
+    }
+
+    .doc-axis-text {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      text-align: justify;
+      margin-bottom: 14px;
+      white-space: pre-wrap;
+    }
+
+    .doc-seal-box {
+      margin-top: 30px;
+      padding-top: 14px;
+      border-top: 1.5px dashed var(--salvia);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .doc-seal-box code {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--pino);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cabecera Institucional -->
+  <header class="main-header">
+    <div class="header-brand">
+      <svg class="brand-rings" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 38px; height: 38px; flex-shrink: 0;">
+        <circle cx="32" cy="40" r="22" stroke="#FFFFFF" stroke-width="6" fill="none" opacity="0.95"/>
+        <circle cx="48" cy="40" r="22" stroke="#76927A" stroke-width="6" fill="none" opacity="0.85"/>
+        <path d="M12 52 C 26 28, 54 28, 68 52" stroke="#E98F71" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+      <div class="brand-title">
+        <h1>Laboratorio EPD · Políticas Sociolaborales y de Empleo</h1>
+        <p>Gobernanza Europea, Pilar Social y Financiación FSE+ (2021–2027) · Grado en RRLL y RRHH · UPO</p>
+      </div>
+    </div>
+    <div class="header-status">
+      <div id="teamBadge" class="team-badge" style="display: none;">
+        <span>👥 Equipo:</span>
+        <span id="displayTeamCode" class="code-highlight">PSLL-EPD2-0000</span>
+      </div>
+      <div id="sessionTimer" class="session-timer" style="display: none;">⏱️ 00:00</div>
+      <button id="btnHeaderDraft" class="btn-header" style="display: none;" onclick="exportDraftJSON()">💾 Guardar Borrador</button>
+      <button id="btnLogout" class="btn-header" style="display: none;" onclick="handleLogout()">🚪 Salir</button>
+    </div>
+  </header>
+
+  <!-- Router de Sesiones Modular -->
+  <nav class="session-router">
+    <a href="epd_laboratorio.html" class="router-tab" data-tab="epd1">📍 Sesión 01: Radiografía del Desempleo</a>
+    <a href="epd2_laboratorio.html" class="router-tab active" data-tab="epd2">📍 Sesión 02: Gobernanza UE y FSE+</a>
+    <div class="router-tab disabled" title="Se desbloqueará en Semana 9">🔒 Sesión 03: PAE y Talento 45+</div>
+    <div class="router-tab disabled" title="Se desbloqueará en Semana 10">🔒 Sesión 04: Incentivos Emplea-T</div>
+    <div class="router-tab disabled" title="Se desbloqueará en Semana 11">🔒 Sesión 05: Clínica de Informes</div>
+    <div class="router-tab disabled" title="Se desbloqueará en Semana 12">🔒 Sesión 06: Defensas y Cierre</div>
+  </nav>
+
+  <main class="container">
+
+    <!-- 0. PANTALLA DE ACCESO Y CONFIGURACIÓN DE EQUIPO (HASTA 3 ALUMNOS) -->
+    <section id="authSection">
+      <div class="auth-card">
+        <div class="auth-header">
+          <h2>Acceso a la Sesión Práctica · EPD 2</h2>
+          <p>Configuración del Equipo de Trabajo (de 1 a 3 estudiantes) · Convocatoria Oficial</p>
+        </div>
+
+        <div class="form-group">
+          <label for="inputAcronym">Tu Acrónimo Institucional UPO (Responsable de la entrega):</label>
+          <input type="text" id="inputAcronym" class="form-control" placeholder="Ej: sagudel, laltucl, capacam..." autofocus>
+          <small style="color: var(--text-muted); font-size: 0.78rem;">Introduce tu nombre de usuario del correo institucional de la UPO (@alu.upo.es).</small>
+        </div>
+
+        <div id="teamMembersArea" class="team-setup-box" style="display: none;">
+          <h4 style="color: var(--pino); font-family: 'Outfit', sans-serif; margin-bottom: 10px;">
+            👥 Configuración de Miembros del Equipo (Máx. 3 estudiantes)
+          </h4>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">
+            Como esta práctica se realiza en equipos de hasta 3 personas, <strong>un solo integrante del equipo subirá el trabajo</strong>. Añade a continuación a tus dos compañeros/as para que sus nombres y códigos consten formalmente en el informe y en el PDF oficial:
+          </p>
+
+          <div class="form-group">
+            <label for="selectStudent2">Compañero/a 2 (Opcional):</label>
+            <select id="selectStudent2" class="form-control">
+              <option value="">-- Seleccionar de la lista de clase (o dejar vacío) --</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="selectStudent3">Compañero/a 3 (Opcional):</label>
+            <select id="selectStudent3" class="form-control">
+              <option value="">-- Seleccionar de la lista de clase (o dejar vacío) --</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-top: 24px; display: flex; gap: 12px;">
+          <button id="btnVerifyLeader" class="btn btn-primary" style="flex: 1;" onclick="verifyTeamLeader()">
+            Verificar Acrónimo y Configurar Equipo
+          </button>
+          <button id="btnStartSession" class="btn btn-coral" style="flex: 1; display: none;" onclick="launchSession()">
+            Comenzar Laboratorio EPD 2 ➔
+          </button>
+        </div>
+
+        <div style="margin-top: 20px; text-align: center; border-top: 1px solid var(--border-subtle); padding-top: 16px;">
+          <label style="font-size: 0.8rem; color: var(--text-muted); cursor: pointer;">
+            ¿Te cambiaste de ordenador o cerraste la sesión? 
+            <input type="file" id="fileImportDraft" style="display: none;" accept=".json" onchange="importDraftJSON(event)">
+            <span style="color: var(--pino); font-weight: 600; text-decoration: underline;">Cargar Borrador (.json)</span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1. ESPACIO DE TRABAJO EPD 2 (ACTIVO TRAS LOGIN) -->
+    <section id="workspaceSection" style="display: none;">
+
+      <!-- Stepper Nav -->
+      <nav class="stepper-nav">
+        <div id="stepTab1" class="step-item active" onclick="goToStep(1)">
+          <div class="step-number">1</div>
+          <div class="step-label">
+            <h4>Fase 1 · Marco Estratégico</h4>
+            <p>PEDS y Semestre Europeo (00–15 min)</p>
+          </div>
+        </div>
+        <div id="stepTab2" class="step-item" onclick="goToStep(2)">
+          <div class="step-number">2</div>
+          <div class="step-label">
+            <h4>Fase 2 · Rastreo FSE+</h4>
+            <p>Reglamento UE Art. 4 (15–35 min)</p>
+          </div>
+        </div>
+        <div id="stepTab3" class="step-item" onclick="goToStep(3)">
+          <div class="step-number">3</div>
+          <div class="step-label">
+            <h4>Fase 3 · Financiación y ÉFESO</h4>
+            <p>Simulador 85% y Comparativa (35–60 min)</p>
+          </div>
+        </div>
+        <div id="stepTab4" class="step-item" onclick="goToStep(4)">
+          <div class="step-number">4</div>
+          <div class="step-label">
+            <h4>Fase 4 · Informe y PDF</h4>
+            <p>Redacción y Entrega Oficial (60–90 min)</p>
+          </div>
+        </div>
+      </nav>
+
+      <!-- FASE 1: MARCO ESTRATÉGICO EUROPEO -->
+      <div id="stepSection1" class="step-content">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">🏛️ Bloque 1: El Pilar Europeo de Derechos Sociales (PEDS) y el Semestre Europeo</h3>
+            <span class="badge badge-primary">00–15 minutos</span>
+          </div>
+          <p style="font-size: 0.92rem; color: var(--tinta); margin-bottom: 16px;">
+            El <strong>Pilar Europeo de Derechos Sociales (PEDS)</strong>, proclamado en Gotemburgo (2017) y reafirmado con el Plan de Acción de Oporto (2021), constituye la brújula política y social de la Unión Europea. Establece 20 principios vertebradores. Para el estudio del desempleo estructural, parados de larga duración y colectivos sénior, tres principios son nucleares:
+          </p>
+
+          <div class="peds-grid">
+            <div class="peds-card highlight active">
+              <span class="peds-num">Principio 4 · Nuclear</span>
+              <h4 class="peds-title">Apoyo Activo para el Empleo</h4>
+              <p class="peds-desc">
+                Toda persona tiene derecho a recibir asistencia personalizada en la búsqueda de empleo, formación y recualificación. <strong>Los desempleados de larga duración tienen derecho a una evaluación global individualizada a más tardar a los 18 meses de paro continuo.</strong>
+              </p>
+            </div>
+            <div class="peds-card highlight">
+              <span class="peds-num">Principio 1 · Formación</span>
+              <h4 class="peds-title">Educación y Aprendizaje Permanente</h4>
+              <p class="peds-desc">
+                Derecho a una educación y formación permanente de calidad a lo largo de toda la vida laboral para mantener y adquirir competencias que permitan transitar con éxito ante los cambios tecnológicos.
+              </p>
+            </div>
+            <div class="peds-card highlight">
+              <span class="peds-num">Principio 3 · Igualdad</span>
+              <h4 class="peds-title">Igualdad de Oportunidades</h4>
+              <p class="peds-desc">
+                Prohibición expresa de discriminación por razón de sexo, raza u <strong>origen de edad (edadismo)</strong>. Fomento activo de la participación de los grupos subrepresentados en el empleo.
+              </p>
+            </div>
+          </div>
+
+          <div style="margin-top: 24px; background: var(--menta-soft); border-left: 4px solid var(--salvia); padding: 16px; border-radius: 4px;">
+            <h4 style="color: var(--pino); font-size: 0.95rem; margin-bottom: 4px;">🔄 El Semestre Europeo y la Gobernanza Económica</h4>
+            <p style="font-size: 0.86rem; color: var(--tinta); line-height: 1.5;">
+              El Semestre Europeo coordina anualmente las políticas económicas y de empleo. La Comisión monitoriza la situación con el <em>Social Scoreboard</em> y el Consejo aprueba las <strong>Recomendaciones Específicas por País (CSR)</strong>. Para España, las recomendaciones han instado reiteradamente a: <strong>reforzar la capacidad de los servicios públicos de empleo, reducir la tasa de paro de larga duración y combatir la precariedad contractual</strong>.
+            </p>
+          </div>
+
+          <div style="margin-top: 20px; display: flex; justify-content: flex-end;">
+            <button class="btn btn-primary" onclick="goToStep(2)">Continuar al Taller de Rastreo FSE+ ➔</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- FASE 2: TALLER DE RASTREO DOCUMENTAL FSE+ -->
+      <div id="stepSection2" class="step-content" style="display: none;">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">🔍 Bloque 2: Rastreo del Reglamento (UE) 2021/1057 del FSE+</h3>
+            <span class="badge badge-coral">15–35 minutos</span>
+          </div>
+
+          <p style="font-size: 0.92rem; color: var(--tinta); margin-bottom: 14px;">
+            El Fondo Social Europeo Plus (FSE+) es el principal instrumento financiero comunitario para invertir en personas. Consulta el texto oficial consolidado en el <strong>Diario Oficial de la Unión Europea (DOUE)</strong>:
+          </p>
+
+          <div style="display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
+            <a href="https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32021R1057" target="_blank" class="btn btn-outline" style="font-size: 0.85rem;">
+              📖 Abrir Reglamento (UE) 2021/1057 en EUR-Lex (DOUE) ↗
+            </a>
+            <a href="https://www.mites.gob.es/uafse/es/fseplus/index.htm" target="_blank" class="btn btn-outline" style="font-size: 0.85rem;">
+              🏛️ Portal UAFSE · Ministerio de Trabajo y Economía Social ↗
+            </a>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
+            <div style="background: white; border: 1.5px solid var(--pino); border-radius: var(--radius-sm); padding: 18px;">
+              <span class="badge badge-primary" style="margin-bottom: 8px;">Objetivo Específico 1</span>
+              <h4 style="font-family: 'Outfit', sans-serif; color: var(--pino); font-size: 1.05rem; margin-bottom: 8px;">
+                Artículo 4.1.a · Acceso al Empleo y Activación
+              </h4>
+              <p style="font-size: 0.86rem; color: var(--tinta); line-height: 1.5;">
+                «Mejorar el acceso al empleo y a medidas de activación de todos los demandantes de empleo, y en particular de los jóvenes, especialmente a través de la Garantía Juvenil, <strong>los parados de larga duración y los grupos desfavorecidos en el mercado laboral</strong>, y de las personas inactivas...»
+              </p>
+              <div style="margin-top: 10px; font-size: 0.8rem; color: var(--salvia); font-weight: 600;">
+                ✓ Aplica directamente a itinerarios y programas de reincorporación laboral.
+              </div>
+            </div>
+
+            <div style="background: white; border: 1.5px solid var(--salvia); border-radius: var(--radius-sm); padding: 18px;">
+              <span class="badge badge-coral" style="margin-bottom: 8px;">Objetivo Específico 3</span>
+              <h4 style="font-family: 'Outfit', sans-serif; color: var(--pino); font-size: 1.05rem; margin-bottom: 8px;">
+                Artículo 4.1.c · Modernización de Servicios Públicos
+              </h4>
+              <p style="font-size: 0.86rem; color: var(--tinta); line-height: 1.5;">
+                «Promover una modernización de las instituciones y los servicios del mercado de trabajo para <strong>evaluar y anticipar las necesidades de competencias</strong> y garantizar una asistencia oportuna y adaptada a las necesidades del mercado laboral...»
+              </p>
+              <div style="margin-top: 10px; font-size: 0.8rem; color: var(--salvia); font-weight: 600;">
+                ✓ Financia el perfilado digital, formación de orientadores y modernización del SAE/SEPE.
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 24px; display: flex; justify-content: space-between;">
+            <button class="btn btn-outline" onclick="goToStep(1)">⬅ Volver a Fase 1</button>
+            <button class="btn btn-primary" onclick="goToStep(3)">Continuar al Laboratorio de Financiación ➔</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- FASE 3: SIMULADOR DE COFINANCIACIÓN Y COMPARATIVA -->
+      <div id="stepSection3" class="step-content" style="display: none;">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">💶 Bloque 3: Laboratorio de Financiación (85%) y Análisis Comparado</h3>
+            <span class="badge badge-primary">35–60 minutos</span>
+          </div>
+
+          <p style="font-size: 0.92rem; color: var(--tinta); margin-bottom: 14px;">
+            Andalucía está clasificada por la UE como <em>región en transición / menos desarrollada</em> (PIB per cápita inferior a la media europea), lo que le permite acceder a la <strong>tasa máxima de cofinanciación comunitaria del 85%</strong> (Art. 112 RDC 2021/1060).
+          </p>
+
+          <!-- Simulador Interactivo -->
+          <div style="background: var(--menta-soft); border-radius: var(--radius-md); padding: 22px; border: 1px solid var(--border-subtle);">
+            <h4 style="font-family: 'Outfit', sans-serif; color: var(--pino); margin-bottom: 8px;">
+              🧮 Simulador de Cofinanciación Comunitaria para Políticas Activas
+            </h4>
+            <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 16px;">
+              Ajusta el presupuesto total destinado a un programa autonómico de empleo para comprobar en tiempo real cómo se reparte el coste financiero entre la Unión Europea y la Junta de Andalucía:
+            </p>
+
+            <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 16px;">
+              <label for="inputBudget" style="font-weight: 600; font-size: 0.9rem;">Presupuesto Total del Programa (€):</label>
+              <input type="number" id="inputBudget" class="form-control" style="max-width: 240px; font-family: 'JetBrains Mono';" value="4000000" step="500000" min="500000" max="50000000" oninput="updateSimulation()">
+            </div>
+
+            <div class="sim-grid">
+              <div class="sim-card eu">
+                <span class="badge badge-coral">Aportación Comunitaria (FSE+)</span>
+                <div class="sim-amount" id="simEuAmount">3.400.000 €</div>
+                <div class="sim-percent">85% del presupuesto subvencionado por la UE</div>
+              </div>
+              <div class="sim-card junta">
+                <span class="badge badge-primary">Aportación Autonómica (Junta)</span>
+                <div class="sim-amount" id="simJuntaAmount">600.000 €</div>
+                <div class="sim-percent">15% aportado con fondos propios andaluces</div>
+              </div>
+            </div>
+
+            <div style="margin-top: 14px; text-align: center; font-size: 0.88rem; color: var(--tinta);">
+              ⚡ <strong>Efecto Palanca:</strong> Por cada 1,00 € que invierte el contribuyente andaluz, Europa financia <strong>5,67 € adicionales</strong>. Con este presupuesto se podrían financiar aprox. <strong id="simContractsCount">888</strong> contratos indefinidos de parados sénior (a 4.500 €/contrato según la línea 1.A.06).
+            </div>
+          </div>
+
+          <!-- Matriz Comparativa ÉFESO vs FSE+ Andalucía -->
+          <div style="margin-top: 24px;">
+            <h4 style="font-family: 'Outfit', sans-serif; color: var(--pino); margin-bottom: 10px;">
+              📋 Matriz de Complementariedad: Nivel Estatal (ÉFESO) vs. Nivel Regional (Andalucía)
+            </h4>
+            <div class="table-responsive">
+              <table class="comparative-table">
+                <thead>
+                  <tr>
+                    <th>Dimensión Analítica</th>
+                    <th>Programa ÉFESO (Estatal Plurirregional)</th>
+                    <th>Programa FSE+ Andalucía (Regional)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Autoridad de Gestión</strong></td>
+                    <td>UAFSE (Ministerio de Trabajo y Economía Social · SEPE)</td>
+                    <td>Consejería de Empleo, Empresa y Trabajo Autónomo (SAE)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Tasa de Cofinanciación</strong></td>
+                    <td>Variable según categoría regional (40% a 85%)</td>
+                    <td><strong>85% cofinanciación comunitaria fija</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Tipología de Medidas Clave</strong></td>
+                    <td>Bonificaciones estatales en cuotas de Seguridad Social (RDL 1/2023) e itinerarios de inserción nacionales.</td>
+                    <td>Incentivos directos a empresas andaluzas (1.A.06), orientación personalizada SAE (1.A.05) y autoempleo (1.A.01).</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Principio Rector</strong></td>
+                    <td>Garantiza equidad básica y marco legal común en toda España.</td>
+                    <td>Principio de subsidiariedad: máxima adaptación a la realidad sociolaboral andaluza.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div style="margin-top: 24px; display: flex; justify-content: space-between;">
+            <button class="btn btn-outline" onclick="goToStep(2)">⬅ Volver a Fase 2</button>
+            <button class="btn btn-coral" onclick="goToStep(4)">Ir a la Redacción del Informe y Descarga PDF ➔</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- FASE 4: REDACCIÓN DEL INFORME TÉCNICO Y ENTREGA EN PDF -->
+      <div id="stepSection4" class="step-content" style="display: none;">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">📝 Bloque 4: Redacción del Informe Técnico y Descarga de PDF Oficial</h3>
+            <span class="badge badge-coral">60–90 minutos · Valor: 0,50 pts</span>
+          </div>
+
+          <div style="background: var(--menta-soft); border-radius: var(--radius-sm); padding: 14px; margin-bottom: 20px; font-size: 0.86rem;">
+            <strong>📌 Instrucciones de Entrega de Equipo:</strong>
+            Redactad de forma cooperativa los 3 ejes analíticos. Al finalizar, pulsad en <strong>"Firmar y Sellar Informe"</strong> y descargad el <strong>PDF Oficial</strong>. Recordad que <strong>un solo integrante del equipo sube el PDF al buzón del Aula Virtual</strong> antes del minuto 90.
+          </div>
+
+          <!-- Eje 1 -->
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <label for="textAxis1"><strong>Eje 1 · Trazabilidad Normativa Comunitaria:</strong></label>
+              <span id="wordsAxis1" style="font-size: 0.78rem; color: var(--text-muted);">0 palabras (mín. 40)</span>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px;">
+              Explicad cómo se conecta el Pilar Europeo de Derechos Sociales (en especial el Principio 4 de apoyo activo y el Principio 3 de no discriminación por edad) con los Objetivos Específicos OE1 y OE3 del Reglamento (UE) 2021/1057 del FSE+ para personas desempleadas de larga duración y colectivos sénior.
+            </p>
+            <textarea id="textAxis1" class="form-control" placeholder="Redactad aquí el razonamiento del Eje 1..." oninput="handleAxisTyping(1)"></textarea>
+          </div>
+
+          <!-- Eje 2 -->
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <label for="textAxis2"><strong>Eje 2 · Análisis Comparativo y Financiación al 85%:</strong></label>
+              <span id="wordsAxis2" style="font-size: 0.78rem; color: var(--text-muted);">0 palabras (mín. 50)</span>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px;">
+              Contrastad una medida del Programa ÉFESO (ej. bonificación de cotizaciones del RDL 1/2023) frente a una intervención del Programa FSE+ Andalucía (ej. ayuda 1.A.06 o refuerzo SAE 1.A.05). Justificad por qué la tasa de cofinanciación comunitaria del 85% resulta clave para Andalucía y cuál es su efecto multiplicador.
+            </p>
+            <textarea id="textAxis2" class="form-control" placeholder="Redactad aquí el razonamiento del Eje 2..." oninput="handleAxisTyping(2)"></textarea>
+          </div>
+
+          <!-- Eje 3 -->
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <label for="textAxis3"><strong>Eje 3 · Dictamen Técnico y Propuesta Aplicada:</strong></label>
+              <span id="wordsAxis3" style="font-size: 0.78rem; color: var(--text-muted);">0 palabras (mín. 40)</span>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px;">
+              Proponed dos medidas activas concretas para mejorar la inserción laboral de una persona demandante de empleo mayor de 50 años en Sevilla, combinando la vía formativa y los incentivos a la contratación indefinida.
+            </p>
+            <textarea id="textAxis3" class="form-control" placeholder="Redactad aquí las 2 medidas propuestas para el Eje 3..." oninput="handleAxisTyping(3)"></textarea>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 18px; border-top: 1px solid var(--border-subtle); padding-top: 14px;">
+            <div style="font-size: 0.85rem; color: var(--text-muted);">
+              Total palabras informe: <strong id="totalWordsDisplay">0</strong> / mín. 130
+            </div>
+            <div style="display: flex; gap: 12px;">
+              <button id="btnSealDelivery" class="btn btn-coral" disabled onclick="sealFinalDelivery()">
+                🔒 Firmar y Sellar Informe de Equipo (SHA-256)
+              </button>
+            </div>
+          </div>
+
+          <!-- Ticket de Confirmación y Descarga de PDF -->
+          <div id="finalTicketArea" style="display: none; margin-top: 24px; background: var(--success-bg); border: 1.5px solid var(--success); border-radius: var(--radius-md); padding: 22px;">
+            <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 12px;">
+              <span style="font-size: 2rem;">✅</span>
+              <div>
+                <h4 style="color: var(--success); font-family: 'Outfit', sans-serif; font-size: 1.15rem; margin: 0;">
+                  Informe Sellado Oficialmente con Sello de Integridad
+                </h4>
+                <p style="font-size: 0.85rem; color: var(--tinta); margin: 2px 0 0 0;">
+                  Código de Seguridad Criptográfico: <code id="displayHash" style="font-family: 'JetBrains Mono'; font-weight: 700; color: var(--pino);">SHA256:---</code>
+                </p>
+              </div>
+            </div>
+
+            <p style="font-size: 0.85rem; color: var(--tinta); margin-bottom: 16px;">
+              El documento oficial ha sido generado y sellado con los datos de todos los miembros del equipo. Descargad el archivo PDF pulsando en el botón siguiente y subidlo al buzón de tareas correspondiente en el Aula Virtual de PSLL:
+            </p>
+
+            <button id="btnDownloadPDF" class="btn btn-primary" style="font-size: 1rem; padding: 12px 24px;" onclick="downloadOfficialReportPDF()">
+              📥 Descargar Informe Oficial de Equipo en PDF
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- PLANTILLA IMPRIMIBLE PARA GENERAR EL PDF OFICIAL (OCULTA EN PANTALLA) -->
+  <div id="officialReportPrintable">
+    <div class="doc-header">
+      <div class="doc-header-info">
+        <h2>UNIVERSIDAD PABLO DE OLAVIDE · FACULTAD DE CIENCIAS DEL TRABAJO</h2>
+        <p>Políticas Sociolaborales y de Empleo (Código 102023) · Curso 2026-27 · Grado en RRLL y RRHH</p>
+        <p><strong>INFORME TÉCNICO DE LABORATORIO · SESIÓN EPD 2</strong>: Gobernanza Europea y Financiación FSE+</p>
+      </div>
+    </div>
+
+    <div class="doc-team-box">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+        <tr>
+          <td style="padding: 4px 0;"><strong>Código de Equipo:</strong> <span id="docTeamCode">PSLL-EPD2-0000</span></td>
+          <td style="padding: 4px 0;"><strong>Fecha de Sellado:</strong> <span id="docDate">--/--/----</span></td>
+        </tr>
+        <tr>
+          <td colspan="2" style="padding: 4px 0;">
+            <strong>Integrantes del Equipo Evaluado:</strong><br>
+            • <span id="docStudent1">Estudiante 1</span> (Responsable de Entrega)<br>
+            <span id="docStudent2Row">• <span id="docStudent2">Estudiante 2</span><br></span>
+            <span id="docStudent3Row">• <span id="docStudent3">Estudiante 3</span><br></span>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div>
+      <div class="doc-axis-title">EJE 1 · TRAZABILIDAD NORMATIVA COMUNITARIA (PEDS & ART. 4 FSE+)</div>
+      <div id="docTextAxis1" class="doc-axis-text">---</div>
+
+      <div class="doc-axis-title">EJE 2 · ANÁLISIS COMPARADO Y COFINANCIACIÓN AL 85% (ÉFESO VS. ANDALUCÍA)</div>
+      <div id="docTextAxis2" class="doc-axis-text">---</div>
+
+      <div class="doc-axis-title">EJE 3 · DICTAMEN TÉCNICO Y PROPUESTA DE MEDIDAS ACTIVAS (>50 AÑOS EN SEVILLA)</div>
+      <div id="docTextAxis3" class="doc-axis-text">---</div>
+    </div>
+
+    <div class="doc-seal-box">
+      <div>
+        <span>Sello Criptográfico de Integridad Académica:</span><br>
+        <code id="docHash">SHA256:------------------------</code>
+      </div>
+      <div style="text-align: right;">
+        <span>Documento generado por el Laboratorio Digital PSLL · UPO</span><br>
+        <span>Válido para evaluación continua (0,50 pts)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notificación Anti-Pegado -->
+  <div id="pasteAlertToast" class="paste-toast">
+    ⚠️ <strong>Aviso de Integridad:</strong> Para garantizar la autoría cooperativa y la evaluación continua, el texto debe redactarse directamente en el formulario.
+  </div>
+
+  <script>
+    // Catálogo Oficial de Usuarios de la asignatura
+    const DB_USERS = {
+  "sagudel": "Sofía Agudo Delgado",
+  "laltucl": "Lucia Altamirano Ucles",
+  "capacam": "Cristina Aparicio Camacho",
+  "marerot": "Maria De Los Angeles Areal Rotllan",
+  "fartde": "Francisco Arteaga De Cozar",
+  "cbarmar": "Carolina Barrera Martín",
+  "fbenval": "Fernando Benito Valero",
+  "mbercam": "Miguel Bernabeu Campos",
+  "rbizrod": "Ruben Bizcocho Rodriguez",
+  "lcamtos": "Leire Camino Toscano",
+  "mcamfer": "Maria Campos Fernandez",
+  "hcarrod": "Hugo Caridad Rodriguez",
+  "ccesbru": "Claudia Cesar Bruque",
+  "ecidher": "Esther Cid Hermosín",
+  "mconmat": "Miguel Condeço Matusse",
+  "fcruore": "Fernando Cruz Orellana",
+  "mcarnie": "Marta Cárdenas Nieto",
+  "pdazsan": "Pilar Daza Sánchez",
+  "ldela": "Luis Miguel De La Rosa Bazan",
+  "fdelrio": "Felipe Del Rio Carbonell",
+  "rdomini": "Raquel Dominguez Iñiguez",
+  "mfernav": "Maria Fernandez Navajas",
+  "afersan": "Ana Rosa Fernandez Sanchez",
+  "pfermol": "Paula Fernández Molina",
+  "dfonaca": "Daniel Fontalba Acal",
+  "agarbra": "Adrian Garcia Bravo",
+  "lgarcan": "Lucia Garcia Cantero",
+  "pgarjim": "Paula Garcia Jimenez",
+  "lgarmej": "Loreto Garcia Mejias",
+  "lgilmar": "Laura Gil Martin",
+  "lgomgar": "Lucia Gomez Garcia",
+  "sgonpra": "Sandra Gonzalez Prados",
+  "mgonrod": "Maria Gonzalez Rodriguez",
+  "lgonsan": "Lucia Gonzalez Sanchez",
+  "cgonsua": "Clara Gonzalez Suarez",
+  "jguagal": "Jeronimo Guardiola Galan",
+  "igutdel": "Isabel Gutierrez-Trueba Delgado",
+  "jgombev": "Jesús Gómez Bevia",
+  "pgomcru": "Pablo Gómez Cruz",
+  "jherand": "Julia Hernandez Anduaga",
+  "ainibel": "Angeles Iñiguez Belloso",
+  "jjarher": "Julia Jardi Hermoso",
+  "clangar": "Carla Lanzarote Garcia",
+  "rlariba": "Raul Larios Ibañez",
+  "alecdie": "Alejandro Lechuga Die",
+  "slobter": "Sara Lobo Terron",
+  "ilopchi": "Irene López Chiara",
+  "cmargon": "Carlos Martin Gonzalez",
+  "mmarpin": "Marta Martin Piñon",
+  "amarrod": "Abril Martin Rodriguez",
+  "amarlop": "Ana Martinez Lopez",
+  "mmargav": "Manuel Martínez Gavira",
+  "mmilcac": "Margherita Millan Cacciatori",
+  "bmonruz": "Blanca Montero Ruz",
+  "amorber": "Alejandra Morales Berlanga",
+  "smordom": "Salvador Morales Dominguez",
+  "emoyagu": "Enrique Moya Aguera",
+  "jmoncam": "Jaime Moñino Campano",
+  "cnorpus": "Cristian Raul Noretu Puscas",
+  "cortpav": "Claudia Ortiz Pavo",
+  "epatmos": "Elena Paton Mosquera",
+  "ppercas": "Paula Perez Castellano",
+  "aperflo": "Alberto Perez Flores",
+  "apensan": "Ana Peña Sanchez",
+  "equican": "Estela Quinto Cano",
+  "mrabrod": "Maria Rabel Rodriguez",
+  "tramsan": "Tomás De Santa Maria Ramires Santana De Oliveira Viotty",
+  "erecpen": "Elena Reche Peña",
+  "mricgal": "Maria Dolores Rico Gallardo",
+  "jroarod": "Juan Roales Rodriguez",
+  "jrodpuy": "Julia Rodriguez Puyana",
+  "mrodvid": "Marta Rodriguez Vidal De Torres",
+  "frodgar": "Francisco Rodríguez Garcés",
+  "sromros": "Sara Roman Rosa",
+  "mrommat": "Maria De Gracia Romero Mateo",
+  "eromveg": "Emilio Romero Vega",
+  "mrueagu": "Marcos Rueda Aguayo",
+  "lsanrod": "Libertad Sanchez Rodriguez",
+  "esanley": "Elizabeth Sandoval Leyton",
+  "aseivar": "Antia Seixo Varela",
+  "jsevmor": "Julia Sevillano Morales",
+  "atrogar": "Ana Maria Troncoso Garcia",
+  "bvargue": "Barbara Vargas Guerrero",
+  "cvelgal": "Carmen Velázquez Galván",
+  "jvidgar": "Jesus Vidal Garrido",
+  "jmespben": "Juan Manuel Espejo Benítez",
+  "mhidper": "Manuel Alejandro Hidalgo Perez"
+};
+
+    // Mapeo bidireccional de alias (con/sin sufijo numérico de Blackboard)
+    const USER_ALIASES = {
+      "cmargon6": "cmargon", "amarrod9": "amarrod", "amorber1": "amorber",
+      "lgarcan1": "lgarcan", "lgilmar1": "lgilmar", "lgonsan5": "lgonsan",
+      "mmargav1": "mmargav", "mmarpin3": "mmarpin", "crnorpus": "cnorpus",
+      "apensan1": "apensan", "aperflo2": "aperflo", "tsramde": "tramsan",
+      "mdricgal": "mricgal", "frodgar3": "frodgar", "mrodvid1": "mrodvid",
+      "mgrommat": "mrommat", "lsanrod2": "lsanrod", "resanley": "esanley",
+      "amtrogar": "atrogar", "cvelgal2": "cvelgal", "maarerot": "marerot",
+      "lmdebaz": "ldela", "fdelcar": "fdelrio", "mfernav3": "mfernav",
+      "arfersan": "afersan"
+    };
+
+    // Estado global de la sesión
+    let currentSession = {
+      leaderUsername: "",
+      leaderFullName: "",
+      teamCode: "",
+      student2Username: "",
+      student2FullName: "",
+      student3Username: "",
+      student3FullName: "",
+      startTime: null,
+      currentStep: 1,
+      completed: false,
+      pasteAttempts: 0
+    };
+
+    let timerInterval = null;
+
+    function getTeamStorageKey(teamCode) {
+      return `psll_epd2_draft_${teamCode || 'anon'}`;
+    }
+
+    function getDeliveredStorageKey(teamCode) {
+      return `psll_epd2_delivered_${teamCode || 'anon'}`;
+    }
+
+    function generateTeamCode(u1, u2, u3) {
+      const salt = "PSLL_EPD2_2026_27_UPO";
+      const str = (u1 || '') + (u2 || '') + (u3 || '') + salt;
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = (hash << 5) - hash + str.charCodeAt(i);
+        hash |= 0;
+      }
+      const num = Math.abs(hash) % 9000 + 1000;
+      return `PSLL-EPD2-${num}`;
+    }
+
+    function populateStudentSelects(leaderUser) {
+      const s2 = document.getElementById('selectStudent2');
+      const s3 = document.getElementById('selectStudent3');
+      s2.innerHTML = '<option value="">-- Seleccionar Compañero/a 2 (Opcional) --</option>';
+      s3.innerHTML = '<option value="">-- Seleccionar Compañero/a 3 (Opcional) --</option>';
+
+      const sortedUsers = Object.keys(DB_USERS).sort((a,b) => DB_USERS[a].localeCompare(DB_USERS[b]));
+      sortedUsers.forEach(u => {
+        if (u !== leaderUser) {
+          const opt2 = document.createElement('option');
+          opt2.value = u;
+          opt2.textContent = `${DB_USERS[u]} (${u})`;
+          s2.appendChild(opt2);
+
+          const opt3 = document.createElement('option');
+          opt3.value = u;
+          opt3.textContent = `${DB_USERS[u]} (${u})`;
+          s3.appendChild(opt3);
+        }
+      });
+    }
+
+    function verifyTeamLeader() {
+      let raw = document.getElementById('inputAcronym').value.trim().toLowerCase();
+      if (!raw) {
+        alert("Por favor, introduce tu acrónimo de usuario UPO.");
+        return;
+      }
+
+      if (USER_ALIASES[raw]) {
+        raw = USER_ALIASES[raw];
+      }
+
+      if (!DB_USERS[raw]) {
+        alert(`⚠️ El acrónimo "${raw}" no figura en la lista oficial de matriculados de PSLL.
+
+Verifica que está bien escrito (sin @alu.upo.es). Si eres alumno de intercambio o incidencia de matrícula, consulta con el profesor.`);
+        return;
+      }
+
+      currentSession.leaderUsername = raw;
+      currentSession.leaderFullName = DB_USERS[raw];
+
+      populateStudentSelects(raw);
+      document.getElementById('teamMembersArea').style.display = 'block';
+      document.getElementById('btnVerifyLeader').style.display = 'none';
+      document.getElementById('inputAcronym').readOnly = true;
+      document.getElementById('btnStartSession').style.display = 'inline-flex';
+    }
+
+    function launchSession() {
+      const s2 = document.getElementById('selectStudent2').value;
+      const s3 = document.getElementById('selectStudent3').value;
+
+      currentSession.student2Username = s2 || "";
+      currentSession.student2FullName = s2 ? DB_USERS[s2] : "";
+      currentSession.student3Username = s3 || "";
+      currentSession.student3FullName = s3 ? DB_USERS[s3] : "";
+
+      currentSession.teamCode = generateTeamCode(
+        currentSession.leaderUsername,
+        currentSession.student2Username,
+        currentSession.student3Username
+      );
+      currentSession.startTime = new Date();
+
+      document.getElementById('authSection').style.display = 'none';
+      document.getElementById('workspaceSection').style.display = 'block';
+
+      document.getElementById('teamBadge').style.display = 'flex';
+      document.getElementById('displayTeamCode').textContent = currentSession.teamCode;
+      document.getElementById('sessionTimer').style.display = 'block';
+      document.getElementById('btnHeaderDraft').style.display = 'inline-block';
+      document.getElementById('btnLogout').style.display = 'inline-block';
+
+      startTimer();
+      updateSimulation();
+
+      // Comprobar si ya existe entrega oficial bloqueada
+      const delivered = localStorage.getItem(getDeliveredStorageKey(currentSession.teamCode));
+      if (delivered) {
+        try {
+          const d = JSON.parse(delivered);
+          restoreDelivery(d);
+          goToStep(4);
+          return;
+        } catch(e) {}
+      }
+
+      // Comprobar borrador previo
+      const draft = localStorage.getItem(getTeamStorageKey(currentSession.teamCode));
+      if (draft) {
+        try {
+          restoreDraft(JSON.parse(draft));
+        } catch(e) {}
+      }
+
+      // Protección anti-pegado
+      ['textAxis1', 'textAxis2', 'textAxis3'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener('paste', handlePaste);
+        }
+      });
+    }
+
+    function startTimer() {
+      let seconds = 0;
+      timerInterval = setInterval(() => {
+        seconds++;
+        const mins = String(Math.floor(seconds / 60)).padStart(2, '0');
+        const secs = String(seconds % 60).padStart(2, '0');
+        document.getElementById('sessionTimer').textContent = `⏱️ ${mins}:${secs}`;
+      }, 1000);
+    }
+
+    function goToStep(stepNum) {
+      currentSession.currentStep = stepNum;
+      for (let i = 1; i <= 4; i++) {
+        const content = document.getElementById(`stepSection${i}`);
+        const tab = document.getElementById(`stepTab${i}`);
+        if (content) content.style.display = (i === stepNum) ? 'block' : 'none';
+        if (tab) {
+          if (i === stepNum) {
+            tab.className = 'step-item active';
+          } else if (i < stepNum) {
+            tab.className = 'step-item completed';
+          } else {
+            tab.className = 'step-item';
+          }
+        }
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateSimulation() {
+      const b = parseFloat(document.getElementById('inputBudget').value) || 0;
+      const eu = b * 0.85;
+      const junta = b * 0.15;
+      const contracts = Math.floor(b / 4500);
+
+      document.getElementById('simEuAmount').textContent = Math.round(eu).toLocaleString('es-ES') + " €";
+      document.getElementById('simJuntaAmount').textContent = Math.round(junta).toLocaleString('es-ES') + " €";
+      document.getElementById('simContractsCount').textContent = contracts.toLocaleString('es-ES');
+    }
+
+    function handlePaste(e) {
+      e.preventDefault();
+      currentSession.pasteAttempts++;
+      const toast = document.getElementById('pasteAlertToast');
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 4000);
+    }
+
+    function handleAxisTyping(num) {
+      const txt = document.getElementById(`textAxis${num}`).value.trim();
+      const count = txt ? txt.split(/\s+/).length : 0;
+      document.getElementById(`wordsAxis${num}`).textContent = `${count} palabras`;
+
+      checkDeliveryReadiness();
+      autoSaveDraft();
+    }
+
+    function checkDeliveryReadiness() {
+      const w1 = document.getElementById('textAxis1').value.trim().split(/\s+/).filter(Boolean).length;
+      const w2 = document.getElementById('textAxis2').value.trim().split(/\s+/).filter(Boolean).length;
+      const w3 = document.getElementById('textAxis3').value.trim().split(/\s+/).filter(Boolean).length;
+      const total = w1 + w2 + w3;
+
+      document.getElementById('totalWordsDisplay').textContent = total;
+      const btn = document.getElementById('btnSealDelivery');
+
+      if (w1 >= 30 && w2 >= 40 && w3 >= 30 && total >= 110) {
+        btn.disabled = false;
+      } else {
+        btn.disabled = true;
+      }
+    }
+
+    function autoSaveDraft() {
+      if (!currentSession.teamCode || currentSession.completed) return;
+      const draft = {
+        currentSession: currentSession,
+        t1: document.getElementById('textAxis1').value,
+        t2: document.getElementById('textAxis2').value,
+        t3: document.getElementById('textAxis3').value,
+        budget: document.getElementById('inputBudget').value,
+        savedAt: new Date().toISOString()
+      };
+      localStorage.setItem(getTeamStorageKey(currentSession.teamCode), JSON.stringify(draft));
+    }
+
+    function restoreDraft(draft) {
+      if (draft.t1) document.getElementById('textAxis1').value = draft.t1;
+      if (draft.t2) document.getElementById('textAxis2').value = draft.t2;
+      if (draft.t3) document.getElementById('textAxis3').value = draft.t3;
+      if (draft.budget) document.getElementById('inputBudget').value = draft.budget;
+      handleAxisTyping(1);
+      handleAxisTyping(2);
+      handleAxisTyping(3);
+      updateSimulation();
+    }
+
+    function exportDraftJSON() {
+      autoSaveDraft();
+      const key = getTeamStorageKey(currentSession.teamCode);
+      const str = localStorage.getItem(key);
+      if (!str) {
+        alert("Aún no hay texto suficiente redactado para guardar.");
+        return;
+      }
+      const blob = new Blob([str], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `borrador_epd2_${currentSession.teamCode}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function importDraftJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const d = JSON.parse(e.target.result);
+          if (d.currentSession && d.currentSession.leaderUsername) {
+            document.getElementById('inputAcronym').value = d.currentSession.leaderUsername;
+            verifyTeamLeader();
+            if (d.currentSession.student2Username) {
+              document.getElementById('selectStudent2').value = d.currentSession.student2Username;
+            }
+            if (d.currentSession.student3Username) {
+              document.getElementById('selectStudent3').value = d.currentSession.student3Username;
+            }
+            launchSession();
+            restoreDraft(d);
+            alert("✅ Borrador restaurado con éxito para tu equipo.");
+          }
+        } catch(err) {
+          alert("Error leyendo el archivo: " + err.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function generateSHA256Hash(text) {
+      let hash = 0;
+      for (let i = 0; i < text.length; i++) {
+        hash = ((hash << 5) - hash) + text.charCodeAt(i);
+        hash |= 0;
+      }
+      return 'SHA256:' + Math.abs(hash).toString(16).padStart(16, 'b') + '7692';
+    }
+
+    function sealFinalDelivery() {
+      if (currentSession.completed) return;
+
+      const t1 = document.getElementById('textAxis1').value.trim();
+      const t2 = document.getElementById('textAxis2').value.trim();
+      const t3 = document.getElementById('textAxis3').value.trim();
+      const rawText = t1 + " " + t2 + " " + t3;
+
+      const sealStr = `${currentSession.teamCode}-${currentSession.leaderUsername}-${new Date().toISOString()}-${rawText.length}`;
+      const hash = generateSHA256Hash(sealStr);
+      const dateStr = new Date().toLocaleString('es-ES', { dateStyle: 'full', timeStyle: 'medium' });
+
+      const deliveryData = {
+        teamCode: currentSession.teamCode,
+        leaderUsername: currentSession.leaderUsername,
+        leaderFullName: currentSession.leaderFullName,
+        student2Username: currentSession.student2Username,
+        student2FullName: currentSession.student2FullName,
+        student3Username: currentSession.student3Username,
+        student3FullName: currentSession.student3FullName,
+        t1: t1,
+        t2: t2,
+        t3: t3,
+        hash: hash,
+        date: dateStr
+      };
+
+      currentSession.completed = true;
+      localStorage.setItem(getDeliveredStorageKey(currentSession.teamCode), JSON.stringify(deliveryData));
+      localStorage.removeItem(getTeamStorageKey(currentSession.teamCode));
+
+      restoreDelivery(deliveryData);
+    }
+
+    function restoreDelivery(d) {
+      currentSession.completed = true;
+      document.getElementById('textAxis1').value = d.t1;
+      document.getElementById('textAxis2').value = d.t2;
+      document.getElementById('textAxis3').value = d.t3;
+
+      document.getElementById('textAxis1').readOnly = true;
+      document.getElementById('textAxis2').readOnly = true;
+      document.getElementById('textAxis3').readOnly = true;
+      document.getElementById('btnSealDelivery').style.display = 'none';
+
+      document.getElementById('displayHash').textContent = d.hash;
+      document.getElementById('finalTicketArea').style.display = 'block';
+
+      // Rellenar imprimible
+      document.getElementById('docTeamCode').textContent = d.teamCode;
+      document.getElementById('docDate').textContent = d.date;
+      document.getElementById('docHash').textContent = d.hash;
+
+      document.getElementById('docStudent1').textContent = `${d.leaderFullName} (${d.leaderUsername})`;
+      
+      const s2Row = document.getElementById('docStudent2Row');
+      if (d.student2FullName) {
+        document.getElementById('docStudent2').textContent = `${d.student2FullName} (${d.student2Username})`;
+        s2Row.style.display = 'inline';
+      } else {
+        s2Row.style.display = 'none';
+      }
+
+      const s3Row = document.getElementById('docStudent3Row');
+      if (d.student3FullName) {
+        document.getElementById('docStudent3').textContent = `${d.student3FullName} (${d.student3Username})`;
+        s3Row.style.display = 'inline';
+      } else {
+        s3Row.style.display = 'none';
+      }
+
+      document.getElementById('docTextAxis1').textContent = d.t1;
+      document.getElementById('docTextAxis2').textContent = d.t2;
+      document.getElementById('docTextAxis3').textContent = d.t3;
+
+      window.scrollTo({ top: document.getElementById('finalTicketArea').offsetTop - 30, behavior: 'smooth' });
+    }
+
+    function downloadOfficialReportPDF() {
+      const reportEl = document.getElementById('officialReportPrintable');
+      const filename = `Informe_EPD2_PSLL_${currentSession.teamCode}_${currentSession.leaderUsername}.pdf`;
+      const btn = document.getElementById('btnDownloadPDF');
+      const origText = btn.innerHTML;
+
+      btn.innerHTML = '⏳ Generando documento PDF...';
+      btn.disabled = true;
+
+      // Hacer visible temporalmente para html2pdf
+      reportEl.style.display = 'block';
+
+      const opt = {
+        margin:       [8, 10, 8, 10],
+        filename:     filename,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true, logging: false, scrollY: 0 },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+      };
+
+      html2pdf().set(opt).from(reportEl).save().then(() => {
+        reportEl.style.display = 'none';
+        btn.innerHTML = '✅ ¡PDF Descargado con Éxito!';
+        setTimeout(() => {
+          btn.innerHTML = origText;
+          btn.disabled = false;
+        }, 3000);
+      }).catch(err => {
+        console.error("Error generando PDF:", err);
+        reportEl.style.display = 'none';
+        btn.innerHTML = origText;
+        btn.disabled = false;
+        window.print();
+      });
+    }
+
+    function handleLogout() {
+      if (confirm("¿Deseas cerrar la sesión de equipo en este equipo? Tu borrador queda guardado localmente.")) {
+        autoSaveDraft();
+        location.reload();
+      }
+    }
+  </script>
+</body>
+</html>
