@@ -1607,15 +1607,15 @@
               <div style="font-size: 0.82rem; display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
                 <label style="display: flex; gap: 8px; align-items: flex-start; cursor: pointer;">
                   <input type="radio" name="diag21" value="A" style="margin-top: 2px;">
-                  <span><strong>A)</strong> Mediante un subsidio económico pasivo indefinido sin necesidad de formación ni búsqueda activa.</span>
+                  <span><strong>A)</strong> Mediante el Mecanismo de Garantía Laboral para Mayores de 45 años, la Comisión Europea transfiere fondos finalistas al SEPE para su contratación laboral directa e indefinida en planes municipales de obras públicas antes de cumplir 18 meses de paro.</span>
                 </label>
                 <label style="display: flex; gap: 8px; align-items: flex-start; cursor: pointer;">
                   <input type="radio" name="diag21" value="B" style="margin-top: 2px;">
-                  <span><strong>B)</strong> El Principio 4 del PEDS le otorga el derecho subjetivo a apoyo individualizado antes de los 18 meses, el Semestre Europeo exige actuar ante el riesgo de cronificación, y el Art. 4.1.a del FSE+ financia su itinerario de activación.</span>
+                  <span><strong>B)</strong> El Principio 4 del PEDS reconoce su derecho subjetivo a una evaluación y apoyo individualizado antes de alcanzar 18 meses de paro (combatiendo el edadismo del Principio 3), el Semestre Europeo diagnostica la cronificación sénior española como fallo estructural, y el Art. 4.1.a (OE1) del FSE+ financia obligatoriamente el itinerario de activación laboral que el SAE debe ofrecerle.</span>
                 </label>
                 <label style="display: flex; gap: 8px; align-items: flex-start; cursor: pointer;">
                   <input type="radio" name="diag21" value="C" style="margin-top: 2px;">
-                  <span><strong>C)</strong> La Comisión Europea contrata directamente a Manuel como funcionario comunitario desde Bruselas.</span>
+                  <span><strong>C)</strong> Al haber rebasado los 12 meses de paro continuo y tener más de 45 años, el Reglamento FSE+ asigna automáticamente a Manuel una prestación asistencial no contributiva cofinanciada por la UE, eximiéndole de participar en itinerarios formativos o de búsqueda activa.</span>
                 </label>
               </div>
               <button class="btn btn-outline" onclick="checkDiagnosis21()" style="font-size: 0.8rem; padding: 6px 14px;">
@@ -1641,15 +1641,15 @@
               <div style="font-size: 0.82rem; display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
                 <label style="display: flex; gap: 8px; align-items: flex-start; cursor: pointer;">
                   <input type="radio" name="diag22" value="A" style="margin-top: 2px;">
-                  <span><strong>A)</strong> Daría el visto bueno, porque cualquier publicidad que hable de empleo reduce automáticamente el paro.</span>
+                  <span><strong>A)</strong> Dictamen favorable: El FSE+ contempla la sensibilización y difusión social como gasto prioritario de cohesión, considerando que la publicidad institucional estimula indirectamente la demanda de trabajo sin necesidad de modernizar las oficinas de empleo.</span>
                 </label>
                 <label style="display: flex; gap: 8px; align-items: flex-start; cursor: pointer;">
                   <input type="radio" name="diag22" value="B" style="margin-top: 2px;">
-                  <span><strong>B)</strong> Rechazaría la ayuda: el FSE+ exige causalidad técnica e impacto directo, obligando a financiar tanto la ayuda al individuo (Art. 4.1.a) como la modernización estructural del servicio de empleo (Art. 4.1.c), lo que invalida gastos genéricos de publicidad vacía.</span>
+                  <span><strong>B)</strong> Dictamen desfavorable y rechazo de la ayuda: El FSE+ exige impacto verificable y condicionalidad estricta, obligando a equilibrar la ayuda directa al individuo (Art. 4.1.a · itinerarios y competencias) con la modernización de los instrumentos técnicos del servicio público (Art. 4.1.c), lo que invalida destinar fondos estructurales a campañas genéricas de propaganda vacía.</span>
                 </label>
                 <label style="display: flex; gap: 8px; align-items: flex-start; cursor: pointer;">
                   <input type="radio" name="diag22" value="C" style="margin-top: 2px;">
-                  <span><strong>C)</strong> Exigiría que los anuncios de televisión los locute el propio Presidente de la Comisión Europea.</span>
+                  <span><strong>C)</strong> Dictamen condicionado: La ayuda sería plenamente admisible siempre que los anuncios incluyan el logotipo oficial de la Unión Europea a pie de pantalla y acrediten que al menos el 50% de la audiencia televisiva alcanzada corresponde a personas mayores de 45 años.</span>
                 </label>
               </div>
               <button class="btn btn-outline" onclick="checkDiagnosis22()" style="font-size: 0.8rem; padding: 6px 14px;">
@@ -2440,12 +2440,17 @@ Verifica que está bien escrito (sin @alu.upo.es). Si eres alumno de intercambio
         fb.style.background = '#ECFDF5';
         fb.style.border = '1.5px solid #10B981';
         fb.style.color = '#065F46';
-        fb.innerHTML = '<strong>✅ ¡Diagnóstico Correcto!</strong> Exacto: Manuel está en el mes 15 de desempleo. El <strong>Principio 4 del PEDS</strong> le reconoce el derecho subjetivo al apoyo activo antes de los 18 meses, y el <strong>Art. 4.1.a (OE1)</strong> del FSE+ obliga a financiar su itinerario individualizado. ¡Utilizad este caso práctico en el Eje 1!';
+        fb.innerHTML = '<strong>✅ ¡Diagnóstico Correcto!</strong> Exacto: Manuel está en el mes 15 de desempleo. El <strong>Principio 4 del PEDS</strong> le reconoce el derecho subjetivo al apoyo activo antes de los 18 meses (evitando el edadismo del Principio 3), y el <strong>Art. 4.1.a (OE1)</strong> del FSE+ obliga a financiar su itinerario individualizado a través del SAE. ¡Utilizad este caso práctico en el Eje 1!';
+      } else if (selected.value === 'A') {
+        fb.style.background = '#FEF2F2';
+        fb.style.border = '1.5px solid #EF4444';
+        fb.style.color = '#991B1B';
+        fb.innerHTML = '<strong>❌ Diagnóstico Erróneo (Trampa de Empleo Público Directo):</strong> El FSE+ <em>no financia empleo público directo municipal ni existe una "Garantía Senior" estatal de contratación forzosa</em>. La gobernanza comunitaria opera por subsidiariedad: el FSE+ (Art. 4.1.a) financia que el servicio autonómico (SAE) elabore un itinerario personalizado de inserción en el mercado ordinario.';
       } else {
         fb.style.background = '#FEF2F2';
         fb.style.border = '1.5px solid #EF4444';
         fb.style.color = '#991B1B';
-        fb.innerHTML = '<strong>❌ Diagnóstico Incompleto o Erróneo:</strong> El FSE+ y el Pilar Europeo no financian prestaciones pasivas indefinidas ni contratan directamente a los ciudadanos desde Bruselas. Se centran en el <em>derecho activo al empleo y la activación antes de los 18 meses</em> (Principio 4) financiado con itinerarios (Art. 4.1.a). ¡Revisad las opciones!';
+        fb.innerHTML = '<strong>❌ Diagnóstico Erróneo (Confusión Política Activa vs. Pasiva):</strong> ¡Cuidado! Las prestaciones y subsidios por desempleo son <strong>políticas pasivas</strong> reguladas por la legislación estatal de Seguridad Social. El FSE+ financia exclusivamente <strong>políticas activas</strong>: nunca subsidios que eximan al trabajador de activarse o formarse.';
       }
     }
 
@@ -2465,12 +2470,17 @@ Verifica que está bien escrito (sin @alu.upo.es). Si eres alumno de intercambio
         fb.style.background = '#ECFDF5';
         fb.style.border = '1.5px solid #10B981';
         fb.style.color = '#065F46';
-        fb.innerHTML = '<strong>✅ ¡Diagnóstico del Auditor Impecable!</strong> La Comisión Europea exige causalidad e impacto verificable: el FSE+ debe equilibrar la <strong>ayuda directa a la persona (Art. 4.1.a)</strong> con la <strong>modernización técnica del servicio público (Art. 4.1.c)</strong>. La publicidad vacía no cumple ninguno de los dos requisitos y rompe la trazabilidad. ¡Incorporad este argumento en el Eje 1!';
+        fb.innerHTML = '<strong>✅ ¡Dictamen Impecable del Auditor!</strong> La Comisión Europea exige causalidad e impacto verificable: el FSE+ debe equilibrar la <strong>ayuda directa a la persona (Art. 4.1.a)</strong> con la <strong>modernización técnica del servicio público (Art. 4.1.c)</strong>. La publicidad vacía no cumple ninguno de los dos requisitos y rompe la trazabilidad. ¡Incorporad este argumento en el Eje 1!';
+      } else if (selected.value === 'A') {
+        fb.style.background = '#FEF2F2';
+        fb.style.border = '1.5px solid #EF4444';
+        fb.style.color = '#991B1B';
+        fb.innerHTML = '<strong>❌ Dictamen Erróneo (Falsa Prioridad de Difusión):</strong> La sensibilización o publicidad jamás puede sustituir a las políticas activas de empleo. La Comisión Europea exige impacto directo: el gasto debe redundar en personas concretas (Art. 4.1.a) o en la modernización estructural del servicio (Art. 4.1.c).';
       } else {
         fb.style.background = '#FEF2F2';
         fb.style.border = '1.5px solid #EF4444';
         fb.style.color = '#991B1B';
-        fb.innerHTML = '<strong>❌ Diagnóstico No Conforme:</strong> Los fondos estructurales comunitarios prohíben el gasto en propaganda o difusión genérica sin impacto contrastado en los parados. Europa exige modernizar las instituciones (Art. 4.1.c) y crear itinerarios reales (Art. 4.1.a). ¡Elegid la opción fundamentada en el Reglamento!';
+        fb.innerHTML = '<strong>❌ Dictamen Erróneo (Trampa Burocrática de Logotipos):</strong> Poner la bandera de la UE o medir la audiencia televisiva es una obligación formal de comunicación, pero no convalida la elegibilidad sustantiva del gasto. Un gasto publicitario sin itinerarios ni modernización del SAE es nulo de pleno derecho en el FSE+.';
       }
     }
 
