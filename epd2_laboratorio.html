@@ -872,7 +872,7 @@
 
         <div class="form-group" id="groupAcronymInput">
           <label for="inputAcronym">Tu Acrónimo Institucional UPO (Responsable de la entrega):</label>
-          <input type="text" id="inputAcronym" class="form-control" placeholder="Introduce tu usuario oficial UPO (sin @alu.upo.es)" autofocus>
+          <input type="text" id="inputAcronym" class="form-control" placeholder="Introduce tu usuario oficial UPO (sin @alu.upo.es)" onkeydown="if(event.key==='Enter') verifyTeamLeader()" autofocus>
           <small style="color: var(--text-muted); font-size: 0.78rem;">Introduce tu nombre de usuario del correo institucional de la UPO (@alu.upo.es).</small>
         </div>
 
