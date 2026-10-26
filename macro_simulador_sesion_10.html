@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Sesión 10 · Banca, Apalancamiento, Pánicos y Trampas de Liquidez · Macro UPO</title>
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="theme.css">
+  <style>
+    :root {
+      --navy: #0b1c36;
+      --cobalt: #056caa;
+      --azure: #0776b5;
+      --gold: #d97706;
+      --crimson: #e11d48;
+      --teal: #059669;
+      --indigo: #4338ca;
+      --slate: #64748b;
+      --bg-cream: #faf8f5;
+      --card-border: #e2e8f0;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-cream);
+      color: #1e293b;
+      line-height: 1.55;
+      padding-bottom: 70px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 880px; margin: 0 auto; padding: 0 16px; }
+    
+    /* Header */
+    .intro { padding: 24px 0 12px; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cobalt);
+      margin-bottom: 8px;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 18px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--cobalt), var(--gold));
+      border-radius: 2px;
+    }
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.6rem, 5vw, 2.1rem);
+      line-height: 1.15;
+      color: var(--navy);
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+    .lede { font-size: 0.95rem; color: #475569; margin-bottom: 14px; }
+
+    /* Sticky Hero Panel */
+    .hero {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(250, 248, 245, 0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 10px 0 12px;
+      box-shadow: 0 10px 25px -20px rgba(11, 28, 54, 0.3);
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .kpi-card {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .kpi-label { font-size: 0.68rem; color: var(--slate); text-transform: uppercase; font-weight: 600; margin-bottom: 2px; }
+    .kpi-val { font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 800; color: var(--navy); }
+    .kpi-sub { font-size: 0.70rem; font-weight: 600; }
+    .kpi-sub.pos { color: var(--teal); }
+    .kpi-sub.neg { color: var(--crimson); }
+    .kpi-sub.warn { color: var(--gold); }
+    .kpi-sub.neu { color: var(--slate); }
+
+    /* Layout Cards */
+    .card {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-top: 16px;
+      box-shadow: 0 2px 8px rgba(11, 28, 54, 0.04);
+    }
+    .card-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 8px;
+    }
+
+    /* Preset Scenarios */
+    .btn-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .btn-scenario {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--navy);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .btn-scenario span { font-size: 0.70rem; color: var(--slate); font-weight: normal; }
+    .btn-scenario:hover {
+      background: #e0f2fe;
+      border-color: var(--cobalt);
+    }
+    .btn-scenario.active {
+      background: var(--navy);
+      color: #ffffff;
+      border-color: var(--navy);
+    }
+    .btn-scenario.active span { color: #94a3b8; }
+
+    /* Sliders & Controls */
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+    }
+    .ctrl-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .ctrl-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .ctrl-name { font-size: 0.82rem; font-weight: 700; color: var(--navy); }
+    .ctrl-val { font-family: 'Outfit', sans-serif; font-size: 0.95rem; font-weight: 800; color: var(--cobalt); }
+    input[type=range] {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #cbd5e1;
+      outline: none;
+      -webkit-appearance: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--cobalt);
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    }
+
+    /* Balance Visualizer */
+    .balance-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 14px;
+    }
+    .balance-col {
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 12px;
+      background: #ffffff;
+    }
+    .balance-col-header {
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .balance-col-header.activo { color: var(--cobalt); border-bottom: 2px solid var(--cobalt); padding-bottom: 4px; }
+    .balance-col-header.pasivo { color: var(--navy); border-bottom: 2px solid var(--navy); padding-bottom: 4px; }
+    
+    .balance-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-height: 220px;
+    }
+    .balance-bar {
+      border-radius: 6px;
+      padding: 8px 10px;
+      color: #ffffff;
+      font-size: 0.80rem;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    .bar-prestamos { background: var(--cobalt); }
+    .bar-bonos { background: var(--azure); }
+    .bar-reservas { background: var(--teal); }
+    .bar-depositos { background: #475569; }
+    .bar-deudacp { background: #64748b; }
+    .bar-capital { background: var(--gold); }
+    .bar-capital.insolvente { background: var(--crimson); animation: pulse 1s infinite alternate; }
+    .bar-perdida { background: var(--crimson); border: 2px dashed #ffffff; }
+
+    @keyframes pulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.02); }
+    }
+
+    /* SVG Chart */
+    .chart-box {
+      width: 100%;
+      height: 290px;
+      background: #ffffff;
+      border-radius: 8px;
+      position: relative;
+      margin-top: 12px;
+    }
+    svg { width: 100%; height: 100%; }
+
+    /* Alerts and Insights */
+    .alert {
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 0.85rem;
+      margin-top: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .alert-warn { background: #fef3c7; border: 1px solid #fde68a; color: #92400e; }
+    .alert-danger { background: #fee2e2; border: 1px solid #fecaca; color: #991b1b; }
+    .alert-info { background: #e0f2fe; border: 1px solid #bae6fd; color: #0369a1; }
+    .alert-success { background: #dcfce7; border: 1px solid #bbf7d0; color: #166534; }
+
+    /* Quiz Tabs */
+    .tab-nav {
+      display: flex;
+      gap: 6px;
+      border-bottom: 2px solid #e2e8f0;
+      margin-bottom: 14px;
+    }
+    .tab-btn {
+      padding: 8px 14px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--slate);
+      background: none;
+      border: none;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+    }
+    .tab-btn.active {
+      color: var(--cobalt);
+      border-bottom-color: var(--cobalt);
+    }
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    @media (max-width: 680px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .balance-container { grid-template-columns: 1fr; }
+      .btn-group { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrap">
+    <!-- Header -->
+    <header class="intro">
+      <div class="eyebrow">Macroeconomía · UPO · Sesión 10 (EB)</div>
+      <h1>Banca, Apalancamiento y Trampas de Liquidez</h1>
+      <p class="lede">Simulador interactivo del balance bancario, desapalancamiento forzoso (<em>credit crunch</em>), límite inferior cero (ZLB) y políticas monetarias no convencionales (QE y rescates).</p>
+    </header>
+  </div>
+
+  <!-- Sticky Hero Panel -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Apalancamiento</div>
+          <div class="kpi-val" id="kpi-ap">20.0x</div>
+          <div class="kpi-sub neu" id="kpi-ap-sub">Ratio Capital: 5.0%</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Capital Propio</div>
+          <div class="kpi-val" id="kpi-capital">5.0 M€</div>
+          <div class="kpi-sub pos" id="kpi-solvencia">Solvente</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Prima de Riesgo (x)</div>
+          <div class="kpi-val" id="kpi-x">150 pb</div>
+          <div class="kpi-sub neu" id="kpi-coste">Tipo r+x: 2.5%</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Producción (PIB Y)</div>
+          <div class="kpi-val" id="kpi-y">1.000</div>
+          <div class="kpi-sub pos" id="kpi-y-sub">Equilibrio Normal</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+
+    <!-- Escenarios Históricos Preconfigurados -->
+    <section class="card">
+      <div class="card-title">📌 1. Escenarios Históricos Preconfigurados</div>
+      <div class="btn-group">
+        <button class="btn-scenario active" onclick="setScenario('bonanza')">
+          ☀️ 1. Bonanza 2007
+          <span>Apalancamiento extremo (25x) y bonanza crediticia</span>
+        </button>
+        <button class="btn-scenario" onclick="setScenario('crash')">
+          💥 2. Crisis Subprime 2008
+          <span>Pérdidas del 4% en activo: capital borrado y pánico</span>
+        </button>
+        <button class="btn-scenario" onclick="setScenario('zlb_trap')">
+          ❄️ 3. Trampa ZLB
+          <span>BCE en 0%, interbancario roto, credit crunch</span>
+        </button>
+        <button class="btn-scenario" onclick="setScenario('qe_rescue')">
+          🛡️ 4. Rescate Integral
+          <span>QE masivo + Inyección Capital + Estímulo Fiscal</span>
+        </button>
+      </div>
+
+      <!-- Controles Interactivos -->
+      <div class="controls-grid">
+        <div class="ctrl-box">
+          <div class="ctrl-head">
+            <span class="ctrl-name">Pérdida en Activos (Impagos / Hipotecas)</span>
+            <span class="ctrl-val" id="val-perdida">0.0 M€ (0%)</span>
+          </div>
+          <input type="range" id="rng-perdida" min="0" max="6" step="0.5" value="0" oninput="updateAll()">
+        </div>
+
+        <div class="ctrl-box">
+          <div class="ctrl-head">
+            <span class="ctrl-name">Inyección de Capital Público (TARP / FROB)</span>
+            <span class="ctrl-val" id="val-inyeccion">0.0 M€</span>
+          </div>
+          <input type="range" id="rng-inyeccion" min="0" max="6" step="0.5" value="0" oninput="updateAll()">
+        </div>
+
+        <div class="ctrl-box">
+          <div class="ctrl-head">
+            <span class="ctrl-name">Tipo Oficial Banco Central (i)</span>
+            <span class="ctrl-val" id="val-i">4.0%</span>
+          </div>
+          <input type="range" id="rng-i" min="0" max="5" step="0.25" value="4.0" oninput="updateAll()">
+        </div>
+
+        <div class="ctrl-box">
+          <div class="ctrl-head">
+            <span class="ctrl-name">Intensidad Expansión Cuantitativa (QE)</span>
+            <span class="ctrl-val" id="val-qe">0% (Inactivo)</span>
+          </div>
+          <input type="range" id="rng-qe" min="0" max="100" step="10" value="0" oninput="updateAll()">
+        </div>
+
+        <div class="ctrl-box">
+          <div class="ctrl-head">
+            <span class="ctrl-name">Estímulo Presupuestario (Gasto Público ΔG)</span>
+            <span class="ctrl-val" id="val-g">+0 M€</span>
+          </div>
+          <input type="range" id="rng-g" min="-30" max="50" step="5" value="0" oninput="updateAll()">
+        </div>
+
+        <div class="ctrl-box">
+          <div class="ctrl-head">
+            <span class="ctrl-name">Ratio Apalancamiento Máximo Supervisor</span>
+            <span class="ctrl-val" id="val-ap-reg">20x (Basilea)</span>
+          </div>
+          <input type="range" id="rng-ap-reg" min="10" max="35" step="1" value="20" oninput="updateAll()">
+        </div>
+      </div>
+    </section>
+
+    <!-- Visualizador de Balances Bancarios -->
+    <section class="card">
+      <div class="card-title">🏛️ 2. Anatomía del Balance Bancario en Tiempo Real</div>
+      <div class="balance-container">
+        
+        <!-- Columna Activo -->
+        <div class="balance-col">
+          <div class="balance-col-header activo">
+            <span>ACTIVO TOTAL</span>
+            <span id="txt-activo-total">100.0 M€</span>
+          </div>
+          <div class="balance-stack">
+            <div class="balance-bar bar-reservas" id="bar-res">
+              <span>Reservas en el BCE (Líquidas)</span>
+              <span id="txt-res">10.0 M€</span>
+            </div>
+            <div class="balance-bar bar-bonos" id="bar-bonos">
+              <span>Bonos y Títulos de Deuda</span>
+              <span id="txt-bonos">20.0 M€</span>
+            </div>
+            <div class="balance-bar bar-prestamos" id="bar-prestamos">
+              <span>Cartera de Préstamos e Hipotecas</span>
+              <span id="txt-prestamos">70.0 M€</span>
+            </div>
+            <div class="balance-bar bar-perdida" id="bar-perdida" style="display: none;">
+              <span>Pérdidas por Deterioro / Impagos</span>
+              <span id="txt-perdida">-0.0 M€</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna Pasivo + Capital -->
+        <div class="balance-col">
+          <div class="balance-col-header pasivo">
+            <span>PASIVO Y CAPITAL</span>
+            <span id="txt-pasivo-total">100.0 M€</span>
+          </div>
+          <div class="balance-stack">
+            <div class="balance-bar bar-depositos" id="bar-dep">
+              <span>Depósitos de Clientes (A la vista)</span>
+              <span id="txt-dep">70.0 M€</span>
+            </div>
+            <div class="balance-bar bar-deudacp" id="bar-deuda">
+              <span>Financiación Mayorista / Repos</span>
+              <span id="txt-deuda">25.0 M€</span>
+            </div>
+            <div class="balance-bar bar-capital" id="bar-capital">
+              <span>FONDOS PROPIOS (CAPITAL)</span>
+              <span id="txt-cap">5.0 M€ (5.0%)</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Alertas de Solvencia -->
+      <div id="alert-box" class="alert alert-info">
+        <span>ℹ️</span>
+        <div id="alert-msg">El banco opera en condiciones normales con un apalancamiento saludable del 20x.</div>
+      </div>
+    </section>
+
+    <!-- Visualizador IS-LM Ampliado en el ZLB -->
+    <section class="card">
+      <div class="card-title">📈 3. Transmisión Macroeconómica: El Modelo IS-LM Ampliado en el ZLB</div>
+      <p style="font-size: 0.85rem; color: var(--slate); margin-bottom: 8px;">
+        Plano $(Y, r)$: La curva IS responde al tipo deudor real $(r + x)$. La línea discontinua roja señala el <strong>Límite Inferior Cero (ZLB)</strong> donde $i = 0\% \implies r = -\pi^e = -2\%$.
+      </p>
+      
+      <div class="chart-box">
+        <svg id="islm-svg" viewBox="0 0 600 280">
+          <!-- Fondo y Ejes -->
+          <rect width="600" height="280" fill="#ffffff" rx="6" />
+          
+          <!-- Zona ZLB Sombreada -->
+          <rect x="50" y="210" width="520" height="40" fill="#fee2e2" opacity="0.4" />
+          <text x="250" y="235" fill="#e11d48" font-size="11" font-weight="bold">Zona Prohibida / Trampa de Liquidez (i &lt; 0%)</text>
+
+          <!-- Ejes cartesianos -->
+          <line x1="50" y1="20" x2="50" y2="250" stroke="#94a3b8" stroke-width="1.5" />
+          <line x1="50" y1="250" x2="570" y2="250" stroke="#94a3b8" stroke-width="1.5" />
+          <text x="560" y="270" fill="#0b1c36" font-size="11" font-weight="bold">Y</text>
+          <text x="18" y="25" fill="#0b1c36" font-size="11" font-weight="bold">r (%)</text>
+
+          <!-- Recta LM del BCE -->
+          <line id="svg-lm" x1="50" y1="120" x2="570" y2="120" stroke="#4338ca" stroke-width="2.5" />
+          <text id="svg-lm-txt" x="480" y="112" fill="#4338ca" font-size="10.5" font-weight="bold">LM (r = 2.0%)</text>
+
+          <!-- Curva IS Inicial de Referencia -->
+          <line x1="100" y1="50" x2="520" y2="230" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4,4" />
+          <text x="470" y="220" fill="#94a3b8" font-size="10">IS₀ (Normal)</text>
+
+          <!-- Curva IS Dinámica Actual -->
+          <line id="svg-is" x1="80" y1="50" x2="500" y2="230" stroke="#056caa" stroke-width="3" />
+          <text id="svg-is-txt" x="420" y="200" fill="#056caa" font-size="11" font-weight="bold">IS actual</text>
+
+          <!-- Punto de Equilibrio E* -->
+          <circle id="svg-eq" cx="300" cy="120" r="6" fill="#d97706" stroke="#ffffff" stroke-width="2" />
+          <text id="svg-eq-txt" x="312" y="115" fill="#0b1c36" font-size="11" font-weight="bold">E* (Y=1000)</text>
+        </svg>
+      </div>
+
+      <!-- Resumen Cuantitativo del Equilibrio -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 12px; font-size: 0.85rem;">
+        <div style="background: #f8fafc; padding: 8px 12px; border-radius: 6px; border: 1px solid #e2e8f0;">
+          <strong>Tipo Real de Política (r):</strong> <span id="res-r">2.0%</span> ($i - \pi^e$)
+        </div>
+        <div style="background: #f8fafc; padding: 8px 12px; border-radius: 6px; border: 1px solid #e2e8f0;">
+          <strong>Tipo Deudor Pymes (r+x):</strong> <span id="res-rx" style="color: var(--crimson); font-weight: bold;">3.5%</span>
+        </div>
+        <div style="background: #f8fafc; padding: 8px 12px; border-radius: 6px; border: 1px solid #e2e8f0;">
+          <strong>Brecha de Producción:</strong> <span id="res-gap" style="color: var(--teal); font-weight: bold;">0.0%</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pestañas Pedagógicas: Guía de Estudio y Autoevaluación -->
+    <section class="card">
+      <div class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('mecanismo')">Mecanismo Teórico</button>
+        <button class="tab-btn" onclick="switchTab('historia')">Evidencia Histórica</button>
+        <button class="tab-btn" onclick="switchTab('test')">Reto de Autocomprobación</button>
+      </div>
+
+      <!-- Tab 1: Mecanismo -->
+      <div id="tab-mecanismo" class="tab-pane active" style="font-size: 0.90rem; color: #334155;">
+        <h4 style="color: var(--navy); margin-bottom: 6px;">El Círculo Vicioso del Desapalancamiento Forzoso</h4>
+        <p>1. <strong>Shock de Activos:</strong> Una depreciación inmobiliaria o impagos en pymes reducen el valor del activo.</p>
+        <p>2. <strong>Absorción por Capital:</strong> Los depósitos son exigibles a la par, de modo que toda pérdida destruye capital propio de los accionistas ($\text{Capital} = \text{Activo} - \text{Pasivo}$).</p>
+        <p>3. <strong>Disparo del Apalancamiento:</strong> El ratio $\text{Activo}/\text{Capital}$ se multiplica, amenazando la quiebra y vulnerando las exigencias regulatorias.</p>
+        <p>4. <strong>Credit Crunch:</strong> Como los bancos no pueden emitir nuevas acciones en plena tormenta, la única salida para cumplir la norma es encoger drásticamente su balance, cerrando el grifo del crédito a la economía real.</p>
+      </div>
+
+      <!-- Tab 2: Historia -->
+      <div id="tab-historia" class="tab-pane" style="font-size: 0.90rem; color: #334155;">
+        <h4 style="color: var(--navy); margin-bottom: 6px;">De la Gran Recesión de 2008 al Pánico SVB de 2023</h4>
+        <p>• <strong>Lehman Brothers (2008):</strong> Operaba con apalancamiento superior a 30x. Una depreciación del 3,3% en activos destruyó su capital, forzando la mayor quiebra de la historia financiera.</p>
+        <p>• <strong>El Plan TARP en EE.UU. (700.000 M$):</strong> El Tesoro inyectó capital público directo en los bancos para frenar el desapalancamiento forzoso y reactivar el crédito.</p>
+        <p>• <strong>Silicon Valley Bank (2023):</strong> La rápida subida de tipos de la Fed provocó pérdidas latentes en sus bonos a largo plazo. En 10 horas, depositantes no asegurados retiraron 42.000 M$ vía app móvil.</p>
+      </div>
+
+      <!-- Tab 3: Test -->
+      <div id="tab-test" class="tab-pane" style="font-size: 0.90rem; color: #334155;">
+        <h4 style="color: var(--navy); margin-bottom: 8px;">Pregunta Tipo Examen UPO</h4>
+        <p style="margin-bottom: 10px;"><strong>¿Por qué una inyección pública de capital a los bancos (recapitalización estatal) es más eficaz para desplazar la curva IS hacia la derecha que bajar el tipo de interés cuando la economía ya está en el ZLB?</strong></p>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <label style="display: flex; align-items: flex-start; gap: 8px; cursor: pointer;">
+            <input type="radio" name="quiz" value="a" onchange="checkQuiz('a')">
+            <span>A) Porque la inyección de capital reduce la deuda pública y elimina los impuestos futuros.</span>
+          </label>
+          <label style="display: flex; align-items: flex-start; gap: 8px; cursor: pointer;">
+            <input type="radio" name="quiz" value="b" onchange="checkQuiz('b')">
+            <span>B) Porque en el ZLB el tipo nominal ya está en 0% y no puede bajar más; la inyección de capital restaura la solvencia bancaria, frena el desapalancamiento forzoso y comprime drásticamente la prima de riesgo crediticia (x ↓), abaratando el crédito real de las empresas.</span>
+          </label>
+          <label style="display: flex; align-items: flex-start; gap: 8px; cursor: pointer;">
+            <input type="radio" name="quiz" value="c" onchange="checkQuiz('c')">
+            <span>C) Porque el Banco Central prohíbe el uso de la política fiscal cuando los tipos son positivos.</span>
+          </label>
+        </div>
+        <div id="quiz-fb" style="margin-top: 12px; font-weight: bold;"></div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // Variables de estado del simulador
+    let state = {
+      activoBase: 100,
+      prestamos: 70,
+      bonos: 20,
+      reservas: 10,
+      depositos: 70,
+      deudaCP: 25,
+      capitalBase: 5,
+      perdida: 0,
+      inyeccion: 0,
+      i: 4.0,
+      qe: 0,
+      g: 0,
+      apReg: 20,
+      pi_e: 2.0 // Inflación esperada constante al 2%
+    };
+
+    function setScenario(sc) {
+      document.querySelectorAll('.btn-scenario').forEach(b => b.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+
+      if (sc === 'bonanza') {
+        state.perdida = 0;
+        state.inyeccion = 0;
+        state.i = 4.0;
+        state.qe = 0;
+        state.g = 0;
+        state.apReg = 20;
+      } else if (sc === 'crash') {
+        state.perdida = 4.0; // Pérdida de 4 M€ destruye el 80% del capital
+        state.inyeccion = 0;
+        state.i = 3.0;
+        state.qe = 0;
+        state.g = 0;
+        state.apReg = 20;
+      } else if (sc === 'zlb_trap') {
+        state.perdida = 4.5;
+        state.inyeccion = 0;
+        state.i = 0.0; // ZLB
+        state.qe = 0;
+        state.g = 0;
+        state.apReg = 20;
+      } else if (sc === 'qe_rescue') {
+        state.perdida = 4.0;
+        state.inyeccion = 3.5; // Rescate de capital
+        state.i = 0.0;
+        state.qe = 80; // QE potente
+        state.g = 25;  // Estímulo fiscal
+        state.apReg = 20;
+      }
+
+      // Sincronizar inputs
+      document.getElementById('rng-perdida').value = state.perdida;
+      document.getElementById('rng-inyeccion').value = state.inyeccion;
+      document.getElementById('rng-i').value = state.i;
+      document.getElementById('rng-qe').value = state.qe;
+      document.getElementById('rng-g').value = state.g;
+      document.getElementById('rng-ap-reg').value = state.apReg;
+
+      updateAll();
+    }
+
+    function updateAll() {
+      // Leer controles
+      state.perdida = parseFloat(document.getElementById('rng-perdida').value);
+      state.inyeccion = parseFloat(document.getElementById('rng-inyeccion').value);
+      state.i = parseFloat(document.getElementById('rng-i').value);
+      state.qe = parseFloat(document.getElementById('rng-qe').value);
+      state.g = parseFloat(document.getElementById('rng-g').value);
+      state.apReg = parseFloat(document.getElementById('rng-ap-reg').value);
+
+      // Etiquetas controles
+      document.getElementById('val-perdida').innerText = `${state.perdida.toFixed(1)} M€ (${(state.perdida/state.activoBase*100).toFixed(1)}%)`;
+      document.getElementById('val-inyeccion').innerText = `${state.inyeccion.toFixed(1)} M€`;
+      document.getElementById('val-i').innerText = `${state.i.toFixed(2)}%`;
+      document.getElementById('val-qe').innerText = `${state.qe}%`;
+      document.getElementById('val-g').innerText = `${state.g >= 0 ? '+' : ''}${state.g} M€`;
+      document.getElementById('val-ap-reg').innerText = `${state.apReg}x`;
+
+      // Cálculos de Balance
+      const activoActual = state.activoBase - state.perdida + state.inyeccion;
+      const prestamosActuales = Math.max(0, state.prestamos - state.perdida);
+      const reservasActuales = state.reservas + state.inyeccion;
+      
+      const capitalActual = Math.max(0, state.capitalBase - state.perdida + state.inyeccion);
+      const ratioCapital = activoActual > 0 ? (capitalActual / activoActual) * 100 : 0;
+      const apalancamientoActual = capitalActual > 0 ? (activoActual / capitalActual) : 999;
+
+      // Actualizar vista balance
+      document.getElementById('txt-activo-total').innerText = `${activoActual.toFixed(1)} M€`;
+      document.getElementById('txt-pasivo-total').innerText = `${activoActual.toFixed(1)} M€`;
+      document.getElementById('txt-prestamos').innerText = `${prestamosActuales.toFixed(1)} M€`;
+      document.getElementById('txt-res').innerText = `${reservasActuales.toFixed(1)} M€`;
+
+      const barPerdida = document.getElementById('bar-perdida');
+      if (state.perdida > 0) {
+        barPerdida.style.display = 'flex';
+        document.getElementById('txt-perdida').innerText = `-${state.perdida.toFixed(1)} M€`;
+      } else {
+        barPerdida.style.display = 'none';
+      }
+
+      const barCapital = document.getElementById('bar-capital');
+      document.getElementById('txt-cap').innerText = `${capitalActual.toFixed(1)} M€ (${ratioCapital.toFixed(1)}%)`;
+
+      // Alertas y estado del banco
+      const alertBox = document.getElementById('alert-box');
+      const alertMsg = document.getElementById('alert-msg');
+      const kpiSolvencia = document.getElementById('kpi-solvencia');
+
+      if (capitalActual <= 0.1) {
+        barCapital.classList.add('insolvente');
+        alertBox.className = 'alert alert-danger';
+        alertMsg.innerHTML = `<strong>⚠️ QUIEBRA TÉCNICA E INSOLVENCIA:</strong> El capital del banco ha sido completamente destruido por las pérdidas (${state.perdida.toFixed(1)} M€). Se congela el interbancario y los depositantes corren riesgo de quita salvo rescate público inmediato.`;
+        kpiSolvencia.className = 'kpi-sub neg';
+        kpiSolvencia.innerText = 'Insolvente (Quiebra)';
+      } else if (apalancamientoActual > state.apReg) {
+        barCapital.classList.remove('insolvente');
+        alertBox.className = 'alert alert-warn';
+        alertMsg.innerHTML = `<strong>⚠️ INCUMPLIMIENTO REGULATORIO:</strong> El apalancamiento (${apalancamientoActual.toFixed(1)}x) supera el límite máximo permitido (${state.apReg}x). Para no ser intervenido, el banco se ve forzado a un <strong>desapalancamiento brusco (credit crunch)</strong>, recortando préstamos a pymes.`;
+        kpiSolvencia.className = 'kpi-sub warn';
+        kpiSolvencia.innerText = 'Desapalancamiento';
+      } else {
+        barCapital.classList.remove('insolvente');
+        alertBox.className = 'alert alert-success';
+        alertMsg.innerHTML = `<strong>✅ SOLVENCIA RESTAURADA:</strong> Ratio de capital saludable (${ratioCapital.toFixed(1)}%), apalancamiento conforme a regulación. El crédito fluye normalmente a la economía.`;
+        kpiSolvencia.className = 'kpi-sub pos';
+        kpiSolvencia.innerText = 'Solvente';
+      }
+
+      // Cálculos Macroeconómicos
+      // Prima de riesgo crediticia x: depende del estrés de capital y se comprime con QE
+      let xBase = 1.0; // 100 pb en calma
+      if (apalancamientoActual > 20) {
+        xBase += (apalancamientoActual - 20) * 0.25;
+      }
+      if (capitalActual < 2.0) {
+        xBase += (2.0 - capitalActual) * 2.0; // Prima de riesgo se dispara
+      }
+      // Compresión por QE
+      const reduccionQE = (state.qe / 100) * 2.8;
+      const xFinal = Math.max(0.5, xBase - reduccionQE);
+
+      const r = state.i - state.pi_e; // Ecuación de Fisher: r = i - pi_e
+      const rx = r + xFinal;
+
+      // Nivel de producción Y: Modelo IS-LM
+      // Y = 1000 - 40 * (r + x) + 2.5 * G
+      const Y_normal = 1000;
+      const Y_actual = Math.round(1000 - 45 * (rx - 2.5) + 2.2 * state.g);
+      const gap = (((Y_actual - Y_normal) / Y_normal) * 100).toFixed(1);
+
+      // KPIs
+      document.getElementById('kpi-ap').innerText = apalancamientoActual > 150 ? '>150x' : `${apalancamientoActual.toFixed(1)}x`;
+      document.getElementById('kpi-ap-sub').innerText = `Ratio Capital: ${ratioCapital.toFixed(1)}%`;
+      document.getElementById('kpi-capital').innerText = `${capitalActual.toFixed(1)} M€`;
+      document.getElementById('kpi-x').innerText = `${Math.round(xFinal * 100)} pb`;
+      document.getElementById('kpi-coste').innerText = `Tipo r+x: ${rx.toFixed(2)}%`;
+      document.getElementById('kpi-y').innerText = Y_actual;
+      
+      const kpiYSub = document.getElementById('kpi-y-sub');
+      if (gap < -2) {
+        kpiYSub.className = 'kpi-sub neg';
+        kpiYSub.innerText = `Recesión (${gap}%)`;
+      } else if (gap > 2) {
+        kpiYSub.className = 'kpi-sub pos';
+        kpiYSub.innerText = `Expansión (+${gap}%)`;
+      } else {
+        kpiYSub.className = 'kpi-sub neu';
+        kpiYSub.innerText = `Equilibrio (${gap}%)`;
+      }
+
+      document.getElementById('res-r').innerText = `${r.toFixed(2)}%`;
+      document.getElementById('res-rx').innerText = `${rx.toFixed(2)}%`;
+      document.getElementById('res-gap').innerText = `${gap}%`;
+
+      // Actualizar Gráfico SVG IS-LM
+      // Mapeo coordenadas SVG:
+      // Y va de 700 (x=80) a 1150 (x=520)
+      // r va de -3% (y=230) a +5% (y=40)
+      const svgY = 80 + (Y_actual - 700) * (440 / 450);
+      const svgR = 230 - (r - (-3)) * (190 / 8);
+
+      const svgLM = document.getElementById('svg-lm');
+      const svgLMTxt = document.getElementById('svg-lm-txt');
+      svgLM.setAttribute('y1', svgR);
+      svgLM.setAttribute('y2', svgR);
+      svgLMTxt.setAttribute('y', svgR - 8);
+      svgLMTxt.textContent = `LM (r = ${r.toFixed(1)}%)`;
+
+      // Desplazamiento horizontal de la IS según x y G
+      const shiftIS = (xFinal - 1.5) * (-35) + state.g * 1.8;
+      const isX1 = Math.max(60, 100 + shiftIS);
+      const isX2 = Math.min(560, 520 + shiftIS);
+      const svgIS = document.getElementById('svg-is');
+      svgIS.setAttribute('x1', isX1);
+      svgIS.setAttribute('x2', isX2);
+      document.getElementById('svg-is-txt').setAttribute('x', isX2 - 70);
+
+      const svgEq = document.getElementById('svg-eq');
+      const svgEqTxt = document.getElementById('svg-eq-txt');
+      svgEq.setAttribute('cx', Math.max(60, Math.min(540, svgY)));
+      svgEq.setAttribute('cy', svgR);
+      svgEqTxt.setAttribute('x', Math.max(70, Math.min(460, svgY + 12)));
+      svgEqTxt.setAttribute('y', svgR - 8);
+      svgEqTxt.textContent = `E* (Y=${Y_actual})`;
+    }
+
+    function switchTab(t) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+      document.getElementById(`tab-${t}`).classList.add('active');
+    }
+
+    function checkQuiz(ans) {
+      const fb = document.getElementById('quiz-fb');
+      if (ans === 'b') {
+        fb.style.color = 'var(--teal)';
+        fb.innerHTML = '✅ ¡Exacto! En el ZLB la política convencional está bloqueada (i=0%). La recapitalización y el QE reducen directamente la prima de riesgo (x ↓), lo que desplaza la curva IS hacia la derecha sin requerir tipos nominales negativos.';
+      } else {
+        fb.style.color = 'var(--crimson)';
+        fb.innerHTML = '❌ Incorrecto. Revisa el mecanismo de transmisión: el problema en el ZLB no es el tipo de política libre de riesgo del BCE, sino el diferencial de riesgo crediticio (x) que pagan las pymes tras la quiebra bancaria.';
+      }
+    }
+
+    // Inicializar al cargar
+    window.addEventListener('DOMContentLoaded', () => {
+      updateAll();
+    });
+  </script>
+</body>
+</html>

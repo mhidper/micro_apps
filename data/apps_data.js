@@ -687,6 +687,19 @@ window.DOCENCIA_APPS = {
         url: "macro_simulador_sesion_09.html"
       },
       {
+        id: "macro_sim_sesion10",
+        type: "simulator",
+        category: "simuladores",
+        icon: "🏛️",
+        iconBg: "#EFF6FF",
+        iconColor: "#056CAA",
+        title: "Banca, Apalancamiento y Trampas de Liquidez",
+        desc: "Balances bancarios, absorción de pérdidas por capital contable, desapalancamiento forzoso (credit crunch), trampa ZLB y rescates no convencionales (QE y TARP).",
+        meta: "Simulador interactivo · 15 min",
+        session: "Sesión 10",
+        url: "macro_simulador_sesion_10.html"
+      },
+      {
         id: "macro_real_1",
         type: "quiz",
         category: "real",
