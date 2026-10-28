@@ -6,7 +6,7 @@
    - La activación de la versión nueva la decide el usuario (aviso en la
      app) mediante el mensaje SKIP_WAITING: nunca se queda con una versión
      antigua ni interrumpe sin avisar. */
-const CACHE = 'mh-microapps-v12';
+const CACHE = 'mh-microapps-v13';
 
 const PRECACHE = [
   './', './index.html', './theme.css', './fonts.css',
@@ -19,7 +19,7 @@ const PRECACHE = [
   // Práctica EPD de Macroeconomía (ejercicios ilimitados)
   './practica_macro/', './practica_macro/index.html', './practica_macro/estilo.css',
   './practica_macro/core.js', './practica_macro/epd1.js', './practica_macro/epd2.js',
-  './practica_macro/epd3.js', './practica_macro/app.js',
+  './practica_macro/epd3.js', './practica_macro/examen.js', './practica_macro/app.js',
   // Simuladores y recursos
   './simulador_clu.html',
   './macro_simulador_sesion_01.html',

@@ -360,7 +360,7 @@
           titulo: 'Cruz keynesiana',
           render: function () {
             var xmax = Math.max(Y, Y2) * 1.35, xmin = 0;
-            if (Math.abs(Y2 - Y) < 0.12 * Y) { xmin = Math.min(Y, Y2) - Math.max(Math.abs(Y2 - Y) * 1.5, 0.08 * Y); xmax = Math.max(Y, Y2) + Math.max(Math.abs(Y2 - Y) * 1.5, 0.08 * Y); }
+            if (Math.abs(Y2 - Y) < 0.12 * Y || a >= 5) { xmin = Math.min(Y, Y2) - Math.max(Math.abs(Y2 - Y) * 1.5, 0.08 * Y); xmax = Math.max(Y, Y2) + Math.max(Math.abs(Y2 - Y) * 1.5, 0.08 * Y); }
             return MP.grafico({
               titulo: 'Cruz keynesiana', x: [xmin, xmax], y: [xmin, xmax], xlab: 'Producción, Y', ylab: 'Demanda, Z',
               fmtX: function (t) { return fmt(t, 0); }, fmtY: function (t) { return fmt(t, 0); },

@@ -37,13 +37,19 @@
   window.addEventListener('hashchange', render);
   $atras.addEventListener('click', function () {
     var r = ruta();
-    if (r.length >= 2) ir('#/' + r[0]); else ir('#/');
+    if (r.length >= 2 && r[0] !== 'examen') ir('#/' + r[0]); else ir('#/');
   });
 
   function render() {
     var r = ruta();
     window.scrollTo(0, 0);
     if (!r.length) return vistaInicio();
+    if (r[0] === 'examen' && MP.Examen) {
+      $atras.hidden = false;
+      var sx = r[1] ? MP.textoASemilla(r[1]) : null;
+      if (sx === null) { history.replaceState(null, '', '#/examen/' + MP.semillaATexto(MP.nuevaSemilla())); return render(); }
+      return MP.Examen.vista({ app: $app, ir: ir, contarExamen: function () { estado.examenes = (estado.examenes || 0) + 1; guardarEstado(estado); } }, sx);
+    }
     var epd = MP.EPDS.filter(function (e) { return e.id === r[0]; })[0];
     if (!epd) return ir('#/');
     if (r.length === 1) return vistaEPD(epd);
@@ -78,6 +84,15 @@
         '<p class="epd-pie">' + (hechos ? hechos + ' resueltos · ' + tocados + '/' + e.tipos.length + ' tipos practicados' : 'Empieza cuando quieras') + '<span class="flecha">→</span></p>' +
         '</a>';
     });
+    if (MP.Examen) {
+      var nx = estado.examenes || 0;
+      h += '<a class="tarjeta-epd tarjeta-examen" href="#/examen">' +
+        '<span class="epd-num">Simulacro de examen</span>' +
+        '<h2>Genera un examen tipo</h2>' +
+        '<p>Tres ejercicios al azar con el formato del examen: dos del modelo IS-LM con su gráfico y uno de PIB, dinero, bancos o deuda. Respondes todo, entregas y ves la nota y las soluciones. Cada vez que lo pidas, un examen distinto.</p>' +
+        '<p class="epd-pie">' + (nx ? nx + ' simulacro' + (nx === 1 ? '' : 's') + ' corregido' + (nx === 1 ? '' : 's') : 'Formato del examen de la semana del 9 de noviembre') + '<span class="flecha">→</span></p>' +
+        '</a>';
+    }
     h += '</section>' +
       '<section class="como"><h2>Cómo funciona</h2><ol>' +
       '<li><b>Elige un tipo de ejercicio.</b> Los datos cambian cada vez, el razonamiento es el de clase.</li>' +

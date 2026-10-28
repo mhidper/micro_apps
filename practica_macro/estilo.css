@@ -232,3 +232,31 @@ body.sin-ayudas .ayuda { display: none !important; }
   .campo { max-width: none; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+
+/* ---------- Simulacro de examen ---------- */
+.tarjeta-examen { background: var(--navy); border-color: var(--navy); color: #fff; }
+.tarjeta-examen::before { background: linear-gradient(90deg, var(--gold), #f59e0b); }
+.tarjeta-examen h2 { color: #fff; }
+.tarjeta-examen p { color: rgba(255,255,255,.82) !important; }
+.tarjeta-examen .epd-num { color: #fbbf24; }
+.tarjeta-examen .flecha { color: #fbbf24; }
+@media (min-width: 720px) { .tarjeta-examen { grid-column: 1 / -1; } }
+.examen-meta { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; font-size: .86rem; color: var(--slate); margin: 4px 0 0; }
+.examen-meta b { font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace; color: var(--navy); }
+.reloj { font-variant-numeric: tabular-nums; background: #eef2f7; color: var(--navy); border-radius: 99px; padding: 3px 10px; font-weight: 600; }
+.indice-ex { margin: 4px 0 0; padding-left: 0; list-style: none; display: grid; gap: 4px; font-size: .9rem; }
+.indice-ex a { text-decoration: none; color: var(--ink); }
+.indice-ex a:hover b { color: var(--cobalt); }
+.ej-examen { margin-top: 26px; scroll-margin-top: 70px; }
+.ej-tit { font-size: 1.2rem; margin: 0 0 10px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.ej-num { font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #fff; background: var(--navy); border-radius: 6px; padding: 2px 8px; }
+.ej-examen .preguntas { margin-top: 10px; }
+.graf-aviso { margin: 8px 0 0; font-size: .86rem; color: #7c4a03; background: var(--gold-soft); border-radius: 10px; padding: 8px 12px; }
+.graf-sol { margin-top: 10px; }
+.graf-sol svg { width: 100%; height: auto; display: block; }
+.entregar { margin-top: 24px; text-align: center; }
+.entregar p { font-size: .84rem; color: var(--slate); margin: 8px 0 0; }
+.btn-grande { min-height: 52px; padding: 12px 28px; font-size: 1.02rem; }
+.desglose { list-style: none; padding: 0; margin: 10px auto 12px; max-width: 520px; text-align: left; }
+.desglose li { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,.15); font-size: .9rem; }
+.opcion.opcion-correcta { border-color: var(--teal); border-style: dashed; }
