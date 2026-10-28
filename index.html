@@ -1603,6 +1603,10 @@
       // ---- Modo HOME: los dos accesos ----
       if(dashboardMode==='home'){
         if(greeting) greeting.textContent='¿Con qué quieres practicar?';
+        // Accesos destacados (apps marcadas con home:true en apps_data.js)
+        subject.apps.filter(function(a){ return a.home===true; }).forEach(function(app){
+          listContainer.appendChild(makeCard(app,true));
+        });
         var grid=document.createElement('div'); grid.className='choice-grid';
         grid.appendChild(choiceCard('simuladores','📊','#EAF4EE','#113927','Simuladores',
           sims.length+(sims.length===1?' simulador':' simuladores y recursos')));

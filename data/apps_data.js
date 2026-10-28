@@ -511,6 +511,7 @@ window.DOCENCIA_APPS = {
     categories: [
       { id: "todas", name: "Todas" },
       { id: "evaluacion", name: "Evaluación Continua" },
+      { id: "practica", name: "Práctica EPD" },
       { id: "simuladores", name: "Simuladores" },
       { id: "real", name: "Sector Real (IS)" },
       { id: "monetario", name: "Sector Monetario (LM)" },
@@ -529,6 +530,20 @@ window.DOCENCIA_APPS = {
         meta: "Portal del estudiante · Privado y Cifrado",
         session: "Evaluación Continua",
         url: "pasaporte_macro.html"
+      },
+      {
+        id: "macro_practica_epd",
+        type: "simulator",
+        category: "practica",
+        icon: "🧮",
+        iconBg: "#FEF3C7",
+        iconColor: "#0B1C36",
+        title: "Práctica EPD: ejercicios ilimitados",
+        desc: "Problemas numéricos de las EPD con datos nuevos en cada intento: PIB, multiplicador, IS, dinero y bonos, IS-LM, policy mix, deuda, IS-LM ampliado y apalancamiento. Corrección al momento, pistas, solución paso a paso y gráficos.",
+        meta: "11 tipos · EPD 1–3",
+        session: "Práctica EPD",
+        url: "practica_macro/index.html",
+        home: true
       },
       {
         id: "macro_examenes_graficos",

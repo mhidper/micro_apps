@@ -6,7 +6,7 @@
    - La activación de la versión nueva la decide el usuario (aviso en la
      app) mediante el mensaje SKIP_WAITING: nunca se queda con una versión
      antigua ni interrumpe sin avisar. */
-const CACHE = 'mh-microapps-v11';
+const CACHE = 'mh-microapps-v12';
 
 const PRECACHE = [
   './', './index.html', './theme.css', './fonts.css',
@@ -16,6 +16,10 @@ const PRECACHE = [
   './data/calificaciones_cifradas.js',
   './pasaporte_psll.html',
   './data/calificaciones_cifradas_psll.js',
+  // Práctica EPD de Macroeconomía (ejercicios ilimitados)
+  './practica_macro/', './practica_macro/index.html', './practica_macro/estilo.css',
+  './practica_macro/core.js', './practica_macro/epd1.js', './practica_macro/epd2.js',
+  './practica_macro/epd3.js', './practica_macro/app.js',
   // Simuladores y recursos
   './simulador_clu.html',
   './macro_simulador_sesion_01.html',
@@ -65,7 +69,7 @@ self.addEventListener('fetch', (e) => {
   if (url.origin !== self.location.origin) return; // solo mismo origen
 
   const isDoc = req.mode === 'navigate' || req.destination === 'document';
-  const isData = url.pathname.endsWith('.html') || url.pathname.endsWith('apps_data.js') || url.pathname.includes('calificaciones_cifradas');
+  const isData = url.pathname.endsWith('.html') || url.pathname.endsWith('apps_data.js') || url.pathname.includes('calificaciones_cifradas') || url.pathname.includes('/practica_macro/');
 
   if (isDoc || isData) {
     // network-first
