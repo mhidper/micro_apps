@@ -70,6 +70,8 @@
     document.title = 'Simulacro de examen · Práctica Macro';
     var entregado = false;
     var t0 = Date.now(), reloj;
+    var Cu = MP.Cuenta;
+    if (Cu) Cu.log('examen_inicio', { epd: 'examen', tipo: 'examen', ejercicio: codigo, detalle: { ejercicios: ejs.map(function (x) { return x.tipo.id; }) } });
 
     var h = '<section class="intro intro-epd examen-cab">' +
       '<p class="antetitulo">Simulacro de examen</p>' +
@@ -191,7 +193,11 @@
       document.getElementById('exEntregar').parentNode.hidden = true;
       document.getElementById('exNuevo2').onclick = function () { ctx.ir('#/examen/' + MP.semillaATexto(MP.nuevaSemilla())); };
       res.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      if (ctx.contarExamen) ctx.contarExamen();
+      if (Cu) {
+        var pt = notas.reduce(function (a, b) { return a + b.puntos; }, 0), tt = notas.reduce(function (a, b) { return a + b.total; }, 0);
+        Cu.anotar('examen_entregado', { epd: 'examen', tipo: 'examen', ejercicio: codigo, aciertos: pt, total: tt, nota: Math.round(nota * 100) / 100,
+          segundos: Math.round((Date.now() - t0) / 1000), detalle: { ejercicios: notas.map(function (x) { return { tipo: x.tipo.id, puntos: x.puntos, total: x.total }; }) } });
+      }
     }
   }
 

@@ -22,11 +22,16 @@
   });
   document.body.classList.toggle('sin-ayudas', !$ayudas.checked);
 
-  function prog(id) { return estado.prog[id] || { hechos: 0, limpios: 0 }; }
-  function sumarProgreso(id, limpio) {
-    var p = prog(id); p.hechos++; if (limpio) p.limpios++;
-    estado.prog[id] = p; guardarEstado(estado);
+  // El progreso sale del historial del alumno (cuenta.js), no del navegador
+  var Cu = MP.Cuenta;
+  function prog(id) { return Cu.progTipo(id); }
+  var $esp = document.getElementById('btnEspacio');
+  function pintarCabecera() {
+    var c = Cu.actual();
+    $esp.hidden = !c;
+    if (c) { $esp.querySelector('.esp-cod').textContent = c.codigo.slice(-4); $esp.setAttribute('aria-label', 'Mi espacio (' + c.codigo + ')'); }
   }
+  var ctx = { app: $app, ir: ir };
 
   /* ---------- Router ---------- */
   function ruta() {
@@ -43,12 +48,21 @@
   function render() {
     var r = ruta();
     window.scrollTo(0, 0);
+    pintarCabecera();
+    // Sin sesión, solo se puede estar en la pantalla de acceso
+    if (!Cu.actual()) {
+      $atras.hidden = true;
+      if (r[0] !== 'acceso') { history.replaceState(null, '', '#/acceso'); }
+      return Cu.vistaAcceso(ctx);
+    }
+    if (r[0] === 'acceso') { history.replaceState(null, '', '#/'); r = []; }
     if (!r.length) return vistaInicio();
+    if (r[0] === 'espacio') { $atras.hidden = false; return Cu.vistaEspacio(ctx); }
     if (r[0] === 'examen' && MP.Examen) {
       $atras.hidden = false;
       var sx = r[1] ? MP.textoASemilla(r[1]) : null;
       if (sx === null) { history.replaceState(null, '', '#/examen/' + MP.semillaATexto(MP.nuevaSemilla())); return render(); }
-      return MP.Examen.vista({ app: $app, ir: ir, contarExamen: function () { estado.examenes = (estado.examenes || 0) + 1; guardarEstado(estado); } }, sx);
+      return MP.Examen.vista(ctx, sx);
     }
     var epd = MP.EPDS.filter(function (e) { return e.id === r[0]; })[0];
     if (!epd) return ir('#/');
@@ -64,13 +78,12 @@
   function vistaInicio() {
     $atras.hidden = true;
     document.title = 'Práctica EPD · Macroeconomía UPO';
-    var total = 0;
-    Object.keys(estado.prog).forEach(function (k) { total += estado.prog[k].hechos || 0; });
+    var rs = Cu.resumen(), total = rs.ejercicios, nx = rs.examenes;
     var h = '<section class="intro">' +
       '<p class="antetitulo">Enseñanzas Prácticas y de Desarrollo</p>' +
       '<h1>Practica sin límite</h1>' +
       '<p class="lede">Cada ejercicio se genera con datos nuevos, con el mismo planteamiento que los problemas de clase. Comprueba cada apartado, pide una pista si te atascas y repasa la solución paso a paso.</p>' +
-      (total ? '<p class="contador">Llevas <b>' + total + '</b> ejercicio' + (total === 1 ? '' : 's') + ' terminado' + (total === 1 ? '' : 's') + ' en este dispositivo.</p>' : '') +
+      '<a class="contador" href="#/espacio">' + (total ? 'Llevas <b>' + total + '</b> ejercicio' + (total === 1 ? '' : 's') + ' terminado' + (total === 1 ? '' : 's') + (rs.pronostico !== null ? ' · pronóstico <b>' + Math.round(rs.pronostico * 100) + '%</b>' : '') : 'Ver mi espacio y mi progreso') + ' →</a>' +
       '</section><section class="rejilla-epd">';
     MP.EPDS.forEach(function (e) {
       var hechos = e.tipos.reduce(function (a, t) { return a + prog(t.id).hechos; }, 0);
@@ -85,7 +98,6 @@
         '</a>';
     });
     if (MP.Examen) {
-      var nx = estado.examenes || 0;
       h += '<a class="tarjeta-epd tarjeta-examen" href="#/examen">' +
         '<span class="epd-num">Simulacro de examen</span>' +
         '<h2>Genera un examen tipo</h2>' +
@@ -131,7 +143,10 @@
     var preguntas = ej.preguntas.filter(function (q) { return q.tipo !== 'sep'; });
     var st = {}; // estado por apartado: {ok, fallos, ayuda}
     preguntas.forEach(function (q) { st[q.id] = { ok: false, fallos: 0, ayuda: false }; });
-    var terminado = false;
+    var terminado = false, t0 = Date.now();
+    var base = { epd: epd.id, tipo: tipo.id, ejercicio: codigo };
+    function evento(accion, extra) { var d = {}; for (var k in base) d[k] = base[k]; for (var j in extra) d[j] = extra[j]; Cu.log(accion, d); }
+    evento('ejercicio_inicio', { ayudas: $ayudas.checked });
 
     var h = '<nav class="miga"><a href="#/' + epd.id + '">EPD ' + epd.num + '</a> <span>›</span> ' + esc(tipo.sesion) + '</nav>' +
       '<div class="cab-ej"><h1>' + tipo.icono + ' ' + esc(tipo.titulo) + '</h1>' +
@@ -204,7 +219,7 @@
       li.addEventListener('click', function (ev) {
         var acc = ev.target.getAttribute('data-acc');
         if (acc === 'comp') corregir(q);
-        else if (acc === 'pista') { li.querySelector('.pista').hidden = false; st[q.id].ayuda = true; ev.target.hidden = true; }
+        else if (acc === 'pista') { li.querySelector('.pista').hidden = false; st[q.id].ayuda = true; ev.target.hidden = true; evento('apartado', { detalle: { apartado: q.id, estado: 'pista' } }); }
         else if (acc === 'ver') revelar(q, true);
       });
     });
@@ -221,6 +236,8 @@
       var res = MP.comprobar(q, valorDe(q));
       li.classList.remove('bien', 'mal', 'casi');
       if (res.estado === 'vacio') { fb.textContent = res.msg; return; }
+      if (!st[q.id].primera) st[q.id].primera = res.estado;
+      evento('apartado', { detalle: { apartado: q.id, estado: res.estado, intento: st[q.id].fallos + 1 } });
       if (res.estado === 'ok') {
         st[q.id].ok = true;
         li.classList.add('bien');
@@ -254,6 +271,8 @@
       var li = document.getElementById('p-' + q.id);
       if (!st[q.id].ok) {
         st[q.id].ayuda = true; st[q.id].revelado = true;
+        if (!st[q.id].primera) st[q.id].primera = 'revelada';
+        evento('apartado', { detalle: { apartado: q.id, estado: 'solucion_vista' } });
         li.classList.remove('mal', 'casi'); li.classList.add('revelada');
         var fb = li.querySelector('.fb');
         var solTxt = q.tipo === 'opc' ? q.opciones[q.correcta] : MP.fmt(q.sol, q.dec === undefined ? 2 : q.dec) + (q.unidad === '%' ? '%' : q.unidad === 'pp' ? ' pp' : q.unidad === '€' ? ' €' : q.unidad === 'x' ? 'x' : '');
@@ -280,7 +299,10 @@
       terminado = true;
       var resueltos = preguntas.filter(function (q) { return st[q.id].ok; }).length;
       var limpio = preguntas.every(function (q) { return st[q.id].ok && !st[q.id].ayuda && st[q.id].fallos === 0; });
-      if (resueltos > 0) sumarProgreso(tipo.id, limpio);
+      var aPrimera = preguntas.filter(function (q) { return st[q.id].primera === 'ok'; }).length;
+      var conAyuda = preguntas.some(function (q) { return st[q.id].ayuda; });
+      Cu.anotar('ejercicio_terminado', { epd: epd.id, tipo: tipo.id, ejercicio: codigo, aciertos: aPrimera, total: preguntas.length,
+        ayudas: conAyuda, segundos: Math.round((Date.now() - t0) / 1000), detalle: { resueltos: resueltos, modo_ayudas: $ayudas.checked } });
       var fin = document.getElementById('fin');
       var msg = limpio ? '<h2>🎯 Perfecto</h2><p>Todos los apartados a la primera y sin ayudas.</p>'
         : resueltos === preguntas.length ? '<h2>✓ Ejercicio resuelto</h2><p>Has llegado a todas las respuestas. Prueba otro para afianzarlo' + ($ayudas.checked ? ', o desactiva las ayudas para ponerte a prueba.' : '.') + '</p>'
@@ -291,5 +313,6 @@
     }
   }
 
+  Cu.iniciar();
   render();
 })();
