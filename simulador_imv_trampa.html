@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Simulador IMV, Trampa de la Pobreza y Tipos Marginales (EMTR) | PSLL UPO</title>
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+<!-- KaTeX Math Renderer -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMath()"></script>
+
+<style>
+  :root {
+    --psll-pine: #113927;
+    --psll-pine-dark: #0B2419;
+    --psll-sage: #76927A;
+    --psll-coral: #E98F71;
+    --psll-coral-dark: #C86D51;
+    --psll-mint: #F4F8F5;
+    --psll-ink: #2F3A30;
+    --psll-peach: #EDB090;
+    --bg-card: #FFFFFF;
+    --border-color: #E2E8F0;
+    --shadow-sm: 0 4px 12px rgba(17, 57, 39, 0.06);
+    --shadow-md: 0 10px 30px rgba(17, 57, 39, 0.12);
+    --shadow-lg: 0 20px 45px rgba(17, 57, 39, 0.18);
+    --radius-md: 16px;
+    --radius-lg: 24px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, #113927 0%, #1a4a35 50%, #295e45 100%);
+    color: var(--psll-ink);
+    padding: 16px 10px;
+    min-height: 100vh;
+  }
+
+  .app-container {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    max-width: 980px;
+    margin: 0 auto;
+    padding: clamp(18px, 4vw, 36px);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    margin-bottom: 22px;
+  }
+
+  .badge-tag {
+    display: inline-block;
+    background: var(--psll-mint);
+    color: var(--psll-pine);
+    font-weight: 700;
+    font-size: 0.78rem;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid #C2D8C9;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+  }
+
+  header h1 {
+    font-family: 'Outfit', sans-serif;
+    color: var(--psll-pine);
+    font-size: clamp(1.5rem, 4.5vw, 2.2rem);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
+  }
+
+  header p.subtitle {
+    color: var(--psll-sage);
+    font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+    font-weight: 500;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  /* Navigation Tabs */
+  .tabs-nav {
+    display: flex;
+    gap: 8px;
+    background: var(--psll-mint);
+    padding: 6px;
+    border-radius: 16px;
+    margin-bottom: 24px;
+    border: 1px solid #D8E6DC;
+    overflow-x: auto;
+  }
+
+  .tab-btn {
+    flex: 1;
+    min-width: 130px;
+    padding: 10px 14px;
+    border: none;
+    background: transparent;
+    color: var(--psll-ink);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .tab-btn:hover {
+    background: rgba(118, 146, 122, 0.15);
+  }
+
+  .tab-btn.active {
+    background: var(--psll-pine);
+    color: #FFFFFF;
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* Tab Panes */
+  .tab-pane {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .tab-pane.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Cards */
+  .card {
+    background: #FFFFFF;
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .card-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    border-bottom: 1.5px solid var(--psll-mint);
+    padding-bottom: 10px;
+  }
+
+  .card-title {
+    font-family: 'Outfit', sans-serif;
+    color: var(--psll-pine);
+    font-size: 1.18rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Theory Callout */
+  .callout-theory {
+    background: linear-gradient(135deg, #F4F8F5 0%, #E8F2EC 100%);
+    border-left: 5px solid var(--psll-pine);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 22px;
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+
+  .callout-theory strong {
+    color: var(--psll-pine);
+  }
+
+  /* Form Controls Grid */
+  .controls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .control-group {
+    background: var(--psll-mint);
+    border: 1px solid #D8E6DC;
+    border-radius: 14px;
+    padding: 14px 16px;
+  }
+
+  .control-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--psll-pine);
+    margin-bottom: 8px;
+  }
+
+  .control-value {
+    color: var(--psll-coral-dark);
+    font-weight: 800;
+    font-size: 1rem;
+  }
+
+  select, input[type="range"] {
+    width: 100%;
+    accent-color: var(--psll-coral);
+  }
+
+  select {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1.5px solid #CBD5E1;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    background: #FFFFFF;
+    color: var(--psll-ink);
+    outline: none;
+    cursor: pointer;
+  }
+
+  select:focus {
+    border-color: var(--psll-pine);
+  }
+
+  /* Toggle checkboxes */
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dashed #CBD5E1;
+    font-size: 0.88rem;
+  }
+
+  .toggle-row:last-child {
+    border-bottom: none;
+  }
+
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+  }
+
+  .switch input { opacity: 0; width: 0; height: 0; }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #CBD5E1;
+    transition: .3s;
+    border-radius: 24px;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+  }
+
+  input:checked + .slider {
+    background-color: var(--psll-pine);
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(20px);
+  }
+
+  /* Metric KPI Tiles */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+
+  .kpi-tile {
+    background: #FFFFFF;
+    border: 1.5px solid var(--border-color);
+    border-radius: 14px;
+    padding: 14px 16px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .kpi-tile::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--psll-sage);
+  }
+
+  .kpi-tile.coral::before { background: var(--psll-coral); }
+  .kpi-tile.pine::before { background: var(--psll-pine); }
+  .kpi-tile.alert::before { background: #D9534F; }
+
+  .kpi-label {
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--psll-sage);
+    margin-bottom: 4px;
+    letter-spacing: 0.4px;
+  }
+
+  .kpi-value {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: var(--psll-pine);
+  }
+
+  .kpi-tile.coral .kpi-value { color: var(--psll-coral-dark); }
+  .kpi-tile.alert .kpi-value { color: #D9534F; }
+
+  .kpi-sub {
+    font-size: 0.78rem;
+    color: #64748B;
+    margin-top: 3px;
+  }
+
+  /* Interactive Graph Area */
+  .chart-container {
+    position: relative;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+
+  canvas {
+    width: 100% !important;
+    max-height: 360px;
+  }
+
+  /* Decision Alert Box */
+  .decision-box {
+    border-radius: 14px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+
+  .decision-box.trap {
+    background: #FFF3F0;
+    border: 1.5px solid var(--psll-coral);
+    color: #8C2C16;
+  }
+
+  .decision-box.success {
+    background: #F0FDF4;
+    border: 1.5px solid #86EFAC;
+    color: #166534;
+  }
+
+  .decision-box.warning {
+    background: #FEFCE8;
+    border: 1.5px solid #FDE047;
+    color: #854D0E;
+  }
+
+  .decision-icon {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+  }
+
+  /* Stigmas vs Reality Cards */
+  .stigma-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 14px;
+  }
+
+  .stigma-card {
+    border: 1.5px solid #E2E8F0;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #FFFFFF;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .stigma-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .stigma-top {
+    background: #FFF5F2;
+    border-bottom: 1.5px solid #FED7AA;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .stigma-badge {
+    background: var(--psll-coral);
+    color: #FFFFFF;
+    font-size: 0.74rem;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 12px;
+    text-transform: uppercase;
+  }
+
+  .stigma-title {
+    font-family: 'Outfit', sans-serif;
+    color: #9A3412;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .stigma-body {
+    padding: 16px 18px;
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .stigma-stat {
+    background: var(--psll-mint);
+    border-left: 4px solid var(--psll-pine);
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-weight: 600;
+    color: var(--psll-pine);
+  }
+
+  /* Policy Dilemma interactive */
+  .slider-box {
+    margin-bottom: 18px;
+  }
+
+  .slider-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--psll-pine);
+  }
+
+  /* Guided cases button */
+  .case-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .chip-btn {
+    background: var(--psll-mint);
+    border: 1.5px solid #C2D8C9;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--psll-pine);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .chip-btn:hover, .chip-btn.active {
+    background: var(--psll-pine);
+    color: #FFFFFF;
+    border-color: var(--psll-pine);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid #E2E8F0;
+    font-size: 0.82rem;
+    color: #64748B;
+  }
+
+  footer a {
+    color: var(--psll-pine);
+    text-decoration: none;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <header>
+    <div class="badge-tag">PSLL · Universidad Pablo de Olavide · Sesión 11</div>
+    <h1>Simulador IMV, Trampa de la Pobreza y Tipos Marginales</h1>
+    <p class="subtitle">Laboratorio analítico para Relaciones Laborales: calcula el Tipo Marginal Efectivo ($EMTR$), evalúa la concurrencia de ayudas sociales y contrasta los estigmas del IMV con microdatos de la AIReF.</p>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <div class="tabs-nav">
+    <button class="tab-btn active" onclick="switchTab('simulador')">
+      <span>📊</span> Simulador de Renta y EMTR
+    </button>
+    <button class="tab-btn" onclick="switchTab('estigmas')">
+      <span>🔍</span> Los 3 Estigmas vs. AIReF
+    </button>
+    <button class="tab-btn" onclick="switchTab('dilema')">
+      <span>⚖️</span> El Dilema del Ministro
+    </button>
+    <button class="tab-btn" onclick="switchTab('casos')">
+      <span>📝</span> Casos de Aula Guiados
+    </button>
+  </div>
+
+  <!-- TAB 1: SIMULADOR DE RENTA Y EMTR -->
+  <div id="tab-simulador" class="tab-pane active">
+    
+    <div class="callout-theory">
+      <strong>📐 Concepto de Relaciones Laborales:</strong> El <em>Tipo Marginal Efectivo sobre el Trabajo</em> ($EMTR$) cuantifica la proporción de cada euro ganado en un empleo que se pierde por impuestos, cotizaciones y, fundamentalmente, por la <strong>retirada de prestaciones sociales</strong>:
+      $$\text{EMTR} = 1 - \frac{\Delta Y_{\text{disponible}}}{\Delta Y_{\text{bruto}}}$$
+      Si el $EMTR = 100\%$, la renta familiar no sube al trabajar. Si el $EMTR > 100\%$, <strong>¡trabajar cuesta dinero y empobrece al hogar!</strong>
+    </div>
+
+    <!-- Quick Cases Chips -->
+    <div class="case-chips">
+      <span style="font-size:0.85rem; font-weight:700; color:var(--psll-pine); align-self:center;">Cargar Caso Rápido:</span>
+      <button class="chip-btn active" onclick="loadCaseProfile('maria')">👩‍👧 María (Monoparental 1 hijo)</button>
+      <button class="chip-btn" onclick="loadCaseProfile('juan')">👨 Juan (Adulto Solo)</button>
+      <button class="chip-btn" onclick="loadCaseProfile('pareja')">👨‍👩‍👧‍👦 Familia con 2 hijos</button>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls-grid">
+      <!-- Tipología Hogar -->
+      <div class="control-group">
+        <div class="control-label">
+          <span>Unidad de Convivencia</span>
+        </div>
+        <select id="tipoHogar" onchange="recalculate()">
+          <option value="solo">Adulto solo (1 miembro)</option>
+          <option value="mono1" selected>Monoparental con 1 menor (+ CAPI)</option>
+          <option value="mono2">Monoparental con 2 menores (+ CAPI)</option>
+          <option value="pareja1">Pareja con 1 menor (+ CAPI)</option>
+          <option value="pareja2">Pareja con 2 menores (+ CAPI)</option>
+        </select>
+      </div>
+
+      <!-- Salario Ofrecido -->
+      <div class="control-group">
+        <div class="control-label">
+          <span>Salario Bruto Ofertado (Mes)</span>
+          <span class="control-value" id="valSalario">450 €/mes</span>
+        </div>
+        <input type="range" id="sliderSalario" min="0" max="1800" step="25" value="450" oninput="recalculate()">
+        <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#64748B; margin-top:4px;">
+          <span>0 € (Inactividad)</span>
+          <span>SMI (1.184 €)</span>
+          <span>1.800 €</span>
+        </div>
+      </div>
+
+      <!-- Marco Regulatorio -->
+      <div class="control-group">
+        <div class="control-label">
+          <span>Diseño Institucional de Ayuda</span>
+        </div>
+        <select id="modeloReg" onchange="recalculate()">
+          <option value="diferencial">1. Renta Diferencial Pura (EMTR = 100%)</option>
+          <option value="rd240" selected>2. Incentivo al Empleo RD 240/2026</option>
+          <option value="gradual">3. Retirada Gradual Continua (Impuesto Negativo t=40%)</option>
+        </select>
+      </div>
+
+      <!-- Ayudas Concurrentes -->
+      <div class="control-group">
+        <div class="control-label">
+          <span>Ayudas Concurrentes (51% perceptores)</span>
+        </div>
+        <div class="toggle-row">
+          <span>Bono Social Eléctrico/Térmico (75 €/m)</span>
+          <label class="switch">
+            <input type="checkbox" id="checkBono" checked onchange="recalculate()">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <span>Beca Municipal Comedor (120 €/m)</span>
+          <label class="switch">
+            <input type="checkbox" id="checkBeca" checked onchange="recalculate()">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <span>Gastos de Transporte / Cuidados (100 €/m)</span>
+          <label class="switch">
+            <input type="checkbox" id="checkGastos" checked onchange="recalculate()">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI Results Tiles -->
+    <div class="kpi-row">
+      <div class="kpi-tile pine">
+        <div class="kpi-label">Renta Garantizada IMV</div>
+        <div class="kpi-value" id="kpiRG">1.130 €</div>
+        <div class="kpi-sub" id="kpiRGSub">IMV Base + CAPI Menor</div>
+      </div>
+      <div class="kpi-tile">
+        <div class="kpi-label">IMV Final Liquidado</div>
+        <div class="kpi-value" id="kpiIMVLiquidado">1.130 €</div>
+        <div class="kpi-sub" id="kpiIMVSub">Tras computar salario</div>
+      </div>
+      <div class="kpi-tile coral">
+        <div class="kpi-label">Renta Líquida Total</div>
+        <div class="kpi-value" id="kpiRentaTotal">1.405 €</div>
+        <div class="kpi-sub" id="kpiRentaSub">Salario + Ayudas - Gastos</div>
+      </div>
+      <div class="kpi-tile" id="tileEMTR">
+        <div class="kpi-label">Tipo Marginal Efectivo (EMTR)</div>
+        <div class="kpi-value" id="kpiEMTR">0%</div>
+        <div class="kpi-sub" id="kpiEMTRSub">Retirada marginal de ingresos</div>
+      </div>
+    </div>
+
+    <!-- Interactive Decision Box -->
+    <div id="decisionBox" class="decision-box success">
+      <div class="decision-icon" id="decisionIcon">💡</div>
+      <div>
+        <strong id="decisionTitle">Incentivo Positivo al Trabajo</strong>
+        <p id="decisionText">Con el incentivo del RD 240/2026, los primeros ingresos quedan exentos. El hogar incrementa su presupuesto neto familiar trabajando.</p>
+      </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="chart-container">
+      <div class="card-header-bar">
+        <div class="card-title">
+          <span>📈 Curva de Presupuesto Doméstico y Trampa de la Pobreza</span>
+        </div>
+        <span style="font-size:0.8rem; color:#64748B;">Renta Disponible vs Salario de Mercado</span>
+      </div>
+      <canvas id="budgetCanvas" height="280"></canvas>
+    </div>
+
+  </div>
+
+  <!-- TAB 2: LOS 3 ESTIGMAS VS AIREF -->
+  <div id="tab-estigmas" class="tab-pane">
+    <div class="callout-theory">
+      <strong>📰 Fuente Oficial:</strong> Columna <em>«Un Ingreso Mínimo Vital mejor diseñado alcanzaría mejor sus objetivos»</em> (Cinco Días, Manuel A. Hidalgo) y la <em>IV Opinión sobre el IMV</em> de la Autoridad Independiente de Responsabilidad Fiscal (AIReF).
+    </div>
+
+    <div class="stigma-grid">
+      <!-- Estigma 1 -->
+      <div class="stigma-card">
+        <div class="stigma-top">
+          <span class="stigma-badge">Mito Popular 1</span>
+          <span class="stigma-title">«El IMV es una transferencia para personas que eligen no trabajar»</span>
+        </div>
+        <div class="stigma-body">
+          <p>La intuición espontánea asume que garantizar ingresos destruye la cultura del esfuerzo y cronifica la inactividad voluntaria.</p>
+          <div class="stigma-stat">
+            🎯 <strong>Dato Real AIReF / Seguridad Social:</strong> El <strong>66,7% (2 de cada 3) de los hogares perceptores ha tenido rentas del trabajo en el último año</strong>. El IMV opera sustancialmente como complemento de sueldos de miseria, contratos de muy corta duración y jornadas parciales involuntarias, no como sustituto del empleo.
+          </div>
+        </div>
+      </div>
+
+      <!-- Estigma 2 -->
+      <div class="stigma-card">
+        <div class="stigma-top">
+          <span class="stigma-badge">Mito Popular 2</span>
+          <span class="stigma-title">«El IMV es una prestación pensada para adultos solos sin cargas»</span>
+        </div>
+        <div class="stigma-body">
+          <p>Se asume que los beneficiarios son personas individuales en edad productiva desvinculadas de responsabilidades familiares.</p>
+          <div class="stigma-stat">
+            🎯 <strong>Dato Real AIReF / Seguridad Social:</strong> <strong>El 40,2% de todos los beneficiarios son menores de edad</strong>, cerca del <strong>70% de los hogares tienen menores a su cargo</strong> y el <strong>68,4% de los titulares son mujeres</strong>. El IMV es, de facto, la mayor red de choque de España contra la pobreza infantil severa.
+          </div>
+        </div>
+      </div>
+
+      <!-- Estigma 3 -->
+      <div class="stigma-card">
+        <div class="stigma-top">
+          <span class="stigma-badge">Mito Popular 3</span>
+          <span class="stigma-title">«El gran agujero del IMV es el fraude masivo de inclusión indebida»</span>
+        </div>
+        <div class="stigma-body">
+          <p>El debate mediático se concentra en sospechas de colusión y cobro fraudulento de ayudas compaginadas con economía sumergida.</p>
+          <div class="stigma-stat" style="border-left-color:var(--psll-coral);">
+            🚨 <strong>Dato Real AIReF: El Escándalo del Non-Take-Up:</strong> El verdadero drama es la <strong>exclusión masiva por barreras burocráticas</strong>:
+            <ul style="margin-left: 20px; margin-top: 6px;">
+              <li><strong>El 55% de los hogares con derecho NO solicita el IMV.</strong></li>
+              <li><strong>El 72% de las familias elegibles NO solicita el Complemento de Infancia (CAPI).</strong></li>
+              <li>El 68% de las denegaciones se deben a trabas probatorias con el padrón histórico y la unidad de convivencia.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: EL DILEMA DEL MINISTRO -->
+  <div id="tab-dilema" class="tab-pane">
+    <div class="callout-theory">
+      <strong>⚖️ Arquitectura de Políticas Públicas:</strong> Diseñar la garantía de rentas implica un trilema entre <strong>Suficiencia presupuestaria</strong>, <strong>Cobertura real de los pobres</strong> y <strong>Preservación de incentivos laborales</strong>.
+    </div>
+
+    <div class="card">
+      <div class="card-title" style="margin-bottom:16px;">
+        <span>🎛️ Panel de Decisión del Ministerio de Inclusión</span>
+      </div>
+
+      <div class="slider-box">
+        <div class="slider-header">
+          <span>Gasto Presupuestario Asignado:</span>
+          <span id="txtGasto" style="color:var(--psll-pine); font-weight:800;">4.000 Millones € (0,3% PIB)</span>
+        </div>
+        <input type="range" id="sliderGasto" min="2000" max="10000" step="500" value="4000" oninput="simularMacro()">
+        <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#64748B;">
+          <span>2.000 M€ (Austeridad)</span>
+          <span>4.000 M€ (Actual)</span>
+          <span>10.000 M€ (Cobertura Nórdica)</span>
+        </div>
+      </div>
+
+      <div class="slider-box">
+        <div class="slider-header">
+          <span>Exigencia Burocrática de Padrón y Convivencia:</span>
+          <span id="txtBurocracia" style="color:var(--psll-coral-dark); font-weight:800;">Alta (Traba actual: 68% denegación)</span>
+        </div>
+        <input type="range" id="sliderBurocracia" min="1" max="3" step="1" value="3" oninput="simularMacro()">
+        <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#64748B;">
+          <span>Baja (De oficio / Proactiva)</span>
+          <span>Media</span>
+          <span>Alta (Exigencia estricta previa)</span>
+        </div>
+      </div>
+
+      <div class="slider-box">
+        <div class="slider-header">
+          <span>Tipo de Retirada de la Ayuda al Trabajar:</span>
+          <span id="txtTipoRetirada" style="color:var(--psll-sage); font-weight:800;">Diferencial con Exención RD 240/2026</span>
+        </div>
+        <select id="selRetiradaMacro" onchange="simularMacro()">
+          <option value="100">100% Renta Diferencial Pura (Trampa de Pobreza Total)</option>
+          <option value="240" selected>Incentivo RD 240/2026 (Exención temporal primeros 6k€)</option>
+          <option value="gradual">Retirada Gradual Continua al 40% (Impuesto Negativo en IRPF)</option>
+        </select>
+      </div>
+
+      <!-- Macro Impact Matrix -->
+      <div class="kpi-row" style="margin-top:20px;">
+        <div class="kpi-tile pine">
+          <div class="kpi-label">Hogares Pobres Cubiertos</div>
+          <div class="kpi-value" id="macroCobertura">20%</div>
+          <div class="kpi-sub">De 1,2 M hogares elegibles</div>
+        </div>
+        <div class="kpi-tile alert">
+          <div class="kpi-label">Tasa de Non-Take-Up</div>
+          <div class="kpi-value" id="macroNTU">55%</div>
+          <div class="kpi-sub">Familias pobres que no lo cobran</div>
+        </div>
+        <div class="kpi-tile coral">
+          <div class="kpi-label">Impacto en Empleo (AIReF)</div>
+          <div class="kpi-value" id="macroEmpleo">-3,0 pp</div>
+          <div class="kpi-sub">-12% probabilidad de trabajar</div>
+        </div>
+      </div>
+
+      <div id="macroAlert" class="decision-box warning">
+        <div class="decision-icon">⚠️</div>
+        <div id="macroAlertText">
+          <strong>Diagnóstico del Modelo:</strong> Con el diseño actual, el IMV reduce la pobreza severa pero deja fuera al 55% de familias elegibles y distorsiona el empleo a tiempo parcial en revisiones a un año vista.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 4: CASOS GUIADOS DE AULA -->
+  <div id="tab-casos" class="tab-pane">
+    <div class="callout-theory">
+      <strong>✍️ Entrenamiento Práctico para el Reto Manuscrito:</strong> Resuelve estos supuestos prácticos antes de afrontar el reto de cierre en papel.
+    </div>
+
+    <!-- Caso 1 -->
+    <div class="card">
+      <div class="card-title">
+        <span>Caso Práctico 1 · El Dilema de María (Línea 1 · Martes)</span>
+      </div>
+      <p style="font-size:0.9rem; line-height:1.5; margin:12px 0;">
+        María percibe 1.050 €/mes de IMV + 80,50 € de CAPI. Le ofrecen un contrato de media jornada por 400 € brutos/mes. Acudir al empleo le cuesta 90 € de abono transporte y guardería.
+      </p>
+      <div style="background:var(--psll-mint); padding:14px; border-radius:12px; font-size:0.88rem; margin-bottom:12px;">
+        <strong>Pregunta:</strong> ¿Qué ingresos netos adicionales le quedan a María si el IMV operase con retirada diferencial del 100%? ¿Y si se aplica el incentivo al empleo del RD 240/2026?
+      </div>
+      <button class="chip-btn" onclick="toggleSolution('sol1')">👁️ Ver Solución Razonada</button>
+      <div id="sol1" style="display:none; margin-top:12px; padding:14px; background:#F0FDF4; border-radius:10px; border-left:4px solid #166534; font-size:0.88rem; line-height:1.5;">
+        <strong>Solución:</strong><br>
+        1. <em>Renta diferencial pura ($EMTR = 100\%$):</em> El IMV baja de 1.130,50 € a 730,50 €. Salario (400 €) + IMV (730,50 €) = 1.130,50 €. Al descontar los 90 € de transporte, la renta neta final es de <strong>1.040,50 €</strong>. María <strong>pierde 90 € al mes por trabajar</strong>.<br>
+        2. <em>Incentivo RD 240/2026 ($EMTR = 0\%$ inicial):</em> Al ser los primeros 400 €/mes (<6.000 €/año), la exención es total. María conserva el IMV íntegro (1.130,50 €) + Salario (400 €) - Gastos (90 €) = <strong>1.440,50 €</strong> (gana 310 € netos al mes).
+      </div>
+    </div>
+
+    <!-- Caso 2 -->
+    <div class="card">
+      <div class="card-title">
+        <span>Caso Práctico 2 · El EMTR Acumulado Superior al 100% (Línea 2 · Viernes)</span>
+      </div>
+      <p style="font-size:0.9rem; line-height:1.5; margin:12px 0;">
+        Una familia de 3 miembros cobra el IMV (1.100 €) y percibe el Bono Social Eléctrico (80 €/mes) y Beca de Comedor Escolar (140 €/mes). Al aceptar un empleo de 600 €/mes, sus ingresos superan el umbral de extrema pobreza de los servicios sociales municipales, perdiendo automáticamente el bono y la beca.
+      </p>
+      <div style="background:var(--psll-mint); padding:14px; border-radius:12px; font-size:0.88rem; margin-bottom:12px;">
+        <strong>Pregunta:</strong> Si el IMV se descuenta con la fórmula tradicional ($EMTR=100\%$), ¿cuál es el Tipo Marginal Efectivo Real Acumulado de la familia al aceptar el empleo?
+      </div>
+      <button class="chip-btn" onclick="toggleSolution('sol2')">👁️ Ver Solución Razonada</button>
+      <div id="sol2" style="display:none; margin-top:12px; padding:14px; background:#F0FDF4; border-radius:10px; border-left:4px solid #166534; font-size:0.88rem; line-height:1.5;">
+        <strong>Solución:</strong><br>
+        - Ingresos previos en inactividad: $1.100\text{ (IMV)} + 80\text{ (Bono)} + 140\text{ (Beca)} = \mathbf{1.320\text{ \euro/mes}}$.<br>
+        - Ingresos tras trabajar: Salario (600 €) + IMV restante (500 €) + Bono perdido (0 €) + Beca perdida (0 €) = $\mathbf{1.100\text{ \euro/mes}}$.<br>
+        - Variación de salario bruto: $\Delta Y_B = +600\text{ \euro}$.<br>
+        - Variación de renta disponible: $\Delta Y_D = 1.100 - 1.320 = -220\text{ \euro}$.<br>
+        - Cálculo del EMTR:
+        $$\text{EMTR} = 1 - \frac{-220}{600} = 1 - (-0,367) = \mathbf{136,7\%}$$
+        <em>Conclusión de RRLL:</em> El sistema castiga el empleo con un tipo confiscatorio del 136,7%. Trabajar empobrece a la familia en 220 € netos mensuales.
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p><strong>Políticas Sociolaborales y de Empleo (Código 102023)</strong> · Curso 2026-27<br>
+    Universidad Pablo de Olavide · Grado en Relaciones Laborales y Recursos Humanos<br>
+    Desarrollado según la metodología de innovación docente del Prof. Manuel A. Hidalgo Pérez</p>
+  </footer>
+</div>
+
+<script>
+  // Parámetros y Cuantías IMV 2026
+  const UMBRALES_IMV_2026 = {
+    solo: { base: 734.0, capi: 0 },
+    mono1: { base: 1050.0, capi: 80.5 },
+    mono2: { base: 1270.0, capi: 161.0 },
+    pareja1: { base: 1175.0, capi: 80.5 },
+    pareja2: { base: 1395.0, capi: 161.0 }
+  };
+
+  let myChart = null;
+
+  function switchTab(tabId) {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+    
+    event.currentTarget.classList.add('active');
+    document.getElementById('tab-' + tabId).classList.add('active');
+
+    if (tabId === 'simulador') {
+      setTimeout(() => renderChart(), 50);
+    }
+  }
+
+  function toggleSolution(id) {
+    const el = document.getElementById(id);
+    el.style.display = el.style.display === 'none' ? 'block' : 'none';
+  }
+
+  function loadCaseProfile(profile) {
+    document.querySelectorAll('.case-chips .chip-btn').forEach(btn => btn.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+
+    if (profile === 'maria') {
+      document.getElementById('tipoHogar').value = 'mono1';
+      document.getElementById('sliderSalario').value = 450;
+      document.getElementById('modeloReg').value = 'rd240';
+      document.getElementById('checkBono').checked = true;
+      document.getElementById('checkBeca').checked = true;
+      document.getElementById('checkGastos').checked = true;
+    } else if (profile === 'juan') {
+      document.getElementById('tipoHogar').value = 'solo';
+      document.getElementById('sliderSalario').value = 600;
+      document.getElementById('modeloReg').value = 'diferencial';
+      document.getElementById('checkBono').checked = false;
+      document.getElementById('checkBeca').checked = false;
+      document.getElementById('checkGastos').checked = true;
+    } else if (profile === 'pareja') {
+      document.getElementById('tipoHogar').value = 'pareja2';
+      document.getElementById('sliderSalario').value = 850;
+      document.getElementById('modeloReg').value = 'rd240';
+      document.getElementById('checkBono').checked = true;
+      document.getElementById('checkBeca').checked = true;
+      document.getElementById('checkGastos').checked = true;
+    }
+    recalculate();
+  }
+
+  function recalculate() {
+    const tipo = document.getElementById('tipoHogar').value;
+    const salario = parseFloat(document.getElementById('sliderSalario').value);
+    const modelo = document.getElementById('modeloReg').value;
+    const bonoActivo = document.getElementById('checkBono').checked;
+    const becaActiva = document.getElementById('checkBeca').checked;
+    const gastosActivo = document.getElementById('checkGastos').checked;
+
+    document.getElementById('valSalario').textContent = salario + ' €/mes';
+
+    const rgData = UMBRALES_IMV_2026[tipo];
+    const rgTotal = rgData.base + rgData.capi;
+
+    // Ayudas concurrentes
+    const bonoVal = bonoActivo ? 75.0 : 0.0;
+    const becaVal = becaActiva ? 120.0 : 0.0;
+    const gastosVal = gastosActivo ? 100.0 : 0.0;
+
+    // Umbral de pérdida de bono/beca (si salario > 650€ en monoparental o 500€ en solo)
+    const umbralPerdida = tipo === 'solo' ? 500 : 700;
+    const bonoEfectivo = (salario > umbralPerdida && bonoActivo) ? 0.0 : bonoVal;
+    const becaEfectiva = (salario > umbralPerdida && becaActiva) ? 0.0 : becaVal;
+
+    // Cálculo IMV según modelo
+    let imvCobrado = 0.0;
+    if (modelo === 'diferencial') {
+      // 1 euro menos por cada euro de salario
+      imvCobrado = Math.max(0, rgTotal - salario);
+    } else if (modelo === 'rd240') {
+      // Primeros 500€/mes (6.000€/año) exentos, luego 50%
+      let comp = 0.0;
+      if (salario > 500) {
+        comp = (salario - 500) * 0.5;
+      }
+      imvCobrado = Math.max(0, rgTotal - comp);
+    } else if (modelo === 'gradual') {
+      // Retirada continua al 40%
+      imvCobrado = Math.max(0, rgTotal - (salario * 0.40));
+    }
+
+    // Renta líquida disponible
+    const rentaLiquida = salario + imvCobrado + bonoEfectivo + becaEfectiva - gastosVal;
+
+    // Cálculo marginal EMTR respecto a 0€ de salario
+    const rentaEnCero = rgTotal + bonoVal + becaVal;
+    let emtr = 0.0;
+    if (salario > 0) {
+      const deltaSalario = salario;
+      const deltaRenta = (rentaLiquida + gastosVal) - rentaEnCero; // sin restar gastos para el tipo impositivo formal
+      emtr = (1.0 - (deltaRenta / deltaSalario)) * 100.0;
+    }
+
+    // Actualizar KPIs
+    document.getElementById('kpiRG').textContent = Math.round(rgTotal) + ' €';
+    document.getElementById('kpiIMVLiquidado').textContent = Math.round(imvCobrado) + ' €';
+    document.getElementById('kpiRentaTotal').textContent = Math.round(rentaLiquida) + ' €';
+    
+    const kpiEMTREl = document.getElementById('kpiEMTR');
+    const tileEMTREl = document.getElementById('tileEMTR');
+    kpiEMTREl.textContent = Math.round(emtr) + '%';
+
+    tileEMTREl.className = 'kpi-tile';
+    if (emtr > 100) {
+      tileEMTREl.classList.add('alert');
+    } else if (emtr >= 70) {
+      tileEMTREl.classList.add('coral');
+    } else {
+      tileEMTREl.classList.add('pine');
+    }
+
+    // Actualizar Cartel de Decisión
+    const decisionBox = document.getElementById('decisionBox');
+    const decisionTitle = document.getElementById('decisionTitle');
+    const decisionText = document.getElementById('decisionText');
+    const decisionIcon = document.getElementById('decisionIcon');
+
+    if (emtr > 100) {
+      decisionBox.className = 'decision-box trap';
+      decisionIcon.textContent = '🚨';
+      decisionTitle.textContent = '¡Trampa Agravada de la Pobreza! (EMTR = ' + Math.round(emtr) + '%)';
+      decisionText.textContent = 'Al superar el umbral, la pérdida de ayudas concurrentes (bono social y beca comedor) supera el salario ganado. Trabajar reduce los ingresos disponibles netos del hogar en ' + Math.round(rentaEnCero - rentaLiquida) + ' €/mes.';
+    } else if (emtr >= 95) {
+      decisionBox.className = 'decision-box trap';
+      decisionIcon.textContent = '⚠️';
+      decisionTitle.textContent = 'Trampa Clásica de Inactividad (EMTR ≈ 100%)';
+      decisionText.textContent = 'Por cada euro ganado, el Estado descuenta un euro de ayuda. La renta del hogar no sube, pero acudir al trabajo cuesta 100 € de transporte/guardería. La ganancia neta es negativa.';
+    } else if (emtr <= 30) {
+      decisionBox.className = 'decision-box success';
+      decisionIcon.textContent = '✅';
+      decisionTitle.textContent = 'Incentivo Fuerte al Empleo (EMTR = ' + Math.round(emtr) + '%)';
+      decisionText.textContent = 'La exención o retirada gradual permite que el hogar retenga la gran mayoría de su salario bruto. Trabajar incrementa sustancialmente el bienestar familiar.';
+    } else {
+      decisionBox.className = 'decision-box warning';
+      decisionIcon.textContent = '⚖️';
+      decisionTitle.textContent = 'Zona Intermedia de Compatibilidad (EMTR = ' + Math.round(emtr) + '%)';
+      decisionText.textContent = 'El trabajador mejora su renta disponible trabajando, aunque el tipo marginal efectivo del 50% reduce la ganancia neta a la mitad.';
+    }
+
+    renderChart();
+  }
+
+  function renderChart() {
+    const canvas = document.getElementById('budgetCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    
+    const w = canvas.width = canvas.parentElement.clientWidth - 32;
+    const h = canvas.height = 280;
+
+    const tipo = document.getElementById('tipoHogar').value;
+    const rgTotal = UMBRALES_IMV_2026[tipo].base + UMBRALES_IMV_2026[tipo].capi;
+    const salarioActual = parseFloat(document.getElementById('sliderSalario').value);
+    const modelo = document.getElementById('modeloReg').value;
+
+    ctx.clearRect(0, 0, w, h);
+
+    const padL = 55, padR = 25, padT = 30, padB = 40;
+    const plotW = w - padL - padR;
+    const plotH = h - padT - padB;
+
+    const maxSalario = 1800;
+    const maxRenta = 2600;
+
+    const toX = s => padL + (s / maxSalario) * plotW;
+    const toY = r => padT + plotH - (r / maxRenta) * plotH;
+
+    // Grid lines
+    ctx.strokeStyle = '#E2E8F0';
+    ctx.lineWidth = 1;
+    for (let r = 500; r <= maxRenta; r += 500) {
+      ctx.beginPath();
+      ctx.moveTo(padL, toY(r));
+      ctx.lineTo(w - padR, toY(r));
+      ctx.stroke();
+
+      ctx.fillStyle = '#94A3B8';
+      ctx.font = '10px Inter';
+      ctx.textAlign = 'right';
+      ctx.fillText(r + '€', padL - 8, toY(r) + 3);
+    }
+
+    for (let s = 300; s <= maxSalario; s += 300) {
+      ctx.beginPath();
+      ctx.moveTo(toX(s), padT);
+      ctx.lineTo(toX(s), h - padB);
+      ctx.stroke();
+
+      ctx.fillStyle = '#94A3B8';
+      ctx.font = '10px Inter';
+      ctx.textAlign = 'center';
+      ctx.fillText(s + '€', toX(s), h - padB + 16);
+    }
+
+    // 45 degree line (sin ayudas)
+    ctx.strokeStyle = '#CBD5E1';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(toX(0), toY(0));
+    ctx.lineTo(toX(maxSalario), toY(maxSalario));
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Curva 1: Renta diferencial pura (EMTR = 100%)
+    ctx.strokeStyle = '#E98F71';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    for (let s = 0; s <= maxSalario; s += 20) {
+      const imv = Math.max(0, rgTotal - s);
+      const r = s + imv;
+      if (s === 0) ctx.moveTo(toX(s), toY(r));
+      else ctx.lineTo(toX(s), toY(r));
+    }
+    ctx.stroke();
+
+    // Curva 2: Incentivo RD 240/2026
+    ctx.strokeStyle = '#113927';
+    ctx.lineWidth = 2.8;
+    ctx.beginPath();
+    for (let s = 0; s <= maxSalario; s += 20) {
+      let comp = s > 500 ? (s - 500) * 0.5 : 0;
+      const imv = Math.max(0, rgTotal - comp);
+      const r = s + imv;
+      if (s === 0) ctx.moveTo(toX(s), toY(r));
+      else ctx.lineTo(toX(s), toY(r));
+    }
+    ctx.stroke();
+
+    // Curva 3: Retirada gradual (40%)
+    ctx.strokeStyle = '#76927A';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([5, 3]);
+    ctx.beginPath();
+    for (let s = 0; s <= maxSalario; s += 20) {
+      const imv = Math.max(0, rgTotal - (s * 0.4));
+      const r = s + imv;
+      if (s === 0) ctx.moveTo(toX(s), toY(r));
+      else ctx.lineTo(toX(s), toY(r));
+    }
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Punto del salario actual
+    let imvAct = 0;
+    if (modelo === 'diferencial') imvAct = Math.max(0, rgTotal - salarioActual);
+    else if (modelo === 'rd240') imvAct = Math.max(0, rgTotal - (salarioActual > 500 ? (salarioActual - 500)*0.5 : 0));
+    else imvAct = Math.max(0, rgTotal - salarioActual * 0.4);
+
+    const rentaPunto = salarioActual + imvAct;
+
+    ctx.fillStyle = '#E98F71';
+    ctx.beginPath();
+    ctx.arc(toX(salarioActual), toY(rentaPunto), 6, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Label punto
+    ctx.fillStyle = '#113927';
+    ctx.font = 'bold 11px Inter';
+    ctx.textAlign = 'left';
+    ctx.fillText('Hogar actual: (' + salarioActual + '€, ' + Math.round(rentaPunto) + '€)', toX(salarioActual) + 10, toY(rentaPunto) - 8);
+
+    // Leyenda
+    ctx.fillStyle = '#113927';
+    ctx.font = '10px Inter';
+    ctx.textAlign = 'left';
+
+    ctx.fillStyle = '#E98F71';
+    ctx.fillRect(padL + 10, padT + 10, 14, 4);
+    ctx.fillStyle = '#2F3A30';
+    ctx.fillText('Diferencial Pura (100%)', padL + 30, padT + 14);
+
+    ctx.fillStyle = '#113927';
+    ctx.fillRect(padL + 170, padT + 10, 14, 4);
+    ctx.fillStyle = '#2F3A30';
+    ctx.fillText('RD 240/2026 (Exención 500€ + 50%)', padL + 190, padT + 14);
+
+    ctx.fillStyle = '#76927A';
+    ctx.fillRect(padL + 390, padT + 10, 14, 4);
+    ctx.fillStyle = '#2F3A30';
+    ctx.fillText('Retirada Continua 40%', padL + 410, padT + 14);
+  }
+
+  // Simulación Macro Dilema
+  function simularMacro() {
+    const gasto = parseFloat(document.getElementById('sliderGasto').value);
+    const burocracia = parseInt(document.getElementById('sliderBurocracia').value);
+    const tipoRet = document.getElementById('selRetiradaMacro').value;
+
+    document.getElementById('txtGasto').textContent = (gasto / 1000).toFixed(1) + ' Millones € (' + ((gasto / 1400000) * 100).toFixed(2) + '% PIB)';
+
+    if (burocracia === 1) document.getElementById('txtBurocracia').textContent = 'Baja (Proactiva / Datos cruzados)';
+    else if (burocracia === 2) document.getElementById('txtBurocracia').textContent = 'Media (Ventanilla única)';
+    else document.getElementById('txtBurocracia').textContent = 'Alta (Traba actual: 68% denegación)';
+
+    // Cobertura calculada
+    let baseCob = (gasto / 4000) * 20;
+    if (burocracia === 1) baseCob *= 2.2;
+    else if (burocracia === 2) baseCob *= 1.5;
+    baseCob = Math.min(85, Math.round(baseCob));
+
+    // Non take up
+    let ntu = 55;
+    if (burocracia === 1) ntu = 18;
+    else if (burocracia === 2) ntu = 35;
+    if (gasto > 7000) ntu = Math.max(12, ntu - 8);
+
+    // Empleo impacto
+    let desemp = -3.0;
+    if (tipoRet === '100') desemp = -4.5;
+    else if (tipoRet === '240') desemp = -2.8;
+    else if (tipoRet === 'gradual') desemp = -0.8;
+
+    document.getElementById('macroCobertura').textContent = baseCob + '%';
+    document.getElementById('macroNTU').textContent = ntu + '%';
+    document.getElementById('macroEmpleo').textContent = desemp.toFixed(1) + ' pp';
+
+    const alertBox = document.getElementById('macroAlert');
+    const alertTxt = document.getElementById('macroAlertText');
+
+    if (burocracia === 1 && tipoRet === 'gradual') {
+      alertBox.className = 'decision-box success';
+      alertTxt.innerHTML = '<strong>Óptimo de Bienestar:</strong> La automatización de oficio hunde la tasa de no recurso al ' + ntu + '% y la retirada gradual permanente minimiza el desincentivo laboral a solo ' + desemp.toFixed(1) + ' pp.';
+    } else if (tipoRet === '100') {
+      alertBox.className = 'decision-box trap';
+      alertTxt.innerHTML = '<strong>Alerta de Ineficiencia:</strong> El tipo marginal del 100% destruye la oferta laboral de empleos a tiempo parcial (-18% de participación).';
+    } else {
+      alertBox.className = 'decision-box warning';
+      alertTxt.innerHTML = '<strong>Diagnóstico de Compromiso:</strong> Cobertura moderada (' + baseCob + '%). Persiste un ' + ntu + '% de hogares que no acceden a la ayuda por trabas de padrón y convivencia.';
+    }
+  }
+
+  function renderMath() {
+    if (window.renderMathInElement) {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ]
+      });
+    }
+  }
+
+  window.addEventListener('load', () => {
+    recalculate();
+    simularMacro();
+    renderMath();
+  });
+
+  window.addEventListener('resize', () => {
+    renderChart();
+  });
+</script>
+</body>
+</html>
