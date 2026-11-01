@@ -739,6 +739,54 @@
       <strong>⚖️ Arquitectura de Políticas Públicas:</strong> Diseñar la garantía de rentas implica un trilema entre <strong>Suficiencia presupuestaria</strong>, <strong>Cobertura real de los pobres</strong> y <strong>Preservación de incentivos laborales</strong>.
     </div>
 
+    <!-- TARJETA DEL RETO DE AULA (COMPETICIÓN EN PAREJAS) -->
+    <div class="card" style="border: 2px solid var(--psll-coral); background: linear-gradient(135deg, #FFFFFF 0%, #F4F8F5 100%); margin-bottom: 20px; box-shadow: 0 4px 15px rgba(233,143,113,0.15);">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:1.6rem;">🎯</span>
+          <h3 style="margin:0; font-family:'Outfit',sans-serif; color:var(--psll-pine); font-size:1.15rem;">
+            Competición de Aula: «El Reto del Ministro de Seguridad Social»
+          </h3>
+        </div>
+        <span class="badge" style="background:var(--psll-coral); color:white; font-size:0.75rem; font-weight:700; padding:4px 12px; border-radius:12px;">Misión de Aula · 10 min</span>
+      </div>
+      <p style="margin:8px 0 14px 0; font-size:0.88rem; color:var(--psll-ink); line-height:1.45;">
+        Sois el equipo económico de la Moncloa. Tenéis 8 minutos para mover los 3 controles y encontrar una reforma que cumpla las <strong>3 metas simultáneas</strong> del Estado del Bienestar:
+      </p>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap:10px; margin-bottom:14px;">
+        <!-- Meta 1 -->
+        <div id="goal1Box" style="background:white; padding:10px 12px; border-radius:8px; border:1px solid #CBD5E1; display:flex; align-items:center; gap:10px; transition: all 0.3s ease;">
+          <span id="goal1Icon" style="font-size:1.3rem;">❌</span>
+          <div>
+            <div style="font-size:0.72rem; color:#64748B; font-weight:700;">META 1 · COBERTURA POBREZA</div>
+            <div style="font-size:0.85rem; font-weight:800; color:var(--psll-pine);">Hogares Cubiertos ≥ 50%</div>
+          </div>
+        </div>
+        <!-- Meta 2 -->
+        <div id="goal2Box" style="background:white; padding:10px 12px; border-radius:8px; border:1px solid #CBD5E1; display:flex; align-items:center; gap:10px; transition: all 0.3s ease;">
+          <span id="goal2Icon" style="font-size:1.3rem;">❌</span>
+          <div>
+            <div style="font-size:0.72rem; color:#64748B; font-weight:700;">META 2 · SOSTENIBILIDAD FISCAL</div>
+            <div style="font-size:0.85rem; font-weight:800; color:var(--psll-pine);">Gasto ≤ 0,55% del PIB</div>
+          </div>
+        </div>
+        <!-- Meta 3 -->
+        <div id="goal3Box" style="background:white; padding:10px 12px; border-radius:8px; border:1px solid #CBD5E1; display:flex; align-items:center; gap:10px; transition: all 0.3s ease;">
+          <span id="goal3Icon" style="font-size:1.3rem;">❌</span>
+          <div>
+            <div style="font-size:0.72rem; color:#64748B; font-weight:700;">META 3 · COMPATIBILIDAD LABORAL</div>
+            <div style="font-size:0.85rem; font-weight:800; color:var(--psll-pine);">Impacto Empleo > −1,5 pp</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="challengeStatusBox" style="padding:12px 14px; border-radius:8px; background:#FFFBEB; border:1.5px solid #F59E0B; font-size:0.88rem; color:#92400E; display:flex; align-items:center; gap:12px; transition: all 0.3s ease;">
+        <span id="challengeStatusIcon" style="font-size:1.4rem;">⏳</span>
+        <span id="challengeStatusText" style="line-height:1.4;">Mueve los controles abajo para intentar cumplir las 3 metas simultáneamente.</span>
+      </div>
+    </div>
+
     <div class="card">
       <div class="card-title" style="margin-bottom:16px;">
         <span>🎛️ Panel de Decisión del Ministerio de Inclusión</span>
@@ -1216,6 +1264,53 @@
     } else {
       alertBox.className = 'decision-box warning';
       alertTxt.innerHTML = '<strong>Diagnóstico de Compromiso:</strong> Cobertura moderada (' + baseCob + '%). Persiste un ' + ntu + '% de hogares que no acceden a la ayuda por trabas de padrón y convivencia.';
+    }
+
+    // Evaluación del Reto del Ministro de Aula
+    const pctPIB = (gasto / 1400000) * 100;
+    const meta1 = baseCob >= 50;
+    const meta2 = pctPIB <= 0.55;
+    const meta3 = desemp > -1.5;
+
+    const g1Box = document.getElementById('goal1Box');
+    const g2Box = document.getElementById('goal2Box');
+    const g3Box = document.getElementById('goal3Box');
+
+    if (g1Box && g2Box && g3Box) {
+      document.getElementById('goal1Icon').textContent = meta1 ? '✅' : '❌';
+      g1Box.style.borderColor = meta1 ? '#10B981' : '#CBD5E1';
+      g1Box.style.background = meta1 ? '#ECFDF5' : '#FFFFFF';
+
+      document.getElementById('goal2Icon').textContent = meta2 ? '✅' : '❌';
+      g2Box.style.borderColor = meta2 ? '#10B981' : '#CBD5E1';
+      g2Box.style.background = meta2 ? '#ECFDF5' : '#FFFFFF';
+
+      document.getElementById('goal3Icon').textContent = meta3 ? '✅' : '❌';
+      g3Box.style.borderColor = meta3 ? '#10B981' : '#CBD5E1';
+      g3Box.style.background = meta3 ? '#ECFDF5' : '#FFFFFF';
+
+      const chBox = document.getElementById('challengeStatusBox');
+      const chIcon = document.getElementById('challengeStatusIcon');
+      const chTxt = document.getElementById('challengeStatusText');
+
+      if (meta1 && meta2 && meta3) {
+        chBox.style.background = 'linear-gradient(135deg, #113927 0%, #1A4D36 100%)';
+        chBox.style.border = '2px solid #E98F71';
+        chBox.style.color = '#FFFFFF';
+        chIcon.textContent = '🏆';
+        chTxt.innerHTML = '<strong style="color:#E98F71; font-size:1rem;">¡MISIÓN CUMPLIDA, SEÑOR/A MINISTRO/A!</strong><br>Has cuadrado el triángulo mágico del Estado del Bienestar: Cobertura del ' + baseCob + '% de pobres, gasto sostenible del ' + pctPIB.toFixed(2) + '% del PIB y desincentivo laboral de solo ' + desemp.toFixed(1) + ' pp.<br><strong style="color:#FFFFFF; text-decoration:underline;">👉 ¡Levanta la mano y canta tu combinación al profesor!</strong>';
+      } else {
+        let faltas = [];
+        if (!meta1) faltas.push('Cobertura baja (' + baseCob + '% < 50%): reduce la burocracia de padrón');
+        if (!meta2) faltas.push('Gasto excesivo (' + pctPIB.toFixed(2) + '% > 0,55% PIB): modera el presupuesto');
+        if (!meta3) faltas.push('Trampa laboral (' + desemp.toFixed(1) + ' pp): cambia a retirada gradual continua');
+
+        chBox.style.background = '#FFFBEB';
+        chBox.style.border = '1.5px solid #F59E0B';
+        chBox.style.color = '#92400E';
+        chIcon.textContent = '⚠️';
+        chTxt.innerHTML = '<strong>Faltan metas por cuadrar:</strong> ' + faltas.join(' · ');
+      }
     }
   }
 
