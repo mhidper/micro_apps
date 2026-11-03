@@ -133,6 +133,43 @@
       color: var(--coral);
     }
 
+    /* Router de Sesiones Modular */
+    nav.session-router {
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 8px 28px;
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+    }
+
+    .router-tab {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      color: var(--text-muted);
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .router-tab:hover {
+      background: var(--menta-soft);
+      color: var(--pino);
+    }
+
+    .router-tab.active {
+      background: var(--menta-mid);
+      color: var(--pino);
+      border-color: var(--salvia-light);
+    }
+
     /* Barra de Navegación por Fases */
     nav.phases-nav {
       background: var(--card-bg);
@@ -783,6 +820,14 @@
       </div>
     </div>
   </header>
+
+  <!-- Router de Sesiones Modular -->
+  <nav class="session-router">
+    <a href="epd_laboratorio.html" class="router-tab">🏠 Panel de Sesiones</a>
+    <a href="epd_laboratorio.html?sesion=1" class="router-tab">📦 Sesión 01 (Cerrada)</a>
+    <a href="epd2_laboratorio.html" class="router-tab">🟢 Sesión 02: Gobernanza UE y FSE+ (Activa)</a>
+    <a href="epd3_laboratorio.html" class="router-tab active" style="font-weight: 700; color: var(--pino);">🟢 Sesión 03: PAE en la OCDE (Activa)</a>
+  </nav>
 
   <!-- Navegación por Fases -->
   <nav class="phases-nav">
