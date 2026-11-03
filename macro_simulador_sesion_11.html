@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Sesión 11 · Mercado de Trabajo: Ecuaciones WS-PS y Tasa Natural · Macro UPO</title>
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="theme.css">
+  <style>
+    :root {
+      --navy: #0b1c36;
+      --cobalt: #056caa;
+      --azure: #0776b5;
+      --gold: #d97706;
+      --crimson: #e11d48;
+      --teal: #059669;
+      --indigo: #4338ca;
+      --slate: #64748b;
+      --bg-cream: #faf8f5;
+      --card-border: #e2e8f0;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-cream);
+      color: #1e293b;
+      line-height: 1.55;
+      padding-bottom: 70px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 920px; margin: 0 auto; padding: 0 16px; }
+    
+    /* Header */
+    .intro { padding: 24px 0 12px; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cobalt);
+      margin-bottom: 8px;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 18px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--cobalt), var(--gold));
+      border-radius: 2px;
+    }
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.5rem, 4.5vw, 2.1rem);
+      line-height: 1.15;
+      color: var(--navy);
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+    .lede { font-size: 0.95rem; color: #475569; margin-bottom: 14px; }
+
+    /* Sticky Hero Panel */
+    .hero {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(250, 248, 245, 0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 10px 0 12px;
+      box-shadow: 0 10px 25px -20px rgba(11, 28, 54, 0.3);
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .kpi-card {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .kpi-label { font-size: 0.68rem; color: var(--slate); text-transform: uppercase; font-weight: 600; margin-bottom: 2px; }
+    .kpi-val { font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 800; color: var(--navy); }
+    .kpi-sub { font-size: 0.70rem; font-weight: 600; }
+    .kpi-sub.pos { color: var(--teal); }
+    .kpi-sub.neg { color: var(--crimson); }
+    .kpi-sub.warn { color: var(--gold); }
+    .kpi-sub.neu { color: var(--slate); }
+
+    /* Layout Cards */
+    .card {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      margin-top: 16px;
+      box-shadow: 0 2px 8px -2px rgba(11, 28, 54, 0.05);
+    }
+    .card-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 0.70rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .badge-cobalt { background: #e0f2fe; color: var(--cobalt); }
+    .badge-gold { background: #fef3c7; color: var(--gold); }
+    .badge-crimson { background: #ffe4e6; color: var(--crimson); }
+    .badge-teal { background: #d1fae5; color: var(--teal); }
+
+    /* Preset Scenarios */
+    .presets {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .btn-preset {
+      font-family: inherit;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--navy);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s;
+    }
+    .btn-preset:hover {
+      background: #f0f7ff;
+      border-color: var(--cobalt);
+      color: var(--cobalt);
+    }
+    .btn-preset.active {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: #ffffff;
+    }
+
+    /* Sliders Grid */
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+    }
+    .ctrl-group {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .ctrl-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .ctrl-label { font-size: 0.78rem; font-weight: 700; color: #334155; }
+    .ctrl-val {
+      font-family: 'Outfit', monospace;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--cobalt);
+    }
+    input[type=range] {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #cbd5e1;
+      outline: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--cobalt);
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    /* Canvas Graph */
+    .graph-container {
+      position: relative;
+      width: 100%;
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    canvas { display: block; width: 100%; height: auto; }
+
+    /* Analysis Box */
+    .diag-box {
+      background: #f0f7ff;
+      border-left: 4px solid var(--cobalt);
+      border-radius: 0 8px 8px 0;
+      padding: 12px 14px;
+      margin-top: 12px;
+      font-size: 0.88rem;
+    }
+    .diag-box p { margin-bottom: 6px; }
+    .diag-box p:last-child { margin-bottom: 0; }
+
+    /* Quiz Box */
+    .quiz-question {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-top: 10px;
+    }
+    .quiz-q-title { font-size: 0.85rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+    .quiz-opt {
+      display: block;
+      padding: 8px 10px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      transition: all 0.15s;
+    }
+    .quiz-opt:hover { background: #f0f7ff; border-color: var(--azure); }
+    .quiz-opt.correct { background: #d1fae5; border-color: var(--teal); color: #065f46; font-weight: 600; }
+    .quiz-opt.wrong { background: #ffe4e6; border-color: var(--crimson); color: #9f1239; }
+    .quiz-feedback {
+      font-size: 0.80rem;
+      margin-top: 6px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      display: none;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.75rem;
+      color: var(--slate);
+    }
+
+    @media (max-width: 600px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .controls-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="wrap intro">
+    <div class="eyebrow">Macroeconomía · Doble Grado DER + FICO · UPO</div>
+    <h1>El Mercado de Trabajo: Modelo WS-PS</h1>
+    <p class="lede">Simulador interactivo de la determinación salarial (WS), fijación de precios (PS), la tasa natural de desempleo ($u<sub>n</sub>$) y el PIB potencial ($Y<sub>n</sub>$).</p>
+  </div>
+
+  <!-- Sticky Hero KPIs -->
+  <div class="hero">
+    <div class="wrap">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Tasa Natural (u<sub>n</sub>)</div>
+          <div class="kpi-val" id="kpi-un">10,0%</div>
+          <div class="kpi-sub neu" id="kpi-un-sub">Equilibrio medio plazo</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Salario Real (W/P)</div>
+          <div class="kpi-val" id="kpi-wp">0,600</div>
+          <div class="kpi-sub neu" id="kpi-wp-sub">1 / (1 + m)</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Empleo Natural (N<sub>n</sub>)</div>
+          <div class="kpi-val" id="kpi-nn">18,00 M</div>
+          <div class="kpi-sub neu" id="kpi-nn-sub">L · (1 - u<sub>n</sub>)</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">PIB Potencial (Y<sub>n</sub>)</div>
+          <div class="kpi-val" id="kpi-yn">18,00 M</div>
+          <div class="kpi-sub neu" id="kpi-yn-sub">Y<sub>n</sub> = N<sub>n</sub> (A=1)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    
+    <!-- Presets -->
+    <div class="card">
+      <div class="card-title">
+        <span>Escenarios Predefinidos de Política y Shocks</span>
+        <span class="badge badge-cobalt">Simulación Guiada</span>
+      </div>
+      <div class="presets">
+        <button class="btn-preset active" onclick="applyPreset('base')">1. Equilibrio Base Inicial<br><small>u<sub>n</sub> = 10,0% | W/P = 0,60</small></button>
+        <button class="btn-preset" onclick="applyPreset('shock_z')">2. Subida Subsidios (Δz &gt; 0)<br><small>WS se eleva | u<sub>n</sub> sube a 13%</small></button>
+        <button class="btn-preset" onclick="applyPreset('shock_petroleo')">3. Shock Petrolífero (Δm &gt; 0)<br><small>PS cae | u<sub>n</sub> sube a 14%</small></button>
+        <button class="btn-preset" onclick="applyPreset('competencia')">4. Ley Antimonopolio (m ↓)<br><small>PS sube | W/P ↑ y u<sub>n</sub> baja a 6%</small></button>
+        <button class="btn-preset" onclick="applyPreset('flexibilidad')">5. Reforma Flexibilizadora (z ↓)<br><small>WS desciende | u<sub>n</sub> baja a 8%</small></button>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="card">
+      <div class="card-title">
+        <span>Parámetros del Mercado Laboral y de Bienes</span>
+        <span class="badge badge-gold">Calibración en Tiempo Real</span>
+      </div>
+      <div class="controls-grid">
+        <div class="ctrl-group">
+          <div class="ctrl-head">
+            <span class="ctrl-label">Protección / Subsidios (z):</span>
+            <span class="ctrl-val" id="val-z">0,850</span>
+          </div>
+          <input type="range" id="sl-z" min="0.60" max="1.15" step="0.025" value="0.85" oninput="updateSim()">
+          <small style="color:var(--slate); font-size:0.70rem;">Prestaciones, SMI, costes de despido</small>
+        </div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-head">
+            <span class="ctrl-label">Sensibilidad al Paro (α):</span>
+            <span class="ctrl-val" id="val-alpha">2,50</span>
+          </div>
+          <input type="range" id="sl-alpha" min="1.0" max="4.0" step="0.1" value="2.5" oninput="updateSim()">
+          <small style="color:var(--slate); font-size:0.70rem;">Pendiente de la curva de salarios WS</small>
+        </div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-head">
+            <span class="ctrl-label">Margen de Precios (m):</span>
+            <span class="ctrl-val" id="val-m">0,667</span>
+          </div>
+          <input type="range" id="sl-m" min="0.15" max="1.20" step="0.025" value="0.6667" oninput="updateSim()">
+          <small style="color:var(--slate); font-size:0.70rem;">Poder de monopolio o shock energético</small>
+        </div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-head">
+            <span class="ctrl-label">Población Activa (L, mill.):</span>
+            <span class="ctrl-val" id="val-l">20,0 M</span>
+          </div>
+          <input type="range" id="sl-l" min="10" max="30" step="1" value="20" oninput="updateSim()">
+          <small style="color:var(--slate); font-size:0.70rem;">Total de ocupados + desempleados</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Graph -->
+    <div class="card">
+      <div class="card-title">
+        <span>Diagrama Oficial del Modelo WS-PS en el Plano (u, W/P)</span>
+        <span class="badge badge-teal">Gráfico Dinámico</span>
+      </div>
+      <div class="graph-container">
+        <canvas id="cvGraph" width="880" height="460"></canvas>
+      </div>
+
+      <div class="diag-box" id="diag-box">
+        <!-- Generado dinámicamente -->
+      </div>
+    </div>
+
+    <!-- Self-Assessment Challenge -->
+    <div class="card">
+      <div class="card-title">
+        <span>Comprobación In Situ de Comprensión (Micro-Reto de Aula)</span>
+        <span class="badge badge-crimson">Examen Oficial UPO</span>
+      </div>
+
+      <div class="quiz-question" id="q1">
+        <div class="quiz-q-title">1. Si el Gobierno aprueba una subida del Salario Mínimo y de los subsidios (Δz &gt; 0) pero las empresas mantienen su margen comercial (m), ¿qué ocurre con el salario real de equilibrio a medio plazo?</div>
+        <div class="quiz-opt" onclick="checkAnswer(1, 0, false)">A) Aumenta en proporción a la subida de los subsidios.</div>
+        <div class="quiz-opt" onclick="checkAnswer(1, 1, true)">B) Permanece inalterado en 1/(1+m); la economía solo se equilibra con mayor desempleo (u<sub>n</sub> ↑).</div>
+        <div class="quiz-opt" onclick="checkAnswer(1, 2, false)">C) Cae drásticamente debido a la inflación descontrolada.</div>
+        <div class="quiz-feedback" id="fb1"></div>
+      </div>
+
+      <div class="quiz-question" id="q2">
+        <div class="quiz-q-title">2. ¿Por qué la curva de fijación de precios (PS) es completamente horizontal en el plano (u, W/P)?</div>
+        <div class="quiz-opt" onclick="checkAnswer(2, 0, false)">A) Porque el Banco Central fija el salario real en la regla de política monetaria.</div>
+        <div class="quiz-opt" onclick="checkAnswer(2, 1, false)">B) Porque los sindicatos aceptan cualquier precio que fije la patronal.</div>
+        <div class="quiz-opt" onclick="checkAnswer(2, 2, true)">C) Porque con productividad constante (A=1) el coste marginal es W y el margen m depende del grado de competencia de las empresas, no del desempleo.</div>
+        <div class="quiz-feedback" id="fb2"></div>
+      </div>
+
+      <div class="quiz-question" id="q3">
+        <div class="quiz-q-title">3. ¿Qué medida de política económica es capaz de elevar simultáneamente el salario real (W/P ↑) y reducir el desempleo estructural (u<sub>n</sub> ↓)?</div>
+        <div class="quiz-opt" onclick="checkAnswer(3, 0, true)">A) Fomentar la competencia en mercados de bienes desmantelando monopolios (reducción del margen m).</div>
+        <div class="quiz-opt" onclick="checkAnswer(3, 1, false)">B) Aumentar las indemnizaciones por despido para proteger a los trabajadores fijos.</div>
+        <div class="quiz-opt" onclick="checkAnswer(3, 2, false)">C) Restringir las importaciones mediante aranceles proteccionistas.</div>
+        <div class="quiz-feedback" id="fb3"></div>
+      </div>
+    </div>
+
+    <footer>
+      Macroeconomía · Grados en Derecho y Finanzas y Contabilidad · Universidad Pablo de Olavide · Curso 2026-2027<br>
+      Profesor Responsable: Manuel A. Hidalgo Pérez
+    </footer>
+  </div>
+
+  <script>
+    // Variables globales
+    let z = 0.85;
+    let alpha = 2.5;
+    let m = 0.6667;
+    let L = 20.0; // Millones
+
+    function applyPreset(name) {
+      document.querySelectorAll('.btn-preset').forEach(b => b.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+
+      if (name === 'base') {
+        z = 0.85; alpha = 2.5; m = 0.6667; L = 20.0;
+      } else if (name === 'shock_z') {
+        z = 0.925; alpha = 2.5; m = 0.6667; L = 20.0;
+      } else if (name === 'shock_petroleo') {
+        z = 0.85; alpha = 2.5; m = 1.0; L = 20.0;
+      } else if (name === 'competencia') {
+        z = 0.85; alpha = 2.5; m = 0.4286; L = 20.0; // W/P = 0.70
+      } else if (name === 'flexibilidad') {
+        z = 0.80; alpha = 2.5; m = 0.6667; L = 20.0;
+      }
+
+      document.getElementById('sl-z').value = z;
+      document.getElementById('sl-alpha').value = alpha;
+      document.getElementById('sl-m').value = m;
+      document.getElementById('sl-l').value = L;
+
+      updateSim();
+    }
+
+    function updateSim() {
+      z = parseFloat(document.getElementById('sl-z').value);
+      alpha = parseFloat(document.getElementById('sl-alpha').value);
+      m = parseFloat(document.getElementById('sl-m').value);
+      L = parseFloat(document.getElementById('sl-l').value);
+
+      document.getElementById('val-z').innerText = z.toFixed(3);
+      document.getElementById('val-alpha').innerText = alpha.toFixed(2);
+      document.getElementById('val-m').innerText = m.toFixed(3);
+      document.getElementById('val-l').innerText = L.toFixed(1) + " M";
+
+      // Cálculos del modelo
+      const wp = 1.0 / (1.0 + m);
+      const un = (z - wp) / alpha; // En tanto por uno
+      const un_pct = un * 100;
+      const Nn = L * (1.0 - un);
+      const Yn = Nn;
+
+      // Actualización de KPIs
+      const elUn = document.getElementById('kpi-un');
+      elUn.innerText = un_pct.toFixed(1).replace('.', ',') + "%";
+      if (un_pct > 12.0) {
+        elUn.style.color = 'var(--crimson)';
+      } else if (un_pct < 8.0) {
+        elUn.style.color = 'var(--teal)';
+      } else {
+        elUn.style.color = 'var(--navy)';
+      }
+
+      document.getElementById('kpi-wp').innerText = wp.toFixed(3).replace('.', ',');
+      document.getElementById('kpi-nn').innerText = Nn.toFixed(2).replace('.', ',') + " M";
+      document.getElementById('kpi-yn').innerText = Yn.toFixed(2).replace('.', ',') + " M";
+
+      // Diagnóstico analítico
+      let diagHTML = `<strong>Diagnóstico del Equilibrio de Medio Plazo:</strong><br>`;
+      diagHTML += `• Salario real fijado por empresas (PS): <strong>W/P = ${wp.toFixed(3)}</strong> (margen m = ${(m*100).toFixed(1)}%).<br>`;
+      diagHTML += `• Ecuación de salarios (WS): <strong>W/P = ${z.toFixed(3)} - ${alpha.toFixed(2)}·u</strong>.<br>`;
+      diagHTML += `• Igualando WS y PS: ${z.toFixed(3)} - ${alpha.toFixed(2)}·u = ${wp.toFixed(3)}  ==>  <strong>u<sub>n</sub> = ${un_pct.toFixed(2)}%</strong>.<br>`;
+      diagHTML += `• Para una fuerza laboral de ${L.toFixed(1)} M de activos, el empleo natural es de <strong>${Nn.toFixed(2)} M</strong> y existen <strong>${(L - Nn).toFixed(2)} M</strong> de parados estructurales.<br>`;
+      
+      if (un_pct > 12.0) {
+        diagHTML += `<span style="color:var(--crimson); font-weight:700;">⚠️ Tasa de paro estructural elevada: se requieren reformas pro-competitivas (m ↓) o de activación de empleo (z ↓).</span>`;
+      } else if (un_pct < 8.0) {
+        diagHTML += `<span style="color:var(--teal); font-weight:700;">✅ Tasa de paro estructural reducida: economía altamente eficiente con fuerte poder adquisitivo real.</span>`;
+      }
+      document.getElementById('diag-box').innerHTML = diagHTML;
+
+      drawGraph(un, wp);
+    }
+
+    function drawGraph(un, wp) {
+      const cv = document.getElementById('cvGraph');
+      const ctx = cv.getContext('2d');
+      const w = cv.width;
+      const h = cv.height;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Márgenes del gráfico
+      const padL = 70;
+      const padR = 40;
+      const padT = 40;
+      const padB = 60;
+      const gw = w - padL - padR;
+      const gh = h - padT - padB;
+
+      // Escalas: u de 0% a 25%; W/P de 0.25 a 1.05
+      const uMin = 0.0;
+      const uMax = 0.25;
+      const wpMin = 0.25;
+      const wpMax = 1.05;
+
+      function toX(uVal) {
+        return padL + ((uVal - uMin) / (uMax - uMin)) * gw;
+      }
+      function toY(wpVal) {
+        return padT + gh - ((wpVal - wpMin) / (wpMax - wpMin)) * gh;
+      }
+
+      // Rejilla de fondo
+      ctx.strokeStyle = '#e2e8f0';
+      ctx.lineWidth = 1;
+      for (let uv = 0.05; uv <= 0.25; uv += 0.05) {
+        ctx.beginPath();
+        ctx.moveTo(toX(uv), padT);
+        ctx.lineTo(toX(uv), padT + gh);
+        ctx.stroke();
+
+        ctx.fillStyle = '#64748b';
+        ctx.font = '11px Segoe UI, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText((uv * 100).toFixed(0) + '%', toX(uv), padT + gh + 18);
+      }
+
+      for (let wpv = 0.3; wpv <= 1.0; wpv += 0.1) {
+        ctx.beginPath();
+        ctx.moveTo(padL, toY(wpv));
+        ctx.lineTo(padL + gw, toY(wpv));
+        ctx.stroke();
+
+        ctx.fillStyle = '#64748b';
+        ctx.font = '11px Segoe UI, sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText(wpv.toFixed(2), padL - 10, toY(wpv) + 4);
+      }
+
+      // Ejes principales
+      ctx.strokeStyle = '#0b1c36';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(padL, padT);
+      ctx.lineTo(padL, padT + gh);
+      ctx.lineTo(padL + gw, padT + gh);
+      ctx.stroke();
+
+      // Etiquetas ejes
+      ctx.fillStyle = '#0b1c36';
+      ctx.font = 'bold 12px Segoe UI, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText("Tasa de Desempleo u (%)", padL + gw / 2, padT + gh + 42);
+
+      ctx.save();
+      ctx.translate(22, padT + gh / 2);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillText("Salario Real W / P", 0, 0);
+      ctx.restore();
+
+      // Zona sombreada desequilibrio
+      if (un >= 0 && un <= uMax) {
+        // Zona u < un: Presión al alza salarios
+        ctx.fillStyle = 'rgba(225, 29, 72, 0.07)';
+        ctx.fillRect(toX(0.02), padT, toX(un) - toX(0.02), gh);
+
+        // Zona u > un: Presión moderadora
+        ctx.fillStyle = 'rgba(5, 150, 105, 0.07)';
+        ctx.fillRect(toX(un), padT, toX(uMax) - toX(un), gh);
+      }
+
+      // 1. Trazar Curva PS (Horizontal)
+      const yPS = toY(wp);
+      ctx.strokeStyle = '#0b1c36';
+      ctx.lineWidth = 3.5;
+      ctx.beginPath();
+      ctx.moveTo(toX(0.01), yPS);
+      ctx.lineTo(toX(0.24), yPS);
+      ctx.stroke();
+
+      ctx.fillStyle = '#0b1c36';
+      ctx.font = 'bold 12px Segoe UI, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(`Curva PS: W/P = 1/(1+m) = ${wp.toFixed(3)}`, toX(0.12), yPS - 8);
+
+      // 2. Trazar Curva WS (Pendiente negativa)
+      const uWS_start = 0.01;
+      const uWS_end = 0.24;
+      const wpWS_start = z - alpha * uWS_start;
+      const wpWS_end = z - alpha * uWS_end;
+
+      ctx.strokeStyle = '#056caa';
+      ctx.lineWidth = 3.5;
+      ctx.beginPath();
+      ctx.moveTo(toX(uWS_start), toY(wpWS_start));
+      ctx.lineTo(toX(uWS_end), toY(wpWS_end));
+      ctx.stroke();
+
+      ctx.fillStyle = '#056caa';
+      ctx.font = 'bold 12px Segoe UI, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(`Curva WS: W/P = ${z.toFixed(2)} - ${alpha.toFixed(1)}·u`, toX(0.02), toY(z - alpha * 0.02) - 10);
+
+      // 3. Punto de Equilibrio E_n
+      if (un >= 0 && un <= uMax && wp >= wpMin && wp <= wpMax) {
+        const xEn = toX(un);
+        const yEn = toY(wp);
+
+        // Líneas punteadas a ejes
+        ctx.setLineDash([4, 4]);
+        ctx.strokeStyle = '#d97706';
+        ctx.lineWidth = 1.5;
+
+        ctx.beginPath();
+        ctx.moveTo(xEn, padT + gh);
+        ctx.lineTo(xEn, yEn);
+        ctx.lineTo(padL, yEn);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Punto dorado
+        ctx.fillStyle = '#d97706';
+        ctx.beginPath();
+        ctx.arc(xEn, yEn, 7, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Etiqueta del punto
+        ctx.fillStyle = '#0b1c36';
+        ctx.font = 'bold 13px Segoe UI, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(`Eₙ (uₙ = ${(un * 100).toFixed(1)}%, W/P = ${wp.toFixed(2)})`, xEn + 10, yEn - 10);
+      }
+    }
+
+    function checkAnswer(qNum, optIdx, isCorrect) {
+      const qBox = document.getElementById(`q${qNum}`);
+      const opts = qBox.querySelectorAll('.quiz-opt');
+      opts.forEach(o => {
+        o.classList.remove('correct', 'wrong');
+        o.style.pointerEvents = 'none';
+      });
+
+      const fb = document.getElementById(`fb${qNum}`);
+      fb.style.display = 'block';
+
+      if (isCorrect) {
+        opts[optIdx].classList.add('correct');
+        fb.style.background = '#d1fae5';
+        fb.style.color = '#065f46';
+        fb.innerHTML = '<strong>¡Correcto!</strong> ' + getExplanation(qNum);
+      } else {
+        opts[optIdx].classList.add('wrong');
+        fb.style.background = '#ffe4e6';
+        fb.style.color = '#9f1239';
+        fb.innerHTML = '<strong>Incorrecto.</strong> ' + getExplanation(qNum);
+      }
+    }
+
+    function getExplanation(qNum) {
+      if (qNum === 1) {
+        return "El salario real lo fija exclusivamente la curva PS en 1/(1+m). Al subir z, la curva WS sube; para que las empresas contraten, el desempleo debe subir hasta u<sub>n</sub>' para disciplinar las demandas salariales.";
+      } else if (qNum === 2) {
+        return "Con tecnología lineal Y=N, el coste marginal es W. El margen m se determina por la competencia y elasticidad de la demanda de bienes, no por la situación de contratación laboral.";
+      } else if (qNum === 3) {
+        return "Al reducir el poder de monopolio (m ↓), los precios caen frente a los costes laborales, elevando el salario real 1/(1+m) y reduciendo simultáneamente la tasa natural de desempleo.";
+      }
+      return "";
+    }
+
+    // Inicialización al cargar la página
+    window.addEventListener('load', () => {
+      updateSim();
+    });
+  </script>
+</body>
+</html>

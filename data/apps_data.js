@@ -729,6 +729,19 @@ window.DOCENCIA_APPS = {
         url: "macro_simulador_sesion_10.html"
       },
       {
+        id: "macro_sim_sesion11",
+        type: "simulator",
+        category: "simuladores",
+        icon: "👥",
+        iconBg: "#EFF6FF",
+        iconColor: "#056CAA",
+        title: "El Mercado de Trabajo: Ecuaciones WS-PS y Tasa Natural",
+        desc: "Modelo analítico WS-PS de Blanchard: determinación de salarios nominales y reales, fijación de precios, márgenes de monopolio (m), protección laboral (z), tasa natural de desempleo (u_n) y PIB potencial.",
+        meta: "Simulador interactivo · 15 min",
+        session: "Sesión 11",
+        url: "macro_simulador_sesion_11.html"
+      },
+      {
         id: "macro_real_1",
         type: "quiz",
         category: "real",
