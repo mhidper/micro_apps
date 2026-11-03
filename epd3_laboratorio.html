@@ -113,6 +113,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
+      flex-wrap: wrap;
     }
 
     .badge-code {
@@ -334,25 +335,25 @@
       color: var(--pino);
     }
 
-    select.custom-select {
-      padding: 8px 14px;
+    select.custom-select, select.form-control, input.form-control {
+      padding: 10px 14px;
       border-radius: var(--radius-sm);
       border: 1px solid var(--border-subtle);
       background: #FFFFFF;
       color: var(--tinta);
       font-family: 'Inter', sans-serif;
-      font-size: 0.88rem;
+      font-size: 0.9rem;
       font-weight: 500;
       outline: none;
-      cursor: pointer;
+      width: 100%;
     }
 
-    select.custom-select:focus {
+    select.custom-select:focus, select.form-control:focus, input.form-control:focus {
       border-color: var(--pino);
-      box-shadow: 0 0 0 2px rgba(17, 57, 39, 0.15);
+      box-shadow: 0 0 0 3px rgba(17, 57, 39, 0.15);
     }
 
-    /* Grid de Métricas y Tarjetas Rápidas */
+    /* Grid de Métricas */
     .metrics-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -485,7 +486,7 @@
       color: var(--pino);
     }
 
-    /* Checkpoint Cuantitativo Interactivo */
+    /* Checkpoint Cuantitativo */
     .checkpoint-box {
       background: var(--menta-soft);
       border: 1px solid var(--salvia-light);
@@ -518,6 +519,7 @@
       display: flex;
       gap: 12px;
       align-items: center;
+      flex-wrap: wrap;
     }
 
     input.check-input {
@@ -595,10 +597,6 @@
       line-height: 1.65;
       color: var(--tinta);
       resize: vertical;
-    }
-
-    textarea.report-textarea:focus {
-      background: #FCFDFD;
     }
 
     /* Botones Oficiales */
@@ -691,60 +689,40 @@
       margin: 14px 0;
     }
 
-    /* Modal de Identificación Inicial */
-    .login-modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(11, 28, 54, 0.8);
-      backdrop-filter: blur(6px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      padding: 20px;
-    }
-
-    .login-modal {
+    /* Sección de Acceso y Configuración de Equipo */
+    .auth-hero {
+      max-width: 760px;
+      margin: 30px auto;
       background: #FFFFFF;
-      width: 100%;
-      max-width: 480px;
       border-radius: var(--radius-lg);
-      padding: 32px;
-      box-shadow: var(--shadow-lg);
-      text-align: center;
-      border-top: 6px solid var(--pino);
+      border: 1px solid var(--border-subtle);
+      padding: 36px;
+      box-shadow: var(--shadow-md);
     }
 
-    .login-modal h2 {
+    .auth-hero h2 {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       color: var(--pino);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
-    .login-modal p {
-      font-size: 0.9rem;
+    .auth-hero p {
       color: var(--text-muted);
+      font-size: 0.92rem;
       margin-bottom: 24px;
     }
 
-    .login-modal input {
-      width: 100%;
-      padding: 12px 16px;
-      border: 1.5px solid var(--border-subtle);
-      border-radius: var(--radius-sm);
-      font-size: 1rem;
-      font-weight: 600;
-      font-family: 'JetBrains Mono', monospace;
-      text-align: center;
-      text-transform: lowercase;
+    .form-group {
       margin-bottom: 18px;
-      outline: none;
     }
 
-    .login-modal input:focus {
-      border-color: var(--pino);
-      box-shadow: 0 0 0 3px rgba(17, 57, 39, 0.15);
+    .form-group label {
+      display: block;
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--pino);
+      margin-bottom: 6px;
     }
 
     /* Pie de Página */
@@ -766,7 +744,7 @@
         gap: 12px;
         padding: 14px 18px;
       }
-      nav.phases-nav {
+      nav.phases-nav, nav.session-router {
         padding: 8px 14px;
       }
       .metrics-grid {
@@ -777,30 +755,6 @@
 </head>
 <body>
 
-  <!-- Modal de Identificación Institucional Anti-IA -->
-  <div id="loginModal" class="login-modal-overlay">
-    <div class="login-modal">
-      <div style="font-size: 2.2rem; margin-bottom: 8px;">🏛️</div>
-      <h2>Estación de Trabajo EPD 3</h2>
-      <p>Políticas Sociolaborales y de Empleo · Universidad Pablo de Olavide</p>
-      
-      <div style="text-align: left; margin-bottom: 14px;">
-        <label style="font-size: 0.82rem; font-weight: 600; color: var(--pino); display: block; margin-bottom: 4px;">Introduce tu acrónimo oficial UPO (ej. mhidper):</label>
-        <input type="text" id="acronymInput" placeholder="tu acrónimo upo" autocomplete="off" autofocus>
-      </div>
-
-      <div style="text-align: left; margin-bottom: 20px;">
-        <label style="font-size: 0.82rem; font-weight: 600; color: var(--pino); display: block; margin-bottom: 4px;">Tu Nombre y Apellidos:</label>
-        <input type="text" id="studentNameInput" placeholder="Nombre completo del estudiante" style="text-transform: none; font-family: 'Inter', sans-serif;">
-      </div>
-
-      <button id="btnLogin" class="btn btn-primary" style="width: 100%;">Acceder a la Estación EPD 3</button>
-      <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 14px;">
-        🔒 Tu acrónimo genera tu <strong>Código de Estación EPD</strong> y asigna tu país europeo de contraste individualizado.
-      </div>
-    </div>
-  </div>
-
   <!-- Cabecera Principal -->
   <header class="main-header">
     <div class="header-brand">
@@ -810,11 +764,11 @@
       </div>
     </div>
     <div class="header-badges">
-      <div class="badge-code">
-        <span>Estación:</span>
+      <div class="badge-code" id="boxTeamCode" style="display: none;">
+        <span>Equipo:</span>
         <span class="code-val" id="dispStationCode">PSLL-EPD3-PENDIENTE</span>
       </div>
-      <div class="badge-code" style="background: rgba(233, 143, 113, 0.18); border-color: var(--coral);">
+      <div class="badge-code" id="boxCountry" style="display: none; background: rgba(233, 143, 113, 0.18); border-color: var(--coral);">
         <span>País Asignado:</span>
         <span class="code-val" style="color: #FFFFFF;" id="dispAssignedCountry">Alemania</span>
       </div>
@@ -829,374 +783,458 @@
     <a href="epd3_laboratorio.html" class="router-tab active" style="font-weight: 700; color: var(--pino);">🟢 Sesión 03: PAE en la OCDE (Activa)</a>
   </nav>
 
-  <!-- Navegación por Fases -->
-  <nav class="phases-nav">
-    <div class="phase-step active" onclick="switchPhase(1)" id="navPhase1">
-      <span class="num">1</span>
-      <span>Balanza Macro (PAE vs. PS)</span>
-    </div>
-    <div class="phase-step" onclick="switchPhase(2)" id="navPhase2">
-      <span class="num">2</span>
-      <span>El Radar de los 3 Modelos</span>
-    </div>
-    <div class="phase-step" onclick="switchPhase(3)" id="navPhase3">
-      <span class="num">3</span>
-      <span>Checkpoint Cuantitativo</span>
-    </div>
-    <div class="phase-step" onclick="switchPhase(4)" id="navPhase4">
-      <span class="num">4</span>
-      <span>Dictamen Técnico y Sellado</span>
-    </div>
-  </nav>
+  <!-- =========================================================================
+       SECCIÓN 0: IDENTIFICACIÓN Y CONFIGURACIÓN DE EQUIPO (MÁX. 3 ESTUDIANTES)
+       ========================================================================= -->
+  <section id="authSection" class="auth-hero">
+    <div style="font-size: 2.2rem; margin-bottom: 12px; text-align: center;">👥</div>
+    <h2 style="text-align: center;">Acceso a la Sesión Práctica · EPD 3</h2>
+    <p style="text-align: center;">Configuración del Equipo de Trabajo (de 1 a 3 estudiantes) · Convocatoria Oficial</p>
 
-  <!-- Contenedor Principal de Fases -->
-  <main class="content-container">
+    <div id="leaderWelcomeBanner" style="display: none; background: var(--menta-soft); border: 1.5px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 14px 18px; margin-bottom: 20px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.03em;">Responsable de Entrega Autenticado/a</span>
+          <h4 id="leaderWelcomeName" style="color: var(--pino); font-family: 'Outfit', sans-serif; font-size: 1.15rem; margin: 2px 0 0 0;">---</h4>
+        </div>
+        <span style="font-size: 0.8rem; background: var(--success-bg); color: var(--success); padding: 4px 10px; border-radius: var(--radius-pill); font-weight: 700;">Verificado ✓</span>
+      </div>
+    </div>
 
-    <!-- =========================================================================
-         FASE 1: LA BALANZA MACRO (PAE VS. PS EN EL TIEMPO 2004-2024)
-         ========================================================================= -->
-    <section id="phase1" class="phase-section active">
-      <div class="card">
-        <div class="card-header">
+    <div class="form-group" id="groupAcronymInput">
+      <label for="inputAcronym">Tu Acrónimo Institucional UPO (Responsable de la entrega):</label>
+      <input type="text" id="inputAcronym" class="form-control" placeholder="Introduce tu usuario oficial UPO (sin @alu.upo.es, ej. mhidper)" autofocus>
+      <small style="color: var(--text-muted); font-size: 0.8rem; margin-top: 4px; display: block;">
+        Introduce tu nombre de usuario del correo institucional de la UPO.
+      </small>
+    </div>
+
+    <div id="teamMembersArea" style="display: none;">
+      <!-- Aviso de Asistencia Obligatoria en Aula -->
+      <div style="background: #FEF2F2; border: 2px solid #DC2626; border-radius: 10px; padding: 14px 18px; margin-bottom: 18px;">
+        <div style="display: flex; gap: 12px; align-items: flex-start;">
+          <span style="font-size: 1.6rem; line-height: 1;">⚠️</span>
           <div>
-            <h2>📊 Fase 1 · Evolución y Balanza de Políticas Activas vs. Pasivas (% del PIB)</h2>
-            <p>Compara la reacción presupuestaria del mercado de trabajo ante las crisis de 2008-2013 y 2020 según las estadísticas oficiales de la OCDE.</p>
+            <strong style="color: #991B1B; font-size: 0.95rem; display: block; margin-bottom: 4px;">
+              REGLA OBLIGATORIA DE ASISTENCIA Y PARTICIPACIÓN EN EL AULA:
+            </strong>
+            <p style="color: #7F1D1D; font-size: 0.86rem; margin: 0; line-height: 1.45;">
+              Las personas que selecciones a continuación <strong>SOLO pueden ser compañeros/as físicamente presentes en el aula durante la clase de hoy</strong>.<br>
+              El profesorado <strong>cotejará la composición del equipo con la lista oficial de firmas y el pase de lista a voz alzada</strong>. La inclusión fraudulenta de ausentes conllevará la <strong>anulación automática de la entrega (calificación 0,00 pts)</strong> para todo el equipo.
+            </p>
           </div>
-          <span style="font-size: 0.8rem; background: var(--menta-mid); padding: 4px 10px; border-radius: var(--radius-pill); font-weight: 600;">OCDE Database 2004–2024</span>
-        </div>
-
-        <div class="callout">
-          <strong>Regla conceptual fundamental:</strong> La <em>Balanza de Empleo</em> mide el reparto entre el esfuerzo público destinado a <strong>activar</strong> (PAE: formación, intermediación, incentivos) y el destinado a <strong>proteger rentas</strong> (PS: prestaciones y subsidios por desempleo). En países nórdicos predomina la activación; en economías del sur de Europa el gasto está dominado por las pasivas de forma contracíclica.
-        </div>
-
-        <!-- Filtros del Gráfico Macro -->
-        <div class="filter-bar">
-          <div class="filter-item">
-            <label for="selCountryMacro">País a Comparar con España:</label>
-            <select id="selCountryMacro" class="custom-select" onchange="updateMacroChart()">
-              <option value="DEU">Alemania (DEU)</option>
-              <option value="FRA">Francia (FRA)</option>
-              <option value="DNK">Dinamarca (DNK - Flexiguridad)</option>
-              <option value="NLD">Países Bajos (NLD)</option>
-              <option value="ITA">Italia (ITA)</option>
-              <option value="OECD">Media OCDE (OECD)</option>
-            </select>
-          </div>
-          <div class="filter-item">
-            <label for="selMetricMacro">Métrica de Visualización:</label>
-            <select id="selMetricMacro" class="custom-select" onchange="updateMacroChart()">
-              <option value="levels">Gasto en % del PIB (PAE y Pasivas separadas)</option>
-              <option value="share">Balanza Relativa (% Cuota PAE vs. % Cuota Pasivas)</option>
-              <option value="total">Gasto Público Total en Empleo (% del PIB)</option>
-            </select>
-          </div>
-          <div class="filter-item">
-            <label for="selYearFocus">Año de Foto Fija:</label>
-            <select id="selYearFocus" class="custom-select" onchange="updateMetricsGrid()">
-              <!-- Se puebla dinámicamente con años -->
-            </select>
-          </div>
-        </div>
-
-        <!-- Grid de Métricas Comparativas en Año Foco -->
-        <div class="metrics-grid">
-          <div class="metric-card">
-            <div class="label">España · Gasto PAE</div>
-            <div class="val" id="valEspPAE">0,70%</div>
-            <div class="sub" id="subEspPAE">del PIB</div>
-          </div>
-          <div class="metric-card">
-            <div class="label">España · Gasto Pasivas</div>
-            <div class="val" id="valEspPS" style="color: var(--coral);">1,74%</div>
-            <div class="sub" id="subEspPS">del PIB</div>
-          </div>
-          <div class="metric-card">
-            <div class="label">España · Cuota Pasivas</div>
-            <div class="val" id="valEspSharePS">71,3%</div>
-            <div class="sub">del gasto total</div>
-          </div>
-          <div class="metric-card">
-            <div class="label"><span id="lblCompCountry">Alemania</span> · Cuota Pasivas</div>
-            <div class="val" id="valCompSharePS" style="color: var(--salvia);">58,2%</div>
-            <div class="sub">Balanza más equilibrada</div>
-          </div>
-        </div>
-
-        <!-- Gráfico Macro -->
-        <div class="chart-box">
-          <canvas id="macroChart"></canvas>
-        </div>
-
-        <div style="display: flex; justify-content: flex-end; margin-top: 16px;">
-          <button class="btn btn-primary" onclick="switchPhase(2)">Continuar a la Fase 2: El Radar de los Modelos →</button>
         </div>
       </div>
-    </section>
 
-    <!-- =========================================================================
-         FASE 2: EL RADAR DE LOS 3 MODELOS EUROPEOS DE PAE
-         ========================================================================= -->
-    <section id="phase2" class="phase-section">
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <h2>🧭 Fase 2 · Descomposición de las PAE: La Huella de los Modelos Europeos</h2>
-            <p>Análisis de las 6 categorías canónicas de Políticas Activas de Empleo (OCDE) y caracterización de los modelos de intervención.</p>
-          </div>
-          <span style="font-size: 0.8rem; background: var(--coral-light); color: var(--coral-dark); padding: 4px 10px; border-radius: var(--radius-pill); font-weight: 700;">6 Categorías Canónicas</span>
-        </div>
+      <h4 style="color: var(--pino); font-family: 'Outfit', sans-serif; margin-bottom: 8px; font-size: 1.1rem;">
+        👥 Integrantes del Equipo (Máx. 3 estudiantes)
+      </h4>
+      <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 16px;">
+        Un solo integrante del equipo redacta y sella el informe oficial. Selecciona a tus compañeros/as de clase para que sus nombres figuren en el comprobante oficial y en el Pasaporte de Evaluación Continua:
+      </p>
 
-        <div class="callout coral">
-          <strong>Las 6 categorías de la OCDE:</strong>
-          (1) <em>Servicios Públicos de Empleo (SPE) e Intermediación</em> · (2) <em>Formación para el Empleo</em> · (3) <em>Incentivos a la Contratación</em> · (4) <em>Empleo Protegido y Rehabilitación</em> · (5) <em>Creación Directa de Empleo</em> · (6) <em>Incentivos al Autoempleo (Start-ups)</em>.
-        </div>
-
-        <!-- Selector de País para el Radar -->
-        <div class="filter-bar">
-          <div class="filter-item">
-            <label for="selCountryRadar">Contrastar España con:</label>
-            <select id="selCountryRadar" class="custom-select" onchange="updateRadarChart()">
-              <option value="DEU">Alemania (Modelo de Intermediación)</option>
-              <option value="FRA">Francia (Modelo de Cualificación)</option>
-              <option value="DNK">Dinamarca (Modelo Nórdico / Flexiguridad)</option>
-              <option value="NLD">Países Bajos</option>
-              <option value="ITA">Italia</option>
-            </select>
-          </div>
-          <div class="filter-item">
-            <label for="selYearRadar">Año de Análisis:</label>
-            <select id="selYearRadar" class="custom-select" onchange="updateRadarChart()">
-              <option value="2022" selected>2022 (Último ejercicio consolidado pleno)</option>
-              <option value="2020">2020 (Shock Covid)</option>
-              <option value="2015">2015 (Recuperación post-crisis financiera)</option>
-              <option value="2010">2010 (Impacto pleno crisis financiera)</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Gráfico Dual: Radar y Barras de Composición -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 20px;">
-          <div class="chart-box" style="min-height: 400px;">
-            <h4 style="font-family: 'Outfit'; color: var(--pino); margin-bottom: 12px; text-align: center;">Radar de Especialización (% del Total de PAE)</h4>
-            <canvas id="radarChart"></canvas>
-          </div>
-          <div class="chart-box" style="min-height: 400px;">
-            <h4 style="font-family: 'Outfit'; color: var(--pino); margin-bottom: 12px; text-align: center;">Desglose en Barras (% del Gasto Total en PAE)</h4>
-            <canvas id="barsPaeChart"></canvas>
-          </div>
-        </div>
-
-        <!-- Cuadro Comparativo de los Modelos -->
-        <div class="models-grid">
-          <div class="model-card germany">
-            <span class="model-badge">Alemania</span>
-            <h3>Modelo de Intermediación Activa</h3>
-            <p>Prioridad absoluta a la modernización de las oficinas de empleo (*Bundesagentur für Arbeit*). Más del <strong>50% del gasto en PAE</strong> se canaliza a orientación personalizada, diagnóstico temprano y ratio reducida de desempleados por orientador.</p>
-            <div class="model-stat-row">
-              <span>Gasto en SPE (Categoría 1):</span>
-              <strong id="statDeuSPE">55,3%</strong>
-            </div>
-            <div class="model-stat-row">
-              <span>Incentivos al Autoempleo (Cat. 6):</span>
-              <strong id="statDeuStart">1,4%</strong>
-            </div>
-          </div>
-
-          <div class="model-card france">
-            <span class="model-badge">Francia</span>
-            <h3>Modelo de Cualificación y Capital Humano</h3>
-            <p>Foco masivo en la formación continua de los trabajadores desempleados (*Compte Personnel de Formation*). Cerca del <strong>40% de las PAE</strong> se dirigen a recualificación para evitar la obsolescencia técnica ante transiciones productivas.</p>
-            <div class="model-stat-row">
-              <span>Gasto en Formación (Categoría 2):</span>
-              <strong id="statFraTrain">42,1%</strong>
-            </div>
-            <div class="model-stat-row">
-              <span>Incentivos a la Contratación:</span>
-              <strong id="statFraInc">15,8%</strong>
-            </div>
-          </div>
-
-          <div class="model-card nordic">
-            <span class="model-badge">Dinamarca</span>
-            <h3>Flexiguridad Nórdica</h3>
-            <p>Despido flexible combinado con subsidios de desempleo generosos y una <strong>activación obligatoria temprana e intensiva</strong>. Gasto en PAE por desempleado que duplica la media de la UE, combinando intermediación y formación rápida orientada a vacantes reales.</p>
-            <div class="model-stat-row">
-              <span>Gasto Total PAE (% PIB):</span>
-              <strong id="statDnkPae">1,51%</strong>
-            </div>
-            <div class="model-stat-row">
-              <span>Balanza Activa / Pasiva:</span>
-              <strong id="statDnkBal">70% PAE / 30% PS</strong>
-            </div>
-          </div>
-
-          <div class="model-card spain">
-            <span class="model-badge">España</span>
-            <h3>Modelo de Incentivos a la Demanda y Autoempleo</h3>
-            <p>Fuerte dependencia histórica de subvenciones directas a empresas (bonificaciones a la contratación) y una presencia insólita del <strong>autoempleo (18% de las PAE)</strong> como salida de refugio para parados de difícil colocación, con escaso peso de SPE y formación.</p>
-            <div class="model-stat-row">
-              <span>Incentivos + Creación + Autoempleo:</span>
-              <strong id="statEspDemanda">47,8%</strong>
-            </div>
-            <div class="model-stat-row">
-              <span>SPE + Formación combinados:</span>
-              <strong id="statEspSpeTrain">33,8%</strong>
-            </div>
-          </div>
-        </div>
-
-        <div style="display: flex; justify-content: space-between; margin-top: 16px;">
-          <button class="btn btn-secondary" onclick="switchPhase(1)">← Volver a Fase 1</button>
-          <button class="btn btn-primary" onclick="switchPhase(3)">Ir al Checkpoint Cuantitativo (Fase 3) →</button>
-        </div>
+      <div class="form-group">
+        <label for="selectStudent2">Compañero/a 2 (Opcional):</label>
+        <select id="selectStudent2" class="form-control">
+          <option value="">-- Seleccionar de la lista de clase (o dejar vacío si trabajas individualmente) --</option>
+        </select>
       </div>
-    </section>
 
-    <!-- =========================================================================
-         FASE 3: CHECKPOINT CUANTITATIVO ANTI-IA
-         ========================================================================= -->
-    <section id="phase3" class="phase-section">
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <h2>🧮 Fase 3 · Checkpoint Cuantitativo y Validación Anti-IA</h2>
-            <p>Calcula y verifica en tiempo real las métricas oficiales de tu caso asignado para desbloquear la redacción del dictamen técnico.</p>
-          </div>
-          <span style="font-size: 0.8rem; background: var(--warning-bg); color: var(--warning); padding: 4px 10px; border-radius: var(--radius-pill); font-weight: 700;">Validación Dinámica</span>
-        </div>
-
-        <div class="callout warning">
-          <strong>Instrucciones:</strong> Consulta los microdatos de la OCDE para tu país asignado (<strong id="chkTargetCountryName">Alemania</strong>) y para España en el año <strong id="chkTargetYear">2022</strong>. Introduce el resultado con <strong>un decimal</strong> (usando punto o coma decimal).
-        </div>
-
-        <div class="checkpoint-box">
-          <!-- Pregunta 1 -->
-          <div class="checkpoint-question">
-            <label id="lblQ1">1. [España · 2022] Calcula la Cuota de Políticas Pasivas sobre el Gasto Total en Políticas de Empleo (%):</label>
-            <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 8px;">
-              Fórmula: $	ext{Cuota PS} = rac{	ext{Gasto Pasivas (LMP 80+90)}}{	ext{Gasto Total en Empleo (LMP 1-9)}} 	imes 100$
-            </div>
-            <div class="input-check-group">
-              <input type="text" id="ansQ1" class="check-input" placeholder="ej. 67.1">
-              <button class="btn btn-secondary" onclick="validateQ1()">Comprobar</button>
-              <span id="feedQ1" class="check-feedback"></span>
-            </div>
-          </div>
-
-          <!-- Pregunta 2 -->
-          <div class="checkpoint-question">
-            <label id="lblQ2">2. [Alemania · 2022] ¿Qué porcentaje del gasto total de Políticas Activas (PAE) se dedica a Servicios Públicos de Empleo e Intermediación (Categoría 1)?</label>
-            <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 8px;">
-              Fórmula: $	ext{% SPE en PAE} = rac{	ext{LMP 10}}{	ext{LMP 10T70}} 	imes 100$
-            </div>
-            <div class="input-check-group">
-              <input type="text" id="ansQ2" class="check-input" placeholder="ej. 55.3">
-              <button class="btn btn-secondary" onclick="validateQ2()">Comprobar</button>
-              <span id="feedQ2" class="check-feedback"></span>
-            </div>
-          </div>
-
-          <!-- Pregunta 3 -->
-          <div class="checkpoint-question">
-            <label id="lblQ3">3. [España vs. Alemania · 2022] ¿Cuántas veces es mayor el porcentaje relativo dedicado a Autoempleo (Categoría 6) en España que en Alemania?</label>
-            <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 8px;">
-              Fórmula: $	ext{Ratio Autoempleo} = rac{	ext{% Autoempleo en PAE España}}{	ext{% Autoempleo en PAE País Asignado}}$
-            </div>
-            <div class="input-check-group">
-              <input type="text" id="ansQ3" class="check-input" placeholder="ej. 12.8">
-              <button class="btn btn-secondary" onclick="validateQ3()">Comprobar</button>
-              <span id="feedQ3" class="check-feedback"></span>
-            </div>
-          </div>
-        </div>
-
-        <div id="unlockNotice" class="callout" style="display: none; background: var(--success-bg); border-left-color: var(--success); color: var(--success);">
-          ✅ <strong>¡Cálculos cuantitativos verificados correctamente!</strong> Has demostrado dominio de los microdatos de la OCDE. El editor del Dictamen Técnico en la Fase 4 ha quedado desbloqueado.
-        </div>
-
-        <div style="display: flex; justify-content: space-between; margin-top: 16px;">
-          <button class="btn btn-secondary" onclick="switchPhase(2)">← Volver a Fase 2</button>
-          <button id="btnGoPhase4" class="btn btn-primary" onclick="switchPhase(4)" disabled>Desbloquear Fase 4 (Dictamen) →</button>
-        </div>
+      <div class="form-group">
+        <label for="selectStudent3">Compañero/a 3 (Opcional):</label>
+        <select id="selectStudent3" class="form-control">
+          <option value="">-- Seleccionar de la lista de clase (o dejar vacío) --</option>
+        </select>
       </div>
-    </section>
+    </div>
 
-    <!-- =========================================================================
-         FASE 4: DICTAMEN TÉCNICO Y SELLADO DIGITAL
-         ========================================================================= -->
-    <section id="phase4" class="phase-section">
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <h2>✍️ Fase 4 · Dictamen Técnico de Recomendación y Sellado Criptográfico</h2>
-            <p>Emite tu dictamen profesional individual como Analista de Políticas Sociolaborales para el Consejo Económico y Social (CES) o la Comisión Europea.</p>
-          </div>
-          <span style="font-size: 0.8rem; background: var(--pino); color: #FFFFFF; padding: 4px 10px; border-radius: var(--radius-pill); font-weight: 700;">Entregable Individual 3</span>
-        </div>
+    <div style="margin-top: 24px; display: flex; gap: 12px;">
+      <button id="btnVerifyLeader" class="btn btn-primary" style="flex: 1;" onclick="verifyTeamLeader()">
+        Verificar Acrónimo y Configurar Equipo
+      </button>
+      <button id="btnStartSession" class="btn btn-coral" style="flex: 1; display: none;" onclick="launchSession()">
+        Comenzar Laboratorio EPD 3 ➔
+      </button>
+    </div>
+  </section>
 
-        <div class="callout">
-          <strong>Estructura obligatoria del Dictamen (250 – 350 palabras):</strong>
-          <br>1. <strong>Eje 1 · Diagnóstico Macro de la Balanza:</strong> Interpreta la asimetría activa/pasiva en España (más del 65-70% en subsidios) y su hipersensibilidad al ciclo frente a la estabilidad del modelo asignado (<span id="txtReportTargetCountry">Alemania</span>).
-          <br>2. <strong>Eje 2 · Descomposición del Gasto en PAE:</strong> Contrasta el sesgo español (ayudas a la contratación y autoempleo refugio) frente al modelo de intermediación/cualificación del país asignado.
-          <br>3. <strong>Eje 3 · Propuesta de Reforma Estructural:</strong> Plantea 2 medidas concretas para España fundamentadas en la evidencia empírica de la OCDE (ej. inversión en personal del SPE o programas de reciclaje formativo en ocupaciones deficitarias).
-        </div>
+  <!-- =========================================================================
+       ESPACIO DE TRABAJO EPD 3 (SE ACTIVA TRAS VERIFICACIÓN Y ACCESO)
+       ========================================================================= -->
+  <div id="workspaceSection" style="display: none; width: 100%;">
 
-        <!-- Editor con Anti-Paste y Contador en Tiempo Real -->
-        <div class="editor-box">
-          <div class="editor-toolbar">
-            <span style="font-weight: 600; font-size: 0.86rem; color: var(--pino);">Editor de Dictamen Técnico</span>
-            <span id="wordCounter" class="word-counter">Palabras: 0 / 250 mín.</span>
-          </div>
-          <textarea id="reportText" class="report-textarea" placeholder="Redacta aquí tu dictamen técnico fundamentado en los datos analizados... Recuerda que la plataforma audita la redacción continua e impide la copia masiva instantánea."></textarea>
-        </div>
+    <!-- Navegación por Fases -->
+    <nav class="phases-nav">
+      <div class="phase-step active" onclick="switchPhase(1)" id="navPhase1">
+        <span class="num">1</span>
+        <span>Balanza Macro (PAE vs. PS)</span>
+      </div>
+      <div class="phase-step" onclick="switchPhase(2)" id="navPhase2">
+        <span class="num">2</span>
+        <span>El Radar de los 3 Modelos</span>
+      </div>
+      <div class="phase-step" onclick="switchPhase(3)" id="navPhase3">
+        <span class="num">3</span>
+        <span>Checkpoint Cuantitativo</span>
+      </div>
+      <div class="phase-step" onclick="switchPhase(4)" id="navPhase4">
+        <span class="num">4</span>
+        <span>Dictamen Técnico y Sellado</span>
+      </div>
+    </nav>
 
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
-          <button class="btn btn-secondary" onclick="switchPhase(3)">← Volver al Checkpoint</button>
-          <button id="btnSubmitReport" class="btn btn-coral" onclick="submitFinalDelivery()" disabled>
-            🔒 Sellar y Entregar Comprobante Oficial (0,50 pts)
-          </button>
-        </div>
+    <!-- Contenedor Principal de Fases -->
+    <main class="content-container">
 
-        <!-- Recibo y Comprobante Oficial -->
-        <div id="receiptContainer" class="delivery-receipt">
-          <div class="receipt-header">
+      <!-- =========================================================================
+           FASE 1: LA BALANZA MACRO (PAE VS. PS EN EL TIEMPO 2004-2024)
+           ========================================================================= -->
+      <section id="phase1" class="phase-section active">
+        <div class="card">
+          <div class="card-header">
             <div>
-              <h3 style="font-family: 'Outfit'; color: var(--pino); font-size: 1.25rem;">Comprobante Oficial de Entrega · EPD 3</h3>
-              <p style="font-size: 0.82rem; color: var(--text-muted);">Universidad Pablo de Olavide · Políticas Sociolaborales y de Empleo (Curso 2026-27)</p>
+              <h2>📊 Fase 1 · Evolución y Balanza de Políticas Activas vs. Pasivas (% del PIB)</h2>
+              <p>Compara la reacción presupuestaria del mercado de trabajo ante las crisis de 2008-2013 y 2020 según las estadísticas oficiales de la OCDE.</p>
             </div>
-            <div style="text-align: right;">
-              <span style="background: var(--success-bg); color: var(--success); padding: 4px 12px; border-radius: var(--radius-pill); font-weight: 700; font-size: 0.8rem;">ENTREGA VÁLIDA</span>
+            <span style="font-size: 0.8rem; background: var(--menta-mid); padding: 4px 10px; border-radius: var(--radius-pill); font-weight: 600;">OCDE Database 2004–2024</span>
+          </div>
+
+          <div class="callout">
+            <strong>Regla conceptual fundamental:</strong> La <em>Balanza de Empleo</em> mide el reparto entre el esfuerzo público destinado a <strong>activar</strong> (PAE: formación, intermediación, incentivos) y el destinado a <strong>proteger rentas</strong> (PS: prestaciones y subsidios por desempleo). En países nórdicos predomina la activación; en economías del sur de Europa el gasto está dominado por las pasivas de forma contracíclica.
+          </div>
+
+          <!-- Filtros del Gráfico Macro -->
+          <div class="filter-bar">
+            <div class="filter-item">
+              <label for="selCountryMacro">País a Comparar con España:</label>
+              <select id="selCountryMacro" class="custom-select" onchange="updateMacroChart()">
+                <option value="DEU">Alemania (DEU)</option>
+                <option value="FRA">Francia (FRA)</option>
+                <option value="DNK">Dinamarca (DNK - Flexiguridad)</option>
+                <option value="NLD">Países Bajos (NLD)</option>
+                <option value="ITA">Italia (ITA)</option>
+                <option value="OECD">Media OCDE (OECD)</option>
+              </select>
+            </div>
+            <div class="filter-item">
+              <label for="selMetricMacro">Métrica de Visualización:</label>
+              <select id="selMetricMacro" class="custom-select" onchange="updateMacroChart()">
+                <option value="levels">Gasto en % del PIB (PAE y Pasivas separadas)</option>
+                <option value="share">Balanza Relativa (% Cuota PAE vs. % Cuota Pasivas)</option>
+                <option value="total">Gasto Público Total en Empleo (% del PIB)</option>
+              </select>
+            </div>
+            <div class="filter-item">
+              <label for="selYearFocus">Año de Foto Fija:</label>
+              <select id="selYearFocus" class="custom-select" onchange="updateMetricsGrid()">
+                <!-- Se puebla dinámicamente -->
+              </select>
             </div>
           </div>
 
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 16px; font-size: 0.88rem;">
-            <div><strong>Estudiante:</strong> <span id="recStudentName">-</span></div>
-            <div><strong>Acrónimo UPO:</strong> <span id="recAcronym" style="font-family: 'JetBrains Mono';">-</span></div>
-            <div><strong>Estación Asignada:</strong> <span id="recStationCode" style="font-family: 'JetBrains Mono';">-</span></div>
-            <div><strong>País de Contraste:</strong> <span id="recCountry">-</span></div>
-            <div><strong>Fecha y Hora:</strong> <span id="recTimestamp">-</span></div>
-            <div><strong>Extensión:</strong> <span id="recWords">-</span> palabras</div>
+          <!-- Grid de Métricas Comparativas en Año Foco -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="label">España · Gasto PAE</div>
+              <div class="val" id="valEspPAE">0,75%</div>
+              <div class="sub" id="subEspPAE">del PIB</div>
+            </div>
+            <div class="metric-card">
+              <div class="label">España · Gasto Pasivas</div>
+              <div class="val" id="valEspPS" style="color: var(--coral);">1,52%</div>
+              <div class="sub" id="subEspPS">del PIB</div>
+            </div>
+            <div class="metric-card">
+              <div class="label">España · Cuota Pasivas</div>
+              <div class="val" id="valEspSharePS">67,1%</div>
+              <div class="sub">del gasto total</div>
+            </div>
+            <div class="metric-card">
+              <div class="label"><span id="lblCompCountry">Alemania</span> · Cuota Pasivas</div>
+              <div class="val" id="valCompSharePS" style="color: var(--salvia);">58,2%</div>
+              <div class="sub">Balanza más equilibrada</div>
+            </div>
           </div>
 
-          <div style="margin-top: 14px;">
-            <div style="font-size: 0.8rem; font-weight: 600; color: var(--pino);">Sello Criptográfico SHA-256 (Trazabilidad Docente Anti-IA):</div>
-            <div id="recHash" class="hash-seal">HASH-PENDING</div>
+          <!-- Gráfico Macro -->
+          <div class="chart-box">
+            <canvas id="macroChart"></canvas>
           </div>
 
-          <div style="margin-top: 16px; padding: 14px; background: var(--menta-soft); border-radius: var(--radius-sm); font-size: 0.84rem; line-height: 1.5;">
-            <strong>Dictamen Registrado:</strong>
-            <p id="recReportSnippet" style="margin-top: 6px; font-style: italic; color: var(--tinta);"></p>
-          </div>
-
-          <div style="margin-top: 20px; display: flex; gap: 12px; justify-content: flex-end;">
-            <button class="btn btn-primary" onclick="downloadReceiptPdf()">📥 Descargar Comprobante en PDF</button>
+          <div style="display: flex; justify-content: flex-end; margin-top: 16px;">
+            <button class="btn btn-primary" onclick="switchPhase(2)">Continuar a la Fase 2: El Radar de los Modelos →</button>
           </div>
         </div>
+      </section>
 
-      </div>
-    </section>
+      <!-- =========================================================================
+           FASE 2: EL RADAR DE LOS 3 MODELOS EUROPEOS DE PAE
+           ========================================================================= -->
+      <section id="phase2" class="phase-section">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2>🧭 Fase 2 · Descomposición de las PAE: La Huella de los Modelos Europeos</h2>
+              <p>Análisis de las 6 categorías canónicas de Políticas Activas de Empleo (OCDE) y caracterización de los modelos de intervención.</p>
+            </div>
+            <span style="font-size: 0.8rem; background: var(--coral-light); color: var(--coral-dark); padding: 4px 10px; border-radius: var(--radius-pill); font-weight: 700;">6 Categorías Canónicas</span>
+          </div>
 
-  </main>
+          <div class="callout coral">
+            <strong>Las 6 categorías de la OCDE:</strong>
+            (1) <em>Servicios Públicos de Empleo (SPE) e Intermediación</em> · (2) <em>Formación para el Empleo</em> · (3) <em>Incentivos a la Contratación</em> · (4) <em>Empleo Protegido y Rehabilitación</em> · (5) <em>Creación Directa de Empleo</em> · (6) <em>Incentivos al Autoempleo (Start-ups)</em>.
+          </div>
+
+          <!-- Selector de País para el Radar -->
+          <div class="filter-bar">
+            <div class="filter-item">
+              <label for="selCountryRadar">Contrastar España con:</label>
+              <select id="selCountryRadar" class="custom-select" onchange="updateRadarChart()">
+                <option value="DEU">Alemania (Modelo de Intermediación)</option>
+                <option value="FRA">Francia (Modelo de Cualificación)</option>
+                <option value="DNK">Dinamarca (Modelo Nórdico / Flexiguridad)</option>
+                <option value="NLD">Países Bajos</option>
+                <option value="ITA">Italia</option>
+              </select>
+            </div>
+            <div class="filter-item">
+              <label for="selYearRadar">Año de Análisis:</label>
+              <select id="selYearRadar" class="custom-select" onchange="updateRadarChart()">
+                <option value="2022" selected>2022 (Último ejercicio consolidado pleno)</option>
+                <option value="2020">2020 (Shock Covid)</option>
+                <option value="2015">2015 (Recuperación post-crisis)</option>
+                <option value="2010">2010 (Crisis financiera)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Gráfico Dual: Radar y Barras de Composición -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 20px;">
+            <div class="chart-box" style="min-height: 400px;">
+              <h4 style="font-family: 'Outfit'; color: var(--pino); margin-bottom: 12px; text-align: center;">Radar de Especialización (% del Total de PAE)</h4>
+              <canvas id="radarChart"></canvas>
+            </div>
+            <div class="chart-box" style="min-height: 400px;">
+              <h4 style="font-family: 'Outfit'; color: var(--pino); margin-bottom: 12px; text-align: center;">Desglose en Barras (% del Gasto Total en PAE)</h4>
+              <canvas id="barsPaeChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Cuadro Comparativo de los Modelos -->
+          <div class="models-grid">
+            <div class="model-card germany">
+              <span class="model-badge">Alemania</span>
+              <h3>Modelo de Intermediación Activa</h3>
+              <p>Prioridad a las oficinas de empleo (*Bundesagentur für Arbeit*). Más del <strong>50% del gasto en PAE</strong> se canaliza a orientación personalizada, diagnóstico temprano y ratio reducida de demandantes por orientador.</p>
+              <div class="model-stat-row">
+                <span>Gasto en SPE (Categoría 1):</span>
+                <strong>55,3%</strong>
+              </div>
+              <div class="model-stat-row">
+                <span>Incentivos al Autoempleo (Cat. 6):</span>
+                <strong>1,4%</strong>
+              </div>
+            </div>
+
+            <div class="model-card france">
+              <span class="model-badge">Francia</span>
+              <h3>Modelo de Cualificación y Capital Humano</h3>
+              <p>Foco masivo en la formación continua (*Compte Personnel de Formation*). Cerca del <strong>40% de las PAE</strong> se dirigen a recualificación para evitar la obsolescencia técnica ante cambios estructurales.</p>
+              <div class="model-stat-row">
+                <span>Gasto en Formación (Categoría 2):</span>
+                <strong>42,1%</strong>
+              </div>
+              <div class="model-stat-row">
+                <span>Incentivos a la Contratación:</span>
+                <strong>15,8%</strong>
+              </div>
+            </div>
+
+            <div class="model-card nordic">
+              <span class="model-badge">Dinamarca</span>
+              <h3>Flexiguridad Nórdica</h3>
+              <p>Despido flexible y subsidios generosos combinados con <strong>activación obligatoria temprana e intensiva</strong>. Balanza invertida (70% en PAE), combinando intermediación y formación rápida orientada a vacantes reales.</p>
+              <div class="model-stat-row">
+                <span>Gasto Total PAE (% PIB):</span>
+                <strong>1,51%</strong>
+              </div>
+              <div class="model-stat-row">
+                <span>Balanza Activa / Pasiva:</span>
+                <strong>70% PAE / 30% PS</strong>
+              </div>
+            </div>
+
+            <div class="model-card spain">
+              <span class="model-badge">España</span>
+              <h3>Modelo de Incentivos a la Demanda y Autoempleo</h3>
+              <p>Fuerte dependencia histórica de subvenciones directas a empresas y una presencia insólita del <strong>autoempleo (18% de las PAE)</strong> como salida de refugio para desempleados, con escaso peso de SPE y formación.</p>
+              <div class="model-stat-row">
+                <span>Incentivos + Creación + Autoempleo:</span>
+                <strong>47,8%</strong>
+              </div>
+              <div class="model-stat-row">
+                <span>SPE + Formación combinados:</span>
+                <strong>33,8%</strong>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; margin-top: 16px;">
+            <button class="btn btn-secondary" onclick="switchPhase(1)">← Volver a Fase 1</button>
+            <button class="btn btn-primary" onclick="switchPhase(3)">Ir al Checkpoint Cuantitativo (Fase 3) →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================================
+           FASE 3: CHECKPOINT CUANTITATIVO ANTI-IA
+           ========================================================================= -->
+      <section id="phase3" class="phase-section">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2>🧮 Fase 3 · Checkpoint Cuantitativo y Validación Anti-IA</h2>
+              <p>Calcula y verifica en tiempo real las métricas oficiales de tu caso asignado para desbloquear la redacción del dictamen técnico.</p>
+            </div>
+            <span style="font-size: 0.8rem; background: var(--warning-bg); color: var(--warning); padding: 4px 10px; border-radius: var(--radius-pill); font-weight: 700;">Validación Dinámica</span>
+          </div>
+
+          <div class="callout warning">
+            <strong>Instrucciones:</strong> Consulta los microdatos de la OCDE para tu país asignado (<strong id="chkTargetCountryName">Alemania</strong>) y para España en el año <strong id="chkTargetYear">2022</strong>. Introduce el resultado con <strong>un decimal</strong> (usando punto o coma decimal).
+          </div>
+
+          <div class="checkpoint-box">
+            <!-- Pregunta 1 -->
+            <div class="checkpoint-question">
+              <label id="lblQ1">1. [España · 2022] Calcula la Cuota de Políticas Pasivas sobre el Gasto Total en Políticas de Empleo (%):</label>
+              <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 8px;">
+                Fórmula: $	ext{Cuota PS} = rac{	ext{Gasto Pasivas (LMP 80+90)}}{	ext{Gasto Total en Empleo (LMP 1-9)}} 	imes 100$
+              </div>
+              <div class="input-check-group">
+                <input type="text" id="ansQ1" class="check-input" placeholder="ej. 67.1">
+                <button class="btn btn-secondary" onclick="validateQ1()">Comprobar</button>
+                <span id="feedQ1" class="check-feedback"></span>
+              </div>
+            </div>
+
+            <!-- Pregunta 2 -->
+            <div class="checkpoint-question">
+              <label id="lblQ2">2. [Alemania · 2022] ¿Qué porcentaje del gasto total de Políticas Activas (PAE) se dedica a Servicios Públicos de Empleo e Intermediación (Categoría 1)?</label>
+              <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 8px;">
+                Fórmula: $	ext{% SPE en PAE} = rac{	ext{LMP 10}}{	ext{LMP 10T70}} 	imes 100$
+              </div>
+              <div class="input-check-group">
+                <input type="text" id="ansQ2" class="check-input" placeholder="ej. 55.3">
+                <button class="btn btn-secondary" onclick="validateQ2()">Comprobar</button>
+                <span id="feedQ2" class="check-feedback"></span>
+              </div>
+            </div>
+
+            <!-- Pregunta 3 -->
+            <div class="checkpoint-question">
+              <label id="lblQ3">3. [España vs. Alemania · 2022] ¿Cuántas veces es mayor el porcentaje relativo dedicado a Autoempleo (Categoría 6) en España que en Alemania?</label>
+              <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 8px;">
+                Fórmula: $	ext{Ratio Autoempleo} = rac{	ext{% Autoempleo en PAE España}}{	ext{% Autoempleo en PAE País Asignado}}$
+              </div>
+              <div class="input-check-group">
+                <input type="text" id="ansQ3" class="check-input" placeholder="ej. 12.8">
+                <button class="btn btn-secondary" onclick="validateQ3()">Comprobar</button>
+                <span id="feedQ3" class="check-feedback"></span>
+              </div>
+            </div>
+          </div>
+
+          <div id="unlockNotice" class="callout" style="display: none; background: var(--success-bg); border-left-color: var(--success); color: var(--success);">
+            ✅ <strong>¡Cálculos cuantitativos verificados correctamente!</strong> El equipo ha demostrado dominio de los microdatos de la OCDE. El editor del Dictamen Técnico en la Fase 4 ha quedado desbloqueado.
+          </div>
+
+          <div style="display: flex; justify-content: space-between; margin-top: 16px;">
+            <button class="btn btn-secondary" onclick="switchPhase(2)">← Volver a Fase 2</button>
+            <button id="btnGoPhase4" class="btn btn-primary" onclick="switchPhase(4)" disabled>Desbloquear Fase 4 (Dictamen) →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================================
+           FASE 4: DICTAMEN TÉCNICO Y SELLADO DIGITAL
+           ========================================================================= -->
+      <section id="phase4" class="phase-section">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2>✍️ Fase 4 · Dictamen Técnico de Recomendación y Sellado Criptográfico</h2>
+              <p>Emite el dictamen profesional del equipo como Analistas de Políticas Sociolaborales para el Consejo Económico y Social (CES) o la Comisión Europea.</p>
+            </div>
+            <span style="font-size: 0.8rem; background: var(--pino); color: #FFFFFF; padding: 4px 10px; border-radius: var(--radius-pill); font-weight: 700;">Entregable Oficial EPD 3</span>
+          </div>
+
+          <div class="callout">
+            <strong>Estructura obligatoria del Dictamen (250 – 350 palabras):</strong>
+            <br>1. <strong>Eje 1 · Diagnóstico Macro de la Balanza:</strong> Interpreta la asimetría activa/pasiva en España (más del 65-70% en subsidios) y su hipersensibilidad al ciclo frente a la estabilidad del modelo asignado (<span id="txtReportTargetCountry">Alemania</span>).
+            <br>2. <strong>Eje 2 · Descomposición del Gasto en PAE:</strong> Contrasta el sesgo español (ayudas a la contratación y autoempleo refugio) frente al modelo de intermediación/cualificación del país asignado.
+            <br>3. <strong>Eje 3 · Propuesta de Reforma Estructural:</strong> Plantea 2 medidas concretas para España fundamentadas en la evidencia empírica de la OCDE (ej. inversión en personal del SPE o programas de reciclaje formativo en ocupaciones deficitarias).
+          </div>
+
+          <!-- Editor con Anti-Paste y Contador en Tiempo Real -->
+          <div class="editor-box">
+            <div class="editor-toolbar">
+              <span style="font-weight: 600; font-size: 0.86rem; color: var(--pino);">Editor de Dictamen Técnico del Equipo</span>
+              <span id="wordCounter" class="word-counter">Palabras: 0 / 250 mín.</span>
+            </div>
+            <textarea id="reportText" class="report-textarea" placeholder="Redactad aquí el dictamen técnico del equipo fundamentado en los datos analizados... La plataforma audita la redacción e impide el pegado masivo externo."></textarea>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+            <button class="btn btn-secondary" onclick="switchPhase(3)">← Volver al Checkpoint</button>
+            <button id="btnSubmitReport" class="btn btn-coral" onclick="submitFinalDelivery()" disabled>
+              🔒 Sellar y Entregar Comprobante Oficial de Equipo (0,50 pts)
+            </button>
+          </div>
+
+          <!-- Recibo y Comprobante Oficial -->
+          <div id="receiptContainer" class="delivery-receipt">
+            <div class="receipt-header">
+              <div>
+                <h3 style="font-family: 'Outfit'; color: var(--pino); font-size: 1.25rem;">Comprobante Oficial de Entrega · EPD 3</h3>
+                <p style="font-size: 0.82rem; color: var(--text-muted);">Universidad Pablo de Olavide · Políticas Sociolaborales y de Empleo (Curso 2026-27)</p>
+              </div>
+              <div style="text-align: right;">
+                <span style="background: var(--success-bg); color: var(--success); padding: 4px 12px; border-radius: var(--radius-pill); font-weight: 700; font-size: 0.8rem;">ENTREGA DE EQUIPO VÁLIDA</span>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 16px; font-size: 0.88rem;">
+              <div><strong>Código de Equipo:</strong> <span id="recTeamCode" style="font-family: 'JetBrains Mono'; font-weight: 700; color: var(--pino);">-</span></div>
+              <div><strong>País de Contraste:</strong> <span id="recCountry">-</span></div>
+              <div><strong>Fecha y Hora:</strong> <span id="recTimestamp">-</span></div>
+              <div><strong>Extensión:</strong> <span id="recWords">-</span> palabras</div>
+            </div>
+
+            <div style="background: var(--menta-soft); padding: 12px 16px; border-radius: var(--radius-sm); margin-bottom: 16px; font-size: 0.86rem;">
+              <strong style="color: var(--pino);">Integrantes del Equipo (Máx. 3):</strong>
+              <div id="recTeamMembersList" style="margin-top: 4px; line-height: 1.5;">-</div>
+            </div>
+
+            <div style="margin-top: 14px;">
+              <div style="font-size: 0.8rem; font-weight: 600; color: var(--pino);">Sello Criptográfico SHA-256 (Trazabilidad Docente Anti-IA):</div>
+              <div id="recHash" class="hash-seal">HASH-PENDING</div>
+            </div>
+
+            <div style="margin-top: 16px; padding: 14px; background: var(--menta-soft); border-radius: var(--radius-sm); font-size: 0.84rem; line-height: 1.5;">
+              <strong>Dictamen Registrado:</strong>
+              <p id="recReportSnippet" style="margin-top: 6px; font-style: italic; color: var(--tinta);"></p>
+            </div>
+
+            <div style="margin-top: 20px; display: flex; gap: 12px; justify-content: flex-end;">
+              <button class="btn btn-primary" onclick="downloadReceiptPdf()">📥 Descargar Comprobante en PDF</button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+  </div>
 
   <!-- Pie de Página -->
   <footer class="main-footer">
@@ -1204,9 +1242,113 @@
     <p style="margin-top: 4px; opacity: 0.8;">Cátedra de Políticas Sociolaborales · Prof. Manuel Hidalgo Pérez · Datos oficiales OCDE (Labour Market Programmes 2004–2024)</p>
   </footer>
 
-  <!-- SCRIPT DE LÓGICA INTERACTIVA, DATOS OCDE Y VALIDADOR -->
+  <!-- SCRIPT DE LÓGICA INTERACTIVA, USUARIOS Y DATOS OCDE -->
   <script>
-    // 1. INCRUSTACIÓN DE LA BASE DE DATOS LIMPIA DE LA OCDE
+    // 1. BASE DE DATOS OFICIAL DE LA ASIGNATURA
+    const DB_USERS = {
+  "sagudel": "Sofía Agudo Delgado",
+  "laltucl": "Lucia Altamirano Ucles",
+  "capacam": "Cristina Aparicio Camacho",
+  "marerot": "Maria De Los Angeles Areal Rotllan",
+  "fartde": "Francisco Arteaga De Cozar",
+  "cbarmar": "Carolina Barrera Martín",
+  "fbenval": "Fernando Benito Valero",
+  "mbercam": "Miguel Bernabeu Campos",
+  "rbizrod": "Ruben Bizcocho Rodriguez",
+  "lcamtos": "Leire Camino Toscano",
+  "mcamfer": "Maria Campos Fernandez",
+  "hcarrod": "Hugo Caridad Rodriguez",
+  "ccesbru": "Claudia Cesar Bruque",
+  "ecidher": "Esther Cid Hermosín",
+  "mconmat": "Miguel Condeço Matusse",
+  "fcruore": "Fernando Cruz Orellana",
+  "mcarnie": "Marta Cárdenas Nieto",
+  "pdazsan": "Pilar Daza Sánchez",
+  "ldela": "Luis Miguel De La Rosa Bazan",
+  "fdelrio": "Felipe Del Rio Carbonell",
+  "rdomini": "Raquel Dominguez Iñiguez",
+  "mfernav": "Maria Fernandez Navajas",
+  "afersan": "Ana Rosa Fernandez Sanchez",
+  "pfermol": "Paula Fernández Molina",
+  "dfonaca": "Daniel Fontalba Acal",
+  "agarbra": "Adrian Garcia Bravo",
+  "lgarcan": "Lucia Garcia Cantero",
+  "pgarjim": "Paula Garcia Jimenez",
+  "lgarmej": "Loreto Garcia Mejias",
+  "lgilmar": "Laura Gil Martin",
+  "lgomgar": "Lucia Gomez Garcia",
+  "sgonpra": "Sandra Gonzalez Prados",
+  "mgonrod": "Maria Gonzalez Rodriguez",
+  "lgonsan": "Lucia Gonzalez Sanchez",
+  "cgonsua": "Clara Gonzalez Suarez",
+  "jguagal": "Jeronimo Guardiola Galan",
+  "igutdel": "Isabel Gutierrez-Trueba Delgado",
+  "jgombev": "Jesús Gómez Bevia",
+  "pgomcru": "Pablo Gómez Cruz",
+  "jherand": "Julia Hernandez Anduaga",
+  "ainibel": "Angeles Iñiguez Belloso",
+  "jjarher": "Julia Jardi Hermoso",
+  "clangar": "Carla Lanzarote Garcia",
+  "rlariba": "Raul Larios Ibañez",
+  "alecdie": "Alejandro Lechuga Die",
+  "slobter": "Sara Lobo Terron",
+  "ilopchi": "Irene López Chiara",
+  "cmargon": "Carlos Martin Gonzalez",
+  "mmarpin": "Marta Martin Piñon",
+  "amarrod": "Abril Martin Rodriguez",
+  "amarlop": "Ana Martinez Lopez",
+  "mmargav": "Manuel Martínez Gavira",
+  "mmilcac": "Margherita Millan Cacciatori",
+  "bmonruz": "Blanca Montero Ruz",
+  "amorber": "Alejandra Morales Berlanga",
+  "smordom": "Salvador Morales Dominguez",
+  "emoyagu": "Enrique Moya Aguera",
+  "jmoncam": "Jaime Moñino Campano",
+  "cnorpus": "Cristian Raul Noretu Puscas",
+  "cortpav": "Claudia Ortiz Pavo",
+  "epatmos": "Elena Paton Mosquera",
+  "ppercas": "Paula Perez Castellano",
+  "aperflo": "Alberto Perez Flores",
+  "apensan": "Ana Peña Sanchez",
+  "equican": "Estela Quinto Cano",
+  "mrabrod": "Maria Rabel Rodriguez",
+  "tramsan": "Tomás De Santa Maria Ramires Santana De Oliveira Viotty",
+  "erecpen": "Elena Reche Peña",
+  "mricgal": "Maria Dolores Rico Gallardo",
+  "jroarod": "Juan Roales Rodriguez",
+  "jrodpuy": "Julia Rodriguez Puyana",
+  "mrodvid": "Marta Rodriguez Vidal De Torres",
+  "frodgar": "Francisco Rodríguez Garcés",
+  "sromros": "Sara Roman Rosa",
+  "mrommat": "Maria De Gracia Romero Mateo",
+  "eromveg": "Emilio Romero Vega",
+  "mrueagu": "Marcos Rueda Aguayo",
+  "lsanrod": "Libertad Sanchez Rodriguez",
+  "esanley": "Elizabeth Sandoval Leyton",
+  "aseivar": "Antia Seixo Varela",
+  "jsevmor": "Julia Sevillano Morales",
+  "atrogar": "Ana Maria Troncoso Garcia",
+  "bvargue": "Barbara Vargas Guerrero",
+  "cvelgal": "Carmen Velázquez Galván",
+  "jvidgar": "Jesus Vidal Garrido",
+  "jmespben": "Juan Manuel Espejo Benítez",
+  "mhidper": "Manuel Alejandro Hidalgo Perez"
+};
+
+    // 2. ALIAS DE USUARIO
+    const USER_ALIASES = {
+      "cmargon6": "cmargon", "amarrod9": "amarrod", "amorber1": "amorber",
+      "lgarcan1": "lgarcan", "lgilmar1": "lgilmar", "lgonsan5": "lgonsan",
+      "mmargav1": "mmargav", "mmarpin3": "mmarpin", "crnorpus": "cnorpus",
+      "apensan1": "apensan", "aperflo2": "aperflo", "tsramde": "tramsan",
+      "mdricgal": "mricgal", "frodgar3": "frodgar", "mrodvid1": "mrodvid",
+      "mgrommat": "mrommat", "lsanrod2": "lsanrod", "resanley": "esanley",
+      "amtrogar": "atrogar", "cvelgal2": "cvelgal", "maarerot": "marerot",
+      "lmdebaz": "ldela", "fdelcar": "fdelrio", "mfernav3": "mfernav",
+      "arfersan": "afersan"
+    };
+
+    // 3. BASE DE DATOS OCDE
     const OECD_DATA = {
   "metadata": {
     "fuente": "OCDE - Labour Market Programmes (LMP) Database",
@@ -5239,13 +5381,17 @@
   }
 };
 
-    // Estado del estudiante y caso individual
-    let currentStudent = {
-      acronym: '',
-      name: '',
-      stationCode: '',
-      assignedCountryCode: 'DEU',
-      assignedCountryName: 'Alemania',
+    // Estado del Equipo
+    let currentTeam = {
+      leaderUsername: "",
+      leaderFullName: "",
+      member2Username: "",
+      member2FullName: "",
+      member3Username: "",
+      member3FullName: "",
+      teamCode: "",
+      assignedCountryCode: "DEU",
+      assignedCountryName: "Alemania",
       targetYear: 2022
     };
 
@@ -5253,12 +5399,10 @@
     let q2Valid = false;
     let q3Valid = false;
 
-    // Charts references
     let macroChartInstance = null;
     let radarChartInstance = null;
     let barsChartInstance = null;
 
-    // Países elegibles para asignación pseudoaleatoria por acrónimo
     const ASSIGNABLE_COUNTRIES = [
       { code: 'DEU', name: 'Alemania' },
       { code: 'FRA', name: 'Francia' },
@@ -5269,27 +5413,16 @@
 
     // Inicialización al cargar la página
     window.addEventListener('DOMContentLoaded', () => {
-      // Poblar selector de años en Fase 1
-      const selYear = document.getElementById('selYearFocus');
-      const years = Object.keys(OECD_DATA.paises['ESP'].series_temporales).sort((a,b) => b - a);
-      years.forEach(y => {
-        const opt = document.createElement('option');
-        opt.value = y;
-        opt.textContent = y;
-        if (y === '2022') opt.selected = true;
-        selYear.appendChild(opt);
-      });
+      // Permitir login con tecla Enter
+      const acrInput = document.getElementById('inputAcronym');
+      if (acrInput) {
+        acrInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') verifyTeamLeader();
+        });
+      }
 
-      // Escuchador del botón login
-      document.getElementById('btnLogin').addEventListener('click', handleLogin);
-      document.getElementById('acronymInput').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') handleLogin();
-      });
-
-      // Inicializar contador de palabras y trampa de pegado masivo
       setupEditorGuard();
 
-      // Render KaTeX inicial si está disponible
       if (window.renderMathInElement) {
         renderMathInElement(document.body, {
           delimiters: [
@@ -5300,58 +5433,151 @@
       }
     });
 
-    // Función de Login / Asignación de Caso
-    function handleLogin() {
-      const acronym = document.getElementById('acronymInput').value.trim().toLowerCase();
-      const name = document.getElementById('studentNameInput').value.trim();
+    // Poblar desplegables de compañeros
+    function populateStudentSelects(leaderUser) {
+      const s2 = document.getElementById('selectStudent2');
+      const s3 = document.getElementById('selectStudent3');
+      if (!s2 || !s3) return;
 
-      if (!acronym) {
-        alert('Por favor, introduce tu acrónimo oficial de la UPO.');
+      s2.innerHTML = '<option value="">-- Seleccionar Compañero/a 2 (Opcional) --</option>';
+      s3.innerHTML = '<option value="">-- Seleccionar Compañero/a 3 (Opcional) --</option>';
+
+      const sortedUsers = Object.keys(DB_USERS).sort((a,b) => DB_USERS[a].localeCompare(DB_USERS[b]));
+
+      sortedUsers.forEach(u => {
+        if (u !== leaderUser) {
+          const opt2 = document.createElement('option');
+          opt2.value = u;
+          opt2.textContent = `${DB_USERS[u]} (${u})`;
+          s2.appendChild(opt2);
+
+          const opt3 = document.createElement('option');
+          opt3.value = u;
+          opt3.textContent = `${DB_USERS[u]} (${u})`;
+          s3.appendChild(opt3);
+        }
+      });
+    }
+
+    // Paso 1: Verificar al Responsable del Equipo
+    function verifyTeamLeader() {
+      let raw = document.getElementById('inputAcronym').value.trim().toLowerCase();
+      if (!raw) {
+        alert("Por favor, introduce tu acrónimo oficial de la UPO.");
         return;
       }
-      if (!name) {
-        alert('Por favor, indica tu nombre completo.');
+
+      if (USER_ALIASES[raw]) {
+        raw = USER_ALIASES[raw];
+      }
+
+      if (!DB_USERS[raw]) {
+        alert(`⚠️ El acrónimo "${raw}" no figura en la lista oficial de PSLL.\n\nVerifica que está bien escrito (sin @alu.upo.es). Si eres alumno de intercambio o tienes incidencia de matrícula, consúltalo con el profesor.`);
         return;
       }
 
-      // Generación determinista del código y país basado en el hash del acrónimo
+      currentTeam.leaderUsername = raw;
+      currentTeam.leaderFullName = DB_USERS[raw];
+
+      const banner = document.getElementById('leaderWelcomeBanner');
+      const nameEl = document.getElementById('leaderWelcomeName');
+      const inputGrp = document.getElementById('groupAcronymInput');
+      if (banner && nameEl) {
+        nameEl.textContent = `${currentTeam.leaderFullName} (${raw})`;
+        banner.style.display = 'block';
+        if (inputGrp) inputGrp.style.display = 'none';
+      }
+
+      populateStudentSelects(raw);
+      document.getElementById('teamMembersArea').style.display = 'block';
+      document.getElementById('btnVerifyLeader').style.display = 'none';
+      document.getElementById('btnStartSession').style.display = 'inline-flex';
+    }
+
+    // Generador determinista del código de equipo
+    function generateTeamCode(u1, u2, u3) {
+      const salt = "PSLL_EPD3_2026_27_UPO";
+      const str = (u1 || '') + (u2 || '') + (u3 || '') + salt;
       let hash = 0;
-      for (let i = 0; i < acronym.length; i++) {
-        hash = (hash << 5) - hash + acronym.charCodeAt(i);
+      for (let i = 0; i < str.length; i++) {
+        hash = (hash << 5) - hash + str.charCodeAt(i);
         hash |= 0;
       }
-      const absHash = Math.abs(hash);
-      const stationNum = 1000 + (absHash % 9000);
-      const countryIdx = absHash % ASSIGNABLE_COUNTRIES.length;
+      const num = Math.abs(hash) % 9000 + 1000;
+      return `PSLL-EPD3-${num}`;
+    }
+
+    // Paso 2: Lanzar el Laboratorio
+    function launchSession() {
+      const s2 = document.getElementById('selectStudent2').value;
+      const s3 = document.getElementById('selectStudent3').value;
+
+      currentTeam.member2Username = s2 || "";
+      currentTeam.member2FullName = s2 ? DB_USERS[s2] : "";
+      currentTeam.member3Username = s3 || "";
+      currentTeam.member3FullName = s3 ? DB_USERS[s3] : "";
+
+      currentTeam.teamCode = generateTeamCode(
+        currentTeam.leaderUsername,
+        currentTeam.member2Username,
+        currentTeam.member3Username
+      );
+
+      // Asignar país determinista por código de equipo
+      let hash = 0;
+      for (let i = 0; i < currentTeam.teamCode.length; i++) {
+        hash = (hash << 5) - hash + currentTeam.teamCode.charCodeAt(i);
+        hash |= 0;
+      }
+      const countryIdx = Math.abs(hash) % ASSIGNABLE_COUNTRIES.length;
       const assigned = ASSIGNABLE_COUNTRIES[countryIdx];
+      currentTeam.assignedCountryCode = assigned.code;
+      currentTeam.assignedCountryName = assigned.name;
 
-      currentStudent.acronym = acronym;
-      currentStudent.name = name;
-      currentStudent.stationCode = `PSLL-EPD3-${stationNum}`;
-      currentStudent.assignedCountryCode = assigned.code;
-      currentStudent.assignedCountryName = assigned.name;
-
-      // Actualizar interfaz
-      document.getElementById('dispStationCode').textContent = currentStudent.stationCode;
+      // Actualizar cabecera sticky
+      document.getElementById('dispStationCode').textContent = currentTeam.teamCode;
       document.getElementById('dispAssignedCountry').textContent = assigned.name;
+      document.getElementById('boxTeamCode').style.display = 'flex';
+      document.getElementById('boxCountry').style.display = 'flex';
+
+      // Configurar selectores de país en gráficos
       document.getElementById('selCountryMacro').value = assigned.code;
       document.getElementById('selCountryRadar').value = assigned.code;
       document.getElementById('chkTargetCountryName').textContent = assigned.name;
       document.getElementById('txtReportTargetCountry').textContent = assigned.name;
 
-      // Actualizar textos de checkpoints según país
       updateCheckpointLabels();
 
-      // Ocultar modal
-      document.getElementById('loginModal').style.display = 'none';
+      // Ocultar pantalla de acceso y mostrar espacio de trabajo
+      document.getElementById('authSection').style.display = 'none';
+      document.getElementById('workspaceSection').style.display = 'block';
 
-      // Renderizar gráficos
-      updateMacroChart();
-      updateRadarChart();
-      updateMetricsGrid();
+      // Inicializar selector de años
+      initYearsSelect();
+
+      // Renderizar gráficos con el DOM ya visible
+      setTimeout(() => {
+        updateMacroChart();
+        updateRadarChart();
+        updateMetricsGrid();
+      }, 50);
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Navegación entre pestañas de fases
+    function initYearsSelect() {
+      const selYear = document.getElementById('selYearFocus');
+      if (selYear.options.length > 0) return;
+      const years = Object.keys(OECD_DATA.paises['ESP'].series_temporales).sort((a,b) => b - a);
+      years.forEach(y => {
+        const opt = document.createElement('option');
+        opt.value = y;
+        opt.textContent = y;
+        if (y === '2022') opt.selected = true;
+        selYear.appendChild(opt);
+      });
+    }
+
     function switchPhase(phaseNum) {
       for (let i = 1; i <= 4; i++) {
         document.getElementById(`phase${i}`).classList.remove('active');
@@ -5372,7 +5598,7 @@
     // FASE 1: LÓGICA DE GRÁFICOS MACRO Y MÉTRICAS
     // =========================================================================
     function updateMetricsGrid() {
-      const year = document.getElementById('selYearFocus').value;
+      const year = document.getElementById('selYearFocus').value || '2022';
       const compCode = document.getElementById('selCountryMacro').value;
 
       const espData = OECD_DATA.paises['ESP'].series_temporales[year];
@@ -5408,7 +5634,6 @@
       let datasets = [];
 
       if (metric === 'levels') {
-        // PAE y PS en niveles (% PIB)
         datasets = [
           {
             label: 'España: Políticas Activas (PAE)',
@@ -5446,7 +5671,6 @@
           }
         ];
       } else if (metric === 'share') {
-        // Cuota de Políticas Pasivas sobre el Gasto Total (%)
         datasets = [
           {
             label: 'España: % Cuota Pasivas sobre Total',
@@ -5467,7 +5691,6 @@
           }
         ];
       } else {
-        // Gasto Total en % del PIB
         datasets = [
           {
             label: 'España: Gasto Total en Políticas de Empleo (% PIB)',
@@ -5654,14 +5877,12 @@
     // FASE 3: LÓGICA DEL CHECKPOINT CUANTITATIVO ANTI-IA
     // =========================================================================
     function updateCheckpointLabels() {
-      const cName = currentStudent.assignedCountryName;
+      const cName = currentTeam.assignedCountryName;
       document.getElementById('lblQ2').textContent = `2. [${cName} · 2022] ¿Qué porcentaje del gasto total de Políticas Activas (PAE) se dedica a Servicios Públicos de Empleo e Intermediación (Categoría 1)?`;
       document.getElementById('lblQ3').textContent = `3. [España vs. ${cName} · 2022] ¿Cuántas veces es mayor el porcentaje relativo dedicado a Autoempleo (Categoría 6) en España que en ${cName}?`;
     }
 
     function validateQ1() {
-      // Cuota de Políticas Pasivas en España 2022
-      // LMP_80_90 = 1.520, _T = 2.265 -> 1.520 / 2.265 * 100 = 67.11%
       const espData = OECD_DATA.paises['ESP'].series_temporales['2022'];
       const targetVal = espData.balanza.cuota_ps_pct; // ~67.1
 
@@ -5685,7 +5906,7 @@
     }
 
     function validateQ2() {
-      const cCode = currentStudent.assignedCountryCode;
+      const cCode = currentTeam.assignedCountryCode;
       const cData = OECD_DATA.paises[cCode].series_temporales['2022'];
       const targetVal = cData.desglose_pae_relativo_pct['LMP_10'] || 0;
 
@@ -5703,13 +5924,13 @@
         q2Valid = false;
         inp.className = 'check-input incorrect';
         feed.className = 'check-feedback bad';
-        feed.textContent = `✗ Incorrecto. Divide LMP 10 entre LMP 10T70 para ${currentStudent.assignedCountryName}.`;
+        feed.textContent = `✗ Incorrecto. Divide LMP 10 entre LMP 10T70 para ${currentTeam.assignedCountryName}.`;
       }
       checkAllUnlocked();
     }
 
     function validateQ3() {
-      const cCode = currentStudent.assignedCountryCode;
+      const cCode = currentTeam.assignedCountryCode;
       const espPaeStart = OECD_DATA.paises['ESP'].series_temporales['2022'].desglose_pae_relativo_pct['LMP_70'] || 17.8;
       const compPaeStart = OECD_DATA.paises[cCode].series_temporales['2022'].desglose_pae_relativo_pct['LMP_70'] || 0.1;
       
@@ -5720,7 +5941,6 @@
       const feed = document.getElementById('feedQ3');
       const inp = document.getElementById('ansQ3');
 
-      // Si en Dinamarca es 0, cualquier número > 10 o mención es válida
       const isOk = (compPaeStart < 0.2 && inputVal > 10) || (!isNaN(inputVal) && Math.abs(inputVal - targetRatio) <= 1.2);
 
       if (isOk) {
@@ -5732,7 +5952,7 @@
         q3Valid = false;
         inp.className = 'check-input incorrect';
         feed.className = 'check-feedback bad';
-        feed.textContent = `✗ Revisa la cuota de autoempleo de España (${espPaeStart.toFixed(1)}%) vs ${currentStudent.assignedCountryName} (${compPaeStart.toFixed(1)}%).`;
+        feed.textContent = `✗ Revisa la cuota de autoempleo de España (${espPaeStart.toFixed(1)}%) vs ${currentTeam.assignedCountryName} (${compPaeStart.toFixed(1)}%).`;
       }
       checkAllUnlocked();
     }
@@ -5746,21 +5966,18 @@
     }
 
     // =========================================================================
-    // FASE 4: EDITOR ANTI-PASTE, CRIPTOGRAFÍA Y SELLADO
+    // FASE 4: EDITOR ANTI-PASTE, CRIPTOGRAFÍA Y SELLADO DE EQUIPO
     // =========================================================================
     function setupEditorGuard() {
       const textarea = document.getElementById('reportText');
       const counter = document.getElementById('wordCounter');
       const submitBtn = document.getElementById('btnSubmitReport');
 
-      // Trampa de pegado masivo (Anti-IA clipboard trap)
       textarea.addEventListener('paste', (e) => {
         const pasteData = (e.clipboardData || window.clipboardData).getData('text');
         if (pasteData.length > 180) {
           e.preventDefault();
-          alert('⚠️ Control de Integridad Académica UPO:
-
-Se ha detectado un intento de pegado masivo de texto. Esta actividad exige redacción manual y progresiva en el aula. Por favor, escribe tus conclusiones directamente con el teclado.');
+          alert('⚠️ Control de Integridad Académica UPO:\n\nSe ha detectado un intento de pegado masivo de texto. Esta actividad exige redacción continua y participativa en el aula. Por favor, escribid vuestras conclusiones directamente con el teclado.');
         }
       });
 
@@ -5779,7 +5996,6 @@ Se ha detectado un intento de pegado masivo de texto. Esta actividad exige redac
       });
     }
 
-    // Generador de Hash SHA-256 en navegador
     async function sha256(message) {
       const msgBuffer = new TextEncoder().encode(message);
       const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
@@ -5798,25 +6014,31 @@ Se ha detectado un intento de pegado masivo de texto. Esta actividad exige redac
 
       const now = new Date();
       const timeStr = now.toLocaleDateString('es-ES') + ' ' + now.toLocaleTimeString('es-ES');
-      const payloadToHash = `${currentStudent.stationCode}|${currentStudent.acronym}|${currentStudent.assignedCountryCode}|${words}|${report}|${timeStr}`;
+      const payloadToHash = `${currentTeam.teamCode}|${currentTeam.leaderUsername}|${currentTeam.member2Username}|${currentTeam.member3Username}|${currentTeam.assignedCountryCode}|${words}|${report}|${timeStr}`;
       
       const sealHash = await sha256(payloadToHash);
 
-      // Mostrar comprobante
-      document.getElementById('recStudentName').textContent = currentStudent.name;
-      document.getElementById('recAcronym').textContent = currentStudent.acronym;
-      document.getElementById('recStationCode').textContent = currentStudent.stationCode;
-      document.getElementById('recCountry').textContent = currentStudent.assignedCountryName;
+      // Componer listado de miembros para el recibo
+      let membersHtml = `1. <strong>${currentTeam.leaderFullName}</strong> (${currentTeam.leaderUsername}) - <em>Responsable</em><br>`;
+      if (currentTeam.member2Username) {
+        membersHtml += `2. <strong>${currentTeam.member2FullName}</strong> (${currentTeam.member2Username})<br>`;
+      }
+      if (currentTeam.member3Username) {
+        membersHtml += `3. <strong>${currentTeam.member3FullName}</strong> (${currentTeam.member3Username})<br>`;
+      }
+
+      document.getElementById('recTeamCode').textContent = currentTeam.teamCode;
+      document.getElementById('recCountry').textContent = currentTeam.assignedCountryName;
       document.getElementById('recTimestamp').textContent = timeStr;
       document.getElementById('recWords').textContent = words;
+      document.getElementById('recTeamMembersList').innerHTML = membersHtml;
       document.getElementById('recHash').textContent = sealHash;
-      document.getElementById('recReportSnippet').textContent = report.length > 300 ? report.substring(0, 300) + '...' : report;
+      document.getElementById('recReportSnippet').textContent = report.length > 320 ? report.substring(0, 320) + '...' : report;
 
       document.getElementById('receiptContainer').classList.add('active');
       document.getElementById('navPhase4').classList.add('completed');
       document.getElementById('btnSubmitReport').style.display = 'none';
 
-      // Scroll hacia el comprobante
       document.getElementById('receiptContainer').scrollIntoView({ behavior: 'smooth' });
     }
 
@@ -5824,7 +6046,7 @@ Se ha detectado un intento de pegado masivo de texto. Esta actividad exige redac
       const element = document.getElementById('receiptContainer');
       const opt = {
         margin: [10, 10, 10, 10],
-        filename: `Comprobante_EPD3_${currentStudent.acronym}_${currentStudent.stationCode}.pdf`,
+        filename: `Comprobante_EPD3_Equipo_${currentTeam.teamCode}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2, useCORS: true },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
