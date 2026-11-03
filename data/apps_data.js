@@ -484,6 +484,20 @@ window.DOCENCIA_APPS = {
         url: "colocacion_adecuada.html"
       },
       {
+        id: "psll_imv_sim",
+        interactive: true,
+        type: "simulator",
+        category: "simuladores",
+        icon: "🏛️",
+        iconBg: "#FEF2F2",
+        iconColor: "#DC2626",
+        title: "¿Quieres recibir la ayuda del IMV?",
+        desc: "Laberinto burocrático y legal del Ingreso Mínimo Vital (Ley 19/2021): experimenta en primera persona por qué más del 70% de las solicitudes son rechazadas.",
+        meta: "Simulador interactivo · 8 min",
+        session: "Protección Social",
+        url: "simulador_imv.html"
+      },
+      {
         id: "psll_caso_despido",
         interactive: false,
         type: "simulator",

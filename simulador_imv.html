@@ -1,0 +1,1924 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>¿Quieres recibir la ayuda del IMV? · Laberinto Burocrático | PSLL UPO</title>
+<link rel="stylesheet" href="fonts.css">
+<link rel="icon" href="assets/isotipo_psll_upo.png" type="image/png">
+
+<style>
+  :root {
+    --psll-pine: #113927;
+    --psll-pine-dark: #0a2418;
+    --psll-sage: #76927A;
+    --psll-coral: #E98F71;
+    --psll-coral-dark: #c46344;
+    --psll-mint: #F4F8F5;
+    --psll-mint-soft: #EAF3ED;
+    --psll-ink: #2F3A30;
+    --psll-gray-bg: #F8FAF9;
+    --psll-border: #DDE7E1;
+    --psll-red-denied: #C53030;
+    --psll-red-soft: #FDE8E8;
+    --psll-green-approved: #15803D;
+    --psll-green-soft: #DCFCE7;
+    
+    --bg-card: #FFFFFF;
+    --shadow-sm: 0 4px 12px rgba(17, 57, 39, 0.06);
+    --shadow-md: 0 10px 30px rgba(17, 57, 39, 0.10);
+    --shadow-lg: 0 20px 50px rgba(17, 57, 39, 0.16);
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-pill: 999px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, #113927 0%, #1A4D35 50%, #285F43 100%);
+    color: var(--psll-ink);
+    padding: clamp(12px, 3vw, 28px) clamp(8px, 2vw, 16px);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .app-container {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    max-width: 960px;
+    margin: 0 auto;
+    padding: clamp(20px, 4vw, 36px);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Cabecera Principal */
+  .brand-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--psll-border);
+    padding-bottom: 16px;
+    margin-bottom: 22px;
+    gap: 12px;
+  }
+
+  .brand-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .brand-logo-img {
+    height: 38px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .brand-tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--psll-pine);
+    background: var(--psll-mint);
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--psll-border);
+  }
+
+  .hero-section {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .badge-law {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    background: rgba(233, 143, 113, 0.16);
+    color: var(--psll-coral-dark);
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
+    margin-bottom: 12px;
+    border: 1px solid rgba(233, 143, 113, 0.35);
+  }
+
+  h1.app-title {
+    font-family: 'Outfit', sans-serif;
+    color: var(--psll-pine);
+    font-size: clamp(1.7rem, 4.5vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    margin-bottom: 10px;
+  }
+
+  p.app-subtitle {
+    color: var(--psll-sage);
+    font-size: clamp(0.92rem, 2.5vw, 1.05rem);
+    max-width: 680px;
+    margin: 0 auto;
+    line-height: 1.45;
+  }
+
+  /* Pestanyas de Navegacion */
+  .nav-tabs {
+    display: flex;
+    gap: 6px;
+    background: var(--psll-mint);
+    padding: 6px;
+    border-radius: 14px;
+    margin-bottom: 24px;
+    border: 1px solid var(--psll-border);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab-btn {
+    flex: 1;
+    min-width: 140px;
+    padding: 10px 14px;
+    border: none;
+    background: transparent;
+    color: var(--psll-pine);
+    font-size: 0.88rem;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+
+  .tab-btn:hover {
+    background: rgba(17, 57, 39, 0.05);
+  }
+
+  .tab-btn.active {
+    background: var(--psll-pine);
+    color: white;
+    box-shadow: 0 4px 14px rgba(17, 57, 39, 0.25);
+  }
+
+  .tab-content {
+    display: none;
+  }
+
+  .tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ============================================================
+     TAB 1: SIMULADOR PASO A PASO (EL LABERINTO DEL ESTUDIANTE)
+     ============================================================ */
+  .sim-stepper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: var(--psll-gray-bg);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--psll-border);
+  }
+
+  .step-indicator {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--psll-sage);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .step-progress-dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .dot {
+    width: 28px;
+    height: 8px;
+    border-radius: var(--radius-pill);
+    background: var(--psll-border);
+    transition: all 0.3s ease;
+  }
+
+  .dot.active {
+    background: var(--psll-coral);
+    width: 38px;
+  }
+
+  .dot.completed {
+    background: var(--psll-pine);
+  }
+
+  .step-card {
+    background: #FFFFFF;
+    border: 1.5px solid var(--psll-border);
+    border-radius: var(--radius-md);
+    padding: clamp(16px, 3vw, 24px);
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .step-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .step-icon-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--psll-mint);
+    border: 1px solid var(--psll-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    flex-shrink: 0;
+  }
+
+  .step-title-box h3 {
+    font-family: 'Outfit', sans-serif;
+    color: var(--psll-pine);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .step-title-box p {
+    font-size: 0.88rem;
+    color: var(--psll-sage);
+  }
+
+  .step-law-ref {
+    display: inline-block;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: #4B5563;
+    background: #EEF2F6;
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-top: 4px;
+  }
+
+  /* Opciones de Respuesta / Radio Cards */
+  .options-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .option-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 1.5px solid var(--psll-border);
+    border-radius: 12px;
+    background: #FFFFFF;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .option-card:hover {
+    border-color: var(--psll-sage);
+    background: var(--psll-mint);
+  }
+
+  .option-card.selected {
+    border-color: var(--psll-pine);
+    background: var(--psll-mint-soft);
+    box-shadow: 0 0 0 1px var(--psll-pine);
+  }
+
+  .option-radio {
+    margin-top: 3px;
+    accent-color: var(--psll-pine);
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+  }
+
+  .option-text h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--psll-pine);
+    margin-bottom: 3px;
+  }
+
+  .option-text p {
+    font-size: 0.83rem;
+    color: #4B5563;
+    line-height: 1.35;
+  }
+
+  /* Alerta Dinámica de Trampa Legal */
+  .trap-alert {
+    display: none;
+    background: var(--psll-red-soft);
+    border: 1.5px solid #F87171;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    animation: fadeIn 0.3s;
+  }
+
+  .trap-alert.visible {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .trap-alert-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+
+  .trap-alert-text h4 {
+    color: var(--psll-red-denied);
+    font-size: 0.92rem;
+    font-weight: 800;
+    margin-bottom: 3px;
+  }
+
+  .trap-alert-text p {
+    color: #7F1D1D;
+    font-size: 0.83rem;
+    line-height: 1.4;
+  }
+
+  /* Barra de Navegación de Pasos */
+  .stepper-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .btn-sim-secondary {
+    padding: 10px 18px;
+    background: #FFFFFF;
+    border: 1.5px solid var(--psll-border);
+    border-radius: var(--radius-pill);
+    color: var(--psll-pine);
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-sim-secondary:hover {
+    background: var(--psll-gray-bg);
+  }
+
+  .btn-sim-primary {
+    padding: 10px 24px;
+    background: var(--psll-pine);
+    border: none;
+    border-radius: var(--radius-pill);
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 0.92rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+  }
+
+  .btn-sim-primary:hover {
+    background: var(--psll-pine-dark);
+    box-shadow: 0 4px 12px rgba(17, 57, 39, 0.3);
+  }
+
+  .btn-sim-primary:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  /* ============================================================
+     PANTALLA DE RESOLUCIÓN OFICIAL (CARTA DENEGATORIA DEL INSS)
+     ============================================================ */
+  .official-letter {
+    display: none;
+    background: #FFFFFF;
+    border: 2px solid #CBD5E1;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    padding: clamp(20px, 4vw, 32px);
+    margin-top: 10px;
+    position: relative;
+  }
+
+  .official-letter.visible {
+    display: block;
+    animation: fadeIn 0.4s ease-out;
+  }
+
+  .letter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2px solid #334155;
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+    gap: 16px;
+  }
+
+  .inss-stamp-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .inss-emblem {
+    width: 44px;
+    height: 44px;
+    background: #0B1C36;
+    color: #FFFFFF;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 0.95rem;
+    letter-spacing: -0.5px;
+  }
+
+  .inss-text-meta h4 {
+    font-size: 0.82rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #0B1C36;
+    line-height: 1.2;
+  }
+
+  .inss-text-meta p {
+    font-size: 0.72rem;
+    color: #64748B;
+  }
+
+  .letter-resolution-tag {
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-weight: 900;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .res-denied {
+    background: var(--psll-red-soft);
+    color: var(--psll-red-denied);
+    border: 1.5px solid #FCA5A5;
+  }
+
+  .res-approved {
+    background: var(--psll-green-soft);
+    color: var(--psll-green-approved);
+    border: 1.5px solid #86EFAC;
+  }
+
+  .letter-body {
+    font-family: 'Inter', serif;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: #1E293B;
+  }
+
+  .letter-body p {
+    margin-bottom: 12px;
+  }
+
+  .reasons-denied-list {
+    background: #FFF5F5;
+    border: 1px solid #FECACA;
+    border-left: 4px solid var(--psll-red-denied);
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+  }
+
+  .reasons-denied-list h4 {
+    color: var(--psll-red-denied);
+    font-size: 0.92rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+
+  .reasons-denied-list ul {
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .reasons-denied-list li {
+    font-size: 0.85rem;
+    color: #7F1D1D;
+  }
+
+  .letter-footer-meta {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px dashed #CBD5E1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: #64748B;
+  }
+
+  .stamp-watermark {
+    border: 2px solid #DC2626;
+    color: #DC2626;
+    font-weight: 900;
+    padding: 4px 12px;
+    border-radius: 6px;
+    transform: rotate(-6deg);
+    display: inline-block;
+    letter-spacing: 0.1em;
+  }
+
+  /* ============================================================
+     TAB 2: 5 CASOS REALES DEL ALUMNADO Y LA SOCIEDAD
+     ============================================================ */
+  .cases-selector-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .case-avatar-card {
+    background: #FFFFFF;
+    border: 1.5px solid var(--psll-border);
+    border-radius: var(--radius-md);
+    padding: 14px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .case-avatar-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--psll-sage);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .case-avatar-card.active {
+    border-color: var(--psll-pine);
+    background: var(--psll-mint-soft);
+    box-shadow: 0 0 0 1.5px var(--psll-pine);
+  }
+
+  .case-emoji {
+    font-size: 2rem;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .case-name {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    color: var(--psll-pine);
+    font-size: 0.95rem;
+    margin-bottom: 2px;
+  }
+
+  .case-tag {
+    font-size: 0.72rem;
+    color: var(--psll-sage);
+    font-weight: 600;
+  }
+
+  .case-detail-box {
+    background: #FFFFFF;
+    border: 1.5px solid var(--psll-border);
+    border-radius: var(--radius-md);
+    padding: clamp(18px, 3vw, 28px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .case-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    gap: 12px;
+  }
+
+  .case-headline h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.3rem;
+    color: var(--psll-pine);
+    margin-bottom: 4px;
+  }
+
+  .case-headline p {
+    font-size: 0.88rem;
+    color: var(--psll-sage);
+  }
+
+  .case-status-badge {
+    padding: 6px 12px;
+    border-radius: var(--radius-pill);
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+  }
+
+  .badge-denied-case {
+    background: var(--psll-red-soft);
+    color: var(--psll-red-denied);
+    border: 1px solid #FCA5A5;
+  }
+
+  .case-story-block {
+    background: var(--psll-gray-bg);
+    border-left: 3px solid var(--psll-pine);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 16px;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    margin-bottom: 20px;
+    color: #374151;
+  }
+
+  .case-legal-trap {
+    background: #FFF7ED;
+    border: 1.5px solid #FED7AA;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+
+  .case-legal-trap h4 {
+    color: #C2410C;
+    font-size: 0.92rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .case-legal-trap p {
+    font-size: 0.85rem;
+    color: #7C2D12;
+    line-height: 1.4;
+  }
+
+  .case-economic-analysis {
+    background: var(--psll-mint);
+    border: 1.5px solid #C2D8C9;
+    border-radius: 12px;
+    padding: 16px;
+  }
+
+  .case-economic-analysis h4 {
+    color: var(--psll-pine);
+    font-size: 0.92rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .case-economic-analysis p {
+    font-size: 0.85rem;
+    color: var(--psll-ink);
+    line-height: 1.4;
+  }
+
+  /* ============================================================
+     TAB 3: EL LABERINTO EN CIFRAS (DATOS OFICIALES AIReF & INSS)
+     ============================================================ */
+  .metrics-grid-four {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .metric-card-stat {
+    background: #FFFFFF;
+    border: 1.5px solid var(--psll-border);
+    border-radius: var(--radius-md);
+    padding: 18px 16px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .metric-number-big {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .color-red { color: var(--psll-red-denied); }
+  .color-coral { color: var(--psll-coral-dark); }
+  .color-pine { color: var(--psll-pine); }
+  .color-sage { color: var(--psll-sage); }
+
+  .metric-label-stat {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--psll-ink);
+    margin-bottom: 4px;
+  }
+
+  .metric-sub-stat {
+    font-size: 0.73rem;
+    color: #6B7280;
+    line-height: 1.25;
+  }
+
+  .data-bars-card {
+    background: #FFFFFF;
+    border: 1.5px solid var(--psll-border);
+    border-radius: var(--radius-md);
+    padding: clamp(16px, 3vw, 24px);
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .data-bars-card h3 {
+    font-family: 'Outfit', sans-serif;
+    color: var(--psll-pine);
+    font-size: 1.15rem;
+    margin-bottom: 4px;
+  }
+
+  .data-bars-card p.subtitle-bar {
+    font-size: 0.82rem;
+    color: var(--psll-sage);
+    margin-bottom: 18px;
+  }
+
+  .bar-row {
+    margin-bottom: 14px;
+  }
+
+  .bar-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 4px;
+  }
+
+  .bar-track {
+    height: 12px;
+    background: #F1F5F9;
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: var(--radius-pill);
+    transition: width 0.6s ease;
+  }
+
+  .fill-1 { width: 36%; background: var(--psll-red-denied); }
+  .fill-2 { width: 26%; background: var(--psll-coral); }
+  .fill-3 { width: 16%; background: #F59E0B; }
+  .fill-4 { width: 12%; background: var(--psll-sage); }
+  .fill-5 { width: 10%; background: #64748B; }
+
+  /* ============================================================
+     TAB 4: GUÍA RÁPIDA DE REQUISITOS (LEY 19/2021)
+     ============================================================ */
+  .law-articles-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .law-card {
+    background: #FFFFFF;
+    border: 1.5px solid var(--psll-border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    transition: all 0.2s;
+  }
+
+  .law-card:hover {
+    border-color: var(--psll-sage);
+  }
+
+  .law-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .law-art-badge {
+    font-size: 0.74rem;
+    font-weight: 800;
+    color: var(--psll-pine);
+    background: var(--psll-mint);
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid #C2D8C9;
+  }
+
+  .law-card h4 {
+    font-family: 'Outfit', sans-serif;
+    color: var(--psll-pine);
+    font-size: 1.02rem;
+    margin-bottom: 6px;
+  }
+
+  .law-card p {
+    font-size: 0.85rem;
+    color: #4B5563;
+    line-height: 1.45;
+  }
+
+  .law-trap-note {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #FFFBEB;
+    border-left: 3px solid #D97706;
+    font-size: 0.8rem;
+    color: #92400E;
+    border-radius: 0 6px 6px 0;
+  }
+
+  /* Footer Docente */
+  .footer-academic {
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid var(--psll-border);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.78rem;
+    color: var(--psll-sage);
+  }
+
+  .footer-academic strong {
+    color: var(--psll-pine);
+  }
+
+  @media (max-width: 600px) {
+    .nav-tabs {
+      justify-content: flex-start;
+    }
+    .brand-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  
+  <!-- Cabecera Institucional PSLL -->
+  <header class="brand-header">
+    <div class="brand-left">
+      <img src="assets/logo_psll_upo.png" alt="PSLL Logo" class="brand-logo-img" onerror="this.src='assets/isotipo_psll_upo.png'">
+      <span class="brand-tag">Políticas Sociolaborales · UPO</span>
+    </div>
+    <div class="brand-right">
+      <span class="badge-law">⚖️ Ley 19/2021 de 20 de diciembre</span>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <h1 class="app-title">¿Quieres recibir la ayuda del IMV?</h1>
+    <p class="app-subtitle">
+      Descubre en primera persona la carrera de obstáculos burocrática, los requisitos legales tasados y por qué más del 70% de las solicitudes son rechazadas.
+    </p>
+  </div>
+
+  <!-- Pestañas de Navegación -->
+  <nav class="nav-tabs" role="tablist">
+    <button class="tab-btn active" onclick="switchTab('simulador')" id="tabBtnSimulador">
+      <span>🎮</span> Tu Solicitud en Vivo
+    </button>
+    <button class="tab-btn" onclick="switchTab('casos')" id="tabBtnCasos">
+      <span>👥</span> 5 Casos Reales
+    </button>
+    <button class="tab-btn" onclick="switchTab('datos')" id="tabBtnDatos">
+      <span>📊</span> El Laberinto en Cifras
+    </button>
+    <button class="tab-btn" onclick="switchTab('ley')" id="tabBtnLey">
+      <span>📜</span> Requisitos por Ley
+    </button>
+  </nav>
+
+  <!-- ============================================================
+       TAB 1: SIMULADOR DE SOLICITUD EN VIVO
+       ============================================================ -->
+  <section id="tabContentSimulador" class="tab-content active">
+    
+    <div class="sim-stepper">
+      <div class="step-indicator" id="stepIndicatorLabel">Paso 1 de 5 · Edad y Emancipación</div>
+      <div class="step-progress-dots">
+        <div class="dot active" id="dot1"></div>
+        <div class="dot" id="dot2"></div>
+        <div class="dot" id="dot3"></div>
+        <div class="dot" id="dot4"></div>
+        <div class="dot" id="dot5"></div>
+      </div>
+    </div>
+
+    <!-- PASO 1: EDAD Y SITUACIÓN -->
+    <div class="step-card" id="step1Card">
+      <div class="step-header">
+        <div class="step-icon-badge">🎂</div>
+        <div class="step-title-box">
+          <h3>Paso 1: ¿Cuál es tu edad y situación legal?</h3>
+          <p>El Ingreso Mínimo Vital impone límites de acceso por tramos de edad sumamente estrictos para los jóvenes.</p>
+          <span class="step-law-ref">Artículos 7.1.a y 8.2 de la Ley 19/2021</span>
+        </div>
+      </div>
+
+      <div class="options-stack">
+        <label class="option-card" onclick="selectOption(1, 'under23')">
+          <input type="radio" name="optStep1" value="under23" class="option-radio">
+          <div class="option-text">
+            <h4>Tengo menos de 23 años (típico estudiante universitario de 18 a 22 años)</h4>
+            <p>Vivo solo o en piso de estudiantes y no tengo menores a mi cargo ni soy huérfano absoluto.</p>
+          </div>
+        </label>
+
+        <label class="option-card" onclick="selectOption(1, 'between23_29_no2yr')">
+          <input type="radio" name="optStep1" value="between23_29_no2yr" class="option-radio">
+          <div class="option-text">
+            <h4>Tengo entre 23 y 29 años, pero NO acredito 2 años de vida independiente</h4>
+            <p>Me gradué hace poco o llevo menos de 2 años viviendo fuera de casa de mis padres y cotizados 12 meses a la SS.</p>
+          </div>
+        </label>
+
+        <label class="option-card" onclick="selectOption(1, 'between23_29_ok')">
+          <input type="radio" name="optStep1" value="between23_29_ok" class="option-radio">
+          <div class="option-text">
+            <h4>Tengo entre 23 y 29 años y SÍ acredito 2 años de vida independiente</h4>
+            <p>He vivido de forma continuada e independiente a mis progenitores durante 2 años y coticé al menos 12 meses.</p>
+          </div>
+        </label>
+
+        <label class="option-card" onclick="selectOption(1, 'over30')">
+          <input type="radio" name="optStep1" value="over30" class="option-radio">
+          <div class="option-text">
+            <h4>Tengo 30 años o más (hasta 65 años)</h4>
+            <p>O tengo menores a mi cargo con independencia de mi edad.</p>
+          </div>
+        </label>
+      </div>
+
+      <div class="trap-alert" id="trapAlertStep1">
+        <div class="trap-alert-icon">🚫</div>
+        <div class="trap-alert-text">
+          <h4>¡Causa Automática de Denegación Legal!</h4>
+          <p id="trapTextStep1"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 2: VIVIENDA Y UNIDAD DE CONVIVENCIA -->
+    <div class="step-card" id="step2Card" style="display:none;">
+      <div class="step-header">
+        <div class="step-icon-badge">🏠</div>
+        <div class="step-title-box">
+          <h3>Paso 2: ¿Con quién convives y cómo estás empadronado?</h3>
+          <p>La "Unidad de Convivencia" es la mayor trampa burocrática del IMV: la ley presume que todos los que comparten techo forman una economía conjunta.</p>
+          <span class="step-law-ref">Artículos 6, 8 y 10 de la Ley 19/2021</span>
+        </div>
+      </div>
+
+      <div class="options-stack">
+        <label class="option-card" onclick="selectOption(2, 'shared_flat')">
+          <input type="radio" name="optStep2" value="shared_flat" class="option-radio">
+          <div class="option-text">
+            <h4>Comparto piso de alquiler con amigos, compañeros o desconocidos</h4>
+            <p>Estamos empadronados juntos en la vivienda pero cada uno se paga su comida y habitación por separado.</p>
+          </div>
+        </label>
+
+        <label class="option-card" onclick="selectOption(2, 'with_parents')">
+          <input type="radio" name="optStep2" value="with_parents" class="option-radio">
+          <div class="option-text">
+            <h4>Vivo en el domicilio familiar con mis padres o abuelos</h4>
+            <p>Aunque yo no tenga trabajo ni un euro, convivo bajo el mismo empadronamiento con ellos.</p>
+          </div>
+        </label>
+
+        <label class="option-card" onclick="selectOption(2, 'single_alone')">
+          <input type="radio" name="optStep2" value="single_alone" class="option-radio">
+          <div class="option-text">
+            <h4>Vivo solo/a o únicamente con mi cónyuge / hijos menores</h4>
+            <p>Constituimos una unidad de convivencia acreditada durante al menos 6 meses ininterrumpidos en el padrón.</p>
+          </div>
+        </label>
+
+        <label class="option-card" onclick="selectOption(2, 'padron_irregular')">
+          <input type="radio" name="optStep2" value="padron_irregular" class="option-radio">
+          <div class="option-text">
+            <h4>Tengo problemas de empadronamiento o baches temporales</h4>
+            <p>Cambié de piso hace 4 meses, o el casero no me permitía empadronarme, o hay un bache de 2 meses sin padrón.</p>
+          </div>
+        </label>
+      </div>
+
+      <div class="trap-alert" id="trapAlertStep2">
+        <div class="trap-alert-icon">🚫</div>
+        <div class="trap-alert-text">
+          <h4>¡Causa Automática de Denegación o Bloqueo!</h4>
+          <p id="trapTextStep2"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 3: TEST DE RENTAS (AÑO ANTERIOR VS ACTUAL) -->
+    <div class="step-card" id="step3Card" style="display:none;">
+      <div class="step-header">
+        <div class="step-icon-badge">💶</div>
+        <div class="step-title-box">
+          <h3>Paso 3: Test de Vulnerabilidad Económica (Ingresos)</h3>
+          <p>La paradoja fiscal: la ley computa prioritariamente la renta del ejercicio fiscal anterior (IRPF año n-1), no tu situación de emergencia de hoy.</p>
+          <span class="step-law-ref">Artículos 11, 13 y 18 de la Ley 19/2021</span>
+        </div>
+      </div>
+
+      <div class="options-stack">
+        <label class="option-card" onclick="selectOption(3, 'worked_last_year')">
+          <input type="radio" name="optStep3" value="worked_last_year" class="option-radio">
+          <div class="option-text">
+            <h4>Hoy no tengo ingresos, pero el año pasado trabajé o tuve beca</h4>
+            <p>Ingresé el año pasado más de 7.500 € (ej. contrato temporal, camarero en verano o beca de estudios computable).</p>
+          </div>
+        </label>
+
+        <label class="option-card" onclick="selectOption(3, 'parents_income')">
+          <input type="radio" name="optStep3" value="parents_income" class="option-radio">
+          <div class="option-text">
+            <h4>Vivo con mis padres y ellos perciben salarios modestos o pensión</h4>
+            <p>Mi padre o madre ingresa 1.200 € al mes. Entre ambos superan fácilmente los 14.000 € anuales de la unidad familiar.</p>
+          </div>
+        </label>
+
+        <label class="option-card" onclick="selectOption(3, 'flatmates_income')">
+          <input type="radio" name="optStep3" value="flatmates_income" class="option-radio">
+          <div class="option-text">
+            <h4>Comparto piso y mis compañeros trabajan</h4>
+            <p>La Seguridad Social suma los ingresos de todos los empadronados al considerarnos una única unidad económica.</p>
+          </div>
+        </label>
+
+        <label class="option-card" onclick="selectOption(3, 'zero_income_both')">
+          <input type="radio" name="optStep3" value="zero_income_both" class="option-radio">
+          <div class="option-text">
+            <h4>Ingresos casi cero: ni el año pasado ni este año supero el umbral</h4>
+            <p>Toda la unidad de convivencia percibe menos del límite de renta garantizada (unos 604 €/mes para 1 adulto).</p>
+          </div>
+        </label>
+      </div>
+
+      <div class="trap-alert" id="trapAlertStep3">
+        <div class="trap-alert-icon">🚫</div>
+        <div class="trap-alert-text">
+          <h4>¡Causa Automática de Denegación por Rentas!</h4>
+          <p id="trapTextStep3"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 4: TEST DE PATRIMONIO NETO -->
+    <div class="step-card" id="step4Card" style="display:none;">
+      <div class="step-header">
+        <div class="step-icon-badge">🏦</div>
+        <div class="step-title-box">
+          <h3>Paso 4: Test de Patrimonio Neto y Activos Societarios</h3>
+          <p>No basta con no tener ingresos: si posees ahorros, un coche usado valorado según Hacienda o una pequeña herencia, quedas fuera.</p>
+          <span class="step-law-ref">Artículo 20 de la Ley 19/2021 (Límite: 3 veces la renta garantizada anual)</span>
+        </div>
+      </div>
+
+      <div class="options-stack">
+        <label class="option-card" onclick="selectOption(4, 'has_savings_car')">
+          <input type="radio" name="optStep4" value="has_savings_car" class="option-radio">
+          <div class="option-text">
+            <h4>Tengo ahorros o coche que superan los 20.353 € de patrimonio</h4>
+            <p>Entre cuenta corriente, depósitos o valoración fiscal de vehículos (o los de mi unidad de convivencia) superamos el límite.</p>
+          </div>
+        </label>
+
+        <label class="option-card" onclick="selectOption(4, 'inherited_share')">
+          <input type="radio" name="optStep4" value="inherited_share" class="option-radio">
+          <div class="option-text">
+            <h4>Tengo una parte indivisa de un inmueble o parcela rústica heredada</h4>
+            <p>Heredé un porcentaje de una casa en el pueblo o un terreno familiar de escaso valor de mercado pero alto valor catastral.</p>
+          </div>
+        </label>
+
+        <label class="option-card" onclick="selectOption(4, 'sl_admin')">
+          <input type="radio" name="optStep4" value="sl_admin" class="option-radio">
+          <div class="option-text">
+            <h4>Figura mercantil: administro una sociedad limitada inactiva</h4>
+            <p>Aparezco en el Registro Mercantil como administrador solidario de una empresa sin actividad real ni ingresos.</p>
+          </div>
+        </label>
+
+        <label class="option-card" onclick="selectOption(4, 'clean_assets')">
+          <input type="radio" name="optStep4" value="clean_assets" class="option-radio">
+          <div class="option-text">
+            <h4>Patrimonio neto nulo o muy inferior al límite legal</h4>
+            <p>No tengo propiedades (salvo vivienda habitual en su caso), ni ahorros significativos, ni sociedades.</p>
+          </div>
+        </label>
+      </div>
+
+      <div class="trap-alert" id="trapAlertStep4">
+        <div class="trap-alert-icon">🚫</div>
+        <div class="trap-alert-text">
+          <h4>¡Causa Automática de Denegación por Patrimonio!</h4>
+          <p id="trapTextStep4"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 5: OBLIGACIONES ACTIVAS Y PAPELEO INFERNAL -->
+    <div class="step-card" id="step5Card" style="display:none;">
+      <div class="step-header">
+        <div class="step-icon-badge">📑</div>
+        <div class="step-title-box">
+          <h3>Paso 5: La Yincana Documental y Requisitos Administrativos</h3>
+          <p>¿Tienes todos los certificados, sellos y autorizaciones que exige la sede electrónica del INSS antes de que expire el plazo?</p>
+          <span class="step-law-ref">Artículos 21, 23 y 25 de la Ley 19/2021</span>
+        </div>
+      </div>
+
+      <div class="options-stack">
+        <label class="option-card" onclick="selectOption(5, 'no_sepe_card')">
+          <input type="radio" name="optStep5" value="no_sepe_card" class="option-radio">
+          <div class="option-text">
+            <h4>No todos los convivientes están inscritos como demandantes de empleo</h4>
+            <p>Soy estudiante o algún familiar mayor de edad en la vivienda no está apuntado al paro en el SEPE/SAE.</p>
+          </div>
+        </label>
+
+        <label class="option-card" onclick="selectOption(5, 'missing_auth_flatmates')">
+          <input type="radio" name="optStep5" value="missing_auth_flatmates" class="option-radio">
+          <div class="option-text">
+            <h4>Falta la firma o autorización de todos los convivientes</h4>
+            <p>Mis compañeros de piso o familiares se niegan a firmarme el permiso de cesión de datos fiscales y bancarios a Hacienda.</p>
+          </div>
+        </label>
+
+        <label class="option-card" onclick="selectOption(5, 'child_support_lawsuit')">
+          <input type="radio" name="optStep5" value="child_support_lawsuit" class="option-radio">
+          <div class="option-text">
+            <h4>Familia monoparental sin demanda judicial de alimentos</h4>
+            <p>Mi expareja no me pasa la manutención pero no he interpuesto demanda judicial de ejecución contra él/ella.</p>
+          </div>
+        </label>
+
+        <label class="option-card" onclick="selectOption(5, 'all_docs_perfect')">
+          <input type="radio" name="optStep5" value="all_docs_perfect" class="option-radio">
+          <div class="option-text">
+            <h4>Tengo toda la documentación perfecta y en regla</h4>
+            <p>Certificado de empadronamiento histórico colectivo (<3 meses), DARDE al día, DNI de todos, IRPF y selfie verificada.</p>
+          </div>
+        </label>
+      </div>
+
+      <div class="trap-alert" id="trapAlertStep5">
+        <div class="trap-alert-icon">🚫</div>
+        <div class="trap-alert-text">
+          <h4>¡Causa de Inadmisión o Desistimiento Administrativo!</h4>
+          <p id="trapTextStep5"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navegación entre Pasos -->
+    <div class="stepper-nav" id="stepperNav">
+      <button class="btn-sim-secondary" id="btnPrevStep" onclick="prevStep()" style="display:none;">← Paso Anterior</button>
+      <button class="btn-sim-primary" id="btnNextStep" onclick="nextStep()" disabled>
+        <span>Siguiente Paso</span>
+        <span>→</span>
+      </button>
+    </div>
+
+    <!-- CARTA OFICIAL SIMULADA DE RESOLUCIÓN DEL INSS -->
+    <div class="official-letter" id="officialLetter">
+      <div class="letter-header">
+        <div class="inss-stamp-box">
+          <div class="inss-emblem">INSS</div>
+          <div class="inss-text-meta">
+            <h4>Instituto Nacional de la Seguridad Social</h4>
+            <p>Dirección Provincial · Unidad Tramitadora IMV</p>
+            <p>Expediente: IMV-2026/08942-UPO</p>
+          </div>
+        </div>
+        <div id="letterBadge" class="letter-resolution-tag res-denied">
+          <span>❌ DENEGADA</span>
+        </div>
+      </div>
+
+      <div class="letter-body">
+        <p><strong>NOTIFICACIÓN DE RESOLUCIÓN DE SOLICITUD DE INGRESO MÍNIMO VITAL</strong></p>
+        <p>
+          Vista su solicitud presentada telemáticamente al amparo de la <strong>Ley 19/2021, de 20 de diciembre</strong>, por la que se establece el Ingreso Mínimo Vital, y tras el cruce de datos tributarios, padronales y de la Tesorería General de la Seguridad Social, esta Dirección Provincial <strong>RESUELVE</strong>:
+        </p>
+
+        <div id="resolutionVerdictBlock"></div>
+
+        <p id="resolutionLegalSummary"></p>
+
+        <div class="letter-footer-meta">
+          <div>
+            <span>Plazo legal de resolución: 6 meses (Silencio administrativo negativo).</span><br>
+            <span>Contra esta resolución cabe reclamación previa en el plazo de 30 días hábiles (Art. 71 LRJS).</span>
+          </div>
+          <div id="stampWatermarkBox">
+            <span class="stamp-watermark">DENEGADO</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 24px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <button class="btn-sim-secondary" onclick="restartSimulation()">🔄 Repetir con otras respuestas</button>
+        <button class="btn-sim-primary" onclick="switchTab('casos')">👥 Ver 5 Casos Reales del Alumnado →</button>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       TAB 2: 5 CASOS REALES DEL ALUMNADO Y LA SOCIEDAD
+       ============================================================ -->
+  <section id="tabContentCasos" class="tab-content">
+    
+    <div style="margin-bottom: 20px;">
+      <h2 style="font-family:'Outfit'; color:var(--psll-pine); font-size:1.4rem; margin-bottom:6px;">
+        Los Perfiles de la Exclusión: ¿Por qué no lo consiguen?
+      </h2>
+      <p style="color:var(--psll-sage); font-size:0.9rem;">
+        Haz clic en cada perfil para analizar cómo la normativa del IMV colisiona frontalmente con la realidad de los jóvenes y familias vulnerables.
+      </p>
+    </div>
+
+    <!-- Grid Selector de Casos -->
+    <div class="cases-selector-grid">
+      <div class="case-avatar-card active" onclick="showCase(0)">
+        <span class="case-emoji">🎓</span>
+        <div class="case-name">Mateo (21 años)</div>
+        <div class="case-tag">Estudiante universitario</div>
+      </div>
+
+      <div class="case-avatar-card" onclick="showCase(1)">
+        <span class="case-emoji">👩‍💻</span>
+        <div class="case-name">Lucía (26 años)</div>
+        <div class="case-tag">Graduada con sus padres</div>
+      </div>
+
+      <div class="case-avatar-card" onclick="showCase(2)">
+        <span class="case-emoji">🛵</span>
+        <div class="case-name">Karim (32 años)</div>
+        <div class="case-tag">Repartidor accidentado</div>
+      </div>
+
+      <div class="case-avatar-card" onclick="showCase(3)">
+        <span class="case-emoji">🤱</span>
+        <div class="case-name">Elena (35 años)</div>
+        <div class="case-tag">Madre monoparental</div>
+      </div>
+
+      <div class="case-avatar-card" onclick="showCase(4)">
+        <span class="case-emoji">🚜</span>
+        <div class="case-name">Manolo (58 años)</div>
+        <div class="case-tag">Parado con olivar heredado</div>
+      </div>
+    </div>
+
+    <!-- Contenedor del Caso Detallado -->
+    <div class="case-detail-box" id="caseDetailBox">
+      <!-- Inyectado dinámicamente por JavaScript -->
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       TAB 3: EL LABERINTO EN CIFRAS (DATOS OFICIALES AIReF)
+       ============================================================ -->
+  <section id="tabContentDatos" class="tab-content">
+    
+    <div style="margin-bottom: 22px;">
+      <h2 style="font-family:'Outfit'; color:var(--psll-pine); font-size:1.4rem; margin-bottom:6px;">
+        La Brecha entre la Promesa y la Realidad: Datos Oficiales
+      </h2>
+      <p style="color:var(--psll-sage); font-size:0.9rem;">
+        Evidencia empírica extraída de las Evaluaciones de Opinión de la AIReF (Autoridad Independiente de Responsabilidad Fiscal) y estadísticas de la Seguridad Social.
+      </p>
+    </div>
+
+    <!-- 4 Métricas de Choque -->
+    <div class="metrics-grid-four">
+      <div class="metric-card-stat">
+        <div class="metric-number-big color-red">58%</div>
+        <div class="metric-label-stat">Tasa de Non Take-Up</div>
+        <div class="metric-sub-stat">Hogares en pobreza severa con derecho potencial que NI SIQUIERA lo solicitan por desinformación o desánimo burocrático (AIReF).</div>
+      </div>
+
+      <div class="metric-card-stat">
+        <div class="metric-number-big color-coral">73%</div>
+        <div class="metric-label-stat">Solicitudes Rechazadas</div>
+        <div class="metric-sub-stat">De cada 100 solicitudes presentadas ante el INSS, unas 73 terminan en denegación, inadmisión o desistimiento por caducidad.</div>
+      </div>
+
+      <div class="metric-card-stat">
+        <div class="metric-number-big color-pine">142 días</div>
+        <div class="metric-label-stat">Tiempo Medio de Trámite</div>
+        <div class="metric-sub-stat">Casi 5 meses de incertidumbre para hogares con cero liquidez, con alto riesgo de caer en desahucio antes de recibir respuesta.</div>
+      </div>
+
+      <div class="metric-card-stat">
+        <div class="metric-number-big color-sage">604 €/mes</div>
+        <div class="metric-label-stat">Renta Garantizada Individual</div>
+        <div class="metric-sub-stat">Importe base para 1 adulto (unos 7.250 €/año), cuantía muy por debajo del umbral estándar de riesgo de pobreza relativa (AROPE).</div>
+      </div>
+    </div>
+
+    <!-- Gráfico de Barras: Causas de Denegación Oficiales -->
+    <div class="data-bars-card">
+      <h3>Distribución Oficial de Motivos de Denegación del IMV</h3>
+      <p class="subtitle-bar">Fuente: Informes anuales de fiscalización del Ingreso Mínimo Vital (AIReF e INSS).</p>
+
+      <div class="bar-row">
+        <div class="bar-info">
+          <span>1. Superar el umbral legal de Renta computable (IRPF año previo)</span>
+          <span>36%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill fill-1"></div></div>
+      </div>
+
+      <div class="bar-row">
+        <div class="bar-info">
+          <span>2. No acreditar Unidad de Convivencia independiente (piso compartido/padres)</span>
+          <span>26%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill fill-2"></div></div>
+      </div>
+
+      <div class="bar-row">
+        <div class="bar-info">
+          <span>3. Superar el límite máximo de Patrimonio Neto (ahorros, coches, herencias)</span>
+          <span>16%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill fill-3"></div></div>
+      </div>
+
+      <div class="bar-row">
+        <div class="bar-info">
+          <span>4. Requisitos de edad, emancipación previa de jóvenes (<30 años) o padrón</span>
+          <span>12%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill fill-4"></div></div>
+      </div>
+
+      <div class="bar-row">
+        <div class="bar-info">
+          <span>5. Desistimiento por no subsanar documentación en plazo de 10 días</span>
+          <span>10%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill fill-5"></div></div>
+      </div>
+    </div>
+
+    <!-- Reflexión Teórica PSLL -->
+    <div style="background:var(--psll-mint); border:1.5px solid #C2D8C9; border-radius:14px; padding:20px;">
+      <h4 style="font-family:'Outfit'; color:var(--psll-pine); font-size:1.1rem; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
+        💡 El Enigma Teórico: ¿Racionamiento Burocrático o Red de Seguridad?
+      </h4>
+      <p style="font-size:0.88rem; line-height:1.5; color:var(--psll-ink); margin-bottom:10px;">
+        En teoría económica del Estado del Bienestar, las prestaciones asistenciales condicionadas (*targeted benefits*) enfrentan el dilema entre <strong>focalización estricta</strong> (evitar que cobren quienes no lo necesitan) y <strong>accesibilidad</strong>.
+      </p>
+      <p style="font-size:0.88rem; line-height:1.5; color:var(--psll-ink);">
+        Cuando el diseño administrativo impone costes de cumplimiento (*compliance costs*) tan colosales (test de medios retroactivo, prueba diabólica del empadronamiento, penalización del piso compartido), la burocracia actúa de facto como un <strong>mecanismo de racionamiento encubierto</strong> que expulsa prioritariamente a los colectivos más desfavorecidos y a los jóvenes en precariedad.
+      </p>
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       TAB 4: REQUISITOS POR LEY (LEY 19/2021)
+       ============================================================ -->
+  <section id="tabContentLey" class="tab-content">
+    
+    <div style="margin-bottom: 20px;">
+      <h2 style="font-family:'Outfit'; color:var(--psll-pine); font-size:1.4rem; margin-bottom:6px;">
+        Anatomía Jurídica de la Ley 19/2021 del Ingreso Mínimo Vital
+      </h2>
+      <p style="color:var(--psll-sage); font-size:0.9rem;">
+        Los artículos clave que articulan los filtros legales y las cláusulas que debes conocer como graduado en Relaciones Laborales y RRHH.
+      </p>
+    </div>
+
+    <div class="law-articles-accordion">
+      
+      <div class="law-card">
+        <div class="law-card-top">
+          <span class="law-art-badge">Artículo 6</span>
+          <span style="font-size:0.75rem; color:#6B7280; font-weight:700;">Concepto Clave</span>
+        </div>
+        <h4>Definición de Unidad de Convivencia (UC)</h4>
+        <p>Se considera unidad de convivencia la constituida por todas las personas que residan en un mismo domicilio y que estén unidas entre sí por vínculo matrimonial, pareja de hecho o parentesco hasta el segundo grado de consanguinidad o afinidad.</p>
+        <div class="law-trap-note">
+          ⚠️ <strong>La trampa del piso compartido:</strong> Si varias personas sin parentesco comparten vivienda de alquiler, la ley presume por defecto la unidad económica conjunta, salvo que acrediten documentalmente mediante informe social de exclusión o acta específica que constituyen unidades independientes.
+        </div>
+      </div>
+
+      <div class="law-card">
+        <div class="law-card-top">
+          <span class="law-art-badge">Artículos 7 y 8</span>
+          <span style="font-size:0.75rem; color:#6B7280; font-weight:700;">Requisitos de Edad</span>
+        </div>
+        <h4>Filtros de Edad y Emancipación para Jóvenes</h4>
+        <p>Para personas solas sin menores a cargo, se exige con carácter general tener al menos <strong>23 años</strong> cumplidos y menos de 65 años. Para los jóvenes de <strong>23 a 29 años</strong>, se impone además el requisito de haber vivido de forma independiente durante al menos los <strong>dos años inmediatamente anteriores</strong> a la solicitud y haber permanecido en alta en cualquiera de los regímenes de la Seguridad Social al menos <strong>12 meses</strong>.</p>
+        <div class="law-trap-note">
+          ⚠️ <strong>Efecto exclusión:</strong> Un estudiante universitario o recién graduado de 22 años sin hijos queda legalmente excluido del IMV, obligándolo a depender de la renta familiar.
+        </div>
+      </div>
+
+      <div class="law-card">
+        <div class="law-card-top">
+          <span class="law-art-badge">Artículo 10</span>
+          <span style="font-size:0.75rem; color:#6B7280; font-weight:700;">Residencia Legal</span>
+        </div>
+        <h4>Residencia legal y empadronamiento continuado</h4>
+        <p>Exige tener residencia legal y efectiva en España de forma continuada e ininterrumpida durante al menos <strong>un año inmediatamente anterior</strong> a la fecha de presentación de la solicitud, acreditado documentalmente mediante certificado de empadronamiento histórico y colectivo.</p>
+        <div class="law-trap-note">
+          ⚠️ <strong>La trampa del padrón:</strong> Cualquier mudanza con retraso administrativo en el alta del nuevo municipio o la negativa del propietario a autorizar el empadronamiento frustra el cómputo del año continuado.
+        </div>
+      </div>
+
+      <div class="law-card">
+        <div class="law-card-top">
+          <span class="law-art-badge">Artículos 11 y 20</span>
+          <span style="font-size:0.75rem; color:#6B7280; font-weight:700;">Vulnerabilidad Económica</span>
+        </div>
+        <h4>Test de Renta y Patrimonio Neto</h4>
+        <p>La situación de vulnerabilidad económica se evalúa computando el promedio mensual de los ingresos y rentas del <strong>ejercicio fiscal anterior (año n-1)</strong>. Asimismo, el patrimonio neto computable no puede superar 3 veces la cuantía anual de la renta garantizada (unos 20.353 € para 1 adulto).</p>
+        <div class="law-trap-note">
+          ⚠️ <strong>El desajuste temporal:</strong> Quien pierde su empleo repentinamente en febrero de 2026 verá computados sus ingresos de 2025. Si en 2025 trabajó unos meses y superó el umbral, el sistema le deniega la ayuda a pesar de hallarse hoy en la indigencia más absoluta.
+        </div>
+      </div>
+
+      <div class="law-card">
+        <div class="law-card-top">
+          <span class="law-art-badge">Artículo 25</span>
+          <span style="font-size:0.75rem; color:#6B7280; font-weight:700;">Procedimiento y Plazos</span>
+        </div>
+        <h4>Plazo de Resolución y Silencio Administrativo</h4>
+        <p>El plazo máximo para resolver y notificar la solicitud es de <strong>seis meses</strong> desde la fecha de entrada en el registro. Transcurrido dicho plazo sin resolución expresa, la solicitud se entenderá <strong>desestimada por silencio administrativo negativo</strong>.</p>
+        <div class="law-trap-note">
+          ⚠️ <strong>La indefensión del solicitante:</strong> A diferencia de otros procedimientos administrativos con silencio positivo, el silencio negativo obliga al ciudadano vulnerable a acudir a la vía judicial laboral previa reclamación previa.
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Footer Académico -->
+  <footer class="footer-academic">
+    <div>
+      <strong>Políticas Sociolaborales y de Empleo (PSLL)</strong> · Universidad Pablo de Olavide<br>
+      Grado en Relaciones Laborales y Recursos Humanos · Prof. Manuel Hidalgo Pérez
+    </div>
+    <div>
+      Simulador Pedagógico interactivo basado en la Ley 19/2021 de 20 de diciembre.
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  // ============================================================
+  // ESTADO Y LÓGICA DEL SIMULADOR INTERACTIVO
+  // ============================================================
+  var currentStep = 1;
+  var userAnswers = {
+    step1: null,
+    step2: null,
+    step3: null,
+    step4: null,
+    step5: null
+  };
+
+  var denialReasons = [];
+
+  function switchTab(tabId) {
+    var tabs = ['simulador', 'casos', 'datos', 'ley'];
+    tabs.forEach(function(t) {
+      var content = document.getElementById('tabContent' + capitalize(t));
+      var btn = document.getElementById('tabBtn' + capitalize(t));
+      if (content && btn) {
+        if (t === tabId) {
+          content.classList.add('active');
+          btn.classList.add('active');
+        } else {
+          content.classList.remove('active');
+          btn.classList.remove('active');
+        }
+      }
+    });
+  }
+
+  function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  // Selección de opciones en el simulador
+  function selectOption(step, value) {
+    userAnswers['step' + step] = value;
+    
+    // Marcar visualmente la opción seleccionada
+    var card = document.getElementById('step' + step + 'Card');
+    var options = card.querySelectorAll('.option-card');
+    options.forEach(function(opt) {
+      opt.classList.remove('selected');
+      var radio = opt.querySelector('input[type="radio"]');
+      if (radio && radio.value === value) {
+        opt.classList.add('selected');
+        radio.checked = true;
+      }
+    });
+
+    // Activar botón de Siguiente
+    document.getElementById('btnNextStep').disabled = false;
+
+    // Evaluación en caliente de trampas legales
+    evaluateStepTrap(step, value);
+  }
+
+  function evaluateStepTrap(step, value) {
+    var trapAlert = document.getElementById('trapAlertStep' + step);
+    var trapText = document.getElementById('trapTextStep' + step);
+    if (!trapAlert || !trapText) return;
+
+    trapAlert.classList.remove('visible');
+
+    if (step === 1) {
+      if (value === 'under23') {
+        trapText.innerHTML = "<strong>Infracción del Art. 7.1.a de la Ley 19/2021:</strong> Tienes menos de 23 años. La ley te excluye categóricamente para solicitar la ayuda de forma individual salvo que tengas menores a cargo o seas huérfano de ambos progenitores. ¡Denegación fulminante!";
+        trapAlert.classList.add('visible');
+      } else if (value === 'between23_29_no2yr') {
+        trapText.innerHTML = "<strong>Infracción del Art. 8.2 de la Ley 19/2021:</strong> Tienes entre 23 y 29 años pero no puedes demostrar 2 años seguidos viviendo fuera del domicilio familiar con 12 meses de cotización previa. ¡Quedas excluido de inmediato!";
+        trapAlert.classList.add('visible');
+      }
+    } else if (step === 2) {
+      if (value === 'shared_flat') {
+        trapText.innerHTML = "<strong>La Trampa del Piso Compartido (Art. 6):</strong> La Seguridad Social computa a todos tus compañeros de piso como una sola Unidad de Convivencia. Salvo que presentes un certificado de exclusión social o acta pública, sumarán sus rentas a las tuyas y la denegarán por superar ingresos colectivos.";
+        trapAlert.classList.add('visible');
+      } else if (value === 'with_parents') {
+        trapText.innerHTML = "<strong>Art. 6.1 (Unidad Familiar):</strong> Al vivir con tus padres, el Estado computa la pensión o salario de tus padres y hermanos. Quedas fuera si la renta total de la casa supera el baremo conjunto (fácilmente con un solo sueldo familiar).";
+        trapAlert.classList.add('visible');
+      } else if (value === 'padron_irregular') {
+        trapText.innerHTML = "<strong>Incumplimiento del Art. 10.1 (Padrón Continuado):</strong> Se exige 1 año ininterrumpido empadronado. Si hubo un bache de pocos meses o el casero no te empadronó a tiempo, se deniega por falta de acreditación de residencia continuada.";
+        trapAlert.classList.add('visible');
+      }
+    } else if (step === 3) {
+      if (value === 'worked_last_year') {
+        trapText.innerHTML = "<strong>La Paradoja de la Renta del Año Previo (Art. 11):</strong> Aunque hoy estés en la calle con 0 € en el banco, el INSS computa lo ganado en el ejercicio fiscal anterior. Si ganaste más de 7.500 € el año pasado, ¡te deniegan la ayuda este año!";
+        trapAlert.classList.add('visible');
+      } else if (value === 'parents_income' || value === 'flatmates_income') {
+        trapText.innerHTML = "<strong>Superación de Ingresos de la UC (Art. 13):</strong> Se computa la totalidad de rentas percibidas por todos los miembros empadronados. Al sumar los ingresos de los convivientes se sobrepasa con creces el límite de renta garantizada.";
+        trapAlert.classList.add('visible');
+      }
+    } else if (step === 4) {
+      if (value === 'has_savings_car') {
+        trapText.innerHTML = "<strong>Límite de Patrimonio Neto Superado (Art. 20):</strong> Para 1 adulto el límite son ~20.353 €. Si sumando ahorros, valoración fiscal de tu vehículo (según tablas del BOE) o fondos superas esa cifra, denegación automática.";
+        trapAlert.classList.add('visible');
+      } else if (value === 'inherited_share') {
+        trapText.innerHTML = "<strong>Trampa del Inmueble Heredado (Art. 20):</strong> Aunque sea una finca rústica abandonada o una pequeña participación indivisa que no produce ningún ingreso, el valor catastral computa como patrimonio neto y te expulsa del IMV.";
+        trapAlert.classList.add('visible');
+      } else if (value === 'sl_admin') {
+        trapText.innerHTML = "<strong>Incompatibilidad Societaria (Art. 20.2):</strong> Figuraren el Registro Mercantil como administrador de una sociedad de capital activa (aunque no facture ni un euro) supone la denegación inmediata sin excepción.";
+        trapAlert.classList.add('visible');
+      }
+    } else if (step === 5) {
+      if (value === 'no_sepe_card') {
+        trapText.innerHTML = "<strong>Incumplimiento de Condicionalidad Activa (Art. 21.1.b):</strong> Todos los miembros mayores de edad de la unidad de convivencia deben estar dados de alta como demandantes de empleo en el SEPE. Si uno no lo está, la solicitud se paraliza.";
+        trapAlert.classList.add('visible');
+      } else if (value === 'missing_auth_flatmates') {
+        trapText.innerHTML = "<strong>Falta de Autorización Expresa (Art. 23):</strong> Si tus compañeros de piso o parientes no firman la autorización expresa para cruzar sus datos con la Agencia Tributaria, el INSS declara el desistimiento.";
+        trapAlert.classList.add('visible');
+      } else if (value === 'child_support_lawsuit') {
+        trapText.innerHTML = "<strong>Falta de Demanda Judicial de Alimentos:</strong> La ley exige acreditar haber interpuesto acciones legales contra el progenitor que no abona la pensión antes de conceder la ayuda pública.";
+        trapAlert.classList.add('visible');
+      }
+    }
+  }
+
+  function nextStep() {
+    if (currentStep < 5) {
+      document.getElementById('step' + currentStep + 'Card').style.display = 'none';
+      currentStep++;
+      document.getElementById('step' + currentStep + 'Card').style.display = 'block';
+      updateStepperUI();
+    } else {
+      // Finalizar simulación y mostrar Carta Oficial del INSS
+      finishSimulation();
+    }
+  }
+
+  function prevStep() {
+    if (currentStep > 1) {
+      document.getElementById('step' + currentStep + 'Card').style.display = 'none';
+      currentStep--;
+      document.getElementById('step' + currentStep + 'Card').style.display = 'block';
+      updateStepperUI();
+    }
+  }
+
+  function updateStepperUI() {
+    // Títulos y puntos
+    var titles = [
+      "Paso 1 de 5 · Edad y Emancipación",
+      "Paso 2 de 5 · Vivienda y Padrón",
+      "Paso 3 de 5 · Test de Rentas",
+      "Paso 4 de 5 · Test de Patrimonio",
+      "Paso 5 de 5 · Burocracia y Trámites"
+    ];
+    document.getElementById('stepIndicatorLabel').innerText = titles[currentStep - 1];
+
+    for (var i = 1; i <= 5; i++) {
+      var dot = document.getElementById('dot' + i);
+      dot.className = 'dot';
+      if (i === currentStep) {
+        dot.classList.add('active');
+      } else if (i < currentStep) {
+        dot.classList.add('completed');
+      }
+    }
+
+    // Botones
+    document.getElementById('btnPrevStep').style.display = (currentStep > 1) ? 'block' : 'none';
+    var nextBtn = document.getElementById('btnNextStep');
+    nextBtn.disabled = !userAnswers['step' + currentStep];
+
+    if (currentStep === 5) {
+      nextBtn.innerHTML = '<span>Emitir Resolución Oficial</span> <span>⚖️</span>';
+    } else {
+      nextBtn.innerHTML = '<span>Siguiente Paso</span> <span>→</span>';
+    }
+  }
+
+  function finishSimulation() {
+    // Ocultar tarjetas y navegación
+    for (var i = 1; i <= 5; i++) {
+      document.getElementById('step' + i + 'Card').style.display = 'none';
+    }
+    document.getElementById('stepperNav').style.display = 'none';
+
+    // Compilar motivos de denegación
+    denialReasons = [];
+
+    // Paso 1
+    if (userAnswers.step1 === 'under23') {
+      denialReasons.push("<strong>Art. 7.1.a Ley 19/2021:</strong> No cumplir el requisito de edad mínima (23 años cumplidos) para persona beneficiaria individual sin menores a cargo.");
+    } else if (userAnswers.step1 === 'between23_29_no2yr') {
+      denialReasons.push("<strong>Art. 8.2 Ley 19/2021:</strong> No acreditar al menos dos años continuados de vida independiente y al menos un año de alta en la Seguridad Social con anterioridad a la solicitud.");
+    }
+
+    // Paso 2
+    if (userAnswers.step2 === 'shared_flat') {
+      denialReasons.push("<strong>Art. 6 Ley 19/2021:</strong> No acreditar la constitución de una unidad de convivencia independiente respecto a los demás convivientes empadronados en el mismo domicilio mediante informe de servicios sociales o documento público.");
+    } else if (userAnswers.step2 === 'with_parents') {
+      denialReasons.push("<strong>Art. 6.1 Ley 19/2021:</strong> Pertenencia a unidad de convivencia de origen (progenitores), debiendo computarse los ingresos y patrimonios de todos los miembros del hogar.");
+    } else if (userAnswers.step2 === 'padron_irregular') {
+      denialReasons.push("<strong>Art. 10.1 Ley 19/2021:</strong> No acreditar un año continuado e ininterrumpido de empadronamiento legal y efectivo en territorio español con carácter inmediatamente previo a la solicitud.");
+    }
+
+    // Paso 3
+    if (userAnswers.step3 === 'worked_last_year') {
+      denialReasons.push("<strong>Art. 11 y 13 Ley 19/2021:</strong> Superación del umbral de vulnerabilidad económica al computar los ingresos íntegros del ejercicio fiscal anterior (año n-1).");
+    } else if (userAnswers.step3 === 'parents_income' || userAnswers.step3 === 'flatmates_income') {
+      denialReasons.push("<strong>Art. 13 Ley 19/2021:</strong> Superación del límite de renta garantizada computable agregado para la totalidad de miembros integrantes de la unidad de convivencia.");
+    }
+
+    // Paso 4
+    if (userAnswers.step4 === 'has_savings_car') {
+      denialReasons.push("<strong>Art. 20.1 Ley 19/2021:</strong> Superación del límite máximo de patrimonio neto (activos financieros, bancarios y valoración fiscal de vehículos) establecido en 3 veces la cuantía anual de renta garantizada.");
+    } else if (userAnswers.step4 === 'inherited_share') {
+      denialReasons.push("<strong>Art. 20 Ley 19/2021:</strong> Titularidad de bienes inmuebles o participaciones indivisas no afectas a vivienda habitual que superan el baremo de patrimonio máximo.");
+    } else if (userAnswers.step4 === 'sl_admin') {
+      denialReasons.push("<strong>Art. 20.2 Ley 19/2021:</strong> Incompatibilidad legal insubsanable: constar como administrador de una sociedad mercantil de capital activa.");
+    }
+
+    // Paso 5
+    if (userAnswers.step5 === 'no_sepe_card') {
+      denialReasons.push("<strong>Art. 21.1.b Ley 19/2021:</strong> Incumplimiento de la obligación de figurar inscritos como demandantes de empleo todos los miembros mayores de edad de la unidad de convivencia.");
+    } else if (userAnswers.step5 === 'missing_auth_flatmates') {
+      denialReasons.push("<strong>Art. 23 Ley 19/2021:</strong> Falta de aportación de las autorizaciones expresas firmadas por todos los integrantes empadronados para el cruce de datos fiscales y patrimoniales con la AEAT.");
+    } else if (userAnswers.step5 === 'child_support_lawsuit') {
+      denialReasons.push("<strong>Requisito Jurisprudencial y Administrativo:</strong> No acreditar el ejercicio de acciones judiciales para la efectividad del cobro de la pensión alimenticia a favor de los menores.");
+    }
+
+    // Renderizar Resolución
+    var letter = document.getElementById('officialLetter');
+    var badge = document.getElementById('letterBadge');
+    var verdictBox = document.getElementById('resolutionVerdictBlock');
+    var summaryBox = document.getElementById('resolutionLegalSummary');
+    var watermark = document.getElementById('stampWatermarkBox');
+
+    letter.classList.add('visible');
+
+    if (denialReasons.length > 0) {
+      badge.className = 'letter-resolution-tag res-denied';
+      badge.innerHTML = '<span>❌ DENEGADA</span>';
+      watermark.innerHTML = '<span class="stamp-watermark" style="border-color:#DC2626; color:#DC2626;">DENEGADO</span>';
+
+      var listHtml = '<div class="reasons-denied-list">';
+      listHtml += '<h4>Causas Legales de Denegación Motivada (' + denialReasons.length + ' motivo' + (denialReasons.length > 1 ? 's' : '') + ' detectado' + (denialReasons.length > 1 ? 's' : '') + '):</h4>';
+      listHtml += '<ul>';
+      denialReasons.forEach(function(r) {
+        listHtml += '<li>' + r + '</li>';
+      });
+      listHtml += '</ul></div>';
+
+      verdictBox.innerHTML = '<p style="color:#B91C1C; font-weight:800; font-size:1.05rem;">ACUERDA DENEGAR LA PRESTACIÓN DEL INGRESO MÍNIMO VITAL por no cumplir los requisitos preceptivos tasados por la legislación vigente.</p>' + listHtml;
+
+      summaryBox.innerHTML = '<strong>Análisis de la Cátedra de Políticas Sociolaborales:</strong> Tu perfil ilustra a la perfección por qué <strong>el 73% de las solicitudes en España son rechazadas</strong>. Has chocado de frente contra las murallas administrativas y las cláusulas de exclusión que convierten al IMV en un laberinto casi infranqueable para jóvenes universitarios, estudiantes que comparten piso o personas con ahorros precarios.';
+    } else {
+      badge.className = 'letter-resolution-tag res-approved';
+      badge.innerHTML = '<span>✅ APROBADA (PROVISIONAL)</span>';
+      watermark.innerHTML = '<span class="stamp-watermark" style="border-color:#16A34A; color:#16A34A;">APROBADO</span>';
+
+      verdictBox.innerHTML = '<p style="color:#15803D; font-weight:800; font-size:1.05rem;">ACUERDA RECONOCER EL DERECHO AL INGRESO MÍNIMO VITAL por una cuantía mensual estimada de 604,21 €/mes (sujeta a regularización fiscal anual posterior).</p><div style="background:#ECFDF5; border:1px solid #A7F3D0; border-radius:8px; padding:14px; margin:14px 0; color:#065F46; font-size:0.88rem;">¡Felicidades! Has conseguido sortear una combinación infernal de requisitos que solo cumple una pequeña minoría en España. No obstante, recuerda que si en los próximos meses consigues un trabajo temporal y tus ingresos aumentan, la Seguridad Social te exigirá el <strong>reintegro de cobros indebidos</strong> al año siguiente.</div>';
+
+      summaryBox.innerHTML = '<strong>Atención al "Efecto Precipicio" y Cobros Indebidos:</strong> En la regulación actual del IMV, cualquier variación en los ingresos declarados a Hacienda en el ejercicio en curso genera deudas con la Seguridad Social que pueden llegar a miles de euros.';
+    }
+  }
+
+  function restartSimulation() {
+    currentStep = 1;
+    userAnswers = { step1: null, step2: null, step3: null, step4: null, step5: null };
+    denialReasons = [];
+
+    // Limpiar radios
+    document.querySelectorAll('.option-card').forEach(function(c) {
+      c.classList.remove('selected');
+      var r = c.querySelector('input[type="radio"]');
+      if (r) r.checked = false;
+    });
+
+    // Ocultar alertas
+    for (var i = 1; i <= 5; i++) {
+      var a = document.getElementById('trapAlertStep' + i);
+      if (a) a.classList.remove('visible');
+    }
+
+    document.getElementById('officialLetter').classList.remove('visible');
+    document.getElementById('stepperNav').style.display = 'flex';
+    document.getElementById('step1Card').style.display = 'block';
+
+    updateStepperUI();
+  }
+
+  // ============================================================
+  // CASOS REALES DEL ALUMNADO Y LA SOCIEDAD
+  // ============================================================
+  var casesData = [
+    {
+      name: "Mateo (21 años)",
+      role: "Estudiante universitario · Grado en RRLyRRHH",
+      badge: "❌ DENEGACIÓN AUTOMÁTICA",
+      badgeClass: "badge-denied-case",
+      story: "Mateo estudia en la Universidad Pablo de Olavide y para no ser una carga para su familia humilde vive en un piso compartido en Sevilla con 2 compañeros de carrera. Trabaja los fines de semana poniendo copas y cobra unos 380 € al mes. Paga 250 € de alquiler por su habitación. No llega a fin de mes e intenta solicitar el IMV.",
+      trapTitle: "La doble muralla de exclusión legal:",
+      trapText: "1. <strong>Edad menor a 23 años (Art. 7.1.a):</strong> Por tener 21 años, la ley le prohíbe taxativamente solicitar el IMV por sí mismo.<br>2. <strong>La trampa del piso compartido (Art. 6):</strong> Para el INSS, Mateo y sus dos compañeros de piso forman la misma unidad económica. Para computar como independiente, tendría que haber vivido 2 años solo antes y aportar un informe de exclusión social emitido por el ayuntamiento.",
+      econAnalysis: "<strong>Análisis de Políticas Públicas:</strong> El diseño legal asume un modelo tradicional donde los jóvenes hasta los 23 o 30 años deben ser financiados exclusivamente por la solidaridad familiar intergeneracional, desincentivando la emancipación temprana y dejando en una absoluta desprotección a los estudiantes de clases trabajadoras."
+    },
+    {
+      name: "Lucía (26 años)",
+      role: "Graduada universitaria en paro · Vive con sus padres",
+      badge: "❌ DENEGADA POR RENTA DEL HOGAR",
+      badgeClass: "badge-denied-case",
+      story: "Lucía terminó la carrera hace 1 año. Ha enviado más de 120 currículums sin éxito y lleva 8 meses sin un solo euro de ingresos propios. Como no puede independizarse, sigue empadronada y viviendo en casa de sus padres. Su padre trabaja como conserje (cobra 1.150 €/mes) y su madre limpia por horas (cobra 450 €/mes).",
+      trapTitle: "La absorción en la Unidad de Convivencia Familiar (Art. 6 y 13):",
+      trapText: "El INSS no evalúa la situación de Lucía de forma individual, sino que suma los ingresos de su padre y su madre. Como la suma familiar supera los ~14.000 € anuales fijados para un hogar de 3 adultos, el sistema le deniega la ayuda. Para la ley, Lucía no es pobre porque sus padres perciben un salario mínimo conjunto.",
+      econAnalysis: "<strong>Análisis de Políticas Públicas:</strong> Esta regla consolida la dependencia familiar e impide que los graduados jóvenes cuenten con una renta mínima de inserción para costearse la búsqueda activa, cursos de especialización o gastos de transporte a entrevistas."
+    },
+    {
+      name: "Karim (32 años)",
+      role: "Repartidor con shock de ingresos · Accidente laboral",
+      badge: "❌ DENEGADO POR IRPF AÑO ANTERIOR",
+      badgeClass: "badge-denied-case",
+      story: "Karim tiene 32 años y vive de alquiler individual. En 2025 trabajó 11 meses pedaleando como repartidor autónomo (rider) y facturó 12.500 € brutos. En enero de 2026 sufre una fractura de cadera que le impide pedalear. Agota sus escasos ahorros médicos en 2 meses. Hoy tiene 0 € de ingresos y debe pagar 400 € de alquiler.",
+      trapTitle: "El espejismo del IRPF del ejercicio anterior (Art. 11):",
+      trapText: "Karim solicita el IMV en marzo de 2026 en situación de emergencia total. El INSS consulta sus datos fiscales con Hacienda y comprueba que en el año 2025 ingresó 12.500 € (superando el límite de 7.250 € para 1 adulto). Aunque hoy no tenga para comer, la Seguridad Social le deniega la ayuda alegando que en el ejercicio anterior no cumplía el umbral de vulnerabilidad económica.",
+      econAnalysis: "<strong>Análisis de Políticas Públicas:</strong> El retraso temporal del test fiscal retroactivo (backward-looking) hace que el IMV fracase estrepitosamente como red de seguridad anticíclica ante caídas sobrevenidas e imprevistas de renta."
+    },
+    {
+      name: "Elena (35 años)",
+      role: "Madre monoparental con 1 menor a cargo",
+      badge: "⚠️ BLOQUEADA POR EXIGENCIA JUDICIAL",
+      badgeClass: "badge-denied-case",
+      story: "Elena está separada y vive sola con su hija de 4 años en un piso de alquiler social. Sus ingresos son de 250 € al mes por trabajos domésticos informales. Su expareja desapareció hace 6 meses y nunca le abona los 150 € de pensión alimenticia acordados en el convenio.",
+      trapTitle: "La exigencia de demanda judicial de alimentos previa:",
+      trapText: "Elena cumple los requisitos de renta y patrimonio. Sin embargo, la sede electrónica del INSS le exige como documento obligatorio la sentencia de medidas paterno-filiales y la acreditación de haber interpuesto demanda judicial de ejecución contra su expareja. Al no disponer de dinero ni abogado para el proceso judicial, la solicitud queda bloqueada y desestimada por falta de documentación.",
+      econAnalysis: "<strong>Análisis de Políticas Públicas:</strong> La exigencia de judicialización previa traslada a la víctima de abandono parental una carga procesal y económica inasumible, convirtiendo un conflicto de derecho de familia en una barrera insuperable para la subsistencia de los menores."
+    },
+    {
+      name: "Manolo (58 años)",
+      role: "Parado de larga duración · Parcela rústica heredada",
+      badge: "❌ DENEGADO POR TEST DE PATRIMONIO",
+      badgeClass: "badge-denied-case",
+      story: "Manolo tiene 58 años, lleva 4 años en desempleo y ha agotado tanto la prestación contributiva como el subsidio por desempleo. Vive en una casa humilde y no tiene ni 1.000 € en el banco. Sin embargo, cuando murió su abuelo, heredó una participación del 50% de una parcela rústica de secano con olivos abandonados que nadie quiere comprar.",
+      trapTitle: "El Test de Patrimonio Neto Inmueble (Art. 20):",
+      trapText: "Catastro tasa formalmente la parcela rústica en 24.000 €. Aunque Manolo no pueda venderla ni genere ningún rendimiento económico agrícola, para la Seguridad Social ese valor computa íntegro en su patrimonio neto. Al superar el límite legal de 20.353 € de activos para un adulto solo, el INSS deniega su solicitud.",
+      econAnalysis: "<strong>Análisis de Políticas Públicas:</strong> El test de patrimonio penaliza el patrimonio ilíquido e improductivo heredado, obligando a personas en exclusión a malvender o renunciar a bienes familiares inviables antes de poder percibir una ayuda básica de supervivencia."
+    }
+  ];
+
+  function showCase(idx) {
+    var c = casesData[idx];
+    if (!c) return;
+
+    // Actualizar selector visual
+    var cards = document.querySelectorAll('.case-avatar-card');
+    cards.forEach(function(card, i) {
+      if (i === idx) {
+        card.classList.add('active');
+      } else {
+        card.classList.remove('active');
+      }
+    });
+
+    var box = document.getElementById('caseDetailBox');
+    box.innerHTML = `
+      <div class="case-detail-header">
+        <div class="case-headline">
+          <h3>${c.name}</h3>
+          <p>${c.role}</p>
+        </div>
+        <div class="case-status-badge ${c.badgeClass}">${c.badge}</div>
+      </div>
+
+      <div class="case-story-block">
+        <strong>Situación Real:</strong> ${c.story}
+      </div>
+
+      <div class="case-legal-trap">
+        <h4>⚖️ ${c.trapTitle}</h4>
+        <p>${c.trapText}</p>
+      </div>
+
+      <div class="case-economic-analysis">
+        <h4>📊 Diagnóstico de Políticas Sociolaborales:</h4>
+        <p>${c.econAnalysis}</p>
+      </div>
+    `;
+  }
+
+  // Inicializar vista con caso 0
+  window.addEventListener('DOMContentLoaded', function() {
+    showCase(0);
+  });
+</script>
+
+</body>
+</html>
