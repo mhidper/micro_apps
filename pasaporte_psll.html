@@ -751,6 +751,11 @@
       color: #475569;
       border: 1px solid #E2E8F0;
     }
+    .status-justificado {
+      background: #E8F4EC;
+      color: #113927;
+      border: 1px solid #76927A;
+    }
     .status-encorreccion {
       background: #E0F2FE;
       color: #0369A1;
@@ -1382,6 +1387,9 @@
         data.sesiones.forEach(ses => {
           const card = document.createElement('div');
           card.className = 'session-card-compact';
+          const isJustif = (ses.estado || '').toLowerCase().includes('justifica') || ses.es_justificada;
+          const badgeText = isJustif ? 'Ausencia Justificada' : `${ses.puntos_obtenidos} pts`;
+          const badgeStyle = isJustif ? 'background: #E8F4EC; color: #113927; border: 1px solid #76927A;' : '';
           card.innerHTML = `
             <div class="compact-top">
               <div>
@@ -1390,7 +1398,7 @@
                 </div>
                 <div class="compact-title">${ses.titulo_completo}</div>
               </div>
-              <div class="compact-score-badge">${ses.puntos_obtenidos} pts</div>
+              <div class="compact-score-badge" style="${badgeStyle}">${badgeText}</div>
             </div>
             <div style="font-size: 0.82rem; color: var(--text-muted);">
               Estado: <strong style="color: var(--pino);">${ses.estado}</strong>
@@ -1423,9 +1431,10 @@
           const navBtn = document.createElement('button');
           navBtn.className = 'nav-tab-btn';
           navBtn.dataset.tabTarget = `tab-${ses.id}`;
+          const isJustif = (ses.estado || '').toLowerCase().includes('justifica') || ses.es_justificada;
           navBtn.innerHTML = `
             <span>${ses.titulo_corto}</span>
-            <span class="tab-badge">${ses.puntos_obtenidos} pts</span>
+            <span class="tab-badge" style="${isJustif ? 'background: #E8F4EC; color: #113927;' : ''}">${isJustif ? 'Justif.' : ses.puntos_obtenidos + ' pts'}</span>
           `;
           navBtn.addEventListener('click', () => switchMainTab(`tab-${ses.id}`));
           mainTabsNav.appendChild(navBtn);
@@ -1447,7 +1456,10 @@
                 </div>
                 <div class="session-badge-score">
                   <span class="status-badge ${statusClass}">${ses.estado}</span>
-                  <span class="points-tag">${ses.puntos_obtenidos} / ${ses.puntos_maximos} pts</span>
+                  ${isJustif 
+                    ? `<span class="points-tag" style="font-size: 0.95rem; color: var(--salvia);">Exento (0 pts computables)</span>`
+                    : `<span class="points-tag">${ses.puntos_obtenidos} / ${ses.puntos_maximos} pts</span>`
+                  }
                 </div>
               </div>
 
@@ -1852,7 +1864,8 @@
       }
 
       function getStatusClass(estado) {
-        const est = estado.toLowerCase();
+        const est = (estado || '').toLowerCase();
+        if (est.includes('justifica')) return 'status-justificado';
         if (est.includes('sobresaliente')) return 'status-sobresaliente';
         if (est.includes('apto') && !est.includes('no')) return 'status-apto';
         if (est.includes('no apto')) return 'status-noapto';
