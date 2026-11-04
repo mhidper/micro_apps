@@ -1009,14 +1009,18 @@
           </div>
 
           <!-- Gráfico Dual: Radar y Barras de Composición -->
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 20px;">
-            <div class="chart-box" style="min-height: 400px;">
-              <h4 style="font-family: 'Outfit'; color: var(--pino); margin-bottom: 12px; text-align: center;">Radar de Especialización (% del Total de PAE)</h4>
-              <canvas id="radarChart"></canvas>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 18px; margin: 16px 0;">
+            <div class="chart-box" style="margin: 0; min-height: auto; padding: 16px 14px;">
+              <h4 style="font-family: 'Outfit'; color: var(--pino); margin-bottom: 8px; text-align: center; font-size: 1.05rem;">Radar de Especialización (% del Total de PAE)</h4>
+              <div style="position: relative; height: 310px; width: 100%;">
+                <canvas id="radarChart"></canvas>
+              </div>
             </div>
-            <div class="chart-box" style="min-height: 400px;">
-              <h4 style="font-family: 'Outfit'; color: var(--pino); margin-bottom: 12px; text-align: center;">Desglose en Barras (% del Gasto Total en PAE)</h4>
-              <canvas id="barsPaeChart"></canvas>
+            <div class="chart-box" style="margin: 0; min-height: auto; padding: 16px 14px;">
+              <h4 style="font-family: 'Outfit'; color: var(--pino); margin-bottom: 8px; text-align: center; font-size: 1.05rem;">Desglose en Barras (% del Gasto Total en PAE)</h4>
+              <div style="position: relative; height: 310px; width: 100%;">
+                <canvas id="barsPaeChart"></canvas>
+              </div>
             </div>
           </div>
 
@@ -5588,8 +5592,10 @@
 
       if (phaseNum === 1 && macroChartInstance) macroChartInstance.resize();
       if (phaseNum === 2) {
-        if (radarChartInstance) radarChartInstance.resize();
-        if (barsChartInstance) barsChartInstance.resize();
+        setTimeout(() => {
+          if (radarChartInstance) radarChartInstance.resize();
+          if (barsChartInstance) barsChartInstance.resize();
+        }, 40);
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -5770,15 +5776,16 @@
       const compName = OECD_DATA.paises[compCode] ? OECD_DATA.paises[compCode].nombre : compCode;
 
       const categories = [
-        { key: 'LMP_10', label: '1. Servicios de Empleo (SPE)' },
-        { key: 'LMP_20', label: '2. Formación' },
-        { key: 'LMP_40', label: '3. Incentivos Contratación' },
-        { key: 'LMP_50', label: '4. Empleo Protegido' },
-        { key: 'LMP_60', label: '5. Creación Directa' },
-        { key: 'LMP_70', label: '6. Autoempleo (Start-ups)' }
+        { key: 'LMP_10', radarLabel: ['1. Serv. Empleo', '(SPE)'], barLabel: '1. Serv. Empleo (SPE)' },
+        { key: 'LMP_20', radarLabel: ['2. Formación'], barLabel: '2. Formación' },
+        { key: 'LMP_40', radarLabel: ['3. Incentivos', 'Contratación'], barLabel: '3. Inc. Contratación' },
+        { key: 'LMP_50', radarLabel: ['4. Empleo', 'Protegido'], barLabel: '4. Empleo Protegido' },
+        { key: 'LMP_60', radarLabel: ['5. Creación', 'Directa'], barLabel: '5. Creación Directa' },
+        { key: 'LMP_70', radarLabel: ['6. Autoempleo', '(Start-ups)'], barLabel: '6. Autoempleo' }
       ];
 
-      const catLabels = categories.map(c => c.label);
+      const radarLabels = categories.map(c => c.radarLabel);
+      const barLabels = categories.map(c => c.barLabel);
       const espValues = categories.map(c => espData && espData.desglose_pae_relativo_pct ? (espData.desglose_pae_relativo_pct[c.key] || 0) : 0);
       const compValues = categories.map(c => compData && compData.desglose_pae_relativo_pct ? (compData.desglose_pae_relativo_pct[c.key] || 0) : 0);
 
@@ -5789,7 +5796,7 @@
       radarChartInstance = new Chart(ctxRadar, {
         type: 'radar',
         data: {
-          labels: catLabels,
+          labels: radarLabels,
           datasets: [
             {
               label: 'España (% de PAE)',
@@ -5812,17 +5819,32 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          layout: {
+            padding: { top: 6, bottom: 6, left: 14, right: 14 }
+          },
           scales: {
             r: {
               angleLines: { color: '#E8F1EC' },
               grid: { color: '#DCE5DF' },
-              pointLabels: { font: { family: 'Inter', size: 11, weight: '600' } },
+              pointLabels: {
+                font: { family: 'Inter', size: 10.5, weight: '600' },
+                color: '#2F3A30'
+              },
+              ticks: {
+                backdropColor: 'transparent',
+                font: { size: 9 },
+                color: '#76927A',
+                stepSize: 15
+              },
               suggestedMin: 0,
               suggestedMax: 60
             }
           },
           plugins: {
-            legend: { position: 'bottom' }
+            legend: {
+              position: 'bottom',
+              labels: { boxWidth: 12, padding: 10, font: { family: 'Inter', size: 11, weight: '500' } }
+            }
           }
         }
       });
@@ -5834,7 +5856,7 @@
       barsChartInstance = new Chart(ctxBars, {
         type: 'bar',
         data: {
-          labels: catLabels,
+          labels: barLabels,
           datasets: [
             {
               label: 'España (%)',
@@ -5854,8 +5876,20 @@
           indexAxis: 'y',
           responsive: true,
           maintainAspectRatio: false,
+          layout: {
+            padding: { top: 4, bottom: 4, left: 8, right: 14 }
+          },
+          datasets: {
+            bar: {
+              barPercentage: 0.75,
+              categoryPercentage: 0.8
+            }
+          },
           plugins: {
-            legend: { position: 'bottom' },
+            legend: {
+              position: 'bottom',
+              labels: { boxWidth: 12, padding: 10, font: { family: 'Inter', size: 11, weight: '500' } }
+            },
             tooltip: {
               callbacks: {
                 label: (ctx) => `${ctx.dataset.label}: ${ctx.raw.toFixed(1)}% del total PAE`
@@ -5864,10 +5898,17 @@
           },
           scales: {
             x: {
-              title: { display: true, text: '% del Gasto en Políticas Activas' },
-              grid: { color: '#E8F1EC' }
+              title: { display: true, text: '% del Gasto en Políticas Activas', font: { family: 'Inter', size: 11 } },
+              grid: { color: '#E8F1EC' },
+              ticks: { font: { family: 'Inter', size: 10 } }
             },
-            y: { grid: { display: false } }
+            y: {
+              grid: { display: false },
+              ticks: {
+                font: { family: 'Inter', size: 10.5, weight: '500' },
+                autoSkip: false
+              }
+            }
           }
         }
       });
