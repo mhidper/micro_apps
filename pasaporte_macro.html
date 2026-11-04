@@ -727,6 +727,7 @@
     .status-apto { background: #EFF6FF; color: #1E40AF; border: 1px solid #BFDBFE; }
     .status-noapto { background: #FFF1F2; color: #9F1239; border: 1px solid #FECDD3; }
     .status-nopresentado { background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1; }
+    .status-justificado { background: #ECFDF5; color: #047857; border: 1px solid #A7F3D0; font-weight: 700; }
 
     .session-score-tag {
       background: var(--navy);
@@ -1359,11 +1360,16 @@
         data.sesiones.forEach(ses => {
           const tabId = `tab-${ses.id}`;
 
+          const isJustif = (ses.estado || '').toLowerCase().includes('justifica') || ses.es_justificada;
+          const badgeScoreText = isJustif ? 'Exenta' : `${ses.puntos_obtenidos} pts`;
+          const compactBadgeText = isJustif ? 'Exenta (0 pts computables)' : `${ses.puntos_obtenidos} / ${ses.puntos_maximos} pts`;
+          const headerScoreTag = isJustif ? 'Ausencia Justificada (No computa en denominador)' : `${ses.puntos_obtenidos} / ${ses.puntos_maximos} pts (${ses.porcentaje}%)`;
+
           // Botón de pestaña en el menú superior
           const sessionTabBtn = document.createElement('button');
           sessionTabBtn.className = 'nav-tab-btn';
           sessionTabBtn.dataset.tabTarget = tabId;
-          sessionTabBtn.innerHTML = `📘 ${ses.titulo_corto} <span class="tab-badge">${ses.puntos_obtenidos} pts</span>`;
+          sessionTabBtn.innerHTML = `📘 ${ses.titulo_corto} <span class="tab-badge">${badgeScoreText}</span>`;
           sessionTabBtn.addEventListener('click', () => switchMainTab(tabId));
           mainTabsNav.appendChild(sessionTabBtn);
 
@@ -1376,7 +1382,7 @@
                 <div class="compact-title">${ses.titulo_completo}</div>
                 <div style="font-size: 0.78rem; color: #64748B; margin-top: 2px;">📅 ${ses.fecha}</div>
               </div>
-              <div class="compact-score-badge">${ses.puntos_obtenidos} / ${ses.puntos_maximos} pts</div>
+              <div class="compact-score-badge">${compactBadgeText}</div>
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <span class="badge-status ${getStatusClass(ses.estado)}">● ${ses.estado}</span>
@@ -1402,7 +1408,7 @@
                 </div>
                 <div class="session-badges">
                   <span class="badge-status ${getStatusClass(ses.estado)}">● ${ses.estado}</span>
-                  <span class="session-score-tag">${ses.puntos_obtenidos} / ${ses.puntos_maximos} pts (${ses.porcentaje}%)</span>
+                  <span class="session-score-tag">${headerScoreTag}</span>
                 </div>
               </div>
 
@@ -1790,7 +1796,8 @@
       }
 
       function getStatusClass(estado) {
-        const est = estado.toLowerCase();
+        const est = (estado || '').toLowerCase();
+        if (est.includes('justifica')) return 'status-justificado';
         if (est.includes('sobresaliente')) return 'status-sobresaliente';
         if (est.includes('apto') && !est.includes('no')) return 'status-apto';
         if (est.includes('no apto')) return 'status-noapto';
