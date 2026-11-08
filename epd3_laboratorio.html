@@ -17,7 +17,7 @@
   <!-- KaTeX para formulación matemática y estadística -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderAllMath()"></script>
 
   <style>
     /* ==========================================================================
@@ -1111,8 +1111,11 @@
             <!-- Pregunta 1 -->
             <div class="checkpoint-question">
               <label id="lblQ1">1. [España · 2022] Calcula la Cuota de Políticas Pasivas sobre el Gasto Total en Políticas de Empleo (%):</label>
-              <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 8px;">
-                Fórmula: $	ext{Cuota PS} = rac{	ext{Gasto Pasivas (LMP 80+90)}}{	ext{Gasto Total en Empleo (LMP 1-9)}} 	imes 100$
+                            <div style="font-size: 0.88rem; color: var(--text-body); margin: 6px 0 10px 0; background: #F8FAF9; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--border-subtle);">
+                <strong style="color: var(--pino);">Fórmula analítica:</strong>
+                <div style="margin-top: 4px; font-size: 0.95rem;">
+                  $$\text{Cuota PS (\%)} = \left[ \frac{\text{Gasto en Pasivas (LMP 80+90)}}{\text{Gasto Total en Empleo (LMP 1-9)}} \right] \times 100$$
+                </div>
               </div>
               <div class="input-check-group">
                 <input type="text" id="ansQ1" class="check-input" placeholder="ej. 67.1">
@@ -1124,8 +1127,11 @@
             <!-- Pregunta 2 -->
             <div class="checkpoint-question">
               <label id="lblQ2">2. [Alemania · 2022] ¿Qué porcentaje del gasto total de Políticas Activas (PAE) se dedica a Servicios Públicos de Empleo e Intermediación (Categoría 1)?</label>
-              <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 8px;">
-                Fórmula: $	ext{% SPE en PAE} = rac{	ext{LMP 10}}{	ext{LMP 10T70}} 	imes 100$
+                            <div style="font-size: 0.88rem; color: var(--text-body); margin: 6px 0 10px 0; background: #F8FAF9; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--border-subtle);">
+                <strong style="color: var(--pino);">Fórmula analítica:</strong>
+                <div style="margin-top: 4px; font-size: 0.95rem;">
+                  $$\text{\% SPE en PAE} = \left[ \frac{\text{LMP 10 (SPE)}}{\text{LMP 10T70 (Total PAE)}} \right] \times 100$$
+                </div>
               </div>
               <div class="input-check-group">
                 <input type="text" id="ansQ2" class="check-input" placeholder="ej. 55.3">
@@ -1137,8 +1143,11 @@
             <!-- Pregunta 3 -->
             <div class="checkpoint-question">
               <label id="lblQ3">3. [España vs. Alemania · 2022] ¿Cuántas veces es mayor el porcentaje relativo dedicado a Autoempleo (Categoría 6) en España que en Alemania?</label>
-              <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 8px;">
-                Fórmula: $	ext{Ratio Autoempleo} = rac{	ext{% Autoempleo en PAE España}}{	ext{% Autoempleo en PAE País Asignado}}$
+                            <div style="font-size: 0.88rem; color: var(--text-body); margin: 6px 0 10px 0; background: #F8FAF9; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--border-subtle);">
+                <strong style="color: var(--pino);">Fórmula analítica:</strong>
+                <div style="margin-top: 4px; font-size: 0.95rem;">
+                  $$\text{Ratio Autoempleo} = \frac{\text{\% Autoempleo en PAE España}}{\text{\% Autoempleo en PAE País Asignado}}$$
+                </div>
               </div>
               <div class="input-check-group">
                 <input type="text" id="ansQ3" class="check-input" placeholder="ej. 12.8">
@@ -5427,14 +5436,8 @@
 
       setupEditorGuard();
 
-      if (window.renderMathInElement) {
-        renderMathInElement(document.body, {
-          delimiters: [
-            {left: '$$', right: '$$', display: true},
-            {left: '$', right: '$', display: false}
-          ]
-        });
-      }
+      renderAllMath();
+      setTimeout(renderAllMath, 300);
     });
 
     // Poblar desplegables de compañeros
@@ -5582,6 +5585,22 @@
       });
     }
 
+    
+    function renderAllMath() {
+      if (window.renderMathInElement) {
+        try {
+          renderMathInElement(document.body, {
+            delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '$', right: '$', display: false}
+            ],
+            throwOnError: false
+          });
+        } catch (e) {
+          console.warn("KaTeX render error:", e);
+        }
+      }
+    }
     function switchPhase(phaseNum) {
       for (let i = 1; i <= 4; i++) {
         document.getElementById(`phase${i}`).classList.remove('active');
@@ -5596,6 +5615,9 @@
           if (radarChartInstance) radarChartInstance.resize();
           if (barsChartInstance) barsChartInstance.resize();
         }, 40);
+      }
+      if (phaseNum === 3) {
+        setTimeout(renderAllMath, 60);
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
