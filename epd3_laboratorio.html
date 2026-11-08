@@ -1122,7 +1122,7 @@
                 </div>
               </div>
               <div class="input-check-group">
-                <input type="text" id="ansQ1" class="check-input" placeholder="ej. 67.1">
+                <input type="text" id="ansQ1" class="check-input" placeholder="ej. 71.2">
                 <button class="btn btn-secondary" onclick="validateQ1()">Comprobar</button>
                 <span id="feedQ1" class="check-feedback"></span>
               </div>
@@ -5959,14 +5959,17 @@
 
     function validateQ1() {
       const espData = OECD_DATA.paises['ESP'].series_temporales['2022'];
-      const targetVal = espData.balanza.cuota_ps_pct; // ~67.1
+      const targetVal = espData.balanza.cuota_ps_pct; // 71.15%
 
       const raw = document.getElementById('ansQ1').value.trim().replace(',', '.');
       const inputVal = parseFloat(raw);
       const feed = document.getElementById('feedQ1');
       const inp = document.getElementById('ansQ1');
 
-      if (!isNaN(inputVal) && Math.abs(inputVal - targetVal) <= 0.6) {
+      // Aceptamos 71.2% (oficial LMP 80+90) y también 67.1% (LMP 80 sin LMP 90) con margen ±1.0
+      const isOk = !isNaN(inputVal) && (Math.abs(inputVal - targetVal) <= 1.0 || Math.abs(inputVal - 67.1) <= 1.0);
+
+      if (isOk) {
         q1Valid = true;
         inp.className = 'check-input correct';
         feed.className = 'check-feedback ok';
@@ -5975,7 +5978,7 @@
         q1Valid = false;
         inp.className = 'check-input incorrect';
         feed.className = 'check-feedback bad';
-        feed.textContent = `✗ Incorrecto. Revisa el valor de pasivas (1.52%) y total (2.27%).`;
+        feed.textContent = `✗ Incorrecto. Revisa las tarjetas de España en Fase 1: Pasivas (1,85%) y Gasto Total (2,60%) → 71,2%.`;
       }
       checkAllUnlocked();
     }
