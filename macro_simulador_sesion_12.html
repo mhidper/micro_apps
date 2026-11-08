@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Sesión 12 · De la Relación WS-PS a la Curva de Phillips y las Expectativas · Macro UPO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0b1c36;
+      --cobalt: #056caa;
+      --azure: #0776b5;
+      --gold: #d97706;
+      --crimson: #e11d48;
+      --teal: #059669;
+      --indigo: #4338ca;
+      --slate: #64748b;
+      --bg-cream: #faf8f5;
+      --card-border: #e2e8f0;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-cream);
+      color: #1e293b;
+      line-height: 1.55;
+      padding-bottom: 70px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+    
+    /* Header */
+    .intro { padding: 22px 0 10px; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cobalt);
+      margin-bottom: 6px;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 18px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--cobalt), var(--gold));
+      border-radius: 2px;
+    }
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.4rem, 4vw, 2.0rem);
+      line-height: 1.15;
+      color: var(--navy);
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+    .lede { font-size: 0.92rem; color: #475569; margin-bottom: 12px; }
+
+    /* Sticky Hero Panel */
+    .hero {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(250, 248, 245, 0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 10px 0 12px;
+      box-shadow: 0 10px 25px -20px rgba(11, 28, 54, 0.25);
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .kpi-card {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .kpi-label { font-size: 0.67rem; color: var(--slate); text-transform: uppercase; font-weight: 600; margin-bottom: 2px; }
+    .kpi-val { font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 800; color: var(--navy); }
+    .kpi-sub { font-size: 0.70rem; font-weight: 600; }
+    .kpi-sub.pos { color: var(--teal); }
+    .kpi-sub.neg { color: var(--crimson); }
+    .kpi-sub.warn { color: var(--gold); }
+    .kpi-sub.neu { color: var(--slate); }
+
+    /* Presets bar */
+    .presets-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 14px 0 16px;
+    }
+    .preset-btn {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--slate);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .preset-btn:hover, .preset-btn.active {
+      background: var(--navy);
+      color: #ffffff;
+      border-color: var(--navy);
+      transform: translateY(-1px);
+    }
+    .preset-btn .tag {
+      font-size: 0.68rem;
+      padding: 1px 6px;
+      border-radius: 10px;
+      background: rgba(0,0,0,0.06);
+    }
+    .preset-btn.active .tag {
+      background: rgba(255,255,255,0.25);
+    }
+
+    /* Main layout: Controls + Visualizer */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+    @media (max-width: 860px) {
+      .main-grid { grid-template-columns: 1fr; }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* Cards */
+    .card {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .card-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .card-title span { color: var(--cobalt); font-size: 1.1rem; }
+
+    /* Control Sliders */
+    .ctrl-group { margin-bottom: 14px; }
+    .ctrl-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4px;
+    }
+    .ctrl-label { font-size: 0.8rem; font-weight: 600; color: #334155; }
+    .ctrl-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--cobalt);
+    }
+    input[type=range] {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #e2e8f0;
+      outline: none;
+      -webkit-appearance: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--cobalt);
+      cursor: pointer;
+      border: 2px solid #ffffff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      transition: transform 0.1s;
+    }
+    input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+    .ctrl-help { font-size: 0.69rem; color: #64748b; margin-top: 2px; }
+
+    /* Mode Pill Selector */
+    .mode-pills {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      background: #f1f5f9;
+      padding: 4px;
+      border-radius: 8px;
+      margin-bottom: 14px;
+    }
+    .mode-pill {
+      border: none;
+      background: transparent;
+      padding: 6px 4px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: #64748b;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+    .mode-pill.active {
+      background: #ffffff;
+      color: var(--navy);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    /* Chart Canvas Container */
+    .chart-container {
+      position: relative;
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 8px;
+      border: 1px solid #f1f5f9;
+    }
+    canvas {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 6px;
+    }
+
+    /* Explanation Banner */
+    .banner {
+      background: #f0f7ff;
+      border-left: 4px solid var(--cobalt);
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin-top: 14px;
+      font-size: 0.82rem;
+      color: #1e293b;
+      line-height: 1.45;
+    }
+    .banner-bold { font-weight: 700; color: var(--navy); }
+
+    /* Mathematical Deduction Section */
+    .math-box {
+      margin-top: 20px;
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 16px;
+    }
+    .math-step {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed #e2e8f0;
+    }
+    .math-step:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+    .step-num {
+      background: var(--navy);
+      color: #ffffff;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 0.75rem;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .step-content { flex: 1; }
+    .step-title { font-weight: 700; font-size: 0.84rem; color: var(--navy); margin-bottom: 2px; }
+    .step-formula {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      background: #f8fafc;
+      padding: 4px 8px;
+      border-radius: 4px;
+      border-left: 3px solid var(--cobalt);
+      margin: 4px 0;
+      color: var(--navy);
+      display: inline-block;
+    }
+    .step-desc { font-size: 0.78rem; color: #475569; }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 15px;
+      border-top: 1px solid var(--card-border);
+      font-size: 0.75rem;
+      color: var(--slate);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrap intro">
+    <div class="eyebrow">Macroeconomía · DER + FICO · UPO</div>
+    <h1>Simulador Activo: Curva de Phillips y Expectativas</h1>
+    <p class="lede">De la relación microeconómica WS-PS al dilema macroeconómico entre desempleo e inflación. Explore en tiempo real la transición desde el modelo clásico de los años 60 a la curva aceleracionista moderna.</p>
+  </div>
+
+  <!-- Sticky Hero Bar -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Tasa de Desempleo (u)</div>
+          <div class="kpi-val" id="kpi-u">6,0%</div>
+          <div class="kpi-sub neu" id="kpi-u-sub">u<sub>n</sub> = 6,0%</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Inflación Esperada (π<sup>e</sup>)</div>
+          <div class="kpi-val" id="kpi-pie">2,0%</div>
+          <div class="kpi-sub neu" id="kpi-pie-sub">Expectativas ancladas</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Inflación Efectiva (π)</div>
+          <div class="kpi-val" id="kpi-pi">2,0%</div>
+          <div class="kpi-sub pos" id="kpi-pi-sub">Estabilidad de precios</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Aceleración (Δπ = π - π<sub>t-1</sub>)</div>
+          <div class="kpi-val" id="kpi-deltapi">0,0 pp</div>
+          <div class="kpi-sub pos" id="kpi-deltapi-sub">Inflación constante</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <!-- Presets -->
+    <div class="presets-bar">
+      <span style="font-size: 0.76rem; font-weight:700; color:var(--navy); align-self:center;">Casos Históricos:</span>
+      <button class="preset-btn active" onclick="loadPreset('baseline', this)">
+        <span>Equilibrio Natural</span> <span class="tag">u = u<sub>n</sub></span>
+      </button>
+      <button class="preset-btn" onclick="loadPreset('sixties', this)">
+        <span>Años 60: Trade-off Clásico</span> <span class="tag">θ = 0 (Ancladas)</span>
+      </button>
+      <button class="preset-btn" onclick="loadPreset('seventies', this)">
+        <span>Años 70: Estanflación</span> <span class="tag">θ = 1 + Shock Petróleo</span>
+      </button>
+      <button class="preset-btn" onclick="loadPreset('overheating', this)">
+        <span>Sobrecalentamiento</span> <span class="tag">u &lt; u<sub>n</sub> (Aceleración)</span>
+      </button>
+      <button class="preset-btn" onclick="loadPreset('disinflation', this)">
+        <span>Desinflación Volcker</span> <span class="tag">u &gt; u<sub>n</sub> (Freno)</span>
+      </button>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="main-grid">
+      <!-- Controls Column -->
+      <div class="card">
+        <div class="card-title">
+          <span>⚙️</span> Régimen de Expectativas
+        </div>
+
+        <div class="mode-pills">
+          <button class="mode-pill active" id="pill-anchored" onclick="setMode('anchored')">Ancladas (θ = 0)</button>
+          <button class="mode-pill" id="pill-adaptive" onclick="setMode('adaptive')">Aceleracionistas (θ = 1)</button>
+        </div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-head">
+            <span class="ctrl-label">Grado de desanclaje (θ)</span>
+            <span class="ctrl-val" id="val-theta">0,00</span>
+          </div>
+          <input type="range" id="sl-theta" min="0" max="1" step="0.05" value="0" oninput="updateSim()">
+          <div class="ctrl-help">θ = 0: π<sup>e</sup> anclada en meta oficial | θ = 1: π<sup>e</sup> = π<sub>t-1</sub></div>
+        </div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-head">
+            <span class="ctrl-label">Desempleo efectivo (u)</span>
+            <span class="ctrl-val" id="val-u">6,0%</span>
+          </div>
+          <input type="range" id="sl-u" min="2.0" max="14.0" step="0.1" value="6.0" oninput="updateSim()">
+          <div class="ctrl-help">Tasa de paro efectiva en el mercado de trabajo</div>
+        </div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-head">
+            <span class="ctrl-label">Inflación periodo anterior (π<sub>t-1</sub>)</span>
+            <span class="ctrl-val" id="val-piprev">2,0%</span>
+          </div>
+          <input type="range" id="sl-piprev" min="-1.0" max="12.0" step="0.2" value="2.0" oninput="updateSim()">
+          <div class="ctrl-help">Punto de partida de la espiral de precios</div>
+        </div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-head">
+            <span class="ctrl-label">Meta anclada (π̄)</span>
+            <span class="ctrl-val" id="val-pibar">2,0%</span>
+          </div>
+          <input type="range" id="sl-pibar" min="0.0" max="5.0" step="0.1" value="2.0" oninput="updateSim()">
+          <div class="ctrl-help">Objetivo de estabilidad del Banco Central (BCE: 2%)</div>
+        </div>
+
+        <div class="card-title" style="margin-top:16px;">
+          <span>⚖️</span> Parámetros Estructurales (WS-PS)
+        </div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-head">
+            <span class="ctrl-label">Sensibilidad salarial (α)</span>
+            <span class="ctrl-val" id="val-alpha">0,80</span>
+          </div>
+          <input type="range" id="sl-alpha" min="0.30" max="1.50" step="0.05" value="0.80" oninput="updateSim()">
+          <div class="ctrl-help">Pendiente de la Curva de Phillips: respuesta de salarios al paro</div>
+        </div>
+
+        <div class="ctrl-group">
+          <div class="ctrl-head">
+            <span class="ctrl-label">Margen + Rigidez (m + z)</span>
+            <span class="ctrl-val" id="val-mz">4,8%</span>
+          </div>
+          <input type="range" id="sl-mz" min="2.0" max="10.0" step="0.2" value="4.8" oninput="updateSim()">
+          <div class="ctrl-help">Determina u<sub>n</sub> = (m + z) / α</div>
+        </div>
+      </div>
+
+      <!-- Chart and Analysis Column -->
+      <div class="card">
+        <div class="card-title">
+          <span>📈</span> Diagrama Interactivo de la Curva de Phillips
+        </div>
+
+        <div class="chart-container">
+          <canvas id="phillipsCanvas" width="800" height="480"></canvas>
+        </div>
+
+        <div class="banner" id="analysis-banner">
+          <span class="banner-bold">Diagnóstico Macroeconómico:</span>
+          <span id="banner-text">La economía se encuentra en su tasa natural de desempleo (u = 6,0%). La inflación se mantiene perfectamente estable en el objetivo del 2,0%.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mathematical Deduction Section -->
+    <div class="math-box">
+      <div class="card-title">
+        <span>📐</span> Deducción Formal Paso a Paso: De WS-PS a la Curva de Phillips
+      </div>
+
+      <div class="math-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Fijación de Salarios (WS) y Precios (PS)</div>
+          <div class="step-desc">Los trabajadores negocian salarios nominales en función de precios esperados, paro y factores institucionales: <b>W = P<sup>e</sup> F(u, z)</b>. Las empresas fijan precios aplicando un margen <i>m</i> sobre sus costes laborales: <b>P = (1 + m)W</b>.</div>
+        </div>
+      </div>
+
+      <div class="math-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Ecuación Conjunta y Linealización de Blanchard</div>
+          <div class="step-desc">Sustituyendo el salario en la función de precios: <b>P = P<sup>e</sup> (1 + m) F(u, z)</b>. Asumiendo la forma lineal habitual <b>F(u, z) = 1 − α·u + z</b> y aproximando logarítmicamente para tasas de variación:</div>
+          <div class="step-formula">π<sub>t</sub> = π<sub>t</sub><sup>e</sup> + (m + z) − α·u<sub>t</sub></div>
+        </div>
+      </div>
+
+      <div class="math-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">La Tasa Natural de Desempleo (NAIRU)</div>
+          <div class="step-desc">En el medio plazo, las expectativas son correctas (π = π<sup>e</sup>). Imponiendo esta condición de equilibrio: <b>0 = (m + z) − α·u<sub>n</sub></b>, lo que determina unívocamente la tasa natural de paro:</div>
+          <div class="step-formula">u<sub>n</sub> = (m + z) / α &nbsp;&nbsp;⟹&nbsp;&nbsp; (m + z) = α·u<sub>n</sub></div>
+        </div>
+      </div>
+
+      <div class="math-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Curva de Phillips Moderna en Desviaciones de la NAIRU</div>
+          <div class="step-desc">Sustituyendo <i>(m + z) = α·u<sub>n</sub></i> en la ecuación general:</div>
+          <div class="step-formula">π<sub>t</sub> − π<sub>t</sub><sup>e</sup> = −α(u<sub>t</sub> − u<sub>n</sub>)</div>
+          <div class="step-desc">Bajo expectativas adaptativas / aceleracionistas (π<sub>t</sub><sup>e</sup> = π<sub>t-1</sub>): <b>π<sub>t</sub> − π<sub>t-1</sub> = −α(u<sub>t</sub> − u<sub>n</sub>)</b>. El paro por debajo del natural no genera inflación alta, sino una <b>inflación continuamente acelerada</b>.</div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      Macroeconomía · Doble Grado en Derecho y Finanzas y Contabilidad · Universidad Pablo de Olavide<br/>
+      Profesor Manuel A. Hidalgo Pérez · Curso 2026-2027
+    </footer>
+  </div>
+
+  <script>
+    const state = {
+      u: 6.0,
+      theta: 0.0,
+      pi_prev: 2.0,
+      pi_bar: 2.0,
+      alpha: 0.80,
+      mz: 4.8,
+    };
+
+    function calcModel() {
+      const u_n = state.mz / state.alpha;
+      const pi_e = (1 - state.theta) * state.pi_bar + state.theta * state.pi_prev;
+      const pi = pi_e - state.alpha * (state.u - u_n);
+      const delta_pi = pi - state.pi_prev;
+      return { u_n, pi_e, pi, delta_pi };
+    }
+
+    function updateSim() {
+      state.u = parseFloat(document.getElementById('sl-u').value);
+      state.theta = parseFloat(document.getElementById('sl-theta').value);
+      state.pi_prev = parseFloat(document.getElementById('sl-piprev').value);
+      state.pi_bar = parseFloat(document.getElementById('sl-pibar').value);
+      state.alpha = parseFloat(document.getElementById('sl-alpha').value);
+      state.mz = parseFloat(document.getElementById('sl-mz').value);
+
+      document.getElementById('val-u').textContent = state.u.toFixed(1) + '%';
+      document.getElementById('val-theta').textContent = state.theta.toFixed(2);
+      document.getElementById('val-piprev').textContent = state.pi_prev.toFixed(1) + '%';
+      document.getElementById('val-pibar').textContent = state.pi_bar.toFixed(1) + '%';
+      document.getElementById('val-alpha').textContent = state.alpha.toFixed(2);
+      document.getElementById('val-mz').textContent = state.mz.toFixed(1) + '%';
+
+      if (state.theta === 0) {
+        document.getElementById('pill-anchored').classList.add('active');
+        document.getElementById('pill-adaptive').classList.remove('active');
+      } else if (state.theta === 1) {
+        document.getElementById('pill-adaptive').classList.add('active');
+        document.getElementById('pill-anchored').classList.remove('active');
+      } else {
+        document.getElementById('pill-anchored').classList.remove('active');
+        document.getElementById('pill-adaptive').classList.remove('active');
+      }
+
+      const res = calcModel();
+
+      document.getElementById('kpi-u').textContent = state.u.toFixed(1) + '%';
+      document.getElementById('kpi-u-sub').innerHTML = 'u<sub>n</sub> = ' + res.u_n.toFixed(1) + '%';
+      
+      document.getElementById('kpi-pie').textContent = res.pi_e.toFixed(1) + '%';
+      if (state.theta === 0) {
+        document.getElementById('kpi-pie-sub').textContent = 'Ancladas en π̄ = ' + state.pi_bar.toFixed(1) + '%';
+      } else if (state.theta === 1) {
+        document.getElementById('kpi-pie-sub').textContent = 'Aceleracionistas (πt-1)';
+      } else {
+        document.getElementById('kpi-pie-sub').textContent = 'Mixtas (θ = ' + state.theta.toFixed(2) + ')';
+      }
+
+      document.getElementById('kpi-pi').textContent = res.pi.toFixed(1) + '%';
+      if (res.pi > 4.0) {
+        document.getElementById('kpi-pi-sub').className = 'kpi-sub neg';
+        document.getElementById('kpi-pi-sub').textContent = 'Alta inflación';
+      } else if (res.pi < 0.5) {
+        document.getElementById('kpi-pi-sub').className = 'kpi-sub warn';
+        document.getElementById('kpi-pi-sub').textContent = 'Riesgo deflacionario';
+      } else {
+        document.getElementById('kpi-pi-sub').className = 'kpi-sub pos';
+        document.getElementById('kpi-pi-sub').textContent = 'Zona de estabilidad';
+      }
+
+      document.getElementById('kpi-deltapi').textContent = (res.delta_pi >= 0 ? '+' : '') + res.delta_pi.toFixed(1) + ' pp';
+      if (Math.abs(res.delta_pi) < 0.05) {
+        document.getElementById('kpi-deltapi-sub').className = 'kpi-sub pos';
+        document.getElementById('kpi-deltapi-sub').textContent = 'Inflación estable (Δπ = 0)';
+      } else if (res.delta_pi > 0) {
+        document.getElementById('kpi-deltapi-sub').className = 'kpi-sub neg';
+        document.getElementById('kpi-deltapi-sub').textContent = 'Inflación acelerándose';
+      } else {
+        document.getElementById('kpi-deltapi-sub').className = 'kpi-sub neu';
+        document.getElementById('kpi-deltapi-sub').textContent = 'Desinflación en curso';
+      }
+
+      let banner = "";
+      if (state.theta === 0) {
+        banner = "<b>Régimen de Expectativas Ancladas (Años 60 / Metas del Banco Central):</b> Los agentes confían en el banco central (π<sup>e</sup> = " + state.pi_bar.toFixed(1) + "%). Un desempleo de u = " + state.u.toFixed(1) + "% sitúa la inflación en π = " + res.pi.toFixed(1) + "%. Existe un trade-off estable de corto plazo.";
+      } else if (state.theta === 1) {
+        if (Math.abs(state.u - res.u_n) < 0.1) {
+          banner = "<b>Curva Aceleracionista en Equilibrio (u = u<sub>n</sub>):</b> El desempleo coincide con la NAIRU (" + res.u_n.toFixed(1) + "%). La inflación del periodo actual coincide con la del año pasado (π<sub>t</sub> = π<sub>t-1</sub> = " + res.pi.toFixed(1) + "%). No hay aceleración de precios (Δπ = 0).";
+        } else if (state.u < res.u_n) {
+          banner = "<b>Sobrecalentamiento y Espiral Inflacionista (u < u<sub>n</sub>):</b> El desempleo está por debajo del natural (" + state.u.toFixed(1) + "% < " + res.u_n.toFixed(1) + "%). La inflación sube en <b>+" + res.delta_pi.toFixed(1) + " puntos porcentuales</b> este periodo. Mantener u en este nivel exigirá acelerar la inflación cada año de forma continua.";
+        } else {
+          banner = "<b>Recesión y Desinflación (u > u<sub>n</sub>):</b> El elevado desempleo (" + state.u.toFixed(1) + "% > " + res.u_n.toFixed(1) + "%) frena los salarios. La inflación cae en <b>" + res.delta_pi.toFixed(1) + " puntos porcentuales</b> respecto al año anterior.";
+        }
+      } else {
+        banner = "<b>Régimen de Transición (Desanclaje Parcial, θ = " + state.theta.toFixed(2) + "):</b> Los agentes ponderan la meta oficial y la inflación pasada reciente. Cuanto mayor es θ, más sensible se vuelve la economía a espirales inflacionistas.";
+      }
+      document.getElementById('banner-text').innerHTML = banner;
+
+      drawChart(res);
+    }
+
+    function setMode(mode) {
+      if (mode === 'anchored') {
+        state.theta = 0.0;
+        document.getElementById('sl-theta').value = 0.0;
+      } else {
+        state.theta = 1.0;
+        document.getElementById('sl-theta').value = 1.0;
+      }
+      updateSim();
+    }
+
+    function loadPreset(name, btn) {
+      document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+      if (btn) {
+        btn.classList.add('active');
+      }
+
+      if (name === 'baseline') {
+        state.theta = 0.0;
+        state.u = 6.0;
+        state.pi_prev = 2.0;
+        state.pi_bar = 2.0;
+        state.alpha = 0.8;
+        state.mz = 4.8;
+      } else if (name === 'sixties') {
+        state.theta = 0.0;
+        state.u = 4.0;
+        state.pi_prev = 1.5;
+        state.pi_bar = 2.0;
+        state.alpha = 0.8;
+        state.mz = 4.8;
+      } else if (name === 'seventies') {
+        state.theta = 1.0;
+        state.u = 7.5;
+        state.pi_prev = 8.0;
+        state.pi_bar = 2.0;
+        state.alpha = 0.8;
+        state.mz = 6.0;
+      } else if (name === 'overheating') {
+        state.theta = 1.0;
+        state.u = 3.5;
+        state.pi_prev = 2.5;
+        state.pi_bar = 2.0;
+        state.alpha = 0.8;
+        state.mz = 4.8;
+      } else if (name === 'disinflation') {
+        state.theta = 1.0;
+        state.u = 9.5;
+        state.pi_prev = 10.0;
+        state.pi_bar = 2.0;
+        state.alpha = 0.8;
+        state.mz = 4.8;
+      }
+
+      document.getElementById('sl-theta').value = state.theta;
+      document.getElementById('sl-u').value = state.u;
+      document.getElementById('sl-piprev').value = state.pi_prev;
+      document.getElementById('sl-pibar').value = state.pi_bar;
+      document.getElementById('sl-alpha').value = state.alpha;
+      document.getElementById('sl-mz').value = state.mz;
+
+      updateSim();
+    }
+
+    function drawChart(res) {
+      const canvas = document.getElementById('phillipsCanvas');
+      const ctx = canvas.getContext('2d');
+      const W = canvas.width;
+      const H = canvas.height;
+
+      ctx.clearRect(0, 0, W, H);
+
+      const padL = 75, padR = 40, padT = 40, padB = 60;
+      const plotW = W - padL - padR;
+      const plotH = H - padT - padB;
+
+      const uMin = 2, uMax = 14;
+      const piMin = -2, piMax = 14;
+
+      function toX(u) { return padL + ((u - uMin) / (uMax - uMin)) * plotW; }
+      function toY(pi) { return padT + ((piMax - pi) / (piMax - piMin)) * plotH; }
+
+      ctx.strokeStyle = '#f1f5f9';
+      ctx.lineWidth = 1.2;
+      for (let u = 2; u <= 14; u += 2) {
+        ctx.beginPath();
+        ctx.moveTo(toX(u), padT);
+        ctx.lineTo(toX(u), padT + plotH);
+        ctx.stroke();
+      }
+      for (let p = 0; p <= 14; p += 2) {
+        ctx.beginPath();
+        ctx.moveTo(padL, toY(p));
+        ctx.lineTo(padL + plotW, toY(p));
+        ctx.stroke();
+      }
+
+      ctx.strokeStyle = '#cbd5e1';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(padL, toY(0));
+      ctx.lineTo(padL + plotW, toY(0));
+      ctx.stroke();
+
+      ctx.strokeStyle = '#94a3b8';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(padL, padT);
+      ctx.lineTo(padL, padT + plotH);
+      ctx.lineTo(padL + plotW, padT + plotH);
+      ctx.stroke();
+
+      ctx.font = '13px Inter, sans-serif';
+      ctx.fillStyle = '#64748b';
+      ctx.textAlign = 'center';
+      for (let u = 2; u <= 14; u += 2) {
+        ctx.fillText(u + '%', toX(u), padT + plotH + 22);
+      }
+      ctx.textAlign = 'right';
+      for (let p = 0; p <= 14; p += 2) {
+        ctx.fillText(p + '%', padL - 10, toY(p) + 5);
+      }
+
+      ctx.font = '700 14px Outfit, sans-serif';
+      ctx.fillStyle = '#0b1c36';
+      ctx.textAlign = 'center';
+      ctx.fillText('Tasa de Desempleo Efectiva (u)', padL + plotW / 2, padT + plotH + 48);
+
+      ctx.save();
+      ctx.translate(22, padT + plotH / 2);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillText('Tasa de Inflación (π, %)', 0, 0);
+      ctx.restore();
+
+      const xUn = toX(res.u_n);
+      ctx.strokeStyle = '#d97706';
+      ctx.lineWidth = 2.5;
+      ctx.setLineDash([6, 6]);
+      ctx.beginPath();
+      ctx.moveTo(xUn, padT);
+      ctx.lineTo(xUn, padT + plotH);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.fillStyle = '#d97706';
+      ctx.font = '700 13px Outfit, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('u_n = ' + res.u_n.toFixed(1) + '% (NAIRU)', xUn + 8, padT + 20);
+
+      const refPi = state.theta === 0 ? state.pi_bar : state.pi_prev;
+      const yRef = toY(refPi);
+      ctx.strokeStyle = '#94a3b8';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(padL, yRef);
+      ctx.lineTo(padL + plotW, yRef);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#64748b';
+      ctx.textAlign = 'right';
+      ctx.font = '600 12px Inter, sans-serif';
+      ctx.fillText((state.theta === 0 ? 'Meta π̄' : 'π_t-1') + ' = ' + refPi.toFixed(1) + '%', padL + plotW - 10, yRef - 8);
+
+      ctx.strokeStyle = '#056caa';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      let first = true;
+      for (let u = uMin; u <= uMax; u += 0.2) {
+        const curPi = res.pi_e - state.alpha * (u - res.u_n);
+        const px = toX(u);
+        const py = toY(curPi);
+        if (first) { ctx.moveTo(px, py); first = false; }
+        else { ctx.lineTo(px, py); }
+      }
+      ctx.stroke();
+
+      const labelU = 4.0;
+      const labelPi = res.pi_e - state.alpha * (labelU - res.u_n);
+      ctx.fillStyle = '#056caa';
+      ctx.font = '800 14px Outfit, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('Curva de Phillips (PC)', toX(labelU) + 12, toY(labelPi) - 10);
+
+      const curX = toX(state.u);
+      const curY = toY(res.pi);
+
+      ctx.strokeStyle = '#e11d48';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(curX, curY);
+      ctx.lineTo(curX, padT + plotH);
+      ctx.moveTo(curX, curY);
+      ctx.lineTo(padL, curY);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.fillStyle = '#e11d48';
+      ctx.beginPath();
+      ctx.arc(curX, curY, 8, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = '#ffffff';
+      ctx.stroke();
+
+      ctx.fillStyle = '#0b1c36';
+      ctx.font = '700 13px JetBrains Mono, monospace';
+      ctx.textAlign = state.u > 8 ? 'right' : 'left';
+      const offX = state.u > 8 ? -16 : 16;
+      ctx.fillText('E* (u=' + state.u.toFixed(1) + '%, π=' + res.pi.toFixed(1) + '%)', curX + offX, curY - 12);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      updateSim();
+    });
+  </script>
+</body>
+</html>
