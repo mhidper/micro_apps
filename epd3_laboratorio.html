@@ -1116,6 +1116,10 @@
                 <div style="margin-top: 4px; font-size: 0.95rem;">
                   $$\text{Cuota PS (\%)} = \left[ \frac{\text{Gasto en Pasivas (LMP 80+90)}}{\text{Gasto Total en Empleo (LMP 1-9)}} \right] \times 100$$
                 </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; background: #F4F8F5; border-left: 3px solid var(--salvia); padding: 6px 12px; border-radius: 4px; margin-top: 6px; font-size: 0.82rem; color: var(--ink-green);">
+                  <span>📍 <strong>Dónde consultar estos datos:</strong> Pestaña <strong>Fase 1 (Balanza de Empleo)</strong> ➔ Selecciona el año <strong>2022</strong> en el panel de tarjetas métricas de España (o consulta el Bloque 1 de tu hoja de trabajo).</span>
+                  <button type="button" class="btn btn-sm btn-outline-secondary" onclick="switchPhase(1)" style="font-size: 0.75rem; padding: 3px 8px; margin-left: 8px; white-space: nowrap; cursor: pointer;">🔍 Ver en Fase 1</button>
+                </div>
               </div>
               <div class="input-check-group">
                 <input type="text" id="ansQ1" class="check-input" placeholder="ej. 67.1">
@@ -1132,6 +1136,10 @@
                 <div style="margin-top: 4px; font-size: 0.95rem;">
                   $$\text{\% SPE en PAE} = \left[ \frac{\text{LMP 10 (SPE)}}{\text{LMP 10T70 (Total PAE)}} \right] \times 100$$
                 </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; background: #F4F8F5; border-left: 3px solid var(--salvia); padding: 6px 12px; border-radius: 4px; margin-top: 6px; font-size: 0.82rem; color: var(--ink-green);">
+                  <span>📍 <strong>Dónde consultar estos datos:</strong> Pestaña <strong>Fase 2 (Modelos de Gasto)</strong> ➔ Pasa el cursor por el <strong>Radar Polar</strong> o el <strong>Gráfico de Barras (% de PAE)</strong> sobre la categoría <strong>«1. Serv. Empleo (SPE)»</strong> para tu país en 2022.</span>
+                  <button type="button" class="btn btn-sm btn-outline-secondary" onclick="switchPhase(2)" style="font-size: 0.75rem; padding: 3px 8px; margin-left: 8px; white-space: nowrap; cursor: pointer;">🔍 Ver en Fase 2</button>
+                </div>
               </div>
               <div class="input-check-group">
                 <input type="text" id="ansQ2" class="check-input" placeholder="ej. 55.3">
@@ -1147,6 +1155,10 @@
                 <strong style="color: var(--pino);">Fórmula analítica:</strong>
                 <div style="margin-top: 4px; font-size: 0.95rem;">
                   $$\text{Ratio Autoempleo} = \frac{\text{\% Autoempleo en PAE España}}{\text{\% Autoempleo en PAE País Asignado}}$$
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; background: #F4F8F5; border-left: 3px solid var(--salvia); padding: 6px 12px; border-radius: 4px; margin-top: 6px; font-size: 0.82rem; color: var(--ink-green);">
+                  <span>📍 <strong>Dónde consultar estos datos:</strong> Pestaña <strong>Fase 2 (Modelos de Gasto)</strong> ➔ Compara el valor de <strong>«6. Autoempleo (Start-ups)»</strong> de España (~17,8%) con el de tu país asignado (ej. Alemania ~1,4%) en las barras de PAE.</span>
+                  <button type="button" class="btn btn-sm btn-outline-secondary" onclick="switchPhase(2)" style="font-size: 0.75rem; padding: 3px 8px; margin-left: 8px; white-space: nowrap; cursor: pointer;">🔍 Ver en Fase 2</button>
                 </div>
               </div>
               <div class="input-check-group">
