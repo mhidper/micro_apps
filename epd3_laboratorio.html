@@ -809,6 +809,14 @@
       </small>
     </div>
 
+    <div class="form-group" id="groupPasswordInput" style="margin-top: 16px;">
+      <label for="inputPassword">Contraseña / Código EPD de Acceso:</label>
+      <input type="password" id="inputPassword" class="form-control" placeholder="Introduce tu contraseña o Código EPD (ej. PSLL-EPD-XXXX o 4 dígitos)" autocomplete="current-password">
+      <small style="color: var(--text-muted); font-size: 0.8rem; margin-top: 4px; display: block;">
+        Introduce tu Código EPD personal de acceso (o la clave docente).
+      </small>
+    </div>
+
     <div id="teamMembersArea" style="display: none;">
       <!-- Aviso de Asistencia Obligatoria en Aula -->
       <div style="background: #FEF2F2; border: 2px solid #DC2626; border-radius: 10px; padding: 14px 18px; margin-bottom: 18px;">
@@ -5442,6 +5450,16 @@
       const acrInput = document.getElementById('inputAcronym');
       if (acrInput) {
         acrInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            const pInput = document.getElementById('inputPassword');
+            if (pInput && !pInput.value) pInput.focus();
+            else verifyTeamLeader();
+          }
+        });
+      }
+      const passInput = document.getElementById('inputPassword');
+      if (passInput) {
+        passInput.addEventListener('keydown', (e) => {
           if (e.key === 'Enter') verifyTeamLeader();
         });
       }
@@ -5479,10 +5497,27 @@
     }
 
     // Paso 1: Verificar al Responsable del Equipo
+    function getEPDCode(username) {
+      const clean = username.trim().toLowerCase();
+      const salt = "PSLL_UPO_2026_27";
+      let hash = 0;
+      const str = clean + salt;
+      for (let i = 0; i < str.length; i++) {
+        hash = (hash << 5) - hash + str.charCodeAt(i);
+        hash |= 0;
+      }
+      const num = Math.abs(hash) % 9000 + 1000;
+      return `PSLL-EPD-${num}`;
+    }
+
     function verifyTeamLeader() {
       let raw = document.getElementById('inputAcronym').value.trim().toLowerCase();
+      const passInp = document.getElementById('inputPassword');
+      const pass = passInp ? passInp.value.trim() : '';
+
       if (!raw) {
         alert("Por favor, introduce tu acrónimo oficial de la UPO.");
+        document.getElementById('inputAcronym').focus();
         return;
       }
 
@@ -5495,16 +5530,39 @@
         return;
       }
 
+      if (!pass) {
+        alert("Por favor, introduce tu contraseña o Código EPD de acceso.");
+        if (passInp) passInp.focus();
+        return;
+      }
+
+      const expectedCode = getEPDCode(raw);
+      const expectedDigits = expectedCode.replace('PSLL-EPD-', '');
+      const cleanPass = pass.replace(/\s+/g, '').toUpperCase();
+      const isTeacher = (pass.toLowerCase() === 'psll2026');
+      const isStudentPass = (cleanPass === expectedCode || cleanPass === expectedDigits || cleanPass === `EPD-${expectedDigits}`);
+
+      if (!isTeacher && !isStudentPass) {
+        alert(`⚠️ Contraseña o Código EPD incorrecto para el usuario "${raw}".\n\nIntroduce el código de acceso EPD que obtuviste al activar tu cuenta (o consulta con el profesor).`);
+        if (passInp) passInp.focus();
+        return;
+      }
+
       currentTeam.leaderUsername = raw;
       currentTeam.leaderFullName = DB_USERS[raw];
+
+      // Guardar sesión autenticada en navegador
+      localStorage.setItem('psll_auth_user', raw);
 
       const banner = document.getElementById('leaderWelcomeBanner');
       const nameEl = document.getElementById('leaderWelcomeName');
       const inputGrp = document.getElementById('groupAcronymInput');
+      const passGrp = document.getElementById('groupPasswordInput');
       if (banner && nameEl) {
         nameEl.textContent = `${currentTeam.leaderFullName} (${raw})`;
         banner.style.display = 'block';
         if (inputGrp) inputGrp.style.display = 'none';
+        if (passGrp) passGrp.style.display = 'none';
       }
 
       populateStudentSelects(raw);

@@ -1719,6 +1719,11 @@
       <h2>Estación de Trabajo de Prácticas EPD</h2>
       <p>Accede con tu acrónimo oficial UPO y tu código de acceso personal.</p>
 
+      <div style="margin-bottom: 14px; text-align: left;">
+        <button type="button" class="btn btn-audit" onclick="showPortalSection();" style="font-size: 0.82rem; padding: 6px 12px; cursor: pointer;">
+          ← Volver al Panel de Sesiones EPD
+        </button>
+      </div>
       <div class="auth-card">
         <!-- Pestañas de modo -->
         <div class="auth-tabs" id="authTabsHeader">
@@ -2884,28 +2889,20 @@
     }
 
     function checkActivationState() {
-      // Si ya hay sesión activa autenticada, entrar directamente al portal
       const authUser = localStorage.getItem('psll_auth_user');
       if (authUser && DB_USERS[authUser]) {
-        launchSession(authUser);
-        return;
+        currentSession.username = authUser;
+        currentSession.fullName = DB_USERS[authUser];
+        currentSession.userCode = getEPDCode(authUser);
+        const lastDigit = parseInt(currentSession.userCode.slice(-1)) || 0;
+        currentSession.assignedCase = (lastDigit % 2 === 0) ? "A" : "B";
+        const uBadge = document.getElementById('userBadge');
+        if (uBadge) uBadge.style.display = 'flex';
+        const dCode = document.getElementById('displayUserCode');
+        if (dCode) dCode.textContent = currentSession.userCode;
       }
-
-      const lastUser = localStorage.getItem('psll_last_user');
-      const activated = getActivatedUsers();
-
-      if (lastUser && activated[lastUser]) {
-        document.getElementById('tabBtnRegister').style.display = 'none';
-        document.getElementById('firstTimeHint').style.display = 'none';
-
-        const loginUserInput = document.getElementById('loginUser');
-        loginUserInput.value = lastUser;
-        loginUserInput.readOnly = true;
-        loginUserInput.style.background = '#F1F5F2';
-
-        document.getElementById('loginUserBadge').style.display = 'inline-block';
-        document.getElementById('loginPass').focus();
-      }
+      // Por defecto siempre mostrar el Panel de Laboratorios
+      showPortalSection();
     }
 
     function resetCurrentUser() {
@@ -3159,13 +3156,62 @@
 
     let forceTeacherMode = false;
 
+    let pendingTargetSession = null;
+
+    function openLoginView(targetSession = null) {
+      pendingTargetSession = targetSession;
+      document.getElementById('portalSection').style.display = 'none';
+      document.getElementById('epd1Workspace').style.display = 'none';
+      document.getElementById('authSection').style.display = 'block';
+      const lastUser = localStorage.getItem('psll_last_user');
+      if (lastUser && DB_USERS[lastUser]) {
+        const uInp = document.getElementById('loginUser');
+        if (uInp && !uInp.value) uInp.value = lastUser;
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => {
+        const pInp = document.getElementById('loginPass');
+        if (pInp) pInp.focus();
+      }, 100);
+    }
+
+    function goToSession(num) {
+      const authUser = currentSession.username || localStorage.getItem('psll_auth_user');
+      if (!authUser || !DB_USERS[authUser]) {
+        openLoginView(num);
+        return;
+      }
+      if (num === 1) {
+        openEPD1Workspace();
+      } else if (num === 2) {
+        window.location.href = 'epd2_laboratorio.html';
+      } else if (num === 3) {
+        window.location.href = 'epd3_laboratorio.html';
+      }
+    }
+
     function showPortalSection() {
       document.getElementById('authSection').style.display = 'none';
       document.getElementById('epd1Workspace').style.display = 'none';
       document.getElementById('portalSection').style.display = 'block';
 
-      document.getElementById('portalWelcomeName').textContent = currentSession.fullName || DB_USERS[currentSession.username] || currentSession.username;
-      document.getElementById('portalWelcomeUser').textContent = currentSession.username;
+      const userChip = document.querySelector('.portal-user-chip');
+      const authUser = currentSession.username || localStorage.getItem('psll_auth_user');
+
+      if (authUser && DB_USERS[authUser]) {
+        const fName = DB_USERS[authUser];
+        currentSession.username = authUser;
+        currentSession.fullName = fName;
+        if (userChip) {
+          userChip.innerHTML = `<span>👤 Conectado/a como: <strong>${fName}</strong> (<code>${authUser}</code>)</span>
+          <button type="button" onclick="handlePortalLogout();" style="color: var(--coral); background: transparent; border: none; text-decoration: underline; cursor: pointer; font-size: 0.82rem; margin-left: 8px;">Cerrar sesión</button>`;
+        }
+      } else {
+        if (userChip) {
+          userChip.innerHTML = `<span>👤 No identificado</span>
+          <button type="button" onclick="openLoginView();" class="btn btn-coral" style="font-size: 0.8rem; padding: 5px 12px; margin-left: 10px; border-radius: 4px; cursor: pointer;">🔑 Iniciar Sesión</button>`;
+        }
+      }
 
       // Actualizar pestañas del router
       const rPortal = document.getElementById('routerTabPortal');
@@ -3217,11 +3263,11 @@
           badgeHtml = `<span class="session-badge badge-act">🟢 SESIÓN ACTIVA · EN CURSO</span>`;
           timeHint = `<div class="session-timer-hint">⏳ Acceso abierto hasta el domingo a las 23:59:59 (${s.closesText.split(' a las')[0]})</div>`;
           if (s.num === 1) {
-            btnHtml = `<button class="btn btn-coral btn-block" onclick="openEPD1Workspace();" style="font-size: 0.95rem; font-weight: 700;">🚀 Entrar a Sesión 01 ➔</button>`;
+            btnHtml = `<button class="btn btn-coral btn-block" onclick="goToSession(1);" style="font-size: 0.95rem; font-weight: 700;">🚀 Entrar a Sesión 01 ➔</button>`;
           } else if (s.num === 2) {
-            btnHtml = `<a href="epd2_laboratorio.html" class="btn btn-coral btn-block" style="text-decoration: none; text-align: center; font-size: 0.95rem; font-weight: 700; display: block;">🚀 Entrar a Sesión 02 (Equipos) ➔</a>`;
+            btnHtml = `<button class="btn btn-coral btn-block" onclick="goToSession(2);" style="font-size: 0.95rem; font-weight: 700;">🚀 Entrar a Sesión 02 (Equipos) ➔</button>`;
           } else if (s.num === 3) {
-            btnHtml = `<a href="epd3_laboratorio.html" class="btn btn-coral btn-block" style="text-decoration: none; text-align: center; font-size: 0.95rem; font-weight: 700; display: block;">🚀 Entrar a Sesión 03 (Equipos) ➔</a>`;
+            btnHtml = `<button class="btn btn-coral btn-block" onclick="goToSession(3);" style="font-size: 0.95rem; font-weight: 700;">🚀 Entrar a Sesión 03 (Equipos) ➔</button>`;
           } else {
             btnHtml = `<button class="btn btn-primary btn-block" onclick="alert('La aplicación de la Sesión 0${s.num} se cargará para la semana correspondiente.');">Entrar a Sesión 0${s.num}</button>`;
           }

@@ -872,8 +872,14 @@
 
         <div class="form-group" id="groupAcronymInput">
           <label for="inputAcronym">Tu Acrónimo Institucional UPO (Responsable de la entrega):</label>
-          <input type="text" id="inputAcronym" class="form-control" placeholder="Introduce tu usuario oficial UPO (sin @alu.upo.es)" onkeydown="if(event.key==='Enter') verifyTeamLeader()" autofocus>
+          <input type="text" id="inputAcronym" class="form-control" placeholder="Introduce tu usuario oficial UPO (sin @alu.upo.es)" autofocus>
           <small style="color: var(--text-muted); font-size: 0.78rem;">Introduce tu nombre de usuario del correo institucional de la UPO (@alu.upo.es).</small>
+        </div>
+
+        <div class="form-group" id="groupPasswordInput" style="margin-top: 16px;">
+          <label for="inputPassword">Contraseña / Código EPD de Acceso:</label>
+          <input type="password" id="inputPassword" class="form-control" placeholder="Introduce tu contraseña o Código EPD (ej. PSLL-EPD-XXXX o 4 dígitos)" autocomplete="current-password">
+          <small style="color: var(--text-muted); font-size: 0.78rem;">Introduce tu Código EPD personal de acceso (o la clave docente).</small>
         </div>
 
         <div id="teamMembersArea" class="team-setup-box" style="display: none;">
@@ -2331,10 +2337,27 @@
       });
     }
 
+    function getEPDCode(username) {
+      const clean = username.trim().toLowerCase();
+      const salt = "PSLL_UPO_2026_27";
+      let hash = 0;
+      const str = clean + salt;
+      for (let i = 0; i < str.length; i++) {
+        hash = (hash << 5) - hash + str.charCodeAt(i);
+        hash |= 0;
+      }
+      const num = Math.abs(hash) % 9000 + 1000;
+      return `PSLL-EPD-${num}`;
+    }
+
     function verifyTeamLeader() {
       let raw = document.getElementById('inputAcronym').value.trim().toLowerCase();
+      const passInp = document.getElementById('inputPassword');
+      const pass = passInp ? passInp.value.trim() : '';
+
       if (!raw) {
         alert("Por favor, introduce tu acrónimo de usuario UPO.");
+        document.getElementById('inputAcronym').focus();
         return;
       }
 
@@ -2343,22 +2366,42 @@
       }
 
       if (!DB_USERS[raw]) {
-        alert(`⚠️ El acrónimo "${raw}" no figura en la lista oficial de matriculados de PSLL.
+        alert(`⚠️ El acrónimo "${raw}" no figura en la lista oficial de matriculados de PSLL.\n\nVerifica que está bien escrito (sin @alu.upo.es). Si eres alumno de intercambio o incidencia de matrícula, consulta con el profesor.`);
+        return;
+      }
 
-Verifica que está bien escrito (sin @alu.upo.es). Si eres alumno de intercambio o incidencia de matrícula, consulta con el profesor.`);
+      if (!pass) {
+        alert("Por favor, introduce tu contraseña o Código EPD de acceso.");
+        if (passInp) passInp.focus();
+        return;
+      }
+
+      const expectedCode = getEPDCode(raw);
+      const expectedDigits = expectedCode.replace('PSLL-EPD-', '');
+      const cleanPass = pass.replace(/\s+/g, '').toUpperCase();
+      const isTeacher = (pass.toLowerCase() === 'psll2026');
+      const isStudentPass = (cleanPass === expectedCode || cleanPass === expectedDigits || cleanPass === `EPD-${expectedDigits}`);
+
+      if (!isTeacher && !isStudentPass) {
+        alert(`⚠️ Contraseña o Código EPD incorrecto para el usuario "${raw}".\n\nIntroduce el código de acceso EPD que obtuviste al activar tu cuenta (o consulta con el profesor).`);
+        if (passInp) passInp.focus();
         return;
       }
 
       currentSession.leaderUsername = raw;
       currentSession.leaderFullName = DB_USERS[raw];
 
+      localStorage.setItem('psll_auth_user', raw);
+
       const banner = document.getElementById('leaderWelcomeBanner');
       const nameEl = document.getElementById('leaderWelcomeName');
       const inputGrp = document.getElementById('groupAcronymInput');
+      const passGrp = document.getElementById('groupPasswordInput');
       if (banner && nameEl) {
         nameEl.textContent = `${currentSession.leaderFullName} (${raw})`;
         banner.style.display = 'block';
         if (inputGrp) inputGrp.style.display = 'none';
+        if (passGrp) passGrp.style.display = 'none';
       }
 
       populateStudentSelects(raw);
