@@ -1,0 +1,1460 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Macroeconomía · UPO | Sesión 12 · De la Relación WS-PS a la Curva de Phillips y las Expectativas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Familjen+Grotesk:wght@500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,700;1,6..72,400&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<!-- KaTeX para compilación matemática oficial nítida a 300 DPI -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+
+<style>
+:root {
+  --ink-0: #06111f;
+  --ink-1: #0b1c36; /* Deep Navy Oficial UPO */
+  --ink-2: #122d4f;
+  --paper: #f0f7ff;
+  --muted: #8faec4;
+  --cobalt: #056caa; /* Cobalt Blue Oficial UPO */
+  --azure: #0776b5;  /* Azure Wave Oficial UPO */
+  --cyan: #00f2fe;   /* Neon Azure */
+  --gold: #ffbe0b;   /* Equilibrium Gold */
+  --crimson: #e11d48;/* Deficit Crimson */
+  --teal: #0d9488;
+  --ok: #34d399;
+  --glass: rgba(255, 255, 255, 0.05);
+  --glass-line: rgba(255, 255, 255, 0.14);
+  --f-display: "Outfit", "Familjen Grotesk", sans-serif;
+  --f-serif: "Newsreader", Georgia, serif;
+  --f-body: "Work Sans", "Segoe UI", sans-serif;
+  --f-mono: "JetBrains Mono", monospace;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body {
+  height: 100%; margin: 0; padding: 0;
+  background: var(--ink-0); color: var(--paper);
+  font-family: var(--f-body); overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.viewport {
+  position: fixed; inset: 0; overflow: hidden;
+  background: var(--ink-0);
+  display: flex; align-items: center; justify-content: center;
+}
+
+.stage {
+  width: 1600px; height: 900px;
+  position: absolute; left: 50%; top: 50%;
+  transform-origin: center center; overflow: hidden;
+  background: linear-gradient(115deg, #050e1a 0%, var(--ink-1) 45%, #0e2746 80%, #16365c 120%);
+  box-shadow: 0 0 80px rgba(0,0,0,0.8);
+}
+
+/* Marca de agua permanente con sutiles curvas de flujo macroeconómico */
+.watermark-layer {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: hidden;
+  opacity: 0.22;
+}
+.watermark-layer svg { width: 100%; height: 100%; }
+
+/* Diapositivas */
+.slide {
+  position: absolute; inset: 0; padding: 60px 88px 60px;
+  display: flex; flex-direction: column; gap: 18px;
+  opacity: 0; visibility: hidden; transition: opacity .45s ease, visibility 0s linear .45s;
+  z-index: 2;
+}
+.slide.active { opacity: 1; visibility: visible; transition: opacity .45s ease; }
+
+/* Encabezados de Diapositiva */
+.slide-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 12px; margin-bottom: 6px;
+}
+.header-titles { display: flex; flex-direction: column; gap: 4px; }
+.eyebrow {
+  font-family: var(--f-mono); font-size: 13px; font-weight: 700;
+  letter-spacing: .15em; text-transform: uppercase; color: var(--azure);
+}
+h1, h2 {
+  font-family: var(--f-display); font-weight: 700; margin: 0;
+  letter-spacing: -0.02em; text-wrap: balance; line-height: 1.08;
+}
+h1 { font-size: 74px; color: #fff; }
+h2 { font-size: 42px; color: #fff; }
+.act {
+  font-family: var(--f-mono); font-size: 13.5px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--muted); opacity: .85;
+  background: rgba(255,255,255,0.06); padding: 6px 14px; border-radius: 99px;
+  border: 1px solid var(--glass-line);
+}
+
+/* Contenedores flexibles y tarjetas */
+.row { display: flex; gap: 36px; align-items: stretch; flex: 1; min-height: 0; }
+.col-text { flex: 0 0 540px; display: flex; flex-direction: column; gap: 16px; justify-content: center; }
+.col-fig { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; }
+.glass {
+  background: var(--glass); border: 1px solid var(--glass-line);
+  border-radius: 14px; backdrop-filter: blur(10px);
+}
+
+/* Fragmentos de animación paso a paso */
+.frag { opacity: 0; transform: translateY(14px); transition: opacity .4s ease, transform .4s ease; }
+.frag.on { opacity: 1; transform: none; }
+
+/* Portada */
+.cover { justify-content: center; align-items: center; text-align: center; gap: 32px; padding: 80px 100px; }
+.cover-badge {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: rgba(5, 108, 170, 0.22); border: 1px solid var(--azure);
+  padding: 8px 22px; border-radius: 99px;
+  font-family: var(--f-mono); font-size: 13px; font-weight: 700;
+  color: var(--cyan); letter-spacing: 0.12em; text-transform: uppercase;
+  box-shadow: 0 0 24px rgba(0, 242, 254, 0.2);
+}
+.cover h1 { font-size: 64px; max-width: 1300px; margin: 10px 0; line-height: 1.12; }
+.cover-sub {
+  font-size: 24px; font-weight: 300; color: var(--paper);
+  max-width: 1050px; line-height: 1.4; margin: 0 auto;
+}
+.cover-footer {
+  margin-top: 30px; display: flex; justify-content: space-between; align-items: center;
+  width: 100%; max-width: 1200px; padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+.cover-author { text-align: left; }
+.author-name { font-family: var(--f-display); font-size: 22px; font-weight: 600; color: #fff; }
+.author-role { font-size: 15px; color: var(--muted); }
+.cover-tag {
+  font-family: var(--f-mono); font-size: 13px; color: var(--muted);
+  background: rgba(255,255,255,0.06); padding: 8px 18px; border-radius: 8px;
+  border: 1px solid var(--glass-line);
+}
+
+/* Tarjetas de Módulos (Hoja de Ruta) */
+.roadmap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; flex: 1; align-items: stretch; margin-top: 10px; }
+.mod-card {
+  padding: 32px 30px; display: flex; flex-direction: column; justify-content: space-between;
+  border-radius: 16px; border: 1px solid var(--glass-line);
+  background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
+  transition: transform .3s ease, border-color .3s ease;
+}
+.mod-card:hover { transform: translateY(-4px); border-color: var(--azure); }
+.mod-header { display: flex; flex-direction: column; gap: 10px; }
+.mod-tag {
+  font-family: var(--f-mono); font-size: 12px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase; padding: 4px 10px;
+  border-radius: 6px; width: fit-content;
+}
+.mod-title { font-family: var(--f-display); font-size: 26px; font-weight: 700; color: #fff; line-height: 1.2; }
+.mod-body { font-size: 16.5px; font-weight: 300; line-height: 1.55; color: var(--muted); margin-top: 16px; }
+.mod-body strong { color: var(--paper); font-weight: 500; }
+.mod-formula {
+  margin-top: 20px; padding: 14px 18px; border-radius: 10px;
+  background: rgba(5, 108, 170, 0.15); border: 1px solid rgba(5, 108, 170, 0.4);
+  font-family: var(--f-mono); font-size: 15px; color: var(--cyan);
+  text-align: center;
+}
+
+/* Estilo Periódico Histórico (Slide 3) */
+.newspaper-card {
+  background: linear-gradient(180deg, rgba(14, 34, 58, 0.95) 0%, rgba(7, 20, 36, 0.98) 100%);
+  border: 1px solid rgba(217, 119, 6, 0.45);
+  border-top: 5px solid var(--gold);
+  border-radius: 14px; padding: 26px 32px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  display: flex; flex-direction: column; gap: 16px; flex: 1;
+}
+.news-masthead {
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.14); padding-bottom: 10px;
+}
+.news-paper-name {
+  font-family: var(--f-serif); font-size: 24px; font-weight: 700; color: #fff;
+  display: flex; align-items: center; gap: 12px;
+}
+.news-tag {
+  font-family: var(--f-mono); font-size: 11px; font-weight: 700;
+  background: var(--gold); color: #06111f; padding: 3px 8px; border-radius: 4px;
+}
+.news-headline {
+  font-family: var(--f-serif); font-size: 34px; font-weight: 700; line-height: 1.18; color: #ffffff;
+  margin: 0;
+}
+.news-headline mark {
+  background: rgba(255, 190, 11, 0.22); color: var(--gold); padding: 0 4px; border-radius: 4px;
+}
+.news-subhead {
+  font-size: 17px; font-weight: 300; line-height: 1.45; color: #dbe7f3;
+  margin: 0; border-left: 3px solid var(--azure); padding-left: 14px;
+}
+.news-columns {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  border-top: 1px solid rgba(255,255,255,0.1); padding-top: 14px;
+  font-size: 15px; line-height: 1.5; color: var(--muted);
+}
+
+/* Quiz Interactivo (Slide 3) */
+.quiz-box {
+  display: flex; flex-direction: column; gap: 14px; flex: 1; justify-content: center;
+}
+.quiz-opt {
+  padding: 18px 24px; display: flex; align-items: center; gap: 18px;
+  cursor: pointer; transition: all .35s ease;
+  border: 1px solid var(--glass-line); background: rgba(255,255,255,0.04);
+  border-radius: 12px;
+}
+.quiz-opt:hover { border-color: rgba(255,255,255,0.4); transform: translateX(6px); }
+.quiz-let {
+  width: 42px; height: 42px; border-radius: 10px; display: flex;
+  align-items: center; justify-content: center; font-family: var(--f-mono);
+  font-size: 18px; font-weight: 700; color: var(--muted);
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+  flex-shrink: 0; transition: all .35s ease;
+}
+.quiz-txt { font-size: 17.5px; font-weight: 400; color: var(--paper); line-height: 1.35; }
+.quiz-opt.revealed-right {
+  border-color: var(--ok); background: rgba(52, 211, 153, 0.16);
+  box-shadow: 0 0 24px rgba(52, 211, 153, 0.25);
+}
+.quiz-opt.revealed-right .quiz-let { background: var(--ok); color: var(--ink-0); border-color: var(--ok); }
+.quiz-opt.revealed-wrong { opacity: 0.38; border-color: var(--crimson); }
+.quiz-feedback {
+  margin-top: 8px; padding: 14px 18px; border-radius: 10px;
+  background: rgba(52, 211, 153, 0.12); border: 1px solid var(--ok);
+  font-size: 15px; color: #a7f3d0; line-height: 1.45; display: none;
+}
+.quiz-feedback.show { display: block; animation: fadeIn .4s ease; }
+
+/* Derivación Analítica (Slide 5) */
+.deriv-step {
+  padding: 22px 28px; border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04); border: 1px solid var(--glass-line);
+  display: flex; flex-direction: column; gap: 8px;
+}
+.deriv-step.active-step {
+  border-color: var(--cyan); background: rgba(0, 242, 254, 0.05);
+  box-shadow: 0 0 25px rgba(0, 242, 254, 0.12);
+}
+.deriv-title {
+  font-family: var(--f-mono); font-size: 13px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em; color: var(--cyan);
+}
+.deriv-math {
+  font-size: 24px; padding: 8px 0; color: #fff;
+}
+
+/* Temporizador Circular (Slides 7 y 11) */
+.timer-container {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 16px; padding: 24px;
+}
+.timer-svg-box { position: relative; width: 220px; height: 220px; }
+.timer-svg { transform: rotate(-90deg); }
+.timer-bg-circle { fill: none; stroke: rgba(255, 255, 255, 0.1); stroke-width: 12; }
+.timer-bar-circle {
+  fill: none; stroke: var(--gold); stroke-width: 12;
+  stroke-linecap: round; transition: stroke-dashoffset 1s linear, stroke .5s ease;
+}
+.timer-time-display {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  font-family: var(--f-mono); font-size: 46px; font-weight: 700; color: #fff;
+}
+.timer-sub { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; }
+.timer-controls { display: flex; gap: 12px; }
+.btn-timer {
+  background: rgba(255, 255, 255, 0.08); border: 1px solid var(--glass-line);
+  color: #fff; padding: 8px 18px; border-radius: 8px; font-family: var(--f-mono);
+  font-size: 14px; font-weight: 600; cursor: pointer; transition: all .25s ease;
+}
+.btn-timer:hover { background: var(--cobalt); border-color: var(--cyan); }
+
+/* Cajas de Trampas de Examen (Slide 10) */
+.trap-card {
+  padding: 22px 28px; border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04); border-left: 6px solid var(--crimson);
+  border-top: 1px solid var(--glass-line); border-right: 1px solid var(--glass-line); border-bottom: 1px solid var(--glass-line);
+  display: flex; flex-direction: column; gap: 8px;
+}
+.trap-tag {
+  font-family: var(--f-mono); font-size: 13px; font-weight: 700; color: var(--crimson);
+  text-transform: uppercase; letter-spacing: .08em;
+}
+.trap-bad { font-size: 15.5px; color: #fca5a5; }
+.trap-good { font-size: 15.5px; color: #86efac; border-top: 1px dashed rgba(255,255,255,0.12); padding-top: 6px; }
+
+/* Barra de Navegación y Control */
+.nav-bar {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 46px;
+  background: rgba(6, 17, 31, 0.92); border-top: 1px solid var(--glass-line);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; z-index: 10;
+}
+.prog-track {
+  position: absolute; top: -2px; left: 0; right: 0; height: 3px;
+  background: rgba(255,255,255,0.08);
+}
+.prog-fill {
+  height: 100%; width: 8.33%; background: linear-gradient(90deg, var(--cobalt), var(--cyan));
+  box-shadow: 0 0 10px rgba(0, 242, 254, 0.6); transition: width .35s ease;
+}
+.nav-left, .nav-right { display: flex; align-items: center; gap: 16px; font-family: var(--f-mono); font-size: 13px; color: var(--muted); }
+.nav-btn {
+  background: rgba(255,255,255,0.08); border: 1px solid var(--glass-line);
+  color: #fff; width: 32px; height: 32px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 14px; transition: all .2s ease;
+}
+.nav-btn:hover { background: var(--azure); border-color: var(--cyan); }
+.nav-hint { font-size: 12px; color: var(--muted); opacity: 0.7; }
+
+/* Panel de Notas del Profesor */
+.notes-panel {
+  position: absolute; right: 30px; bottom: 60px; width: 440px; max-height: 380px;
+  background: rgba(11, 28, 54, 0.97); border: 1px solid var(--azure);
+  border-radius: 12px; padding: 22px; z-index: 20;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8); overflow-y: auto;
+  font-size: 15px; line-height: 1.5; color: var(--paper);
+}
+.notes-title { font-family: var(--f-mono); font-size: 12px; font-weight: 700; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }
+
+/* Animaciones y utilidades */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes pulseBadge {
+  0% { box-shadow: 0 0 0 0 rgba(0, 242, 254, 0.4); }
+  70% { box-shadow: 0 0 0 12px rgba(0, 242, 254, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 242, 254, 0); }
+}
+.pulse { animation: pulseBadge 2.2s infinite; }
+
+/* Ejes de gráficos SVG */
+.axis { stroke: rgba(255, 255, 255, 0.35); stroke-width: 1.5; }
+.grid-line { stroke: rgba(255, 255, 255, 0.08); stroke-dasharray: 4 4; }
+.axis-lbl { font-family: var(--f-mono); font-size: 13px; fill: var(--muted); }
+</style>
+</head>
+
+<body>
+<div class="viewport" id="vp">
+<div class="stage" id="stage">
+
+  <!-- Marca de Agua de Fondo (Curvas Vectoriales Oficiales UPO) -->
+  <div class="watermark-layer">
+    <svg viewBox="0 0 1600 900">
+      <path d="M-100,500 C300,200 800,800 1700,300" fill="none" stroke="rgba(5, 108, 170, 0.4)" stroke-width="2.5" />
+      <path d="M-100,560 C320,260 820,860 1700,360" fill="none" stroke="rgba(0, 242, 254, 0.2)" stroke-width="1.8" />
+      <circle cx="850" cy="550" r="320" fill="none" stroke="rgba(255, 255, 255, 0.03)" stroke-width="1.5" stroke-dasharray="8 8" />
+    </svg>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SLIDE 1: PORTADA INSTITUCIONAL LUMINOSA -->
+  <!-- ============================================================== -->
+  <div class="slide cover active" data-slide="1" data-notes="Bienvenida a la Sesión 12 de Enseñanzas Básicas. Hoy cerramos el Tema 4 conectando el mercado de trabajo con la inflación. Duración ajustada a 45 minutos tras la realización del Control 1 de EPD.">
+    <div class="cover-badge pulse">
+      <span>Universidad Pablo de Olavide</span> · <span>Doble Grado DER + FICO</span>
+    </div>
+    <div class="eyebrow" style="color:var(--gold);font-size:16px;">Macroeconomía · Curso Académico 2026–2027 · Sesión 12 (EB)</div>
+    <h1>DE LA RELACIÓN WS-PS A LA CURVA DE PHILLIPS Y LAS EXPECTATIVAS</h1>
+    <p class="cover-sub">Tema 4 (Apartado 4.4) · Cómo la presión salarial y los márgenes empresariales originan la inflación y por qué las expectativas cambiaron la macroeconomía para siempre.</p>
+    
+    <div class="cover-footer">
+      <div class="cover-author">
+        <div class="author-name">Manuel A. Hidalgo Pérez</div>
+        <div class="author-role">Profesor Titular de Macroeconomía · Universidad Pablo de Olavide</div>
+      </div>
+      <div class="cover-tag">
+        <span>⏱️ Clase Ejecutiva · 45 Minutos Netos</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SLIDE 2: HOJA DE RUTA EJECUTIVA (3 MÓDULOS) -->
+  <!-- ============================================================== -->
+  <div class="slide" data-slide="2" data-notes="Estructura de la sesión en 3 bloques compactos: primero derivamos formalmente la curva de Phillips general a partir de WS-PS; segundo analizamos por qué colapsó en los 70 dando paso a la NAIRU; y tercero el simulador y reto manuscrito individual.">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow">Bloque 1 · Hoja de Ruta Ejecutiva</span>
+        <h2>Estructura de la Sesión: El Puente Hacia la Inflación</h2>
+      </div>
+      <span class="act">Módulos I – III</span>
+    </div>
+
+    <div class="roadmap-grid">
+      <div class="mod-card frag">
+        <div class="mod-header">
+          <span class="mod-tag" style="background:rgba(5,108,170,0.3);color:var(--cyan);">Módulo I · Deducción</span>
+          <div class="mod-title">De Salarios y Precios a la Inflación</div>
+        </div>
+        <div class="mod-body">
+          • Partimos de la negociación salarial <strong>WS</strong> y de la fijación de precios con margen <strong>PS</strong>.<br><br>
+          • Linealizamos la función $F(u, z)$ y obtenemos algebraicamente la inflación efectiva.<br><br>
+          • Identificamos las 3 fuerzas motrices: expectativas, costes estructurales y desempleo.
+        </div>
+        <div class="mod-formula">$\pi_t = \pi_t^e + (m+z) - \alpha u_t$</div>
+      </div>
+
+      <div class="mod-card frag">
+        <div class="mod-header">
+          <span class="mod-tag" style="background:rgba(255,190,11,0.2);color:var(--gold);">Módulo II · Mutación</span>
+          <div class="mod-title">El Colapso de los 70 y la NAIRU</div>
+        </div>
+        <div class="mod-body">
+          • <strong>Años 60 ($	heta = 0$):</strong> expectativas ancladas en cero y el espejismo del trade-off permanente.<br><br>
+          • <strong>Años 70 ($	heta = 1$):</strong> expectativas adaptativas, espiral salarios-precios y estanflación.<br><br>
+          • Formulación moderna en variaciones y definición formal de la <strong>NAIRU</strong> ($u_n$).
+        </div>
+        <div class="mod-formula">$\Delta \pi_t = -\alpha(u_t - u_n)$</div>
+      </div>
+
+      <div class="mod-card frag">
+        <div class="mod-header">
+          <span class="mod-tag" style="background:rgba(13,148,136,0.25);color:var(--ok);">Módulo III · Práctica</span>
+          <div class="mod-title">Simulador Web y Reto Manuscrito</div>
+        </div>
+        <div class="mod-body">
+          • <strong>Laboratorio Activo:</strong> Desbloqueo de dispositivos y simulación interactiva con QR.<br><br>
+          • <strong>Código Desclasificado:</strong> Desactivación de las 3 trampas habituales de examen UPO.<br><br>
+          • <strong>Cierre Oficial:</strong> Reto manuscrito individual en papel (8 min) y subida al Pasaporte.
+        </div>
+        <div class="mod-formula" style="background:rgba(13,148,136,0.15);border-color:var(--ok);color:var(--ok);">1.000 Pts · Pasaporte Digital</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SLIDE 3: NOTICIA GANCHO Y SONDEO EN DIRECTO -->
+  <!-- ============================================================== -->
+  <div class="slide" data-slide="3" data-notes="Lanzamos la pregunta trampa de Mentimeter. La intuición popular siempre cree que el Gobierno puede 'elegir' cuánto paro tener tolerando un poco más de inflación. La historia demostró que eso solo funciona a corto plazo.">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow">Bloque 2 · Activación Cognitiva</span>
+        <h2>Noticia Gancho y Sondeo Previo: ¿Se Puede Comprar Empleo con Inflación?</h2>
+      </div>
+      <span class="act">Fase 1 · Mentimeter</span>
+    </div>
+
+    <div class="row">
+      <!-- Tarjeta Periódico -->
+      <div class="newspaper-card">
+        <div class="news-masthead">
+          <div class="news-paper-name">
+            <span>📰 THE FINANCIAL TIMES</span>
+            <span class="news-tag">Crónica Histórica</span>
+          </div>
+          <span style="font-family:var(--f-mono);font-size:13px;color:var(--muted);">Washington / Londres · Octubre 1968</span>
+        </div>
+        <h3 class="news-headline">«El gran espejismo de los 60: cuando los Gobiernos creyeron que tolerar un 4% de inflación garantizaba <mark>pleno empleo para siempre</mark>»</h3>
+        <p class="news-subhead">Durante más de una década, los asesores económicos de Kennedy y Johnson pensaron que la curva de Phillips ofrecía un menú estable e inmutable de política macroeconómica.</p>
+        <div class="news-columns">
+          <div>
+            <strong>La Promesa de Samuelson y Solow:</strong><br>
+            Bajar el desempleo al 3% solo exigía aceptar un 4% o 5% de inflación. La economía parecía dócil.
+          </div>
+          <div>
+            <strong>El Estallido de los 70:</strong><br>
+            En cuanto los trabajadores vieron que los precios subían año tras año, exigieron compensación previa: la inflación se disparó al 12% con más paro.
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Quiz Interactivo -->
+      <div class="col-text" style="flex:0 0 580px;">
+        <div class="glass" style="padding:24px 28px;display:flex;flex-direction:column;gap:14px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span class="eyebrow" style="color:var(--gold);">Sondeo en Directo · Mentimeter</span>
+            <img src="data:image/png;base64,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" style="width:58px;height:58px;border-radius:6px;background:#fff;padding:2px;" alt="QR Mentimeter">
+          </div>
+          <div style="font-family:var(--f-display);font-size:18px;font-weight:600;color:#fff;">
+            «Si el Gobierno estimula la demanda y tolera un 6% de inflación en vez del 2%, ¿podrá mantener el paro permanentemente por debajo de su nivel natural?»
+          </div>
+
+          <div class="quiz-box" id="quiz-s12">
+            <div class="quiz-opt" data-ans="wrong">
+              <div class="quiz-let">A</div>
+              <div class="quiz-txt">Sí, la relación inversa entre paro e inflación es permanente e inamovible.</div>
+            </div>
+            <div class="quiz-opt" data-ans="wrong">
+              <div class="quiz-let">B</div>
+              <div class="quiz-txt">No, solo temporalmente mientras los salarios nominales se ajustan.</div>
+            </div>
+            <div class="quiz-opt" data-ans="right">
+              <div class="quiz-let">C</div>
+              <div class="quiz-txt">No, el paro volverá a su nivel natural y la inflación se acelerará continuamente.</div>
+            </div>
+            <div class="quiz-feedback" id="quiz-fb">
+              <strong>¡Exacto! (Opción C):</strong> Al intentar mantener $u < u_n$, la inflación no se queda en el 6%, sino que pasa al 8%, 10%, 12%... generando una espiral inflacionaria acumulativa (Curva Aceleracionista).
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SLIDE 4: CHOQUE EMPÍRICO CON DATOS OFICIALES (ANIMACIÓN SVG) -->
+  <!-- ============================================================== -->
+  <div class="slide" data-slide="4" data-anim="phillipsHistorical" data-notes="Aquí mostramos el choque empírico. Durante los años 60 los datos dibujaban una recta perfecta. Pero a partir de 1970 la nube de puntos explota hacia arriba y la derecha. Milton Friedman y Edmund Phelps anticiparon este colapso antes de que ocurriera.">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow">Bloque 2 · Choque Empírico con Datos Oficiales</span>
+        <h2>La Evidencia Histórica: Del Éxito Clásico al Colapso Estanflacionario</h2>
+      </div>
+      <span class="act">Años 1960 – 2024</span>
+    </div>
+
+    <div class="row">
+      <!-- Gráfico SVG Animado -->
+      <div class="col-fig glass" style="padding:16px;">
+        <svg id="histphillips_svg" viewBox="0 0 880 540" style="width:100%;height:100%;"></svg>
+      </div>
+
+      <!-- Diagnóstico Empírico -->
+      <div class="col-text" style="flex:0 0 460px;">
+        <div class="glass" style="padding:26px;display:flex;flex-direction:column;gap:16px;">
+          <span class="eyebrow" style="color:var(--cyan);">Diagnóstico Empírico</span>
+          <div style="font-family:var(--f-display);font-size:24px;font-weight:700;color:#fff;">
+            Dos Épocas, Dos Mundos
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="border-left:3px solid var(--cyan);padding-left:12px;">
+              <strong style="color:var(--cyan);">1. Los Años 60 (Curva Original):</strong><br>
+              <span style="font-size:15px;color:var(--muted);">
+                La relación inversa se cumplía con total precisión empírica. Cada bajada de 1 punto de paro costaba ~0,8 puntos de inflación.
+              </span>
+            </div>
+
+            <div style="border-left:3px solid var(--crimson);padding-left:12px;">
+              <strong style="color:var(--crimson);">2. Años 70 y 80 (La Gran Ruptura):</strong><br>
+              <span style="font-size:15px;color:var(--muted);">
+                La nube de puntos explota. Coexisten inflación máxima récord (<span id="inflMax" style="color:var(--gold);font-weight:700;">0%</span>) y desempleo masivo (estanflación).
+              </span>
+            </div>
+
+            <div style="border-left:3px solid var(--ok);padding-left:12px;">
+              <strong style="color:var(--ok);">3. El Veredicto Científico:</strong><br>
+              <span style="font-size:15px;color:var(--muted);">
+                La curva original no era una ley física: dependía de que las expectativas de inflación estuviesen ancladas en cero ($	heta = 0$).
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SLIDE 5: DEDUCCIÓN FORMAL WS-PS (FÓRMULAS COMPILADAS KATEX) -->
+  <!-- ============================================================== -->
+  <div class="slide" data-slide="5" data-notes="Fase de pizarra y pantallas cerradas. Deducimos paso a paso cómo la negociación colectiva WS combinada con la fijación de precios PS genera formalmente la curva de Phillips. Explicar el papel de las tres fuerzas motrices.">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow">Bloque 3 · Núcleo Analítico Formal</span>
+        <h2>Deducción Rigurosa: De Salarios y Precios a la Ecuación de Inflación</h2>
+      </div>
+      <span class="act">Blanchard Cap. 8</span>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px;flex:1;justify-content:center;">
+      <!-- Paso 1 -->
+      <div class="deriv-step frag active-step">
+        <div class="deriv-title">Paso 1 · Interacción Entre Negociación Salarial (WS) y Fijación de Precios (PS)</div>
+        <div class="deriv-math">
+          $$W = P^e F(u, z) \quad \text{y} \quad P = (1 + m) W \implies \frac{P}{P^e} = (1 + m) F(u, z)$$
+        </div>
+        <div style="font-size:15px;color:var(--muted);">
+          Los trabajadores negocian fijándose en el nivel esperado de precios ($P^e$), mientras que las empresas cargan un margen de beneficio ($m$) sobre el coste salarial unitario.
+        </div>
+      </div>
+
+      <!-- Paso 2 -->
+      <div class="deriv-step frag">
+        <div class="deriv-title">Paso 2 · Linealización de Blanchard y Aproximación Logarítmica de Inflación</div>
+        <div class="deriv-math">
+          $$F(u, z) = 1 - \alpha u_t + z \implies \pi_t = \pi_t^e + (m + z) - \alpha u_t$$
+        </div>
+        <div style="font-size:15px;color:var(--muted);">
+          Sustituyendo $\frac{P_t}{P_{t-1}} \approx 1 + \pi_t$ y $\frac{P_t^e}{P_{t-1}} \approx 1 + \pi_t^e$. Obtenemos la <strong>Relación General de Inflación</strong>.
+        </div>
+      </div>
+
+      <!-- Paso 3 -->
+      <div class="deriv-step frag" style="background:rgba(5,108,170,0.08);border-color:var(--cobalt);">
+        <div class="deriv-title" style="color:var(--gold);">Paso 3 · La Anatomía de las Tres Fuerzas Inflacionarias</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:4px;">
+          <div style="padding:10px 14px;background:rgba(255,255,255,0.05);border-radius:8px;">
+            <strong style="color:var(--gold);">$\pi_t^e$ (Expectativas):</strong><br>
+            <span style="font-size:14px;color:var(--muted);">Si los agentes esperan precios más altos, los salarios suben antes de producir, trasladándose 1:1 a los precios finales.</span>
+          </div>
+          <div style="padding:10px 14px;background:rgba(255,255,255,0.05);border-radius:8px;">
+            <strong style="color:var(--cyan);">$(m + z)$ (Poder de Mercado):</strong><br>
+            <span style="font-size:14px;color:var(--muted);">Mayor margen comercial o mayores costes laborales de protección social encarecen la estructura productiva.</span>
+          </div>
+          <div style="padding:10px 14px;background:rgba(255,255,255,0.05);border-radius:8px;">
+            <strong style="color:var(--crimson);">- $\alpha u_t$ (Holgura Laboral):</strong><br>
+            <span style="font-size:14px;color:var(--muted);">Un mayor desempleo debilita el poder de negociación de los sindicatos y modera el crecimiento de los salarios.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SLIDE 6: LA CURVA CLÁSICA (AÑOS 60, θ = 0) Y SIMULADOR DE TRADE-OFF -->
+  <!-- ============================================================== -->
+  <div class="slide" data-slide="6" data-anim="tradeoff60s" data-notes="En los años 60, como la inflación media había sido prácticamente cero durante décadas, la gente esperaba precios estables. Por tanto pi^e era constante y la curva parecía permanente.">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow">Bloque 3 · Núcleo Analítico</span>
+        <h2>La Curva de Phillips Clásica: Expectativas Ancladas ($\theta = 0$)</h2>
+      </div>
+      <span class="act">Años 1958 – 1969</span>
+    </div>
+
+    <div class="row">
+      <!-- Explicación Conceptual -->
+      <div class="col-text" style="flex:0 0 540px;">
+        <div class="glass" style="padding:28px;display:flex;flex-direction:column;gap:18px;">
+          <span class="eyebrow" style="color:var(--gold);">Expectativas Sin Memoria Histórica</span>
+          <div style="font-family:var(--f-display);font-size:24px;font-weight:700;color:#fff;">
+            $\pi_t^e = \bar{\pi} \approx 0 \implies \pi_t = (m + z) - \alpha u_t$
+          </div>
+
+          <div style="font-size:16px;color:var(--muted);line-height:1.55;">
+            • Durante los 50 y 60, la inflación no era persistente: un año subía un 1% y al siguiente bajaba. Nadie incluía cláusulas de indexación salarial en los convenios.<br><br>
+            • <strong>El Menú Político Aparente:</strong> Con $\alpha = 0,8$ y $(m+z) = 4,8\%$:<br>
+            &nbsp;&nbsp;— Si el Gobierno tolera $u = 6,0\% \implies \pi = 0,0\%$ (estabilidad).<br>
+            &nbsp;&nbsp;— Si el Gobierno empuja a $u = 3,0\% \implies \pi = 2,4\%$ (menor paro).<br><br>
+            • <strong>La Trampa Fatal:</strong> Asumir que los trabajadores se dejarían engañar indefinidamente y no actualizarían sus expectativas al ver precios al alza.
+          </div>
+        </div>
+      </div>
+
+      <!-- Gráfico SVG Animado del Trade-off -->
+      <div class="col-fig glass" style="padding:16px;">
+        <svg id="tradeoff_svg" viewBox="0 0 820 540" style="width:100%;height:100%;"></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SLIDE 7: CHECKPOINT TPS CON TEMPORIZADOR DE 2 MINUTOS -->
+  <!-- ============================================================== -->
+  <div class="slide" data-slide="7" data-notes="Pausa activa obligatoria para romper la fatiga de pizarra. Los alumnos debaten en parejas el dilema sindical. Esto ancla cognitivamente por qué nació la curva aceleracionista.">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow" style="color:var(--gold);">Bloque 3 · Checkpoint Intermedio Obligatorio</span>
+        <h2>Pausa Activa: Think-Pair-Share (Dilema de la Persistencia Inflacionaria)</h2>
+      </div>
+      <span class="act" style="background:rgba(255,190,11,0.15);color:var(--gold);border-color:var(--gold);">2 Minutos</span>
+    </div>
+
+    <div class="row">
+      <!-- Dilema -->
+      <div class="col-text" style="flex:1;">
+        <div class="glass" style="padding:32px;display:flex;flex-direction:column;gap:20px;height:100%;justify-content:center;">
+          <div style="font-family:var(--f-serif);font-size:26px;font-style:italic;line-height:1.4;color:#fff;border-left:4px solid var(--gold);padding-left:20px;">
+            «Imagina que eres el representante sindical negociando el convenio colectivo para 2027. En 2024 la inflación fue del 5%, en 2025 del 6% y en 2026 del 7%. ¿Aceptarías una subida salarial del 0% creyendo que los precios no van a subir?»
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:10px;">
+            <div style="padding:16px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid var(--glass-line);">
+              <span class="eyebrow" style="color:var(--cyan);">1. Think (45 seg)</span>
+              <div style="font-size:14.5px;color:var(--muted);margin-top:6px;">Reflexión individual: ¿Qué le ocurriría a tu salario real $W/P$ si no exiges una subida?</div>
+            </div>
+            <div style="padding:16px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid var(--glass-line);">
+              <span class="eyebrow" style="color:var(--gold);">2. Pair (60 seg)</span>
+              <div style="font-size:14.5px;color:var(--muted);margin-top:6px;">Debate con tu compañero: ¿Qué porcentaje mínimo exigiríais a la patronal?</div>
+            </div>
+            <div style="padding:16px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid var(--glass-line);">
+              <span class="eyebrow" style="color:var(--ok);">3. Share (15 seg)</span>
+              <div style="font-size:14.5px;color:var(--muted);margin-top:6px;">Puesta en común: Nace la expectativa adaptativa $\pi_t^e = \pi_{t-1}$.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Temporizador Circular de 2 Minutos -->
+      <div class="col-text" style="flex:0 0 380px;">
+        <div class="glass timer-container">
+          <span class="eyebrow" style="color:var(--gold);">Tiempo de Reflexión</span>
+          <div class="timer-svg-box">
+            <svg class="timer-svg" width="220" height="220" viewBox="0 0 220 220">
+              <circle class="timer-bg-circle" cx="110" cy="110" r="95"></circle>
+              <circle class="timer-bar-circle" id="timer_tps_bar" cx="110" cy="110" r="95" stroke-dasharray="596.9" stroke-dashoffset="0"></circle>
+            </svg>
+            <div class="timer-time-display">
+              <span id="timer_tps_disp">02:00</span>
+              <span class="timer-sub">Min : Seg</span>
+            </div>
+          </div>
+          <div class="timer-controls">
+            <button class="btn-timer" id="btn_tps_start">▶ Iniciar</button>
+            <button class="btn-timer" id="btn_tps_pause">⏸ Pausa</button>
+            <button class="btn-timer" id="btn_tps_reset">↺ Reiniciar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SLIDE 8: LA CURVA ACELERACIONISTA (θ = 1) Y LA NAIRU -->
+  <!-- ============================================================== -->
+  <div class="slide" data-slide="8" data-anim="nairuFamilies" data-notes="Presentamos la curva aceleracionista y la definición formal de la NAIRU. Si el paro es menor que la tasa natural, la inflación no se para, sino que se acelera periodo a periodo. A largo plazo la curva de Phillips es vertical.">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow">Bloque 3 · Núcleo Analítico</span>
+        <h2>La Ruptura de los 70 y la Curva Aceleracionista ($\theta = 1$)</h2>
+      </div>
+      <span class="act">La NAIRU</span>
+    </div>
+
+    <div class="row">
+      <!-- Gráfico SVG con la familia de curvas y la curva vertical de LP -->
+      <div class="col-fig glass" style="padding:16px;">
+        <svg id="nairu_svg" viewBox="0 0 880 540" style="width:100%;height:100%;"></svg>
+      </div>
+
+      <!-- Fórmulas y Regímenes -->
+      <div class="col-text" style="flex:0 0 520px;">
+        <div class="glass" style="padding:26px;display:flex;flex-direction:column;gap:16px;">
+          <span class="eyebrow" style="color:var(--cyan);">Expectativas Adaptativas ($\pi_t^e = \pi_{t-1}$)</span>
+          
+          <div style="background:rgba(255,255,255,0.05);padding:14px 18px;border-radius:10px;border:1px solid var(--glass-line);">
+            <div style="font-size:21px;color:#fff;text-align:center;">
+              $$\pi_t - \pi_{t-1} = (m + z) - \alpha u_t$$
+            </div>
+            <div style="font-size:18px;color:var(--gold);text-align:center;margin-top:6px;">
+              $$\text{NAIRU:} \quad u_n = \frac{m+z}{\alpha} \implies \Delta \pi_t = -\alpha (u_t - u_n)$$
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="padding:10px 14px;border-radius:8px;background:rgba(52,211,153,0.1);border-left:4px solid var(--ok);">
+              <strong style="color:var(--ok);">Si $u_t = u_n \implies \pi_t = \pi_{t-1}$:</strong><br>
+              <span style="font-size:14.5px;color:var(--muted);">La inflación se mantiene constante. No hay aceleración ni caída.</span>
+            </div>
+            <div style="padding:10px 14px;border-radius:8px;background:rgba(225,29,72,0.1);border-left:4px solid var(--crimson);">
+              <strong style="color:var(--crimson);">Si $u_t < u_n \implies \Delta \pi_t > 0$:</strong><br>
+              <span style="font-size:14.5px;color:var(--muted);">Sobrecalentamiento: la inflación sube cada año en $+\alpha(u_n - u_t)$ puntos.</span>
+            </div>
+            <div style="padding:10px 14px;border-radius:8px;background:rgba(0,242,254,0.1);border-left:4px solid var(--cyan);">
+              <strong style="color:var(--cyan);">Si $u_t > u_n \implies \Delta \pi_t < 0$:</strong><br>
+              <span style="font-size:14.5px;color:var(--muted);">Desinflación: el desempleo superior al natural frena el alza de precios.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SLIDE 9: LABORATORIO ACTIVO CON EL SIMULADOR WEB -->
+  <!-- ============================================================== -->
+  <div class="slide" data-slide="9" data-notes="Desbloqueo de dispositivos. Los alumnos escanean el código QR con su móvil o portátil para manipular directamente el simulador de la Sesión 12 y comprobar en vivo los 3 experimentos guiados.">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow">Bloque 4 · Laboratorio y Simulación</span>
+        <h2>Laboratorio Activo: Experimentación con el Simulador Web</h2>
+      </div>
+      <span class="act" style="background:rgba(0,242,254,0.15);color:var(--cyan);border-color:var(--cyan);">Micro App Interactiva</span>
+    </div>
+
+    <div class="row">
+      <!-- 3 Experimentos Guiados -->
+      <div class="col-text" style="flex:1;">
+        <div class="glass" style="padding:30px;display:flex;flex-direction:column;gap:18px;height:100%;justify-content:center;">
+          <span class="eyebrow" style="color:var(--cyan);">Dinámica en Parejas · 3 Experimentos Clave</span>
+
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div style="padding:16px 20px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid var(--glass-line);">
+              <strong style="color:var(--gold);font-size:17px;">Exp. 1 · Choque de Expectativas ($\theta = 0$ vs $\theta = 1$):</strong><br>
+              <span style="font-size:15px;color:var(--muted);line-height:1.5;">
+                Fije $u = 4\%$ con $\theta = 0$. Compruebe que la inflación es constante ($2,4\%$). Luego cambie a $\theta = 1$: observe cómo la inflación se dispara año tras año sin límite.
+              </span>
+            </div>
+
+            <div style="padding:16px 20px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid var(--glass-line);">
+              <strong style="color:var(--crimson);font-size:17px;">Exp. 2 · El Shock Petrolífero de 1973:</strong><br>
+              <span style="font-size:15px;color:var(--muted);line-height:1.5;">
+                Aumente el margen $m$ de $4,8\%$ a $6,4\%$. Observe cómo la NAIRU se desplaza a la derecha ($u_n$ pasa del $6\%$ al $8\%$) y la inflación sube aunque el paro no haya bajado.
+              </span>
+            </div>
+
+            <div style="padding:16px 20px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid var(--ok);font-size:17px;">Exp. 3 · La Terapia de Desinflación de Paul Volcker:</strong><br>
+              <span style="font-size:15px;color:var(--muted);line-height:1.5;">
+                Parta de $\pi_0 = 10\%$. Para bajarla al $2\%$, sitúe $u = 8\%$ (por encima de $u_n = 6\%$). Compruebe en la gráfica temporal cuántos años de sacrificio son necesarios.
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjeta Acceso QR -->
+      <div class="col-text" style="flex:0 0 440px;">
+        <div class="glass" style="padding:28px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;height:100%;justify-content:center;">
+          <span class="eyebrow" style="color:var(--cyan);">Escanee para Abrir la App</span>
+          <div style="background:#fff;padding:12px;border-radius:14px;box-shadow:0 0 35px rgba(0,242,254,0.35);">
+            <img src="data:image/png;base64,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" style="width:210px;height:210px;display:block;" alt="QR Simulador Sesión 12">
+          </div>
+          
+          <div style="font-family:var(--f-mono);font-size:13.5px;color:var(--muted);word-break:break-all;">
+            mhidper.github.io/micro_apps/<br>macro_simulador_sesion_12.html
+          </div>
+
+          <a href="https://mhidper.github.io/micro_apps/macro_simulador_sesion_12.html" target="_blank" style="text-decoration:none;">
+            <button class="btn-timer" style="background:var(--cobalt);border-color:var(--cyan);padding:10px 22px;font-size:15px;">
+              🚀 Abrir en Pestaña Nueva
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SLIDE 10: CÓDIGO DESCLASIFICADO (TRAMPAS DE EXAMEN) -->
+  <!-- ============================================================== -->
+  <div class="slide" data-slide="10" data-notes="Repasamos las 3 trampas clásicas que cometen los alumnos en el examen final del 70%. Enfatizar la diferencia entre nivel de inflación y aceleración.">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow" style="color:var(--crimson);">Bloque 5 · Código Desclasificado</span>
+        <h2>Las 3 Trampas Habituales de Examen Oficial UPO</h2>
+      </div>
+      <span class="act" style="background:rgba(225,29,72,0.15);color:var(--crimson);border-color:var(--crimson);">Anti-Errores Examen</span>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px;flex:1;justify-content:center;">
+      <div class="trap-card frag">
+        <div class="trap-tag">Trampa 1 · Confundir el Nivel de Inflación ($\pi$) con la Variación ($\Delta \pi$)</div>
+        <div class="trap-bad">❌ <strong>Error Típico:</strong> Escribir que si el paro se mantiene por debajo de la tasa natural ($u < u_n$), la inflación «será alta pero fija» (ej. 4%).</div>
+        <div class="trap-good">✔️ <strong>Corrección Oficial:</strong> Si $u < u_n$, la inflación no se queda quieta: <strong>aumenta en cada periodo</strong> ($\pi_t > \pi_{t-1}$). Se produce una espiral de aceleración inflacionaria.</div>
+      </div>
+
+      <div class="trap-card frag">
+        <div class="trap-tag" style="color:var(--gold);border-color:var(--gold);">Trampa 2 · Olvidar el Régimen de Expectativas ($\theta = 0$ vs $\theta = 1$)</div>
+        <div class="trap-bad">❌ <strong>Error Típico:</strong> Aplicar mecánicamente la fórmula en variaciones cuando el enunciado dice explícitamente que el Banco Central tiene credibilidad perfecta y expectativas ancladas.</div>
+        <div class="trap-good">✔️ <strong>Corrección Oficial:</strong> Si las expectativas están ancladas ($\theta = 0$), un menor desempleo produce un mayor <strong>nivel</strong> de inflación, pero <strong>no</strong> una aceleración constante.</div>
+      </div>
+
+      <div class="trap-card frag" style="border-left-color:var(--azure);">
+        <div class="trap-tag" style="color:var(--cyan);">Trampa 3 · Creer que la NAIRU es una Constante Biológica Inmutable</div>
+        <div class="trap-bad">❌ <strong>Error Típico:</strong> Tratar a $u_n$ como un número fijo que nunca cambia ante reformas estructurales o crisis de oferta.</div>
+        <div class="trap-good">✔️ <strong>Corrección Oficial:</strong> La NAIRU depende de $u_n = (m+z)/\alpha$. Si suben los márgenes ($m$) o la rigidez de costes laborales ($z$), la NAIRU aumenta estructuralmente.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SLIDE 11: RETO MANUSCRITO DE CIERRE (TEMPORIZADOR 8 MINUTOS) -->
+  <!-- ============================================================== -->
+  <div class="slide" data-slide="11" data-notes="Fase 5 de cierre. Móviles guardados y portátiles cerrados. Los alumnos resuelven a mano en su hoja individual el reto durante 8 minutos exactos.">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow" style="color:var(--gold);">Bloque 5 · Reto Manuscrito Individual</span>
+        <h2>Reto en Papel: Dinámica de Inflación Aceleracionista (8 Minutos)</h2>
+      </div>
+      <span class="act" style="background:rgba(255,190,11,0.15);color:var(--gold);border-color:var(--gold);">1.000 Pts · Sin Pantallas</span>
+    </div>
+
+    <div class="row">
+      <!-- Enunciado de Examen -->
+      <div class="col-text" style="flex:1;">
+        <div class="glass" style="padding:28px;display:flex;flex-direction:column;gap:14px;height:100%;justify-content:center;">
+          <div style="font-family:var(--f-mono);font-size:13px;color:var(--gold);text-transform:uppercase;">
+            Ejercicio Individual de Examen Oficial · Blanchard Cap. 8
+          </div>
+          <div style="font-size:16px;color:var(--paper);line-height:1.5;">
+            Considere una economía cuya curva de Phillips aceleracionista viene descrita formalmente por:
+          </div>
+          <div style="background:rgba(255,255,255,0.06);padding:12px 18px;border-radius:10px;text-align:center;font-size:22px;color:var(--cyan);">
+            $$\pi_t - \pi_{t-1} = -0,7(u_t - 0,06) \quad \text{con} \quad \pi_0 = 2,0\%$$
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:6px;">
+            <div style="padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.03);border:1px solid var(--glass-line);">
+              <strong style="color:var(--gold);">1. [400 pts]</strong> Si el Gobierno mantiene el paro en $u = 4,0\%$ durante 3 años consecutivos, calcule la tasa de inflación en cada año: $\pi_1$, $\pi_2$ y $\pi_3$.
+            </div>
+            <div style="padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.03);border:1px solid var(--glass-line);">
+              <strong style="color:var(--cyan);">2. [300 pts]</strong> Explique por qué la inflación no se estanca en el nivel de $\pi_1$ y razone la espiral salarios-precios desencadenada.
+            </div>
+            <div style="padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.03);border:1px solid var(--glass-line);">
+              <strong style="color:var(--ok);">3. [300 pts]</strong> ¿Qué tasa de desempleo debe tolerar el Gobierno en el año 4 para estabilizar la inflación en el nivel alcanzado en $\pi_3$?
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Temporizador Circular de 8 Minutos -->
+      <div class="col-text" style="flex:0 0 380px;">
+        <div class="glass timer-container">
+          <span class="eyebrow" style="color:var(--gold);">Tiempo de Redacción</span>
+          <div class="timer-svg-box">
+            <svg class="timer-svg" width="220" height="220" viewBox="0 0 220 220">
+              <circle class="timer-bg-circle" cx="110" cy="110" r="95"></circle>
+              <circle class="timer-bar-circle" id="timer_reto_bar" cx="110" cy="110" r="95" stroke-dasharray="596.9" stroke-dashoffset="0"></circle>
+            </svg>
+            <div class="timer-time-display">
+              <span id="timer_reto_disp">08:00</span>
+              <span class="timer-sub">Min : Seg</span>
+            </div>
+          </div>
+          <div class="timer-controls">
+            <button class="btn-timer" id="btn_reto_start">▶ Iniciar</button>
+            <button class="btn-timer" id="btn_reto_pause">⏸ Pausa</button>
+            <button class="btn-timer" id="btn_reto_reset">↺ Reiniciar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SLIDE 12: SUBIDA FOTOGRÁFICA Y PASAPORTE DIGITAL -->
+  <!-- ============================================================== -->
+  <div class="slide" data-slide="12" data-notes="Últimos 2 minutos. Proyectar el QR de Microsoft Forms. Los alumnos le hacen una foto a su hoja y la suben antes de salir del aula.">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow" style="color:var(--ok);">Bloque 5 · Evaluación Continua In Situ</span>
+        <h2>Captura Fotográfica y Registro en el Pasaporte Digital</h2>
+      </div>
+      <span class="act" style="background:rgba(52,211,153,0.15);color:var(--ok);border-color:var(--ok);">2 Minutos · Forms UPO</span>
+    </div>
+
+    <div class="row">
+      <!-- Instrucciones de Entrega -->
+      <div class="col-text" style="flex:1;">
+        <div class="glass" style="padding:32px;display:flex;flex-direction:column;gap:18px;height:100%;justify-content:center;">
+          <span class="eyebrow" style="color:var(--ok);">Protocolo Oficial de Subida</span>
+          
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div style="padding:14px 18px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid var(--glass-line);">
+              <strong style="color:var(--paper);font-size:16px;">1. Identificación en la Hoja:</strong><br>
+              <span style="font-size:14.5px;color:var(--muted);">Asegúrese de escribir sus <strong>Apellidos, Nombre y DNI</strong> en la parte superior del papel.</span>
+            </div>
+
+            <div style="padding:14px 18px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid var(--glass-line);">
+              <strong style="color:var(--paper);font-size:16px;">2. Escaneo del Código QR:</strong><br>
+              <span style="font-size:14.5px;color:var(--muted);">Abra el formulario con su cuenta oficial institucional (<strong>@alu.upo.es</strong>).</span>
+            </div>
+
+            <div style="padding:14px 18px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid var(--glass-line);">
+              <strong style="color:var(--paper);font-size:16px;">3. Fotografía Nítida:</strong><br>
+              <span style="font-size:14.5px;color:var(--muted);">Tome la fotografía en vertical, bien iluminada y sin sombras antes de abandonar el aula.</span>
+            </div>
+
+            <div style="padding:14px 18px;border-radius:10px;background:rgba(52,211,153,0.1);border-left:4px solid var(--ok);">
+              <strong style="color:var(--ok);font-size:16px;">4. Corrección y Pasaporte de Evaluación Continua:</strong><br>
+              <span style="font-size:14.5px;color:var(--muted);">Su entrega será evaluada con la rúbrica oficial. Podrá consultar sus puntos y feedback personalizado en el Pasaporte Digital.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjeta QR Forms -->
+      <div class="col-text" style="flex:0 0 440px;">
+        <div class="glass" style="padding:28px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;height:100%;justify-content:center;">
+          <span class="eyebrow" style="color:var(--gold);">Microsoft Forms UPO</span>
+          <div style="background:#fff;padding:12px;border-radius:14px;box-shadow:0 0 35px rgba(255,190,11,0.35);">
+            <img src="data:image/png;base64,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" style="width:220px;height:220px;display:block;" alt="QR Entrega Sesión 12">
+          </div>
+          <div style="font-family:var(--f-mono);font-size:14px;color:var(--paper);font-weight:600;">
+            Pregunta Final · Sesión 12
+          </div>
+          <div style="font-size:13px;color:var(--muted);">
+            Macroeconomía · DER + FICO (UPO)
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- BARRA DE NAVEGACIÓN Y PROGRESO -->
+  <!-- ============================================================== -->
+  <div class="nav-bar">
+    <div class="prog-track"><div class="prog-fill" id="prog"></div></div>
+    
+    <div class="nav-left">
+      <button class="nav-btn" id="prev" title="Anterior (←)">‹</button>
+      <button class="nav-btn" id="next" title="Siguiente (→ / Espacio)">›</button>
+      <span id="count" style="font-weight:600;color:#fff;">1 / 12</span>
+      <span class="nav-hint">· Use [← / → / Espacio] para avanzar</span>
+    </div>
+
+    <div class="nav-right">
+      <span class="nav-hint">[F] Pantalla Completa · [N] Notas del Profesor</span>
+      <button class="nav-btn" id="ntog" title="Notas del Profesor">📝</button>
+    </div>
+  </div>
+
+  <!-- Panel de Notas Flotante -->
+  <div class="notes-panel" id="notes" hidden>
+    <div class="notes-title">💡 Notas Docentes del Profesor</div>
+    <div id="notetext"></div>
+  </div>
+
+</div>
+</div>
+
+<!-- ============================================================== -->
+<!-- SCRIPT RUNTIME (NAVEGACIÓN, ANIMACIONES SVG, TEMPORIZADORES) -->
+<!-- ============================================================== -->
+<script>
+(function(){
+  const stage = document.getElementById('stage');
+  const slides = [...document.querySelectorAll('.slide')];
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let cur = 0;
+
+  // Ajuste responsivo automático a la ventana manteniendo 16:9 (1600x900)
+  function fit(){
+    const vp = document.getElementById('vp');
+    const w = vp.clientWidth || window.innerWidth, h = vp.clientHeight || window.innerHeight;
+    const s = Math.min(w/1600, h/900);
+    stage.style.transform = 'translate(-50%, -50%) scale(' + s + ')';
+  }
+  window.addEventListener('resize', fit);
+  fit();
+
+  // KaTeX auto-render
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.renderMathInElement) {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    }
+  });
+
+  // Función Tween para animaciones suaves
+  function tween(dur, fn, delay){
+    if (reduce) { fn(1); return; }
+    const start = performance.now() + (delay||0);
+    function step(t){
+      const p = Math.max(0, Math.min(1, (t - start) / dur));
+      const e = 1 - Math.pow(1 - p, 3); // ease-out cubic
+      fn(e);
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  // Fragmentos (Beats)
+  function frags(s){ return [...s.querySelectorAll('.frag')]; }
+
+  function showFrag(f){
+    f.classList.add('on');
+  }
+  function hideFrag(f){
+    f.classList.remove('on');
+  }
+  function nextFrag(s){
+    const f = frags(s).find(x => !x.classList.contains('on'));
+    if (f){ showFrag(f); return true; }
+    return false;
+  }
+  function prevFrag(s){
+    const activeList = frags(s).filter(x => x.classList.contains('on'));
+    if (activeList.length > 0) {
+      hideFrag(activeList[activeList.length - 1]);
+      return true;
+    }
+    return false;
+  }
+
+  // Navegación de Diapositivas
+  function go(n){
+    n = Math.max(0, Math.min(slides.length - 1, n));
+    slides[cur].classList.remove('active');
+    cur = n;
+    const s = slides[cur];
+    frags(s).forEach(f => hideFrag(f));
+    s.classList.add('active');
+
+    if (s.dataset.anim && anims[s.dataset.anim]) {
+      anims[s.dataset.anim]();
+    }
+
+    document.getElementById('count').textContent = (cur + 1) + ' / ' + slides.length;
+    document.getElementById('prog').style.width = ((cur + 1) / slides.length * 100) + '%';
+    document.getElementById('notetext').textContent = s.dataset.notes || '';
+    try { history.replaceState(null, '', '#s' + (cur + 1)); } catch(e){}
+  }
+
+  function fwd(){ if(!nextFrag(slides[cur])) go(cur + 1); }
+  function back(){ if(!prevFrag(slides[cur])) go(cur - 1); }
+
+  // Teclado
+  document.addEventListener('keydown', e => {
+    if (['ArrowRight','PageDown',' ','Enter'].includes(e.key)) { e.preventDefault(); fwd(); }
+    else if (['ArrowLeft','PageUp','Backspace'].includes(e.key)) { e.preventDefault(); back(); }
+    else if (e.key === 'n' || e.key === 'N') {
+      const nt = document.getElementById('notes'); nt.hidden = !nt.hidden;
+    }
+    else if (e.key === 'Home') go(0);
+    else if (e.key === 'End') go(slides.length - 1);
+    else if (e.key === 'f' || e.key === 'F') {
+      try { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); } catch(err){}
+    }
+  });
+
+  document.getElementById('next').onclick = fwd;
+  document.getElementById('prev').onclick = back;
+  document.getElementById('ntog').onclick = () => {
+    const nt = document.getElementById('notes'); nt.hidden = !nt.hidden;
+  };
+  document.getElementById('vp').addEventListener('click', e => {
+    if (e.target.closest('.nav-bar, .notes-panel, .quiz-opt, .btn-timer, a')) return;
+    fwd();
+  });
+
+  // Interacción Quiz Slide 3
+  document.querySelectorAll('.quiz-opt').forEach(opt => {
+    opt.addEventListener('click', e => {
+      e.stopPropagation();
+      const parent = opt.closest('.quiz-box');
+      parent.querySelectorAll('.quiz-opt').forEach(o => {
+        if (o.dataset.ans === 'right') o.classList.add('revealed-right');
+        else o.classList.add('revealed-wrong');
+      });
+      const fb = document.getElementById('quiz-fb');
+      if (fb) fb.classList.add('show');
+    });
+  });
+
+  // ==============================================================
+  // MOTORES DE ANIMACIONES SVG ESPECÍFICAS
+  // ==============================================================
+  const anims = {
+    // Animación Slide 4: Curva Histórica de Phillips y Dispersión
+    phillipsHistorical(){
+      const svg = document.getElementById('histphillips_svg');
+      if (!svg) return;
+      svg.innerHTML = '';
+      const W = 880, H = 540, left = 80, right = 40, top = 40, bottom = 60;
+      const x = u => left + (u - 2) / (12 - 2) * (W - left - right);
+      const y = p => top + (15 - p) / 15 * (H - top - bottom);
+
+      // Ejes
+      const axisG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      axisG.innerHTML = `
+        <line x1="${left}" y1="${y(0)}" x2="${W-right}" y2="${y(0)}" class="axis" />
+        <line x1="${left}" y1="${top}" x2="${left}" y2="${y(0)}" class="axis" />
+        <text x="${W-right}" y="${y(0)+35}" class="axis-lbl" text-anchor="end">Tasa de Desempleo u (%)</text>
+        <text x="${left-15}" y="${top+10}" class="axis-lbl" text-anchor="end">Tasa de Inflación π (%)</text>
+      `;
+      svg.appendChild(axisG);
+
+      // Ticks
+      [2, 4, 6, 8, 10, 12].forEach(uVal => {
+        const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        l.setAttribute('x1', x(uVal)); l.setAttribute('x2', x(uVal));
+        l.setAttribute('y1', top); l.setAttribute('y2', y(0));
+        l.setAttribute('class', 'grid-line');
+        svg.appendChild(l);
+        const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        t.setAttribute('x', x(uVal)); t.setAttribute('y', y(0)+22);
+        t.setAttribute('class', 'axis-lbl'); t.setAttribute('text-anchor', 'middle');
+        t.textContent = uVal + '%';
+        svg.appendChild(t);
+      });
+
+      [3, 6, 9, 12, 15].forEach(pVal => {
+        const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        l.setAttribute('x1', left); l.setAttribute('x2', W-right);
+        l.setAttribute('y1', y(pVal)); l.setAttribute('y2', y(pVal));
+        l.setAttribute('class', 'grid-line');
+        svg.appendChild(l);
+        const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        t.setAttribute('x', left-12); t.setAttribute('y', y(pVal)+5);
+        t.setAttribute('class', 'axis-lbl'); t.setAttribute('text-anchor', 'end');
+        t.textContent = pVal + '%';
+        svg.appendChild(t);
+      });
+
+      // Curva Años 60
+      const curve60 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      const d60 = `M ${x(3.2)} ${y(5.8)} Q ${x(5)} ${y(2.5)} ${x(8.5)} ${y(0.8)}`;
+      curve60.setAttribute('d', d60);
+      curve60.setAttribute('fill', 'none');
+      curve60.setAttribute('stroke', '#00f2fe');
+      curve60.setAttribute('stroke-width', '4');
+      curve60.setAttribute('stroke-linecap', 'round');
+      const len60 = 600;
+      curve60.style.strokeDasharray = len60;
+      curve60.style.strokeDashoffset = len60;
+      svg.appendChild(curve60);
+
+      // Puntos Años 60
+      const pts60 = [
+        [3.5, 5.2, '1968'], [4.0, 4.4, '1967'], [4.8, 2.8, '1965'], [5.5, 1.8, '1963'], [6.7, 1.2, '1961']
+      ];
+      const gDots60 = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      gDots60.setAttribute('opacity', '0');
+      pts60.forEach(p => {
+        const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        c.setAttribute('cx', x(p[0])); c.setAttribute('cy', y(p[1])); c.setAttribute('r', '7');
+        c.setAttribute('fill', '#056caa'); c.setAttribute('stroke', '#00f2fe'); c.setAttribute('stroke-width', '2');
+        gDots60.appendChild(c);
+        const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        t.setAttribute('x', x(p[0])+12); t.setAttribute('y', y(p[1])+4);
+        t.setAttribute('fill', '#00f2fe'); t.setAttribute('font-family', 'var(--f-mono)'); t.setAttribute('font-size', '13');
+        t.textContent = p[2];
+        gDots60.appendChild(t);
+      });
+      svg.appendChild(gDots60);
+
+      // Puntos Años 70 Estanflación
+      const pts70 = [
+        [5.8, 11.2, '1974'], [8.5, 9.1, '1975'], [7.6, 13.5, '1979 (Shock)'], [9.8, 10.3, '1981']
+      ];
+      const gDots70 = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      gDots70.setAttribute('opacity', '0');
+      pts70.forEach(p => {
+        const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        c.setAttribute('cx', x(p[0])); c.setAttribute('cy', y(p[1])); c.setAttribute('r', '8');
+        c.setAttribute('fill', '#e11d48'); c.setAttribute('stroke', '#ffbe0b'); c.setAttribute('stroke-width', '2.5');
+        gDots70.appendChild(c);
+        const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        t.setAttribute('x', x(p[0])+14); t.setAttribute('y', y(p[1])+5);
+        t.setAttribute('fill', '#ffbe0b'); t.setAttribute('font-family', 'var(--f-mono)'); t.setAttribute('font-size', '14');
+        t.setAttribute('font-weight', '700');
+        t.textContent = p[2];
+        gDots70.appendChild(t);
+      });
+      svg.appendChild(gDots70);
+
+      // Rótulos explicativos en gráfica
+      const lbl60 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      lbl60.setAttribute('x', x(3.4)); lbl60.setAttribute('y', y(7.0));
+      lbl60.setAttribute('fill', '#00f2fe'); lbl60.setAttribute('font-family', 'var(--f-display)');
+      lbl60.setAttribute('font-size', '18'); lbl60.setAttribute('font-weight', '700');
+      lbl60.setAttribute('opacity', '0');
+      lbl60.textContent = 'Curva de Phillips Años 60 (θ = 0)';
+      svg.appendChild(lbl60);
+
+      const lbl70 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      lbl70.setAttribute('x', x(6.0)); lbl70.setAttribute('y', y(14.2));
+      lbl70.setAttribute('fill', '#e11d48'); lbl70.setAttribute('font-family', 'var(--f-display)');
+      lbl70.setAttribute('font-size', '18'); lbl70.setAttribute('font-weight', '700');
+      lbl70.setAttribute('opacity', '0');
+      lbl70.textContent = 'Dispersión y Estanflación Años 70-80';
+      svg.appendChild(lbl70);
+
+      // Secuencia Tween
+      tween(1400, e => {
+        curve60.style.strokeDashoffset = len60 * (1 - e);
+        gDots60.setAttribute('opacity', e);
+        lbl60.setAttribute('opacity', e);
+      }, 100);
+
+      tween(1600, e => {
+        gDots70.setAttribute('opacity', e);
+        lbl70.setAttribute('opacity', e);
+        const infl = document.getElementById('inflMax');
+        if (infl) infl.textContent = (13.5 * e).toFixed(1) + '%';
+      }, 1600);
+    },
+
+    // Animación Slide 6: Trade-off Clásico de los 60
+    tradeoff60s(){
+      const svg = document.getElementById('tradeoff_svg');
+      if (!svg) return;
+      svg.innerHTML = '';
+      const W = 820, H = 540, left = 80, right = 40, top = 40, bottom = 60;
+      const x = u => left + (u - 2) / (8 - 2) * (W - left - right);
+      const y = p => top + (6 - p) / 6 * (H - top - bottom);
+
+      // Ejes
+      svg.innerHTML = `
+        <line x1="${left}" y1="${y(0)}" x2="${W-right}" y2="${y(0)}" class="axis" />
+        <line x1="${left}" y1="${top}" x2="${left}" y2="${y(0)}" class="axis" />
+        <text x="${W-right}" y="${y(0)+35}" class="axis-lbl" text-anchor="end">Desempleo u (%)</text>
+        <text x="${left-15}" y="${top+10}" class="axis-lbl" text-anchor="end">Inflación π (%)</text>
+      `;
+
+      [3, 4, 5, 6, 7].forEach(uVal => {
+        const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        l.setAttribute('x1', x(uVal)); l.setAttribute('x2', x(uVal));
+        l.setAttribute('y1', top); l.setAttribute('y2', y(0));
+        l.setAttribute('class', 'grid-line'); svg.appendChild(l);
+        const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        t.setAttribute('x', x(uVal)); t.setAttribute('y', y(0)+22);
+        t.setAttribute('class', 'axis-lbl'); t.setAttribute('text-anchor', 'middle');
+        t.textContent = uVal + '%'; svg.appendChild(t);
+      });
+
+      [1, 2, 3, 4, 5].forEach(pVal => {
+        const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        l.setAttribute('x1', left); l.setAttribute('x2', W-right);
+        l.setAttribute('y1', y(pVal)); l.setAttribute('y2', y(pVal));
+        l.setAttribute('class', 'grid-line'); svg.appendChild(l);
+        const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        t.setAttribute('x', left-12); t.setAttribute('y', y(pVal)+5);
+        t.setAttribute('class', 'axis-lbl'); t.setAttribute('text-anchor', 'end');
+        t.textContent = pVal + '%'; svg.appendChild(t);
+      });
+
+      // Recta de Samuelson-Solow π = 4.8 - 0.8·u
+      const lineCurve = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      lineCurve.setAttribute('x1', x(2.5)); lineCurve.setAttribute('y1', y(4.8 - 0.8*2.5));
+      lineCurve.setAttribute('x2', x(6.5)); lineCurve.setAttribute('y2', y(4.8 - 0.8*6.5));
+      lineCurve.setAttribute('stroke', '#056caa'); lineCurve.setAttribute('stroke-width', '4.5');
+      lineCurve.setAttribute('stroke-linecap', 'round');
+      svg.appendChild(lineCurve);
+
+      // Punto A: u=6%, pi=0%
+      const gA = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      gA.innerHTML = `
+        <circle cx="${x(6.0)}" cy="${y(0.0)}" r="8" fill="#34d399" stroke="#fff" stroke-width="2" />
+        <text x="${x(6.0)+14}" y="${y(0.0)-10}" fill="#34d399" font-family="var(--f-mono)" font-size="15" font-weight="700">Punto A: u=6%, π=0% (Estabilidad)</text>
+      `;
+      svg.appendChild(gA);
+
+      // Punto B: u=3%, pi=2.4%
+      const gB = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      gB.innerHTML = `
+        <circle cx="${x(3.0)}" cy="${y(2.4)}" r="8" fill="#ffbe0b" stroke="#fff" stroke-width="2" />
+        <line x1="${x(3.0)}" y1="${y(0)}" x2="${x(3.0)}" y2="${y(2.4)}" stroke="#ffbe0b" stroke-dasharray="4 4" stroke-width="1.5" />
+        <line x1="${left}" y1="${y(2.4)}" x2="${x(3.0)}" y2="${y(2.4)}" stroke="#ffbe0b" stroke-dasharray="4 4" stroke-width="1.5" />
+        <text x="${x(3.0)+14}" y="${y(2.4)-10}" fill="#ffbe0b" font-family="var(--f-mono)" font-size="15" font-weight="700">Punto B: u=3%, π=2,4% (Menor Paro)</text>
+      `;
+      svg.appendChild(gB);
+    },
+
+    // Animación Slide 8: Familia de Curvas y la NAIRU
+    nairuFamilies(){
+      const svg = document.getElementById('nairu_svg');
+      if (!svg) return;
+      svg.innerHTML = '';
+      const W = 880, H = 540, left = 80, right = 40, top = 40, bottom = 60;
+      const x = u => left + (u - 2) / (10 - 2) * (W - left - right);
+      const y = p => top + (12 - p) / 12 * (H - top - bottom);
+
+      svg.innerHTML = `
+        <line x1="${left}" y1="${y(0)}" x2="${W-right}" y2="${y(0)}" class="axis" />
+        <line x1="${left}" y1="${top}" x2="${left}" y2="${y(0)}" class="axis" />
+        <text x="${W-right}" y="${y(0)+35}" class="axis-lbl" text-anchor="end">Tasa de Desempleo u (%)</text>
+        <text x="${left-15}" y="${top+10}" class="axis-lbl" text-anchor="end">Tasa de Inflación π (%)</text>
+      `;
+
+      [4, 6, 8, 10].forEach(uVal => {
+        const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        l.setAttribute('x1', x(uVal)); l.setAttribute('x2', x(uVal));
+        l.setAttribute('y1', top); l.setAttribute('y2', y(0));
+        l.setAttribute('class', 'grid-line'); svg.appendChild(l);
+        const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        t.setAttribute('x', x(uVal)); t.setAttribute('y', y(0)+22);
+        t.setAttribute('class', 'axis-lbl'); t.setAttribute('text-anchor', 'middle');
+        t.textContent = uVal + '%'; svg.appendChild(t);
+      });
+
+      // Familia de Curvas de CP a Corto Plazo para distintas inflaciones pasadas
+      const piPast = [
+        { val: 2, col: '#00f2fe', lbl: 'CP (π_t-1 = 2%)' },
+        { val: 5, col: '#ffbe0b', lbl: 'CP (π_t-1 = 5%)' },
+        { val: 8, col: '#e11d48', lbl: 'CP (π_t-1 = 8%)' }
+      ];
+
+      piPast.forEach(item => {
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        path.setAttribute('x1', x(3.5)); path.setAttribute('y1', y(item.val + 0.8*(6.0 - 3.5)));
+        path.setAttribute('x2', x(8.5)); path.setAttribute('y2', y(item.val + 0.8*(6.0 - 8.5)));
+        path.setAttribute('stroke', item.col); path.setAttribute('stroke-width', '3.5');
+        path.setAttribute('stroke-linecap', 'round');
+        svg.appendChild(path);
+
+        const lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        lbl.setAttribute('x', x(8.6)); lbl.setAttribute('y', y(item.val + 0.8*(6.0 - 8.5))+4);
+        lbl.setAttribute('fill', item.col); lbl.setAttribute('font-family', 'var(--f-mono)');
+        lbl.setAttribute('font-size', '13.5'); lbl.setAttribute('font-weight', '600');
+        lbl.textContent = item.lbl;
+        svg.appendChild(lbl);
+      });
+
+      // Curva de Phillips Vertical a Largo Plazo (NAIRU = 6%)
+      const nairuLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      nairuLine.setAttribute('x1', x(6.0)); nairuLine.setAttribute('y1', top+15);
+      nairuLine.setAttribute('x2', x(6.0)); nairuLine.setAttribute('y2', y(0));
+      nairuLine.setAttribute('stroke', '#34d399'); nairuLine.setAttribute('stroke-width', '4.5');
+      nairuLine.setAttribute('stroke-dasharray', '8 6');
+      svg.appendChild(nairuLine);
+
+      const nairuLbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      nairuLbl.setAttribute('x', x(6.0)); nairuLbl.setAttribute('y', top);
+      nairuLbl.setAttribute('fill', '#34d399'); nairuLbl.setAttribute('font-family', 'var(--f-display)');
+      nairuLbl.setAttribute('font-size', '17'); nairuLbl.setAttribute('font-weight', '700');
+      nairuLbl.setAttribute('text-anchor', 'middle');
+      nairuLbl.textContent = 'NAIRU / Curva LP (u_n = 6%)';
+      svg.appendChild(nairuLbl);
+    }
+  };
+
+  // ==============================================================
+  // MOTORES DE TEMPORIZADORES (TPS 2 MIN Y RETO 8 MIN)
+  // ==============================================================
+  function setupTimer(totalSeconds, dispId, barId, btnStartId, btnPauseId, btnResetId){
+    let remain = totalSeconds;
+    let timerId = null;
+    const maxOffset = 596.9; // 2 * pi * 95
+    const disp = document.getElementById(dispId);
+    const bar = document.getElementById(barId);
+
+    function update(){
+      const m = Math.floor(remain / 60);
+      const s = remain % 60;
+      disp.textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+      const progress = remain / totalSeconds;
+      bar.style.strokeDashoffset = maxOffset * (1 - progress);
+      if (remain <= 30) bar.style.stroke = 'var(--crimson)';
+      else if (remain <= totalSeconds / 2) bar.style.stroke = 'var(--gold)';
+      else bar.style.stroke = 'var(--ok)';
+    }
+
+    document.getElementById(btnStartId).onclick = () => {
+      if (timerId) return;
+      timerId = setInterval(() => {
+        if (remain > 0) { remain--; update(); }
+        else { clearInterval(timerId); timerId = null; }
+      }, 1000);
+    };
+
+    document.getElementById(btnPauseId).onclick = () => {
+      if (timerId) { clearInterval(timerId); timerId = null; }
+    };
+
+    document.getElementById(btnResetId).onclick = () => {
+      if (timerId) { clearInterval(timerId); timerId = null; }
+      remain = totalSeconds;
+      update();
+    };
+
+    update();
+  }
+
+  setupTimer(120, 'timer_tps_disp', 'timer_tps_bar', 'btn_tps_start', 'btn_tps_pause', 'btn_tps_reset');
+  setupTimer(480, 'timer_reto_disp', 'timer_reto_bar', 'btn_reto_start', 'btn_reto_pause', 'btn_reto_reset');
+
+  // Inicializar en hash o slide 0
+  const m = /^#s(\d+)$/.exec(location.hash || '');
+  go(m ? (+m[1] - 1) : 0);
+})();
+</script>
+</body>
+</html>
