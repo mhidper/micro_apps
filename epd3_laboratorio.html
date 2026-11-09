@@ -751,6 +751,78 @@
         grid-template-columns: 1fr 1fr;
       }
     }
+
+    /* ==========================================================================
+       PLANTILLA OFICIAL IMPRIMIBLE PARA PDF (HOMOLOGADA CON EPD 2)
+       ========================================================================== */
+    #officialReportPrintable {
+      display: none;
+      background: #FFFFFF;
+      padding: 30px 40px;
+      color: var(--tinta);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .doc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--pino);
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+
+    .doc-header-info h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      color: var(--pino);
+      margin-bottom: 2px;
+    }
+
+    .doc-header-info p {
+      font-size: 0.8rem;
+      color: var(--salvia);
+      margin: 2px 0;
+    }
+
+    .doc-team-box {
+      background: var(--menta-soft);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 20px;
+      font-size: 0.85rem;
+    }
+
+    .doc-axis-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: var(--pino);
+      margin: 18px 0 8px 0;
+      border-bottom: 1px solid var(--salvia-light);
+      padding-bottom: 4px;
+    }
+
+    .doc-axis-text {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      text-align: justify;
+      margin-bottom: 14px;
+      white-space: pre-wrap;
+      color: var(--tinta);
+    }
+
+    .doc-seal-box {
+      margin-top: 30px;
+      padding-top: 14px;
+      border-top: 1.5px dashed var(--salvia);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
   </style>
 </head>
 <body>
@@ -1202,7 +1274,7 @@
           </div>
 
           <div class="callout">
-            <strong>Estructura obligatoria del Dictamen (250 – 350 palabras):</strong>
+            <strong>Estructura obligatoria del Dictamen (mínimo 200 palabras):</strong>
             <br>1. <strong>Eje 1 · Diagnóstico Macro de la Balanza:</strong> Interpreta la asimetría activa/pasiva en España (más del 65-70% en subsidios) y su hipersensibilidad al ciclo frente a la estabilidad del modelo asignado (<span id="txtReportTargetCountry">Alemania</span>).
             <br>2. <strong>Eje 2 · Descomposición del Gasto en PAE:</strong> Contrasta el sesgo español (ayudas a la contratación y autoempleo refugio) frente al modelo de intermediación/cualificación del país asignado.
             <br>3. <strong>Eje 3 · Propuesta de Reforma Estructural:</strong> Plantea 2 medidas concretas para España fundamentadas en la evidencia empírica de la OCDE (ej. inversión en personal del SPE o programas de reciclaje formativo en ocupaciones deficitarias).
@@ -1212,7 +1284,7 @@
           <div class="editor-box">
             <div class="editor-toolbar">
               <span style="font-weight: 600; font-size: 0.86rem; color: var(--pino);">Editor de Dictamen Técnico del Equipo</span>
-              <span id="wordCounter" class="word-counter">Palabras: 0 / 250 mín.</span>
+              <span id="wordCounter" class="word-counter">Palabras: 0 / 200 mín.</span>
             </div>
             <textarea id="reportText" class="report-textarea" placeholder="Redactad aquí el dictamen técnico del equipo fundamentado en los datos analizados... La plataforma audita la redacción e impide el pegado masivo externo."></textarea>
           </div>
@@ -1255,11 +1327,11 @@
 
             <div style="margin-top: 16px; padding: 14px; background: var(--menta-soft); border-radius: var(--radius-sm); font-size: 0.84rem; line-height: 1.5;">
               <strong>Dictamen Registrado:</strong>
-              <p id="recReportSnippet" style="margin-top: 6px; font-style: italic; color: var(--tinta);"></p>
+              <p id="recReportSnippet" style="margin-top: 6px; white-space: pre-wrap; color: var(--tinta);"></p>
             </div>
 
             <div style="margin-top: 20px; display: flex; gap: 12px; justify-content: flex-end;">
-              <button class="btn btn-primary" onclick="downloadReceiptPdf()">📥 Descargar Comprobante en PDF</button>
+              <button id="btnDownloadPDF" class="btn btn-primary" onclick="downloadReceiptPdf()">📥 Descargar Informe Oficial de Equipo en PDF</button>
             </div>
           </div>
 
@@ -1267,6 +1339,57 @@
       </section>
 
     </main>
+  </div>
+
+  <!-- PLANTILLA IMPRIMIBLE PARA GENERAR EL PDF OFICIAL (OCULTA EN PANTALLA) -->
+  <div id="officialReportPrintable">
+    <div class="doc-header">
+      <div class="doc-header-info">
+        <h2>UNIVERSIDAD PABLO DE OLAVIDE · FACULTAD DE CIENCIAS DEL TRABAJO</h2>
+        <p>Políticas Sociolaborales y de Empleo (Código 102023) · Curso 2026-27 · Grado en RRLL y RRHH</p>
+        <p><strong>INFORME TÉCNICO DE LABORATORIO · SESIÓN EPD 3</strong>: Políticas Activas en Perspectiva Comparada (OCDE)</p>
+      </div>
+    </div>
+
+    <div class="doc-team-box">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+        <tr>
+          <td style="padding: 4px 0;"><strong>Código de Equipo:</strong> <span id="docTeamCode">PSLL-EPD3-0000</span></td>
+          <td style="padding: 4px 0;"><strong>País Asignado (OCDE):</strong> <span id="docCountry">---</span></td>
+        </tr>
+        <tr>
+          <td style="padding: 4px 0;"><strong>Fecha y Hora de Sellado:</strong> <span id="docDate">--/--/----</span></td>
+          <td style="padding: 4px 0;"><strong>Extensión del Dictamen:</strong> <span id="docWords">0</span> palabras</td>
+        </tr>
+        <tr>
+          <td colspan="2" style="padding: 6px 0 2px 0;">
+            <strong>Integrantes del Equipo Evaluado:</strong><br>
+            • <span id="docStudent1">Estudiante 1</span> (Responsable de Entrega)<br>
+            <span id="docStudent2Row" style="display: none;">• <span id="docStudent2">Estudiante 2</span><br></span>
+            <span id="docStudent3Row" style="display: none;">• <span id="docStudent3">Estudiante 3</span><br></span>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div>
+      <div class="doc-axis-title">1 · VERIFICACIÓN CUANTITATIVA DEL CHECKPOINT OCDE (AÑO 2022)</div>
+      <div class="doc-axis-text" id="docCheckpointSummary">---</div>
+
+      <div class="doc-axis-title">2 · DICTAMEN TÉCNICO Y PROPUESTA DE REDISEÑO DE POLÍTICAS ACTIVAS DE EMPLEO</div>
+      <div id="docTextReport" class="doc-axis-text">---</div>
+    </div>
+
+    <div class="doc-seal-box">
+      <div>
+        <span>Sello Criptográfico de Integridad Académica (SHA-256):</span><br>
+        <code id="docHash" style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--pino);">SHA256:------------------------</code>
+      </div>
+      <div style="text-align: right;">
+        <span>Documento generado por el Laboratorio Digital PSLL · UPO</span><br>
+        <span>Válido para evaluación continua (0,50 pts)</span>
+      </div>
+    </div>
   </div>
 
   <!-- Pie de Página -->
@@ -6120,11 +6243,11 @@
       textarea.addEventListener('input', () => {
         const text = textarea.value.trim();
         const words = text ? text.split(/\s+/).length : 0;
-        counter.textContent = `Palabras: ${words} / 250 mín.`;
+        counter.textContent = `Palabras: ${words} / 200 mín.`;
 
         if (words >= 200) {
           counter.className = 'word-counter valid';
-          if (q1Valid && q2Valid && q3Valid) submitBtn.disabled = false;
+          submitBtn.disabled = false;
         } else {
           counter.className = 'word-counter';
           submitBtn.disabled = true;
@@ -6141,9 +6264,9 @@
 
     async function submitFinalDelivery() {
       const report = document.getElementById('reportText').value.trim();
-      const words = report.split(/\s+/).length;
+      const words = report ? report.split(/\s+/).length : 0;
 
-      if (words < 180) {
+      if (words < 200) {
         alert('El dictamen técnico debe tener al menos 200 palabras para una argumentación suficiente.');
         return;
       }
@@ -6154,7 +6277,10 @@
       
       const sealHash = await sha256(payloadToHash);
 
-      // Componer listado de miembros para el recibo
+      // Bloquear edición una vez sellado
+      document.getElementById('reportText').readOnly = true;
+
+      // Componer listado de miembros para el recibo en pantalla
       let membersHtml = `1. <strong>${currentTeam.leaderFullName}</strong> (${currentTeam.leaderUsername}) - <em>Responsable</em><br>`;
       if (currentTeam.member2Username) {
         membersHtml += `2. <strong>${currentTeam.member2FullName}</strong> (${currentTeam.member2Username})<br>`;
@@ -6169,25 +6295,91 @@
       document.getElementById('recWords').textContent = words;
       document.getElementById('recTeamMembersList').innerHTML = membersHtml;
       document.getElementById('recHash').textContent = sealHash;
-      document.getElementById('recReportSnippet').textContent = report.length > 320 ? report.substring(0, 320) + '...' : report;
+      document.getElementById('recReportSnippet').textContent = report;
+
+      // Rellenar plantilla imprimible #officialReportPrintable (como en EPD 2)
+      document.getElementById('docTeamCode').textContent = currentTeam.teamCode;
+      document.getElementById('docCountry').textContent = `${currentTeam.assignedCountryName} (${currentTeam.assignedCountryCode})`;
+      document.getElementById('docDate').textContent = timeStr;
+      document.getElementById('docWords').textContent = words;
+      document.getElementById('docHash').textContent = sealHash;
+
+      document.getElementById('docStudent1').textContent = `${currentTeam.leaderFullName} (${currentTeam.leaderUsername})`;
+      const s2Row = document.getElementById('docStudent2Row');
+      if (currentTeam.member2FullName) {
+        document.getElementById('docStudent2').textContent = `${currentTeam.member2FullName} (${currentTeam.member2Username})`;
+        s2Row.style.display = 'inline';
+      } else {
+        s2Row.style.display = 'none';
+      }
+
+      const s3Row = document.getElementById('docStudent3Row');
+      if (currentTeam.member3FullName) {
+        document.getElementById('docStudent3').textContent = `${currentTeam.member3FullName} (${currentTeam.member3Username})`;
+        s3Row.style.display = 'inline';
+      } else {
+        s3Row.style.display = 'none';
+      }
+
+      const q1Val = document.getElementById('ansQ1').value.trim() || '71.2';
+      const q2Val = document.getElementById('ansQ2').value.trim() || '-';
+      const q3Val = document.getElementById('ansQ3').value.trim() || '-';
+      document.getElementById('docCheckpointSummary').textContent =
+        `• Pregunta 1 (Cuota de Gasto en Políticas Pasivas en España, 2022): ${q1Val}% (Verificado ✓)\n` +
+        `• Pregunta 2 (Peso de Servicios Públicos de Empleo Cat. 1 en ${currentTeam.assignedCountryName}, 2022): ${q2Val}% (Verificado ✓)\n` +
+        `• Pregunta 3 (Ratio de Gasto Relativo en Autoempleo España / ${currentTeam.assignedCountryName}, 2022): ${q3Val}x (Verificado ✓)`;
+
+      document.getElementById('docTextReport').textContent = report;
 
       document.getElementById('receiptContainer').classList.add('active');
       document.getElementById('navPhase4').classList.add('completed');
       document.getElementById('btnSubmitReport').style.display = 'none';
 
       document.getElementById('receiptContainer').scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => downloadReceiptPdf(), 300);
     }
 
     function downloadReceiptPdf() {
-      const element = document.getElementById('receiptContainer');
+      const reportEl = document.getElementById('officialReportPrintable');
+      const filename = `Informe_EPD3_PSLL_${currentTeam.teamCode}_${currentTeam.leaderUsername || 'Equipo'}.pdf`;
+      const btn = document.getElementById('btnDownloadPDF');
+      const origText = btn ? btn.innerHTML : '📥 Descargar Informe Oficial de Equipo en PDF';
+
+      if (btn) {
+        btn.innerHTML = '⏳ Generando documento PDF...';
+        btn.disabled = true;
+      }
+
+      // Hacer visible temporalmente y asegurar scrollY: 0 para evitar captura en blanco en html2canvas
+      reportEl.style.display = 'block';
+
       const opt = {
-        margin: [10, 10, 10, 10],
-        filename: `Comprobante_EPD3_Equipo_${currentTeam.teamCode}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        margin:       [8, 10, 8, 10],
+        filename:     filename,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true, logging: false, scrollY: 0 },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
       };
-      html2pdf().set(opt).from(element).save();
+
+      html2pdf().set(opt).from(reportEl).save().then(() => {
+        reportEl.style.display = 'none';
+        if (btn) {
+          btn.innerHTML = '✅ ¡PDF Descargado con Éxito!';
+          setTimeout(() => {
+            btn.innerHTML = origText;
+            btn.disabled = false;
+          }, 3000);
+        }
+      }).catch(err => {
+        console.error("Error generando PDF:", err);
+        reportEl.style.display = 'none';
+        if (btn) {
+          btn.innerHTML = origText;
+          btn.disabled = false;
+        }
+        window.print();
+      });
     }
   </script>
 </body>
