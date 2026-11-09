@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Simulador EPL, Costes de Despido y Fijos Discontinuos | PSLL UPO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --psll-pine: #113927;
+    --psll-pine-dark: #0B2419;
+    --psll-sage: #76927A;
+    --psll-coral: #E98F71;
+    --psll-coral-dark: #C86D51;
+    --psll-mint: #F4F8F5;
+    --psll-ink: #2F3A30;
+    --psll-peach: #EDB090;
+    --bg-card: #FFFFFF;
+    --border-color: #C2D8C9;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: linear-gradient(135deg, #113927 0%, #1a4a35 55%, #295e45 100%);
+    color: var(--psll-ink);
+    padding: 18px 12px;
+    min-height: 100vh;
+  }
+  .app-container {
+    background: var(--bg-card);
+    border-radius: 22px;
+    max-width: 1020px;
+    margin: 0 auto;
+    padding: clamp(18px, 3.5vw, 34px);
+    box-shadow: 0 24px 55px rgba(0,0,0,0.35);
+  }
+  header { text-align: center; margin-bottom: 20px; }
+  .badge-tag {
+    display: inline-block;
+    background: var(--psll-mint);
+    color: var(--psll-pine);
+    font-weight: 700;
+    font-size: 0.78rem;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+  }
+  header h1 {
+    font-family: 'Outfit', sans-serif;
+    color: var(--psll-pine);
+    font-size: clamp(1.45rem, 4vw, 2.1rem);
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+  header p.subtitle {
+    color: var(--psll-sage);
+    font-size: 0.98rem;
+    font-weight: 500;
+  }
+  .tabs-nav {
+    display: flex;
+    gap: 8px;
+    background: var(--psll-mint);
+    padding: 6px;
+    border-radius: 14px;
+    margin-bottom: 22px;
+    border: 1px solid var(--border-color);
+    overflow-x: auto;
+  }
+  .tab-btn {
+    flex: 1;
+    min-width: 150px;
+    padding: 11px 14px;
+    border: none;
+    background: transparent;
+    color: var(--psll-ink);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab-btn.active {
+    background: var(--psll-pine);
+    color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(17,57,39,0.22);
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: var(--psll-mint);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 20px;
+  }
+  .card h3 {
+    font-family: 'Outfit', sans-serif;
+    color: var(--psll-pine);
+    font-size: 1.15rem;
+    margin-bottom: 12px;
+  }
+  .control-group { margin-bottom: 14px; }
+  .control-group label {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+    color: var(--psll-pine);
+  }
+  .control-group input[type=range] {
+    width: 100%;
+    accent-color: var(--psll-coral);
+  }
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-top: 14px;
+  }
+  .kpi-box {
+    background: #FFFFFF;
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--psll-pine);
+    border-radius: 12px;
+    padding: 12px;
+  }
+  .kpi-box.coral { border-left-color: var(--psll-coral); }
+  .kpi-box .lbl { font-size: 0.78rem; color: var(--psll-sage); font-weight: 700; text-transform: uppercase; }
+  .kpi-box .val { font-family: 'JetBrains Mono', monospace; font-size: 1.35rem; font-weight: 700; color: var(--psll-pine); margin-top: 4px; }
+  .kpi-box.coral .val { color: var(--psll-coral-dark); }
+  .verdict-box {
+    margin-top: 16px;
+    background: #FFFFFF;
+    border: 1.5px solid var(--psll-coral);
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 0.92rem;
+    line-height: 1.45;
+  }
+</style>
+</head>
+<body>
+<div class="app-container">
+  <header>
+    <span class="badge-tag">Políticas Sociolaborales · Sesión EB 12 · Tema 4 (I)</span>
+    <h1>Laboratorio de EPL, Costes de Despido y Fijos Discontinuos</h1>
+    <p class="subtitle">Simulador interactivo de indemnizaciones (ET), brecha de dualidad (ΔEPL) y estadística SEPE vs. EPA</p>
+  </header>
+
+  <nav class="tabs-nav">
+    <button class="tab-btn active" onclick="openTab(0)">1. Calculadora de Despido (ET)</button>
+    <button class="tab-btn" onclick="openTab(1)">2. Brecha ΔEPL y Reforma 2021</button>
+    <button class="tab-btn" onclick="openTab(2)">3. Auditoría Fijo Discontinuo</button>
+  </nav>
+
+  <!-- TAB 1: CALCULADORA DE DESPIDO -->
+  <section class="tab-panel active" id="tab0">
+    <div class="grid-2">
+      <div class="card">
+        <h3>Parámetros Laborales del Trabajador</h3>
+        <div class="control-group">
+          <label><span>Salario Bruto Mensual (con prorrata):</span> <strong id="sal_lbl">2.400 €/mes (80,00 €/día)</strong></label>
+          <input type="range" id="sal_in" min="1200" max="4500" step="100" value="2400" oninput="calcDespido()">
+        </div>
+        <div class="control-group">
+          <label><span>Antigüedad post-12/02/2012 (años):</span> <strong id="ant_post_lbl">10,0 años</strong></label>
+          <input type="range" id="ant_post_in" min="0.5" max="28" step="0.5" value="10" oninput="calcDespido()">
+        </div>
+        <div class="control-group">
+          <label><span>Antigüedad previa al 12/02/2012 (DT 11.ª ET):</span> <strong id="ant_pre_lbl">0,0 años</strong></label>
+          <input type="range" id="ant_pre_in" min="0" max="15" step="0.5" value="0" oninput="calcDespido()">
+        </div>
+        <div class="verdict-box" id="despido_verdict"></div>
+      </div>
+
+      <div class="card">
+        <h3>Comparativa de Indemnización Legal</h3>
+        <div class="kpi-row">
+          <div class="kpi-box">
+            <div class="lbl">Fin Temporal (12 d/año)</div>
+            <div class="val" id="kpi_temp">9.600 €</div>
+          </div>
+          <div class="kpi-box">
+            <div class="lbl">Objetivo / ERE (20 d/año)</div>
+            <div class="val" id="kpi_obj">16.000 €</div>
+          </div>
+          <div class="kpi-box coral">
+            <div class="lbl">Improcedente (33/45 d)</div>
+            <div class="val" id="kpi_imp">26.400 €</div>
+          </div>
+          <div class="kpi-box coral">
+            <div class="lbl">Prima de Litigiosidad</div>
+            <div class="val" id="kpi_gap">+10.400 €</div>
+          </div>
+        </div>
+        <svg id="svg_despido" viewBox="0 0 460 220" width="100%" style="margin-top:16px;background:#fff;border-radius:12px;border:1px solid #C2D8C9;"></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 2: BRECHA EPL Y REFORMA 2021 -->
+  <section class="tab-panel" id="tab1">
+    <div class="grid-2">
+      <div class="card">
+        <h3>Diseño Institucional de la Contratación</h3>
+        <div class="control-group">
+          <label><span>Protección Indefinidos (EPL Indef · OCDE):</span> <strong id="epl_i_lbl">2,46</strong></label>
+          <input type="range" id="epl_i_in" min="0.8" max="4.0" step="0.1" value="2.46" oninput="calcEPL()">
+        </div>
+        <div class="control-group">
+          <label><span>Facilidad de Uso Temporal (Causalidad Laxa):</span> <strong id="temp_lax_lbl">Alta (Pre-2021 · Obra o Servicio)</strong></label>
+          <input type="range" id="temp_lax_in" min="1" max="3" step="1" value="3" oninput="calcEPL()">
+        </div>
+        <div class="control-group">
+          <label><span>Penalización Contratos &lt; 30 días (Art. 151 LGSS):</span> <strong id="pen_lbl">0 € (Sin recargo)</strong></label>
+          <input type="range" id="pen_in" min="0" max="60" step="31.4" value="0" oninput="calcEPL()">
+        </div>
+        <button class="tab-btn active" style="width:100%;margin-top:8px;" onclick="aplicarRDL32()">⚡ Aplicar Reforma RDL 32/2021</button>
+      </div>
+      <div class="card">
+        <h3>Impacto en Dualidad y Temporalidad</h3>
+        <div class="kpi-row">
+          <div class="kpi-box coral">
+            <div class="lbl">Tasa Temporalidad Privada</div>
+            <div class="val" id="kpi_tasa_priv">29,2 %</div>
+          </div>
+          <div class="kpi-box">
+            <div class="lbl">Tasa Temporalidad Pública</div>
+            <div class="val" id="kpi_tasa_pub">31,2 %</div>
+          </div>
+          <div class="kpi-box">
+            <div class="lbl">% Nuevos Indefinidos / Mes</div>
+            <div class="val" id="kpi_indef_mes">10,4 %</div>
+          </div>
+        </div>
+        <div class="verdict-box" id="epl_verdict"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 3: AUDITORÍA FIJO DISCONTINUO -->
+  <section class="tab-panel" id="tab2">
+    <div class="grid-2">
+      <div class="card">
+        <h3>Simulación de Fin de Campaña Estacional</h3>
+        <div class="control-group">
+          <label><span>Fijos Discontinuos que pasan a Inactividad:</span> <strong id="fd_tot_lbl">1.000 trabajadores</strong></label>
+          <input type="range" id="fd_tot_in" min="200" max="5000" step="100" value="1000" oninput="calcFD()">
+        </div>
+        <div class="control-group">
+          <label><span>% que busca activamente otro empleo en invierno:</span> <strong id="fd_bus_lbl">65 %</strong></label>
+          <input type="range" id="fd_bus_in" min="10" max="90" step="5" value="65" oninput="calcFD()">
+        </div>
+        <div class="verdict-box">
+          <strong>Clave Jurídica y Estadística:</strong> Durante la inactividad, el contrato fijo discontinuo <strong>no está extinguido sino suspendido</strong>. Por una Orden Ministerial de 1985, el SEPE los registra como <strong>DENO (Demandantes No Ocupados)</strong> y los excluye del Paro Registrado. En cambio, la <strong>EPA (INE)</strong> aplica criterios OIT puros: como no trabajaron en la semana de referencia, nunca son ocupados.
+        </div>
+      </div>
+      <div class="card">
+        <h3>Contabilización Oficial Comparada</h3>
+        <div class="kpi-row">
+          <div class="kpi-box">
+            <div class="lbl">Paro Registrado SEPE</div>
+            <div class="val" id="kpi_sepe_paro">+0</div>
+          </div>
+          <div class="kpi-box coral">
+            <div class="lbl">DENO (Excluidos SEPE)</div>
+            <div class="val" id="kpi_sepe_deno">+1.000</div>
+          </div>
+          <div class="kpi-box coral">
+            <div class="lbl">Parados en EPA (INE)</div>
+            <div class="val" id="kpi_epa_paro">+650</div>
+          </div>
+          <div class="kpi-box">
+            <div class="lbl">Inactivos en EPA (INE)</div>
+            <div class="val" id="kpi_epa_inac">+350</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+function openTab(idx) {
+  document.querySelectorAll('.tab-btn').forEach((b, i) => { if(i < 3) b.classList.toggle('active', i === idx); });
+  document.querySelectorAll('.tab-panel').forEach((p, i) => p.classList.toggle('active', i === idx));
+}
+
+function fmt(n) { return Math.round(n).toLocaleString('es-ES'); }
+
+function calcDespido() {
+  const salMes = parseFloat(document.getElementById('sal_in').value);
+  const antPost = parseFloat(document.getElementById('ant_post_in').value);
+  const antPre = parseFloat(document.getElementById('ant_pre_in').value);
+  const salDia = salMes / 30.0;
+  const antTotal = antPre + antPost;
+
+  document.getElementById('sal_lbl').textContent = fmt(salMes) + ' €/mes (' + salDia.toFixed(2).replace('.', ',') + ' €/día)';
+  document.getElementById('ant_post_lbl').textContent = antPost.toFixed(1).replace('.', ',') + ' años';
+  document.getElementById('ant_pre_lbl').textContent = antPre.toFixed(1).replace('.', ',') + ' años';
+
+  const diasTemp = Math.min(antTotal * 12, 24 * 12);
+  const diasObj = Math.min(antTotal * 20, 360); // tope 12 mensualidades = 360 días
+  let diasImp = 0;
+  if (antPre === 0) {
+    diasImp = Math.min(antPost * 33, 720);
+  } else {
+    const dPre = antPre * 45;
+    if (dPre >= 720) {
+      diasImp = Math.min(dPre, 1260); // tope 42 meses = 1260 días
+    } else {
+      diasImp = Math.min(dPre + antPost * 33, 720);
+    }
+  }
+
+  const eurTemp = diasTemp * salDia;
+  const eurObj = diasObj * salDia;
+  const eurImp = diasImp * salDia;
+  const eurGap = eurImp - eurObj;
+
+  document.getElementById('kpi_temp').textContent = fmt(eurTemp) + ' €';
+  document.getElementById('kpi_obj').textContent = fmt(eurObj) + ' €';
+  document.getElementById('kpi_imp').textContent = fmt(eurImp) + ' €';
+  document.getElementById('kpi_gap').textContent = '+' + fmt(eurGap) + ' €';
+
+  document.getElementById('despido_verdict').innerHTML =
+    `<strong>Desglose Normativo (${antTotal.toFixed(1).replace('.', ',')} años totales):</strong><br>` +
+    `• <strong>Objetivo (20 d/año):</strong> ${Math.round(diasObj)} días de salario (tope legal: 360 días = 12 meses).<br>` +
+    `• <strong>Improcedente (${antPre > 0 ? 'Doble tramo 45/33 d' : '33 d/año'}):</strong> ${Math.round(diasImp)} días de salario. La brecha frente al despido objetivo es de <strong>+${fmt(eurGap)} €</strong>.`;
+
+  // Render SVG bars
+  const svg = document.getElementById('svg_despido');
+  const maxVal = Math.max(eurImp, 40000);
+  const wTemp = Math.max(10, (eurTemp / maxVal) * 280);
+  const wObj = Math.max(10, (eurObj / maxVal) * 280);
+  const wImp = Math.max(10, (eurImp / maxVal) * 280);
+  svg.innerHTML = `
+    <text x="16" y="32" font-family="Outfit" font-size="13" font-weight="700" fill="#113927">Comparativa Visual de Indemnización (€)</text>
+    <text x="16" y="75" font-family="Inter" font-size="12" font-weight="600" fill="#2F3A30">Temporal (12d)</text>
+    <rect x="125" y="58" width="${wTemp}" height="24" rx="5" fill="#EDB090"/>
+    <text x="${132 + wTemp}" y="75" font-family="JetBrains Mono" font-size="12" font-weight="700" fill="#113927">${fmt(eurTemp)} €</text>
+
+    <text x="16" y="125" font-family="Inter" font-size="12" font-weight="600" fill="#2F3A30">Objetivo (20d)</text>
+    <rect x="125" y="108" width="${wObj}" height="24" rx="5" fill="#76927A"/>
+    <text x="${132 + wObj}" y="125" font-family="JetBrains Mono" font-size="12" font-weight="700" fill="#113927">${fmt(eurObj)} €</text>
+
+    <text x="16" y="175" font-family="Inter" font-size="12" font-weight="600" fill="#2F3A30">Improcedente</text>
+    <rect x="125" y="158" width="${wImp}" height="24" rx="5" fill="#E98F71"/>
+    <text x="${132 + wImp}" y="175" font-family="JetBrains Mono" font-size="12" font-weight="700" fill="#C86D51">${fmt(eurImp)} €</text>
+  `;
+}
+
+function calcEPL() {
+  const eplI = parseFloat(document.getElementById('epl_i_in').value);
+  const lax = parseInt(document.getElementById('temp_lax_in').value);
+  const pen = parseFloat(document.getElementById('pen_in').value);
+
+  document.getElementById('epl_i_lbl').textContent = eplI.toFixed(2).replace('.', ',');
+  const laxNames = {1: 'Estricto (RDL 32/2021 · Sin Obra)', 2: 'Moderado', 3: 'Alta (Pre-2021 · Obra o Servicio)'};
+  document.getElementById('temp_lax_lbl').textContent = laxNames[lax];
+  document.getElementById('pen_lbl').textContent = pen > 0 ? pen.toFixed(2).replace('.', ',') + ' € por baja <30d' : '0 € (Sin recargo)';
+
+  let tasaPriv = 12.4 + (lax - 1) * 7.2 + (eplI - 2.46) * 2.5 - (pen > 0 ? 2.4 : 0);
+  tasaPriv = Math.max(8.0, Math.min(35.0, tasaPriv));
+  let indefMes = 44.2 - (lax - 1) * 15.5 + (pen > 0 ? 3.2 : 0);
+  indefMes = Math.max(8.0, Math.min(60.0, indefMes));
+
+  document.getElementById('kpi_tasa_priv').textContent = tasaPriv.toFixed(1).replace('.', ',') + ' %';
+  document.getElementById('kpi_indef_mes').textContent = indefMes.toFixed(1).replace('.', ',') + ' %';
+  document.getElementById('epl_verdict').innerHTML =
+    lax === 1
+      ? `<strong>Escenario Post-RDL 32/2021:</strong> Al suprimir el contrato de obra o servicio y penalizar las bajas de menos de 30 días, las empresas canalizan la contratación hacia indefinidos ordinarios y fijos discontinuos. La temporalidad privada converge con Europa (${tasaPriv.toFixed(1).replace('.', ',')}%), aunque el sector público sigue anclado en el 31,2%.`
+      : `<strong>Escenario de Dualidad Clásica:</strong> Con causalidad temporal laxa, las empresas usan masivamente contratos temporales como colchón de ajuste para evitar el coste del despido indefinido.`;
+}
+
+function aplicarRDL32() {
+  document.getElementById('epl_i_in').value = 2.46;
+  document.getElementById('temp_lax_in').value = 1;
+  document.getElementById('pen_in').value = 31.4;
+  calcEPL();
+}
+
+function calcFD() {
+  const tot = parseInt(document.getElementById('fd_tot_in').value);
+  const busPct = parseInt(document.getElementById('fd_bus_in').value);
+  document.getElementById('fd_tot_lbl').textContent = fmt(tot) + ' trabajadores';
+  document.getElementById('fd_bus_lbl').textContent = busPct + ' %';
+
+  const epaParo = Math.round(tot * (busPct / 100.0));
+  const epaInac = tot - epaParo;
+
+  document.getElementById('kpi_sepe_paro').textContent = '+0';
+  document.getElementById('kpi_sepe_deno').textContent = '+' + fmt(tot);
+  document.getElementById('kpi_epa_paro').textContent = '+' + fmt(epaParo);
+  document.getElementById('kpi_epa_inac').textContent = '+' + fmt(epaInac);
+}
+
+calcDespido();
+calcEPL();
+calcFD();
+</script>
+</body>
+</html>
+
