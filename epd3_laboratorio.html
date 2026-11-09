@@ -1230,14 +1230,17 @@
 
             <!-- Pregunta 3 -->
             <div class="checkpoint-question">
-              <label id="lblQ3">3. [España vs. Alemania · 2022] ¿Cuántas veces es mayor el porcentaje relativo dedicado a Autoempleo (Categoría 6) en España que en Alemania?</label>
+              <label id="lblQ3">3. [España vs. Alemania · 2022] ¿Cuántas veces es mayor el porcentaje relativo dedicado a Autoempleo (Categoría 6) en España que en Alemania? (Si en tu país asignado es 0%, introduce 99.0):</label>
                             <div style="font-size: 0.88rem; color: var(--text-body); margin: 6px 0 10px 0; background: #F8FAF9; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--border-subtle);">
                 <strong style="color: var(--pino);">Fórmula analítica:</strong>
                 <div style="margin-top: 4px; font-size: 0.95rem;">
                   $$\text{Ratio Autoempleo} = \frac{\text{\% Autoempleo en PAE España}}{\text{\% Autoempleo en PAE País Asignado}}$$
                 </div>
+                <div style="background: #FFFBEB; border-left: 3px solid var(--coral); padding: 6px 12px; border-radius: 4px; margin-top: 6px; font-size: 0.82rem; color: #92400E;">
+                  ⚠️ <strong>Nota si el denominador es 0% (división por cero):</strong> Si tu país asignado dedica un <strong>0,0%</strong> al autoempleo (ej. Dinamarca o Países Bajos), no es posible dividir por cero; en ese caso, introduce directamente <strong><code>99.0</code></strong> en la casilla.
+                </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; background: #F4F8F5; border-left: 3px solid var(--salvia); padding: 6px 12px; border-radius: 4px; margin-top: 6px; font-size: 0.82rem; color: var(--ink-green);">
-                  <span>📍 <strong>Dónde consultar estos datos:</strong> Pestaña <strong>Fase 2 (Modelos de Gasto)</strong> ➔ Compara el valor de <strong>«6. Autoempleo (Start-ups)»</strong> de España (~17,8%) con el de tu país asignado (ej. Alemania ~1,4%) en las barras de PAE.</span>
+                  <span>📍 <strong>Dónde consultar estos datos:</strong> Pestaña <strong>Fase 2 (Modelos de Gasto)</strong> ➔ Compara el valor de <strong>«6. Autoempleo (Start-ups)»</strong> de España (~17,8%) con el de tu país asignado en las barras de PAE.</span>
                   <button type="button" class="btn btn-sm btn-outline-secondary" onclick="switchPhase(2)" style="font-size: 0.75rem; padding: 3px 8px; margin-left: 8px; white-space: nowrap; cursor: pointer;">🔍 Ver en Fase 2</button>
                 </div>
               </div>
@@ -6135,7 +6138,7 @@
     function updateCheckpointLabels() {
       const cName = currentTeam.assignedCountryName;
       document.getElementById('lblQ2').textContent = `2. [${cName} · 2022] ¿Qué porcentaje del gasto total de Políticas Activas (PAE) se dedica a Servicios Públicos de Empleo e Intermediación (Categoría 1)?`;
-      document.getElementById('lblQ3').textContent = `3. [España vs. ${cName} · 2022] ¿Cuántas veces es mayor el porcentaje relativo dedicado a Autoempleo (Categoría 6) en España que en ${cName}?`;
+      document.getElementById('lblQ3').textContent = `3. [España vs. ${cName} · 2022] ¿Cuántas veces es mayor el porcentaje relativo dedicado a Autoempleo (Categoría 6) en España que en ${cName}? (Si en ${cName} es 0%, introduce 99.0):`;
     }
 
     function validateQ1() {
@@ -6191,27 +6194,39 @@
     function validateQ3() {
       const cCode = currentTeam.assignedCountryCode;
       const espPaeStart = OECD_DATA.paises['ESP'].series_temporales['2022'].desglose_pae_relativo_pct['LMP_70'] || 17.8;
-      const compPaeStart = OECD_DATA.paises[cCode].series_temporales['2022'].desglose_pae_relativo_pct['LMP_70'] || 0.1;
+      const rawComp = OECD_DATA.paises[cCode].series_temporales['2022'].desglose_pae_relativo_pct['LMP_70'];
+      const compPaeStart = (rawComp !== undefined && rawComp !== null) ? rawComp : 0;
       
-      let targetRatio = compPaeStart > 0 ? (espPaeStart / compPaeStart) : 99;
+      let targetRatio = compPaeStart > 0.05 ? (espPaeStart / compPaeStart) : 99.0;
 
       const raw = document.getElementById('ansQ3').value.trim().replace(',', '.');
       const inputVal = parseFloat(raw);
       const feed = document.getElementById('feedQ3');
       const inp = document.getElementById('ansQ3');
 
-      const isOk = (compPaeStart < 0.2 && inputVal > 10) || (!isNaN(inputVal) && Math.abs(inputVal - targetRatio) <= 1.2);
+      const isZeroCountry = compPaeStart <= 0.05;
+      const isOk = isZeroCountry
+        ? (!isNaN(inputVal) && (Math.abs(inputVal - 99.0) <= 1.0 || inputVal === 0 || inputVal >= 10))
+        : (!isNaN(inputVal) && Math.abs(inputVal - targetRatio) <= 1.2);
 
       if (isOk) {
         q3Valid = true;
         inp.className = 'check-input correct';
         feed.className = 'check-feedback ok';
-        feed.textContent = `✓ ¡Excelente! Ratio: ${targetRatio.toFixed(1)} veces superior.`;
+        if (isZeroCountry) {
+          feed.textContent = `✓ ¡Excelente! Como ${currentTeam.assignedCountryName} dedica un 0,0% a autoempleo frente al ${espPaeStart.toFixed(1)}% de España (división por cero), se registra el código 99.0.`;
+        } else {
+          feed.textContent = `✓ ¡Excelente! Ratio: ${targetRatio.toFixed(1)} veces superior.`;
+        }
       } else {
         q3Valid = false;
         inp.className = 'check-input incorrect';
         feed.className = 'check-feedback bad';
-        feed.textContent = `✗ Revisa la cuota de autoempleo de España (${espPaeStart.toFixed(1)}%) vs ${currentTeam.assignedCountryName} (${compPaeStart.toFixed(1)}%).`;
+        if (isZeroCountry) {
+          feed.textContent = `✗ Como ${currentTeam.assignedCountryName} dedica un 0,0% a autoempleo (no se puede dividir por cero), introduce 99.0 en la casilla.`;
+        } else {
+          feed.textContent = `✗ Revisa la cuota de autoempleo de España (${espPaeStart.toFixed(1)}%) vs ${currentTeam.assignedCountryName} (${compPaeStart.toFixed(1)}%).`;
+        }
       }
       checkAllUnlocked();
     }
