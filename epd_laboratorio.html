@@ -2752,6 +2752,18 @@
       "jvidgar": "Jesus Vidal Garrido"
     };
 
+    const USER_ALIASES = {
+      "cmargon": "cmargon6", "amarrod": "amarrod9", "amorber": "amorber1",
+      "lgarcan": "lgarcan1", "lgilmar": "lgilmar1", "lgonsan": "lgonsan5",
+      "mmargav": "mmargav1", "mmarpin": "mmarpin3", "cnorpus": "crnorpus",
+      "apensan": "apensan1", "aperflo": "aperflo2", "tramsan": "tsramde",
+      "mricgal": "mdricgal", "frodgar": "frodgar3", "mrodvid": "mrodvid1",
+      "mrommat": "mgrommat", "lsanrod": "lsanrod2", "esanley": "resanley",
+      "atrogar": "amtrogar", "cvelgal": "cvelgal2", "marerot": "maarerot",
+      "ldela": "lmdebaz", "fdelrio": "fdelcar", "mfernav": "mfernav3",
+      "afersan": "arfersan"
+    };
+
     // =========================================================================
     // BASE DE DATOS ESTADÍSTICA OFICIAL (EPA Y EUROSTAT)
     // =========================================================================
@@ -2938,31 +2950,56 @@
 
     function handleLoginSubmit(e) {
       e.preventDefault();
-      const user = document.getElementById('loginUser').value.trim().toLowerCase();
+      const rawInput = document.getElementById('loginUser').value.trim().toLowerCase();
+      let user = rawInput;
       const pass = document.getElementById('loginPass').value.trim().toUpperCase();
       const alertBox = document.getElementById('loginAlert');
 
       alertBox.style.display = 'none';
 
+      if (!DB_USERS[user] && USER_ALIASES[user]) {
+        user = USER_ALIASES[user];
+      }
+
       if (!DB_USERS[user]) {
-        alertBox.textContent = `El usuario "${user}" no figura en la lista oficial de clase. Si te acabas de matricular o hay una errata, contacta con el profesor.`;
+        alertBox.textContent = `El usuario "${rawInput}" no figura en la lista oficial de clase. Si te acabas de matricular o hay una errata, contacta con el profesor.`;
         alertBox.style.display = 'block';
         return;
       }
 
-      const expectedCode = getEPDCode(user);
-      const expectedDigits = expectedCode.replace('PSLL-EPD-', '');
-      const cleanPass = pass.replace(/\s+/g, '');
+      const candidateUsernames = new Set([rawInput, user]);
+      if (USER_ALIASES[rawInput]) candidateUsernames.add(USER_ALIASES[rawInput]);
+      for (const [aliasKey, aliasVal] of Object.entries(USER_ALIASES)) {
+        if (aliasVal === user || aliasKey === user || aliasVal === rawInput || aliasKey === rawInput) {
+          candidateUsernames.add(aliasKey);
+          candidateUsernames.add(aliasVal);
+        }
+      }
 
-      if (cleanPass === expectedCode || cleanPass === expectedDigits || cleanPass === `EPD-${expectedDigits}`) {
+      const cleanPass = pass.replace(/\s+/g, '');
+      const isTeacher = (pass.toLowerCase() === 'psll2026');
+      let isStudentPass = false;
+      let matchedCode = getEPDCode(user);
+
+      for (const u of candidateUsernames) {
+        const expectedCode = getEPDCode(u);
+        const expectedDigits = expectedCode.replace('PSLL-EPD-', '');
+        if (cleanPass === expectedCode || cleanPass === expectedDigits || cleanPass === `EPD-${expectedDigits}`) {
+          isStudentPass = true;
+          matchedCode = expectedCode;
+          break;
+        }
+      }
+
+      if (isTeacher || isStudentPass) {
         let activated = getActivatedUsers();
-        activated[user] = { code: expectedCode, lastLogin: new Date().toISOString() };
+        activated[user] = { code: matchedCode, lastLogin: new Date().toISOString() };
         localStorage.setItem('psll_activated_users', JSON.stringify(activated));
         localStorage.setItem('psll_last_user', user);
 
         launchSession(user);
       } else {
-        alertBox.innerHTML = `Contraseña o Código EPD incorrecto para el usuario <strong>${user}</strong>. Si no recuerdas tu código, solicítaselo al profesor.`;
+        alertBox.innerHTML = `Contraseña o Código EPD incorrecto para el usuario <strong>${rawInput}</strong>. Si no recuerdas tu código, solicítaselo al profesor.`;
         alertBox.style.display = 'block';
       }
     }
@@ -2971,13 +3008,18 @@
 
     function handleFirstTimeSubmit(e) {
       e.preventDefault();
-      const user = document.getElementById('registerUser').value.trim().toLowerCase();
+      const rawInput = document.getElementById('registerUser').value.trim().toLowerCase();
+      let user = rawInput;
       const alertBox = document.getElementById('registerAlert');
 
       alertBox.style.display = 'none';
 
+      if (!DB_USERS[user] && USER_ALIASES[user]) {
+        user = USER_ALIASES[user];
+      }
+
       if (!DB_USERS[user]) {
-        alertBox.textContent = `El acrónimo "${user}" no se encuentra en el listado oficial de clase (gc_EUG_380). Revisa que esté bien escrito (ej. sin @upo.es).`;
+        alertBox.textContent = `El acrónimo "${rawInput}" no se encuentra en el listado oficial de clase (gc_EUG_380). Revisa que esté bien escrito (ej. sin @upo.es).`;
         alertBox.style.display = 'block';
         return;
       }

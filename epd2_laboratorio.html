@@ -2351,7 +2351,8 @@
     }
 
     function verifyTeamLeader() {
-      let raw = document.getElementById('inputAcronym').value.trim().toLowerCase();
+      const rawInput = document.getElementById('inputAcronym').value.trim().toLowerCase();
+      let raw = rawInput;
       const passInp = document.getElementById('inputPassword');
       const pass = passInp ? passInp.value.trim() : '';
 
@@ -2366,7 +2367,7 @@
       }
 
       if (!DB_USERS[raw]) {
-        alert(`⚠️ El acrónimo "${raw}" no figura en la lista oficial de matriculados de PSLL.\n\nVerifica que está bien escrito (sin @alu.upo.es). Si eres alumno de intercambio o incidencia de matrícula, consulta con el profesor.`);
+        alert(`⚠️ El acrónimo "${rawInput}" no figura en la lista oficial de matriculados de PSLL.\n\nVerifica que está bien escrito (sin @alu.upo.es). Si eres alumno de intercambio o incidencia de matrícula, consulta con el profesor.`);
         return;
       }
 
@@ -2376,14 +2377,32 @@
         return;
       }
 
-      const expectedCode = getEPDCode(raw);
-      const expectedDigits = expectedCode.replace('PSLL-EPD-', '');
+      // Validar credenciales admitiendo el código generado con el acrónimo introducido (ej. lsanrod2),
+      // con el alias canónico (ej. lsanrod) o con cualquiera de sus variantes mapeadas.
+      const candidateUsernames = new Set([rawInput, raw]);
+      if (USER_ALIASES[rawInput]) candidateUsernames.add(USER_ALIASES[rawInput]);
+      for (const [aliasKey, aliasVal] of Object.entries(USER_ALIASES)) {
+        if (aliasVal === raw || aliasKey === raw || aliasVal === rawInput || aliasKey === rawInput) {
+          candidateUsernames.add(aliasKey);
+          candidateUsernames.add(aliasVal);
+        }
+      }
+
       const cleanPass = pass.replace(/\s+/g, '').toUpperCase();
       const isTeacher = (pass.toLowerCase() === 'psll2026');
-      const isStudentPass = (cleanPass === expectedCode || cleanPass === expectedDigits || cleanPass === `EPD-${expectedDigits}`);
+      let isStudentPass = false;
+
+      for (const u of candidateUsernames) {
+        const expectedCode = getEPDCode(u);
+        const expectedDigits = expectedCode.replace('PSLL-EPD-', '');
+        if (cleanPass === expectedCode || cleanPass === expectedDigits || cleanPass === `EPD-${expectedDigits}`) {
+          isStudentPass = true;
+          break;
+        }
+      }
 
       if (!isTeacher && !isStudentPass) {
-        alert(`⚠️ Contraseña o Código EPD incorrecto para el usuario "${raw}".\n\nIntroduce el código de acceso EPD que obtuviste al activar tu cuenta (o consulta con el profesor).`);
+        alert(`⚠️ Contraseña o Código EPD incorrecto para el usuario "${rawInput}".\n\nIntroduce el código de acceso EPD que obtuviste al activar tu cuenta (o consulta con el profesor).`);
         if (passInp) passInp.focus();
         return;
       }
@@ -2392,6 +2411,7 @@
       currentSession.leaderFullName = DB_USERS[raw];
 
       localStorage.setItem('psll_auth_user', raw);
+      localStorage.setItem('psll_auth_code', cleanPass);
 
       const banner = document.getElementById('leaderWelcomeBanner');
       const nameEl = document.getElementById('leaderWelcomeName');
@@ -2820,9 +2840,35 @@
     window.addEventListener('DOMContentLoaded', () => {
       // 1. Auto-login si ya viene autenticado del portal EPD
       const authUser = localStorage.getItem('psll_auth_user');
+      const authCode = localStorage.getItem('psll_auth_code');
       if (authUser) {
-        document.getElementById('inputAcronym').value = authUser;
-        verifyTeamLeader();
+        const acrInp = document.getElementById('inputAcronym');
+        if (acrInp) acrInp.value = authUser;
+        if (authCode) {
+          const passInp = document.getElementById('inputPassword');
+          if (passInp) {
+            passInp.value = authCode;
+            verifyTeamLeader();
+          }
+        }
+      }
+
+      // 1b. Atajos de teclado Enter para agilizar login
+      const acrInput = document.getElementById('inputAcronym');
+      if (acrInput) {
+        acrInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            const pInput = document.getElementById('inputPassword');
+            if (pInput && !pInput.value) pInput.focus();
+            else verifyTeamLeader();
+          }
+        });
+      }
+      const passInput = document.getElementById('inputPassword');
+      if (passInput) {
+        passInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') verifyTeamLeader();
+        });
       }
 
       // 2. Comprobar fecha límite de entrega (Domingo 01/11/2026 23:59:59)

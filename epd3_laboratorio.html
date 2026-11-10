@@ -5637,7 +5637,8 @@
     }
 
     function verifyTeamLeader() {
-      let raw = document.getElementById('inputAcronym').value.trim().toLowerCase();
+      const rawInput = document.getElementById('inputAcronym').value.trim().toLowerCase();
+      let raw = rawInput;
       const passInp = document.getElementById('inputPassword');
       const pass = passInp ? passInp.value.trim() : '';
 
@@ -5652,7 +5653,7 @@
       }
 
       if (!DB_USERS[raw]) {
-        alert(`⚠️ El acrónimo "${raw}" no figura en la lista oficial de PSLL.\n\nVerifica que está bien escrito (sin @alu.upo.es). Si eres alumno de intercambio o tienes incidencia de matrícula, consúltalo con el profesor.`);
+        alert(`⚠️ El acrónimo "${rawInput}" no figura en la lista oficial de PSLL.\n\nVerifica que está bien escrito (sin @alu.upo.es). Si eres alumno de intercambio o tienes incidencia de matrícula, consúltalo con el profesor.`);
         return;
       }
 
@@ -5662,14 +5663,32 @@
         return;
       }
 
-      const expectedCode = getEPDCode(raw);
-      const expectedDigits = expectedCode.replace('PSLL-EPD-', '');
+      // Validar credenciales admitiendo el código generado con el acrónimo introducido (ej. lsanrod2),
+      // con el alias canónico (ej. lsanrod) o con cualquiera de sus variantes mapeadas.
+      const candidateUsernames = new Set([rawInput, raw]);
+      if (USER_ALIASES[rawInput]) candidateUsernames.add(USER_ALIASES[rawInput]);
+      for (const [aliasKey, aliasVal] of Object.entries(USER_ALIASES)) {
+        if (aliasVal === raw || aliasKey === raw || aliasVal === rawInput || aliasKey === rawInput) {
+          candidateUsernames.add(aliasKey);
+          candidateUsernames.add(aliasVal);
+        }
+      }
+
       const cleanPass = pass.replace(/\s+/g, '').toUpperCase();
       const isTeacher = (pass.toLowerCase() === 'psll2026');
-      const isStudentPass = (cleanPass === expectedCode || cleanPass === expectedDigits || cleanPass === `EPD-${expectedDigits}`);
+      let isStudentPass = false;
+
+      for (const u of candidateUsernames) {
+        const expectedCode = getEPDCode(u);
+        const expectedDigits = expectedCode.replace('PSLL-EPD-', '');
+        if (cleanPass === expectedCode || cleanPass === expectedDigits || cleanPass === `EPD-${expectedDigits}`) {
+          isStudentPass = true;
+          break;
+        }
+      }
 
       if (!isTeacher && !isStudentPass) {
-        alert(`⚠️ Contraseña o Código EPD incorrecto para el usuario "${raw}".\n\nIntroduce el código de acceso EPD que obtuviste al activar tu cuenta (o consulta con el profesor).`);
+        alert(`⚠️ Contraseña o Código EPD incorrecto para el usuario "${rawInput}".\n\nIntroduce el código de acceso EPD que obtuviste al activar tu cuenta (o consulta con el profesor).`);
         if (passInp) passInp.focus();
         return;
       }
@@ -5679,6 +5698,7 @@
 
       // Guardar sesión autenticada en navegador
       localStorage.setItem('psll_auth_user', raw);
+      localStorage.setItem('psll_auth_code', cleanPass);
 
       const banner = document.getElementById('leaderWelcomeBanner');
       const nameEl = document.getElementById('leaderWelcomeName');
