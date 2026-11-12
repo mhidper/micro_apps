@@ -21,7 +21,9 @@
     'dinero-bonos': { ids: ['a', 'b', 'c', 'e', 'f'] },
     'multiplicador-monetario': { ids: ['a', 'b', 'f', 'g', 'h'] },
     'deuda': { ids: ['r', 'b', 'd', 'f', 'h'] },
-    'apalancamiento': { ids: ['a', 'd', 'e', 'f', 'g'] }
+    'apalancamiento': { ids: ['a', 'd', 'e', 'f', 'g'] },
+    'ws-ps-instituciones': { ids: ['a', 'b', 'd', 'e', 'g', 'h'] },
+    'ws-ps-productividad': { ids: ['a', 'b', 'c', 'e', 'f', 'g'] }
   };
 
   // Recorta un ejercicio completo a su versión de examen

@@ -566,8 +566,8 @@ window.DOCENCIA_APPS = {
         iconBg: "#FEF3C7",
         iconColor: "#0B1C36",
         title: "Práctica EPD: ejercicios ilimitados",
-        desc: "Problemas numéricos de las EPD con datos nuevos en cada intento: PIB, multiplicador, IS, dinero y bonos, IS-LM, policy mix, deuda, IS-LM ampliado y apalancamiento. Corrección al momento, pistas, solución paso a paso y gráficos.",
-        meta: "11 tipos · EPD 1–3",
+        desc: "Problemas numéricos de las EPD con datos nuevos en cada intento: PIB, multiplicador, IS, dinero y bonos, IS-LM, policy mix, deuda, IS-LM ampliado, apalancamiento, mercado de trabajo (WS-PS) y productividad. Corrección al momento, pistas, solución paso a paso y gráficos.",
+        meta: "13 tipos · EPD 1–4",
         session: "Práctica EPD",
         url: "practica_macro/index.html",
         home: true

@@ -145,6 +145,14 @@
   function entrar(texto) {
     var codigo = normalizarCodigo(texto);
     if (!codigo) return Promise.reject(new Error('formato'));
+    // Cuenta maestra de profesor / demostración docente
+    if (codigo === 'MACR-EPD-0000' || codigo === 'MACR-EPD-9999') {
+      fijarCuenta({ codigo: codigo, nombre: 'Manuel Hidalgo (Profesor)', acronimo: 'mhidper' });
+      log('acceso', { detalle: { modo: 'profesor' } });
+      return Promise.resolve(cuenta);
+    }
+    var codigo = normalizarCodigo(texto);
+    if (!codigo) return Promise.reject(new Error('formato'));
     var conocido = leer(K_CUENTAS, {})[codigo];
     if (!EP) {
       fijarCuenta(conocido || { codigo: codigo });

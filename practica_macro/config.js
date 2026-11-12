@@ -4,5 +4,5 @@
    y los eventos se guardan en cola hasta que haya endpoint. */
 window.MP_CONFIG = {
   endpoint: '',
-  version: '2026.10.28'
+  version: '2026.11.12'
 };

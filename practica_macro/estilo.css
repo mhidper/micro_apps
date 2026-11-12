@@ -75,7 +75,7 @@ a { color: var(--cobalt); }
 .contador { display: inline-block; background: var(--gold-soft); color: #7c4a03; border-radius: 99px; padding: 4px 12px; font-size: .86rem; margin: 0; }
 
 .rejilla-epd { display: grid; gap: 14px; margin-top: 18px; }
-@media (min-width: 720px) { .rejilla-epd { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 720px) { .rejilla-epd { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); } }
 .tarjeta-epd {
   display: flex; flex-direction: column; text-decoration: none; color: inherit;
   background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 18px 18px 14px;
