@@ -35,14 +35,12 @@
     titulo: 'Modelo WS-PS y shocks institucionales',
     resumen: 'Ecuación de salarios y fijación de precios, determinación de un, reforma en prestaciones por desempleo y crisis del petróleo.',
     generar: function (R) {
-      // Parámetros generados
       var L = R.elegir([900, 1000, 1100, 1200]);
       var m0 = R.elegir([0.25, 0.30, 0.35, 0.40]);
       var z0 = R.elegir([7.0, 7.5, 8.0]);
       var z_shift = R.elegir([4, 5, 6]);
       var alpha = R.elegir([10, 12, 14]);
       
-      // Equilibrio inicial
       var A0 = 1.0;
       var wp0 = A0 / (1 + m0);
       var un0 = (z0 - z_shift - wp0) / alpha;
@@ -56,16 +54,14 @@
       var z1 = z0 - dz;
       var un1 = (z1 - z_shift - wp0) / alpha;
       var un1_pct = un1 * 100;
-      var dun_reforma = (un1 - un0) * 100;
 
       // Shock 2: Crisis energética / Shock de petróleo (subida de m)
       var m1 = R.elegir([0.80, 1.00, 1.20, 1.50]);
       var wp_oil = A0 / (1 + m1);
       var un_oil = (z0 - z_shift - wp_oil) / alpha;
       var un_oil_pct = un_oil * 100;
-      var dun_oil = (un_oil - un0) * 100;
 
-      var enun = '<p>Considere el mercado de trabajo de una economía cerrado bajo el modelo WS-PS de medio plazo con tecnología agregada <b>Y = A · N</b> (donde <i>A = ' + fmt(A0, 1) + '</i>) y población activa <b>L = ' + e0(L) + '</b> miles de trabajadores:</p>' +
+      var enun = '<p>Considere el mercado de trabajo de una economía cerrada bajo el modelo WS-PS de medio plazo con tecnología agregada <b>Y = A · N</b> (donde <i>A = ' + fmt(A0, 1) + '</i>) y población activa <b>L = ' + e0(L) + '</b> miles de trabajadores:</p>' +
         '<div class="datos">' +
         'Ecuación de salarios (WS): <b>W = P<sup>e</sup> · (z − ' + z_shift + ' − ' + alpha + 'u)</b> &nbsp;con <b>z = ' + fmt(z0, 1) + '</b><br>' +
         'Ecuación de precios (PS): <b>P = (1 + m) · (W / A)</b> &nbsp;con margen empresarial <b>m = ' + fmt(m0, 2) + '</b>' +
@@ -123,29 +119,33 @@
       ];
 
       return {
-        enun: enun, preguntas: preg,
-        grafico: function () {
-          var uMin = 0.0, uMax = 0.30;
-          var wMax = Math.max(z0 - z_shift, 1.2);
-          
-          return MP.grafico({
-            titulo: 'Mercado de Trabajo (WS-PS)',
-            x: [uMin * 100, uMax * 100], y: [0, wMax],
-            xlab: 'Tasa de desempleo, u (%)', ylab: 'Salario real, W / P',
-            fmtX: function (t) { return fmt(t, 1); },
-            fmtY: function (t) { return fmt(t, 2); },
-            curvas: [
-              { tipo: 'recta', x0: uMin * 100, y0: (z0 - z_shift - alpha * uMin), x1: uMax * 100, y1: (z0 - z_shift - alpha * uMax), col: C.cobalt, w: 2.5, id: 'WS0' },
-              { tipo: 'recta', x0: uMin * 100, y0: (z1 - z_shift - alpha * uMin), x1: uMax * 100, y1: (z1 - z_shift - alpha * uMax), col: C.teal, w: 2, estilo: 'dashed', id: 'WS1 (reforma)' },
-              { tipo: 'recta', x0: uMin * 100, y0: wp0, x1: uMax * 100, y1: wp0, col: C.navy, w: 2.5, id: 'PS0' },
-              { tipo: 'recta', x0: uMin * 100, y0: wp_oil, x1: uMax * 100, y1: wp_oil, col: C.crimson, w: 2, estilo: 'dashed', id: 'PS1 (petróleo)' }
-            ],
-            puntos: [
-              { x: un0_pct, y: wp0, col: C.gold, r: 6, txt: 'E0 (' + p(un0_pct) + ')' },
-              { x: un1_pct, y: wp0, col: C.teal, r: 5, txt: 'E1 (' + p(un1_pct) + ')' },
-              { x: un_oil_pct, y: wp_oil, col: C.crimson, r: 5, txt: 'E2 (' + p(un_oil_pct) + ')' }
-            ]
-          });
+        enunciado: enun,
+        preguntas: preg,
+        grafico: {
+          titulo: 'Mercado de Trabajo (WS-PS) en el plano (u, W/P)',
+          render: function () {
+            var uMin = 0.0, uMax = 0.30;
+            var wMax = Math.max(z0 - z_shift, 1.3);
+
+            return MP.grafico({
+              titulo: 'Mercado de Trabajo (WS-PS)',
+              x: [uMin * 100, uMax * 100], y: [0, wMax],
+              xlab: 'Tasa de desempleo, u (%)', ylab: 'Salario real, W / P',
+              fmtX: function (t) { return fmt(t, 1); },
+              fmtY: function (t) { return fmt(t, 2); },
+              lineas: [
+                { pts: [[uMin * 100, z0 - z_shift - alpha * uMin], [uMax * 100, z0 - z_shift - alpha * uMax]], color: C.cobalt, w: 2.6, etiqueta: 'WS₀' },
+                { pts: [[uMin * 100, z1 - z_shift - alpha * uMin], [uMax * 100, z1 - z_shift - alpha * uMax]], color: C.teal, w: 2, dash: '5 4', etiqueta: 'WS₁ (reforma)' },
+                { pts: [[uMin * 100, wp0], [uMax * 100, wp0]], color: C.navy, w: 2.6, etiqueta: 'PS₀' },
+                { pts: [[uMin * 100, wp_oil], [uMax * 100, wp_oil]], color: C.crimson, w: 2, dash: '5 4', etiqueta: 'PS₁ (petróleo)' }
+              ],
+              puntos: [
+                { x: un0_pct, y: wp0, color: C.gold, etiqueta: 'E₀ (' + p(un0_pct) + ')', marcaX: p(un0_pct) },
+                { x: un1_pct, y: wp0, color: C.teal, etiqueta: 'E₁ (' + p(un1_pct) + ')', marcaX: p(un1_pct) },
+                { x: un_oil_pct, y: wp_oil, color: C.crimson, etiqueta: 'E₂ (' + p(un_oil_pct) + ')', marcaX: p(un_oil_pct) }
+              ]
+            });
+          }
         }
       };
     }
@@ -175,20 +175,16 @@
       var Yn0 = A0 * Nn0;
 
       // Shock tecnológico: incremento en productividad A
-      var crec_A = R.elegir([20, 25, 30, 40]); // en %
+      var crec_A = R.elegir([20, 25, 30, 40]);
       var factor_A = 1 + crec_A / 100;
       var A1 = A0 * factor_A;
       
-      // Caso 1: Salarios no indizados inmediatamente a la productividad
       var wp1 = A1 / (1 + m);
       var un1 = (z - z_shift - wp1) / alpha;
       var un1_pct = un1 * 100;
       var Nn1 = L * (1 - un1);
       var Yn1 = A1 * Nn1;
       var crec_Yn_pct = ((Yn1 - Yn0) / Yn0) * 100;
-
-      // Caso 2: Salarios indexados a la productividad (largo plazo)
-      var Yn_index = A1 * Nn0;
 
       var enun = '<p>Considere una economía definida por las siguientes ecuaciones estructurales de medio plazo, donde <b>A</b> denota la productividad laboral agregada:</p>' +
         '<div class="datos">' +
@@ -243,27 +239,31 @@
       ];
 
       return {
-        enun: enun, preguntas: preg,
-        grafico: function () {
-          var uMin = 0.0, uMax = 0.25;
-          var wMax = Math.max(wp1 * 1.3, 1.4);
-          
-          return MP.grafico({
-            titulo: 'Shock de Productividad en el Modelo WS-PS',
-            x: [uMin * 100, uMax * 100], y: [0, wMax],
-            xlab: 'Tasa de desempleo, u (%)', ylab: 'Salario real, W / P',
-            fmtX: function (t) { return fmt(t, 1); },
-            fmtY: function (t) { return fmt(t, 2); },
-            curvas: [
-              { tipo: 'recta', x0: uMin * 100, y0: (z - z_shift - alpha * uMin), x1: uMax * 100, y1: (z - z_shift - alpha * uMax), col: C.cobalt, w: 2.5, id: 'WS' },
-              { tipo: 'recta', x0: uMin * 100, y0: wp0, x1: uMax * 100, y1: wp0, col: C.navy, w: 2.5, id: 'PS0 (A=' + fmt(A0, 1) + ')' },
-              { tipo: 'recta', x0: uMin * 100, y0: wp1, x1: uMax * 100, y1: wp1, col: C.teal, w: 2.5, estilo: 'dashed', id: 'PS1 (A=' + fmt(A1, 2) + ')' }
-            ],
-            puntos: [
-              { x: un0_pct, y: wp0, col: C.gold, r: 6, txt: 'E0 (' + p(un0_pct) + ')' },
-              { x: un1_pct, y: wp1, col: C.teal, r: 6, txt: 'E1 (' + p(un1_pct) + ')' }
-            ]
-          });
+        enunciado: enun,
+        preguntas: preg,
+        grafico: {
+          titulo: 'Shock de Productividad en el Modelo WS-PS',
+          render: function () {
+            var uMin = 0.0, uMax = 0.25;
+            var wMax = Math.max(wp1 * 1.3, 1.4);
+
+            return MP.grafico({
+              titulo: 'Shock de Productividad en el Modelo WS-PS',
+              x: [uMin * 100, uMax * 100], y: [0, wMax],
+              xlab: 'Tasa de desempleo, u (%)', ylab: 'Salario real, W / P',
+              fmtX: function (t) { return fmt(t, 1); },
+              fmtY: function (t) { return fmt(t, 2); },
+              lineas: [
+                { pts: [[uMin * 100, z - z_shift - alpha * uMin], [uMax * 100, z - z_shift - alpha * uMax]], color: C.cobalt, w: 2.6, etiqueta: 'WS' },
+                { pts: [[uMin * 100, wp0], [uMax * 100, wp0]], color: C.navy, w: 2.6, etiqueta: 'PS₀ (A=' + fmt(A0, 1) + ')' },
+                { pts: [[uMin * 100, wp1], [uMax * 100, wp1]], color: C.teal, w: 2.6, dash: '5 4', etiqueta: 'PS₁ (A=' + fmt(A1, 2) + ')' }
+              ],
+              puntos: [
+                { x: un0_pct, y: wp0, color: C.gold, etiqueta: 'E₀ (' + p(un0_pct) + ')', marcaX: p(un0_pct) },
+                { x: un1_pct, y: wp1, color: C.teal, etiqueta: 'E₁ (' + p(un1_pct) + ')', marcaX: p(un1_pct) }
+              ]
+            });
+          }
         }
       };
     }
