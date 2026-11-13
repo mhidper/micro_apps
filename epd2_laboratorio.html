@@ -2278,6 +2278,42 @@
       "arfersan": "afersan"
     };
 
+    // 2b. MAPEADOR DNI -> USUARIO OFICIAL (Permite acceso con DNI)
+    const DNI_TO_USER = {
+      "00636588": "cnorpus", "01648788": "frodgar", "09213805": "lgomgar",
+      "09214326": "cvelgal", "09215473": "epatmos", "11087406": "mmilcac",
+      "14059513": "esanley", "15476862": "mconmat", "15534874": "tramsan",
+      "1648788": "frodgar", "20095777": "atrogar", "20102792": "jroarod",
+      "20231148": "cgonsua", "20231390": "lsanrod", "20504132": "mmarpin",
+      "21154126": "pgarjim", "24483857": "bvargue", "24526469": "ecidher",
+      "26054022": "equican", "28979433": "agarbra", "28983732": "lgarcan",
+      "29514716": "pfermol", "29530624": "fbenval", "29531386": "fcruore",
+      "29536268": "fartde", "29540901": "ldela", "29541266": "cortpav",
+      "29563125": "ppercas", "29586567": "bmonruz", "29588082": "laltucl",
+      "29588409": "pdazsan", "29590616": "cmargon", "29592469": "jgombev",
+      "29657931": "mfernav", "30269118": "pgomcru", "30277707": "mrommat",
+      "30282882": "mcamfer", "45385676": "igutdel", "45996766": "capacam",
+      "47001284": "ainibel", "47568025": "rbizrod", "48122803": "emoyagu",
+      "48123155": "fdelrio", "48124860": "jmoncam", "49117172": "lcamtos",
+      "49135484": "rdomini", "49191178": "mrodvid", "49334356": "aseivar",
+      "49388768": "lgarmej", "49523431": "mricgal", "52075320": "lgonsan",
+      "53347945": "amorber", "53587232": "jrodpuy", "53769775": "afersan",
+      "53772060": "jsevmor", "53926267": "apensan", "53966591": "jjarher",
+      "54131108": "ccesbru", "54222200": "ilopchi", "54222540": "aperflo",
+      "54223483": "mrueagu", "54257432": "clangar", "54435122": "cbarmar",
+      "54856711": "rlariba", "636588": "cnorpus", "70959253": "sagudel",
+      "74030064": "sgonpra", "76060837": "amarrod", "77020290": "lgilmar",
+      "77194187": "erecpen", "77495931": "jherand", "77847845": "eromveg",
+      "77863677": "alecdie", "77869651": "smordom", "77870424": "marerot",
+      "77926948": "slobter", "77929645": "hcarrod", "77932796": "sromros",
+      "77933766": "jvidgar", "77938345": "mgonrod", "78028112": "amarlop",
+      "78106123": "dfonaca", "78106476": "mcarnie", "78234657": "jguagal",
+      "78252279": "mbercam", "78253336": "mmargav", "80239966": "mrabrod",
+      "9213805": "lgomgar", "9214326": "cvelgal", "9215473": "epatmos"
+    };
+
+
+
     // Estado global de la sesión
     let currentSession = {
       leaderUsername: "",
@@ -2351,13 +2387,21 @@
     }
 
     function verifyTeamLeader() {
-      const rawInput = document.getElementById('inputAcronym').value.trim().toLowerCase();
+      let rawInput = document.getElementById('inputAcronym').value.trim().toLowerCase();
+      // Eliminar dominio si introducen correo (@alu.upo.es o @upo.es)
+      if (rawInput.includes('@')) {
+        rawInput = rawInput.split('@')[0].trim();
+      }
+      // Resolver si el alumno introdujo su DNI
+      if (typeof DNI_TO_USER !== 'undefined' && DNI_TO_USER[rawInput]) {
+        rawInput = DNI_TO_USER[rawInput];
+      }
       let raw = rawInput;
       const passInp = document.getElementById('inputPassword');
       const pass = passInp ? passInp.value.trim() : '';
 
       if (!raw) {
-        alert("Por favor, introduce tu acrónimo de usuario UPO.");
+        alert("Por favor, introduce tu acrónimo oficial de la UPO o tu DNI.");
         document.getElementById('inputAcronym').focus();
         return;
       }
@@ -2367,7 +2411,7 @@
       }
 
       if (!DB_USERS[raw]) {
-        alert(`⚠️ El acrónimo "${rawInput}" no figura en la lista oficial de matriculados de PSLL.\n\nVerifica que está bien escrito (sin @alu.upo.es). Si eres alumno de intercambio o incidencia de matrícula, consulta con el profesor.`);
+        alert(`⚠️ El acrónimo o DNI "${rawInput}" no figura en la lista oficial de PSLL.\n\nVerifica que está bien escrito (sin @alu.upo.es). Si eres alumno de intercambio o tienes incidencia de matrícula, consúltalo con el profesor.`);
         return;
       }
 
@@ -2389,13 +2433,19 @@
       }
 
       const cleanPass = pass.replace(/\s+/g, '').toUpperCase();
+      const passDigits = cleanPass.replace(/\D/g, '');
       const isTeacher = (pass.toLowerCase() === 'psll2026');
       let isStudentPass = false;
 
       for (const u of candidateUsernames) {
         const expectedCode = getEPDCode(u);
         const expectedDigits = expectedCode.replace('PSLL-EPD-', '');
-        if (cleanPass === expectedCode || cleanPass === expectedDigits || cleanPass === `EPD-${expectedDigits}`) {
+        if (cleanPass === expectedCode || 
+            cleanPass === expectedDigits || 
+            cleanPass === `EPD-${expectedDigits}` || 
+            cleanPass === `PSLLEPD${expectedDigits}` || 
+            cleanPass === `PSLL-${expectedDigits}` || 
+            (passDigits.length >= 4 && passDigits === expectedDigits)) {
           isStudentPass = true;
           break;
         }
