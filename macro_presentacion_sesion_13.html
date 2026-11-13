@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Macroeconomía · UPO | Sesión 13 · Desanclaje vs. Reanclaje de Expectativas y el Modelo IS-LM-PC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Familjen+Grotesk:wght@500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,700;1,6..72,400&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<!-- KaTeX para formulación matemática nítida -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+
+<style>
+:root {
+  --ink-0: #06111f;
+  --ink-1: #0b1c36; /* Deep Navy Oficial UPO */
+  --ink-2: #122d4f;
+  --paper: #f0f7ff;
+  --muted: #8faec4;
+  --cobalt: #056caa; /* Cobalt Blue Oficial UPO */
+  --azure: #0776b5;  /* Azure Wave Oficial UPO */
+  --cyan: #00f2fe;   /* Neon Azure */
+  --gold: #ffbe0b;   /* Equilibrium Gold */
+  --crimson: #e11d48;/* Deficit Crimson */
+  --teal: #0d9488;
+  --ok: #34d399;
+  --glass: rgba(255, 255, 255, 0.05);
+  --glass-line: rgba(255, 255, 255, 0.14);
+  --f-display: "Outfit", "Familjen Grotesk", sans-serif;
+  --f-serif: "Newsreader", Georgia, serif;
+  --f-body: "Work Sans", "Segoe UI", sans-serif;
+  --f-mono: "JetBrains Mono", monospace;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body {
+  height: 100%; margin: 0; padding: 0;
+  background: var(--ink-0); color: var(--paper);
+  font-family: var(--f-body); overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.stage {
+  width: 1600px; height: 900px;
+  position: absolute; left: 50%; top: 50%;
+  transform-origin: center center; overflow: hidden;
+  background: linear-gradient(115deg, #050e1a 0%, var(--ink-1) 45%, #0e2746 80%, #16365c 100%);
+  box-shadow: 0 0 80px rgba(0,0,0,0.8);
+}
+
+.watermark-layer {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: hidden;
+  opacity: 0.22;
+}
+.watermark-layer svg { width: 100%; height: 100%; }
+
+.slide {
+  position: absolute; inset: 0; padding: 50px 80px 45px;
+  display: flex; flex-direction: column; gap: 16px;
+  opacity: 0; visibility: hidden; transition: opacity .4s ease, visibility 0s linear .4s;
+  z-index: 2;
+}
+.slide.active { opacity: 1; visibility: visible; transition: opacity .4s ease; }
+
+.slide-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.12);
+  padding-bottom: 10px; margin-bottom: 4px;
+}
+.header-titles { display: flex; flex-direction: column; gap: 3px; }
+.eyebrow {
+  font-family: var(--f-mono); font-size: 13px; font-weight: 700;
+  letter-spacing: .15em; text-transform: uppercase; color: var(--azure);
+}
+h1, h2 {
+  font-family: var(--f-display); font-weight: 700; margin: 0;
+  letter-spacing: -0.02em; text-wrap: balance; line-height: 1.08;
+}
+h1 { font-size: 70px; color: #fff; }
+h2 { font-size: 40px; color: #fff; }
+.act {
+  font-family: var(--f-mono); font-size: 13px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--muted); opacity: .85;
+  background: rgba(255,255,255,0.06); padding: 5px 14px; border-radius: 99px;
+  border: 1px solid var(--glass-line);
+}
+
+.row { display: flex; gap: 32px; align-items: stretch; flex: 1; min-height: 0; }
+.col-text { flex: 0 0 540px; display: flex; flex-direction: column; gap: 14px; justify-content: center; }
+.col-fig { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; }
+.glass {
+  background: var(--glass); border: 1px solid var(--glass-line);
+  border-radius: 14px; backdrop-filter: blur(10px);
+}
+
+.frag { opacity: 0; transform: translateY(12px); transition: opacity .35s ease, transform .35s ease; }
+.frag.shown { opacity: 1; transform: translateY(0); }
+
+.card {
+  padding: 18px 24px; display: flex; flex-direction: column; gap: 8px;
+}
+.card-num {
+  font-family: var(--f-mono); font-size: 12px; font-weight: 700;
+  color: var(--gold); letter-spacing: .12em; text-transform: uppercase;
+}
+.card-title {
+  font-family: var(--f-display); font-size: 20px; font-weight: 700; color: #fff;
+}
+.card-body {
+  font-size: 15px; line-height: 1.45; color: var(--paper); opacity: 0.92;
+}
+
+.interactive-panel {
+  width: 100%; height: 100%; display: flex; flex-direction: column;
+  padding: 20px 24px; border-radius: 16px; position: relative;
+}
+.ctrl-row {
+  display: flex; gap: 20px; align-items: center; justify-content: center;
+  background: rgba(0, 0, 0, 0.35); padding: 10px 18px; border-radius: 99px;
+  border: 1px solid var(--glass-line); margin-bottom: 14px;
+}
+.ctrl-btn {
+  background: var(--glass); border: 1px solid var(--glass-line);
+  color: #fff; font-family: var(--f-display); font-size: 13.5px; font-weight: 600;
+  padding: 6px 16px; border-radius: 99px; cursor: pointer; transition: all .2s;
+}
+.ctrl-btn:hover { background: var(--azure); transform: translateY(-1px); }
+.ctrl-btn.active { background: var(--cobalt); border-color: var(--cyan); color: #fff; }
+
+.live-svg { width: 100%; height: 100%; max-height: 520px; }
+
+/* Barra inferior */
+.progress-bar {
+  position: absolute; bottom: 0; left: 0; height: 5px; width: 0%;
+  background: linear-gradient(90deg, var(--azure), var(--gold));
+  transition: width .3s ease; z-index: 10;
+}
+.hud {
+  position: absolute; bottom: 14px; right: 28px;
+  font-family: var(--f-mono); font-size: 13px; color: var(--muted);
+  z-index: 10; display: flex; gap: 14px;
+}
+
+.math-hl {
+  font-size: 18px; color: #fff; background: rgba(5, 108, 170, 0.25);
+  padding: 8px 14px; border-radius: 8px; border-left: 4px solid var(--azure);
+  display: inline-block; margin: 4px 0;
+}
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <div class="watermark-layer">
+    <svg viewBox="0 0 1600 900" preserveAspectRatio="none">
+      <path d="M0 650 C 350 500, 750 780, 1150 600 C 1350 510, 1500 580, 1600 540 L 1600 900 L 0 900 Z" fill="rgba(5, 108, 170, 0.15)"/>
+      <path d="M0 720 C 400 620, 850 820, 1250 680 C 1420 620, 1520 650, 1600 630 L 1600 900 L 0 900 Z" fill="rgba(11, 28, 54, 0.25)"/>
+    </svg>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SLIDE 1: PORTADA OFICIAL -->
+  <!-- ============================================================== -->
+  <div class="slide cover active" data-slide="1">
+    <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:20px; z-index:2;">
+      <div style="display:flex; align-items:center; gap:16px;">
+        <span style="font-family:var(--f-mono); font-size:14px; font-weight:700; color:var(--gold); letter-spacing:.2em; text-transform:uppercase; background:rgba(255,190,11,0.12); padding:6px 14px; border-radius:99px; border:1px solid rgba(255,190,11,0.3);">
+          SESIÓN 13 · ENSEÑANZAS BÁSICAS (EB)
+        </span>
+        <span style="font-family:var(--f-mono); font-size:14px; color:var(--muted);">DOBLE GRADO DER + FICO · UPO</span>
+      </div>
+      <h1>Desanclaje vs. Reanclaje de Expectativas y el Modelo IS-LM-PC</h1>
+      <p style="font-size:24px; color:var(--paper); max-width:1050px; line-height:1.4; opacity:.95;">
+        De la NAIRU a la Curva PC: el termostato de los Bancos Centrales, la brecha de producción (<i>Output Gap</i>) y la búsqueda del tipo de interés neutral ($r_n$).
+      </p>
+      <div style="display:flex; gap:30px; margin-top:20px; font-family:var(--f-mono); font-size:14px; color:var(--muted);">
+        <span>👨‍🏫 Prof. Manuel A. Hidalgo Pérez</span>
+        <span>📍 Aula 03 · Edificio 7</span>
+        <span>⏱️ 120 minutos íntegros</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SLIDE 2: HOJA DE RUTA Y PLANTEAMIENTO -->
+  <!-- ============================================================== -->
+  <div class="slide" data-slide="2">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow">ESTRUCTURA DE LA SESIÓN</span>
+        <h2>Hoja de Ruta: De la Curva de Phillips al IS-LM-PC</h2>
+      </div>
+      <span class="act">PLAN DOCENTE 120 MIN</span>
+    </div>
+    <div class="row" style="margin-top:10px;">
+      <div class="col-text" style="flex:0 0 460px;">
+        <div class="glass card">
+          <span class="card-num">RECUPERACIÓN SESIÓN 12</span>
+          <div class="card-title">Cerrar el ciclo de expectativas</div>
+          <div class="card-body">
+            En la sesión 12 vimos el origen salarial de la inflación. Hoy formalizamos la frontera crucial: qué ocurre cuando las expectativas están <b>ancladas</b> ($\theta = 0$) frente a cuando se <b>desanclan</b> ($\theta = 1$).
+          </div>
+        </div>
+        <div class="glass card" style="border-left:4px solid var(--gold);">
+          <span class="card-num" style="color:var(--gold);">CONCEPTO ESTRELLA</span>
+          <div class="card-title">El tipo de interés neutral ($r_n$)</div>
+          <div class="card-body">
+            La brújula que persiguen Lagarde y Powell: ¿cuál es el tipo real exacto que mantiene el pleno empleo sin recalentar la inflación?
+          </div>
+        </div>
+      </div>
+      <div class="col-fig">
+        <div class="glass" style="width:100%; height:100%; padding:26px 32px; display:flex; flex-direction:column; justify-content:space-around;">
+          <div style="display:flex; align-items:center; gap:20px;">
+            <div style="width:48px; height:48px; border-radius:50%; background:var(--cobalt); display:flex; align-items:center; justify-content:center; font-weight:800; font-family:var(--f-mono);">1</div>
+            <div>
+              <div style="font-weight:700; font-size:18px;">Expectativas Ancladas vs. Adaptativas (NAIRU)</div>
+              <div style="font-size:14px; color:var(--muted);">El parámetro $\theta \in [0, 1]$ y la espiral aceleracionista salarios-precios.</div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:20px;">
+            <div style="width:48px; height:48px; border-radius:50%; background:var(--azure); display:flex; align-items:center; justify-content:center; font-weight:800; font-family:var(--f-mono);">2</div>
+            <div>
+              <div style="font-weight:700; font-size:18px;">De la Curva de Phillips a la Curva PC</div>
+              <div style="font-size:14px; color:var(--muted);">Sustitución técnica: del desempleo $u$ al Output Gap $(Y - Y_n)$.</div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:20px;">
+            <div style="width:48px; height:48px; border-radius:50%; background:var(--teal); display:flex; align-items:center; justify-content:center; font-weight:800; font-family:var(--f-mono);">3</div>
+            <div>
+              <div style="font-weight:700; font-size:18px;">Modelo IS-LM-PC en Dos Paneles</div>
+              <div style="font-size:14px; color:var(--muted);">Determinación conjunta del equilibrio de medio plazo y tipo neutral $r_n$.</div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:20px;">
+            <div style="width:48px; height:48px; border-radius:50%; background:var(--gold); color:#000; display:flex; align-items:center; justify-content:center; font-weight:800; font-family:var(--f-mono);">4</div>
+            <div>
+              <div style="font-weight:700; font-size:18px;">Laboratorio Interactivo y Reto Manuscrito</div>
+              <div style="font-size:14px; color:var(--muted);">Simulación de shocks con la Micro-App y ejercicio individual para el Pasaporte.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SLIDE 3: EXPECTATIVAS ANCLADAS VS ADAPTATIVAS (INTERACTIVA) -->
+  <!-- ============================================================== -->
+  <div class="slide" data-slide="3">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow">BLOQUE 1 · EXPECTATIVAS DE INFLACIÓN</span>
+        <h2>Ancladas ($\theta = 0$) vs. Adaptativas ($\theta = 1$)</h2>
+      </div>
+      <span class="act">DINÁMICA TEMPORAL</span>
+    </div>
+    <div class="row">
+      <div class="col-text" style="flex:0 0 520px;">
+        <div class="glass card">
+          <div class="card-title">La Regla General de Expectativas</div>
+          <div class="math-hl">$\pi_t^e = (1 - \theta)\bar{\pi} + \theta \pi_{t-1}$</div>
+          <div class="card-body">
+            El parámetro $\theta$ mide la <b>persistencia</b> que los agentes atribuyen a las desviaciones de precios:
+            <ul style="margin:8px 0; padding-left:20px;">
+              <li><b>$\theta = 0$ (Ancladas):</b> Confianza plena en la meta $\bar{\pi} = 2\%$. Si el paro baja de $u_n$, la inflación sube pero <i>se mantiene constante en ese nivel alto</i>.</li>
+              <li><b>$\theta = 1$ (Adaptativas):</b> Desconfianza o persistencia total. Si el paro baja de $u_n$, la inflación <i>se acelera año a año en espiral</i>.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="glass card" style="border-left:4px solid var(--crimson);">
+          <div class="card-title" style="color:var(--crimson); font-size:17px;">Consecuencia para la Política Económica</div>
+          <div class="card-body" style="font-size:14px;">
+            Bajo expectativas adaptativas, ningún Gobierno puede comprar empleo permanente con inflación tolerada: el desempleo por debajo de la NAIRU destruye el sistema de precios.
+          </div>
+        </div>
+      </div>
+      <div class="col-fig">
+        <div class="glass interactive-panel">
+          <div class="ctrl-row">
+            <span style="font-family:var(--f-mono); font-size:13px; color:var(--muted);">Régimen:</span>
+            <button class="ctrl-btn active" id="btnAncladas" onclick="setExpectativa(0)">Expectativas Ancladas (θ = 0)</button>
+            <button class="ctrl-btn" id="btnAdaptativas" onclick="setExpectativa(1)">Expectativas Adaptativas (θ = 1)</button>
+          </div>
+          <div style="flex:1; width:100%; display:flex; justify-content:center; align-items:center;">
+            <svg class="live-svg" id="svgExpectativas" viewBox="0 0 680 400">
+              <!-- Rejilla y Ejes dinámicos generados por JS -->
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SLIDE 4: LA NAIRU Y LA ESPIRAL SALARIOS-PRECIOS -->
+  <!-- ============================================================== -->
+  <div class="slide" data-slide="4">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow">BLOQUE 2 · LA CONDICIÓN DE ESTABILIDAD</span>
+        <h2>La NAIRU: Tasa No Aceleradora de la Inflación</h2>
+      </div>
+      <span class="act">NÚCLEO TEÓRICO</span>
+    </div>
+    <div class="row">
+      <div class="col-text" style="flex:0 0 540px;">
+        <div class="glass card">
+          <div class="card-title">Definición Analítica de la NAIRU</div>
+          <div class="card-body">
+            Sustituyendo $\theta = 1$ en la Curva de Phillips con expectativas adaptativas:
+            <div class="math-hl">$\pi_t - \pi_{t-1} = -\alpha (u_t - u_n)$</div>
+            Para que la inflación permanezca estable $(\pi_t = \pi_{t-1} \implies \Delta \pi_t = 0)$, la tasa de desempleo efectivo <b>debe coincidir exactamente con la tasa natural</b>:
+            <div class="math-hl" style="background:rgba(255,190,11,0.15); border-color:var(--gold);">$u_t = u_n \implies \text{NAIRU}$</div>
+          </div>
+        </div>
+        <div class="glass card">
+          <div class="card-title">Regla de Aceleración / Desaceleración</div>
+          <div class="card-body">
+            • Si $u_t < u_n \implies \Delta \pi_t > 0$: Inflación en aceleración continua.<br>
+            • Si $u_t > u_n \implies \Delta \pi_t < 0$: Desinflación continua.<br>
+            • Si $u_t = u_n \implies \Delta \pi_t = 0$: Inflación constante en el nivel heredado.
+          </div>
+        </div>
+      </div>
+      <div class="col-fig">
+        <div class="glass" style="width:100%; height:100%; padding:24px; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+          <img src="figuras y gráficos/figura1_ancladas_vs_adaptativas.png" style="max-width:95%; max-height:480px; border-radius:10px; border:1px solid var(--glass-line);" alt="Figura 1">
+          <p style="font-family:var(--f-mono); font-size:12px; color:var(--muted); margin-top:10px;">Figura 1: Evolución temporal de la inflación ante desempleo inferior a la NAIRU.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SLIDE 5: DE LA CURVA DE PHILLIPS A LA CURVA PC (PRODUCCIÓN) -->
+  <!-- ============================================================== -->
+  <div class="slide" data-slide="5">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow">BLOQUE 3 · EL PUENTE HACIA EL PIB</span>
+        <h2>Deducción de la Curva PC: De Desempleo a Output Gap</h2>
+      </div>
+      <span class="act">DERIVACIÓN PIZARRA</span>
+    </div>
+    <div class="row">
+      <div class="col-text" style="flex:0 0 540px;">
+        <div class="glass card">
+          <div class="card-title">Paso 1: Del Empleo al Desempleo</div>
+          <div class="card-body">
+            Con tecnología lineal $Y = N$ y población activa $L$:
+            <div class="math-hl">$u = \frac{L - N}{L} = 1 - \frac{Y}{L}$</div>
+          </div>
+        </div>
+        <div class="glass card">
+          <div class="card-title">Paso 2: Producción Potencial ($Y_n$)</div>
+          <div class="card-body">
+            El nivel potencial corresponde a la tasa natural de paro $u_n$:
+            <div class="math-hl">$Y_n = L(1 - u_n) \implies u_n = 1 - \frac{Y_n}{L}$</div>
+          </div>
+        </div>
+        <div class="glass card">
+          <div class="card-title">Paso 3: La Curva PC Estructural</div>
+          <div class="card-body">
+            Restando ambas expresiones: $u - u_n = -\frac{Y - Y_n}{L}$. Sustituyendo en Phillips:
+            <div class="math-hl" style="border-color:var(--ok); background:rgba(52,211,153,0.15);">$\pi - \pi^e = \frac{\alpha}{L}(Y - Y_n)$</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-fig">
+        <div class="glass" style="width:100%; height:100%; padding:20px; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+          <img src="figuras y gráficos/figura2_curva_phillips_a_pc.png" style="max-width:98%; max-height:480px; border-radius:10px; border:1px solid var(--glass-line);" alt="Figura 2">
+          <p style="font-family:var(--f-mono); font-size:12px; color:var(--muted); margin-top:8px;">Figura 2: Correspondencia exacta entre el plano laboral $(u)$ y el plano productivo $(Y)$.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SLIDE 6: CHECKPOINT INTERMEDIO THINK-PAIR-SHARE -->
+  <!-- ============================================================== -->
+  <div class="slide" data-slide="6">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow">PAUSA ACTIVA INTERACTIVA (MINUTO 50)</span>
+        <h2>Checkpoint Intermedio: Dilema en Parejas (Think-Pair-Share)</h2>
+      </div>
+      <span class="act">ACTIVACIÓN COGNITIVA</span>
+    </div>
+    <div class="row">
+      <div class="col-fig" style="flex:1;">
+        <div class="glass" style="width:100%; height:100%; padding:36px 44px; display:flex; flex-direction:column; justify-content:center; gap:24px;">
+          <div style="font-family:var(--f-mono); font-size:14px; color:var(--gold); font-weight:700; letter-spacing:.15em;">
+            DILEMA CONCEPTUAL DE EXAMEN · 3 MINUTOS DE DISCUSIÓN
+          </div>
+          <div style="font-size:24px; line-height:1.4; color:#fff; font-weight:600;">
+            «Si una ola de innovación tecnológica o la llegada de fondos europeos eleva el PIB potencial de la economía española ($Y_n$ aumenta un +3%), ¿qué ocurre con la Curva PC en el plano $(Y, \pi - \pi^e)$?»
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:10px;">
+            <div class="glass" style="padding:16px; border-radius:10px; border:1px solid rgba(255,255,255,0.12);">
+              <b>A)</b> La curva PC rota hacia arriba porque la economía es más productiva.
+            </div>
+            <div class="glass" style="padding:16px; border-radius:10px; border:1px solid rgba(255,255,255,0.12);">
+              <b>B)</b> La curva PC se traslada horizontalmente a la derecha en la misma cuantía que $\Delta Y_n$.
+            </div>
+            <div class="glass" style="padding:16px; border-radius:10px; border:1px solid rgba(255,255,255,0.12);">
+              <b>C)</b> La curva PC no se mueve porque depende solo de las expectativas $\pi^e$.
+            </div>
+            <div class="glass" style="padding:16px; border-radius:10px; border:1px solid rgba(255,255,255,0.12);">
+              <b>D)</b> La curva PC se vuelve completamente horizontal.
+            </div>
+          </div>
+          <div style="font-size:15px; color:var(--ok); font-family:var(--f-mono); background:rgba(52,211,153,0.1); padding:10px 16px; border-radius:8px; border-left:4px solid var(--ok);">
+            💡 <b>Solución Docente:</b> Opción B. La curva corta al eje horizontal exactamente en $Y = Y_n$. Si $Y_n$ crece, el punto de inflación estable se desplaza a la derecha, permitiendo mayor producción sin inflación.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SLIDE 7: EL MODELO IS-LM-PC EN DOS PANELES -->
+  <!-- ============================================================== -->
+  <div class="slide" data-slide="7">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow">BLOQUE 4 · EL MEDIO PLAZO INTEGRADO</span>
+        <h2>El Modelo IS-LM-PC y el Tipo de Interés Neutral ($r_n$)</h2>
+      </div>
+      <span class="act">MODELO COMPLETO</span>
+    </div>
+    <div class="row">
+      <div class="col-text" style="flex:0 0 520px;">
+        <div class="glass card">
+          <div class="card-title">Panel Superior: IS-LM en el plano $(Y, r)$</div>
+          <div class="card-body">
+            • Curva IS: Demanda de bienes $Y = Y(r+x, G, T)$.<br>
+            • Recta LM: El Banco Central fija el tipo real de política monetaria $r$.
+          </div>
+        </div>
+        <div class="glass card">
+          <div class="card-title">Panel Inferior: Curva PC en el plano $(Y, \pi - \pi^e)$</div>
+          <div class="card-body">
+            • Pendiente positiva: $\pi - \pi^e = \frac{\alpha}{L}(Y - Y_n)$.<br>
+            • Corta al eje en $Y = Y_n$, donde la brecha es nula y la inflación se estabiliza.
+          </div>
+        </div>
+        <div class="glass card" style="border-left:4px solid var(--gold);">
+          <div class="card-title" style="color:var(--gold);">Definición del Tipo Neutral ($r_n$)</div>
+          <div class="card-body">
+            Es el tipo de interés real que sitúa la producción exactamente en su nivel potencial ($Y = Y_n$), garantizando que la inflación no se desvíe de su objetivo:
+            <div class="math-hl" style="margin-top:6px;">$Y(r_n + x, G, T) = Y_n$</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-fig">
+        <div class="glass" style="width:100%; height:100%; padding:18px; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+          <img src="figuras y gráficos/figura3_modelo_islm_pc_neutral.png" style="max-width:98%; max-height:510px; border-radius:10px; border:1px solid var(--glass-line);" alt="Figura 3">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SLIDE 8: SIMULADOR INTERACTIVO (MICRO-APP) -->
+  <!-- ============================================================== -->
+  <div class="slide" data-slide="8">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow">FASE 4 · LABORATORIO EXPERIMENTAL</span>
+        <h2>Simulación Dinámica: El Termostato del Banco Central</h2>
+      </div>
+      <span class="act">LABORATORIO CON QR</span>
+    </div>
+    <div class="row">
+      <div class="col-text" style="flex:0 0 520px;">
+        <div class="glass card">
+          <div class="card-title">Desbloqueo de Dispositivos Móviles</div>
+          <div class="card-body">
+            Escanea el código QR con tu móvil para abrir el <b>Simulador Interactivo de la Sesión 13</b> alojado en <i>micro_apps</i>.
+          </div>
+        </div>
+        <div class="glass card">
+          <div class="card-title">Reto 1: Tipo Real por debajo del Neutral ($r < r_n$)</div>
+          <div class="card-body">
+            Fija $r = 1\%$ cuando $r_n = 3\%$. Observa la sobreproducción ($Y > Y_n$) y compara la trayectoria de la inflación bajo expectativas ancladas frente a expectativas adaptativas.
+          </div>
+        </div>
+        <div class="glass card">
+          <div class="card-title">Reto 2: Consolidación Fiscal y Respuesta del BC</div>
+          <div class="card-body">
+            Aplica un recorte de gasto público ($\Delta G < 0$). La curva IS se desplaza a la izquierda. ¿A qué nuevo tipo de interés real debe bajar el Banco Central para restablecer el pleno empleo?
+          </div>
+        </div>
+      </div>
+      <div class="col-fig">
+        <div class="glass" style="width:100%; height:100%; padding:24px; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:16px;">
+          <!-- SVG QR Code generado a mano vectorial limpio hacia la app -->
+          <div style="background:#fff; padding:18px; border-radius:16px; display:flex; justify-content:center; align-items:center; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
+            <svg width="220" height="220" viewBox="0 0 33 33" shape-rendering="crispEdges">
+              <path fill="#000" d="M0 0h9v9H0zM1 1h7v7H1zM2 2h5v5H2zM24 0h9v9h-9zM25 1h7v7h-7zM26 2h5v5h-5zM0 24h9v9H0zM1 25h7v7H1zM2 26h5v5H2zM11 2h2v3h-2zM15 1h2v2h-2zM19 2h3v2h-3zM11 7h4v2h-4zM17 6h2v3h-2zM21 7h2v3h-2zM2 11h2v3H2zM6 12h2v4H6zM11 11h3v2h-3zM16 11h3v3h-3zM21 11h4v2h-4zM27 12h2v3h-2zM3 17h3v2H3zM8 17h3v2H8zM13 15h2v4h-2zM17 16h2v2h-2zM21 15h3v2h-3zM26 17h2v2h-2zM30 16h2v3h-2zM11 21h2v4h-2zM15 21h2v2h-2zM19 22h3v2h-3zM24 21h2v2h-2zM28 22h3v2h-3zM12 27h3v2h-3zM17 26h2v3h-2zM21 26h4v2h-4zM27 26h2v2h-2zM30 26h2v3h-2zM14 30h2v2h-2zM18 30h4v2h-4zM24 30h2v2h-2zM28 30h3v2h-3z"/>
+            </svg>
+          </div>
+          <div style="font-family:var(--f-mono); font-size:14px; color:var(--cyan); text-align:center;">
+            <b>ESCANEAR PARA ABRIR SIMULADOR IS-LM-PC</b><br>
+            <span style="font-size:12px; color:var(--muted);">mhidper.github.io/micro_apps (Sesión 13)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SLIDE 9: RETO MANUSCRITO DE CIERRE (FASE 5) -->
+  <!-- ============================================================== -->
+  <div class="slide" data-slide="9">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow">FASE 5 · EVALUACIÓN FORMATIVA IN SITU</span>
+        <h2>Reto Manuscrito Individual: IS-LM-PC y Tipo Neutral</h2>
+      </div>
+      <span class="act">10 MINUTOS A MANO</span>
+    </div>
+    <div class="row">
+      <div class="col-text" style="flex:0 0 540px;">
+        <div class="glass card" style="border-left:4px solid var(--crimson);">
+          <div class="card-title" style="color:var(--crimson);">Reglas de la Entrega</div>
+          <div class="card-body">
+            • <b>A mano en papel:</b> Portátiles cerrados y móviles guardados.<br>
+            • <b>10 minutos de resolución individual</b> sin comunicación.<br>
+            • Puntuación computable para el <b>Pasaporte de Evaluación Continua</b> (desbloqueo de comodines de examen).
+          </div>
+        </div>
+        <div class="glass card">
+          <div class="card-title">Datos del Reto</div>
+          <div class="card-body">
+            • Curva IS: $Y = 1.050 - 2.500 \cdot r$<br>
+            • Curva PC: $\pi - \pi^e = 0,01 \cdot (Y - 950)$<br>
+            • Población activa: $L = 1.000$ miles de personas<br>
+            • Meta de inflación oficial: $\bar{\pi} = 2,0\%$
+          </div>
+        </div>
+      </div>
+      <div class="col-fig">
+        <div class="glass" style="width:100%; height:100%; padding:28px 36px; display:flex; flex-direction:column; justify-content:center; gap:16px;">
+          <div style="font-family:var(--f-mono); font-size:15px; color:var(--gold); font-weight:700;">
+            PREGUNTAS DEL RETO:
+          </div>
+          <div style="font-size:16.5px; line-height:1.5;">
+            <b>1.</b> Identifique el PIB potencial ($Y_n$) y determine la tasa natural de desempleo ($u_n$).<br><br>
+            <b>2.</b> Calcule el <b>tipo de interés real neutral ($r_n$)</b> que debe establecer el Banco Central para garantizar estabilidad de precios.<br><br>
+            <b>3.</b> Si el Banco Central fija transitoriamente un tipo real $r = 1,0\%$, calcule la producción efectiva resultante ($Y$), la brecha de producción ($Output Gap$) y la tasa de inflación $\pi_1$ suponiendo que las expectativas están firmemente <b>ancladas</b> en el 2%.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- SLIDE 10: SUBIDA FOTOGRÁFICA MICROSOFT FORMS -->
+  <!-- ============================================================== -->
+  <div class="slide" data-slide="10">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow">FASE 5 · CAPTURA DIGITAL INSTANTÁNEA</span>
+        <h2>Subida de la Hoja de Respuestas (Microsoft Forms UPO)</h2>
+      </div>
+      <span class="act">ÚLTIMOS 2 MINUTOS</span>
+    </div>
+    <div class="row">
+      <div class="col-text" style="flex:0 0 540px;">
+        <div class="glass card" style="border-left:4px solid var(--ok);">
+          <div class="card-title" style="color:var(--ok);">Instrucciones de Subida</div>
+          <div class="card-body">
+            1. Desbloquea tu móvil exclusivamente para escanear el QR.<br>
+            2. Haz una fotografía nítida con buena luz de tu hoja manuscrita.<br>
+            3. Escribe tu nombre y acrónimo UPO y pulsa <b>Enviar</b> antes de salir del aula.<br>
+            4. La corrección se procesará mediante IA multimodal y se cargará en tu <b>Pasaporte Digital</b>.
+          </div>
+        </div>
+        <div class="glass card">
+          <div class="card-title">Solución Numérica Rápida de Autocomprobación</div>
+          <div class="card-body">
+            • $Y_n = 950 \implies u_n = 1 - 950/1000 = 5,0\%$.<br>
+            • Tipo neutral: $950 = 1050 - 2500 \cdot r_n \implies r_n = 4,0\%$.<br>
+            • Con $r = 1\%: Y = 1050 - 25 = 1025 \implies \text{Gap} = +75$.<br>
+            • Inflación anclada: $\pi_1 = 2\% + 0,01(75) = 2,75\%$.
+          </div>
+        </div>
+      </div>
+      <div class="col-fig">
+        <div class="glass" style="width:100%; height:100%; padding:24px; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:16px;">
+          <!-- QR oficial del Forms UPO cargado desde la media de la conversación -->
+          <div style="background:#fff; padding:16px; border-radius:16px; display:flex; justify-content:center; align-items:center; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
+            <img src="figuras y gráficos/qr_forms_sesion_13.png" style="width:230px; height:230px; object-fit:contain;" alt="QR Forms">
+          </div>
+          <div style="font-family:var(--f-mono); font-size:14px; color:var(--gold); text-align:center;">
+            <b>CÓDIGO QR OFICIAL: SUBIDA FORMS SESIÓN 13</b><br>
+            <span style="font-size:12px; color:var(--muted);">Captura activa hasta el final de la clase</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Barra de progreso y HUD -->
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="hud">
+    <span id="slideCounter">1 / 10</span>
+    <span>[← / → / Espacio] Navegación</span>
+  </div>
+</div>
+
+<script>
+// Lógica de control de diapositivas y renderizado interactivo
+var currentSlide = 1;
+var totalSlides = 10;
+var currentTheta = 0;
+
+function updateSlide(idx) {
+  if (idx < 1) idx = 1;
+  if (idx > totalSlides) idx = totalSlides;
+  currentSlide = idx;
+
+  var slides = document.querySelectorAll('.slide');
+  slides.forEach(function(s) { s.classList.remove('active'); });
+
+  var target = document.querySelector('.slide[data-slide="' + idx + '"]');
+  if (target) target.classList.add('active');
+
+  var pct = ((idx - 1) / (totalSlides - 1)) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('slideCounter').textContent = idx + ' / ' + totalSlides;
+
+  if (idx === 3) {
+    drawExpectativas();
+  }
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+    e.preventDefault();
+    updateSlide(currentSlide + 1);
+  } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+    e.preventDefault();
+    updateSlide(currentSlide - 1);
+  } else if (e.key === 'Home') {
+    updateSlide(1);
+  } else if (e.key === 'End') {
+    updateSlide(totalSlides);
+  }
+});
+
+function setExpectativa(theta) {
+  currentTheta = theta;
+  document.getElementById('btnAncladas').classList.toggle('active', theta === 0);
+  document.getElementById('btnAdaptativas').classList.toggle('active', theta === 1);
+  drawExpectativas();
+}
+
+function drawExpectativas() {
+  var svg = document.getElementById('svgExpectativas');
+  if (!svg) return;
+
+  var W = 680, H = 400;
+  var ml = 60, mr = 30, mt = 30, mb = 50;
+  var pw = W - ml - mr, ph = H - mt - mb;
+
+  function X(t) { return ml + (t / 5) * pw; }
+  function Y(val) { return mt + (1 - (val / 11)) * ph; }
+
+  var pi0 = 2.0;
+  var delta = 1.6;
+  var anios = [0, 1, 2, 3, 4, 5];
+  var data = [];
+
+  if (currentTheta === 0) {
+    // Ancladas
+    data = [2.0, 3.6, 3.6, 3.6, 3.6, 3.6];
+  } else {
+    // Adaptativas
+    data = [2.0, 3.6, 5.2, 6.8, 8.4, 10.0];
+  }
+
+  var s = '';
+  // Grid lines
+  for (var v = 0; v <= 10; v += 2) {
+    s += '<line x1="' + ml + '" y1="' + Y(v) + '" x2="' + (ml + pw) + '" y2="' + Y(v) + '" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>';
+    s += '<text x="' + (ml - 10) + '" y="' + (Y(v) + 4) + '" fill="#8faec4" font-size="12" font-family="JetBrains Mono" text-anchor="end">' + v + '%</text>';
+  }
+  anios.forEach(function(t) {
+    s += '<line x1="' + X(t) + '" y1="' + mt + '" x2="' + X(t) + '" y2="' + (mt + ph) + '" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>';
+    s += '<text x="' + X(t) + '" y="' + (mt + ph + 22) + '" fill="#8faec4" font-size="12" font-family="JetBrains Mono" text-anchor="middle">Año ' + t + '</text>';
+  });
+
+  // Meta 2%
+  s += '<line x1="' + ml + '" y1="' + Y(2.0) + '" x2="' + (ml + pw) + '" y2="' + Y(2.0) + '" stroke="#64748b" stroke-width="1.8" stroke-dasharray="5 4"/>';
+  s += '<text x="' + (ml + pw - 6) + '" y="' + (Y(2.0) - 8) + '" fill="#94a3b8" font-size="11.5" font-family="JetBrains Mono" text-anchor="end">Meta de Inflación (2%)</text>';
+
+  // Data path
+  var pathD = data.map(function(val, idx) {
+    return (idx === 0 ? 'M' : 'L') + X(idx).toFixed(1) + ',' + Y(val).toFixed(1);
+  }).join(' ');
+
+  var col = currentTheta === 0 ? '#00f2fe' : '#e11d48';
+  s += '<path d="' + pathD + '" fill="none" stroke="' + col + '" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>';
+
+  // Points
+  data.forEach(function(val, idx) {
+    s += '<circle cx="' + X(idx) + '" cy="' + Y(val) + '" r="6" fill="' + col + '" stroke="#fff" stroke-width="2"/>';
+    s += '<text x="' + X(idx) + '" y="' + (Y(val) - 12) + '" fill="' + col + '" font-size="13" font-weight="700" font-family="JetBrains Mono" text-anchor="middle">' + val.toFixed(1) + '%</text>';
+  });
+
+  svg.innerHTML = s;
+}
+
+// Auto-ajuste de escala para cualquier pantalla
+function resizeStage() {
+  var stage = document.getElementById('stage');
+  var sw = window.innerWidth, sh = window.innerHeight;
+  var scale = Math.min(sw / 1600, sh / 900);
+  stage.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
+}
+window.addEventListener('resize', resizeStage);
+window.addEventListener('DOMContentLoaded', function() {
+  resizeStage();
+  if (typeof renderMathInElement !== 'undefined') {
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false}
+      ]
+    });
+  }
+});
+</script>
+</body>
+</html>
+
