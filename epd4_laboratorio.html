@@ -1070,6 +1070,47 @@
       font-size: 0.8rem;
     }
 
+    .router-tab.disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      background: transparent !important;
+      color: #94A3B8 !important;
+      border-color: transparent !important;
+    }
+
+    .kpi-pill {
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1.45fr 1fr;
+      gap: 18px;
+      margin: 16px 0;
+    }
+
+    @media (max-width: 900px) {
+      .charts-grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    .chart-wrapper {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .canvas-box {
+      position: relative;
+      height: 320px;
+      width: 100%;
+    }
+
   </style>
 </head>
 
@@ -1077,26 +1118,22 @@
   <!-- Cabecera Principal -->
   <header class="main-header">
     <div class="header-brand">
-      <div class="logo-circles">
-        <div class="c-left"></div>
-        <div class="c-right"></div>
-      </div>
-      <div>
-        <h1>Políticas Sociolaborales y de Empleo · UPO</h1>
-        <p>Laboratorio Digital EPD 4 · Programa Emplea-T (BOJA) y Talento 45+</p>
+      <div class="brand-title">
+        <h1>Laboratorio EPD 4 · Programa Emplea-T y Talento 45+</h1>
+        <p>Políticas Sociolaborales y de Empleo · Grado RRLL-RRHH / Doble DER-RRLL · UPO 2026-27</p>
       </div>
     </div>
-
-    <div class="header-status">
-      <div class="status-badge" id="boxTeamCode" style="display: none;">
-        <span style="opacity: 0.8;">EQUIPO:</span>
-        <span id="dispStationCode" style="color: var(--coral);">PSLL-EPD4-0000</span>
+    <div class="header-badges">
+      <div class="badge-code" id="boxTeamCode" style="display: none;">
+        <span>Equipo:</span>
+        <span class="code-val" id="dispStationCode">PSLL-EPD4-PENDIENTE</span>
       </div>
-      <div class="status-badge" id="boxCase" style="display: none;">
-        <span style="opacity: 0.8;">CASO ASIGNADO:</span>
-        <span id="dispAssignedCase" style="color: #FFFFFF;">---</span>
+      <div class="badge-code" id="boxCase"
+        style="display: none; background: rgba(233, 143, 113, 0.18); border-color: var(--coral);">
+        <span>Caso Asignado:</span>
+        <span class="code-val" style="color: #FFFFFF;" id="dispAssignedCase">---</span>
       </div>
-      <div class="status-badge" id="boxTimer" style="display: none;">
+      <div class="badge-code" id="boxTimer" style="display: none;">
         <span id="sessionTimer">⏱️ 00:00</span>
       </div>
     </div>
@@ -1106,102 +1143,138 @@
   <nav class="session-router">
     <a href="epd_laboratorio.html" class="router-tab">🏠 Panel de Sesiones</a>
     <a href="epd_laboratorio.html?sesion=1" class="router-tab">📦 Sesión 01 (Cerrada)</a>
-    <a href="epd2_laboratorio.html" class="router-tab">📦 Sesión 02 (Cerrada)</a>
-    <a href="epd3_laboratorio.html" class="router-tab">📦 Sesión 03 (Cerrada)</a>
-    <a href="epd4_laboratorio.html" class="router-tab active" style="font-weight: 700; color: var(--pino);">🟢 Sesión
-      04: Incentivos Emplea-T (Activa)</a>
+    <a href="epd2_laboratorio.html" class="router-tab">📦 Sesión 02: Gobernanza UE y FSE+ (Cerrada)</a>
+    <a href="epd3_laboratorio.html" class="router-tab">📦 Sesión 03: PAE en la OCDE (Cerrada)</a>
+    <a href="epd4_laboratorio.html" class="router-tab active" style="font-weight: 700; color: var(--pino);">🟢 Sesión 04: Incentivos Emplea-T (Activa)</a>
     <div class="router-tab disabled" title="Se desbloqueará en Semana 11">🔒 Sesión 05: Clínica de Informes</div>
     <div class="router-tab disabled" title="Se desbloqueará en Semana 12">🔒 Sesión 06: Defensas y Cierre</div>
   </nav>
 
-  <!-- CONTENEDOR PRINCIPAL -->
-  <div class="container">
+  <!-- =========================================================================
+       SECCIÓN 0: IDENTIFICACIÓN Y CONFIGURACIÓN DE EQUIPO (MÁX. 3 ESTUDIANTES)
+       ========================================================================= -->
+  <section id="authSection" class="auth-hero">
+    <div style="font-size: 2.2rem; margin-bottom: 12px; text-align: center;">👥</div>
+    <h2 style="text-align: center;">Acceso a la Sesión Práctica · EPD 4</h2>
+    <p style="text-align: center;">Configuración del Equipo de Trabajo (de 1 a 3 estudiantes) · Programa Emplea-T y Talento 45+</p>
 
-    <!-- =========================================================================
-         SECCIÓN DE LOGIN Y FORMACIÓN DE EQUIPO (MÁX. 3 INTEGRANTES PRESENCIALES)
-         ========================================================================= -->
-    <section id="authSection">
-      <div class="auth-card">
-        <div style="text-align: center; margin-bottom: 20px;">
+    <div id="leaderWelcomeBanner"
+      style="display: none; background: var(--menta-soft); border: 1.5px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 14px 18px; margin-bottom: 20px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <div>
           <span
-            style="background: var(--coral-light); color: var(--coral-dark); font-size: 0.78rem; font-weight: 700; padding: 4px 12px; border-radius: var(--radius-pill); letter-spacing: 0.5px;">
-            BLOQUE 3 (PARTE II) · SESIÓN EPD 04 · TRABAJO COOPERATIVO EN AULA (HASTA 3 PERSONAS)
-          </span>
-          <h2 style="font-family: 'Outfit'; font-size: 1.7rem; color: var(--pino); margin-top: 10px;">
-            Del Diagnóstico a la Acción: Auditoría Técnica del Programa Emplea-T
-          </h2>
-          <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 6px;">
-            Identifícate con tu usuario UPO o DNI para asignar tu caso empresarial de la Orden de 3 de octubre de 2024 (BOJA) y habilitar el simulador financiero a 24 meses.
-          </p>
-        </div>
-
-        <div class="attendance-warning">
-          <div style="font-size: 1.35rem; line-height: 1.2;">⚠️</div>
-          <div>
-            <strong>Norma Estricta de Asistencia Presencial (Pasaporte 0,50 pts):</strong><br>
-            Esta práctica debe realizarse en equipos de 1, 2 o 3 estudiantes <strong>físicamente presentes en el aula informática</strong>.
-            Queda terminantemente prohibido incluir en el registro del equipo a compañeros que no hayan asistido hoy. Su inclusión fraudulenta anulará la calificación de todo el grupo.
-          </div>
-        </div>
-
-        <div class="form-group" id="groupAcronymInput">
-          <label for="inputAcronym">1. Responsable de Equipo (Acrónimo UPO sin @alu.upo.es, o tu DNI):</label>
-          <input type="text" id="inputAcronym" class="form-control" placeholder="ej. lsanrod o 12345678A" autocomplete="off">
-        </div>
-
-        <div class="form-group" id="groupPasswordInput">
-          <label for="inputPassword">Contraseña / Código de Acceso EPD (el que usaste al activar tu cuenta):</label>
-          <input type="password" id="inputPassword" class="form-control" placeholder="ej. PSLL-EPD-1234" autocomplete="off"
-            onkeypress="if(event.key==='Enter') verifyTeamLeader()">
-          <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">
-            ¿No recuerdas tu código? Consúltalo en la pestaña «Panel de Sesiones» o pregunta al profesor en el aula.
-          </p>
-        </div>
-
-        <div id="leaderWelcomeBanner"
-          style="display: none; background: var(--success-bg); border: 1px solid var(--success); border-radius: var(--radius-sm); padding: 12px 16px; margin-bottom: 16px; color: var(--success); font-size: 0.9rem;">
-          ✓ Responsable verificado: <strong id="leaderWelcomeName">-</strong>
-        </div>
-
-        <div id="teamMembersArea" class="team-box" style="display: none;">
-          <h4 style="font-family: 'Outfit'; font-size: 1rem; color: var(--pino); margin-bottom: 8px;">
-            👥 Integrantes Adicionales del Equipo (Opcional · Máx. 3 personas en total)
+            style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.03em;">Responsable
+            de Entrega Autenticado/a</span>
+          <h4 id="leaderWelcomeName"
+            style="color: var(--pino); font-family: 'Outfit', sans-serif; font-size: 1.15rem; margin: 2px 0 0 0;">---
           </h4>
-          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">
-            Si trabajas de forma individual deja estas casillas en blanco. El sistema generará el código de equipo
-            <code>PSLL-EPD4-XXXX</code> y asignará vuestro Caso Empresarial Paramétrico.
-          </p>
-
-          <div class="form-group">
-            <label for="selectStudent2">Integrante 2 (Presente en el aula):</label>
-            <select id="selectStudent2" class="form-control">
-              <option value="">-- Sin Integrante 2 (Solo 1 o 2 alumnos) --</option>
-            </select>
-          </div>
-
-          <div class="form-group" style="margin-bottom: 0;">
-            <label for="selectStudent3">Integrante 3 (Presente en el aula):</label>
-            <select id="selectStudent3" class="form-control">
-              <option value="">-- Sin Integrante 3 (Equipo de 1 o 2 alumnos) --</option>
-            </select>
-          </div>
         </div>
+        <span
+          style="font-size: 0.8rem; background: var(--success-bg); color: var(--success); padding: 4px 10px; border-radius: var(--radius-pill); font-weight: 700;">Verificado
+          ✓</span>
+      </div>
+    </div>
 
-        <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px;">
-          <button id="btnVerifyLeader" class="btn btn-primary btn-block" onclick="verifyTeamLeader()">
-            Validar Responsable y Formar Equipo →
-          </button>
-          <button id="btnStartSession" class="btn btn-coral btn-block" style="display: none;" onclick="launchSession()">
-            🚀 Iniciar Laboratorio EPD 4 (Caso Emplea-T)
-          </button>
+    <div class="form-group" id="groupAcronymInput">
+      <label for="inputAcronym">Tu Acrónimo Institucional UPO o DNI (Responsable de la entrega):</label>
+      <input type="text" id="inputAcronym" class="form-control"
+        placeholder="Introduce tu usuario oficial UPO (sin @alu.upo.es, ej. mhidper) o tu DNI" autofocus>
+      <small style="color: var(--text-muted); font-size: 0.8rem; margin-top: 4px; display: block;">
+        Introduce tu nombre de usuario del correo institucional de la UPO (o tu DNI sin guion).
+      </small>
+    </div>
+
+    <div class="form-group" id="groupPasswordInput" style="margin-top: 16px;">
+      <label for="inputPassword">Contraseña / Código EPD de Acceso:</label>
+      <input type="password" id="inputPassword" class="form-control"
+        placeholder="Introduce tu contraseña o Código EPD (ej. PSLL-EPD-XXXX o 4 dígitos)"
+        autocomplete="current-password">
+      <small style="color: var(--text-muted); font-size: 0.8rem; margin-top: 4px; display: block;">
+        Introduce tu Código EPD personal de acceso (o la clave docente).
+      </small>
+    </div>
+
+    <div id="teamMembersArea" style="display: none;">
+      <!-- Aviso de Asistencia Obligatoria en Aula -->
+      <div
+        style="background: #FEF2F2; border: 2px solid #DC2626; border-radius: 10px; padding: 14px 18px; margin-bottom: 18px;">
+        <div style="display: flex; gap: 12px; align-items: flex-start;">
+          <span style="font-size: 1.6rem; line-height: 1;">⚠️</span>
+          <div>
+            <strong style="color: #991B1B; font-size: 0.95rem; display: block; margin-bottom: 4px;">
+              REGLA OBLIGATORIA DE ASISTENCIA Y PARTICIPACIÓN EN EL AULA:
+            </strong>
+            <p style="color: #7F1D1D; font-size: 0.86rem; margin: 0; line-height: 1.45;">
+              Las personas que selecciones a continuación <strong>SOLO pueden ser compañeros/as físicamente presentes en
+                el aula durante la clase de hoy</strong>.<br>
+              El profesorado <strong>cotejará la composición del equipo con la lista oficial de firmas y el pase de
+                lista a voz alzada</strong>. La inclusión fraudulenta de ausentes conllevará la <strong>anulación
+                automática de la entrega (calificación 0,00 pts)</strong> para todo el equipo.
+            </p>
+          </div>
         </div>
       </div>
-    </section>
 
-    <!-- =========================================================================
-         ESPACIO DE TRABAJO DEL LABORATORIO (4 FASES)
-         ========================================================================= -->
-    <main id="workspaceSection">
+      <h4 style="color: var(--pino); font-family: 'Outfit', sans-serif; margin-bottom: 8px; font-size: 1.1rem;">
+        👥 Integrantes del Equipo (Máx. 3 estudiantes)
+      </h4>
+      <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 16px;">
+        Un solo integrante del equipo redacta y sella el informe oficial. Selecciona a tus compañeros/as de clase para
+        que sus nombres figuren en el comprobante oficial y en el Pasaporte de Evaluación Continua (el sistema asignará vuestro Caso Empresarial Paramétrico):
+      </p>
+
+      <div class="form-group">
+        <label for="selectStudent2">Compañero/a 2 (Opcional):</label>
+        <select id="selectStudent2" class="form-control">
+          <option value="">-- Seleccionar de la lista de clase (o dejar vacío si trabajas individualmente) --</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="selectStudent3">Compañero/a 3 (Opcional):</label>
+        <select id="selectStudent3" class="form-control">
+          <option value="">-- Seleccionar de la lista de clase (o dejar vacío) --</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="margin-top: 24px; display: flex; gap: 12px;">
+      <button id="btnVerifyLeader" class="btn btn-primary" style="flex: 1;" onclick="verifyTeamLeader()">
+        Verificar Acrónimo y Configurar Equipo
+      </button>
+      <button id="btnStartSession" class="btn btn-coral" style="flex: 1; display: none;" onclick="launchSession()">
+        Comenzar Laboratorio EPD 4 ➔
+      </button>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       ESPACIO DE TRABAJO EPD 4 (SE ACTIVA TRAS VERIFICACIÓN Y ACCESO)
+       ========================================================================= -->
+  <div id="workspaceSection" style="display: none; width: 100%;">
+
+    <!-- Navegación por Fases -->
+    <nav class="phases-nav">
+      <div class="phase-step active" onclick="switchPhase(1)" id="navPhase1">
+        <span class="num">1</span>
+        <span>Pertinencia Andalucía (IECA/OCDE/BOJA)</span>
+      </div>
+      <div class="phase-step" onclick="switchPhase(2)" id="navPhase2">
+        <span class="num">2</span>
+        <span>Simulador 24m, Legal y Talento 45+</span>
+      </div>
+      <div class="phase-step" onclick="switchPhase(3)" id="navPhase3">
+        <span class="num">3</span>
+        <span>Checkpoint Cuantitativo</span>
+      </div>
+      <div class="phase-step" onclick="switchPhase(4)" id="navPhase4">
+        <span class="num">4</span>
+        <span>Dictamen Técnico y Sellado PDF</span>
+      </div>
+    </nav>
+
+    <!-- Contenedor Principal de Fases -->
+    <main class="content-container">
 
       <div class="draft-bar">
         <div>
@@ -1214,22 +1287,6 @@
           </label>
         </div>
       </div>
-
-      <!-- Barra de Progreso y Pestañas -->
-      <nav class="phases-nav">
-        <button class="phase-tab active" id="navPhase1" onclick="switchPhase(1)">
-          <span>1</span> Pertinencia Andalucía (IECA/OCDE/BOJA)
-        </button>
-        <button class="phase-tab" id="navPhase2" onclick="switchPhase(2)">
-          <span>2</span> Simulador 24m, Legal y Talento 45+
-        </button>
-        <button class="phase-tab" id="navPhase3" onclick="switchPhase(3)">
-          <span>3</span> Checkpoint Cuantitativo
-        </button>
-        <button class="phase-tab" id="navPhase4" onclick="switchPhase(4)">
-          <span>4</span> Dictamen Técnico y Sellado PDF
-        </button>
-      </nav>
 
       <!-- =========================================================================
            FASE 1: PERTINENCIA EMPÍRICA ANDALUCÍA (IECA/EPA 2014-2024) Y BOJA EMPLEA-T
@@ -1492,7 +1549,7 @@
 
           <div class="checkpoint-box">
             <!-- Pregunta 1 -->
-            <div class="question-item">
+            <div class="checkpoint-question">
               <label for="ansQ1" id="lblQ1">1. ¿Cuál es la cuantía total exacta de la subvención Emplea-T aplicable a vuestro caso (€)?</label>
               <div style="font-size: 0.86rem; background: #F8FAF9; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--border-subtle); margin: 6px 0 10px 0;">
                 <strong>Fórmula Orden 03/10/2024:</strong>
@@ -1510,7 +1567,7 @@
             </div>
 
             <!-- Pregunta 2 -->
-            <div class="question-item">
+            <div class="checkpoint-question">
               <label for="ansQ2" id="lblQ2">2. ¿Qué porcentaje (%) del Coste Laboral Total a 24 meses cubre la subvención Emplea-T?</label>
               <div style="font-size: 0.86rem; background: #F8FAF9; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--border-subtle); margin: 6px 0 10px 0;">
                 <strong>Fórmula de cobertura microeconómica:</strong>
@@ -1528,7 +1585,7 @@
             </div>
 
             <!-- Pregunta 3 -->
-            <div class="question-item" style="margin-bottom: 0;">
+            <div class="checkpoint-question" style="margin-bottom: 0;">
               <label for="ansQ3" id="lblQ3">3. ¿Cuántos euros de la subvención financia directamente el Fondo Social Europeo Plus (FSE+ al 85%)?</label>
               <div style="font-size: 0.86rem; background: #F8FAF9; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--border-subtle); margin: 6px 0 10px 0;">
                 <strong>Regla de cofinanciación europea (Prioridades 1 y 5):</strong>
@@ -6436,10 +6493,13 @@
       }
       document.getElementById(`phase${phaseNum}`).classList.add('active');
       document.getElementById(`navPhase${phaseNum}`).classList.add('active');
-      if (phaseNum === 1 && iecaChartInstance) iecaChartInstance.resize();
-      if (phaseNum === 2 && simChartInstance) simChartInstance.resize();
-      renderAllMath();
-      window.scrollTo({ top: 120, behavior: 'smooth' });
+
+      setTimeout(() => {
+        if (phaseNum === 1 && iecaChartInstance) iecaChartInstance.resize();
+        if (phaseNum === 2 && simChartInstance) simChartInstance.resize();
+        renderAllMath();
+      }, 40);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function populateBojaTable(highlightLineId) {
@@ -6918,16 +6978,42 @@
       });
     }
 
-    // Prefill seguro si el estudiante viene ya autenticado desde el Panel de Sesiones
+    // Inicialización al cargar la página
     window.addEventListener('DOMContentLoaded', () => {
-      const savedU = localStorage.getItem('psll_auth_user');
-      const savedC = localStorage.getItem('psll_auth_code');
-      if (savedU && DB_USERS[savedU]) {
-        const uInp = document.getElementById('inputAcronym');
-        const pInp = document.getElementById('inputPassword');
-        if (uInp && !uInp.value) uInp.value = savedU;
-        if (pInp && savedC && !pInp.value) pInp.value = savedC;
+      // Auto-completar credenciales si ya se autenticó previamente en el navegador
+      const authUser = localStorage.getItem('psll_auth_user');
+      const authCode = localStorage.getItem('psll_auth_code');
+      if (authUser && DB_USERS[authUser]) {
+        const acrInp = document.getElementById('inputAcronym');
+        if (acrInp && !acrInp.value) acrInp.value = authUser;
+        if (authCode) {
+          const passInp = document.getElementById('inputPassword');
+          if (passInp && !passInp.value) passInp.value = authCode;
+        }
       }
+
+      // Permitir login con tecla Enter
+      const acrInput = document.getElementById('inputAcronym');
+      if (acrInput) {
+        acrInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            const pInput = document.getElementById('inputPassword');
+            if (pInput && !pInput.value) pInput.focus();
+            else verifyTeamLeader();
+          }
+        });
+      }
+      const passInput = document.getElementById('inputPassword');
+      if (passInput) {
+        passInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') verifyTeamLeader();
+        });
+      }
+
+      setupEditorGuard();
+
+      renderAllMath();
+      setTimeout(renderAllMath, 300);
     });
   </script>
 </body>
