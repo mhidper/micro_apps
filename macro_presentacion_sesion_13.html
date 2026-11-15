@@ -96,19 +96,37 @@ h2 { font-size: 45px; color: #fff; }
   border-radius: 16px; backdrop-filter: blur(10px);
 }
 
+
 .card {
-  padding: 24px 30px; display: flex; flex-direction: column; gap: 12px; flex: 1; justify-content: space-between;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+  justify-content: flex-start; /* Agrupación natural y compacta */
+}
+.card-header-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 .card-num {
-  font-family: var(--f-mono); font-size: 14.5px; font-weight: 700;
+  font-family: var(--f-mono); font-size: 13.5px; font-weight: 700;
   color: var(--gold); letter-spacing: .14em; text-transform: uppercase;
 }
 .card-title {
-  font-family: var(--f-display); font-size: 25px; font-weight: 700; color: #fff; line-height: 1.2;
+  font-family: var(--f-display); font-size: 23px; font-weight: 700; color: #fff; line-height: 1.22;
 }
 .card-body {
-  font-size: 18px; line-height: 1.55; color: var(--paper); opacity: 0.95; margin: 0;
+  font-size: 17px; line-height: 1.5; color: var(--paper); opacity: 0.95; margin: 0;
 }
+.step-item {
+  background: rgba(255, 255, 255, 0.04);
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 
 .interactive-panel {
   width: 100%; height: 100%; display: flex; flex-direction: column;
@@ -148,9 +166,9 @@ h2 { font-size: 45px; color: #fff; }
 .hud-btn:hover { background: var(--azure); }
 
 .math-hl {
-  font-size: 23px; color: #fff; background: rgba(5, 108, 170, 0.3);
-  padding: 12px 18px; border-radius: 10px; border-left: 5px solid var(--azure);
-  display: inline-block; margin: 6px 0; text-align: center; width: 100%;
+  font-size: 22px; color: #fff; background: rgba(5, 108, 170, 0.25);
+  padding: 10px 18px; border-radius: 10px; border-left: 5px solid var(--azure);
+  display: block; margin: 8px 0; text-align: center; width: 100%;
 }
 </style>
 </head>
@@ -853,7 +871,7 @@ h2 { font-size: 45px; color: #fff; }
     </div>
   </div>
 
-  <!-- SLIDE 13: EL TIPO DE INTERÉS NEUTRAL O NATURAL (rn) · REVISADA Y OPTIMIZADA -->
+    <!-- SLIDE 13: EL TIPO DE INTERÉS NEUTRAL O NATURAL (rn) · PROPORCIÓN ARMONIOSA -->
   <div class="slide" data-slide="13">
     <div class="slide-header">
       <div class="header-titles">
@@ -865,43 +883,56 @@ h2 { font-size: 45px; color: #fff; }
     <div class="row">
       <div class="col-text">
         <div class="glass card">
-          <div>
+          <div class="card-header-block">
             <span class="card-num" style="color:var(--cobalt);">DEFINICIÓN FORMAL</span>
-            <span class="card-title" style="display:block; margin:6px 0 10px;">La Condición de Estabilidad de Medio Plazo</span>
-            <p class="card-body">
-              El <strong>tipo de interés neutral o natural ($r_n$)</strong> es el tipo de política monetaria exacto que hace coincidir la demanda agregada de la curva IS con el PIB potencial:
-            </p>
+            <span class="card-title">La Condición de Estabilidad de Medio Plazo</span>
           </div>
-          <div class="math-hl" style="padding:16px 20px;">
+          <p class="card-body">
+            El <strong>tipo de interés neutral o natural ($r_n$)</strong> es el tipo de interés real de política monetaria exacto que hace coincidir la demanda de la curva IS con el PIB potencial:
+          </p>
+          <div class="math-hl" style="margin: 4px 0 8px;">
             $$Y(r_n + x, G, T) = Y_n$$
           </div>
-          <div>
-            <p class="card-body" style="font-weight:700; color:var(--paper); margin-bottom:6px;">Propiedades del Tipo Neutral:</p>
-            <p class="card-body">
-              • <strong>Equilibrio de Medio Plazo:</strong> Si $r = r_n$, la brecha de producción se anula ($Y = Y_n$) y la inflación se estabiliza sobre su meta oficial ($\pi = \bar{\pi}$).<br>
-              • <strong>Dinámico y Variable:</strong> Si aumenta el gasto público ($G$) o sube la confianza, la curva IS se desplaza a la derecha y el valor de $r_n$ aumenta.
-            </p>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div class="step-item" style="border-left: 3px solid var(--ok);">
+              <p class="card-body">
+                <strong>Equilibrio de Medio Plazo:</strong> Si $r = r_n$, la brecha de producción se anula ($Y = Y_n$) y la inflación permanece estable sobre su meta oficial ($\pi = ar{\pi}$).
+              </p>
+            </div>
+            <div class="step-item" style="border-left: 3px solid var(--gold);">
+              <p class="card-body">
+                <strong>Variable en el Tiempo:</strong> No es una constante inmutable; si aumenta el gasto público ($G$) o sube la confianza, la curva IS se desplaza a la derecha y el valor de $r_n$ se incrementa.
+              </p>
+            </div>
           </div>
         </div>
       </div>
       <div class="col-text">
         <div class="glass card" style="border-color:var(--azure);">
-          <div>
+          <div class="card-header-block">
             <span class="card-num" style="color:var(--azure);">MECANISMO DE AJUSTE MONETARIO</span>
-            <span class="card-title" style="display:block; margin:6px 0 10px;">¿Qué Ocurre si el Banco Central Fija $r < r_n$?</span>
+            <span class="card-title">¿Qué Ocurre si el Banco Central Fija $r < r_n$?</span>
           </div>
-          <p class="card-body">
-            <strong>1. A Corto Plazo:</strong> El crédito barato estimula consumo e inversión, situando la producción por encima del nivel potencial: $Y > Y_n$.
-          </p>
-          <p class="card-body">
-            <strong>2. En los Precios:</strong> Se crea una brecha positiva de producción y la inflación se acelera de forma continua año tras año ($\Delta \pi > 0$).
-          </p>
-          <p class="card-body">
-            <strong>3. La Reacción Inevitable:</strong> Para detener la aceleración de precios, el Banco Central debe subir los tipos reales hasta situar $r = r_n$.
-          </p>
-          <div style="background:rgba(255,190,11,0.12); padding:14px 18px; border-radius:10px; border-left:4px solid var(--gold); margin-top:6px;">
-            <p class="card-body" style="color:var(--gold); font-weight:700; font-size:18.5px;">
-              El Banco Central actúa como un termostato automático buscando calibrar $r$ con $r_n$.
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div class="step-item">
+              <p class="card-body">
+                <strong>1. Corto Plazo:</strong> El crédito barato estimula consumo e inversión, desbordando la capacidad productiva: $Y > Y_n$.
+              </p>
+            </div>
+            <div class="step-item">
+              <p class="card-body">
+                <strong>2. En los Precios:</strong> Surge una brecha positiva y la inflación se acelera año tras año ($\Delta \pi > 0$).
+              </p>
+            </div>
+            <div class="step-item">
+              <p class="card-body">
+                <strong>3. Reacción Inevitable:</strong> Para detener la inflación, el Banco Central debe subir los tipos hasta calibrar $r = r_n$.
+              </p>
+            </div>
+          </div>
+          <div style="background:rgba(255,190,11,0.12); padding:12px 16px; border-radius:10px; border-left:4px solid var(--gold); margin-top:2px;">
+            <p class="card-body" style="color:var(--gold); font-weight:700; font-size:17.5px;">
+              El Banco Central actúa como un termostato automático buscando situar $r = r_n$.
             </p>
           </div>
         </div>
