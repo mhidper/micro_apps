@@ -1705,8 +1705,8 @@
     <a href="javascript:void(0);" onclick="showPortalSection();" class="router-tab active" id="routerTabPortal">🏠 Panel de Sesiones</a>
     <a href="javascript:void(0);" onclick="openEPD1Workspace();" class="router-tab" id="routerTabEPD1" data-tab="epd1">📦 Sesión 01 (Cerrada)</a>
     <a href="epd2_laboratorio.html" class="router-tab" id="routerTabEPD2" data-tab="epd2">📦 Sesión 02: Gobernanza UE y FSE+ (Cerrada)</a>
-    <a href="epd3_laboratorio.html" class="router-tab" id="routerTabEPD3" data-tab="epd3" style="font-weight: 700; color: var(--pino);">🟢 Sesión 03: PAE en la OCDE (Activa)</a>
-    <div class="router-tab disabled" title="Se desbloqueará en Semana 10">🔒 Sesión 04: Incentivos Emplea-T</div>
+    <a href="epd3_laboratorio.html" class="router-tab" id="routerTabEPD3" data-tab="epd3">📦 Sesión 03: PAE en la OCDE (Cerrada)</a>
+    <a href="epd4_laboratorio.html" class="router-tab" id="routerTabEPD4" data-tab="epd4" style="font-weight: 700; color: var(--pino);">🟢 Sesión 04: Incentivos Emplea-T (Activa)</a>
     <div class="router-tab disabled" title="Se desbloqueará en Semana 11">🔒 Sesión 05: Clínica de Informes</div>
     <div class="router-tab disabled" title="Se desbloqueará en Semana 12">🔒 Sesión 06: Defensas y Cierre</div>
   </nav>
@@ -3150,12 +3150,12 @@
         type: "Equipos de hasta 3",
         points: "0,50 pt",
         url: "epd3_laboratorio.html",
-        forceStatus: "active"
+        forceStatus: "closed"
       },
       {
         num: 4,
-        title: "Sesión 04: Incentivos Emplea-T",
-        subtitle: "Subvenciones a la contratación (Orden 03/10/2024)",
+        title: "Sesión 04: Incentivos Emplea-T y Talento 45+",
+        subtitle: "Subvenciones a la contratación (Orden 03/10/2024 BOJA) y contraste oferta/demanda",
         week: "Semana 10",
         dates: "16/11/2026 – 20/11/2026",
         closesText: "Domingo 22/11/2026 a las 23:59:59",
@@ -3164,7 +3164,7 @@
         type: "Equipos de hasta 3",
         points: "0,50 pt",
         url: "epd4_laboratorio.html",
-        forceStatus: "locked"
+        forceStatus: "active"
       },
       {
         num: 5,
@@ -3229,6 +3229,8 @@
         window.location.href = 'epd2_laboratorio.html';
       } else if (num === 3) {
         window.location.href = 'epd3_laboratorio.html';
+      } else if (num === 4) {
+        window.location.href = 'epd4_laboratorio.html';
       }
     }
 
@@ -3298,6 +3300,8 @@
             btnHtml = `<button class="btn btn-audit btn-block" onclick="openEPD1Workspace();" style="font-size: 0.85rem;">${hasDeliveredEPD1 ? '📄 Consultar Mi Entrega Oficial' : '👁️ Ver Práctica (Solo Lectura · Cerrada)'}</button>`;
           } else if (s.num === 2) {
             btnHtml = `<a href="epd2_laboratorio.html" class="btn btn-audit btn-block" style="text-decoration: none; text-align: center; font-size: 0.85rem; display: block;">👁️ Ver Práctica (Solo Lectura · Cerrada)</a>`;
+          } else if (s.num === 3) {
+            btnHtml = `<a href="epd3_laboratorio.html" class="btn btn-audit btn-block" style="text-decoration: none; text-align: center; font-size: 0.85rem; display: block;">👁️ Ver Práctica (Solo Lectura · Cerrada)</a>`;
           } else {
             btnHtml = `<button class="btn btn-audit btn-block" disabled style="opacity: 0.6; cursor: not-allowed; font-size: 0.85rem;">Plazo de entrega finalizado</button>`;
           }
@@ -3310,6 +3314,8 @@
             btnHtml = `<button class="btn btn-coral btn-block" onclick="goToSession(2);" style="font-size: 0.95rem; font-weight: 700;">🚀 Entrar a Sesión 02 (Equipos) ➔</button>`;
           } else if (s.num === 3) {
             btnHtml = `<button class="btn btn-coral btn-block" onclick="goToSession(3);" style="font-size: 0.95rem; font-weight: 700;">🚀 Entrar a Sesión 03 (Equipos) ➔</button>`;
+          } else if (s.num === 4) {
+            btnHtml = `<button class="btn btn-coral btn-block" onclick="goToSession(4);" style="font-size: 0.95rem; font-weight: 700;">🚀 Entrar a Sesión 04 (Equipos) ➔</button>`;
           } else {
             btnHtml = `<button class="btn btn-primary btn-block" onclick="alert('La aplicación de la Sesión 0${s.num} se cargará para la semana correspondiente.');">Entrar a Sesión 0${s.num}</button>`;
           }
