@@ -1261,7 +1261,7 @@
       </div>
       <div class="phase-step" onclick="switchPhase(2)" id="navPhase2">
         <span class="num">2</span>
-        <span>Simulador 24m, Legal y Talento 45+</span>
+        <span>Simulador 24 meses, Legal y Talento 45+</span>
       </div>
       <div class="phase-step" onclick="switchPhase(3)" id="navPhase3">
         <span class="num">3</span>
@@ -1339,9 +1339,9 @@
           <h3 style="font-family: 'Outfit'; color: var(--pino); font-size: 1.08rem; margin-top: 24px; margin-bottom: 6px;">
             🏛️ Arquitectura Normativa: Las 7 Líneas del Programa Emplea-T (Orden de 3 de octubre de 2024, BOJA núm. 197)
           </h3>
-          <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 8px;">
-            La línea aplicable al caso de vuestro equipo aparece resaltada en coral. Todas las contrataciones indefinidas (L1–L6) exigen <strong>24 meses de mantenimiento</strong> (Art. 31.1.a).
-          </p>
+          <div class="callout" id="bojaTableCaseNotice" style="margin: 10px 0 12px 0; font-size: 0.86rem;">
+            <strong>🎯 Resaltado automático por equipo:</strong> La fila marcada en <strong>color coral</strong> (<span style="background:var(--coral); color:#fff; font-size:0.72rem; font-weight:700; padding:1px 7px; border-radius:999px;">🎯 Línea asignada a vuestro equipo</span>) se ilumina automáticamente según el caso asignado a vuestro código (<strong><span id="lblBojaHighlightedLine">---</span></strong>). Todas las contrataciones indefinidas (L1–L6) exigen <strong>24 meses de mantenimiento</strong> (Art. 31.1.a).
+          </div>
 
           <div class="boja-table-wrap">
             <table class="psll-table" id="bojaLinesTable">
@@ -1361,14 +1361,14 @@
 
           <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
             <button class="btn btn-primary" onclick="switchPhase(2)">
-              Ir a Fase 2 (Simulador 24m y Talento 45+) →
+              Ir a Fase 2 (Simulador 24 meses y Talento 45+) →
             </button>
           </div>
         </div>
       </section>
 
       <!-- =========================================================================
-           FASE 2: SIMULADOR FINANCIERO 24M, CLÁUSULAS ANTI-FRAUDE Y TALENTO 45+
+           FASE 2: SIMULADOR FINANCIERO 24 MESES, CLÁUSULAS ANTI-FRAUDE Y TALENTO 45+
            ========================================================================= -->
       <section id="phase2" class="phase-section">
         <div class="card">
@@ -1387,10 +1387,32 @@
             ⏳ Cargando expediente asignado...
           </div>
 
+          <div id="simExplanationBox" style="background: var(--menta); border: 1px solid #C2D8C9; border-left: 5px solid var(--pino); border-radius: 10px; padding: 16px 18px; margin-bottom: 18px; font-size: 0.87rem; color: var(--ink); line-height: 1.55;">
+            <div style="font-family: 'Outfit', sans-serif; font-weight: 800; color: var(--pino); font-size: 0.98rem; margin-bottom: 8px;">
+              🧭 ¿Para qué sirve este simulador y qué estás mirando?
+            </div>
+            <p style="margin: 0 0 10px 0;">
+              La Orden BOJA de 28/05/2024 exige que la empresa mantenga el contrato indefinido subvencionado durante un mínimo obligatorio de <strong>24 meses completos (2 años)</strong>. Para decidir si la ayuda compensa realmente ese compromiso y qué parte del coste laboral financia el sector público, el simulador calcula automáticamente las cifras acumuladas de esos <strong>2 años</strong>:
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px;">
+              <div style="background: #FFFFFF; border: 1px solid #D6E4DB; border-radius: 8px; padding: 10px 12px;">
+                <strong style="color: var(--pino);">1. Panel izquierdo («Parámetros del Contrato»):</strong><br>
+                Viene precargado con el <strong>Salario Bruto Anual</strong> y la <strong>Cotización Social Empresarial</strong> (31,6 % por defecto) de vuestro expediente oficial. Podéis mover los deslizadores para probar escenarios alternativos (por ejemplo, qué ocurre si se reduce el salario por debajo del SMI) y pulsar <strong>«↺ Restaurar Mi Caso»</strong> para volver a vuestros datos reales antes de contestar el Checkpoint.
+              </div>
+              <div style="background: #FFFFFF; border: 1px solid #D6E4DB; border-radius: 8px; padding: 10px 12px;">
+                <strong style="color: var(--pino);">2. Tarjetas de resultados (Horizonte de 24 meses = 2 años):</strong><br>
+                • <strong>Coste Laboral Total (24 meses):</strong> Salario bruto + SS patronal durante los 2 años obligatorios.<br>
+                • <strong>Subvención Emplea-T:</strong> Pago único total (50% al conceder y 50% al mes 12).<br>
+                • <strong>Cobertura sobre Coste (24 meses):</strong> Porcentaje exacto del coste de 2 años que paga la ayuda (<em>dato Q2</em>) y factura neta restante para la empresa.<br>
+                • <strong>Cofinanciación FSE+ (85%):</strong> Parte pagada por la Unión Europea (85%, <em>dato Q3</em>) frente a la Junta de Andalucía (15%).
+              </div>
+            </div>
+          </div>
+
           <div class="sim-grid">
             <div class="sim-panel">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <h3 style="font-family: 'Outfit'; color: var(--pino); font-size: 1.02rem; margin: 0;">Parámetros del Contrato (24 Meses)</h3>
+                <h3 style="font-family: 'Outfit'; color: var(--pino); font-size: 1.02rem; margin: 0;">Parámetros del Contrato Indefinido (24 meses = 2 años)</h3>
                 <button type="button" class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.76rem;" onclick="resetToAssignedCase()">↺ Restaurar Mi Caso</button>
               </div>
 
@@ -1417,10 +1439,10 @@
                   <span>Salario Bruto Anual (€/año):</span>
                   <strong id="lblSimSalary" style="font-family: 'JetBrains Mono';">21.000 €</strong>
                 </label>
-                <input type="range" id="simSalary" class="sim-range" min="15876" max="36000" step="250" value="21000" oninput="recalcSimulator()">
-                <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted);">
-                  <span>SMI ref. (15.876 €)</span>
-                  <span>Suelo Art. 31.1.d: ≥ 18 × SMI en 18 meses</span>
+                <input type="range" id="simSalary" class="sim-range" min="15000" max="36000" step="250" value="21000" oninput="recalcSimulator()">
+                <div style="display: flex; justify-content: space-between; font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;">
+                  <span>15.000 €</span>
+                  <span style="color: var(--pino); font-weight: 600;">SMI ref.: 15.876 €/año (= 23.814 € en 18 meses)</span>
                   <span>36.000 €</span>
                 </div>
               </div>
@@ -1434,27 +1456,30 @@
               </div>
 
               <div id="simSmiCheck" style="margin-top: 10px; padding: 8px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 600;"></div>
+              <div style="margin-top: 8px; padding: 8px 11px; border-radius: 6px; background: #FFFFFF; border: 1px solid #D6E4DB; font-size: 0.76rem; color: var(--ink); line-height: 1.45;">
+                <strong>¿Qué significa «Suelo Art. 31.1.d: ≥ 18 × SMI en 18 meses»?</strong> El SMI de referencia (1.134 €/mes × 14 pagas = <strong>15.876 €/año</strong>) equivale a <strong>1.323 €/mes</strong> con pagas prorrateadas en 12 mensualidades. Como la Seguridad Social comprueba la cotización acumulada en los primeros <strong>18 meses</strong>, la suma debe alcanzar al menos <code>18 × 1.323 € = 23.814 €</code> (impide captar ayudas con jornadas parciales encubiertas o salarios por debajo del SMI).
+              </div>
             </div>
 
             <div>
               <div class="kpi-grid-4" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 12px;">
                 <div class="kpi-card">
-                  <div class="kpi-label">Coste Laboral Total (24m)</div>
+                  <div class="kpi-label">Coste Laboral Total (24 meses · 2 años)</div>
                   <div class="kpi-val" id="outCost24">55.272 €</div>
-                  <div class="kpi-sub" id="outCostSub">Bruto + SS patronal en 2 años</div>
+                  <div class="kpi-sub" id="outCostSub">Bruto + SS patronal en 2 años (24 meses)</div>
                 </div>
                 <div class="kpi-card coral">
-                  <div class="kpi-label">Subvención Emplea-T</div>
+                  <div class="kpi-label">Subvención Total Emplea-T</div>
                   <div class="kpi-val" id="outSubvTotal">17.000 €</div>
                   <div class="kpi-sub" id="outSplitPay">Pago: 8.500 € (Res.) + 8.500 € (Mes 12)</div>
                 </div>
                 <div class="kpi-card">
-                  <div class="kpi-label">Cobertura del Coste 24m</div>
+                  <div class="kpi-label">Cobertura sobre Coste (24 meses)</div>
                   <div class="kpi-val" id="outCoveragePct">30.8 %</div>
-                  <div class="kpi-sub" id="outNetCost">Coste neto empresa: 38.272 €</div>
+                  <div class="kpi-sub" id="outNetCost">Coste neto empresa (24 meses): 38.272 €</div>
                 </div>
                 <div class="kpi-card">
-                  <div class="kpi-label">Cofinanciación FSE+ (85%)</div>
+                  <div class="kpi-label">Cofinanciación Europea FSE+ (85%)</div>
                   <div class="kpi-val" id="outFseAmount">14.450 €</div>
                   <div class="kpi-sub" id="outJaAmount">Aportación Junta (15%): 2.550 €</div>
                 </div>
@@ -1479,7 +1504,7 @@
             </div>
             <div class="legal-card risk">
               <h4>2. Suelo Salarial y Riesgo de Desplazamiento (Art. 31.1.d)</h4>
-              <p>Exige un mínimo de <strong>18 × SMI en los primeros 18 meses</strong> (impide infra-cotización). Aun así, existe riesgo de <em>sustitución</em> (preferir candidato subvencionado frente a otro no subvencionado de igual productividad).</p>
+              <p><strong>¿Qué significa «18 × SMI en 18 meses»?</strong> Impone que las bases cotizadas a la Seguridad Social durante los primeros <strong>18 meses</strong> sumen al menos 18 mensualidades del SMI prorrateado en 12 pagas (<code>18 × 1.323 €/mes = 23.814 €</code>, equivalente al SMI anual de <strong>15.876 €/año</strong>). Así impide infracotizar o simular jornadas parciales para cobrar la ayuda. Aun así, subsiste el riesgo de <em>sustitución</em> (preferir un candidato subvencionado frente a otro no subvencionado de igual productividad).</p>
             </div>
             <div class="legal-card">
               <h4>3. Tesorería y Garantía de Sustitución (Art. 32 y 43)</h4>
@@ -6435,13 +6460,24 @@
     function populateBojaTable(highlightLineId) {
       const tbody = document.getElementById('bojaLinesBody');
       tbody.innerHTML = '';
+      const lbl = document.getElementById('lblBojaHighlightedLine');
+      if (lbl) {
+        const caseLabel = (currentTeam && currentTeam.assignedCaseObj)
+          ? `${currentTeam.assignedCaseObj.codeName} → ${highlightLineId}`
+          : highlightLineId;
+        lbl.textContent = caseLabel;
+      }
       BOJA_LINES.forEach(row => {
         const tr = document.createElement('tr');
-        if (row.id === highlightLineId || (highlightLineId === "L6" && row.id === "L1")) {
+        const isAssigned = (row.id === highlightLineId);
+        if (isAssigned) {
           tr.className = "highlight-row";
         }
+        const badgeHtml = isAssigned
+          ? `<div style="margin-top:4px;"><span style="background:var(--coral); color:#fff; font-size:0.72rem; font-weight:700; padding:2px 8px; border-radius:999px; display:inline-block;">🎯 Línea asignada a vuestro equipo</span></div>`
+          : '';
         tr.innerHTML = `
-          <td><strong>${row.id}</strong> (${row.art})</td>
+          <td><strong>${row.id}</strong> (${row.art})${badgeHtml}</td>
           <td>${row.emp}</td>
           <td>${row.col}</td>
           <td><strong>${row.imp}</strong></td>
@@ -6556,26 +6592,26 @@
       const halfPay = subv / 2;
 
       document.getElementById('outCost24').textContent = `${cost24.toLocaleString('es-ES')} €`;
-      document.getElementById('outCostSub').textContent = `Año 1: ${Math.round(costYear).toLocaleString('es-ES')} € · 2 años: ${cost24.toLocaleString('es-ES')} €`;
+      document.getElementById('outCostSub').textContent = `Año 1: ${Math.round(costYear).toLocaleString('es-ES')} € · Acumulado 24 meses (2 años): ${cost24.toLocaleString('es-ES')} €`;
       document.getElementById('outSubvTotal').textContent = `${subv.toLocaleString('es-ES')} €`;
       document.getElementById('outSplitPay').textContent = `Pago: ${halfPay.toLocaleString('es-ES')} € (Res.) + ${halfPay.toLocaleString('es-ES')} € (Mes 12)`;
       document.getElementById('outCoveragePct').textContent = `${covPct.toFixed(1)} %`;
-      document.getElementById('outNetCost').textContent = `Coste neto empresa: ${neto24.toLocaleString('es-ES')} €`;
+      document.getElementById('outNetCost').textContent = `Coste neto empresa (24 meses): ${neto24.toLocaleString('es-ES')} €`;
       document.getElementById('outFseAmount').textContent = `${fse85.toLocaleString('es-ES')} €`;
       document.getElementById('outJaAmount').textContent = `Aportación Junta (15%): ${ja15.toLocaleString('es-ES')} €`;
 
-      // Verificación Art. 31.1.d: 18 * SMI mensual (1.134 * 14 / 12 = 1.323 €/mes ref -> 23.814 € en 18m)
+      // Verificación Art. 31.1.d: 18 × SMI mensual prorrateado (1.134 € × 14/12 = 1.323 €/mes -> 23.814 € en 18 meses = 15.876 €/año)
       const earn18m = (salary / 12) * 18;
-      const smi18m = 1134 * 1.16667 * 18; // 23.814 €
+      const smi18m = 23814; // 18 × 1.323 €/mes (equivale a 15.876 €/año en 14 pagas)
       const smiBox = document.getElementById('simSmiCheck');
-      if (earn18m >= 23814) {
+      if (earn18m >= smi18m) {
         smiBox.style.background = "var(--success-bg)";
         smiBox.style.color = "var(--success)";
-        smiBox.textContent = `✓ Cumple suelo salarial Art. 31.1.d: ${Math.round(earn18m).toLocaleString('es-ES')} € en 18 meses (≥ 18 × SMI prorrateado).`;
+        smiBox.textContent = `✓ Cumple suelo salarial Art. 31.1.d: ${Math.round(earn18m).toLocaleString('es-ES')} € cotizados en 18 meses (≥ 23.814 € = 18 × SMI prorrateado, equiv. a 15.876 €/año).`;
       } else {
         smiBox.style.background = "var(--danger-bg)";
         smiBox.style.color = "var(--danger)";
-        smiBox.textContent = `✗ Alerta Art. 31.1.d: ${Math.round(earn18m).toLocaleString('es-ES')} € en 18 meses (< umbral 18 × SMI).`;
+        smiBox.textContent = `✗ Alerta Art. 31.1.d: ${Math.round(earn18m).toLocaleString('es-ES')} € cotizados en 18 meses (< mínimo legal de 23.814 € = 18 × SMI prorrateado / 15.876 €/año).`;
       }
 
       const ctx = document.getElementById('simBarChart').getContext('2d');
@@ -6583,7 +6619,7 @@
       simChartInstance = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: ['Coste Total 24m', 'Estructura Financiación'],
+          labels: ['Coste Total (24 meses)', 'Estructura Financiación'],
           datasets: [
             { label: 'Subvención Emplea-T (€)', data: [subv, 0], backgroundColor: '#E98F71', stack: 'S1' },
             { label: 'Coste Neto Empresa (€)', data: [Math.max(0, neto24), 0], backgroundColor: '#113927', stack: 'S1' },
@@ -6655,7 +6691,7 @@
         q2Valid = false;
         inp.className = 'check-input incorrect';
         feed.className = 'check-feedback bad';
-        feed.textContent = `✗ Calcula: Subvención / Coste Total 24m (Salario × 1,316 × 2 = ${c.cost24Exact.toLocaleString('es-ES')} €) × 100.`;
+        feed.textContent = `✗ Calcula: Subvención / Coste Total en 24 meses (Salario × 1,316 × 2 = ${c.cost24Exact.toLocaleString('es-ES')} €) × 100.`;
       }
       checkAllUnlocked();
     }
