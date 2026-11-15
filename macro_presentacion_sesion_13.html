@@ -18,7 +18,7 @@
   --ink-1: #0b1c36; /* Deep Navy Oficial UPO */
   --ink-2: #122d4f;
   --paper: #f0f7ff;
-  --muted: #8faec4;
+  --muted: #94b2c7;
   --cobalt: #056caa; /* Cobalt Blue Oficial UPO */
   --azure: #0776b5;  /* Azure Wave Oficial UPO */
   --cyan: #00f2fe;   /* Neon Azure */
@@ -26,8 +26,8 @@
   --crimson: #e11d48;/* Deficit Crimson */
   --teal: #0d9488;
   --ok: #34d399;
-  --glass: rgba(255, 255, 255, 0.05);
-  --glass-line: rgba(255, 255, 255, 0.14);
+  --glass: rgba(255, 255, 255, 0.06);
+  --glass-line: rgba(255, 255, 255, 0.16);
   --f-display: "Outfit", "Familjen Grotesk", sans-serif;
   --f-serif: "Newsreader", Georgia, serif;
   --f-body: "Work Sans", "Segoe UI", sans-serif;
@@ -58,56 +58,56 @@ html, body {
 .watermark-layer svg { width: 100%; height: 100%; }
 
 .slide {
-  position: absolute; inset: 0; padding: 50px 80px 45px;
-  display: flex; flex-direction: column; gap: 16px;
-  opacity: 0; visibility: hidden; transition: opacity .4s ease, visibility 0s linear .4s;
+  position: absolute; inset: 0; padding: 40px 65px 35px;
+  display: flex; flex-direction: column; gap: 14px;
+  opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility 0s linear .35s;
   z-index: 2;
 }
-.slide.active { opacity: 1; visibility: visible; transition: opacity .4s ease; }
+.slide.active { opacity: 1; visibility: visible; transition: opacity .35s ease; }
 
 .slide-header {
   display: flex; justify-content: space-between; align-items: flex-start;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.12);
-  padding-bottom: 10px; margin-bottom: 4px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.16);
+  padding-bottom: 12px; margin-bottom: 6px;
 }
-.header-titles { display: flex; flex-direction: column; gap: 3px; }
+.header-titles { display: flex; flex-direction: column; gap: 4px; }
 .eyebrow {
-  font-family: var(--f-mono); font-size: 13px; font-weight: 700;
-  letter-spacing: .15em; text-transform: uppercase; color: var(--azure);
+  font-family: var(--f-mono); font-size: 15px; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--azure);
 }
 h1, h2 {
   font-family: var(--f-display); font-weight: 700; margin: 0;
-  letter-spacing: -0.02em; text-wrap: balance; line-height: 1.08;
+  letter-spacing: -0.02em; text-wrap: balance; line-height: 1.1;
 }
-h1 { font-size: 64px; color: #fff; }
-h2 { font-size: 38px; color: #fff; }
+h1 { font-size: 72px; color: #fff; }
+h2 { font-size: 45px; color: #fff; }
 .act {
-  font-family: var(--f-mono); font-size: 13px; letter-spacing: .14em;
-  text-transform: uppercase; color: var(--muted); opacity: .85;
-  background: rgba(255,255,255,0.06); padding: 5px 14px; border-radius: 99px;
+  font-family: var(--f-mono); font-size: 15px; font-weight: 600; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--muted); opacity: .9;
+  background: rgba(255,255,255,0.08); padding: 6px 18px; border-radius: 99px;
   border: 1px solid var(--glass-line);
 }
 
-.row { display: flex; gap: 32px; align-items: stretch; flex: 1; min-height: 0; }
-.col-text { flex: 0 0 560px; display: flex; flex-direction: column; gap: 14px; justify-content: center; }
-.col-fig { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; }
+.row { display: flex; gap: 28px; align-items: stretch; flex: 1; min-height: 0; }
+.col-text { flex: 1; display: flex; flex-direction: column; gap: 14px; }
+.col-fig { flex: 1.25; display: flex; align-items: center; justify-content: center; position: relative; }
 .glass {
   background: var(--glass); border: 1px solid var(--glass-line);
-  border-radius: 14px; backdrop-filter: blur(10px);
+  border-radius: 16px; backdrop-filter: blur(10px);
 }
 
 .card {
-  padding: 18px 24px; display: flex; flex-direction: column; gap: 8px;
+  padding: 24px 30px; display: flex; flex-direction: column; gap: 12px; flex: 1; justify-content: space-between;
 }
 .card-num {
-  font-family: var(--f-mono); font-size: 12px; font-weight: 700;
-  color: var(--gold); letter-spacing: .12em; text-transform: uppercase;
+  font-family: var(--f-mono); font-size: 14.5px; font-weight: 700;
+  color: var(--gold); letter-spacing: .14em; text-transform: uppercase;
 }
 .card-title {
-  font-family: var(--f-display); font-size: 20px; font-weight: 700; color: #fff;
+  font-family: var(--f-display); font-size: 25px; font-weight: 700; color: #fff; line-height: 1.2;
 }
 .card-body {
-  font-size: 15px; line-height: 1.48; color: var(--paper); opacity: 0.92;
+  font-size: 18px; line-height: 1.55; color: var(--paper); opacity: 0.95; margin: 0;
 }
 
 .interactive-panel {
@@ -116,35 +116,41 @@ h2 { font-size: 38px; color: #fff; }
 }
 .ctrl-row {
   display: flex; gap: 20px; align-items: center; justify-content: center;
-  background: rgba(0, 0, 0, 0.35); padding: 10px 18px; border-radius: 99px;
-  border: 1px solid var(--glass-line); margin-bottom: 14px;
+  background: rgba(0, 0, 0, 0.4); padding: 12px 22px; border-radius: 99px;
+  border: 1px solid var(--glass-line); margin-bottom: 12px;
 }
 .ctrl-btn {
   background: var(--glass); border: 1px solid var(--glass-line);
-  color: #fff; font-family: var(--f-display); font-size: 13.5px; font-weight: 600;
-  padding: 6px 16px; border-radius: 99px; cursor: pointer; transition: all .2s;
+  color: #fff; font-family: var(--f-display); font-size: 16px; font-weight: 600;
+  padding: 8px 22px; border-radius: 99px; cursor: pointer; transition: all .2s;
 }
 .ctrl-btn:hover { background: var(--azure); transform: translateY(-1px); }
 .ctrl-btn.active { background: var(--cobalt); border-color: var(--cyan); color: #fff; }
 
-.live-svg { width: 100%; height: 100%; max-height: 500px; }
+.live-svg { width: 100%; height: 100%; max-height: 540px; }
 
-/* Barra inferior */
+/* Barra inferior y HUD */
 .progress-bar {
-  position: absolute; bottom: 0; left: 0; height: 5px; width: 0%;
+  position: absolute; bottom: 0; left: 0; height: 6px; width: 0%;
   background: linear-gradient(90deg, var(--azure), var(--gold));
   transition: width .3s ease; z-index: 10;
 }
 .hud {
-  position: absolute; bottom: 14px; right: 28px;
-  font-family: var(--f-mono); font-size: 13px; color: var(--muted);
-  z-index: 10; display: flex; gap: 14px;
+  position: absolute; bottom: 12px; right: 28px;
+  font-family: var(--f-mono); font-size: 14.5px; color: var(--muted);
+  z-index: 10; display: flex; gap: 16px; align-items: center;
 }
+.hud-btn {
+  background: rgba(255,255,255,0.08); border: 1px solid var(--glass-line);
+  color: var(--paper); padding: 4px 10px; border-radius: 6px; cursor: pointer;
+  font-family: var(--f-mono); font-size: 12px;
+}
+.hud-btn:hover { background: var(--azure); }
 
 .math-hl {
-  font-size: 17px; color: #fff; background: rgba(5, 108, 170, 0.25);
-  padding: 8px 14px; border-radius: 8px; border-left: 4px solid var(--azure);
-  display: inline-block; margin: 4px 0;
+  font-size: 23px; color: #fff; background: rgba(5, 108, 170, 0.3);
+  padding: 12px 18px; border-radius: 10px; border-left: 5px solid var(--azure);
+  display: inline-block; margin: 6px 0; text-align: center; width: 100%;
 }
 </style>
 </head>
@@ -160,18 +166,18 @@ h2 { font-size: 38px; color: #fff; }
 
   <!-- SLIDE 1: PORTADA OFICIAL -->
   <div class="slide cover active" data-slide="1">
-    <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:20px; z-index:2;">
-      <div style="display:flex; align-items:center; gap:16px;">
-        <span style="font-family:var(--f-mono); font-size:14px; font-weight:700; color:var(--gold); letter-spacing:.2em; text-transform:uppercase; background:rgba(255,190,11,0.12); padding:6px 14px; border-radius:99px; border:1px solid rgba(255,190,11,0.3);">
+    <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:24px; z-index:2;">
+      <div style="display:flex; align-items:center; gap:18px;">
+        <span style="font-family:var(--f-mono); font-size:16px; font-weight:700; color:var(--gold); letter-spacing:.2em; text-transform:uppercase; background:rgba(255,190,11,0.15); padding:8px 18px; border-radius:99px; border:1px solid rgba(255,190,11,0.35);">
           SESIÓN 13 · ENSEÑANZAS BÁSICAS (EB)
         </span>
-        <span style="font-family:var(--f-mono); font-size:14px; color:var(--muted);">DOBLE GRADO DER + FICO · UPO</span>
+        <span style="font-family:var(--f-mono); font-size:16px; color:var(--muted);">DOBLE GRADO DER + FICO · UPO</span>
       </div>
       <h1>Desanclaje vs. Reanclaje de Expectativas y el Modelo IS-LM-PC</h1>
-      <p style="font-size:24px; color:var(--paper); max-width:1050px; line-height:1.4; opacity:.95;">
+      <p style="font-size:28px; color:var(--paper); max-width:1150px; line-height:1.45; opacity:.96;">
         De la NAIRU a la Curva PC: el termostato de los Bancos Centrales, la brecha de producción (<i>Output Gap</i>) y la búsqueda del tipo de interés neutral ($r_n$).
       </p>
-      <div style="display:flex; gap:30px; margin-top:20px; font-family:var(--f-mono); font-size:14px; color:var(--muted);">
+      <div style="display:flex; gap:36px; margin-top:20px; font-family:var(--f-mono); font-size:16px; color:var(--muted);">
         <span>👨‍🏫 Prof. Manuel A. Hidalgo Pérez</span>
         <span>📍 Aula 03 · Edificio 7</span>
         <span>⏱️ 120 minutos íntegros</span>
@@ -189,31 +195,31 @@ h2 { font-size: 38px; color: #fff; }
       </div>
       <span class="act">PLAN DOCENTE 120 MIN</span>
     </div>
-    <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap:16px; margin-top:20px; flex:1;">
-      <div class="glass card" style="border-top: 4px solid var(--azure);">
+    <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap:18px; margin-top:14px; flex:1;">
+      <div class="glass card" style="border-top: 5px solid var(--azure); padding:24px 20px;">
         <span class="card-num">BLOQUE 1</span>
-        <span class="card-title">Apertura y Enlace</span>
-        <span class="card-body">Conexión con la Sesión 12: el enigma no resuelto de la persistencia de inflación y fijación de salarios.</span>
+        <span class="card-title" style="font-size:21px;">Apertura y Enlace</span>
+        <p class="card-body" style="font-size:16.5px;">Conexión con la Sesión 12: el enigma no resuelto de la persistencia de inflación y fijación de salarios.</p>
       </div>
-      <div class="glass card" style="border-top: 4px solid var(--cobalt);">
+      <div class="glass card" style="border-top: 5px solid var(--cobalt); padding:24px 20px;">
         <span class="card-num">BLOQUE 2</span>
-        <span class="card-title">Gancho y Choque</span>
-        <span class="card-body">Comparecencias de Lagarde/Powell sobre el tipo neutral ($r^*$) y microdatos empíricos 1960–2024.</span>
+        <span class="card-title" style="font-size:21px;">Gancho y Choque</span>
+        <p class="card-body" style="font-size:16.5px;">Comparecencias de Lagarde/Powell sobre el tipo neutral ($r^*$) y microdatos empíricos 1960–2024.</p>
       </div>
-      <div class="glass card" style="border-top: 4px solid var(--gold);">
+      <div class="glass card" style="border-top: 5px solid var(--gold); padding:24px 20px;">
         <span class="card-num">BLOQUE 3</span>
-        <span class="card-title">Núcleo Analítico</span>
-        <span class="card-body">Expectativas $\theta$, NAIRU ($u_n$), paso a la Curva PC ($Y - Y_n$) y modelo conjunto en 2 paneles.</span>
+        <span class="card-title" style="font-size:21px;">Núcleo Analítico</span>
+        <p class="card-body" style="font-size:16.5px;">Expectativas $\theta$, NAIRU ($u_n$), paso a la Curva PC ($Y - Y_n$) y modelo conjunto en 2 paneles.</p>
       </div>
-      <div class="glass card" style="border-top: 4px solid var(--teal);">
+      <div class="glass card" style="border-top: 5px solid var(--teal); padding:24px 20px;">
         <span class="card-num">BLOQUE 4</span>
-        <span class="card-title">Laboratorio Web</span>
-        <span class="card-body">Simulación interactiva con código QR: shocks de demanda, ajuste monetario y efecto expulsión.</span>
+        <span class="card-title" style="font-size:21px;">Laboratorio Web</span>
+        <p class="card-body" style="font-size:16.5px;">Simulación interactiva con código QR: shocks de demanda, ajuste monetario y efecto expulsión.</p>
       </div>
-      <div class="glass card" style="border-top: 4px solid var(--crimson);">
+      <div class="glass card" style="border-top: 5px solid var(--crimson); padding:24px 20px;">
         <span class="card-num">BLOQUE 5</span>
-        <span class="card-title">Reto y Cierre</span>
-        <span class="card-body">Código desclasificado de examen UPO, reto individual a mano y subida fotográfica por QR.</span>
+        <span class="card-title" style="font-size:21px;">Reto y Cierre</span>
+        <p class="card-body" style="font-size:16.5px;">Código desclasificado de examen UPO, reto individual a mano y subida fotográfica por QR.</p>
       </div>
     </div>
   </div>
@@ -228,31 +234,35 @@ h2 { font-size: 38px; color: #fff; }
       <span class="act">ENLACE SESIÓN 12</span>
     </div>
     <div class="row">
-      <div class="col-text" style="flex:1;">
+      <div class="col-text">
         <div class="glass card">
-          <span class="card-num" style="color:var(--cobalt);">LO QUE VIMOS EN LA SESIÓN 12</span>
-          <span class="card-title">Deducción desde el Mercado de Trabajo (WS-PS)</span>
-          <p class="card-body">
-            Partiendo de la fijación de salarios $W = P^e F(u, z)$ y la fijación de precios $P = (1+m)W$, dedujimos la ecuación general de inflación:
-          </p>
+          <div>
+            <span class="card-num" style="color:var(--cobalt);">LO QUE VIMOS EN LA SESIÓN 12</span>
+            <span class="card-title" style="display:block; margin:6px 0 10px;">Deducción desde el Mercado de Trabajo (WS-PS)</span>
+            <p class="card-body">
+              Partiendo de la fijación de salarios $W = P^e F(u, z)$ y la fijación de precios $P = (1+m)W$, dedujimos la ecuación general de inflación:
+            </p>
+          </div>
           <div class="math-hl">$$\pi_t = \pi_t^e + (m + z) - \alpha u_t$$</div>
           <p class="card-body">
-            En los años 60, con una inflación baja y estable en torno al 1-2%, los agentes económicos fijaban expectativas constantes sobre la meta: $\pi_t^e = \bar{\pi} \approx 0$. Había un aparente trade-off estable entre paro e inflación.
+            En los años 60, con una inflación baja y estable en torno al 1-2%, los agentes económicos fijaban expectativas constantes sobre la meta: $\pi_t^e = \bar{\pi} \approx 0$. Había un aparente trade-off estable entre paro e inflación que parecía durar para siempre.
           </p>
         </div>
       </div>
-      <div class="col-text" style="flex:1;">
+      <div class="col-text">
         <div class="glass card" style="border-color:var(--crimson);">
-          <span class="card-num" style="color:var(--crimson);">EL ENIGMA PENDIENTE DE HOY</span>
-          <span class="card-title">El Choque de los Años 70 y la Mutación de Expectativas</span>
-          <p class="card-body">
-            Tras los shocks del petróleo de 1973 y 1979, la inflación se volvió alta y persistente. Los agentes económicos cambiaron radicalmente de conducta:
-          </p>
-          <div class="math-hl" style="border-left-color:var(--crimson); background:rgba(225,29,72,0.2);">
+          <div>
+            <span class="card-num" style="color:var(--crimson);">EL ENIGMA PENDIENTE DE HOY</span>
+            <span class="card-title" style="display:block; margin:6px 0 10px;">El Choque de los Años 70 y la Mutación de Expectativas</span>
+            <p class="card-body">
+              Tras los shocks del petróleo de 1973 y 1979, la inflación se volvió alta y persistente. Los agentes económicos cambiaron radicalmente de conducta:
+            </p>
+          </div>
+          <div class="math-hl" style="border-left-color:var(--crimson); background:rgba(225,29,72,0.25);">
             $$\pi_t^e = \pi_{t-1}$$
           </div>
           <p class="card-body">
-            Si los trabajadores exigen que sus salarios compensen la inflación del año anterior, ¿puede el Gobierno mantener el paro bajo para siempre? Hoy demostraremos formalmente que esto conduce a una <strong>inflación acelerada</strong>.
+            Si los trabajadores exigen que sus salarios compensen la inflación del año anterior, ¿puede el Gobierno mantener el paro bajo permanentemente? Hoy demostraremos formalmente que esto conduce a una <strong>inflación en continua aceleración</strong>.
           </p>
         </div>
       </div>
@@ -271,32 +281,42 @@ h2 { font-size: 38px; color: #fff; }
     <div class="row">
       <div class="col-text" style="flex:1.2;">
         <div class="glass card">
-          <span class="card-num" style="color:var(--azure);">TITULARES Y DECLARACIONES OFICIALES</span>
-          <span class="card-title">«El tipo de interés neutral: la brújula invisible de la política monetaria»</span>
-          <p class="card-body" style="font-size:16px;">
+          <div>
+            <span class="card-num" style="color:var(--azure);">TITULARES Y DECLARACIONES OFICIALES</span>
+            <span class="card-title" style="display:block; margin:6px 0 10px;">«El tipo de interés neutral: la brújula invisible de la política monetaria»</span>
+          </div>
+          <p class="card-body">
             En cada rueda de prensa del BCE o la Fed, los periodistas repiten la misma pregunta a Christine Lagarde y Jerome Powell: <em>¿cuándo detendrán los movimientos de tipos?</em>
           </p>
-          <p class="card-body">
-            <strong>Christine Lagarde (BCE):</strong> <em>«No podemos guiarnos solo por la inflación del mes. Necesitamos saber con rigor a qué tipo real la economía europea no se frena ni se sobrecalienta».</em>
-          </p>
-          <p class="card-body">
-            <strong>Jerome Powell (Fed):</strong> <em>«El tipo neutral ($r^*$) es una estrella no observable directamente a simple vista, pero marca el destino final del ciclo monetario».</em>
-          </p>
+          <div style="background:rgba(255,255,255,0.05); padding:14px 18px; border-radius:10px; border-left:4px solid var(--cobalt);">
+            <p class="card-body" style="font-size:18px;">
+              <strong>Christine Lagarde (BCE):</strong> <em>«No podemos guiarnos solo por la inflación del mes. Necesitamos saber con rigor a qué tipo real la economía europea no se frena ni se sobrecalienta».</em>
+            </p>
+          </div>
+          <div style="background:rgba(255,255,255,0.05); padding:14px 18px; border-radius:10px; border-left:4px solid var(--azure);">
+            <p class="card-body" style="font-size:18px;">
+              <strong>Jerome Powell (Fed):</strong> <em>«El tipo neutral ($r^*$) es una estrella no observable directamente a simple vista, pero marca el destino final del ciclo monetario».</em>
+            </p>
+          </div>
         </div>
       </div>
       <div class="col-text" style="flex:0.8;">
-        <div class="glass card" style="border-color:var(--gold); background:rgba(255,190,11,0.06);">
-          <span class="card-num" style="color:var(--gold);">EL DESAFÍO MACROECONÓMICO</span>
-          <span class="card-title">El Termostato Monetario</span>
+        <div class="glass card" style="border-color:var(--gold); background:rgba(255,190,11,0.08);">
+          <div>
+            <span class="card-num" style="color:var(--gold);">EL DESAFÍO MACROECONÓMICO</span>
+            <span class="card-title" style="display:block; margin:6px 0 12px;">El Termostato Monetario</span>
+          </div>
           <p class="card-body">
             • Si el Banco Central fija un tipo real por debajo del neutral ($r < r_n$), la demanda agregada desborda la capacidad productiva y desata presiones inflacionistas incontroladas.
           </p>
           <p class="card-body">
             • Si lo fija por encima ($r > r_n$), genera una recesión con desempleo innecesario.
           </p>
-          <p class="card-body" style="color:var(--cyan); font-weight:600;">
-            El objetivo de esta sesión es derivar analíticamente el Modelo IS-LM-PC para calcular con precisión este valor de $r_n$.
-          </p>
+          <div style="background:rgba(0,242,254,0.12); padding:14px 18px; border-radius:10px; border:1px solid var(--cyan); margin-top:10px;">
+            <p class="card-body" style="color:var(--cyan); font-weight:600; font-size:18px;">
+              El objetivo de esta sesión es derivar analíticamente el Modelo IS-LM-PC para calcular con precisión este valor de $r_n$.
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -314,26 +334,30 @@ h2 { font-size: 38px; color: #fff; }
     <div class="row">
       <div class="col-text" style="flex:1.2;">
         <div class="glass card">
-          <span class="card-num" style="color:var(--azure);">SONDEO MENTIMETER · ESCANEA EN TU MÓVIL</span>
-          <span class="card-title">«Si el Banco Central quiere maximizar la producción y el empleo, ¿por qué no fija el tipo de interés real en el 0% para siempre?»</span>
-          <div style="display:flex; flex-direction:column; gap:10px; margin-top:12px;">
-            <div style="background:rgba(255,255,255,0.05); padding:10px 16px; border-radius:8px; border:1px solid var(--glass-line);">
+          <div>
+            <span class="card-num" style="color:var(--azure);">SONDEO MENTIMETER · ESCANEA EN TU MÓVIL</span>
+            <span class="card-title" style="display:block; margin:8px 0 14px; font-size:24px;">«Si el Banco Central quiere maximizar la producción y el empleo, ¿por qué no fija el tipo de interés real en el 0% para siempre?»</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:12px; margin-top:8px;">
+            <div style="background:rgba(255,255,255,0.06); padding:14px 18px; border-radius:10px; border:1px solid var(--glass-line); font-size:18px;">
               <strong>Opción A:</strong> Porque los bancos comerciales quebrarían al no tener margen de intermediación.
             </div>
-            <div style="background:rgba(13,148,136,0.18); padding:10px 16px; border-radius:8px; border:1px solid var(--teal); color:var(--paper);">
+            <div style="background:rgba(13,148,136,0.24); padding:14px 18px; border-radius:10px; border:2px solid var(--teal); color:var(--paper); font-size:18.5px;">
               <strong>Opción B (Correcta):</strong> Porque la demanda superaría el PIB potencial ($Y > Y_n$), provocando una aceleración continua de la inflación año tras año.
             </div>
-            <div style="background:rgba(255,255,255,0.05); padding:10px 16px; border-radius:8px; border:1px solid var(--glass-line);">
+            <div style="background:rgba(255,255,255,0.06); padding:14px 18px; border-radius:10px; border:1px solid var(--glass-line); font-size:18px;">
               <strong>Opción C:</strong> Porque el Estado recaudaría menos impuestos sobre la renta del capital.
             </div>
           </div>
         </div>
       </div>
       <div class="col-text" style="flex:0.8;">
-        <div class="glass card" style="border-color:var(--cyan); text-align:center;">
-          <span class="card-num" style="color:var(--cyan);">CLAVE COGNITIVA</span>
-          <span class="card-title">El Límite Físico de la Economía</span>
-          <p class="card-body" style="text-align:left;">
+        <div class="glass card" style="border-color:var(--cyan); justify-content:center; gap:20px;">
+          <div>
+            <span class="card-num" style="color:var(--cyan);">CLAVE COGNITIVA</span>
+            <span class="card-title" style="display:block; margin:8px 0 14px;">El Límite Físico de la Economía</span>
+          </div>
+          <p class="card-body" style="font-size:18.5px;">
             La intuición popular asume que bajar tipos siempre es deseable. La macroeconomía demuestra que cuando la economía sobrepasa su nivel de pleno empleo, no se genera más riqueza real, sino que el exceso de dinero persigue una oferta limitada, disparando la espiral salarios-precios.
           </p>
         </div>
@@ -341,7 +365,7 @@ h2 { font-size: 38px; color: #fff; }
     </div>
   </div>
 
-  <!-- SLIDE 6: BLOQUE 2 - CHOQUE EMPÍRICO (SVG NATIVO AUTOCONTENIDO) -->
+  <!-- SLIDE 6: BLOQUE 2 - CHOQUE EMPÍRICO -->
   <div class="slide" data-slide="6">
     <div class="slide-header">
       <div class="header-titles">
@@ -351,9 +375,9 @@ h2 { font-size: 38px; color: #fff; }
       <span class="act">DATOS HISTÓRICOS 1960–2024</span>
     </div>
     <div class="row">
-      <div class="col-fig" style="flex:1.2;">
+      <div class="col-fig" style="flex:1.25;">
         
-<svg class="live-svg" viewBox="0 0 760 480" style="background:#071527; border-radius:14px; border:1px solid rgba(255,255,255,0.14);">
+<svg class="live-svg" viewBox="0 0 780 500" style="background:#071527; border-radius:16px; border:1px solid rgba(255,255,255,0.16);">
   <defs>
     <linearGradient id="grad60" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#00f2fe"/>
@@ -361,88 +385,89 @@ h2 { font-size: 38px; color: #fff; }
     </linearGradient>
   </defs>
   <!-- Grid lines -->
-  <line x1="80" y1="400" x2="710" y2="400" stroke="#1e3a5f" stroke-width="1.5"/>
-  <line x1="80" y1="330" x2="710" y2="330" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="4,4"/>
-  <line x1="80" y1="260" x2="710" y2="260" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="4,4"/>
-  <line x1="80" y1="190" x2="710" y2="190" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="4,4"/>
-  <line x1="80" y1="120" x2="710" y2="120" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="4,4"/>
-  <line x1="80" y1="50" x2="710" y2="50" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="85" y1="420" x2="730" y2="420" stroke="#1e3a5f" stroke-width="1.5"/>
+  <line x1="85" y1="350" x2="730" y2="350" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="85" y1="280" x2="730" y2="280" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="85" y1="210" x2="730" y2="210" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="85" y1="140" x2="730" y2="140" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="85" y1="65" x2="730" y2="65" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="4,4"/>
 
   <!-- Ejes -->
-  <line x1="80" y1="40" x2="80" y2="400" stroke="#cbd5e1" stroke-width="2"/>
-  <line x1="80" y1="400" x2="710" y2="400" stroke="#cbd5e1" stroke-width="2"/>
+  <line x1="85" y1="45" x2="85" y2="420" stroke="#cbd5e1" stroke-width="2.5"/>
+  <line x1="85" y1="420" x2="730" y2="420" stroke="#cbd5e1" stroke-width="2.5"/>
 
   <!-- Ticks Y: Inflación -->
-  <text x="65" y="405" fill="#8faec4" font-family="Outfit" font-size="12" text-anchor="end">0%</text>
-  <text x="65" y="335" fill="#8faec4" font-family="Outfit" font-size="12" text-anchor="end">3%</text>
-  <text x="65" y="265" fill="#8faec4" font-family="Outfit" font-size="12" text-anchor="end">6%</text>
-  <text x="65" y="195" fill="#8faec4" font-family="Outfit" font-size="12" text-anchor="end">9%</text>
-  <text x="65" y="125" fill="#8faec4" font-family="Outfit" font-size="12" text-anchor="end">12%</text>
-  <text x="65" y="55" fill="#8faec4" font-family="Outfit" font-size="12" text-anchor="end">15%</text>
-  <text x="25" y="45" fill="#8faec4" font-family="Outfit" font-size="13" font-weight="bold" transform="rotate(-90 25,45)">Tasa de Inflación (π, %)</text>
+  <text x="70" y="425" fill="#8faec4" font-family="Outfit" font-size="14" text-anchor="end">0%</text>
+  <text x="70" y="355" fill="#8faec4" font-family="Outfit" font-size="14" text-anchor="end">3%</text>
+  <text x="70" y="285" fill="#8faec4" font-family="Outfit" font-size="14" text-anchor="end">6%</text>
+  <text x="70" y="215" fill="#8faec4" font-family="Outfit" font-size="14" text-anchor="end">9%</text>
+  <text x="70" y="145" fill="#8faec4" font-family="Outfit" font-size="14" text-anchor="end">12%</text>
+  <text x="70" y="70" fill="#8faec4" font-family="Outfit" font-size="14" text-anchor="end">15%</text>
+  <text x="28" y="45" fill="#8faec4" font-family="Outfit" font-size="15" font-weight="bold" transform="rotate(-90 28,45)">Tasa de Inflación (π, %)</text>
 
   <!-- Ticks X: Desempleo -->
-  <text x="140" y="425" fill="#8faec4" font-family="Outfit" font-size="12" text-anchor="middle">4%</text>
-  <text x="250" y="425" fill="#8faec4" font-family="Outfit" font-size="12" text-anchor="middle">6%</text>
-  <text x="360" y="425" fill="#8faec4" font-family="Outfit" font-size="12" text-anchor="middle">8%</text>
-  <text x="470" y="425" fill="#8faec4" font-family="Outfit" font-size="12" text-anchor="middle">10%</text>
-  <text x="580" y="425" fill="#8faec4" font-family="Outfit" font-size="12" text-anchor="middle">12%</text>
-  <text x="705" y="425" fill="#8faec4" font-family="Outfit" font-size="13" font-weight="bold" text-anchor="end">Desempleo (u, %)</text>
+  <text x="145" y="445" fill="#8faec4" font-family="Outfit" font-size="14" text-anchor="middle">4%</text>
+  <text x="260" y="445" fill="#8faec4" font-family="Outfit" font-size="14" text-anchor="middle">6%</text>
+  <text x="375" y="445" fill="#8faec4" font-family="Outfit" font-size="14" text-anchor="middle">8%</text>
+  <text x="490" y="445" fill="#8faec4" font-family="Outfit" font-size="14" text-anchor="middle">10%</text>
+  <text x="605" y="445" fill="#8faec4" font-family="Outfit" font-size="14" text-anchor="middle">12%</text>
+  <text x="725" y="445" fill="#8faec4" font-family="Outfit" font-size="15" font-weight="bold" text-anchor="end">Desempleo (u, %)</text>
 
   <!-- Meta 2% horizontal -->
-  <line x1="80" y1="353" x2="710" y2="353" stroke="#0d9488" stroke-width="2" stroke-dasharray="6,4"/>
-  <rect x="520" y="338" width="180" height="22" rx="4" fill="#0d9488" opacity="0.3"/>
-  <text x="610" y="353" fill="#34d399" font-family="Outfit" font-size="12" font-weight="bold" text-anchor="middle">Meta Oficial Banco Central (2%)</text>
+  <line x1="85" y1="373" x2="730" y2="373" stroke="#0d9488" stroke-width="2.5" stroke-dasharray="6,4"/>
+  <rect x="520" y="355" width="205" height="26" rx="5" fill="#0d9488" opacity="0.35"/>
+  <text x="622" y="372" fill="#34d399" font-family="Outfit" font-size="13" font-weight="bold" text-anchor="middle">Meta Oficial Banco Central (2%)</text>
 
   <!-- Regresión Años 60 (Curva inversa) -->
-  <path d="M 120 270 Q 220 340 380 375" fill="none" stroke="#00f2fe" stroke-width="3" stroke-dasharray="5,3"/>
+  <path d="M 125 290 Q 230 365 390 395" fill="none" stroke="#00f2fe" stroke-width="3.5" stroke-dasharray="5,3"/>
   <!-- Puntos Años 60 (Azul) -->
-  <circle cx="125" cy="275" r="7" fill="#00f2fe"/>
-  <circle cx="150" cy="295" r="7" fill="#00f2fe"/>
-  <circle cx="180" cy="320" r="7" fill="#00f2fe"/>
-  <circle cx="225" cy="345" r="7" fill="#00f2fe"/>
-  <circle cx="260" cy="360" r="7" fill="#00f2fe"/>
-  <circle cx="310" cy="370" r="7" fill="#00f2fe"/>
+  <circle cx="130" cy="295" r="8" fill="#00f2fe"/>
+  <circle cx="155" cy="315" r="8" fill="#00f2fe"/>
+  <circle cx="190" cy="340" r="8" fill="#00f2fe"/>
+  <circle cx="235" cy="365" r="8" fill="#00f2fe"/>
+  <circle cx="270" cy="380" r="8" fill="#00f2fe"/>
+  <circle cx="320" cy="390" r="8" fill="#00f2fe"/>
 
   <!-- Puntos Años 70-80 (Carmesí - Estanflación dispersa) -->
-  <rect x="250" y="195" width="14" height="14" fill="#e11d48"/>
-  <rect x="315" y="115" width="14" height="14" fill="#e11d48"/>
-  <rect x="350" y="248" width="14" height="14" fill="#e11d48"/>
-  <rect x="390" y="222" width="14" height="14" fill="#e11d48"/>
-  <rect x="435" y="85" width="14" height="14" fill="#e11d48"/>
-  <rect x="445" y="255" width="14" height="14" fill="#e11d48"/>
-  <rect x="330" y="145" width="14" height="14" fill="#e11d48"/>
-  <rect x="240" y="130" width="14" height="14" fill="#e11d48"/>
+  <rect x="260" y="210" width="16" height="16" fill="#e11d48" rx="2"/>
+  <rect x="325" y="125" width="16" height="16" fill="#e11d48" rx="2"/>
+  <rect x="365" y="260" width="16" height="16" fill="#e11d48" rx="2"/>
+  <rect x="405" y="235" width="16" height="16" fill="#e11d48" rx="2"/>
+  <rect x="450" y="95" width="16" height="16" fill="#e11d48" rx="2"/>
+  <rect x="460" y="270" width="16" height="16" fill="#e11d48" rx="2"/>
+  <rect x="345" y="155" width="16" height="16" fill="#e11d48" rx="2"/>
+  <rect x="250" y="140" width="16" height="16" fill="#e11d48" rx="2"/>
 
   <!-- Puntos 90-2020 (Verde - Anclaje sobre el 2%) -->
-  <polygon points="140,350 148,362 132,362" fill="#34d399"/>
-  <polygon points="170,348 178,360 162,360" fill="#34d399"/>
-  <polygon points="200,355 208,367 192,367" fill="#34d399"/>
-  <polygon points="250,358 258,370 242,370" fill="#34d399"/>
-  <polygon points="330,360 338,372 322,372" fill="#34d399"/>
-  <polygon points="360,362 368,374 352,374" fill="#34d399"/>
+  <polygon points="145,365 155,380 135,380" fill="#34d399"/>
+  <polygon points="175,363 185,378 165,378" fill="#34d399"/>
+  <polygon points="210,370 220,385 200,385" fill="#34d399"/>
+  <polygon points="260,372 270,387 250,387" fill="#34d399"/>
+  <polygon points="340,375 350,390 330,390" fill="#34d399"/>
+  <polygon points="375,377 385,392 365,392" fill="#34d399"/>
 
-  <!-- Alerta flecha estanflación -->
-  <path d="M 460 70 L 390 110" stroke="#e11d48" stroke-width="2" marker-end="url(#arrow)"/>
-  <rect x="460" y="45" width="230" height="42" rx="6" fill="rgba(225,29,72,0.25)" stroke="#e11d48"/>
-  <text x="575" y="62" fill="#ff4d6d" font-family="Outfit" font-size="12" font-weight="bold" text-anchor="middle">Años 70: Colapso del trade-off</text>
-  <text x="575" y="78" fill="#fff" font-family="Outfit" font-size="11" text-anchor="middle">Expectativas desancladas (θ=1)</text>
+  <!-- Alerta estanflación -->
+  <rect x="460" y="45" width="250" height="46" rx="6" fill="rgba(225,29,72,0.25)" stroke="#e11d48"/>
+  <text x="585" y="64" fill="#ff4d6d" font-family="Outfit" font-size="13.5" font-weight="bold" text-anchor="middle">Años 70: Colapso del trade-off</text>
+  <text x="585" y="82" fill="#fff" font-family="Outfit" font-size="12" text-anchor="middle">Expectativas desancladas (θ = 1)</text>
 
-  <!-- Leyenda -->
-  <rect x="95" y="55" width="260" height="90" rx="8" fill="rgba(6,17,31,0.85)" stroke="#1e3a5f"/>
-  <circle cx="115" cy="75" r="5" fill="#00f2fe"/>
-  <text x="130" y="79" fill="#paper" font-family="Outfit" font-size="12">1960–1969: Phillips clásica (θ = 0)</text>
-  <rect x="110" y="93" width="10" height="10" fill="#e11d48"/>
-  <text x="130" y="102" fill="#paper" font-family="Outfit" font-size="12">1970–1985: Estanflación (θ = 1)</text>
-  <polygon points="115,118 120,126 110,126" fill="#34d399"/>
-  <text x="130" y="125" fill="#paper" font-family="Outfit" font-size="12">1990–2020: Metas oficiales (BCE al 2%)</text>
+  <!-- Leyenda ampliada -->
+  <rect x="100" y="60" width="280" height="98" rx="8" fill="rgba(6,17,31,0.9)" stroke="#1e3a5f"/>
+  <circle cx="120" cy="80" r="6" fill="#00f2fe"/>
+  <text x="138" y="85" fill="#paper" font-family="Outfit" font-size="13.5">1960–1969: Phillips clásica (θ = 0)</text>
+  <rect x="113" y="99" width="13" height="13" fill="#e11d48" rx="2"/>
+  <text x="138" y="110" fill="#paper" font-family="Outfit" font-size="13.5">1970–1985: Estanflación (θ = 1)</text>
+  <polygon points="120,126 127,137 113,137" fill="#34d399"/>
+  <text x="138" y="135" fill="#paper" font-family="Outfit" font-size="13.5">1990–2020: Metas oficiales (BCE al 2%)</text>
 </svg>
 
       </div>
-      <div class="col-text" style="flex:0.8;">
+      <div class="col-text" style="flex:0.75;">
         <div class="glass card">
-          <span class="card-num" style="color:var(--cobalt);">LECTURA DE LOS MICRODATOS</span>
-          <span class="card-title">Tres Fases en la Historia</span>
+          <div>
+            <span class="card-num" style="color:var(--cobalt);">LECTURA DE LOS MICRODATOS</span>
+            <span class="card-title" style="display:block; margin:6px 0 12px;">Tres Fases en la Historia</span>
+          </div>
           <p class="card-body">
             <strong>1. Años 60 (Puntos Azules):</strong> Relación inversa limpia y predecible. La política de demanda parecía omnipotente.
           </p>
@@ -467,10 +492,12 @@ h2 { font-size: 38px; color: #fff; }
       <span class="act">PIZARRA ANALÍTICA</span>
     </div>
     <div class="row">
-      <div class="col-text" style="flex:1;">
+      <div class="col-text">
         <div class="glass card">
-          <span class="card-num" style="color:var(--cobalt);">ECUACIÓN GENERAL DE EXPECTATIVAS</span>
-          <span class="card-title">Ponderación entre Anclaje y Memoria Reciente</span>
+          <div>
+            <span class="card-num" style="color:var(--cobalt);">ECUACIÓN GENERAL DE EXPECTATIVAS</span>
+            <span class="card-title" style="display:block; margin:6px 0 10px;">Ponderación entre Anclaje y Memoria Reciente</span>
+          </div>
           <div class="math-hl">
             $$\pi_t^e = (1 - \theta)\bar{\pi} + \theta \pi_{t-1}$$
           </div>
@@ -484,23 +511,25 @@ h2 { font-size: 38px; color: #fff; }
           </p>
         </div>
       </div>
-      <div class="col-text" style="flex:1;">
+      <div class="col-text">
         <div class="glass card" style="border-color:var(--azure);">
-          <span class="card-num" style="color:var(--azure);">SUSTITUCIÓN EN LA ECUACIÓN DE PRECIOS</span>
-          <span class="card-title">Las Dos Consecuencias para la Inflación</span>
+          <div>
+            <span class="card-num" style="color:var(--azure);">SUSTITUCIÓN EN LA ECUACIÓN DE PRECIOS</span>
+            <span class="card-title" style="display:block; margin:6px 0 10px;">Las Dos Consecuencias para la Inflación</span>
+          </div>
           <div class="math-hl">
             $$\pi_t = (1 - \theta)\bar{\pi} + \theta \pi_{t-1} - \alpha (u_t - u_n)$$
           </div>
-          <p class="card-body">
-            <strong>Régimen Anclado ($\theta = 0$):</strong>
-            $$\pi_t - \bar{\pi} = - \alpha (u_t - u_n)$$
-            Si $u < u_n$, la inflación es superior a la meta, pero <em>se mantiene constante</em>.
-          </p>
-          <p class="card-body">
-            <strong>Régimen Adaptativo ($\theta = 1$):</strong>
-            $$\pi_t - \pi_{t-1} = - \alpha (u_t - u_n)$$
-            Si $u < u_n$, la inflación <em>se acelera año tras año</em> ($\Delta \pi_t > 0$).
-          </p>
+          <div style="background:rgba(5,108,170,0.16); padding:12px 16px; border-radius:10px; margin-bottom:8px;">
+            <p class="card-body">
+              <strong>Régimen Anclado ($\theta = 0$):</strong> $\pi_t - \bar{\pi} = - \alpha (u_t - u_n)$. Si $u < u_n$, la inflación supera la meta, pero <em>se mantiene constante</em>.
+            </p>
+          </div>
+          <div style="background:rgba(225,29,72,0.18); padding:12px 16px; border-radius:10px; border-left:4px solid var(--crimson);">
+            <p class="card-body">
+              <strong>Régimen Adaptativo ($\theta = 1$):</strong> $\pi_t - \pi_{t-1} = - \alpha (u_t - u_n)$. Si $u < u_n$, la inflación <em>se acelera año tras año</em> ($\Delta \pi_t > 0$).
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -516,10 +545,12 @@ h2 { font-size: 38px; color: #fff; }
       <span class="act">SIMULADOR EN PANTALLA</span>
     </div>
     <div class="row">
-      <div class="col-text" style="flex:0 0 520px;">
+      <div class="col-text" style="flex:0.85;">
         <div class="glass card" style="border-color:var(--crimson);">
-          <span class="card-num" style="color:var(--crimson);">DEFINICIÓN Y CONDICIÓN DE ESTABILIDAD</span>
-          <span class="card-title">La Tasa Natural $u_n$</span>
+          <div>
+            <span class="card-num" style="color:var(--crimson);">DEFINICIÓN Y CONDICIÓN DE ESTABILIDAD</span>
+            <span class="card-title" style="display:block; margin:6px 0 10px;">La Tasa Natural $u_n$</span>
+          </div>
           <div class="math-hl" style="border-left-color:var(--crimson);">
             $$u_n = \frac{m + z}{\alpha}$$
           </div>
@@ -531,37 +562,37 @@ h2 { font-size: 38px; color: #fff; }
             • Si $u_t > u_n \implies \pi_t - \pi_{t-1} < 0$ (Inflación desacelerándose).<br>
             • Si $u_t = u_n \implies \pi_t - \pi_{t-1} = 0$ (Inflación constante).
           </p>
-          <p class="card-body" style="color:var(--gold); font-weight:600;">
-            ¡Compruébalo en el gráfico dinámico de la derecha alternando el régimen $\theta$!
+          <p class="card-body" style="color:var(--gold); font-weight:600; font-size:18px;">
+            ¡Compruébalo a la derecha alternando el régimen $\theta$!
           </p>
         </div>
       </div>
-      <div class="col-fig" style="flex:1;">
+      <div class="col-fig" style="flex:1.15;">
         <div class="glass interactive-panel">
           <div class="ctrl-row">
-            <span style="font-family:var(--f-mono); font-size:12px; color:var(--muted); text-transform:uppercase;">Régimen de Expectativas:</span>
-            <button class="ctrl-btn active" id="btn-anchored" onclick="setRegime(0)">Expectativas Ancladas (θ = 0)</button>
-            <button class="ctrl-btn" id="btn-adaptive" onclick="setRegime(1)">Expectativas Adaptativas (θ = 1)</button>
+            <span style="font-family:var(--f-mono); font-size:14px; color:var(--muted); text-transform:uppercase;">Régimen:</span>
+            <button class="ctrl-btn active" id="btn-anchored" onclick="setRegime(0)">Ancladas (θ = 0)</button>
+            <button class="ctrl-btn" id="btn-adaptive" onclick="setRegime(1)">Adaptativas (θ = 1)</button>
           </div>
           <svg class="live-svg" id="nairu-svg" viewBox="0 0 700 400">
-            <line x1="80" y1="340" x2="650" y2="340" stroke="#cbd5e1" stroke-width="2"/>
-            <line x1="80" y1="40" x2="80" y2="340" stroke="#cbd5e1" stroke-width="2"/>
-            <text x="650" y="375" fill="#8faec4" font-family="Outfit" font-size="14" text-anchor="end">Año transcurrido (t)</text>
-            <text x="35" y="50" fill="#8faec4" font-family="Outfit" font-size="14" transform="rotate(-90 35,50)">Tasa de Inflación (π, %)</text>
-            <text x="80" y="360" fill="#8faec4" font-family="Outfit" font-size="12" text-anchor="middle">t=0</text>
-            <text x="220" y="360" fill="#8faec4" font-family="Outfit" font-size="12" text-anchor="middle">t=1</text>
-            <text x="360" y="360" fill="#8faec4" font-family="Outfit" font-size="12" text-anchor="middle">t=2</text>
-            <text x="500" y="360" fill="#8faec4" font-family="Outfit" font-size="12" text-anchor="middle">t=3</text>
-            <text x="640" y="360" fill="#8faec4" font-family="Outfit" font-size="12" text-anchor="middle">t=4</text>
-            <line x1="80" y1="280" x2="650" y2="280" stroke="#0d9488" stroke-width="2" stroke-dasharray="5,5"/>
-            <text x="645" y="272" fill="#0d9488" font-family="Outfit" font-size="12" text-anchor="end">Meta π = 2%</text>
-            <path id="nairu-path" d="M 80 280 L 220 200 L 360 200 L 500 200 L 640 200" fill="none" stroke="#056caa" stroke-width="4"/>
-            <circle id="p0" cx="80" cy="280" r="6" fill="#ffbe0b"/>
-            <circle id="p1" cx="220" cy="200" r="6" fill="#00f2fe"/>
-            <circle id="p2" cx="360" cy="200" r="6" fill="#00f2fe"/>
-            <circle id="p3" cx="500" cy="200" r="6" fill="#00f2fe"/>
-            <circle id="p4" cx="640" cy="200" r="6" fill="#00f2fe"/>
-            <text id="nairu-legend" x="230" y="180" fill="#00f2fe" font-family="Outfit" font-size="14" font-weight="bold">Inflación constante al 4% (Estable)</text>
+            <line x1="80" y1="340" x2="650" y2="340" stroke="#cbd5e1" stroke-width="2.5"/>
+            <line x1="80" y1="40" x2="80" y2="340" stroke="#cbd5e1" stroke-width="2.5"/>
+            <text x="650" y="375" fill="#8faec4" font-family="Outfit" font-size="15" text-anchor="end">Año transcurrido (t)</text>
+            <text x="35" y="50" fill="#8faec4" font-family="Outfit" font-size="15" transform="rotate(-90 35,50)">Tasa de Inflación (π, %)</text>
+            <text x="80" y="365" fill="#8faec4" font-family="Outfit" font-size="14" text-anchor="middle">t=0</text>
+            <text x="220" y="365" fill="#8faec4" font-family="Outfit" font-size="14" text-anchor="middle">t=1</text>
+            <text x="360" y="365" fill="#8faec4" font-family="Outfit" font-size="14" text-anchor="middle">t=2</text>
+            <text x="500" y="365" fill="#8faec4" font-family="Outfit" font-size="14" text-anchor="middle">t=3</text>
+            <text x="640" y="365" fill="#8faec4" font-family="Outfit" font-size="14" text-anchor="middle">t=4</text>
+            <line x1="80" y1="280" x2="650" y2="280" stroke="#0d9488" stroke-width="2.5" stroke-dasharray="5,5"/>
+            <text x="645" y="272" fill="#0d9488" font-family="Outfit" font-size="14" font-weight="bold" text-anchor="end">Meta π = 2%</text>
+            <path id="nairu-path" d="M 80 280 L 220 200 L 360 200 L 500 200 L 640 200" fill="none" stroke="#056caa" stroke-width="4.5"/>
+            <circle id="p0" cx="80" cy="280" r="7" fill="#ffbe0b"/>
+            <circle id="p1" cx="220" cy="200" r="7" fill="#00f2fe"/>
+            <circle id="p2" cx="360" cy="200" r="7" fill="#00f2fe"/>
+            <circle id="p3" cx="500" cy="200" r="7" fill="#00f2fe"/>
+            <circle id="p4" cx="640" cy="200" r="7" fill="#00f2fe"/>
+            <text id="nairu-legend" x="230" y="175" fill="#00f2fe" font-family="Outfit" font-size="16" font-weight="bold">Inflación constante al 4% (Estable)</text>
           </svg>
         </div>
       </div>
@@ -578,28 +609,31 @@ h2 { font-size: 38px; color: #fff; }
       <span class="act">INTEGRACIÓN FACTORES</span>
     </div>
     <div class="row">
-      <div class="col-text" style="flex:1;">
+      <div class="col-text">
         <div class="glass card">
-          <span class="card-num" style="color:var(--cobalt);">RELACIONES ESTRUCTURALES BÁSICAS</span>
-          <span class="card-title">Producción, Empleo y Tasa de Paro</span>
+          <div>
+            <span class="card-num" style="color:var(--cobalt);">RELACIONES ESTRUCTURALES BÁSICAS</span>
+            <span class="card-title" style="display:block; margin:6px 0 10px;">Producción, Empleo y Tasa de Paro</span>
+          </div>
           <p class="card-body">
             <strong>1. Función de Producción:</strong> Asumimos rendimientos constantes donde cada trabajador ocupado produce una unidad de PIB ($A = 1$):
           </p>
           <div class="math-hl">$$Y = N$$</div>
           <p class="card-body">
-            <strong>2. Definición del Empleo y Desempleo:</strong> Siendo $L$ la población activa y $u$ la tasa de paro:
+            <strong>2. Empleo y Paro:</strong> $N = L(1 - u) \implies Y = L(1 - u) \implies u = 1 - \frac{Y}{L}$
           </p>
-          <div class="math-hl">$$N = L(1 - u) \implies Y = L(1 - u) \implies u = 1 - \frac{Y}{L}$$</div>
           <p class="card-body">
-            <strong>3. Producción Potencial ($Y_n$):</strong> Es el nivel de PIB asociado a la tasa natural de paro $u_n$:
+            <strong>3. Producción Potencial ($Y_n$):</strong> Es el nivel de PIB asociado a la tasa natural $u_n$:
           </p>
           <div class="math-hl">$$Y_n = L(1 - u_n) \implies u_n = 1 - \frac{Y_n}{L}$$</div>
         </div>
       </div>
-      <div class="col-text" style="flex:1;">
+      <div class="col-text">
         <div class="glass card" style="border-color:var(--gold);">
-          <span class="card-num" style="color:var(--gold);">LA DIFERENCIA CRUCIAL</span>
-          <span class="card-title">Conexión Inversa entre Paro y Producción</span>
+          <div>
+            <span class="card-num" style="color:var(--gold);">LA DIFERENCIA CRUCIAL</span>
+            <span class="card-title" style="display:block; margin:6px 0 10px;">Conexión Inversa entre Paro y Producción</span>
+          </div>
           <div class="math-hl" style="border-left-color:var(--gold);">
             $$u - u_n = \left(1 - \frac{Y}{L}\right) - \left(1 - \frac{Y_n}{L}\right) = - \frac{Y - Y_n}{L}$$
           </div>
@@ -610,17 +644,14 @@ h2 { font-size: 38px; color: #fff; }
             • Si la producción supera el potencial ($Y > Y_n$), la empresa necesita contratar más personal, reduciendo el paro por debajo de su nivel natural ($u < u_n$).
           </p>
           <p class="card-body">
-            • Si la economía cae en recesión ($Y < Y_n$), se destruye empleo y el desempleo se sitúa por encima del natural ($u > u_n$).
-          </p>
-          <p class="card-body" style="color:var(--cyan); font-weight:600;">
-            Esta relación algebraica traduce directamente el desempleo a la Brecha de Producción (Output Gap).
+            • Si la economía cae en recesión ($Y < Y_n$), se destruye empleo y el desempleo sube por encima del natural ($u > u_n$).
           </p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- SLIDE 10: DEDUCCIÓN DE LA CURVA PC (SVG NATIVO AUTOCONTENIDO) -->
+  <!-- SLIDE 10: DEDUCCIÓN DE LA CURVA PC -->
   <div class="slide" data-slide="10">
     <div class="slide-header">
       <div class="header-titles">
@@ -630,55 +661,54 @@ h2 { font-size: 38px; color: #fff; }
       <span class="act">LA RELACIÓN PC</span>
     </div>
     <div class="row">
-      <div class="col-fig" style="flex:1.2;">
+      <div class="col-fig" style="flex:1.25;">
         
-<svg class="live-svg" viewBox="0 0 760 480" style="background:#071527; border-radius:14px; border:1px solid rgba(255,255,255,0.14);">
+<svg class="live-svg" viewBox="0 0 780 500" style="background:#071527; border-radius:16px; border:1px solid rgba(255,255,255,0.16);">
   <!-- Eje X: Producción Y -->
-  <line x1="80" y1="240" x2="710" y2="240" stroke="#cbd5e1" stroke-width="2"/>
+  <line x1="85" y1="250" x2="730" y2="250" stroke="#cbd5e1" stroke-width="2.5"/>
   <!-- Eje Y: π - πe -->
-  <line x1="380" y1="40" x2="380" y2="440" stroke="#cbd5e1" stroke-width="2"/>
+  <line x1="390" y1="35" x2="390" y2="465" stroke="#cbd5e1" stroke-width="2.5"/>
 
-  <!-- Etiquetas de Ejes -->
-  <text x="705" y="230" fill="#8faec4" font-family="Outfit" font-size="14" font-weight="bold" text-anchor="end">Producción (Y)</text>
-  <text x="395" y="60" fill="#8faec4" font-family="Outfit" font-size="14" font-weight="bold">Sorpresa Inflación (π - πᵉ)</text>
-  <text x="395" y="230" fill="#ffbe0b" font-family="Outfit" font-size="14" font-weight="bold">Yₙ (Potencial)</text>
-  <text x="370" y="255" fill="#8faec4" font-family="Outfit" font-size="13" text-anchor="end">0 (π = πᵉ)</text>
+  <!-- Etiquetas de Ejes ampliadas -->
+  <text x="725" y="238" fill="#8faec4" font-family="Outfit" font-size="16" font-weight="bold" text-anchor="end">Producción (Y)</text>
+  <text x="405" y="55" fill="#8faec4" font-family="Outfit" font-size="16" font-weight="bold">Sorpresa Inflación (π - πᵉ)</text>
+  <text x="405" y="240" fill="#ffbe0b" font-family="Outfit" font-size="16" font-weight="bold">Yₙ (Potencial)</text>
+  <text x="375" y="268" fill="#8faec4" font-family="Outfit" font-size="15" text-anchor="end">0 (π = πᵉ)</text>
 
   <!-- Curva PC con pendiente positiva -->
-  <line x1="120" y1="410" x2="640" y2="70" stroke="#00f2fe" stroke-width="4.5"/>
-  <rect x="560" y="55" width="150" height="30" rx="6" fill="rgba(0,242,254,0.18)" stroke="#00f2fe"/>
-  <text x="635" y="75" fill="#00f2fe" font-family="Outfit" font-size="14" font-weight="bold" text-anchor="middle">Curva PC (Pendiente α/L)</text>
+  <line x1="120" y1="430" x2="660" y2="70" stroke="#00f2fe" stroke-width="5"/>
+  <rect x="570" y="55" width="170" height="34" rx="6" fill="rgba(0,242,254,0.2)" stroke="#00f2fe"/>
+  <text x="655" y="77" fill="#00f2fe" font-family="Outfit" font-size="15" font-weight="bold" text-anchor="middle">Curva PC (Pendiente α/L)</text>
 
   <!-- Zona Recesión (Y < Yn) -->
-  <rect x="90" y="245" width="280" height="180" fill="rgba(5,108,170,0.12)" rx="8"/>
-  <text x="230" y="280" fill="#8faec4" font-family="Outfit" font-size="14" font-weight="bold" text-anchor="middle">Brecha Negativa (Y &lt; Yₙ)</text>
-  <text x="230" y="305" fill="#8faec4" font-family="Segoe UI" font-size="12" text-anchor="middle">Holgura laboral (u &gt; uₙ)</text>
-  <text x="230" y="325" fill="#34d399" font-family="Segoe UI" font-size="13" font-weight="bold" text-anchor="middle">Inflación cae: π &lt; πᵉ</text>
+  <rect x="95" y="255" width="290" height="195" fill="rgba(5,108,170,0.14)" rx="8"/>
+  <text x="240" y="295" fill="#8faec4" font-family="Outfit" font-size="16" font-weight="bold" text-anchor="middle">Brecha Negativa (Y &lt; Yₙ)</text>
+  <text x="240" y="322" fill="#8faec4" font-family="Segoe UI" font-size="14" text-anchor="middle">Holgura laboral (u &gt; uₙ)</text>
+  <text x="240" y="346" fill="#34d399" font-family="Segoe UI" font-size="15" font-weight="bold" text-anchor="middle">Inflación cae: π &lt; πᵉ</text>
 
   <!-- Zona Sobrecalentamiento (Y > Yn) -->
-  <rect x="390" y="55" width="310" height="180" fill="rgba(225,29,72,0.12)" rx="8"/>
-  <text x="545" y="115" fill="#ffbe0b" font-family="Outfit" font-size="14" font-weight="bold" text-anchor="middle">Brecha Positiva (Y &gt; Yₙ)</text>
-  <text x="545" y="140" fill="#8faec4" font-family="Segoe UI" font-size="12" text-anchor="middle">Tensión de mano de obra (u &lt; uₙ)</text>
-  <text x="545" y="160" fill="#e11d48" font-family="Segoe UI" font-size="13" font-weight="bold" text-anchor="middle">Inflación se acelera: π &gt; πᵉ</text>
+  <rect x="400" y="55" width="320" height="190" fill="rgba(225,29,72,0.14)" rx="8"/>
+  <text x="560" y="115" fill="#ffbe0b" font-family="Outfit" font-size="16" font-weight="bold" text-anchor="middle">Brecha Positiva (Y &gt; Yₙ)</text>
+  <text x="560" y="142" fill="#8faec4" font-family="Segoe UI" font-size="14" text-anchor="middle">Tensión de mano de obra (u &lt; uₙ)</text>
+  <text x="560" y="166" fill="#e11d48" font-family="Segoe UI" font-size="15" font-weight="bold" text-anchor="middle">Inflación se acelera: π &gt; πᵉ</text>
 
   <!-- Punto de Equilibrio En -->
-  <circle cx="380" cy="240" r="9" fill="#ffbe0b"/>
-  <circle cx="380" cy="240" r="16" fill="none" stroke="#ffbe0b" stroke-width="2" stroke-dasharray="3,3"/>
-  <text x="360" y="220" fill="#ffbe0b" font-family="Outfit" font-size="16" font-weight="bold">Eₙ</text>
+  <circle cx="390" cy="250" r="10" fill="#ffbe0b"/>
+  <circle cx="390" cy="250" r="18" fill="none" stroke="#ffbe0b" stroke-width="2.5" stroke-dasharray="4,4"/>
+  <text x="368" y="230" fill="#ffbe0b" font-family="Outfit" font-size="18" font-weight="bold">Eₙ</text>
 
   <!-- Fórmula destacada -->
-  <rect x="100" y="65" width="250" height="42" rx="8" fill="rgba(11,28,54,0.9)" stroke="#056caa"/>
-  <text x="225" y="92" fill="#fff" font-family="Outfit" font-size="15" font-weight="bold" text-anchor="middle">π - πᵉ = (α / L) · (Y - Yₙ)</text>
+  <rect x="105" y="65" width="270" height="48" rx="8" fill="rgba(11,28,54,0.92)" stroke="#056caa"/>
+  <text x="240" y="95" fill="#fff" font-family="Outfit" font-size="17" font-weight="bold" text-anchor="middle">π - πᵉ = (α / L) · (Y - Yₙ)</text>
 </svg>
 
       </div>
-      <div class="col-text" style="flex:0.8;">
+      <div class="col-text" style="flex:0.75;">
         <div class="glass card" style="border-color:var(--azure);">
-          <span class="card-num" style="color:var(--azure);">ECUACIÓN ESTRUCTURAL DE LA CURVA PC</span>
-          <span class="card-title">Sustitución Directa</span>
-          <p class="card-body">
-            Insertando $u - u_n = -\frac{Y - Y_n}{L}$ en la ecuación de Phillips:
-          </p>
+          <div>
+            <span class="card-num" style="color:var(--azure);">ECUACIÓN ESTRUCTURAL DE LA CURVA PC</span>
+            <span class="card-title" style="display:block; margin:6px 0 10px;">Sustitución Directa</span>
+          </div>
           <div class="math-hl">
             $$\pi - \pi^e = \frac{\alpha}{L}(Y - Y_n)$$
           </div>
@@ -707,26 +737,30 @@ h2 { font-size: 38px; color: #fff; }
     </div>
     <div class="row">
       <div class="col-text" style="flex:1.2;">
-        <div class="glass card" style="border-color:var(--gold); background:rgba(255,190,11,0.06);">
-          <span class="card-num" style="color:var(--gold);">DILEMA CONCEPTUAL PARA DISCUTIR EN EL PUPITRE</span>
-          <span class="card-title">«Una economía con $Y_n = 1.000$ millones y expectativas adaptativas ($\theta = 1$). En el año 1 el PIB es 1.050 millones y la inflación fue del 4%. Si el Gobierno logra mantener el PIB en 1.050 millones también durante el año 2, ¿cuál será la inflación en el año 2?»</span>
-          <div style="display:flex; flex-direction:column; gap:10px; margin-top:14px;">
-            <div style="background:rgba(255,255,255,0.05); padding:10px 16px; border-radius:8px; border:1px solid var(--glass-line);">
+        <div class="glass card" style="border-color:var(--gold); background:rgba(255,190,11,0.08);">
+          <div>
+            <span class="card-num" style="color:var(--gold);">DILEMA CONCEPTUAL PARA DISCUTIR EN EL PUPITRE</span>
+            <span class="card-title" style="display:block; margin:8px 0 12px; font-size:23px;">«Una economía con $Y_n = 1.000$ millones y expectativas adaptativas ($\theta = 1$). En el año 1 el PIB es 1.050 millones y la inflación fue del 4%. Si el Gobierno logra mantener el PIB en 1.050 millones también durante el año 2, ¿cuál será la inflación en el año 2?»</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:10px; margin-top:8px;">
+            <div style="background:rgba(255,255,255,0.06); padding:14px 18px; border-radius:10px; border:1px solid var(--glass-line); font-size:18px;">
               <strong>Postura A:</strong> Se mantendrá constante en el 4%, porque el PIB no ha seguido aumentando (se ha estabilizado en 1.050).
             </div>
-            <div style="background:rgba(13,148,136,0.22); padding:10px 16px; border-radius:8px; border:1px solid var(--teal); color:var(--paper);">
+            <div style="background:rgba(13,148,136,0.25); padding:14px 18px; border-radius:10px; border:2px solid var(--teal); color:var(--paper); font-size:18.5px;">
               <strong>Postura B (Correcta):</strong> Subirá por encima del 4% (por ejemplo, al 6%), porque al estar $Y > Y_n$ la inflación se acelera en cada período sucesivo.
             </div>
-            <div style="background:rgba(255,255,255,0.05); padding:10px 16px; border-radius:8px; border:1px solid var(--glass-line);">
+            <div style="background:rgba(255,255,255,0.06); padding:14px 18px; border-radius:10px; border:1px solid var(--glass-line); font-size:18px;">
               <strong>Postura C:</strong> Volverá al 2% porque el mercado se acostumbra a producir 1.050 millones.
             </div>
           </div>
         </div>
       </div>
       <div class="col-text" style="flex:0.8;">
-        <div class="glass card" style="border-color:var(--cyan);">
-          <span class="card-num" style="color:var(--cyan);">FUNDAMENTO ANALÍTICO</span>
-          <span class="card-title">El Error Más Común en los Exámenes</span>
+        <div class="glass card" style="border-color:var(--cyan); justify-content:center; gap:20px;">
+          <div>
+            <span class="card-num" style="color:var(--cyan);">FUNDAMENTO ANALÍTICO</span>
+            <span class="card-title" style="display:block; margin:8px 0 12px;">El Error Más Común en Exámenes</span>
+          </div>
           <p class="card-body">
             Con expectativas adaptativas ($\theta = 1$), la brecha de producción $(Y - Y_n)$ determina la <strong>VARIACIÓN</strong> de la inflación:
           </p>
@@ -739,7 +773,7 @@ h2 { font-size: 38px; color: #fff; }
     </div>
   </div>
 
-  <!-- SLIDE 12: ARQUITECTURA DEL MODELO EN 2 PANELES (SVG NATIVO AUTOCONTENIDO) -->
+  <!-- SLIDE 12: ARQUITECTURA DEL MODELO EN 2 PANELES -->
   <div class="slide" data-slide="12">
     <div class="slide-header">
       <div class="header-titles">
@@ -749,61 +783,61 @@ h2 { font-size: 38px; color: #fff; }
       <span class="act">EL MODELO INTEGRADO</span>
     </div>
     <div class="row">
-      <div class="col-fig" style="flex:1.2;">
+      <div class="col-fig" style="flex:1.25;">
         
-<svg class="live-svg" viewBox="0 0 760 500" style="background:#071527; border-radius:14px; border:1px solid rgba(255,255,255,0.14);">
+<svg class="live-svg" viewBox="0 0 780 520" style="background:#071527; border-radius:16px; border:1px solid rgba(255,255,255,0.16);">
   <!-- PANEL SUPERIOR: MERCADO DE BIENES Y FINANCIERO -->
-  <!-- Ejes panel superior -->
-  <line x1="80" y1="210" x2="710" y2="210" stroke="#cbd5e1" stroke-width="1.8"/>
-  <line x1="80" y1="30" x2="80" y2="210" stroke="#cbd5e1" stroke-width="1.8"/>
-  <text x="705" y="200" fill="#8faec4" font-family="Outfit" font-size="12" font-weight="bold" text-anchor="end">Producción (Y)</text>
-  <text x="30" y="40" fill="#8faec4" font-family="Outfit" font-size="12" font-weight="bold" transform="rotate(-90 30,40)">Tipo real (r)</text>
-  <text x="90" y="45" fill="#00f2fe" font-family="Outfit" font-size="13" font-weight="bold">PANEL SUPERIOR: IS-LM</text>
+  <line x1="85" y1="220" x2="730" y2="220" stroke="#cbd5e1" stroke-width="2"/>
+  <line x1="85" y1="30" x2="85" y2="220" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="725" y="210" fill="#8faec4" font-family="Outfit" font-size="14" font-weight="bold" text-anchor="end">Producción (Y)</text>
+  <text x="32" y="45" fill="#8faec4" font-family="Outfit" font-size="14" font-weight="bold" transform="rotate(-90 32,45)">Tipo real (r)</text>
+  <text x="95" y="45" fill="#00f2fe" font-family="Outfit" font-size="15" font-weight="bold">PANEL SUPERIOR: IS-LM</text>
 
   <!-- Curva IS -->
-  <line x1="130" y1="50" x2="620" y2="195" stroke="#056caa" stroke-width="3.5"/>
-  <text x="630" y="195" fill="#056caa" font-family="Outfit" font-size="14" font-weight="bold">IS</text>
+  <line x1="135" y1="50" x2="640" y2="205" stroke="#056caa" stroke-width="4"/>
+  <text x="652" y="205" fill="#056caa" font-family="Outfit" font-size="16" font-weight="bold">IS</text>
 
   <!-- Recta LM (Tipo neutral rn) -->
-  <line x1="80" y1="120" x2="680" y2="120" stroke="#ffbe0b" stroke-width="3"/>
-  <text x="690" y="125" fill="#ffbe0b" font-family="Outfit" font-size="13" font-weight="bold">LM (rₙ)</text>
-  <text x="70" y="125" fill="#ffbe0b" font-family="Outfit" font-size="12" font-weight="bold" text-anchor="end">rₙ</text>
+  <line x1="85" y1="125" x2="700" y2="125" stroke="#ffbe0b" stroke-width="3.5"/>
+  <text x="710" y="130" fill="#ffbe0b" font-family="Outfit" font-size="15" font-weight="bold">LM (rₙ)</text>
+  <text x="72" y="130" fill="#ffbe0b" font-family="Outfit" font-size="14" font-weight="bold" text-anchor="end">rₙ</text>
 
   <!-- Punto A equilibrio superior -->
-  <circle cx="370" cy="120" r="7" fill="#ffbe0b"/>
-  <text x="385" y="115" fill="#ffbe0b" font-family="Outfit" font-size="15" font-weight="bold">A</text>
+  <circle cx="380" cy="125" r="8" fill="#ffbe0b"/>
+  <text x="398" y="118" fill="#ffbe0b" font-family="Outfit" font-size="17" font-weight="bold">A</text>
 
   <!-- Linea vertical de sincronizacion -->
-  <line x1="370" y1="120" x2="370" y2="440" stroke="#ffbe0b" stroke-width="2" stroke-dasharray="4,4"/>
-  <text x="375" y="240" fill="#ffbe0b" font-family="Outfit" font-size="12" font-weight="bold">Y = Yₙ</text>
+  <line x1="380" y1="125" x2="380" y2="460" stroke="#ffbe0b" stroke-width="2.5" stroke-dasharray="5,5"/>
+  <text x="390" y="250" fill="#ffbe0b" font-family="Outfit" font-size="14" font-weight="bold">Y = Yₙ</text>
 
   <!-- PANEL INFERIOR: CURVA PC -->
-  <!-- Ejes panel inferior -->
-  <line x1="80" y1="380" x2="710" y2="380" stroke="#cbd5e1" stroke-width="1.8"/>
-  <line x1="80" y1="260" x2="80" y2="470" stroke="#cbd5e1" stroke-width="1.8"/>
-  <text x="705" y="370" fill="#8faec4" font-family="Outfit" font-size="12" font-weight="bold" text-anchor="end">Producción (Y)</text>
-  <text x="25" y="280" fill="#8faec4" font-family="Outfit" font-size="12" font-weight="bold" transform="rotate(-90 25,280)">Sorpresa (π - πᵉ)</text>
-  <text x="90" y="275" fill="#00f2fe" font-family="Outfit" font-size="13" font-weight="bold">PANEL INFERIOR: CURVA PC</text>
+  <line x1="85" y1="395" x2="730" y2="395" stroke="#cbd5e1" stroke-width="2"/>
+  <line x1="85" y1="270" x2="85" y2="490" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="725" y="385" fill="#8faec4" font-family="Outfit" font-size="14" font-weight="bold" text-anchor="end">Producción (Y)</text>
+  <text x="28" y="290" fill="#8faec4" font-family="Outfit" font-size="14" font-weight="bold" transform="rotate(-90 28,290)">Sorpresa (π - πᵉ)</text>
+  <text x="95" y="285" fill="#00f2fe" font-family="Outfit" font-size="15" font-weight="bold">PANEL INFERIOR: CURVA PC</text>
 
   <!-- Curva PC inferior -->
-  <line x1="140" y1="460" x2="600" y2="290" stroke="#00f2fe" stroke-width="3.5"/>
-  <text x="610" y="295" fill="#00f2fe" font-family="Outfit" font-size="14" font-weight="bold">PC</text>
+  <line x1="145" y1="480" x2="620" y2="300" stroke="#00f2fe" stroke-width="4"/>
+  <text x="632" y="305" fill="#00f2fe" font-family="Outfit" font-size="16" font-weight="bold">PC</text>
 
   <!-- Punto A' en el corte con cero -->
-  <circle cx="370" cy="380" r="7" fill="#ffbe0b"/>
-  <text x="385" y="405" fill="#ffbe0b" font-family="Outfit" font-size="15" font-weight="bold">A' (π = πᵉ)</text>
-  <text x="70" y="385" fill="#8faec4" font-family="Outfit" font-size="12" text-anchor="end">0</text>
+  <circle cx="380" cy="395" r="8" fill="#ffbe0b"/>
+  <text x="398" y="420" fill="#ffbe0b" font-family="Outfit" font-size="17" font-weight="bold">A' (π = πᵉ)</text>
+  <text x="72" y="400" fill="#8faec4" font-family="Outfit" font-size="14" text-anchor="end">0</text>
 
   <!-- Insignia Medio Plazo -->
-  <rect x="470" y="30" width="220" height="34" rx="6" fill="rgba(255,190,11,0.15)" stroke="#ffbe0b"/>
-  <text x="580" y="52" fill="#ffbe0b" font-family="Outfit" font-size="12" font-weight="bold" text-anchor="middle">Equilibrio Medio Plazo: r = rₙ</text>
+  <rect x="480" y="30" width="240" height="38" rx="6" fill="rgba(255,190,11,0.18)" stroke="#ffbe0b"/>
+  <text x="600" y="54" fill="#ffbe0b" font-family="Outfit" font-size="13.5" font-weight="bold" text-anchor="middle">Equilibrio Medio Plazo: r = rₙ</text>
 </svg>
 
       </div>
-      <div class="col-text" style="flex:0.8;">
+      <div class="col-text" style="flex:0.75;">
         <div class="glass card">
-          <span class="card-num" style="color:var(--cobalt);">DOS PANELES SINCRONIZADOS</span>
-          <span class="card-title">Estructura del Modelo</span>
+          <div>
+            <span class="card-num" style="color:var(--cobalt);">DOS PANELES SINCRONIZADOS</span>
+            <span class="card-title" style="display:block; margin:6px 0 12px;">Estructura del Modelo</span>
+          </div>
           <p class="card-body">
             <strong>Panel Superior · Plano $(Y, r)$:</strong><br>
             • Curva IS: Demanda de bienes $Y = C + I(Y, r+x) + G$.<br>
@@ -819,7 +853,7 @@ h2 { font-size: 38px; color: #fff; }
     </div>
   </div>
 
-  <!-- SLIDE 13: EL TIPO DE INTERÉS NEUTRAL O NATURAL (rn) -->
+  <!-- SLIDE 13: EL TIPO DE INTERÉS NEUTRAL O NATURAL (rn) · REVISADA Y OPTIMIZADA -->
   <div class="slide" data-slide="13">
     <div class="slide-header">
       <div class="header-titles">
@@ -829,37 +863,47 @@ h2 { font-size: 38px; color: #fff; }
       <span class="act">EQUILIBRIO MEDIO PLAZO</span>
     </div>
     <div class="row">
-      <div class="col-text" style="flex:1;">
+      <div class="col-text">
         <div class="glass card">
-          <span class="card-num" style="color:var(--cobalt);">DEFINICIÓN FORMAL</span>
-          <span class="card-title">La Condición de Estabilidad de Medio Plazo</span>
-          <p class="card-body">
-            El <strong>tipo de interés neutral o natural ($r_n$)</strong> es el tipo de política monetaria exacto que hace coincidir la demanda de la IS con el PIB potencial:
-          </p>
-          <div class="math-hl">$$Y(r_n + x, G, T) = Y_n$$</div>
-          <p class="card-body">
-            <strong>Propiedades del Tipo Neutral:</strong><br>
-            • En el equilibrio de medio plazo ($r = r_n$), la brecha de producción es cero ($Y = Y_n$) y la inflación permanece estable sobre su meta ($\pi = \bar{\pi}$).<br>
-            • <em>No es una constante inmutable:</em> si aumenta el gasto público ($G$) o mejora la confianza, la IS se desplaza a la derecha y el valor de $r_n$ sube.
-          </p>
+          <div>
+            <span class="card-num" style="color:var(--cobalt);">DEFINICIÓN FORMAL</span>
+            <span class="card-title" style="display:block; margin:6px 0 10px;">La Condición de Estabilidad de Medio Plazo</span>
+            <p class="card-body">
+              El <strong>tipo de interés neutral o natural ($r_n$)</strong> es el tipo de política monetaria exacto que hace coincidir la demanda agregada de la curva IS con el PIB potencial:
+            </p>
+          </div>
+          <div class="math-hl" style="padding:16px 20px;">
+            $$Y(r_n + x, G, T) = Y_n$$
+          </div>
+          <div>
+            <p class="card-body" style="font-weight:700; color:var(--paper); margin-bottom:6px;">Propiedades del Tipo Neutral:</p>
+            <p class="card-body">
+              • <strong>Equilibrio de Medio Plazo:</strong> Si $r = r_n$, la brecha de producción se anula ($Y = Y_n$) y la inflación se estabiliza sobre su meta oficial ($\pi = \bar{\pi}$).<br>
+              • <strong>Dinámico y Variable:</strong> Si aumenta el gasto público ($G$) o sube la confianza, la curva IS se desplaza a la derecha y el valor de $r_n$ aumenta.
+            </p>
+          </div>
         </div>
       </div>
-      <div class="col-text" style="flex:1;">
+      <div class="col-text">
         <div class="glass card" style="border-color:var(--azure);">
-          <span class="card-num" style="color:var(--azure);">MECANISMO DE AJUSTE MONETARIO</span>
-          <span class="card-title">¿Qué Ocurre si el Banco Central Fija $r < r_n$?</span>
+          <div>
+            <span class="card-num" style="color:var(--azure);">MECANISMO DE AJUSTE MONETARIO</span>
+            <span class="card-title" style="display:block; margin:6px 0 10px;">¿Qué Ocurre si el Banco Central Fija $r < r_n$?</span>
+          </div>
           <p class="card-body">
-            <strong>1. A Corto Plazo:</strong> El crédito barato dispara el consumo y la inversión: la demanda supera el potencial ($Y > Y_n$).
+            <strong>1. A Corto Plazo:</strong> El crédito barato estimula consumo e inversión, situando la producción por encima del nivel potencial: $Y > Y_n$.
           </p>
           <p class="card-body">
-            <strong>2. En los Precios:</strong> Se desata una brecha positiva y la inflación se acelera año tras año ($\Delta \pi > 0$).
+            <strong>2. En los Precios:</strong> Se crea una brecha positiva de producción y la inflación se acelera de forma continua año tras año ($\Delta \pi > 0$).
           </p>
           <p class="card-body">
-            <strong>3. La Reacción Inevitable:</strong> Para frenar la aceleración, el Banco Central debe subir progresivamente los tipos de interés reales hasta situar $r = r_n$.
+            <strong>3. La Reacción Inevitable:</strong> Para detener la aceleración de precios, el Banco Central debe subir los tipos reales hasta situar $r = r_n$.
           </p>
-          <p class="card-body" style="color:var(--gold); font-weight:600;">
-            El Banco Central actúa como un termostato automático buscando calibrar $r$ con $r_n$.
-          </p>
+          <div style="background:rgba(255,190,11,0.12); padding:14px 18px; border-radius:10px; border-left:4px solid var(--gold); margin-top:6px;">
+            <p class="card-body" style="color:var(--gold); font-weight:700; font-size:18.5px;">
+              El Banco Central actúa como un termostato automático buscando calibrar $r$ con $r_n$.
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -877,28 +921,32 @@ h2 { font-size: 38px; color: #fff; }
     <div class="row">
       <div class="col-text" style="flex:1.2;">
         <div class="glass card" style="border-color:var(--teal);">
-          <span class="card-num" style="color:var(--teal);">INSTRUCCIONES DE LA PRÁCTICA EN AULA</span>
-          <span class="card-title">Desbloqueo de Dispositivos y Dinámica Web</span>
-          <p class="card-body" style="font-size:16px;">
+          <div>
+            <span class="card-num" style="color:var(--teal);">INSTRUCCIONES DE LA PRÁCTICA EN AULA</span>
+            <span class="card-title" style="display:block; margin:6px 0 12px;">Desbloqueo de Dispositivos y Dinámica Web</span>
+          </div>
+          <p class="card-body" style="font-size:19px;">
             Abrid vuestros ordenadores o leed el código QR con el móvil para interactuar con la aplicación del modelo IS-LM-PC.
           </p>
-          <p class="card-body">
-            <strong>Controles del Simulador:</strong><br>
-            • <em>Régimen de expectativas:</em> Conmuta entre $\theta = 0$ y $\theta = 1$.<br>
-            • <em>Tipo de interés oficial ($r$):</em> Sitúalo por debajo de $r_n$ para recrear el recalentamiento económico.<br>
-            • <em>Política fiscal ($G$):</em> Aplica un shock de gasto y observa cómo se traslada el tipo neutral necesario para el equilibrio.
-          </p>
-          <p class="card-body" style="color:var(--cyan); font-family:var(--f-mono); font-size:13px;">
+          <div style="background:rgba(13,148,136,0.15); padding:16px 20px; border-radius:12px; border-left:4px solid var(--teal);">
+            <p class="card-body" style="font-size:18px;">
+              <strong>Controles Clave del Simulador:</strong><br>
+              • <em>Régimen de expectativas:</em> Conmuta entre $\theta = 0$ y $\theta = 1$.<br>
+              • <em>Tipo de interés oficial ($r$):</em> Sitúalo por debajo de $r_n$ para recrear el recalentamiento económico.<br>
+              • <em>Política fiscal ($G$):</em> Aplica un shock de gasto y observa cómo se traslada el tipo neutral necesario para el equilibrio.
+            </p>
+          </div>
+          <p class="card-body" style="color:var(--cyan); font-family:var(--f-mono); font-size:15px;">
             URL: https://mhidper.github.io/micro_apps/macro_presentacion_sesion_13.html
           </p>
         </div>
       </div>
       <div class="col-text" style="flex:0.8; align-items:center;">
-        <div class="glass card" style="border-color:var(--teal); text-align:center; padding:24px;">
+        <div class="glass card" style="border-color:var(--teal); text-align:center; padding:28px; width:100%;">
           <span class="card-num" style="color:var(--teal);">ACCESO INMEDIATO</span>
-          <span class="card-title">Escanear para Abrir</span>
-          <img src="data:image/png;base64,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" alt="QR Acceso" style="width:210px; height:210px; margin:14px auto; border-radius:10px; background:#fff; padding:6px; display:block;">
-          <span style="font-family:var(--f-mono); font-size:12px; color:var(--muted);">Acceso libre sin registro</span>
+          <span class="card-title" style="display:block; margin:6px 0 10px;">Escanear para Abrir</span>
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAADbcAZoAAAQAElEQVR4AezbgXLbSJItUN79/3/GNu3usUVLMslKAFmFszGwBRJIZJ6EPHPjxfu/zf8RIECAAAECBAgQIEDgIIH/u/k/AgROEvBYAgQIECBAgMD1BASQ6+3cxAQIECBAgAABAgROExBATqP3YAIECBAgQIDA9QRMTEAA8Q4QIECAAAECBAgQIHCYgAByGPXjg5wTIECAAAECBAgQuJ6AAHK9nZuYAAECBAgQIECAwGkCAshp9B5MgAABAgSuJ2BiAgQICCDeAQIECBAgQIAAAQLrC7SZUABpswqNECBAgAABAgQIEFhfQABZf8cmfBRwToAAAQIECBAgcJqAAHIavQcTIEDgegImJkCAAAECAoh3gAABAgQIECCwvoAJCbQREEDarEIjBAgQIECAAAECBNYXuF4AWX+nJiRAgAABAgQIECDQVkAAabsajRFYT8BEBAgQIECAAAEBxDtAgAABAgTWFzAhAQIE2ggIIG1WoRECBAgQIECAAIH1BEz0KFAWQJLcEkeynsHjS/POedLD5Z3eH+9JesySrNPHo/FZ50kP04r5k3VmqfCoqJGMm1b00aVGMu6R9KjRxbSij2TctEsfyfgsiRpJrUHF+1EWQCqaUWNtAdMRIECAAAECBAgQEEC8AwQIEFhfwIQECBAgQKCNgADSZhUaIUCAAAECBNYTMBEBAo8CAsijiHMCBAgQIECAAAECBHYTOCyA7DaBwgQIECBAgAABAgQITCMggEyzKo0SeFvAjQQIECBAgACBNgICSJtVaIQAAQIE1hMwEQECBAg8CgggjyLOCRAgQIAAAQIE5hcwQVsBAaTtajRGgAABAgQIECBAYD0BAWS9nT5O5JwAAQIECBAgQIBAGwEBpM0qNEKAwHoCJiJAgAABAgQeBQSQRxHnBAgQIECAwPwCJiBAoK2AANJ2NRojQIAAAQIECBAgMJ/A3zoWQP4m5HsCBAgQIECAAAECBMoEBJAySoUIPAo4J0CAAAECBAgQeBQQQB5FnBMgQIDA/AImIECAAIG2Aq0CyLZtN0etQds3743GKt6NJLdk7Kjo443x/7hlpT6SsZ0k+cPn6h90eT+SDP/OJT1qdDHt8m5XeFTUqPBIxt+xLn10MK2wuNeomEWNj/+78u7a4WgVQDqA6IEAAQIECBAgQIAAgf0EBJDdbBUmQIAAAQIECBAgQOBRQAB5FHFOgMD8AiYgQIAAAQIE2goIIG1XozECBAgQIDCfgI4JECDwNwEB5G9CvidAgAABAgQIECDQX2CaDgWQaValUQIECBAgQIAAAQLzCwgg8+/QBI8CzgkQIECAAAECBNoKCCBtV6MxAgQIzCegYwIECBAg8DcBAeRvQr4nQIAAAQIECPQX0CGBaQQEkGlWpVECBAgQIECAAAEC8wusF0Dm34kJCBAgQIAAAQIECCwrIIAsu1qDEThewBMJECBAgAABAn8TEED+JuR7AgQIECDQX0CHBAgQmEZAAJlmVRolQIAAAQIECBDoJ6CjVwUEkFfFXE+AAAECBAgQIECAwNsCAsjbdG58FHBOgAABAgQIECBA4G8CywWQJLdkjeNvy7va98n4Xrdtu40eXdyTHh7JOn102e0bffxxSzK+lz+KTvzB6O/9/f6K8ZMee0nG+0jGa1SYqkHgO4Fk/D1NetT4bs7ZvlsugMy2AP0SIECAAAECMwvonQCBVwUEkFfFXE+AAAECBAgQIECAwNsCZQHk7Q7cSIAAAQIECBAgQIDAZQQEkMus2qALCxiNAAECBAgQIDCNgAAyzao0SoAAAQL9BHREgAABAq8KCCCvirmeAAECBAgQIEDgfAEdTCsggEy7Oo0TIECAAAECBAgQmE9AAJlvZ48dOydAgAABAgQIECAwjYAAMs2qNEqAQD8BHREgQIAAAQKvCgggr4q5ngABAgQIEDhfQAcECEwrIIBMuzqNEyBAgAABAgQIEDheYPSJAsiooPsJECBAgAABAgQIEHhaQAB5msqFBB4FnBMgQIAAAQIECLwqIIC8KuZ6AgQIEDhfQAcECBAgMK2AADLt6jROgAABAgQIEDhewBMJjAoIIKOC7idAgAABAgQIECBA4GkBAeRpqscLnRMgcBfYtu02eiS5JWPHaA+d7r+7rnJUuFZYJGPvV1Jzf4VHMt5LRR9d9lIxS0WNCo+KGsn4+1HRhxoEvhMQQL7T8R0BAj0FdEWAAAECBAhMKyCATLs6jRMgQIAAgeMFPJEAAQKjAgLIqKD7CRAgQIAAAQIECOwvsMwTBJBlVmkQAgQIECBAgAABAv0FBJD+O9Lho4BzAgQIECBAgACBaQUEkGlXp3ECBAgcL+CJBAgQIEBgVEAAGRV0PwECBAgQIEBgfwFPILCMgACyzCoNQoAAAQIECBAgQKC/wHwBpL+pDgkQIECAAAECBAgQ+EJAAPkCxscECPwp4BMCBAgQIECAwKiAADIq6H4CBAgQILC/gCcQIEBgGQEBZJlVGoQAAQIECBAgQKBeQMVqAQGkWlQ9AgQIECBAgAABAgS+FBBAvqTxxaOAcwIECBAgQIAAAQKjAgLIqKD7CRAgsL+AJxAgQIAAgWUEBJBlVmkQAgQIECBAoF5ARQIEqgUEkGpR9T4V2LbtNnp8WviED5PckrHjhLY/fWQyNkdSc//ou3G/P6npJRmr8yn0ix8mYz0kefGJ+12eZJnfl/t7NnokPTySHn2Met7vT3rMkvToY7/fZpUJ1Ak8HUDqHqkSAQIECBAgQIAAAQJXFRBArrp5c88koFcCBAgQIECAwDICAsgyqzQIAQIECNQLqEiAAAEC1QICSLWoegQIECBAgAABAuMCKiwrIIAsu1qDESBAgAABAgQIEOgnIID028ljR84JECBAgAABAgQILCMggCyzSoMQIFAvoCIBAgQIECBQLSCAVIuqR4AAAQIECIwLqECAwLICAsiyqzUYAQIECBAgQIAAgdcF9r5DANlbWH0CBAgQIECAAAECBP4nIID8j8IPBB4FnBMgQIAAAQIECFQLCCDVouoRIECAwLiACgQIECCwrIAAsuxqDUaAAAECBAgQeF3AHQT2FhBA9hZWnwABAgQIECBAgACB/wkIIP+jePzBOQECBAgQIECAAAEC1QICSLWoegQIjAuoQIAAAQIECCwrsFwA2bbttsqx0luX5JaMHRV77WLaZZYufSRj70aSktVWeCQZftcrhqmYpUuNCo+KGsn4bmcwfdaqYpZnn/XddRV9JOvstsLjO+/Zvqvw6FJjNvvv+l0ugHw3rO8IECBAgAABAgQINBW4TFsCyGVWbVACBAgQIECAAAEC5wsIIOfvQAePAs4JECBAgAABAgSWFRBAll2twQgQIPC6gDsIECBAgMDeAgLI3sLqEyBAgAABAgT+LuAKApcREEAus2qDEiBAgAABAgQIEDhfoF8AOd9EBwQIECBAgAABAgQI7CQggOwEqyyBGQX0TIAAAQIECBDYW0AA2VtYfQIECBAg8HcBVxAgQOAyAgLIZVZtUAIECBAgQIAAgT8FfHK0gABytLjnESBAgAABAgQIELiwgABy4eU/ju6cAAECBAgQIECAwN4CAsjewuoTIEDg7wKuIECAAAEClxEQQC6zaoMSIECAAAECfwr4hACBowUEkKPFPY8AAQIECBAgQIDAhQX+F0AubGB0AgQIECBAgAABAgQOEmgVQJLcEkdSZ3DQezTNY5Jx223bbqNH8qGPt9770R7u9yc9+qh4ge7zjB7JOh4Vpsm4R0UfFTVG3437/RV9VNRIxvdyn2f0SMb74PHRsItHRR8VNZKPPonzZMygYi8VNVoFkIqB1CBAgAABAs8LuJIAAQIEjhYQQI4W9zwCBAgQIECAAIHbjcFlBQSQy67e4AQIECBAgAABAgSOFxBAjjd/fKJzAgQIECBAgAABApcREEAus2qDEiDwp4BPCBAgQIAAgaMFBJCjxT2PAAECBAgQuN0YECBwWQEB5LKrNzgBAgQIECBAgMAVBc6eWQA5ewOeT4AAAQIECBAgQOBCAgLIhZZt1EcB5wQIECBAgAABAkcLCCBHi3seAQIECNxuDAgQIEDgsgICyGVXb3ACBAgQIEDgigJmJnC2gABy9gY8nwABAgQIECBAgMCFBC4cQC60ZaMSIECAAAECBAgQaCIggDRZhDYIXErAsAQIECBAgMBlBQSQy67e4AQIECBwRQEzEyBA4GwBAeTsDXg+AQIECBAgQIDAFQTM+K9AWQDZtu3mWNPg33dl6K+KdyPJLRk7KvoYgmh2c4VHMraTJCUqSYbfj4pGkh59VMxS8X5U9FFRI7GX3/dZYVpRI1lnLzw+Cvz+vvl5rf99+HHT752VBZD3Hu+uSwoYmgABAgQIECBA4LICAshlV29wAgSuKGBmAgQIECBwtoAAcvYGPJ8AAQIECBC4goAZCRD4V0AA+RfCXwQIECBAgAABAgQI7C9wfADZfyZPIECAAAECBAgQIECgqYAA0nQx2iKwh4CaBAgQIECAAIGzBQSQszfg+QQIECBwBQEzEiBAgMC/AgLIvxD+IkCAAAECBAgQWFHATN0EBJBuG9EPAQIECBAgQIAAgYUFBJCFl/s4mnMCBAgQIECAAAECZwsIIGdvwPMJELiCgBkJECBAgACBfwUEkH8h/EWAAAECBAisKGAmAgS6CQgg3TaiHwIECBAgQIAAAQIrCHwxgwDyBYyPCRAgQIAAAQIECBCoFxBA6k1VJPAo4JwAAQIECBAgQOBfAQHkXwh/ESBAgMCKAmYiQIAAgW4CZQEkyS05/+gCnJxvkdT00MV027bb6NFlli59JOPvyOhO7vdXeNzrdDgqZqmokYzvNulRo8Kjw7tx7yEZN63wSMb7uM/T4ajwqKjRwaKqhwqPHzUG/0jG39PBFn7cnoz3kaxT4wfK4B9lAWSwD7cTIECAAAECBAgQIHABAQFk/yV7AgECBAgQIECAAAEC/woIIP9C+IsAgRUFzESAAAECBAh0ExBAum1EPwQIECBAYAUBMxAgQOALAQHkCxgfEyBAgAABAgQIEJhRoHvPAkj3DemPAAECBAgQIECAwEICAshCyzTKo4BzAgQIECBAgACBbgICSLeN6IcAAQIrCJiBAAECBAh8ISCAfAHjYwIECBAgQIDAjAJ6JtBdQADpviH9ESBAgAABAgQIEFhIYOEAstCWjEKAAAECBAgQIEBgEQEBZJFFGoNAKwHNECBAgAABAgS+EBBAvoDxMQECBAgQmFFAzwQIEOguIIB035D+CBAgQIAAAQIEZhDQ45MCAsiTUC4jQIAAAQIECBAgQGBcQAAZN1ThUcA5AQIECBAgQIAAgS8ElgsgSW7J2PGF1Usfb9t2Gz1eeuAXF4/2cL//i9KX/TgZe7+SlNglGX7X7/sdPSqGGe3hfn9FHxU17r2ceaz47Iq9VNRIxn/n9DFumHysUfHOV+ylokbycbbknPMuasDfYAAAEABJREFUs1TsNhk3rOijwrSij4oaFbMsF0AqUNQgQIAAAQIECLwo4HICBJ4UEECehHIZAQIECBAgQIAAAQLjAvUBZLwnFQgQIECAAAECBAgQWFRAAFl0sca6poCpCRAgQIAAAQLdBQSQ7hvSHwECBAjMIKBHAgQIEHhSQAB5EsplBAgQIECAAAECHQX0NJuAADLbxvRLgAABAgQIECBAYGIBAWTi5T227pwAAQIECBAgQIBAdwEBpPuG9EeAwAwCeiRAgAABAgSeFBBAnoRyGQECBAgQINBRQE8ECMwmIIDMtjH9EiBAgAABAgQIEOgg8GYPAsibcG4jQIAAAQIECBAgQOB1AQHkdTN3EHgUcE6AAAECBAgQIPCkgADyJJTLCBAgQKCjgJ4IECBAYDYBAWS2jemXAAECBAgQINBBQA8E3hQQQN6EcxsBAgQIECBAgAABAq8LtAog27bdRo/XCf68I8ktefrY7dpRi/v9yfgcfwq9/knSo4/XO9/njvtuOhzJ+F6S8Rr7KM9bNelhmoz3kYzXqPhdmfdt2KfzCtOKGvtM93rVZPw9ff2pf95RYVpR48/Ozvkk6bGXc6b/86nJOh6tAsif1D4hQIDAdwK+I0CAAAECBGYTEEBm25h+CRAgQIBABwE9ECBA4E0BAeRNOLcRIECAAAECBAgQOENg9mcKILNvUP8ECBAgQIAAAQIEJhIQQCZallYfBZwTIECAAAECBAjMJiCAzLYx/RIgQKCDgB4IECBAgMCbAgLIm3BuI0CAAAECBAicIeCZBGYXEEBm36D+CRAgQIAAAQIECEwkMHEAmUhZqwQIECBAgAABAgQI/BAQQH4w+IMAgZcEXEyAAAECBAgQeFNAAHkTzm0ECBAgQOAMAc8kQIDA7AICyOwb1D8BAgQIECBAgMARAp5RJCCAFEEqQ4AAAQIECBAgQIDA3wUEkL8bueJRwDkBAgQIECBAgACBNwUEkDfh3EaAAIEzBDyTAAECBAjMLiCAzL5B/RMgQIAAAQJHCHgGAQJFAmUBZNu22+hRNNMyZZLckrFjdCf3+ytA73VGj4o+utRIxvaapGSU0Z3c7y9ppKBIkuHfl2S8RsEow/+WdtrLvZfRI7GX39+rUc/7/b/XO/Pney+jR0X/oz3c7096vKcVHhU17iajR0UfXWqMWlTd38Xj9QDSpXN9ECBAgAABAgQIECAwnYAAMt3KNHxlAbMTIECAAAECBGYXEEBm36D+CRAgQOAIAc8gQIAAgSIBAaQIUhkCBAgQIECAAIE9BNRcTUAAWW2j5iFAgAABAgQIECDQWEAAabycx9acEyBAgAABAgQIEJhdQACZfYP6J0DgCAHPIECAAAECBIoEBJAiSGUIECBAgACBPQTUJEBgNQEBZLWNmocAAQIECBAgQIBAhcBONQSQnWCVJUCAAAECBAgQIEDgTwEB5E8TnxB4FHBOgAABAgQIECBQJCCAFEEqQ4AAAQJ7CKhJgAABAqsJCCCrbdQ8BAgQIECAAIEKATUI7CQggOwEqywBAgQIECBAgAABAn8KCCB/mjx+4pwAAQIECBAgQIAAgSIBAaQIUhkCBPYQUJMAAQIECBBYTaBVAElyS8aOigVt23Zb5UjGPJOa+yv2slKNiverwiMZ329FH2rUCyR2W6+6TsXkiffjL9d00UjMkowbJLU1urwfFf99m4zbdPFIeszSKoB0WY4+CBAgQIAAAQIECJwlsPpzBZDVN2w+AgQIECBAgAABAo0EBJBGy9DKo4BzAgQIECBAgACB1QQEkNU2ah4CBAhUCKhBgAABAgR2EhBAdoJVlgABAgQIECDwjoB7CKwuIICsvmHzESBAgAABAgQIEGgk0DiANFLSCgECBAgQIECAAAECJQICSAmjIgQWEzAOAQIECBAgQGAnAQFkJ1hlCRAgQIDAOwLuIUCAwOoCAsjqGzYfAQIECBAgQIDAMwKuOUhAADkI2mMIECBAgAABAgQIELjdBBBvwZ8CPiFAgAABAgQIECCwk4AAshOssgQIEHhHwD0ECBAgQGB1AQFk9Q2bjwABAgQIEHhGwDUECBwkIIAcBO0xBAgQIECAAAECBAh89v8HhAoBAgQIECBAgAABAgR2Eij7fwFJckvGjm3bbh2OnaxPKVvhWdF4MvZuJKloo6TGnqavNJikxe/cKz3veW3FXipq7DnjK7XN8vG/T16x++raZJ3fuYr3Ixn3+Mr6lc+7zFLRxytz73ltxSxJj/ejwmklj4pZKkzLAkhFM2oQIECAAIGTBDyWAAECBA4SEEAOgvYYAgQIECBAgACBzwR8djUBAeRqGzcvAQIECBAgQIAAgRMFBJAT8R8f7ZwAAQIECBAgQIDA6gICyOobNh8BAs8IuIYAAQIECBA4SEAAOQjaYwgQIECAAIHPBHxGgMDVBASQq23cvAQIECBAgAABAgTuAicdAshJ8B5LgAABAgQIECBA4IoCAsgVt27mRwHnBAgQIECAAAECBwkIIAdBewwBAgQIfCbgMwIECBC4moAAcrWNm5cAAQIECBAgcBdwEDhJQAA5Cd5jCRAgQIAAAQIECFxRQAC53a64dzMTIECAAAECBAgQOEVAADmF3UMJEPgp4E8CBAgQIEDgagICyNU2bl4CBAgQIHAXcBAgQOAkAQHkJHiPJUCAAAECBAgQuKbA1acuCyDbtt1GjyS3ZI2j4sVKeliM7rXq/i6m+vj4Xq7k0WWW5KNxcs55F4+KPipqVPxblpyzy+Tjcys8KmokH/tKzjmv2G2FR5cayfgeVpolGffwjn18I8oCyMeyzgg8I+AaAgQIECBAgACBqwkIIFfbuHkJECBwF3AQIECAAIGTBASQk+A9lgABAgQIELimgKkJXF1AALn6G2B+AgQIECBAgAABAgcKnBhADpzSowgQIECAAAECBAgQaCEggLRYgyYIHCzgcQQIECBAgACBkwQEkJPgPZYAAQIErilgagIECFxdQAC5+htgfgIECBAgQIDANQRM2URAAGmyCG0QIECAAAECBAgQuIKAAHKFLT/O6JwAAQIECBAgQIDASQICyEnwHkuAwDUFTE2AAAECBK4uIIBc/Q0wPwECBAgQuIaAKQkQaCIggDRZhDYIECBAgAABAgQIrCnwcSoB5KOHMwIECBAgQIAAAQIEdhQQQHbEVZrAo4BzAgQIECBAgMDVBQSQq78B5idAgMA1BExJgAABAk0EWgWQbdtuHY4mu2lhcd9HhUeSWzJ2VPRRUSMZmyNJRRslNe77HT1KGikokqTFOzbqWXV/Aal/gwreqeTje1m139E6yce+ktfPR3uour/iXe9So8Kkyywf+3jvrMKjS433BOrvSl7/XU8+3lPRVasAUjGQGgQIECBAgAABAgQI9BUQQA7cjUcRIECAAAECBAgQuLqAAHL1N8D8BK4hYEoCBAgQIECgiYAA0mQR2iBAgAABAmsKmIoAAQIfBQSQjx7OCBAgQIAAAQIECKwh0HQKAaTpYrRFgAABAgQIECBAYEUBAWTFrZrpUcA5AQIECBAgQIBAEwEBpMkitEGAAIE1BUxFgAABAgQ+CgggHz2cESBAgAABAgTWEDAFgaYCAkjTxWiLAAECBAgQIECAwIoCVwggK+7NTAQIECBAgAABAgSmFBBAplybpgnMIqBPAgQIECBAgMBHAQHko4czAgQIECCwhoApCBAg0FRAAGm6GG0RIECAAAECBAjMKaDr7wUEkO99fEuAAAECBAgQIECAQKGAAFKIqdSjgHMCBAgQIECAAAECHwXKAkiSW7LGsW3bbfT4yHzeWdJjJ6Oe9/srFO91OhxdZlmpj4pZKmokTX7nmvw7lvTwqNhtxb8dybiHWSoE6msk47tNxmtUvKcVNSqEk3EPfXw0rPCoqFEWQCqaUYMAAQIECBAgMLuA/gkQ+F5AAPnex7cECBAgQIAAAQIECBQK7BhACrtUigABAgQIECBAgACBJQQEkCXWaAgCDwJOCRAgQIAAAQJNBQSQpovRFgECBAjMKaBrAgQIEPheQAD53se3BAgQIECAAAECcwjochIBAWSSRWmTAAECBAgQIECAwAoCAsgKW3ycwTkBAgQIECBAgACBpgICSNPFaIsAgTkFdE2AAAECBAh8LyCAfO/jWwIECBAgQGAOAV0SIDCJgAAyyaK0SYAAAQIECBAgQKCnwGtdCSCvebmaAAECBAgQIECAAIEBAQFkAM+tBB4FnBMgQIAAAQIECHwvIIB87+NbAgQIEJhDQJcECBAgMImAADLJorRJgAABAgQIEOgpoCsCrwkIIK95uZoAAQIECBAgQIAAgQGBsgCybdtt9BiY43+3jvZwv/9/xV78oePl93k6HF1sktyS848Kj2R8joo+utSoeM+TcdOKPrqYVvTRxaOij2T8/agwraiRrDNLl91W9GG3FQIfayTj73qX3Vb0UVHjo/B7Z2UB5L3Hu4sAAQIlAooQIECAAAECkwgIIJMsSpsECBAgQKCngK4IECDwmoAA8pqXqwkQIECAAAECBAj0EJi0CwFk0sVpmwABAgQIECBAgMCMAgLIjFvT86OAcwIECBAgQIAAgUkEBJBJFqVNAgQI9BTQFQECBAgQeE1AAHnNy9UECBAgQIAAgR4CuiAwqYAAMunitE2AAAECBAgQIEBgRoEVAsiM7nomQIAAAQIECBAgcEkBAeSSazc0gSoBdQgQIECAAAECrwkIIK95uZoAAQIECPQQ0AUBAgQmFRBAJl2ctgkQIECAAAECBM4R8NQxAQFkzM/dBAgQIECAAAECBAi8ICCAvIDl0kcB5wQIECBAgAABAgReExBAXvNyNQECBHoI6IIAAQIECEwqIIBMujhtEyBAgAABAucIeCoBAmMCrQLItm230SPJLTn/GFtL3d3JuEVdN2OVkvFZRt+v+/1jU9Tdfe9l9KjrZqzS6Bz3+5N13o/7PKPH2Ebq7k7G91LRTdKjj9G93u9PeszSZS/JOh73/Y4eXfZS0ceoRdX9yfg7lvSoUbGXihoDAaTi8WoQIECAAAECBAgQIHAlAQHkSts26zoCJiFAgAABAgQITCoggEy6OG0TIECAwDkCnkqAAAECYwICyJifuwkQIECAAAECBI4R8JRFBASQRRZpDAIECBAgQIAAAQIzCAggM2zpsUfnBAgQIECAAAECBCYVEEAmXZy2CRA4R8BTCRAgQIAAgTEBAWTMz90ECBAgQIDAMQKeQoDAIgICyCKLNAYBAgQIECBAgACBfQRqqwogtZ6qESBAgAABAgQIECDwjYAA8g2Orwg8CjgnQIAAAQIECBAYExBAxvzcTYAAAQLHCHgKAQIECCwiIIAsskhjECBAgAABAgT2EVCVQK2AAFLrqRoBAgQIECBAgAABAt8ICCDf4Dx+5ZwAAQIECBAgQIAAgTEBAWTMz90ECBwj4CkECBAgQIDAIgJlASTJLRk7uphu23YbPUk+ez8AABAASURBVFaaJRnba1Jz/0qmXWZJxndTMUuyTh/J+CzJeI2V9jL67/H9/gqPihrJ+G7v8xx7jP93Yvd+K3a7Uo0u+2Ja/7vXxbQsgHQZSB8ECBAgQIAAAQIElhBYdAgBZNHFGosAAQIECBAgQIBARwEBpONW9PQo4JwAAQIECBAgQGARAQFkkUUagwABAvsIqEqAAAECBGoFBJBaT9UIECBAgAABAjUCqhBYVEAAWXSxxiJAgAABAgQIECDQUWCGANLRTU8ECBAgQIAAAQIECLwhIIC8geYWAtcRMCkBAgQIECBAoFZAAKn1VI0AAQIECNQIqEKAAIFFBQSQRRdrLAIECBAgQIAAgfcE3LWvgACyr6/qBAgQIECAAAECBAj8JiCA/Ibhx0cB5wQIECBAgAABAgRqBQSQWk/VCBAgUCOgCgECBAgQWFRAAFl0scYiQIAAAQIE3hNwFwEC+woIIPv6qk6AAAECBAgQIECAwG8C3wSQ367yIwECBAgQIECAAAECBAoEygLItm230aNgnjYlktySNY42qAWNJOM7KWjj7yUmuiJh+vu6Rv8dvN//e713f07W2Uuyziz3/Y4e774Tv9+XjJsm4zV+7+ndn5PxPkZ3cr8/Ge/jXYPq+5LxWZJ1alT7nlkvGd9LRf9lAaSiGTUIECBAgMDZAp5PgAABAvsKCCD7+qpOgAABAgQIECDwnICrLiIggFxk0cYkQIAAAQIECBAg0EFAAOmwhccenBMgQIAAAQIECBBYVEAAWXSxxiJA4D0BdxEgQIAAAQL7Cggg+/qqToAAAQIECDwn4CoCBC4iIIBcZNHGJECAAAECBAgQIPC5wLGfCiDHensaAQIECBAgQIAAgUsLCCCXXr/hHwWcEyBAgAABAgQI7CsggOzrqzoBAgQIPCfgKgIECBC4iIAAcpFFG5MAAQIECBAg8LmATwkcKyCAHOvtaQQIECBAgAABAgQuLSCA/LZ+PxIgQIAAAQIECBAgsK+AALKvr+oECDwn4CoCBAgQIEDgIgICyEUWbUwCBAgQIPC5gE8JECBwrIAAcqy3pxEgQIAAAQIECBD4KXDRP8sCSJJbcv6x0h63bbutclTspcKioo9k/D1fqY+KvaxUI+nxfqxkWvH7UlGjwrSij6THO7bSLMm4acX7kYz3UbGXilm61Ojikayz2wrTsgBS0YwalxUwOAECBAgQIECAwEUEBJCLLNqYBAgQ+FzApwQIECBA4FgBAeRYb08jQIAAAQIECPwU8CeBiwoIIBddvLEJECBAgAABAgQInCHQIYCcMbdnEiBAgAABAgQIECBwgoAAcgK6RxLoI6ATAgQIECBAgMCxAgLIsd6eRoAAAQIEfgr4kwABAhcVEEAuunhjEyBAgAABAgSuKmDucwUEkHP9PZ0AAQIECBAgQIDApQQEkEut+3FY5wQIECBAgAABAgSOFRBAjvX2NAIECPwU8CcBAgQIELiogABy0cUbmwABAgQIXFXA3AQInCsggJzr7+kECBAgQIAAAQIEriLwY04B5AeDPwgQIECAAAECBAgQOEJAADlC2TMIPAo4J0CAAAECBAhcVEAAuejijU2AAIGrCpibAAECBM4VKAsg27bdOhwVnEluydhR0UdFjWRsjiQVbZTUSDK8l4p3tGSYhYok43tJxmtUkCbjfaz0jiXjHhV76VIjGfdIxmtUvGNdanTZbUUfSY/dVsxSUSP51OOl/x6v6EONngJlAaTneLoiQIAAAQIECBAgQKCTgAByxjY8kwABAgQIECBAgMBFBQSQiy7e2ASuKmBuAgQIECBA4FwBAeRcf08nQIAAAQJXETAnAQIEfggIID8Y/EGAAAECBAgQIEBgVYFecwkgvfahGwIECBAgQIAAAQJLCwggS6/XcI8CzgkQIECAAAECBM4VEEDO9fd0AgQIXEXAnAQIECBA4IeAAPKDwR8ECBAgQIAAgVUFzEWgl4AA0msfuiFAgAABAgQIECCwtMClAsjSmzQcAQIECBAgQIAAgQkEBJAJlqRFAgsIGIEAAQIECBAg8ENAAPnB4A8CBAgQILCqgLkIECDQS0AA6bUP3RAgQIAAAQIECKwiYI5PBQSQT1l8SIAAAQIECBAgQIDAHgICyB6qaj4KOCdAgAABAgQIECDwQ2C5ALJt2230+CGzyB+jFvf7F6H4MUaSWzJ2/Cg0+MfddZVjkKLV7RU7ScberyTFJu+Xq/B4/+m1d1bMUlGjdqr3qyVZ5t/C9xV+3Vmx24oaSY+9/JJ5/6cKj/efXntnMr6XlTwqdJcLIBUoahAgQIAAAQIEhgUUIEDgUwEB5FMWHxIgQIAAAQIECBAgsIfAEQFkj77VJECAAAECBAgQIEBgQgEBZMKlaZnA8wKuJECAAAECBAj0EhBAeu1DNwQIECCwioA5CBAgQOBTAQHkUxYfEiBAgAABAgQIzCqg794CAkjv/eiOAAECBAgQIECAwFICAshS63wcxjkBAgQIECBAgACBXgICSK996IYAgVUEzEGAAAECBAh8KiCAfMriQwIECBAgQGBWAX0TINBbQADpvR/dESBAgAABAgQIEJhF4Kk+BZCnmFxEgAABAgQIECBAgECFgABSoagGgUcB5wQIECBAgAABAp8KCCCfsviQAAECBGYV0DcBAgQI9BYQQHrvR3cECBAgQIAAgVkE9EngKQEB5CkmFxEgQIAAAQIECBAgUCFQFkCS3JKxo2KgZKyHJLdt28aOf+7vMksy7pGM16jw6FKj4v1Ixk2T8RoVphUeFTWSHh4VphU1knGPpEeNCg816gWS8fejvqv3KiY9Zqn4t/A9gY93JeMeSY8aHyeb+ywZN+0iUBZAugykDwIEri1gegIECBAgQKC3gADSez+6I0CAAAECswjokwABAk8JCCBPMbmIAAECBAgQIECAQFeBufoSQObal24JECBAgAABAgQITC0ggEy9Ps0/CjgnQIAAAQIECBDoLSCA9N6P7ggQIDCLgD4JECBAgMBTAgLIU0wuIkCAAAECBAh0FdAXgbkEBJC59qVbAgQIECBAgAABAlMLLBVApt6E5gkQIECAAAECBAhcQEAAucCSjUjgAAGPIECAAAECBAg8JSCAPMXkIgIECBAg0FVAXwQIEJhLQACZa1+6JUCAAAECBAgQ6CKgj7cEBJC32NxEgAABAgQIECBAgMA7AgLIO2rueRRwToAAAQIECBAgQOApAQHkKSYXESBAoKuAvggQIECAwFwCAshc+9ItAQIECBAg0EVAHwQIvCVQFkC2bbuNHm9N8HDTaA/3+5PckrHjXmf0eBjtrdPRHjrd/xbAw00V8yRj70aS4d+V+xwPo711mozPkvSocTcZPd5CfLhptIeq+x/amvq0wqQCIBl/1ytmScb7qPDoUqPCtMssFX1UeKgx/r9pHw2T8d/bx5rvnFe8YxU1KgJIRR9qECBAgAABAgQIECBwAQEB5AJLNuLKAmYjQIAAAQIECMwlIIDMtS/dEiBAgEAXAX0QIECAwFsCAshbbG4iQIAAAQIECBA4S8Bz5xYQQOben+4JECBAgAABAgQITCUggEy1rsdmnRMgQIAAAQIECBCYS0AAmWtfuiVAoIuAPggQIECAAIG3BASQt9jcRIAAAQIECJwl4LkECMwtIIDMvT/dEyBAgAABAgQIEDhKoOQ5AkgJoyIECBAgQIAAAQIECDwjIIA8o+QaAo8CzgkQIECAAAECBN4SEEDeYnMTAQIECJwl4LkECBAgMLeAADL3/nRPgAABAgQIEDhKwHMIlAgIICWMihAgQIAAAQIECBAg8IyAAPKM0uM1zgkQIECAAAECBAgQeEtAAHmLzU0ECJwl4LkECBAgQIDA3AJlASTJLRk7KiiTsR6S3LZtGz4qZqmokYx7dOmjYi/JOh4Ve6moUbGXij5WqpH0eE+77Dbp4VHxjiVTz1JBoMYEAsk672liluSXQZfXryyAdBlIHwQIECBAgAABAgTWElhrGgFkrX2ahgABAgQIECBAgEBrAQGk9Xo09yjgnAABAgQIECBAYG4BAWTu/emeAAECRwl4DgECBAgQKBEQQEoYFSFAgAABAgQI7CWgLoG1BASQtfZpGgIECBAgQIAAAQKtBaYKIK0lNUeAAAECBAgQIECAwF8FBJC/ErmAAIHb7QaBAAECBAgQIFAiIICUMCpCgAABAgT2ElCXAAECawkIIGvt0zQECBAgQIAAAQJVAursIiCA7MKqKAECBAgQIECAAAECnwkIIJ+p+OxRwDkBAgQIECBAgACBEgEBpIRREQIECOwloC4BAgQIEFhLQABZa5+mIUCAAAECBKoE1CFAYBcBAWQXVkUJECBAgAABAgQIEPhM4JkA8tl9PiNAgAABAgQIECBAgMDLAmUBZNu22+jxcvef3DDaw/3+JLfk/OPeS4fjE+aXP6qYIxnfSUUfFTWeB9z3yi6zVPSRjL8fyXiNio1VeFT0UVGjYpaKGkmP3a5kWrGXCo9knd128ajYbTK+l2S8RoVpRY0K04oaFbNU1CgLIBXNqEGAAAECBNoIaIQAAQIEdhEQQHZhVZQAAQIECBAgQOBdAfetLSCArL1f0xEgQIAAAQIECBBoJSCAtFrHYzPOCRAgQIAAAQIECKwlIICstU/TECBQJaAOAQIECBAgsIuAALILq6IECBAgQIDAuwLuI0BgbQEBZO39mo4AAQIECBAgQIDAswKHXCeAHMLsIQQIECBAgAABAgQI3AUEkLuCg8CjgHMCBAgQIECAAIFdBASQXVgVJUCAAIF3BdxHgAABAmsLCCBr79d0BAgQIECAAIFnBVxH4BABAeQQZg8hQIAAAQIECBAgQOAuIIDcFR4P5wQIECBAgAABAgQI7CIggOzCqigBAu8KuI8AAQIECBBYW0AAWXu/piNAgAABAs8KuI4AAQKHCAgghzB7CAECBAgQIECAAIGvBK71eVkASXJLxo5r0R8zbTK2k6Tm/oppt227jR4VfSTjJqNzVN2fjM+S9KhRYVLxflTUSMZNKzyS8T6S8RoVphU1Kkwr+qiokYzvJRmvUTFLRY2K3SbreCQ9ZqnYS8X7kfTwSHr0UWFaFkAqmlGDAAECBAgQIECAAIG1BQSQtfdrOgIECDwr4DoCBAgQIHCIgAByCLOHECBAgAABAgS+EvA5gWsJCCDX2rdpCRAgQIAAAQIECJwq0CqAnCrh4QQIECBAgAABAgQI7C4ggOxO7AEEphDQJAECBAgQIEDgEAEB5BBmDyFAgAABAl8J+JwAAQLXEhBArrVv0xIgQIAAAQIECPwn4O9TBASQU9g9lAABAgQIECBAgMA1BQSQa+79cWrnBAgQIECAAAECBA4REEAOYfYQAgQIfCXgcwIECBAgcC0BAeRa+zYtAQIECBAg8J+AvwkQOEVAADmF3UMJECBAgAABAgQIXFPgHkCuObmpCRAgQIAAAQIECBA4XEDCRh5vAAAQAElEQVQAOZzcAwn8LuBnAgQIECBAgMC1BASQa+3btAQIECDwn4C/CRAgQOAUgbIAsm3bbfRIckvOP07ZxE4PHd3J/f6dWjulbDL+ft1NRo9kvI9kvEbFEkYtqu5Pxj0qekl69FGx2y41knHTLrPoo6dAMv6OVfz7UaFT0ccRNZ55RtJjL8/0+rdrKnZbUSMZN63ooyyAVDSjBgECBAgQIECAAAECawsIIKfu18MJECBAgAABAgQIXEtAALnWvk1LgMB/Av4mQIAAAQIEThEQQE5h91ACBAgQIHBdAZMTIHBtAQHk2vs3PQECBAgQIECAwHUEWkwqgLRYgyYIECBAgAABAgQIXENAALnGnk35KOCcAAECBAgQIEDgFAEB5BR2DyVAgMB1BUxOgAABAtcWEECuvX/TEyBAgAABAtcRMCmBFgICSIs1aIIAAQIECBAgQIDANQSuGUCusVtTEiBAgAABAgQIEGgnIIC0W4mGCKwtYDoCBAgQIEDg2gICyLX3b3oCBAgQuI6ASQkQINBCQABpsQZNECBAgAABAgQIrCtgst8FBJDfNfxMgAABAgQIECBAgMCuAgLIrryKPwo4J0CAAAECBAgQuLZAWQBJckvGji6r2Lbt1uFIxjyTmvsrLCp2m4zPU9GHGj0FKt7TZPwdq+ijQjj5Y5aX/42u6KOLR8UsybhphUcy3keFR5dZKvqo8Eh67KViFjU+CiTju03Ga3zs6r2zLr8vZQHkPQZ3ESBAgAABAgRWFzAfAQK/Cwggv2v4mQABAgQIECBAgACBXQUODSC7TqI4AQIECBAgQIAAAQLtBQSQ9ivSIIESAUUIECBAgAABAi0EBJAWa9AEAQIECKwrYDICBAgQ+F1AAPldw88ECBAgQIAAAQLrCJikpYAA0nItmiJAgAABAgQIECCwpoAAsuZeH6dyToAAAQIECBAgQKCFgADSYg2aIEBgXQGTESBAgAABAr8LCCC/a/iZAAECBAgQWEfAJAQItBQQQFquRVMECBAgQIAAAQIE5hX4rnMB5Dsd3xEgQIAAAQIECBAgUCoggJRyKkbgUcA5AQIECBAgQIDA7wICyO8afiZAgACBdQRMQoAAAQItBQSQlmvRFAECBAgQIEBgXgGdE/hOQAD5Tsd3BAgQIECAAAECBAiUCrQKINu23UaPCp0kt6TiGKtRMcuo5/3+ij4qatx7GT0q+kjG9ppk+D0fdai8v8K0okYyvpeV+qiYpaJG0mMvFbNU/N5U9FFRY6VZkh7vWBfTpIdHMt5HhWky3keX37kKj4pZKmq0CiAVA6lBgACBHwL+IECAAAECBFoKCCAt16IpAgQIECAwr4DOCRAg8J2AAPKdju8IECBAgAABAgQIzCMwRacCyBRr0iQBAgQIECBAgACBNQQEkDX2aIpHAecECBAgQIAAAQItBQSQlmvRFAECBOYV0DkBAgQIEPhOQAD5Tsd3BAgQIECAAIF5BHRKYAoBAWSKNWmSAAECBAgQIECAwBoCawaQNXZjCgIECBAgQIAAAQLLCQggy63UQATOFfB0AgQIECBAgMB3AgLIdzq+I0CAAAEC8wjolAABAlMICCBTrEmTBAgQIECAAAECfQV09oqAAPKKlmsJECBAgAABAgQIEBgSEECG+Nz8KOCcAAECBAgQIECAwHcCAsh3Or4jQIDAPAI6JUCAAAECUwgIIFOsSZMECBAgQIBAXwGdESDwikBZANm27TZ6vNL4V9eO9tDp/q9mfOXzJLfk/OOVnve8tmK/Ff0l5+8kScUoJTWSDL+nJY0UFKl4x5IeHhWzFJCWlKiYJRnfSzJeo8ssFYupmKWij5VqVJgm4+8p04//u7jCI1lnL2UB5A7rIECAAAECBAgQIECAwHcCAsh3Or4jMI+ATgkQIECAAAECUwgIIFOsSZMECBAg0FdAZwQIECDwioAA8oqWawkQIECAAAECBPoI6GRKAQFkyrVpmgABAgQIECBAgMCcAgLInHt77No5AQIECBAgQIAAgSkEBJAp1qRJAgT6CuiMAAECBAgQeEVAAHlFy7UECBAgQIBAHwGdECAwpYAAMuXaNE2AAAECBAgQIEDgPIGRJwsgI3ruJUCAAAECBAgQIEDgJQEB5CUuFxN4FHBOgAABAgQIECDwioAA8oqWawkQIECgj4BOCBAgQGBKAQFkyrVpmgABAgQIECBwnoAnExgREEBG9NxLgAABAgQIECBAgMBLAgLIS1yPFzsnQIAAAQIECBAgQOAVAQHkFS3XEiDQR0AnBAgQIECAwJQCZQEkyS05/+iyhWTcomKWbdtuHY6kh0cy3keFZ8VuV6pRYVpRo4tpl1mSHr8vXTy6vB/J+F5GZ7nfn/Tow/tx38avIxnfS4VpRY2kxyy/dP1UJVAWQKoaUocAAQIECBAgQIAAgU8FlvhQAFlijYYgQIAAAQIECBAgMIeAADLHnnT5KOCcAAECBAgQIEBgSgEBZMq1aZoAAQLnCXgyAQIECBAYERBARvTcS4AAAQIECBA4TsCTCCwhIIAssUZDECBAgAABAgQIEJhDYM4AMoetLgkQIECAAAECBAgQeBAQQB5AnBIg8L2AbwkQIECAAAECIwICyIieewkQIECAwHECnkSAAIElBASQJdZoCAIECBAgQIAAgf0EVK4UEEAqNdUiQIAAAQIECBAgQOBbAQHkWx5fPgo4J0CAAAECBAgQIDAiIICM6LmXAAECxwl4EgECBAgQWEJAAFlijYYgQIAAAQIE9hNQmQCBSgEBpFJTLQIECBAgQIAAAQIEvhV4KYB8W8mXBAgQIECAAAECBAgQ+ItAWQDZtu3W4fjLvFN9XeGZ5JaMHRVoFbNU9NGlxhsef/x+VcySjL0bSSraGH5Hk5TUKBmmoEgyPk9BG3+8c++8t8n4LEmPGu/M3/WeivejokbSY7cVs3SpUfHOJeN76eJR0Ucy7pGM16iYpUuNsgDSZSB9ECBAgACBWgHVCBAgQKBSQACp1FSLAAECBAgQIECgTkClJQUEkCXXaigCBAgQIECAAAECPQUEkJ57eezKOQECBAgQIECAAIElBASQJdZoCAIE9hNQmQABAgQIEKgUEEAqNdUiQIAAAQIE6gRUIkBgSQEBZMm1GooAAQIECBAgQIDA+wJ73imA7KmrNgECBAgQIECAAAECHwQEkA8cTgg8CjgnQIAAAQIECBCoFBBAKjXVIkCAAIE6AZUIECBAYEkBAWTJtRqKAAECBAgQIPC+gDsJ7CkggOypqzYBAgQIECBAgAABAh8EBJAPHI8nzgkQIECAAAECBAgQqBQQQCo11SJAoE5AJQIECBAgQGBJAQFkybUaigABAgQIvC/gTgIECOwpIIDsqas2AQIECBAgQIAAgecFLnFlqwCS5JascXR5e7Ztu40eXWZJxt+NilmSHn2M7vV+f4VHRY17L6scSY/3o2Ivyfgsq+z1Pkcy7mEv4/+ddN9F9dFlL136qPCtmKWiRtLj97aLadLDo1UAqXjR1FhEwBgECBAgQIAAAQJLCgggS67VUAQIEHhfwJ0ECBAgQGBPAQFkT121CRAgQIAAAQLPC7iSwCUEBJBLrNmQBAgQIECAAAECBHoI9AwgPWx0QYAAAQIECBAgQIBAsYAAUgyqHIHZBfRPgAABAgQIENhTQADZU1dtAgQIECDwvIArCRAgcAkBAeQSazYkAQIECBAgQIDA1wK+OVJAADlS27MIECBAgAABAgQIXFxAALn4C/A4vnMCBAgQIECAAAECewoIIHvqqk2AAIHnBVxJgAABAgQuISCAXGLNhiRAgAABAgS+FvANAQJHCgggR2p7FgECBAgQIECAAIGLC3wIIBe3MD4BAgQIECBAgAABAjsLCCA7AytP4EkBlxEgQIAAAQIELiEggFxizYYkQIAAga8FfEOAAAECRwqUBZAkt2Ts2Lbt1uE4cgF7PysZ20mSkhaTtHg/KoapeEcr+lipRjL+flR4JON9eD8+biIZN03Ga3zs6ryzZHwW79jH/SVMP4qMnyXjpsmTNb65bnwSFboKlAWQrgPqiwABAgQIECBAgACBPgICSI9d6IIAAQIECBAgQIDAJQQEkEus2ZAECHwt4BsCBAgQIEDgSAEB5EhtzyJAgAABAgR+CfiJAIFLCgggl1y7oQkQIECAAAECBK4scObsAsiZ+p5NgAABAgQIECBA4GICAsjFFm7cRwHnBAgQIECAAAECRwoIIEdqexYBAgQI/BLwEwECBAhcUkAAueTaDU2AAAECBAhcWcDsBM4UEEDO1PdsAgQIECBAgAABAhcTuHgAudi2jUuAAAECBAgQIEDgZAEB5OQFeDyBywoYnAABAgQIELikgAByybUbmgABAgSuLGB2AgQInCkggJyp79kECBAgQIAAAQJXEjDrPwICyD8I/kOAAAECBAgQIECAwDECAsgxzp7yKOCcAAECBAgQIEDgkgJlAWTbttvo0WUDo3NU3V/hUdFLRR9dalR4JLklaxxdPPTx8X2q+H35znS27yo8KmpUuFX0UVEj+fjOJfOeV+wlGZ+/Sx8V70fFLF1qVHh0qbGSaVkA6bIcfRAgQIAAAQIEmgpoiwCBfwQEkH8Q/IcAAQIECBAgQIAAgWMEzgkgx8zmKQQIECBAgAABAgQINBMQQJotRDsE9hZQnwABAgQIECBwpoAAcqa+ZxMgQIDAlQTMSoAAAQL/CAgg/yD4DwECBAgQIECAwMoCZuskIIB02oZeCBAgQIAAAQIECCwuIIAsvuDH8ZwTIECAAAECBAgQOFNAADlT37MJELiSgFkJECBAgACBfwQEkH8Q/IcAAQIECBBYWcBsBAh0EhBAOm1DLwQIECBAgAABAgRWEvhkFgHkExQfESBAgAABAgQIECCwj4AAso+rqgQeBZwTIECAAAECBAj8IyCA/IPgPwQIECCwsoDZCBAgQKCTgADSaRt6IUCAAAECBAisJGAWAp8ICCCfoPiIAAECBAgQIECAAIF9BMoCSJJb4kg+NZjapuLV27btNnpU9NGlxqhF1f0VHhW9JOO/Nyv1UbGXihrJ+F4q+uhSI+Hx+y4qfucqavze07s/V/SRjL8fFX28a1B9XzLuUd3Tu/Uq9pKMeyTjNd41qL6vLIBUN6YeAQIEagRUIUCAAAECBDoJCCCdtqEXAgQIECCwkoBZCBAg8ImAAPIJio8IECBAgAABAgQIzCzQuXcBpPN29EaAAAECBAgQIEBgMQEBZLGFGudRwDkBAgQIECBAgEAnAQGk0zb0QoAAgZUEzEKAAAECBD4REEA+QfERAQIECBAgQGBmAb0T6CwggHTejt4IECBAgAABAgQILCaweABZbFvGIUCAAAECBAgQIDC5gAAy+QK1T6CtgMYIECBAgAABAp8ICCCfoPiIAAECBAjMLKB3AgQIdBYQQDpvR28ECBAgQIAAAQIzCej1CQEB5AkklxAgQIAALbG2XQAAC35JREFUAQIECBAgUCMggNQ4qvIo4JwAAQIECBAgQIDAJwICyCcoPiJAgMDMAnonQIAAAQKdBQSQztvRGwECBAgQIDCTgF4JEHhCoFUA2bbt5qg1eOIdOOSSJLdk7Dik0YMekoxZJDmo02s9puLfnyTLvOsVHiu9QSt5rDRLMv47l4zXqHjXkx59VMziHfu4yy4eyce+ktfPK96PfQJIRWdqECBAgAABAgQIECCwnIAAstxKDXR1AfMTIECAAAECBDoLCCCdt6M3AgQIEJhJQK8ECBAg8ISAAPIEkksIECBAgAABAgQ6C+htJgEBZKZt6ZUAAQIECBAgQIDA5AICyOQLfGzfOQECBAgQIECAAIHOAgJI5+3ojQCBmQT0SoAAAQIECDwhIIA8geQSAgQIECBAoLOA3ggQmElAAJlpW3olQIAAAQIECBAg0EngjV4EkDfQ3EKAAAECBAgQIECAwHsCAsh7bu4i8CjgnAABAgQIECBA4AkBAeQJJJcQIECAQGcBvREgQIDATAICyEzb0isBAgQIECBAoJOAXgi8ISCAvIHmFgIECBAgQIAAAQIE3hMQQN5ze7zLOQECBAgQIECAAAECTwgIIE8guYQAgc4CeiNAgAABAgRmElgugCS5JWscM71IR/Sa9Njrtm230aPCK+nhUTFLlxrJuOnou3G/v8IjGZ8l6VFjJY/7fkePVh6D70jFLCvVGH037vdXeCQ9fveT8T4qPO6uo8dKfVTMslwAqUBRgwABAgQIECBAgEBngZl7E0Bm3p7eCRAgQIAAAQIECEwmIIBMtjDtPgo4J0CAAAECBAgQmElAAJlpW3olQIBAJwG9ECBAgACBNwQEkDfQ3EKAAAECBAgQOFPAswnMLCCAzLw9vRMgQIAAAQIECBCYTGDyADKZtnYJECBAgAABAgQIXFxAALn4C2B8Am8LuJEAAQIECBAg8IaAAPIGmlsIECBAgMCZAp5NgACBmQUEkJm3p3cCBAgQIECAAIEjBTyrQEAAKUBUggABAgQIECBAgACB5wQEkOecXPUo4JwAAQIECBAgQIDAGwICyBtobiFAgMCZAp5NgAABAgRmFhBAZt6e3gkQIECAAIEjBTyLAIECAQGkAFEJAgQIECBAgAABAgSeE3gvgDxX21UECBAgQIAAAQIECBD4ICCAfOBwspfAtm230aOit9Ee7vcnuSVjx73Ou8d/91V4VNRIxiySVLRRUuM/25G/k7R4P0Zm+O/eEtQmRf6baeTvilGS8fcjGa9RMUtFjWR8lpGd/ndvxSz/1Rr5u6KPihojM3S7t8JjpRoV+6nwEEAqFNUgQIAAgSsImJEAAQIECgQEkAJEJQgQIECAAAECBPYUUHslAQFkpW2ahQABAgQIECBAgEBzAQGk+YIe23NOgAABAgQIECBAYGYBAWTm7emdAIEjBTyLAAECBAgQKBAQQAoQlSBAgAABAgT2FFCbAIGVBASQlbZpFgIECBAgQIAAAQKVAjvUEkB2QFWSAAECBAgQIECAAIHPBQSQz118SuBRwDkBAgQIECBAgECBgABSgKgEAQIECOwpoDYBAgQIrCQggKy0TbMQIECAAAECBCoF1CKwg4AAsgOqkgQIECBAgAABAgQIfC4ggHzu8vipcwIECBAgQIAAAQIECgQEkAJEJQgQ2FNAbQIECBAgQGAlAQFkpW2ahQABAgQIVAqoRYAAgR0EBJAdUJUkQIAAAQIECBAgMCKw8r0CyMrbNdsfAkluydjxR9E3PkjGekhy27atxfHG+EvfUrGXZPz9SMZrVMxSsewufVTM0qVGF1N91L8RXUyT8X+D6nXeq5j0mCXp0cd7ih/vEkA+ejhrJ6AhAgQIECBAgACBlQQEkJW2aRYCBAhUCqhFgAABAgR2EBBAdkBVkgABAgQIECAwIuBeAisLCCArb9dsBAgQIECAAAECBJoJNA8gzbS0Q4AAAQIECBAgQIDAkIAAMsTnZgILCxiNAAECBAgQILCDgACyA6qSBAgQIEBgRMC9BAgQWFlAAFl5u2YjQIAAAQIECBB4RcC1BwgIIAcgewQBAgQIECBAgAABAj8FBJCfDv58FHBOgAABAgQIECBAYAcBAWQHVCUJECAwIuBeAgQIECCwsoAAsvJ2zUaAAAECBAi8IuBaAgQOEBBADkD2CAIECBAgQIAAAQIEfgp8HkB+fudPAgQIECBAgAABAgQIlAoIIKWcihEYF1CBAAECBAgQILCygACy8nbNRoAAAQKvCLiWAAECBA4QWC6AbNt2W+U4YP+HPSLJLRk7KvZaMXCXPpIxz6Tm/gqPihrJ+DwV70fSo4+KWSpqrLTbilm61EjG39OKWZLxPire04oayfgsyTo1Xn8//vzfbxV7qeijokaXWSr6qKixXACpQFGDAAECBAgQIECAAIF9BASQfVzfrupGAgQIECBAgAABAisLCCArb9dsBAi8IuBaAgQIECBA4AABAeQAZI8gQIAAAQIEvhPwHQECVxIQQK60bbMSIECAAAECBAgQ+F3ghJ8FkBPQPZIAAQIECBAgQIDAVQUEkKtu3tyPAs4JECBAgAABAgQOEBBADkD2CAIECBD4TsB3BAgQIHAlAQHkSts2KwECBAgQIEDgdwE/EzhBQAA5Ad0jCRAgQIAAAQIECFxVQAD5uXl/EiBAgAABAgQIECBwgIAAcgCyRxAg8J2A7wgQIECAAIErCQggV9q2WQkQIECAwO8CfiZAgMAJAgLICegeSYAAAQIECBAgcG2BK08vgFx5+2YnQIAAAQIECBAgcLCAAHIwuMc9CjgnQIAAAQIECBC4kkCrAJLkljiSOoMrvczPzLpt2230eOY5f7tmtIeq+//W5zPfJ3Xva/J+rWd6/ds1yfvPT37e+7dnHPX9U+/IX34fKnpNfrok7/9d0UeXGsn7DsnPe1eapeI9TX66JOf+XTFLlxorvWPJ+HvRxaOij6SHR6sAUgGrBgECBAgQIECgu4D+CFxZQAC58vbNToAAAQIECBAgQOBggZMDyMHTehwBAgQIECBAgAABAqcKCCCn8ns4gRMFPJoAAQIECBAgcIKAAHICukcSIECAwLUFTE+AAIErCwggV96+2QkQIECAAAEC1xIwbQMBAaTBErRAgAABAgQIECBA4CoCAshVNv04p3MCBAgQIECAAAECJwgIICegeyQBAtcWMD0BAgQIELiygABy5e2bnQABAgQIXEvAtAQINBAQQBosQQsECBAgQIAAAQIE1hb4NZ0A8svCTwQIECBAgAABAgQI7CwggOwMrDyBRwHnBAgQIECAAIErCwggV96+2QkQIHAtAdMSIECAQAMBAaTBErRAgAABAgQIEFhbwHQEfgkIIL8s/ESAAAECBAgQIECAwM4CZQFk27ab4+8GMxpVvIMVc1f0ocZHgYq9qNHz9/7jps876/J+nCfw8ckVHh8rvndW0UdFjfe6/3hXRR8VNT52NfdZF4+KPipqzL3Nj9138SgLIB/Hc0aAAIF2AhoiQIAAAQIEGggIIA2WoAUCBAgQILC2gOkIECDwS0AA+WXhJwIECBAgQIAAAQJrCTScRgBpuBQtESBAgAABAgQIEFhVQABZdbPmehRwToAAAQIECBAg0EBAAGmwBC0QIEBgbQHTESBAgACBXwICyC8LPxEgQIAAAQIE1hIwDYGGAgJIw6VoiQABAgQIECBAgMCqAlcJIKvuz1wECBAgQIAAAQIEphIQQKZal2YJzCigZwIECBAgQIDALwEB5JeFnwgQIECAwFoCpiFAgEBDAQGk4VK0RIAAAQIECBAgMLeA7r8WEEC+tvENAQIECBAgQIAAAQLFAgJIMahyjwLOCRAgQIAAAQIECPwSEEB+WfiJAAECawmYhgABAgQINBQQQBouRUsECBAgQIDA3AK6J0Dga4H/BwAA//9WXP1JAAAABklEQVQDAHNIFqvs/XfTAAAAAElFTkSuQmCC" alt="QR Acceso" style="width:260px; height:260px; margin:10px auto; border-radius:12px; background:#fff; padding:8px; display:block;">
+          <span style="font-family:var(--f-mono); font-size:14px; color:var(--muted);">Acceso libre sin registro</span>
         </div>
       </div>
     </div>
@@ -914,26 +962,30 @@ h2 { font-size: 38px; color: #fff; }
       <span class="act">SHOCKS MACROECONÓMICOS</span>
     </div>
     <div class="row">
-      <div class="col-text" style="flex:1;">
+      <div class="col-text">
         <div class="glass card">
-          <span class="card-num" style="color:var(--cobalt);">FASE 1: CORTO PLAZO (EL SHOCK FISCAL)</span>
-          <span class="card-title">El Gobierno Eleva el Gasto Público ($\Delta G > 0$)</span>
+          <div>
+            <span class="card-num" style="color:var(--cobalt);">FASE 1: CORTO PLAZO (EL SHOCK FISCAL)</span>
+            <span class="card-title" style="display:block; margin:6px 0 10px;">El Gobierno Eleva el Gasto Público ($\Delta G > 0$)</span>
+          </div>
           <p class="card-body">
-            1. <strong>Desplazamiento IS:</strong> La curva IS se desplaza hacia la derecha.<br>
-            2. <strong>Producción a Corto Plazo:</strong> Si el Banco Central mantiene el tipo $r$ constante, la demanda se dispara: $Y' > Y_n$.<br>
-            3. <strong>Respuesta en Inflación:</strong> Al crearse una brecha positiva de producción, la curva PC indica que la inflación se acelera ($\pi' > \pi$).<br>
-            4. <strong>Nuevo Tipo Neutral:</strong> Como la demanda fiscal es mayor, ahora se requiere un tipo neutral superior: $r_n' > r_n$.
+            <strong>1. Desplazamiento IS:</strong> La curva IS se desplaza hacia la derecha.<br><br>
+            <strong>2. Producción a Corto Plazo:</strong> Si el Banco Central mantiene el tipo $r$ constante, la demanda se dispara: $Y' > Y_n$.<br><br>
+            <strong>3. Respuesta en Inflación:</strong> Al crearse una brecha positiva de producción, la curva PC indica que la inflación se acelera ($\pi' > \pi$).<br><br>
+            <strong>4. Nuevo Tipo Neutral:</strong> Como la demanda fiscal es mayor, ahora se requiere un tipo neutral superior: $r_n' > r_n$.
           </p>
         </div>
       </div>
-      <div class="col-text" style="flex:1;">
+      <div class="col-text">
         <div class="glass card" style="border-color:var(--azure);">
-          <span class="card-num" style="color:var(--azure);">FASE 2: MEDIO PLAZO (EL AJUSTE FINAL)</span>
-          <span class="card-title">El Banco Central Restablece el Equilibrio</span>
+          <div>
+            <span class="card-num" style="color:var(--azure);">FASE 2: MEDIO PLAZO (EL AJUSTE FINAL)</span>
+            <span class="card-title" style="display:block; margin:6px 0 10px;">El Banco Central Restablece el Equilibrio</span>
+          </div>
           <p class="card-body">
-            1. <strong>Subida de Tipos Reales:</strong> Para detener la aceleración de precios, el Banco Central eleva su tipo oficial hasta el nuevo tipo neutral: $r = r_n'$.<br>
-            2. <strong>Retorno del PIB al Potencial:</strong> La subida de tipos encarece la inversión y enfría la demanda hasta devolver el PIB exactamente a su nivel potencial: $Y = Y_n$.<br>
-            3. <strong>Efecto Expulsión Total (Crowding-Out):</strong> En el medio plazo, el PIB total es idéntico a $Y_n$, pero la composición ha cambiado: hay más gasto público $G$ y menos inversión privada $I$.
+            <strong>1. Subida de Tipos Reales:</strong> Para detener la aceleración de precios, el Banco Central eleva su tipo oficial hasta el nuevo tipo neutral: $r = r_n'$.<br><br>
+            <strong>2. Retorno del PIB al Potencial:</strong> La subida de tipos encarece la inversión y enfría la demanda hasta devolver el PIB exactamente a su nivel potencial: $Y = Y_n$.<br><br>
+            <strong>3. Efecto Expulsión Total (Crowding-Out):</strong> En el medio plazo, el PIB total es idéntico a $Y_n$, pero la composición ha cambiado: hay más gasto público $G$ y menos inversión privada $I$.
           </p>
         </div>
       </div>
@@ -949,27 +1001,27 @@ h2 { font-size: 38px; color: #fff; }
       </div>
       <span class="act">ALERTAS DE EXAMEN</span>
     </div>
-    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:20px; margin-top:20px; flex:1;">
-      <div class="glass card" style="border-top: 4px solid var(--crimson);">
+    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:22px; margin-top:14px; flex:1;">
+      <div class="glass card" style="border-top: 5px solid var(--crimson); padding:24px 22px;">
         <span class="card-num" style="color:var(--crimson);">TRAMPA 1</span>
-        <span class="card-title">Confundir Nivel con Variación de Inflación</span>
-        <p class="card-body">
+        <span class="card-title" style="font-size:22px;">Confundir Nivel con Variación de Inflación</span>
+        <p class="card-body" style="font-size:17.5px;">
           <strong>Error de examen:</strong> Decir que <em>«si el paro es menor que la NAIRU, la inflación es alta»</em>.<br><br>
           <strong>Respuesta rigurosa:</strong> Con expectativas adaptativas ($\theta = 1$), si $u < u_n$ la inflación no se queda alta, sino que <strong>se acelera en cada período</strong> ($\Delta \pi > 0$). Solo es constante si $u = u_n$.
         </p>
       </div>
-      <div class="glass card" style="border-top: 4px solid var(--gold);">
+      <div class="glass card" style="border-top: 5px solid var(--gold); padding:24px 22px;">
         <span class="card-num" style="color:var(--gold);">TRAMPA 2</span>
-        <span class="card-title">Suponer que $r_n$ es una Constante Fija</span>
-        <p class="card-body">
+        <span class="card-title" style="font-size:22px;">Suponer que $r_n$ es una Constante Fija</span>
+        <p class="card-body" style="font-size:17.5px;">
           <strong>Error de examen:</strong> Pensar que el tipo neutral $r_n$ es un número inmutable en el tiempo.<br><br>
           <strong>Respuesta rigurosa:</strong> $r_n$ depende directamente de la posición de la curva IS. Si sube el gasto público ($G$), bajan los impuestos ($T$) o cae la prima de riesgo ($x$), el tipo neutral necesario $r_n$ aumenta.
         </p>
       </div>
-      <div class="glass card" style="border-top: 4px solid var(--cobalt);">
+      <div class="glass card" style="border-top: 5px solid var(--cobalt); padding:24px 22px;">
         <span class="card-num" style="color:var(--cobalt);">TRAMPA 3</span>
-        <span class="card-title">Efecto del Gasto Público en el Medio Plazo</span>
-        <p class="card-body">
+        <span class="card-title" style="font-size:22px;">Efecto del Gasto Público en el Medio Plazo</span>
+        <p class="card-body" style="font-size:17.5px;">
           <strong>Error de examen:</strong> Concluir que un estímulo fiscal eleva la producción permanentemente.<br><br>
           <strong>Respuesta rigurosa:</strong> En el medio plazo, la producción agregada vuelve inexorablemente a $Y_n$. El estímulo fiscal se traduce en mayores tipos reales y una expulsión íntegra de inversión privada.
         </p>
@@ -988,16 +1040,18 @@ h2 { font-size: 38px; color: #fff; }
     </div>
     <div class="row">
       <div class="col-text" style="flex:1;">
-        <div class="glass card" style="border-color:var(--gold); background:rgba(255,190,11,0.06);">
-          <span class="card-num" style="color:var(--gold);">ENUNCIADO CUANTITATIVO</span>
-          <span class="card-title">Escribe la Resolución en una Hoja en Blanco</span>
-          <p class="card-body">
-            Considere una economía cerrada con los siguientes parámetros macroeconómicos:
-          </p>
-          <div class="math-hl" style="font-size:15px; border-left-color:var(--gold);">
+        <div class="glass card" style="border-color:var(--gold); background:rgba(255,190,11,0.08);">
+          <div>
+            <span class="card-num" style="color:var(--gold);">ENUNCIADO CUANTITATIVO</span>
+            <span class="card-title" style="display:block; margin:6px 0 10px;">Escribe la Resolución en una Hoja en Blanco</span>
+            <p class="card-body">
+              Considere una economía cerrada con los siguientes parámetros macroeconómicos:
+            </p>
+          </div>
+          <div class="math-hl" style="font-size:19px; border-left-color:var(--gold);">
             $$\text{IS: } Y = 2.000 - 5.000(r + x) + 0,5G - 0,5T$$
           </div>
-          <p class="card-body" style="font-size:14px;">
+          <p class="card-body" style="font-size:17.5px;">
             • Población activa $L = 1.000$, margen $m = 0,20$, factores institucionales $z = 0,08$, sensibilidad $\alpha = 4$.<br>
             • Prima de riesgo crediticia $x = 0,02$ ($2\%$), gasto público $G = 600$, impuestos $T = 600$.<br>
             • Función de producción: $Y = N$ (un ocupado genera una unidad de PIB).
@@ -1006,9 +1060,11 @@ h2 { font-size: 38px; color: #fff; }
       </div>
       <div class="col-text" style="flex:1;">
         <div class="glass card" style="border-color:var(--azure);">
-          <span class="card-num" style="color:var(--azure);">APARTADOS A RESOLVER (10 MIN)</span>
-          <span class="card-title">Preguntas de Examen Oficial</span>
-          <p class="card-body" style="font-size:15px;">
+          <div>
+            <span class="card-num" style="color:var(--azure);">APARTADOS A RESOLVER (10 MIN)</span>
+            <span class="card-title" style="display:block; margin:6px 0 10px;">Preguntas de Examen Oficial</span>
+          </div>
+          <p class="card-body" style="font-size:18px;">
             <strong>1.</strong> Calcule la tasa natural de desempleo (NAIRU) $u_n$ y el nivel de producción potencial $Y_n$.<br><br>
             <strong>2.</strong> Deduzca analíticamente la ecuación de la Curva PC en función de la brecha de producción $(Y - Y_n)$.<br><br>
             <strong>3.</strong> Calcule el tipo de interés real neutral ($r_n$) que sitúa a la economía en pleno empleo sin tensiones de precios.<br><br>
@@ -1031,28 +1087,28 @@ h2 { font-size: 38px; color: #fff; }
     <div class="row">
       <div class="col-text" style="flex:1.2;">
         <div class="glass card">
-          <span class="card-num" style="color:var(--cobalt);">PROCEDIMIENTO DE ENTREGA IN SITU</span>
-          <span class="card-title">Reglas de Oro del Pasaporte</span>
-          <p class="card-body" style="font-size:16px;">
-            <strong>1. Fotografía Nítida:</strong> Captura con tu teléfono la hoja manuscrita asegurando que tu Nombre, Apellidos y DNI sean claramente legibles en la cabecera.
-          </p>
-          <p class="card-body" style="font-size:16px;">
-            <strong>2. Formulario Oficial Microsoft Forms:</strong> Inicia sesión con tu cuenta corporativa <code>@alu.upo.es</code> y adjunta la fotografía.
-          </p>
-          <p class="card-body" style="font-size:16px;">
+          <div>
+            <span class="card-num" style="color:var(--cobalt);">PROCEDIMIENTO DE ENTREGA IN SITU</span>
+            <span class="card-title" style="display:block; margin:6px 0 12px;">Reglas de Oro del Pasaporte</span>
+          </div>
+          <p class="card-body" style="font-size:18.5px;">
+            <strong>1. Fotografía Nítida:</strong> Captura con tu teléfono la hoja manuscrita asegurando que tu Nombre, Apellidos y DNI sean claramente legibles en la cabecera.<br><br>
+            <strong>2. Formulario Oficial Microsoft Forms:</strong> Inicia sesión con tu cuenta corporativa <code>@alu.upo.es</code> y adjunta la fotografía.<br><br>
             <strong>3. Puntos del Pasaporte:</strong> Las entregas correctas acumulan sellos que desbloquean comodines de preguntas cortas y bonificaciones de nota para el examen final del 70%.
           </p>
-          <p class="card-body" style="font-size:16px; color:var(--ok);">
-            ¡Muchas gracias por vuestra activa participación en la sesión de hoy!
-          </p>
+          <div style="background:rgba(52,211,153,0.15); padding:12px 18px; border-radius:10px; border-left:4px solid var(--ok);">
+            <p class="card-body" style="color:var(--ok); font-weight:700; font-size:18px;">
+              ¡Muchas gracias por vuestra activa participación en la sesión de hoy!
+            </p>
+          </div>
         </div>
       </div>
       <div class="col-text" style="flex:0.8; align-items:center;">
-        <div class="glass card" style="border-color:var(--gold); text-align:center; padding:24px;">
+        <div class="glass card" style="border-color:var(--gold); text-align:center; padding:28px; width:100%;">
           <span class="card-num" style="color:var(--gold);">FORMULARIO FORMS UPO</span>
-          <span class="card-title">Escanear para Subir</span>
-          <img src="data:image/png;base64,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" alt="QR Forms Reto" style="width:220px; height:220px; margin:14px auto; border-radius:10px; background:#fff; padding:6px; display:block;">
-          <span style="font-family:var(--f-mono); font-size:13px; color:var(--muted);">Cierre de entrega: 11:00 h</span>
+          <span class="card-title" style="display:block; margin:6px 0 10px;">Escanear para Subir</span>
+          <img src="data:image/png;base64,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" alt="QR Forms Reto" style="width:260px; height:260px; margin:10px auto; border-radius:12px; background:#fff; padding:8px; display:block;">
+          <span style="font-family:var(--f-mono); font-size:14px; color:var(--muted);">Cierre de entrega: 11:00 h</span>
         </div>
       </div>
     </div>
@@ -1064,6 +1120,7 @@ h2 { font-size: 38px; color: #fff; }
     <span id="slide-num">01 / 18</span>
     <span>•</span>
     <span>UPO · MACROECONOMÍA</span>
+    <button class="hud-btn" id="btn-fs" onclick="toggleFullScreen()" title="Pantalla Completa (F / F11)">⛶ Pantalla Completa</button>
   </div>
 </div>
 
@@ -1093,6 +1150,17 @@ function updateSlide(target) {
   }
 }
 
+// Pantalla Completa
+function toggleFullScreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(err => console.log(err));
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  }
+}
+
 // Teclado
 window.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
@@ -1103,6 +1171,8 @@ window.addEventListener('keydown', (e) => {
     updateSlide(1);
   } else if (e.key === 'End') {
     updateSlide(totalSlides);
+  } else if (e.key === 'f' || e.key === 'F') {
+    toggleFullScreen();
   }
 });
 
@@ -1114,11 +1184,11 @@ window.addEventListener('click', (e) => {
   else if (x < 0.25) updateSlide(currentSlide - 1);
 });
 
-// Escalado responsive para mantener 16:9 de 1600x900
+// Escalado responsive con margen de seguridad del 96%
 function resizeStage() {
   const stage = document.getElementById('stage');
   if (!stage) return;
-  const scale = Math.min(window.innerWidth / 1600, window.innerHeight / 900);
+  const scale = Math.min((window.innerWidth * 0.98) / 1600, (window.innerHeight * 0.98) / 900);
   stage.style.transform = `translate(-50%, -50%) scale(${scale})`;
 }
 window.addEventListener('resize', resizeStage);
@@ -1158,7 +1228,7 @@ function setRegime(regime) {
     p4.setAttribute('cy', '200');
     leg.textContent = "Expectativas Ancladas (θ=0): Inflación constante al 4% (Estable)";
     leg.setAttribute('fill', '#00f2fe');
-    leg.setAttribute('y', '180');
+    leg.setAttribute('y', '175');
   } else {
     btn1.classList.add('active');
     btn0.classList.remove('active');
