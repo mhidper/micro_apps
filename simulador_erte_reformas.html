@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Simulador ERTE, Mecanismo RED y Estabilidad Empírica | PSLL UPO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --psll-pine: #113927;
+    --psll-pine-dark: #0B2419;
+    --psll-sage: #76927A;
+    --psll-coral: #E98F71;
+    --psll-coral-dark: #C86D51;
+    --psll-mint: #F4F8F5;
+    --psll-ink: #2F3A30;
+    --psll-peach: #EDB090;
+    --bg-card: #FFFFFF;
+    --border-color: #C2D8C9;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: linear-gradient(135deg, #113927 0%, #1a4a35 55%, #295e45 100%);
+    color: var(--psll-ink);
+    padding: 18px 12px;
+    min-height: 100vh;
+  }
+  .app-container {
+    background: var(--bg-card);
+    border-radius: 22px;
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: clamp(18px, 3.5vw, 34px);
+    box-shadow: 0 24px 55px rgba(0,0,0,0.35);
+  }
+  header { text-align: center; margin-bottom: 20px; }
+  .badge-tag {
+    display: inline-block;
+    background: var(--psll-mint);
+    color: var(--psll-pine);
+    font-weight: 700;
+    font-size: 0.78rem;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+  }
+  header h1 {
+    font-family: 'Outfit', sans-serif;
+    color: var(--psll-pine);
+    font-size: clamp(1.45rem, 4vw, 2.05rem);
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+  header p.subtitle {
+    color: var(--psll-sage);
+    font-size: 0.96rem;
+    font-weight: 500;
+  }
+  .tabs-nav {
+    display: flex;
+    gap: 8px;
+    background: var(--psll-mint);
+    padding: 6px;
+    border-radius: 14px;
+    margin-bottom: 22px;
+    border: 1px solid var(--border-color);
+    overflow-x: auto;
+  }
+  .tab-btn {
+    flex: 1;
+    min-width: 170px;
+    padding: 11px 14px;
+    border: none;
+    background: transparent;
+    color: var(--psll-ink);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab-btn.active {
+    background: var(--psll-pine);
+    color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(17,57,39,0.22);
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: var(--psll-mint);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 20px;
+  }
+  .card h3 {
+    font-family: 'Outfit', sans-serif;
+    color: var(--psll-pine);
+    font-size: 1.12rem;
+    margin-bottom: 12px;
+  }
+  .control-group { margin-bottom: 14px; }
+  .control-group label {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 0.88rem;
+    margin-bottom: 6px;
+    color: var(--psll-pine);
+    gap: 10px;
+  }
+  .control-group input[type=range] {
+    width: 100%;
+    accent-color: var(--psll-coral);
+  }
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .kpi-box {
+    background: #FFFFFF;
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--psll-pine);
+    border-radius: 12px;
+    padding: 12px;
+  }
+  .kpi-box.coral { border-left-color: var(--psll-coral); }
+  .kpi-box .lbl { font-size: 0.74rem; color: var(--psll-sage); font-weight: 700; text-transform: uppercase; line-height: 1.3; }
+  .kpi-box .val { font-family: 'JetBrains Mono', monospace; font-size: 1.28rem; font-weight: 700; color: var(--psll-pine); margin-top: 4px; }
+  .kpi-box.coral .val { color: var(--psll-coral-dark); }
+  .verdict-box {
+    margin-top: 14px;
+    background: #FFFFFF;
+    border: 1.5px solid var(--psll-coral);
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 0.9rem;
+    line-height: 1.48;
+  }
+  .pill-select {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  .pill-btn {
+    padding: 7px 12px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border-color);
+    background: #FFFFFF;
+    color: var(--psll-pine);
+    font-weight: 700;
+    font-size: 0.82rem;
+    cursor: pointer;
+  }
+  .pill-btn.active {
+    background: var(--psll-coral);
+    border-color: var(--psll-coral-dark);
+    color: #FFFFFF;
+  }
+  .checklist-item {
+    background: #FFFFFF;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+  .checklist-item strong { color: var(--psll-pine); }
+</style>
+</head>
+<body>
+<div class="app-container">
+  <header>
+    <span class="badge-tag">Políticas Sociolaborales · Sesión EB 13 · Tema 4 (II)</span>
+    <h1>Simulador de Flexibilidad Interna (ERTE / RED) y Estabilidad Empírica</h1>
+    <p class="subtitle">Comité de Dirección ante shocks transitorios (art. 47 y 47 bis ET) y contraste Fedea / Banco de España tras 2021</p>
+  </header>
+
+  <nav class="tabs-nav">
+    <button class="tab-btn active" onclick="openTab(0)">1. Comité de Crisis: Despido vs. ERTE</button>
+    <button class="tab-btn" onclick="openTab(1)">2. Temporalidad Legal vs. Empírica</button>
+    <button class="tab-btn" onclick="openTab(2)">3. Mapa ET y Calidad del Empleo</button>
+  </nav>
+
+  <!-- TAB 1: DESPIDO EXTERNO VS ERTE / MECANISMO RED -->
+  <section class="tab-panel active" id="tab0">
+    <div class="grid-2">
+      <div class="card">
+        <h3>Escenario del Shock Transitorio</h3>
+        <div class="control-group">
+          <label><span>Plantilla total afectada (trabajadores):</span> <strong id="lblN">100 empleos</strong></label>
+          <input type="range" id="inN" min="20" max="300" step="10" value="100" oninput="calcCrisis()">
+        </div>
+        <div class="control-group">
+          <label><span>Caída transitoria de actividad / reducción jornada:</span> <strong id="lblDrop">30 %</strong></label>
+          <input type="range" id="inDrop" min="10" max="70" step="5" value="30" oninput="calcCrisis()">
+        </div>
+        <div class="control-group">
+          <label><span>Duración del bache de demanda (meses):</span> <strong id="lblDur">6 meses</strong></label>
+          <input type="range" id="inDur" min="2" max="12" step="1" value="6" oninput="calcCrisis()">
+        </div>
+        <div class="control-group">
+          <label><span>Salario bruto mensual medio (+ 31,6% SS empresa):</span> <strong id="lblSal">2.100 €/mes</strong></label>
+          <input type="range" id="inSal" min="1400" max="3500" step="100" value="2100" oninput="calcCrisis()">
+        </div>
+        <div class="control-group">
+          <label><span>Antigüedad media y coste re-contratación/formación:</span> <strong id="lblAnt">6 años</strong></label>
+          <input type="range" id="inAnt" min="1" max="15" step="1" value="6" oninput="calcCrisis()">
+        </div>
+        <div class="pill-select">
+          <button type="button" class="pill-btn active" id="btnFormSi" onclick="setFormacion(true)">✓ Con Plan de Formación (exoneración SS 20%–40%)</button>
+          <button type="button" class="pill-btn" id="btnFormNo" onclick="setFormacion(false)">✗ Sin Formación (menor exoneración)</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Decisión Económica: Margen Extensivo (N) vs. Intensivo (H)</h3>
+        <div class="kpi-row">
+          <div class="kpi-box coral">
+            <div class="lbl">Vía Externa: Despido + Reemplazo</div>
+            <div class="val" id="outExtCost">369.600 €</div>
+          </div>
+          <div class="kpi-box">
+            <div class="lbl">Vía Interna: Coste Neto ERTE</div>
+            <div class="val" id="outErteCost">-19.908 €</div>
+          </div>
+          <div class="kpi-box">
+            <div class="lbl">Ventaja Neta ERTE / RED</div>
+            <div class="val" id="outAhorro">389.508 €</div>
+          </div>
+          <div class="kpi-box coral">
+            <div class="lbl">Empleos Preservados (N)</div>
+            <div class="val" id="outSaved">30 puestos</div>
+          </div>
+        </div>
+        <svg id="svg_crisis" viewBox="0 0 460 195" width="100%" style="margin-top:14px;background:#fff;border-radius:12px;border:1px solid #C2D8C9;"></svg>
+        <div class="verdict-box" id="crisisVerdict"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 2: TEMPORALIDAD CONTRACTUAL VS ESTABILIDAD EMPIRICA (FEDEA / BDE) -->
+  <section class="tab-panel" id="tab1">
+    <div class="grid-2">
+      <div class="card">
+        <h3>Composición de la Plantilla Empresarial</h3>
+        <div class="control-group">
+          <label><span>Puestos estables todo el año (12 meses):</span> <strong id="lblPerm">70 empleados</strong></label>
+          <input type="range" id="inPerm" min="20" max="150" step="5" value="70" oninput="calcFedea()">
+        </div>
+        <div class="control-group">
+          <label><span>Puestos estacionales / por campañas:</span> <strong id="lblSeas">30 empleados</strong></label>
+          <input type="range" id="inSeas" min="5" max="100" step="5" value="30" oninput="calcFedea()">
+        </div>
+        <div class="control-group">
+          <label><span>Meses efectivos trabajados al año en campaña:</span> <strong id="lblMonths">6 meses / año</strong></label>
+          <input type="range" id="inMonths" min="2" max="10" step="1" value="6" oninput="calcFedea()">
+        </div>
+        <div class="verdict-box">
+          <strong>Clave Fedea (Conde-Ruiz et al., 2023) y Banco de España (2023):</strong><br>
+          Al prohibir el contrato por obra o servicio (RDL 32/2021), la empresa transforma los puestos de campaña en contratos <strong>fijos-discontinuos (art. 16 ET)</strong>. La etiqueta jurídica cambia al 100% a «indefinido», pero la intermitencia laboral real (<em>estabilidad empírica</em>) depende de los meses trabajados al año.
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Antes vs. Después de la Reforma Laboral (RDL 32/2021)</h3>
+        <div class="kpi-row">
+          <div class="kpi-box coral">
+            <div class="lbl">Temporalidad Legal Pre-2021</div>
+            <div class="val" id="outTempPre">30,0 %</div>
+          </div>
+          <div class="kpi-box">
+            <div class="lbl">Temporalidad Legal Post-2021</div>
+            <div class="val" id="outTempPost">0,0 %</div>
+          </div>
+          <div class="kpi-box coral">
+            <div class="lbl">Peso Fijos-Discontinuos (FD)</div>
+            <div class="val" id="outFdShare">30,0 %</div>
+          </div>
+          <div class="kpi-box">
+            <div class="lbl">Días Trabajados / Año (FD)</div>
+            <div class="val" id="outDaysYear">180 días</div>
+          </div>
+        </div>
+        <div class="verdict-box" id="fedeaVerdict"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 3: GUIA RAPIDA DE FLEXIBILIDAD INTERNA Y CALIDAD DEL EMPLEO -->
+  <section class="tab-panel" id="tab2">
+    <div class="grid-2">
+      <div class="card">
+        <h3>Artículos Clave de Flexibilidad Interna (ET)</h3>
+        <div class="checklist-item"><strong>1. Numérica (Art. 34.2, 16, 47 y 47 bis ET):</strong> Bolsa irregular del 10% anual, fijo-discontinuo, ERTE (reducción 10%–70% o suspensión) y <strong>Mecanismo RED</strong> (Cíclico 1 año / Sectorial 1 año + 2 prórrogas de 6 m.).</div>
+        <div class="checklist-item"><strong>2. Funcional (Art. 39 y 11 ET):</strong> Movilidad dentro del grupo profesional y nuevos contratos de <strong>formación en alternancia</strong> (3 m.–2 años) y <strong>práctica profesional</strong> (6 m.–1 año).</div>
+        <div class="checklist-item"><strong>3. Salarial (Art. 82.3 ET):</strong> Remuneración variable y <strong>cláusula de descuelgue</strong> por causas ETOP.</div>
+        <div class="checklist-item"><strong>4. Geográfica y Teletrabajo (Art. 40 ET y Ley 10/2021):</strong> Aplicable cuando $\ge 30\%$ de la jornada en 3 meses se presta a distancia (voluntariedad, gastos y desconexión digital).</div>
+      </div>
+
+      <div class="card">
+        <h3>Las 4 Anomalías de Calidad del Empleo en España (§5.6)</h3>
+        <div class="checklist-item"><strong>1. Temporalidad asimétrica:</strong> Sector privado converge al <strong>12,4%</strong> europeo, mientras el sector público permanece en ~<strong>28,5%</strong>.</div>
+        <div class="checklist-item"><strong>2. Parcialidad involuntaria:</strong> Solo ~15% del empleo total es a tiempo parcial (UE ~20%), pero <strong>más del 50% es involuntario</strong>.</div>
+        <div class="checklist-item"><strong>3. Paradoja salarial y <em>working poor</em>:</strong> Bajos salarios por hora más contenidos (14% vs. 17% UE), pero alta desigualdad anual por días trabajados.</div>
+        <div class="checklist-item"><strong>4. Sobrecualificación:</strong> Más del <strong>35%</strong> de universitarios en puestos por debajo de su nivel (mayor brecha formativa en contratos inestables).</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+let conFormacion = true;
+
+function openTab(idx) {
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
+  document.querySelectorAll('.tab-panel').forEach((p, i) => p.classList.toggle('active', i === idx));
+}
+
+function fmt(n) { return Math.round(n).toLocaleString('es-ES'); }
+
+function setFormacion(v) {
+  conFormacion = v;
+  document.getElementById('btnFormSi').classList.toggle('active', v);
+  document.getElementById('btnFormNo').classList.toggle('active', !v);
+  calcCrisis();
+}
+
+function calcCrisis() {
+  const N = parseInt(document.getElementById('inN').value);
+  const drop = parseInt(document.getElementById('inDrop').value) / 100.0;
+  const dur = parseInt(document.getElementById('inDur').value);
+  const sal = parseInt(document.getElementById('inSal').value);
+  const ant = parseInt(document.getElementById('inAnt').value);
+
+  document.getElementById('lblN').textContent = N + ' empleos';
+  document.getElementById('lblDrop').textContent = Math.round(drop * 100) + ' %';
+  document.getElementById('lblDur').textContent = dur + ' meses';
+  document.getElementById('lblSal').textContent = fmt(sal) + ' €/mes';
+  document.getElementById('lblAnt').textContent = ant + ' años';
+
+  const ssRate = 0.316;
+  const salDia = sal / 30.0;
+  const despidosEq = Math.round(N * drop);
+
+  // Via externa: despido objetivo ETOP (20 dias/año, tope 12 meses = 360 dias) + coste reemplazo/formacion (~1,5 meses de coste laboral por contratado)
+  const diasIndem = Math.min(ant * 20, 360);
+  const indemTotal = despidosEq * diasIndem * salDia;
+  const reemplazoCost = despidosEq * sal * (1 + ssRate) * (1 + 0.08 * ant);
+  const extCost = indemTotal + reemplazoCost;
+
+  // Via interna (ERTE art. 47 / RED art. 47 bis): ahorro de nomina proporcional a la reduccion, asumiendo parte de SS no exonerada
+  const masaSalarialReducida = (N * drop) * sal * dur;
+  const ssTotalSuspendida = masaSalarialReducida * ssRate;
+  const exoneracionPct = conFormacion ? 0.80 : 0.20;
+  const costeEmpresaERTE = ssTotalSuspendida * (1 - exoneracionPct) + (conFormacion ? despidosEq * 250 : 0);
+  // Referencia neta frente a mantener 100% de plantilla sin ERTE:
+  const ahorroBrutoSinErte = masaSalarialReducida * (1 + ssRate);
+  const costeNetoVsDespido = costeEmpresaERTE - indemTotal * 0.0; // coste directo de gestion ERTE durante la crisis
+  const ventajaNeta = extCost - costeEmpresaERTE;
+
+  document.getElementById('outExtCost').textContent = fmt(extCost) + ' €';
+  document.getElementById('outErteCost').textContent = fmt(costeEmpresaERTE) + ' €';
+  document.getElementById('outAhorro').textContent = (ventajaNeta >= 0 ? '+' : '') + fmt(ventajaNeta) + ' €';
+  document.getElementById('outSaved').textContent = despidosEq + ' puestos';
+
+  const svg = document.getElementById('svg_crisis');
+  const maxV = Math.max(extCost, costeEmpresaERTE, 50000);
+  const wExt = Math.max(12, (extCost / maxV) * 240);
+  const wInt = Math.max(12, (costeEmpresaERTE / maxV) * 240);
+
+  svg.innerHTML = `
+    <text x="16" y="28" font-family="Outfit" font-size="13" font-weight="700" fill="#113927">Coste Directo de Ajuste para la Empresa (€)</text>
+    <text x="16" y="74" font-family="Inter" font-size="12" font-weight="700" fill="#C86D51">Ajuste Externo (Despido + Reemplazo)</text>
+    <rect x="16" y="84" width="${wExt}" height="26" rx="5" fill="#E98F71"/>
+    <text x="${24 + wExt}" y="102" font-family="JetBrains Mono" font-size="12" font-weight="700" fill="#C86D51">${fmt(extCost)} €</text>
+
+    <text x="16" y="138" font-family="Inter" font-size="12" font-weight="700" fill="#113927">Ajuste Interno (ERTE / RED: cuotas netas)</text>
+    <rect x="16" y="148" width="${wInt}" height="26" rx="5" fill="#113927"/>
+    <text x="${24 + wInt}" y="166" font-family="JetBrains Mono" font-size="12" font-weight="700" fill="#113927">${fmt(costeEmpresaERTE)} €</text>
+  `;
+
+  document.getElementById('crisisVerdict').innerHTML =
+    `<strong>Análisis Económico (Art. 47 / 47 bis ET):</strong> Preservar a los <strong>${despidosEq} trabajadores</strong> mediante ERTE evita pagar <strong>${fmt(indemTotal)} €</strong> en indemnizaciones (20 d/año) y <strong>${fmt(reemplazoCost)} €</strong> de pérdida de capital humano y re-contratación al recuperarse la demanda en el mes ${dur}. Exoneración TGSS aplicada: <strong>${Math.round(exoneracionPct * 100)}%</strong> (ahorro laboral extra sobre nómina suspendida: ${fmt(ahorroBrutoSinErte)} €).`;
+}
+
+function calcFedea() {
+  const perm = parseInt(document.getElementById('inPerm').value);
+  const seas = parseInt(document.getElementById('inSeas').value);
+  const m = parseInt(document.getElementById('inMonths').value);
+  const tot = perm + seas;
+
+  document.getElementById('lblPerm').textContent = perm + ' empleados';
+  document.getElementById('lblSeas').textContent = seas + ' empleados';
+  document.getElementById('lblMonths').textContent = m + ' meses / año';
+
+  const tempPre = (seas / tot) * 100.0;
+  const daysYear = m * 30;
+  const pctYearWorked = (m / 12.0) * 100.0;
+
+  document.getElementById('outTempPre').textContent = tempPre.toFixed(1).replace('.', ',') + ' %';
+  document.getElementById('outTempPost').textContent = '0,0 %';
+  document.getElementById('outFdShare').textContent = tempPre.toFixed(1).replace('.', ',') + ' %';
+  document.getElementById('outDaysYear').textContent = daysYear + ' días';
+
+  document.getElementById('fedeaVerdict').innerHTML =
+    `<strong>Lectura Fedea / Banco de España:</strong> Aunque la tasa de temporalidad contractual cae del <strong>${tempPre.toFixed(1).replace('.', ',')}%</strong> al <strong>0,0%</strong> (todos tienen contrato indefinido), el <strong>${tempPre.toFixed(1).replace('.', ',')}%</strong> de la plantilla es fijo-discontinuo (art. 16 ET) y trabaja efectivamente solo el <strong>${pctYearWorked.toFixed(0)}% del año</strong> (${daysYear} días). Esa brecha explica la diferencia entre etiqueta jurídica y <em>estabilidad empírica</em>.`;
+}
+
+calcCrisis();
+calcFedea();
+</script>
+</body>
+</html>
