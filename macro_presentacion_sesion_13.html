@@ -18,7 +18,7 @@
   --ink-1: #0b1c36; /* Deep Navy Oficial UPO */
   --ink-2: #122d4f;
   --paper: #f0f7ff;
-  --muted: #8faec4;
+  --muted: #94b2c7;
   --cobalt: #056caa; /* Cobalt Blue Oficial UPO */
   --azure: #0776b5;  /* Azure Wave Oficial UPO */
   --cyan: #00f2fe;   /* Neon Azure */
@@ -26,8 +26,8 @@
   --crimson: #e11d48;/* Deficit Crimson */
   --teal: #0d9488;
   --ok: #34d399;
-  --glass: rgba(255, 255, 255, 0.05);
-  --glass-line: rgba(255, 255, 255, 0.14);
+  --glass: rgba(255, 255, 255, 0.06);
+  --glass-line: rgba(255, 255, 255, 0.16);
   --f-display: "Outfit", "Familjen Grotesk", sans-serif;
   --f-serif: "Newsreader", Georgia, serif;
   --f-body: "Work Sans", "Segoe UI", sans-serif;
@@ -58,60 +58,75 @@ html, body {
 .watermark-layer svg { width: 100%; height: 100%; }
 
 .slide {
-  position: absolute; inset: 0; padding: 50px 80px 45px;
-  display: flex; flex-direction: column; gap: 16px;
-  opacity: 0; visibility: hidden; transition: opacity .4s ease, visibility 0s linear .4s;
+  position: absolute; inset: 0; padding: 46px 70px 56px;
+  display: flex; flex-direction: column; gap: 14px;
+  opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility 0s linear .35s;
   z-index: 2;
 }
-.slide.active { opacity: 1; visibility: visible; transition: opacity .4s ease; }
+.slide.active { opacity: 1; visibility: visible; transition: opacity .35s ease; }
 
 .slide-header {
   display: flex; justify-content: space-between; align-items: flex-start;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.12);
-  padding-bottom: 10px; margin-bottom: 4px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.16);
+  padding-bottom: 12px; margin-bottom: 6px;
 }
-.header-titles { display: flex; flex-direction: column; gap: 3px; }
+.header-titles { display: flex; flex-direction: column; gap: 4px; }
 .eyebrow {
-  font-family: var(--f-mono); font-size: 13px; font-weight: 700;
-  letter-spacing: .15em; text-transform: uppercase; color: var(--azure);
+  font-family: var(--f-mono); font-size: 15px; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--azure);
 }
 h1, h2 {
   font-family: var(--f-display); font-weight: 700; margin: 0;
-  letter-spacing: -0.02em; text-wrap: balance; line-height: 1.08;
+  letter-spacing: -0.02em; text-wrap: balance; line-height: 1.1;
 }
-h1 { font-size: 70px; color: #fff; }
-h2 { font-size: 40px; color: #fff; }
+h1 { font-size: 72px; color: #fff; }
+h2 { font-size: 46px; color: #fff; }
 .act {
-  font-family: var(--f-mono); font-size: 13px; letter-spacing: .14em;
-  text-transform: uppercase; color: var(--muted); opacity: .85;
-  background: rgba(255,255,255,0.06); padding: 5px 14px; border-radius: 99px;
-  border: 1px solid var(--glass-line);
+  font-family: var(--f-mono); font-size: 15px; font-weight: 600; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--muted); opacity: .9;
+  background: rgba(255,255,255,0.08); padding: 6px 18px; border-radius: 99px;
+  border: 1px solid var(--glass-line); white-space: nowrap;
 }
 
 .row { display: flex; gap: 32px; align-items: stretch; flex: 1; min-height: 0; }
-.col-text { flex: 0 0 540px; display: flex; flex-direction: column; gap: 14px; justify-content: center; }
-.col-fig { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; }
+.col-text { flex: 1; display: flex; flex-direction: column; gap: 14px; }
+.col-fig { flex: 1.25; display: flex; align-items: center; justify-content: center; position: relative; }
 .glass {
   background: var(--glass); border: 1px solid var(--glass-line);
-  border-radius: 14px; backdrop-filter: blur(10px);
+  border-radius: 16px; backdrop-filter: blur(10px);
 }
 
-.frag { opacity: 0; transform: translateY(12px); transition: opacity .35s ease, transform .35s ease; }
-.frag.shown { opacity: 1; transform: translateY(0); }
 
 .card {
-  padding: 18px 24px; display: flex; flex-direction: column; gap: 8px;
+  padding: 34px 38px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  flex: 1;
+  justify-content: center; /* Contenido centrado: reparte el aire arriba y abajo */
+}
+.card-header-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 .card-num {
-  font-family: var(--f-mono); font-size: 12px; font-weight: 700;
-  color: var(--gold); letter-spacing: .12em; text-transform: uppercase;
+  font-family: var(--f-mono); font-size: 15px; font-weight: 700;
+  color: var(--gold); letter-spacing: .14em; text-transform: uppercase;
 }
 .card-title {
-  font-family: var(--f-display); font-size: 20px; font-weight: 700; color: #fff;
+  font-family: var(--f-display); font-size: 32px; font-weight: 700; color: #fff; line-height: 1.2;
 }
 .card-body {
-  font-size: 15px; line-height: 1.45; color: var(--paper); opacity: 0.92;
+  font-size: 25px; line-height: 1.45; color: var(--paper); opacity: 0.95; margin: 0;
 }
+.step-item {
+  background: rgba(255, 255, 255, 0.04);
+  padding: 14px 18px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 
 .interactive-panel {
   width: 100%; height: 100%; display: flex; flex-direction: column;
@@ -119,35 +134,96 @@ h2 { font-size: 40px; color: #fff; }
 }
 .ctrl-row {
   display: flex; gap: 20px; align-items: center; justify-content: center;
-  background: rgba(0, 0, 0, 0.35); padding: 10px 18px; border-radius: 99px;
-  border: 1px solid var(--glass-line); margin-bottom: 14px;
+  background: rgba(0, 0, 0, 0.4); padding: 12px 22px; border-radius: 99px;
+  border: 1px solid var(--glass-line); margin-bottom: 12px;
 }
 .ctrl-btn {
   background: var(--glass); border: 1px solid var(--glass-line);
-  color: #fff; font-family: var(--f-display); font-size: 13.5px; font-weight: 600;
-  padding: 6px 16px; border-radius: 99px; cursor: pointer; transition: all .2s;
+  color: #fff; font-family: var(--f-display); font-size: 16px; font-weight: 600;
+  padding: 8px 22px; border-radius: 99px; cursor: pointer; transition: all .2s;
 }
 .ctrl-btn:hover { background: var(--azure); transform: translateY(-1px); }
 .ctrl-btn.active { background: var(--cobalt); border-color: var(--cyan); color: #fff; }
 
-.live-svg { width: 100%; height: 100%; max-height: 520px; }
+.live-svg { width: 100%; height: 100%; max-height: 560px; }
 
-/* Barra inferior */
+.opt { background:rgba(255,255,255,0.06); padding:16px 22px; border-radius:12px; border:1px solid var(--glass-line); font-size:23px; line-height:1.4; }
+.opt.ok { background:rgba(13,148,136,0.24); border:2px solid var(--teal); }
+.bul { margin:0; padding-left:1.1em; display:flex; flex-direction:column; gap:14px; font-size:25px; line-height:1.45; }
+.bul li::marker { color: var(--gold); }
+.lead { font-size:25px !important; line-height:1.45; }
+.fig-wrap { flex:1.3; display:flex; min-height:0; }
+.road .card-body { font-size:23px; }
+.slide.roomy .bul { font-size:29px; gap:20px; }
+.slide.roomy .card-title { font-size:36px; }
+.slide.roomy .card-body { font-size:27px; }
+.road .card-title { font-size:28px; }
+
+
+/* ---- Diapositiva 3: línea de tiempo por etapas (avanza con el pasador) ---- */
+.hist-wrap { flex:1; min-height:0; display:flex; flex-direction:column; gap:18px; }
+.hist-chart { position:relative; flex:1; min-height:0; display:flex; background:#071527; border:1px solid var(--glass-line); border-radius:16px; padding:8px 14px 0; }
+.hist-svg { width:100%; height:100%; }
+.eras { display:grid; grid-template-columns: repeat(3, 1fr); gap:18px; }
+.era { display:flex; align-items:center; gap:20px; padding:16px 22px; border-radius:14px; background:var(--glass);
+       border:1px solid var(--glass-line); border-left:5px solid var(--c); }
+.era-eq { font-size:27px; color:var(--c); white-space:nowrap; min-width:150px; text-align:center; }
+.era-tag { font-family:var(--f-mono); font-size:14px; font-weight:700; letter-spacing:.16em; color:var(--c); }
+.era p { margin:4px 0 0; font-size:19px; line-height:1.35; color:var(--paper); }
+.slide[data-steps] [data-stage] { opacity:0; transform:translateY(8px); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.8,.2,1); transform-box: fill-box; }
+.slide[data-steps] [data-stage].on { opacity:1; transform:none; }
+.opt.ok[data-reveal] { transition: background .5s ease, border-color .5s ease, box-shadow .5s ease; }
+.opt.ok[data-reveal]:not(.revealed) { background:rgba(255,255,255,0.06); border:1px solid var(--glass-line); padding:17px 23px; }
+.opt.ok.revealed { box-shadow: 0 0 0 4px rgba(13,148,136,0.18); }
+.ans-tag { display:inline-block; color:#5eead4; max-width:0; overflow:hidden; white-space:nowrap; vertical-align:bottom; transition: max-width .6s ease, opacity .6s ease !important; transform:none !important; }
+.ans-tag.on { max-width:220px; }
+.s3 .h-pulse { transform-box: fill-box; transform-origin:center; animation: hPulse 1.8s ease-out infinite; }
+@keyframes hPulse { 0% { transform:scale(1); opacity:.95; } 100% { transform:scale(2.8); opacity:0; } }
+.h-dots { position:absolute; right:18px; bottom:12px; display:flex; gap:7px; }
+.h-dots i { width:9px; height:9px; border-radius:50%; background:rgba(255,255,255,0.18); transition: background .3s; }
+.h-dots i.on { background: var(--gold); }
+
+/* ---- Diapositiva 6: salarios e inflación, relato por épocas ---- */
+.caps { position:relative; height:118px; }
+.cap { position:absolute; inset:0; display:flex; align-items:center; gap:26px; padding:18px 28px; border-radius:14px;
+       background:var(--glass); border:1px solid var(--glass-line); border-left:5px solid var(--c); }
+.cap .era-tag { min-width:300px; white-space:nowrap; }
+.cap p { margin:0; font-size:21px; line-height:1.4; color:var(--paper); }
+.slide[data-steps] [data-only] { opacity:0; transform:translateY(8px); transition: opacity .5s ease, transform .5s ease; }
+.slide[data-steps] [data-only].on { opacity:1; transform:none; }
+
+/* ---- Diapositiva 8: caja de derivación ---- */
+.nairu-card { gap:14px !important; padding:28px 34px !important; }
+.nairu-card .math-hl { font-size:26px; margin:0; padding:6px 18px; }
+.nairu-card .math-hl .katex-display { margin:.3em 0; }
+.nairu-card .bul { font-size:22px; gap:8px; }
+.nairu-card .card-body { font-size:22px; }
+.deriv { background:rgba(255,255,255,0.05); border:1px dashed rgba(255,255,255,0.22); border-radius:12px; padding:12px 18px; }
+.deriv-tag { font-family:var(--f-mono); font-size:13px; font-weight:700; letter-spacing:.16em; color:var(--muted); }
+.deriv-eq { font-size:23px; margin:6px 0 4px; color:#fff; }
+.deriv p { margin:0; font-size:19px; color:var(--paper); }
+/* Barra inferior y HUD */
 .progress-bar {
-  position: absolute; bottom: 0; left: 0; height: 5px; width: 0%;
+  position: absolute; bottom: 0; left: 0; height: 6px; width: 0%;
   background: linear-gradient(90deg, var(--azure), var(--gold));
   transition: width .3s ease; z-index: 10;
 }
 .hud {
-  position: absolute; bottom: 14px; right: 28px;
-  font-family: var(--f-mono); font-size: 13px; color: var(--muted);
-  z-index: 10; display: flex; gap: 14px;
+  position: absolute; bottom: 12px; right: 28px;
+  font-family: var(--f-mono); font-size: 14.5px; color: var(--muted);
+  z-index: 10; display: flex; gap: 16px; align-items: center;
 }
+.hud-btn {
+  background: rgba(255,255,255,0.08); border: 1px solid var(--glass-line);
+  color: var(--paper); padding: 4px 10px; border-radius: 6px; cursor: pointer;
+  font-family: var(--f-mono); font-size: 12px;
+}
+.hud-btn:hover { background: var(--azure); }
 
 .math-hl {
-  font-size: 18px; color: #fff; background: rgba(5, 108, 170, 0.25);
-  padding: 8px 14px; border-radius: 8px; border-left: 4px solid var(--azure);
-  display: inline-block; margin: 4px 0;
+  font-size: 30px; color: #fff; background: rgba(5, 108, 170, 0.25);
+  padding: 10px 18px; border-radius: 10px; border-left: 5px solid var(--azure);
+  display: block; margin: 4px 0; text-align: center; width: 100%;
 }
 </style>
 </head>
@@ -161,582 +237,1054 @@ h2 { font-size: 40px; color: #fff; }
     </svg>
   </div>
 
-  <!-- ============================================================== -->
   <!-- SLIDE 1: PORTADA OFICIAL -->
-  <!-- ============================================================== -->
   <div class="slide cover active" data-slide="1">
-    <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:20px; z-index:2;">
-      <div style="display:flex; align-items:center; gap:16px;">
-        <span style="font-family:var(--f-mono); font-size:14px; font-weight:700; color:var(--gold); letter-spacing:.2em; text-transform:uppercase; background:rgba(255,190,11,0.12); padding:6px 14px; border-radius:99px; border:1px solid rgba(255,190,11,0.3);">
+    <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:24px; z-index:2;">
+      <div style="display:flex; align-items:center; gap:18px;">
+        <span style="font-family:var(--f-mono); font-size:16px; font-weight:700; color:var(--gold); letter-spacing:.2em; text-transform:uppercase; background:rgba(255,190,11,0.15); padding:8px 18px; border-radius:99px; border:1px solid rgba(255,190,11,0.35);">
           SESIÓN 13 · ENSEÑANZAS BÁSICAS (EB)
         </span>
-        <span style="font-family:var(--f-mono); font-size:14px; color:var(--muted);">DOBLE GRADO DER + FICO · UPO</span>
+        <span style="font-family:var(--f-mono); font-size:16px; color:var(--muted);">DOBLE GRADO DER + FICO · UPO</span>
       </div>
       <h1>Desanclaje vs. Reanclaje de Expectativas y el Modelo IS-LM-PC</h1>
-      <p style="font-size:24px; color:var(--paper); max-width:1050px; line-height:1.4; opacity:.95;">
+      <p style="font-size:28px; color:var(--paper); max-width:1150px; line-height:1.45; opacity:.96;">
         De la NAIRU a la Curva PC: el termostato de los Bancos Centrales, la brecha de producción (<i>Output Gap</i>) y la búsqueda del tipo de interés neutral ($r_n$).
       </p>
-      <div style="display:flex; gap:30px; margin-top:20px; font-family:var(--f-mono); font-size:14px; color:var(--muted);">
+      <div style="display:flex; gap:36px; margin-top:20px; font-family:var(--f-mono); font-size:16px; color:var(--muted);">
         <span>👨‍🏫 Prof. Manuel A. Hidalgo Pérez</span>
         <span>📍 Aula 03 · Edificio 7</span>
         <span>⏱️ 120 minutos íntegros</span>
+        <span>📖 Blanchard Cap. 8 y 9</span>
       </div>
     </div>
   </div>
 
-  <!-- ============================================================== -->
-  <!-- SLIDE 2: HOJA DE RUTA Y PLANTEAMIENTO -->
-  <!-- ============================================================== -->
+  <!-- SLIDE 2: HOJA DE RUTA Y PLANTEAMIENTO (5 BLOQUES) -->
   <div class="slide" data-slide="2">
     <div class="slide-header">
       <div class="header-titles">
         <span class="eyebrow">ESTRUCTURA DE LA SESIÓN</span>
-        <h2>Hoja de Ruta: De la Curva de Phillips al IS-LM-PC</h2>
+        <h2>Hoja de ruta: cinco bloques en 120 minutos</h2>
       </div>
       <span class="act">PLAN DOCENTE 120 MIN</span>
     </div>
-    <div class="row" style="margin-top:10px;">
-      <div class="col-text" style="flex:0 0 460px;">
-        <div class="glass card">
-          <span class="card-num">RECUPERACIÓN SESIÓN 12</span>
-          <div class="card-title">Cerrar el ciclo de expectativas</div>
-          <div class="card-body">
-            En la sesión 12 vimos el origen salarial de la inflación. Hoy formalizamos la frontera crucial: qué ocurre cuando las expectativas están <b>ancladas</b> ($\theta = 0$) frente a cuando se <b>desanclan</b> ($\theta = 1$).
-          </div>
-        </div>
-        <div class="glass card" style="border-left:4px solid var(--gold);">
-          <span class="card-num" style="color:var(--gold);">CONCEPTO ESTRELLA</span>
-          <div class="card-title">El tipo de interés neutral ($r_n$)</div>
-          <div class="card-body">
-            La brújula que persiguen Lagarde y Powell: ¿cuál es el tipo real exacto que mantiene el pleno empleo sin recalentar la inflación?
-          </div>
-        </div>
+    <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap:20px; margin:40px 0 30px; flex:1;">
+      <div class="glass card road" style="border-top: 5px solid var(--azure); padding:30px 24px; justify-content:center; gap:24px;">
+        <span class="card-num">BLOQUE 1 · 0–15′</span>
+        <span class="card-title">Apertura y enlace</span>
+        <p class="card-body">Qué dejamos abierto en la Sesión 12: por qué la inflación se volvió persistente.</p>
       </div>
-      <div class="col-fig">
-        <div class="glass" style="width:100%; height:100%; padding:26px 32px; display:flex; flex-direction:column; justify-content:space-around;">
-          <div style="display:flex; align-items:center; gap:20px;">
-            <div style="width:48px; height:48px; border-radius:50%; background:var(--cobalt); display:flex; align-items:center; justify-content:center; font-weight:800; font-family:var(--f-mono);">1</div>
-            <div>
-              <div style="font-weight:700; font-size:18px;">Expectativas Ancladas vs. Adaptativas (NAIRU)</div>
-              <div style="font-size:14px; color:var(--muted);">El parámetro $\theta \in [0, 1]$ y la espiral aceleracionista salarios-precios.</div>
-            </div>
-          </div>
-          <div style="display:flex; align-items:center; gap:20px;">
-            <div style="width:48px; height:48px; border-radius:50%; background:var(--azure); display:flex; align-items:center; justify-content:center; font-weight:800; font-family:var(--f-mono);">2</div>
-            <div>
-              <div style="font-weight:700; font-size:18px;">De la Curva de Phillips a la Curva PC</div>
-              <div style="font-size:14px; color:var(--muted);">Sustitución técnica: del desempleo $u$ al Output Gap $(Y - Y_n)$.</div>
-            </div>
-          </div>
-          <div style="display:flex; align-items:center; gap:20px;">
-            <div style="width:48px; height:48px; border-radius:50%; background:var(--teal); display:flex; align-items:center; justify-content:center; font-weight:800; font-family:var(--f-mono);">3</div>
-            <div>
-              <div style="font-weight:700; font-size:18px;">Modelo IS-LM-PC en Dos Paneles</div>
-              <div style="font-size:14px; color:var(--muted);">Determinación conjunta del equilibrio de medio plazo y tipo neutral $r_n$.</div>
-            </div>
-          </div>
-          <div style="display:flex; align-items:center; gap:20px;">
-            <div style="width:48px; height:48px; border-radius:50%; background:var(--gold); color:#000; display:flex; align-items:center; justify-content:center; font-weight:800; font-family:var(--f-mono);">4</div>
-            <div>
-              <div style="font-weight:700; font-size:18px;">Laboratorio Interactivo y Reto Manuscrito</div>
-              <div style="font-size:14px; color:var(--muted);">Simulación de shocks con la Micro-App y ejercicio individual para el Pasaporte.</div>
-            </div>
-          </div>
-        </div>
+      <div class="glass card road" style="border-top: 5px solid var(--cobalt); padding:30px 24px; justify-content:center; gap:24px;">
+        <span class="card-num">BLOQUE 2 · 15–25′</span>
+        <span class="card-title">Gancho y choque</span>
+        <p class="card-body">La subida del BCE de septiembre, sondeo en directo y la historia de la curva de Phillips.</p>
+      </div>
+      <div class="glass card road" style="border-top: 5px solid var(--gold); padding:30px 24px; justify-content:center; gap:24px;">
+        <span class="card-num">BLOQUE 3 · 25–70′</span>
+        <span class="card-title">Núcleo analítico</span>
+        <p class="card-body">Expectativas $\theta$, NAIRU, curva PC y modelo IS-LM-PC en dos paneles.</p>
+      </div>
+      <div class="glass card road" style="border-top: 5px solid var(--teal); padding:30px 24px; justify-content:center; gap:24px;">
+        <span class="card-num">BLOQUE 4 · 70–95′</span>
+        <span class="card-title">Laboratorio web</span>
+        <p class="card-body">Simulador en parejas: shock fiscal, respuesta del banco central y efecto expulsión.</p>
+      </div>
+      <div class="glass card road" style="border-top: 5px solid var(--crimson); padding:30px 24px; justify-content:center; gap:24px;">
+        <span class="card-num">BLOQUE 5 · 95–120′</span>
+        <span class="card-title">Reto y cierre</span>
+        <p class="card-body">Trampas de examen, reto individual a mano y entrega por QR.</p>
       </div>
     </div>
   </div>
 
-  <!-- ============================================================== -->
-  <!-- SLIDE 3: EXPECTATIVAS ANCLADAS VS ADAPTATIVAS (INTERACTIVA) -->
-  <!-- ============================================================== -->
-  <div class="slide" data-slide="3">
+  <!-- SLIDE 3: BLOQUE 1 - CONEXIÓN CON SESIÓN 12 -->
+  <div class="slide s3" data-slide="3" data-steps="5" data-clip='{"1": 622, "2": 622, "3": 932, "4": 982, "5": 1347}'>
     <div class="slide-header">
       <div class="header-titles">
-        <span class="eyebrow">BLOQUE 1 · EXPECTATIVAS DE INFLACIÓN</span>
-        <h2>Ancladas ($\theta = 0$) vs. Adaptativas ($\theta = 1$)</h2>
+        <span class="eyebrow">BLOQUE 1: APERTURA Y ENLACE</span>
+        <h2>¿Por qué se rompió la curva de Phillips?</h2>
       </div>
-      <span class="act">DINÁMICA TEMPORAL</span>
+      <span class="act">ENLACE SESIÓN 12</span>
     </div>
-    <div class="row">
-      <div class="col-text" style="flex:0 0 520px;">
-        <div class="glass card">
-          <div class="card-title">La Regla General de Expectativas</div>
-          <div class="math-hl">$\pi_t^e = (1 - \theta)\bar{\pi} + \theta \pi_{t-1}$</div>
-          <div class="card-body">
-            El parámetro $\theta$ mide la <b>persistencia</b> que los agentes atribuyen a las desviaciones de precios:
-            <ul style="margin:8px 0; padding-left:20px;">
-              <li><b>$\theta = 0$ (Ancladas):</b> Confianza plena en la meta $\bar{\pi} = 2\%$. Si el paro baja de $u_n$, la inflación sube pero <i>se mantiene constante en ese nivel alto</i>.</li>
-              <li><b>$\theta = 1$ (Adaptativas):</b> Desconfianza o persistencia total. Si el paro baja de $u_n$, la inflación <i>se acelera año a año en espiral</i>.</li>
-            </ul>
-          </div>
-        </div>
-        <div class="glass card" style="border-left:4px solid var(--crimson);">
-          <div class="card-title" style="color:var(--crimson); font-size:17px;">Consecuencia para la Política Económica</div>
-          <div class="card-body" style="font-size:14px;">
-            Bajo expectativas adaptativas, ningún Gobierno puede comprar empleo permanente con inflación tolerada: el desempleo por debajo de la NAIRU destruye el sistema de precios.
-          </div>
-        </div>
+    <div class="hist-wrap">
+      <div class="hist-chart">
+        <svg class="hist-svg" viewBox="0 0 1460 560" font-family="Work Sans, sans-serif">
+<defs><linearGradient id="gES" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffbe0b" stop-opacity=".28"/><stop offset="1" stop-color="#ffbe0b" stop-opacity="0"/></linearGradient>
+<linearGradient id="gUS" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00f2fe" stop-opacity=".22"/><stop offset="1" stop-color="#00f2fe" stop-opacity="0"/></linearGradient>
+<filter id="glow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<clipPath id="hclip"><rect id="hclipRect" class="step-clip" x="0" y="0" width="622" height="560"/></clipPath></defs>
+<g data-stage="1"><rect x="70" y="140" width="539" height="365" fill="rgba(0,242,254,0.05)"/><text x="97" y="166" fill="#5eead4" font-size="14" font-family="JetBrains Mono, monospace" letter-spacing="2.5" font-weight="700">EXPECTATIVAS ANCLADAS</text></g>
+<g data-stage="3"><rect x="609" y="140" width="589" height="365" fill="rgba(225,29,72,0.07)"/><text x="627" y="166" fill="#fb7185" font-size="14" font-family="JetBrains Mono, monospace" letter-spacing="2.5" font-weight="700">DESANCLAJE</text></g>
+<g data-stage="5"><rect x="1199" y="140" width="131" height="365" fill="rgba(52,211,153,0.07)"/><text x="1212" y="166" fill="#34d399" font-size="14" font-family="JetBrains Mono, monospace" letter-spacing="2.5" font-weight="700">REANCLAJE</text></g>
+<line x1="70" y1="505" x2="1330" y2="505" stroke="rgba(255,255,255,0.25)"/>
+<text x="58" y="510" fill="#94b2c7" font-size="15" text-anchor="end">0%</text>
+<line x1="70" y1="437" x2="1330" y2="437" stroke="rgba(255,255,255,0.07)"/>
+<text x="58" y="442" fill="#94b2c7" font-size="15" text-anchor="end">5%</text>
+<line x1="70" y1="368" x2="1330" y2="368" stroke="rgba(255,255,255,0.07)"/>
+<text x="58" y="373" fill="#94b2c7" font-size="15" text-anchor="end">10%</text>
+<line x1="70" y1="300" x2="1330" y2="300" stroke="rgba(255,255,255,0.07)"/>
+<text x="58" y="305" fill="#94b2c7" font-size="15" text-anchor="end">15%</text>
+<line x1="70" y1="232" x2="1330" y2="232" stroke="rgba(255,255,255,0.07)"/>
+<text x="58" y="237" fill="#94b2c7" font-size="15" text-anchor="end">20%</text>
+<line x1="70" y1="164" x2="1330" y2="164" stroke="rgba(255,255,255,0.07)"/>
+<text x="58" y="169" fill="#94b2c7" font-size="15" text-anchor="end">25%</text>
+<text x="179" y="533" fill="#94b2c7" font-size="15" text-anchor="middle">1960</text>
+<text x="405" y="533" fill="#94b2c7" font-size="15" text-anchor="middle">1965</text>
+<text x="632" y="533" fill="#94b2c7" font-size="15" text-anchor="middle">1970</text>
+<text x="859" y="533" fill="#94b2c7" font-size="15" text-anchor="middle">1975</text>
+<text x="1085" y="533" fill="#94b2c7" font-size="15" text-anchor="middle">1980</text>
+<text x="1312" y="533" fill="#94b2c7" font-size="15" text-anchor="middle">1985</text>
+<g data-stage="1" class="h-ms"><line x1="88" y1="74" x2="88" y2="505" stroke="rgba(255,255,255,0.22)" stroke-dasharray="3 5"/><circle cx="88" cy="505" r="4.5" fill="#e2ecf5"/><text x="88" y="26" text-anchor="start" fill="#ffbe0b" font-size="16" font-family="JetBrains Mono, monospace" font-weight="700">1958</text><text x="88" y="44" text-anchor="start" fill="#f0f7ff" font-size="18" font-weight="600">Phillips publica su curva</text><text x="88" y="65" text-anchor="start" fill="#b9cfdf" font-size="16">con datos británicos</text></g>
+<g data-stage="1" class="h-ms"><line x1="179" y1="140" x2="179" y2="505" stroke="rgba(255,255,255,0.22)" stroke-dasharray="3 5"/><circle cx="179" cy="505" r="4.5" fill="#e2ecf5"/><text x="179" y="92" text-anchor="start" fill="#ffbe0b" font-size="16" font-family="JetBrains Mono, monospace" font-weight="700">1960</text><text x="179" y="110" text-anchor="start" fill="#f0f7ff" font-size="18" font-weight="600">Samuelson y Solow:</text><text x="179" y="131" text-anchor="start" fill="#b9cfdf" font-size="16">la curva como «menú»</text></g>
+<g data-stage="2" class="h-ms"><line x1="541" y1="74" x2="541" y2="505" stroke="rgba(255,255,255,0.22)" stroke-dasharray="3 5"/><circle cx="541" cy="505" r="4.5" fill="#e2ecf5"/><text x="541" y="26" text-anchor="middle" fill="#ffbe0b" font-size="16" font-family="JetBrains Mono, monospace" font-weight="700">1968</text><text x="541" y="44" text-anchor="middle" fill="#f0f7ff" font-size="18" font-weight="600">Friedman (y Phelps):</text><text x="541" y="65" text-anchor="middle" fill="#b9cfdf" font-size="16">el menú no durará</text></g>
+<g data-stage="3" class="h-ms"><line x1="804" y1="140" x2="804" y2="505" stroke="rgba(255,255,255,0.22)" stroke-dasharray="3 5"/><circle cx="804" cy="505" r="4.5" fill="#e2ecf5"/><text x="804" y="92" text-anchor="middle" fill="#ffbe0b" font-size="16" font-family="JetBrains Mono, monospace" font-weight="700">1973</text><text x="804" y="110" text-anchor="middle" fill="#f0f7ff" font-size="18" font-weight="600">Primer choque</text><text x="804" y="131" text-anchor="middle" fill="#b9cfdf" font-size="16">del petróleo</text></g>
+<g data-stage="5" class="h-ms"><line x1="1063" y1="74" x2="1063" y2="505" stroke="rgba(255,255,255,0.22)" stroke-dasharray="3 5"/><circle cx="1063" cy="505" r="4.5" fill="#e2ecf5"/><text x="1063" y="26" text-anchor="end" fill="#ffbe0b" font-size="16" font-family="JetBrains Mono, monospace" font-weight="700">1979</text><text x="1063" y="44" text-anchor="end" fill="#f0f7ff" font-size="18" font-weight="600">Segundo choque</text><text x="1063" y="65" text-anchor="end" fill="#b9cfdf" font-size="16">y Volcker en la Fed</text></g>
+<g clip-path="url(#hclip)">
+<path d="M 178.8 488.9 C 183.8 489.4, 214.0 500.8, 224.1 493.9 C 234.2 487.1, 259.4 439.1, 269.4 427.0 C 279.5 415.0, 304.7 387.6, 314.7 385.7 C 324.8 383.7, 350.0 416.5, 360.1 409.7 C 370.1 402.9, 395.3 323.5, 405.4 324.6 C 415.5 325.8, 440.6 409.5, 450.7 419.8 C 460.8 430.1, 486.0 415.8, 496.0 417.8 C 506.1 419.7, 531.3 431.0, 541.4 437.4 C 551.4 443.8, 576.6 476.7, 586.7 475.5 C 596.8 474.3, 621.9 436.0, 632.0 426.8 C 642.1 417.5, 667.3 396.3, 677.3 392.5 C 687.4 388.6, 712.6 396.9, 722.7 392.1 C 732.7 387.3, 757.9 360.3, 768.0 349.1 C 778.1 337.8, 803.2 299.3, 813.3 290.9 C 823.4 282.5, 848.6 276.5, 858.6 273.6 C 868.7 270.6, 893.9 275.9, 904.0 264.4 C 914.0 252.9, 939.2 173.2, 949.3 169.9 C 959.4 166.7, 984.5 221.6, 994.6 235.1 C 1004.7 248.5, 1029.9 284.8, 1039.9 291.2 C 1050.0 297.6, 1075.2 290.9, 1085.3 292.5 C 1095.3 294.2, 1120.5 304.6, 1130.6 306.3 C 1140.6 308.1, 1165.8 304.6, 1175.9 308.2 C 1186.0 311.9, 1211.2 334.1, 1221.2 338.8 C 1231.3 343.6, 1256.5 345.9, 1266.5 351.0 C 1276.6 356.1, 1306.8 381.0, 1311.9 384.7 L 1311.9 505 L 178.8 505 Z" fill="url(#gES)"/><path d="M 88.1 468.1 C 93.2 470.6, 123.4 488.4, 133.5 490.3 C 143.5 492.1, 168.7 484.5, 178.8 484.5 C 188.8 484.5, 214.0 489.5, 224.1 490.0 C 234.2 490.4, 259.4 488.8, 269.4 488.6 C 279.5 488.5, 304.7 488.8, 314.7 488.6 C 324.8 488.5, 350.0 487.9, 360.1 487.2 C 370.1 486.6, 395.3 485.7, 405.4 483.2 C 415.5 480.6, 440.6 465.9, 450.7 464.0 C 460.8 462.2, 486.0 468.7, 496.0 466.8 C 506.1 464.8, 531.3 450.4, 541.4 446.3 C 551.4 442.2, 576.6 432.2, 586.7 429.9 C 596.8 427.6, 621.9 424.0, 632.0 425.8 C 642.1 427.6, 667.3 442.5, 677.3 446.3 C 687.4 450.1, 712.6 462.8, 722.7 459.9 C 732.7 457.1, 757.9 432.2, 768.0 420.3 C 778.1 408.5, 803.2 357.8, 813.3 353.4 C 823.4 349.0, 848.6 372.6, 858.6 380.8 C 868.7 388.9, 893.9 423.2, 904.0 427.2 C 914.0 431.1, 939.2 419.1, 949.3 416.2 C 959.4 413.4, 984.5 408.5, 994.6 401.2 C 1004.7 393.9, 1029.9 359.7, 1039.9 350.7 C 1050.0 341.8, 1075.2 319.2, 1085.3 320.7 C 1095.3 322.2, 1120.5 353.1, 1130.6 364.4 C 1140.6 375.6, 1165.8 410.9, 1175.9 421.7 C 1186.0 432.5, 1211.2 458.6, 1221.2 461.3 C 1231.3 464.0, 1256.5 446.7, 1266.5 446.3 C 1276.6 445.8, 1306.8 456.0, 1311.9 457.2 L 1311.9 505 L 88.1 505 Z" fill="url(#gUS)"/>
+<path d="M 88.1 468.1 C 93.2 470.6, 123.4 488.4, 133.5 490.3 C 143.5 492.1, 168.7 484.5, 178.8 484.5 C 188.8 484.5, 214.0 489.5, 224.1 490.0 C 234.2 490.4, 259.4 488.8, 269.4 488.6 C 279.5 488.5, 304.7 488.8, 314.7 488.6 C 324.8 488.5, 350.0 487.9, 360.1 487.2 C 370.1 486.6, 395.3 485.7, 405.4 483.2 C 415.5 480.6, 440.6 465.9, 450.7 464.0 C 460.8 462.2, 486.0 468.7, 496.0 466.8 C 506.1 464.8, 531.3 450.4, 541.4 446.3 C 551.4 442.2, 576.6 432.2, 586.7 429.9 C 596.8 427.6, 621.9 424.0, 632.0 425.8 C 642.1 427.6, 667.3 442.5, 677.3 446.3 C 687.4 450.1, 712.6 462.8, 722.7 459.9 C 732.7 457.1, 757.9 432.2, 768.0 420.3 C 778.1 408.5, 803.2 357.8, 813.3 353.4 C 823.4 349.0, 848.6 372.6, 858.6 380.8 C 868.7 388.9, 893.9 423.2, 904.0 427.2 C 914.0 431.1, 939.2 419.1, 949.3 416.2 C 959.4 413.4, 984.5 408.5, 994.6 401.2 C 1004.7 393.9, 1029.9 359.7, 1039.9 350.7 C 1050.0 341.8, 1075.2 319.2, 1085.3 320.7 C 1095.3 322.2, 1120.5 353.1, 1130.6 364.4 C 1140.6 375.6, 1165.8 410.9, 1175.9 421.7 C 1186.0 432.5, 1211.2 458.6, 1221.2 461.3 C 1231.3 464.0, 1256.5 446.7, 1266.5 446.3 C 1276.6 445.8, 1306.8 456.0, 1311.9 457.2" fill="none" stroke="#00f2fe" stroke-width="4" stroke-linecap="round"/>
+<path d="M 178.8 488.9 C 183.8 489.4, 214.0 500.8, 224.1 493.9 C 234.2 487.1, 259.4 439.1, 269.4 427.0 C 279.5 415.0, 304.7 387.6, 314.7 385.7 C 324.8 383.7, 350.0 416.5, 360.1 409.7 C 370.1 402.9, 395.3 323.5, 405.4 324.6 C 415.5 325.8, 440.6 409.5, 450.7 419.8 C 460.8 430.1, 486.0 415.8, 496.0 417.8 C 506.1 419.7, 531.3 431.0, 541.4 437.4 C 551.4 443.8, 576.6 476.7, 586.7 475.5 C 596.8 474.3, 621.9 436.0, 632.0 426.8 C 642.1 417.5, 667.3 396.3, 677.3 392.5 C 687.4 388.6, 712.6 396.9, 722.7 392.1 C 732.7 387.3, 757.9 360.3, 768.0 349.1 C 778.1 337.8, 803.2 299.3, 813.3 290.9 C 823.4 282.5, 848.6 276.5, 858.6 273.6 C 868.7 270.6, 893.9 275.9, 904.0 264.4 C 914.0 252.9, 939.2 173.2, 949.3 169.9 C 959.4 166.7, 984.5 221.6, 994.6 235.1 C 1004.7 248.5, 1029.9 284.8, 1039.9 291.2 C 1050.0 297.6, 1075.2 290.9, 1085.3 292.5 C 1095.3 294.2, 1120.5 304.6, 1130.6 306.3 C 1140.6 308.1, 1165.8 304.6, 1175.9 308.2 C 1186.0 311.9, 1211.2 334.1, 1221.2 338.8 C 1231.3 343.6, 1256.5 345.9, 1266.5 351.0 C 1276.6 356.1, 1306.8 381.0, 1311.9 384.7" fill="none" stroke="#ffbe0b" stroke-width="4.5" stroke-linecap="round" filter="url(#glow)"/>
+</g>
+<g data-stage="1"><circle cx="103.19424460432255" cy="200" r="6" fill="#ffbe0b"/><text x="115.19424460432255" y="206" fill="#ffbe0b" font-size="16" font-weight="700">España</text><circle cx="203.19424460432253" cy="200" r="6" fill="#00f2fe"/><text x="215.19424460432253" y="206" fill="#00f2fe" font-size="16" font-weight="700">EE. UU.</text></g>
+<g data-stage="5"><circle cx="1085" cy="321" r="6" fill="#00f2fe"/><text x="1071" y="309" text-anchor="end" fill="#00f2fe" font-size="18" font-weight="800" paint-order="stroke" stroke="#071527" stroke-width="6">13,5%</text></g>
+<g data-stage="4" class="h-moncloa"><circle class="h-pulse" cx="949" cy="170" r="10" fill="none" stroke="#ffbe0b" stroke-width="2.5"/><circle cx="949" cy="170" r="8" fill="#ffbe0b"/><text x="933" y="176" fill="#ffbe0b" font-size="19" font-weight="800" text-anchor="end" paint-order="stroke" stroke="#071527" stroke-width="6">24,5%</text><text x="967" y="168" fill="#ffbe0b" font-size="17" font-weight="700" paint-order="stroke" stroke="#071527" stroke-width="6">Pactos de la Moncloa</text><text x="967" y="188" fill="#e2ecf5" font-size="15" paint-order="stroke" stroke="#071527" stroke-width="6">octubre de 1977</text></g>
+<text x="70" y="552" fill="#6f8aa0" font-size="13">Inflación media anual del IPC. Fuentes: BLS (vía Fed de Minneapolis) y Banco Mundial (vía FRED); Pactos de la Moncloa, 25/10/1977.</text>
+</svg>
+        <div class="h-dots"><i></i><i></i><i></i><i></i><i></i></div>
       </div>
-      <div class="col-fig">
-        <div class="glass interactive-panel">
-          <div class="ctrl-row">
-            <span style="font-family:var(--f-mono); font-size:13px; color:var(--muted);">Régimen:</span>
-            <button class="ctrl-btn active" id="btnAncladas" onclick="setExpectativa(0)">Expectativas Ancladas (θ = 0)</button>
-            <button class="ctrl-btn" id="btnAdaptativas" onclick="setExpectativa(1)">Expectativas Adaptativas (θ = 1)</button>
-          </div>
-          <div style="flex:1; width:100%; display:flex; justify-content:center; align-items:center;">
-            <svg class="live-svg" id="svgExpectativas" viewBox="0 0 680 400">
-              <!-- Rejilla y Ejes dinámicos generados por JS -->
-            </svg>
-          </div>
+      <div class="eras">
+        <div class="era" data-stage="1" style="--c:#5eead4">
+          <div class="era-eq">$\pi^e_t = \bar{\pi}$</div>
+          <div><span class="era-tag">AÑOS 60</span><p>La curva parece un menú: algo más de inflación a cambio de menos paro.</p></div>
+        </div>
+        <div class="era" data-stage="3" style="--c:#fb7185">
+          <div class="era-eq">$\pi^e_t = \pi_{t-1}$</div>
+          <div><span class="era-tag">AÑOS 70</span><p>Los salarios persiguen la inflación pasada y el menú desaparece.</p></div>
+        </div>
+        <div class="era" data-stage="4" style="--c:#ffbe0b">
+          <div class="era-eq">$\theta \to 0$</div>
+          <div><span class="era-tag">MONCLOA · 1977</span><p>Salarios con la inflación prevista (22%), no la pasada (26,4%).</p></div>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- ============================================================== -->
-  <!-- SLIDE 4: LA NAIRU Y LA ESPIRAL SALARIOS-PRECIOS -->
-  <!-- ============================================================== -->
+  <!-- SLIDE 4: BLOQUE 2 - NOTICIA GANCHO -->
   <div class="slide" data-slide="4">
     <div class="slide-header">
       <div class="header-titles">
-        <span class="eyebrow">BLOQUE 2 · LA CONDICIÓN DE ESTABILIDAD</span>
-        <h2>La NAIRU: Tasa No Aceleradora de la Inflación</h2>
+        <span class="eyebrow">BLOQUE 2: GANCHO DE ACTUALIDAD</span>
+        <h2>El BCE sube tipos y resta peso al tipo neutral</h2>
       </div>
-      <span class="act">NÚCLEO TEÓRICO</span>
+      <span class="act">BERLÍN · 10 SEP. 2026</span>
     </div>
     <div class="row">
-      <div class="col-text" style="flex:0 0 540px;">
+      <div class="col-text" style="flex:1.2;">
         <div class="glass card">
-          <div class="card-title">Definición Analítica de la NAIRU</div>
-          <div class="card-body">
-            Sustituyendo $\theta = 1$ en la Curva de Phillips con expectativas adaptativas:
-            <div class="math-hl">$\pi_t - \pi_{t-1} = -\alpha (u_t - u_n)$</div>
-            Para que la inflación permanezca estable $(\pi_t = \pi_{t-1} \implies \Delta \pi_t = 0)$, la tasa de desempleo efectivo <b>debe coincidir exactamente con la tasa natural</b>:
-            <div class="math-hl" style="background:rgba(255,190,11,0.15); border-color:var(--gold);">$u_t = u_n \implies \text{NAIRU}$</div>
+          <div>
+            <span class="card-num" style="color:var(--azure);">LA NOTICIA</span>
+            <span class="card-title" style="display:block; margin:8px 0 0;">Segunda subida del año: el depósito, al 2,50%, en la parte alta del rango neutral que estima el propio BCE</span>
           </div>
-        </div>
-        <div class="glass card">
-          <div class="card-title">Regla de Aceleración / Desaceleración</div>
-          <div class="card-body">
-            • Si $u_t < u_n \implies \Delta \pi_t > 0$: Inflación en aceleración continua.<br>
-            • Si $u_t > u_n \implies \Delta \pi_t < 0$: Desinflación continua.<br>
-            • Si $u_t = u_n \implies \Delta \pi_t = 0$: Inflación constante en el nivel heredado.
+          <div style="background:rgba(255,255,255,0.05); padding:20px 24px; border-radius:12px; border-left:4px solid var(--cobalt);">
+            <p class="card-body" style="font-family:var(--f-serif); font-size:30px; line-height:1.3;">
+              <em>«En las circunstancias actuales, no le otorgamos una gran importancia al tipo neutral».</em>
+            </p>
+            <p class="card-body" style="margin-top:10px; color:var(--muted); font-size:20px;">Christine Lagarde, rueda de prensa del BCE</p>
           </div>
+          <p class="card-body">
+            En junio ya había advertido de <strong>cierta pérdida de anclaje</strong> en las expectativas de inflación a corto plazo.
+          </p>
+          <p class="card-body" style="font-size:15px; color:var(--muted); font-family:var(--f-mono);">
+            Fuentes: BCE (10/09/2026); esdiario; BBVA Research; Newsquawk (22/06/2026).
+          </p>
         </div>
       </div>
-      <div class="col-fig">
-        <div class="glass" style="width:100%; height:100%; padding:24px; display:flex; flex-direction:column; justify-content:center; align-items:center;">
-          <img src="figuras y gráficos/figura1_ancladas_vs_adaptativas.png" style="max-width:95%; max-height:480px; border-radius:10px; border:1px solid var(--glass-line);" alt="Figura 1">
-          <p style="font-family:var(--f-mono); font-size:12px; color:var(--muted); margin-top:10px;">Figura 1: Evolución temporal de la inflación ante desempleo inferior a la NAIRU.</p>
+      <div class="col-text" style="flex:0.8;">
+        <div class="glass card" style="border-color:var(--gold); background:rgba(255,190,11,0.08);">
+          <div>
+            <span class="card-num" style="color:var(--gold);">LA PREGUNTA DE HOY</span>
+            <span class="card-title" style="display:block; margin:8px 0 0;">¿Por qué llevar los tipos al techo del rango neutral?</span>
+          </div>
+          <p class="card-body">
+            <strong>$r \lt r_n$:</strong> la demanda supera la capacidad productiva y la inflación sube.
+          </p>
+          <p class="card-body">
+            <strong>$r > r_n$:</strong> la economía se enfría y la inflación cede.
+          </p>
+          <div style="background:rgba(0,242,254,0.12); padding:16px 20px; border-radius:12px; border:1px solid var(--cyan);">
+            <p class="card-body" style="color:var(--cyan); font-weight:600;">
+              Pista: si las expectativas se desanclan, no basta con estar en $r_n$.
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- ============================================================== -->
-  <!-- SLIDE 5: DE LA CURVA DE PHILLIPS A LA CURVA PC (PRODUCCIÓN) -->
-  <!-- ============================================================== -->
-  <div class="slide" data-slide="5">
+  <!-- SLIDE 5: BLOQUE 2 - SONDEO MENTIMETER -->
+  <div class="slide" data-slide="5" data-steps="3">
     <div class="slide-header">
       <div class="header-titles">
-        <span class="eyebrow">BLOQUE 3 · EL PUENTE HACIA EL PIB</span>
-        <h2>Deducción de la Curva PC: De Desempleo a Output Gap</h2>
+        <span class="eyebrow">BLOQUE 2: SONDEO INTERACTIVO MENTIMETER</span>
+        <h2>Pregunta en directo: ¿por qué no un tipo del 0%?</h2>
       </div>
-      <span class="act">DERIVACIÓN PIZARRA</span>
+      <span class="act">VOTACIÓN EN AULA</span>
     </div>
     <div class="row">
-      <div class="col-text" style="flex:0 0 540px;">
+      <div class="col-text" style="flex:1.2;">
         <div class="glass card">
-          <div class="card-title">Paso 1: Del Empleo al Desempleo</div>
-          <div class="card-body">
-            Con tecnología lineal $Y = N$ y población activa $L$:
-            <div class="math-hl">$u = \frac{L - N}{L} = 1 - \frac{Y}{L}$</div>
+          <div>
+            <span class="card-num" style="color:var(--azure);">SONDEO MENTIMETER · ESCANEA EN TU MÓVIL</span>
+            <span class="card-title" style="display:block; margin:8px 0 0;">«Si el Banco Central quiere maximizar la producción y el empleo, ¿por qué no fija el tipo de interés real en el 0% para siempre?»</span>
           </div>
-        </div>
-        <div class="glass card">
-          <div class="card-title">Paso 2: Producción Potencial ($Y_n$)</div>
-          <div class="card-body">
-            El nivel potencial corresponde a la tasa natural de paro $u_n$:
-            <div class="math-hl">$Y_n = L(1 - u_n) \implies u_n = 1 - \frac{Y_n}{L}$</div>
-          </div>
-        </div>
-        <div class="glass card">
-          <div class="card-title">Paso 3: La Curva PC Estructural</div>
-          <div class="card-body">
-            Restando ambas expresiones: $u - u_n = -\frac{Y - Y_n}{L}$. Sustituyendo en Phillips:
-            <div class="math-hl" style="border-color:var(--ok); background:rgba(52,211,153,0.15);">$\pi - \pi^e = \frac{\alpha}{L}(Y - Y_n)$</div>
+          <div style="display:flex; flex-direction:column; gap:14px;">
+            <div class="opt">
+              <strong>A:</strong> Los bancos comerciales quebrarían sin margen de intermediación.
+            </div>
+            <div class="opt ok" data-reveal="2">
+              <strong>B<span class="ans-tag" data-stage="2">&nbsp;✓ correcta</span>:</strong> La demanda superaría el PIB potencial ($Y > Y_n$) y la inflación se aceleraría año tras año.
+            </div>
+            <div class="opt">
+              <strong>C:</strong> El Estado recaudaría menos por las rentas del capital.
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-fig">
-        <div class="glass" style="width:100%; height:100%; padding:20px; display:flex; flex-direction:column; justify-content:center; align-items:center;">
-          <img src="figuras y gráficos/figura2_curva_phillips_a_pc.png" style="max-width:98%; max-height:480px; border-radius:10px; border:1px solid var(--glass-line);" alt="Figura 2">
-          <p style="font-family:var(--f-mono); font-size:12px; color:var(--muted); margin-top:8px;">Figura 2: Correspondencia exacta entre el plano laboral $(u)$ y el plano productivo $(Y)$.</p>
+      <div class="col-text" style="flex:0.8;" data-stage="3">
+        <div class="glass card" style="border-color:var(--cyan); justify-content:center; gap:24px;">
+          <div>
+            <span class="card-num" style="color:var(--cyan);">LA IDEA</span>
+            <span class="card-title" style="display:block; margin:8px 0 0;">La economía tiene un techo</span>
+          </div>
+          <p class="card-body">
+            Por encima del pleno empleo no se produce más de forma duradera: el exceso de demanda presiona salarios y precios, y la espiral se alimenta sola.
+          </p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ============================================================== -->
-  <!-- SLIDE 6: CHECKPOINT INTERMEDIO THINK-PAIR-SHARE -->
-  <!-- ============================================================== -->
-  <div class="slide" data-slide="6">
+  <!-- SLIDE 6: BLOQUE 2 - CHOQUE EMPÍRICO -->
+  <div class="slide s6" data-slide="6" data-steps="4" data-clip='{"1": 193, "2": 479, "3": 1296, "4": 1435}'>
     <div class="slide-header">
       <div class="header-titles">
-        <span class="eyebrow">PAUSA ACTIVA INTERACTIVA (MINUTO 50)</span>
-        <h2>Checkpoint Intermedio: Dilema en Parejas (Think-Pair-Share)</h2>
+        <span class="eyebrow">BLOQUE 2: CHOQUE EMPÍRICO</span>
+        <h2>Salarios e inflación en EE. UU.: cómo cambió el relato</h2>
       </div>
-      <span class="act">ACTIVACIÓN COGNITIVA</span>
+      <span class="act">DATOS REALES 1965–2025</span>
     </div>
-    <div class="row">
-      <div class="col-fig" style="flex:1;">
-        <div class="glass" style="width:100%; height:100%; padding:36px 44px; display:flex; flex-direction:column; justify-content:center; gap:24px;">
-          <div style="font-family:var(--f-mono); font-size:14px; color:var(--gold); font-weight:700; letter-spacing:.15em;">
-            DILEMA CONCEPTUAL DE EXAMEN · 3 MINUTOS DE DISCUSIÓN
-          </div>
-          <div style="font-size:24px; line-height:1.4; color:#fff; font-weight:600;">
-            «Si una ola de innovación tecnológica o la llegada de fondos europeos eleva el PIB potencial de la economía española ($Y_n$ aumenta un +3%), ¿qué ocurre con la Curva PC en el plano $(Y, \pi - \pi^e)$?»
-          </div>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:10px;">
-            <div class="glass" style="padding:16px; border-radius:10px; border:1px solid rgba(255,255,255,0.12);">
-              <b>A)</b> La curva PC rota hacia arriba porque la economía es más productiva.
-            </div>
-            <div class="glass" style="padding:16px; border-radius:10px; border:1px solid rgba(255,255,255,0.12);">
-              <b>B)</b> La curva PC se traslada horizontalmente a la derecha en la misma cuantía que $\Delta Y_n$.
-            </div>
-            <div class="glass" style="padding:16px; border-radius:10px; border:1px solid rgba(255,255,255,0.12);">
-              <b>C)</b> La curva PC no se mueve porque depende solo de las expectativas $\pi^e$.
-            </div>
-            <div class="glass" style="padding:16px; border-radius:10px; border:1px solid rgba(255,255,255,0.12);">
-              <b>D)</b> La curva PC se vuelve completamente horizontal.
-            </div>
-          </div>
-          <div style="font-size:15px; color:var(--ok); font-family:var(--f-mono); background:rgba(52,211,153,0.1); padding:10px 16px; border-radius:8px; border-left:4px solid var(--ok);">
-            💡 <b>Solución Docente:</b> Opción B. La curva corta al eje horizontal exactamente en $Y = Y_n$. Si $Y_n$ crece, el punto de inflación estable se desplaza a la derecha, permitiendo mayor producción sin inflación.
-          </div>
-        </div>
+    <div class="hist-wrap">
+      <div class="hist-chart">
+        <svg class="hist-svg" viewBox="0 0 1460 540" font-family="Work Sans, sans-serif">
+<defs><filter id="glow6" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<clipPath id="clip6"><rect class="step-clip" x="0" y="0" width="193" height="540"/></clipPath></defs>
+<g data-stage="1"><rect x="70" y="46" width="112" height="424" fill="rgba(0,242,254,0.05)"/><text x="82" y="66" fill="#5eead4" font-size="14" font-family="JetBrains Mono, monospace" letter-spacing="2.5" font-weight="700">EL MENÚ</text></g>
+<g data-stage="2"><rect x="182" y="46" width="287" height="424" fill="rgba(225,29,72,0.07)"/><text x="194" y="66" fill="#fb7185" font-size="14" font-family="JetBrains Mono, monospace" letter-spacing="2.5" font-weight="700">INDEXACIÓN</text></g>
+<g data-stage="3"><rect x="469" y="46" width="816" height="424" fill="rgba(52,211,153,0.06)"/><text x="481" y="66" fill="#34d399" font-size="14" font-family="JetBrains Mono, monospace" letter-spacing="2.5" font-weight="700">CREDIBILIDAD</text></g>
+<g data-stage="4"><rect x="1285" y="46" width="135" height="424" fill="rgba(255,190,11,0.07)"/><text x="1297" y="66" fill="#ffbe0b" font-size="14" font-family="JetBrains Mono, monospace" letter-spacing="2.5" font-weight="700">LA PRUEBA</text></g>
+<line x1="70" y1="443" x2="1420" y2="443" stroke="rgba(255,255,255,0.28)"/>
+<text x="58" y="448" fill="#94b2c7" font-size="15" text-anchor="end">0%</text>
+<line x1="70" y1="388" x2="1420" y2="388" stroke="rgba(255,255,255,0.07)"/>
+<text x="58" y="393" fill="#94b2c7" font-size="15" text-anchor="end">2%</text>
+<line x1="70" y1="333" x2="1420" y2="333" stroke="rgba(255,255,255,0.07)"/>
+<text x="58" y="338" fill="#94b2c7" font-size="15" text-anchor="end">4%</text>
+<line x1="70" y1="279" x2="1420" y2="279" stroke="rgba(255,255,255,0.07)"/>
+<text x="58" y="284" fill="#94b2c7" font-size="15" text-anchor="end">6%</text>
+<line x1="70" y1="224" x2="1420" y2="224" stroke="rgba(255,255,255,0.07)"/>
+<text x="58" y="229" fill="#94b2c7" font-size="15" text-anchor="end">8%</text>
+<line x1="70" y1="169" x2="1420" y2="169" stroke="rgba(255,255,255,0.07)"/>
+<text x="58" y="174" fill="#94b2c7" font-size="15" text-anchor="end">10%</text>
+<line x1="70" y1="115" x2="1420" y2="115" stroke="rgba(255,255,255,0.07)"/>
+<text x="58" y="120" fill="#94b2c7" font-size="15" text-anchor="end">12%</text>
+<line x1="70" y1="60" x2="1420" y2="60" stroke="rgba(255,255,255,0.07)"/>
+<text x="58" y="65" fill="#94b2c7" font-size="15" text-anchor="end">14%</text>
+<text x="83" y="498" fill="#94b2c7" font-size="15" text-anchor="middle">1965</text>
+<text x="194" y="498" fill="#94b2c7" font-size="15" text-anchor="middle">1970</text>
+<text x="304" y="498" fill="#94b2c7" font-size="15" text-anchor="middle">1975</text>
+<text x="414" y="498" fill="#94b2c7" font-size="15" text-anchor="middle">1980</text>
+<text x="524" y="498" fill="#94b2c7" font-size="15" text-anchor="middle">1985</text>
+<text x="635" y="498" fill="#94b2c7" font-size="15" text-anchor="middle">1990</text>
+<text x="745" y="498" fill="#94b2c7" font-size="15" text-anchor="middle">1995</text>
+<text x="855" y="498" fill="#94b2c7" font-size="15" text-anchor="middle">2000</text>
+<text x="966" y="498" fill="#94b2c7" font-size="15" text-anchor="middle">2005</text>
+<text x="1076" y="498" fill="#94b2c7" font-size="15" text-anchor="middle">2010</text>
+<text x="1186" y="498" fill="#94b2c7" font-size="15" text-anchor="middle">2015</text>
+<text x="1296" y="498" fill="#94b2c7" font-size="15" text-anchor="middle">2020</text>
+<text x="1407" y="498" fill="#94b2c7" font-size="15" text-anchor="middle">2025</text>
+<g clip-path="url(#clip6)">
+<path d="M 83.2 399.4 C 85.7 395.0, 100.4 363.9, 105.3 360.3 C 110.2 356.6, 122.5 370.7, 127.4 366.9 C 132.3 363.1, 144.5 334.1, 149.4 325.9 C 154.3 317.7, 166.6 298.1, 171.5 293.4 C 176.4 288.6, 188.6 279.5, 193.5 283.1 C 198.4 286.6, 210.7 317.5, 215.6 325.3 C 220.5 333.1, 232.7 358.9, 237.6 353.2 C 242.5 347.5, 254.8 297.5, 259.7 273.8 C 264.6 250.2, 276.9 149.5, 281.8 140.5 C 286.7 131.5, 298.9 176.6, 303.8 192.7 C 308.7 208.8, 321.0 277.7, 325.9 285.7 C 330.8 293.7, 343.0 270.7, 347.9 265.0 C 352.8 259.2, 365.1 248.5, 370.0 234.1 C 374.9 219.6, 387.2 153.0, 392.1 135.0 C 397.0 117.1, 409.2 69.5, 414.1 72.3 C 419.0 75.1, 431.3 137.6, 436.2 160.2 C 441.1 182.7, 453.3 253.4, 458.2 275.1 C 463.1 296.7, 475.4 349.3, 480.3 354.9 C 485.2 360.4, 497.5 326.1, 502.4 325.1 C 507.3 324.1, 519.5 338.4, 524.4 345.7 C 529.3 353.0, 541.6 391.2, 546.5 390.8 C 551.4 390.4, 563.6 349.1, 568.5 342.5 C 573.4 335.9, 585.7 334.7, 590.6 331.2 C 595.5 327.7, 607.7 314.7, 612.6 310.7 C 617.5 306.7, 629.8 293.3, 634.7 295.1 C 639.6 296.9, 651.9 319.7, 656.8 326.9 C 661.7 334.1, 673.9 356.0, 678.8 359.9 C 683.7 363.8, 696.0 360.7, 700.9 362.0 C 705.8 363.3, 718.0 370.9, 722.9 371.4 C 727.8 371.8, 740.1 367.0, 745.0 366.0 C 749.9 365.0, 762.2 361.1, 767.1 362.5 C 772.0 364.0, 784.2 374.6, 789.1 378.8 C 794.0 383.0, 806.3 399.8, 811.2 400.2 C 816.1 400.7, 828.3 388.4, 833.2 382.9 C 838.1 377.3, 850.4 352.3, 855.3 350.4 C 860.2 348.4, 872.5 360.0, 877.4 365.4 C 882.3 370.9, 894.5 397.6, 899.4 399.3 C 904.3 401.0, 916.6 383.9, 921.5 380.6 C 926.4 377.3, 938.6 372.9, 943.5 369.5 C 948.4 366.1, 960.7 351.6, 965.6 349.9 C 970.5 348.3, 982.7 352.8, 987.6 354.5 C 992.5 356.1, 1004.8 366.6, 1009.7 364.7 C 1014.6 362.8, 1026.9 328.0, 1031.8 337.7 C 1036.7 347.5, 1048.9 445.7, 1053.8 452.4 C 1058.7 459.1, 1071.0 408.5, 1075.9 397.8 C 1080.8 387.2, 1093.0 357.7, 1097.9 356.4 C 1102.8 355.1, 1115.1 381.0, 1120.0 386.1 C 1124.9 391.2, 1137.2 401.3, 1142.1 402.6 C 1147.0 404.0, 1159.2 394.2, 1164.1 398.3 C 1169.0 402.4, 1181.3 438.3, 1186.2 439.4 C 1191.1 440.5, 1203.3 414.3, 1208.2 408.2 C 1213.1 402.1, 1225.4 388.0, 1230.3 384.4 C 1235.2 380.9, 1247.5 374.9, 1252.4 375.9 C 1257.3 376.9, 1269.5 389.5, 1274.4 393.1 C 1279.3 396.8, 1291.6 417.7, 1296.5 408.9 C 1301.4 400.2, 1313.6 334.8, 1318.5 314.3 C 1323.4 293.7, 1335.7 222.2, 1340.6 223.9 C 1345.5 225.7, 1357.7 314.8, 1362.6 330.2 C 1367.5 345.5, 1379.8 357.5, 1384.7 362.0 C 1389.6 366.6, 1404.3 369.8, 1406.8 370.7" fill="none" stroke="#fb7185" stroke-width="3.5" stroke-linecap="round" opacity=".95"/>
+<path d="M 83.2 345.8 C 85.7 345.0, 100.4 342.4, 105.3 338.7 C 110.2 335.0, 122.5 318.0, 127.4 312.5 C 132.3 307.1, 144.5 295.4, 149.4 289.8 C 154.3 284.1, 166.6 261.6, 171.5 261.7 C 176.4 261.7, 188.6 290.3, 193.5 289.9 C 198.4 289.4, 210.7 263.4, 215.6 257.8 C 220.5 252.2, 232.7 237.5, 237.6 239.4 C 242.5 241.2, 254.8 273.9, 259.7 274.5 C 264.6 275.0, 276.9 246.4, 281.8 244.6 C 286.7 242.8, 298.9 256.5, 303.8 258.0 C 308.7 259.5, 321.0 260.4, 325.9 258.1 C 330.8 255.9, 343.0 241.5, 347.9 237.4 C 352.8 233.3, 365.1 222.5, 370.0 221.6 C 374.9 220.6, 387.2 228.7, 392.1 228.8 C 397.0 229.0, 409.2 224.7, 414.1 222.8 C 419.0 220.8, 431.3 204.8, 436.2 211.2 C 441.1 217.7, 453.3 267.8, 458.2 280.8 C 463.1 293.8, 475.4 320.8, 480.3 328.1 C 485.2 335.3, 497.5 341.9, 502.4 346.0 C 507.3 350.1, 519.5 361.3, 524.4 365.4 C 529.3 369.5, 541.6 382.1, 546.5 383.2 C 551.4 384.3, 563.6 378.6, 568.5 375.3 C 573.4 371.9, 585.7 357.0, 590.6 353.0 C 595.5 348.9, 607.7 340.9, 612.6 338.4 C 617.5 336.0, 629.8 328.8, 634.7 331.1 C 639.6 333.5, 651.9 354.7, 656.8 359.6 C 661.7 364.5, 673.9 373.7, 678.8 375.0 C 683.7 376.4, 696.0 371.8, 700.9 371.6 C 705.8 371.4, 718.0 374.1, 722.9 373.4 C 727.8 372.7, 740.1 367.9, 745.0 365.5 C 749.9 363.0, 762.2 354.2, 767.1 351.2 C 772.0 348.1, 784.2 340.5, 789.1 338.2 C 794.0 336.0, 806.3 330.7, 811.2 331.1 C 816.1 331.5, 828.3 341.1, 833.2 341.8 C 838.1 342.5, 850.4 337.6, 855.3 337.3 C 860.2 337.0, 872.5 336.3, 877.4 339.3 C 882.3 342.2, 894.5 360.3, 899.4 363.7 C 904.3 367.1, 916.6 367.1, 921.5 369.6 C 926.4 372.0, 938.6 386.1, 943.5 385.7 C 948.4 385.3, 960.7 371.3, 965.6 366.0 C 970.5 360.6, 982.7 341.2, 987.6 337.5 C 992.5 333.9, 1004.8 333.1, 1009.7 333.3 C 1014.6 333.4, 1026.9 336.0, 1031.8 339.0 C 1036.7 342.1, 1048.9 356.7, 1053.8 361.0 C 1058.7 365.3, 1071.0 375.2, 1075.9 378.0 C 1080.8 380.9, 1093.0 383.9, 1097.9 386.7 C 1102.8 389.5, 1115.1 403.4, 1120.0 403.3 C 1124.9 403.2, 1137.2 388.6, 1142.1 385.8 C 1147.0 383.1, 1159.2 378.9, 1164.1 378.8 C 1169.0 378.8, 1181.3 385.9, 1186.2 385.6 C 1191.1 385.3, 1203.3 377.1, 1208.2 376.4 C 1213.1 375.7, 1225.4 380.9, 1230.3 379.2 C 1235.2 377.5, 1247.5 364.6, 1252.4 360.8 C 1257.3 357.0, 1269.5 351.2, 1274.4 345.1 C 1279.3 339.1, 1291.6 310.9, 1296.5 306.6 C 1301.4 302.3, 1313.6 310.8, 1318.5 306.4 C 1323.4 302.1, 1335.7 267.3, 1340.6 267.5 C 1345.5 267.8, 1357.7 302.0, 1362.6 308.8 C 1367.5 315.7, 1379.8 326.7, 1384.7 329.3 C 1389.6 331.8, 1404.3 331.7, 1406.8 332.0" fill="none" stroke="#ffbe0b" stroke-width="5" stroke-linecap="round" filter="url(#glow6)"/>
+</g>
+<g data-stage="1"><line x1="977" y1="100" x2="1003" y2="100" stroke="#ffbe0b" stroke-width="5"/><text x="1013" y="106" fill="#ffbe0b" font-size="17" font-weight="700">Salario nominal por hora</text><line x1="1237" y1="100" x2="1263" y2="100" stroke="#fb7185" stroke-width="3.5"/><text x="1273" y="106" fill="#fb7185" font-size="17" font-weight="700">Inflación (IPC)</text></g>
+<g data-stage="2"><circle cx="414" cy="72" r="6" fill="#fb7185"/><text x="426" y="78" text-anchor="start" fill="#fb7185" font-size="17" font-weight="800" paint-order="stroke" stroke="#071527" stroke-width="6">13,5%</text></g>
+<g data-stage="2"><circle cx="436" cy="211" r="6" fill="#ffbe0b"/><text x="446" y="237" text-anchor="start" fill="#ffbe0b" font-size="17" font-weight="800" paint-order="stroke" stroke="#071527" stroke-width="6">8,5%</text></g>
+<g data-stage="4"><circle cx="1341" cy="224" r="6" fill="#fb7185"/><text x="1329" y="212" text-anchor="end" fill="#fb7185" font-size="17" font-weight="800" paint-order="stroke" stroke="#071527" stroke-width="6">8,0%</text></g>
+<g data-stage="4"><circle cx="1341" cy="268" r="6" fill="#ffbe0b"/><text x="1329" y="294" text-anchor="end" fill="#ffbe0b" font-size="17" font-weight="800" paint-order="stroke" stroke="#071527" stroke-width="6">6,4%</text></g>
+<text x="70" y="534" fill="#6f8aa0" font-size="13">Variación anual de medias anuales. Salario: AHETPI (trabajadores de producción y no supervisores, BLS). Inflación: IPC (CPIAUCNS). Fuente: FRED.</text>
+</svg>
+        <div class="h-dots"><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="caps">
+        <div class="cap" data-only="1" style="--c:#5eead4"><span class="era-tag">1965–69 · EL MENÚ</span><p>La inflación sube poco a poco y los salarios la superan con holgura. Cambiar algo más de inflación por menos paro parece un buen trato.</p></div>
+<div class="cap" data-only="2" style="--c:#fb7185"><span class="era-tag">1970–82 · INDEXACIÓN</span><p>Los salarios se instalan en el 6–8% año tras año. Hacia 1976–81, cerca del 60% de los trabajadores con grandes convenios tenía cláusulas de indexación (23% a comienzos de los 70): la inflación pasada entra sola en los sueldos.</p></div>
+<div class="cap" data-only="3" style="--c:#34d399"><span class="era-tag">1983–2019 · CREDIBILIDAD</span><p>Tras Volcker, los salarios se estabilizan en el 2–4% aunque la inflación oscile. Las cláusulas de indexación desaparecen: las subidas miran a la meta, no al pasado.</p></div>
+<div class="cap" data-only="4" style="--c:#ffbe0b"><span class="era-tag">2020–25 · LA PRUEBA</span><p>La inflación llega al 8% en 2022; los salarios suben menos (6,4%) y vuelven a bajar. No hubo espiral: las expectativas aguantaron.</p></div>
       </div>
     </div>
   </div>
-
-  <!-- ============================================================== -->
-  <!-- SLIDE 7: EL MODELO IS-LM-PC EN DOS PANELES -->
-  <!-- ============================================================== -->
+  <!-- SLIDE 7: BLOQUE 3 - FORMACIÓN DE EXPECTATIVAS (PARÁMETRO θ) -->
   <div class="slide" data-slide="7">
     <div class="slide-header">
       <div class="header-titles">
-        <span class="eyebrow">BLOQUE 4 · EL MEDIO PLAZO INTEGRADO</span>
-        <h2>El Modelo IS-LM-PC y el Tipo de Interés Neutral ($r_n$)</h2>
+        <span class="eyebrow">BLOQUE 3: NÚCLEO ANALÍTICO</span>
+        <h2>Cómo se forman las expectativas: el parámetro $\theta$</h2>
       </div>
-      <span class="act">MODELO COMPLETO</span>
+      <span class="act">PIZARRA ANALÍTICA</span>
     </div>
     <div class="row">
-      <div class="col-text" style="flex:0 0 520px;">
+      <div class="col-text">
         <div class="glass card">
-          <div class="card-title">Panel Superior: IS-LM en el plano $(Y, r)$</div>
-          <div class="card-body">
-            • Curva IS: Demanda de bienes $Y = Y(r+x, G, T)$.<br>
-            • Recta LM: El Banco Central fija el tipo real de política monetaria $r$.
+          <div>
+            <span class="card-num" style="color:var(--cobalt);">LA REGLA DE EXPECTATIVAS</span>
+            <span class="card-title" style="display:block; margin:8px 0 0;">Meta del banco central o inflación pasada</span>
           </div>
-        </div>
-        <div class="glass card">
-          <div class="card-title">Panel Inferior: Curva PC en el plano $(Y, \pi - \pi^e)$</div>
-          <div class="card-body">
-            • Pendiente positiva: $\pi - \pi^e = \frac{\alpha}{L}(Y - Y_n)$.<br>
-            • Corta al eje en $Y = Y_n$, donde la brecha es nula y la inflación se estabiliza.
+          <div class="math-hl">
+            $$\pi_t^e = (1 - \theta)\bar{\pi} + \theta \pi_{t-1}$$
           </div>
-        </div>
-        <div class="glass card" style="border-left:4px solid var(--gold);">
-          <div class="card-title" style="color:var(--gold);">Definición del Tipo Neutral ($r_n$)</div>
-          <div class="card-body">
-            Es el tipo de interés real que sitúa la producción exactamente en su nivel potencial ($Y = Y_n$), garantizando que la inflación no se desvíe de su objetivo:
-            <div class="math-hl" style="margin-top:6px;">$Y(r_n + x, G, T) = Y_n$</div>
-          </div>
+          
+          <ul class="bul">
+            <li><strong>$\theta = 0$, ancladas:</strong> se espera siempre la meta $\bar{\pi}$.</li>
+            <li><strong>$\theta = 1$, adaptativas:</strong> se espera la inflación del año pasado.</li>
+            <li><strong>$0 \lt \theta \lt 1$:</strong> credibilidad parcial.</li>
+          </ul>
         </div>
       </div>
-      <div class="col-fig">
-        <div class="glass" style="width:100%; height:100%; padding:18px; display:flex; flex-direction:column; justify-content:center; align-items:center;">
-          <img src="figuras y gráficos/figura3_modelo_islm_pc_neutral.png" style="max-width:98%; max-height:510px; border-radius:10px; border:1px solid var(--glass-line);" alt="Figura 3">
+      <div class="col-text">
+        <div class="glass card" style="border-color:var(--azure);">
+          <div>
+            <span class="card-num" style="color:var(--azure);">SUSTITUYENDO EN LA ECUACIÓN DE INFLACIÓN</span>
+            <span class="card-title" style="display:block; margin:8px 0 0;">Dos regímenes, dos dinámicas</span>
+          </div>
+          <div class="math-hl">
+            $$\pi_t = (1 - \theta)\bar{\pi} + \theta \pi_{t-1} - \alpha (u_t - u_n)$$
+          </div>
+          <div style="background:rgba(5,108,170,0.16); padding:16px 20px; border-radius:12px; border-left:4px solid var(--azure);">
+            <p class="card-body">
+              <strong>$\theta = 0$:</strong> $\pi_t - \bar{\pi} = - \alpha (u_t - u_n)$<br>Con $u \lt u_n$, la inflación supera la meta pero <em>se queda constante</em>.
+            </p>
+          </div>
+          <div style="background:rgba(225,29,72,0.18); padding:16px 20px; border-radius:12px; border-left:4px solid var(--crimson);">
+            <p class="card-body">
+              <strong>$\theta = 1$:</strong> $\pi_t - \pi_{t-1} = - \alpha (u_t - u_n)$<br>Con $u \lt u_n$, la inflación <em>se acelera cada año</em>.
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ============================================================== -->
-  <!-- SLIDE 8: SIMULADOR INTERACTIVO (MICRO-APP) -->
-  <!-- ============================================================== -->
+  <!-- SLIDE 8: BLOQUE 3 - LA NAIRU Y SIMULADOR INTERACTIVO SVG -->
   <div class="slide" data-slide="8">
     <div class="slide-header">
       <div class="header-titles">
-        <span class="eyebrow">FASE 4 · LABORATORIO EXPERIMENTAL</span>
-        <h2>Simulación Dinámica: El Termostato del Banco Central</h2>
+        <span class="eyebrow">BLOQUE 3: NÚCLEO ANALÍTICO</span>
+        <h2>La NAIRU: el paro que no acelera la inflación</h2>
       </div>
-      <span class="act">LABORATORIO CON QR</span>
+      <span class="act">SIMULADOR EN PANTALLA</span>
     </div>
     <div class="row">
-      <div class="col-text" style="flex:0 0 520px;">
-        <div class="glass card">
-          <div class="card-title">Desbloqueo de Dispositivos Móviles</div>
-          <div class="card-body">
-            Escanea el código QR con tu móvil para abrir el <b>Simulador Interactivo de la Sesión 13</b> alojado en <i>micro_apps</i>.
+      <div class="col-text" style="flex:1;">
+        <div class="glass card nairu-card" style="border-color:var(--crimson);">
+          <div>
+            <span class="card-num" style="color:var(--crimson);">DEFINICIÓN</span>
+            <span class="card-title" style="display:block; margin:8px 0 0;">La tasa natural $u_n$</span>
           </div>
-        </div>
-        <div class="glass card">
-          <div class="card-title">Reto 1: Tipo Real por debajo del Neutral ($r < r_n$)</div>
-          <div class="card-body">
-            Fija $r = 1\%$ cuando $r_n = 3\%$. Observa la sobreproducción ($Y > Y_n$) y compara la trayectoria de la inflación bajo expectativas ancladas frente a expectativas adaptativas.
+          <div class="deriv">
+            <span class="deriv-tag">DE DÓNDE SALE · SESIÓN 12</span>
+            <div class="deriv-eq">$\pi_t = \pi^e_t + (m+z) - \alpha u_t$</div>
+            <p>Sin sorpresas, $\pi_t = \pi^e_t$ $\;\Rightarrow\;$ $0 = (m+z) - \alpha\, u_n$</p>
           </div>
-        </div>
-        <div class="glass card">
-          <div class="card-title">Reto 2: Consolidación Fiscal y Respuesta del BC</div>
-          <div class="card-body">
-            Aplica un recorte de gasto público ($\Delta G < 0$). La curva IS se desplaza a la izquierda. ¿A qué nuevo tipo de interés real debe bajar el Banco Central para restablecer el pleno empleo?
+          <div class="math-hl" style="border-left-color:var(--crimson);">
+            $$u_n = \frac{m + z}{\alpha}$$
           </div>
+          <p class="card-body">
+            Con $\theta = 1$, la tasa natural es la <strong>NAIRU</strong>:
+          </p>
+          <ul class="bul">
+            <li>$u_t \lt u_n \Rightarrow \Delta\pi_t > 0$ (se acelera)</li>
+            <li>$u_t > u_n \Rightarrow \Delta\pi_t \lt 0$ (se frena)</li>
+            <li>$u_t = u_n \Rightarrow \Delta\pi_t = 0$ (constante)</li>
+          </ul>
+          <p class="card-body" style="color:var(--gold); font-weight:600; ">
+            Cambia el régimen en el gráfico →
+          </p>
         </div>
       </div>
-      <div class="col-fig">
-        <div class="glass" style="width:100%; height:100%; padding:24px; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:16px;">
-          <!-- SVG QR Code generado a mano vectorial limpio hacia la app -->
-          <div style="background:#fff; padding:18px; border-radius:16px; display:flex; justify-content:center; align-items:center; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
-            <svg width="220" height="220" viewBox="0 0 33 33" shape-rendering="crispEdges">
-              <path fill="#000" d="M0 0h9v9H0zM1 1h7v7H1zM2 2h5v5H2zM24 0h9v9h-9zM25 1h7v7h-7zM26 2h5v5h-5zM0 24h9v9H0zM1 25h7v7H1zM2 26h5v5H2zM11 2h2v3h-2zM15 1h2v2h-2zM19 2h3v2h-3zM11 7h4v2h-4zM17 6h2v3h-2zM21 7h2v3h-2zM2 11h2v3H2zM6 12h2v4H6zM11 11h3v2h-3zM16 11h3v3h-3zM21 11h4v2h-4zM27 12h2v3h-2zM3 17h3v2H3zM8 17h3v2H8zM13 15h2v4h-2zM17 16h2v2h-2zM21 15h3v2h-3zM26 17h2v2h-2zM30 16h2v3h-2zM11 21h2v4h-2zM15 21h2v2h-2zM19 22h3v2h-3zM24 21h2v2h-2zM28 22h3v2h-3zM12 27h3v2h-3zM17 26h2v3h-2zM21 26h4v2h-4zM27 26h2v2h-2zM30 26h2v3h-2zM14 30h2v2h-2zM18 30h4v2h-4zM24 30h2v2h-2zM28 30h3v2h-3z"/>
-            </svg>
+      <div class="col-fig" style="flex:1;">
+        <div class="glass interactive-panel">
+          <div class="ctrl-row">
+            <span style="font-family:var(--f-mono); font-size:14px; color:var(--muted); text-transform:uppercase;">Régimen:</span>
+            <button class="ctrl-btn active" id="btn-anchored" onclick="setRegime(0)">Ancladas (θ = 0)</button>
+            <button class="ctrl-btn" id="btn-adaptive" onclick="setRegime(1)">Adaptativas (θ = 1)</button>
           </div>
-          <div style="font-family:var(--f-mono); font-size:14px; color:var(--cyan); text-align:center;">
-            <b>ESCANEAR PARA ABRIR SIMULADOR IS-LM-PC</b><br>
-            <span style="font-size:12px; color:var(--muted);">mhidper.github.io/micro_apps (Sesión 13)</span>
-          </div>
+          <svg class="live-svg" id="nairu-svg" viewBox="0 0 700 405">
+            <line x1="80" y1="340" x2="650" y2="340" stroke="#cbd5e1" stroke-width="2.5"/>
+            <line x1="80" y1="40" x2="80" y2="340" stroke="#cbd5e1" stroke-width="2.5"/>
+            <text x="650" y="395" fill="#8faec4" font-family="Outfit" font-size="15" text-anchor="end">Año (t)</text>
+            <text x="88" y="30" fill="#8faec4" font-family="Outfit" font-size="15">Inflación (π)</text>
+            <text x="80" y="365" fill="#8faec4" font-family="Outfit" font-size="14" text-anchor="middle">t=0</text>
+            <text x="220" y="365" fill="#8faec4" font-family="Outfit" font-size="14" text-anchor="middle">t=1</text>
+            <text x="360" y="365" fill="#8faec4" font-family="Outfit" font-size="14" text-anchor="middle">t=2</text>
+            <text x="500" y="365" fill="#8faec4" font-family="Outfit" font-size="14" text-anchor="middle">t=3</text>
+            <text x="640" y="365" fill="#8faec4" font-family="Outfit" font-size="14" text-anchor="middle">t=4</text>
+            <line x1="80" y1="280" x2="650" y2="280" stroke="#0d9488" stroke-width="2.5" stroke-dasharray="5,5"/>
+            <text x="645" y="272" fill="#0d9488" font-family="Outfit" font-size="14" font-weight="bold" text-anchor="end">Meta π = 2%</text>
+            <path id="nairu-path" d="M 80 280 L 220 200 L 360 200 L 500 200 L 640 200" fill="none" stroke="#056caa" stroke-width="4.5"/>
+            <circle id="p0" cx="80" cy="280" r="7" fill="#ffbe0b"/>
+            <circle id="p1" cx="220" cy="200" r="7" fill="#00f2fe"/>
+            <circle id="p2" cx="360" cy="200" r="7" fill="#00f2fe"/>
+            <circle id="p3" cx="500" cy="200" r="7" fill="#00f2fe"/>
+            <circle id="p4" cx="640" cy="200" r="7" fill="#00f2fe"/>
+            <text id="nairu-legend" x="230" y="175" fill="#00f2fe" font-family="Outfit" font-size="16" font-weight="bold">θ = 0: la inflación se queda en el 4%</text>
+          </svg>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ============================================================== -->
-  <!-- SLIDE 9: RETO MANUSCRITO DE CIERRE (FASE 5) -->
-  <!-- ============================================================== -->
+  <!-- SLIDE 9: DEL MERCADO DE TRABAJO A LA PRODUCCIÓN -->
   <div class="slide" data-slide="9">
     <div class="slide-header">
       <div class="header-titles">
-        <span class="eyebrow">FASE 5 · EVALUACIÓN FORMATIVA IN SITU</span>
-        <h2>Reto Manuscrito Individual: IS-LM-PC y Tipo Neutral</h2>
+        <span class="eyebrow">BLOQUE 3: NÚCLEO ANALÍTICO</span>
+        <h2>Del paro al PIB: el puente hacia la curva PC</h2>
       </div>
-      <span class="act">10 MINUTOS A MANO</span>
+      <span class="act">PARO Y PRODUCCIÓN</span>
     </div>
     <div class="row">
-      <div class="col-text" style="flex:0 0 540px;">
-        <div class="glass card" style="border-left:4px solid var(--crimson);">
-          <div class="card-title" style="color:var(--crimson);">Reglas de la Entrega</div>
-          <div class="card-body">
-            • <b>A mano en papel:</b> Portátiles cerrados y móviles guardados.<br>
-            • <b>10 minutos de resolución individual</b> sin comunicación.<br>
-            • Puntuación computable para el <b>Pasaporte de Evaluación Continua</b> (desbloqueo de comodines de examen).
-          </div>
-        </div>
+      <div class="col-text">
         <div class="glass card">
-          <div class="card-title">Datos del Reto</div>
-          <div class="card-body">
-            • Curva IS: $Y = 1.050 - 2.500 \cdot r$<br>
-            • Curva PC: $\pi - \pi^e = 0,01 \cdot (Y - 950)$<br>
-            • Población activa: $L = 1.000$ miles de personas<br>
-            • Meta de inflación oficial: $\bar{\pi} = 2,0\%$
+          <div>
+            <span class="card-num" style="color:var(--cobalt);">TRES SUPUESTOS</span>
+            <span class="card-title" style="display:block; margin:8px 0 0;">Producción, empleo y paro</span>
+          </div>
+          <p class="card-body">
+            <strong>1.</strong> Cada ocupado produce una unidad:
+          </p>
+          <div class="math-hl">$$Y = N$$</div>
+          <p class="card-body">
+            <strong>2.</strong> Empleo y paro: $Y = L(1 - u)$
+          </p>
+          <p class="card-body">
+            <strong>3.</strong> PIB potencial, el asociado a $u_n$:
+          </p>
+          <div class="math-hl">$$Y_n = L(1 - u_n)$$</div>
+        </div>
+      </div>
+      <div class="col-text">
+        <div class="glass card" style="border-color:var(--gold);">
+          <div>
+            <span class="card-num" style="color:var(--gold);">EL RESULTADO</span>
+            <span class="card-title" style="display:block; margin:8px 0 0;">Paro y brecha de producción van en sentido contrario</span>
+          </div>
+          <div class="math-hl" style="border-left-color:var(--gold);">
+            $$u - u_n = - \frac{Y - Y_n}{L}$$
+          </div>
+          <ul class="bul">
+            <li>$Y > Y_n$: las empresas contratan más y el paro cae por debajo de $u_n$.</li>
+            <li>$Y \lt Y_n$: se destruye empleo y el paro sube por encima de $u_n$.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: DEDUCCIÓN DE LA CURVA PC -->
+  <div class="slide" data-slide="10">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow">BLOQUE 3: NÚCLEO ANALÍTICO</span>
+        <h2>La curva PC: brecha de producción e inflación</h2>
+      </div>
+      <span class="act">LA RELACIÓN PC</span>
+    </div>
+    <div class="row">
+      <div class="col-fig" style="flex:1.3; align-items:stretch;">
+        
+<svg class="live-svg" viewBox="0 0 900 600" style="background:#071527; border-radius:16px; border:1px solid rgba(255,255,255,0.16); width:100%; height:100%; max-height:none;" font-family="Work Sans, Segoe UI, sans-serif">
+<rect x="450" y="40" width="390" height="260" fill="rgba(225,29,72,0.10)"/>
+<rect x="60" y="300" width="390" height="280" fill="rgba(52,211,153,0.08)"/>
+<line x1="60" y1="300" x2="860" y2="300" stroke="#cbd5e1" stroke-width="2"/>
+<line x1="450" y1="40" x2="450" y2="560" stroke="#cbd5e1" stroke-width="2"/>
+<text x="860" y="332" fill="#cbd5e1" font-size="19" font-weight="600" text-anchor="end">Producción (Y)</text>
+<text x="464" y="62" fill="#cbd5e1" font-size="19" font-weight="600">π − πᵉ</text>
+<line x1="200" y1="460" x2="740" y2="110" stroke="#00f2fe" stroke-width="5" stroke-linecap="round"/>
+<text x="748" y="144" fill="#00f2fe" font-size="22" font-weight="700">PC</text>
+<text x="748" y="168" fill="#94b2c7" font-size="16">pendiente α/L</text>
+<circle cx="450" cy="298" r="10" fill="#ffbe0b"/>
+<text x="466" y="332" fill="#ffbe0b" font-size="19" font-weight="700">Yₙ</text>
+<text x="470" y="110" fill="#ffbe0b" font-size="20" font-weight="700">Brecha positiva: Y &gt; Yₙ</text>
+<text x="470" y="140" fill="#e2ecf5" font-size="17">u &lt; uₙ · tensión salarial</text>
+<text x="470" y="170" fill="#fb7185" font-size="18" font-weight="700">π &gt; πᵉ</text>
+<text x="430" y="500" fill="#ffbe0b" font-size="20" font-weight="700" text-anchor="end">Brecha negativa: Y &lt; Yₙ</text>
+<text x="430" y="528" fill="#e2ecf5" font-size="17" text-anchor="end">u &gt; uₙ · holgura laboral</text>
+<text x="430" y="556" fill="#34d399" font-size="18" font-weight="700" text-anchor="end">π &lt; πᵉ</text>
+</svg>
+
+      </div>
+      <div class="col-text" style="flex:0.75;">
+        <div class="glass card" style="border-color:var(--azure);">
+          <div>
+            <span class="card-num" style="color:var(--azure);">SUSTITUYENDO $u - u_n$</span>
+            <span class="card-title" style="display:block; margin:8px 0 0;">La curva PC</span>
+          </div>
+          <div class="math-hl">
+            $$\pi - \pi^e = \frac{\alpha}{L}(Y - Y_n)$$
+          </div>
+          <ul class="bul">
+            <li><strong>$Y > Y_n$:</strong> $\pi > \pi^e$</li>
+            <li><strong>$Y \lt Y_n$:</strong> $\pi \lt \pi^e$</li>
+            <li><strong>$Y = Y_n$:</strong> $\pi = \pi^e$</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 11: CHECKPOINT INTERMEDIO (THINK-PAIR-SHARE) -->
+  <div class="slide" data-slide="11" data-steps="3">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow">BLOQUE 3: CHECKPOINT DE ACTIVACIÓN COGNITIVA</span>
+        <h2>Pausa en parejas: ¿qué pasa en el año 2?</h2>
+      </div>
+      <span class="act">THINK-PAIR-SHARE · 2 MIN</span>
+    </div>
+    <div class="row">
+      <div class="col-text" style="flex:1.2;">
+        <div class="glass card" style="border-color:var(--gold); background:rgba(255,190,11,0.08);">
+          <div>
+            <span class="card-num" style="color:var(--gold);">DISCUTID EN PAREJAS · 2 MIN</span>
+            <span class="card-title" style="display:block; margin:8px 0 0;">$Y_n = 1.000$ y $\theta = 1$. En el año 1, $Y = 1.050$ y $\pi = 4\%$. Si el PIB sigue en 1.050 en el año 2, ¿qué inflación habrá?</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:14px;">
+            <div class="opt">
+              <strong>A:</strong> Se queda en el 4%: el PIB ya no crece.
+            </div>
+            <div class="opt ok" data-reveal="2">
+              <strong>B<span class="ans-tag" data-stage="2">&nbsp;✓ correcta</span>:</strong> Más del 4%: con $Y > Y_n$ la inflación se acelera cada año.
+            </div>
+            <div class="opt">
+              <strong>C:</strong> Vuelve al 2%: la economía se acostumbra.
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-fig">
-        <div class="glass" style="width:100%; height:100%; padding:28px 36px; display:flex; flex-direction:column; justify-content:center; gap:16px;">
-          <div style="font-family:var(--f-mono); font-size:15px; color:var(--gold); font-weight:700;">
-            PREGUNTAS DEL RETO:
+      <div class="col-text" style="flex:0.8;" data-stage="3">
+        <div class="glass card" style="border-color:var(--cyan); justify-content:center; gap:24px;">
+          <div>
+            <span class="card-num" style="color:var(--cyan);">FUNDAMENTO ANALÍTICO</span>
+            <span class="card-title" style="display:block; margin:8px 0 0;">El error más frecuente en el examen</span>
           </div>
-          <div style="font-size:16.5px; line-height:1.5;">
-            <b>1.</b> Identifique el PIB potencial ($Y_n$) y determine la tasa natural de desempleo ($u_n$).<br><br>
-            <b>2.</b> Calcule el <b>tipo de interés real neutral ($r_n$)</b> que debe establecer el Banco Central para garantizar estabilidad de precios.<br><br>
-            <b>3.</b> Si el Banco Central fija transitoriamente un tipo real $r = 1,0\%$, calcule la producción efectiva resultante ($Y$), la brecha de producción ($Output Gap$) y la tasa de inflación $\pi_1$ suponiendo que las expectativas están firmemente <b>ancladas</b> en el 2%.
+          <p class="card-body">
+            Con $\theta = 1$, la brecha determina la <strong>variación</strong> de la inflación, no su nivel:
+          </p>
+          <div class="math-hl">$$\Delta \pi = \pi_2 - \pi_1 = \frac{\alpha}{L}(Y - Y_n) > 0$$</div>
+          <p class="card-body">
+            Para que se quede en el 4%, el PIB tiene que volver a $Y_n$.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 12: ARQUITECTURA DEL MODELO EN 2 PANELES -->
+  <div class="slide" data-slide="12">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow">BLOQUE 3: NÚCLEO ANALÍTICO</span>
+        <h2>El modelo IS-LM-PC en dos paneles</h2>
+      </div>
+      <span class="act">EL MODELO INTEGRADO</span>
+    </div>
+    <div class="row">
+      <div class="col-fig" style="flex:1.3; align-items:stretch;">
+        
+<svg class="live-svg" viewBox="0 0 900 640" style="background:#071527; border-radius:16px; border:1px solid rgba(255,255,255,0.16); width:100%; height:100%; max-height:none;" font-family="Work Sans, Segoe UI, sans-serif">
+<line x1="110" y1="40" x2="110" y2="280" stroke="#cbd5e1" stroke-width="2"/><line x1="110" y1="280" x2="850" y2="280" stroke="#cbd5e1" stroke-width="2"/>
+<text x="124" y="56" fill="#cbd5e1" font-size="19" font-weight="600">r</text><text x="850" y="308" fill="#cbd5e1" font-size="18" text-anchor="end">Y</text>
+<text x="150" y="56" fill="#00f2fe" font-size="16" font-family="JetBrains Mono, monospace" letter-spacing="2">IS-LM</text>
+<line x1="150" y1="70" x2="760" y2="262" stroke="#3b9ae1" stroke-width="5" stroke-linecap="round"/>
+<text x="770" y="258" fill="#3b9ae1" font-size="21" font-weight="700">IS</text>
+<line x1="110" y1="160" x2="800" y2="160" stroke="#ffbe0b" stroke-width="4"/>
+<text x="808" y="166" fill="#ffbe0b" font-size="19" font-weight="700">LM</text>
+<text x="98" y="166" fill="#ffbe0b" font-size="19" font-weight="700" text-anchor="end">rₙ</text>
+<line x1="110" y1="350" x2="110" y2="600" stroke="#cbd5e1" stroke-width="2"/><line x1="110" y1="480" x2="850" y2="480" stroke="#cbd5e1" stroke-width="2"/>
+<text x="124" y="366" fill="#cbd5e1" font-size="19" font-weight="600">π − πᵉ</text><text x="850" y="508" fill="#cbd5e1" font-size="18" text-anchor="end">Y</text>
+<text x="98" y="486" fill="#94b2c7" font-size="18" text-anchor="end">0</text>
+<text x="220" y="366" fill="#00f2fe" font-size="16" font-family="JetBrains Mono, monospace" letter-spacing="2">PC</text>
+<line x1="170" y1="576" x2="760" y2="363" stroke="#00f2fe" stroke-width="5" stroke-linecap="round"/>
+<text x="770" y="369" fill="#00f2fe" font-size="21" font-weight="700">PC</text>
+<line x1="436" y1="160" x2="436" y2="610" stroke="#ffbe0b" stroke-width="2" stroke-dasharray="7 6"/>
+<text x="436" y="632" fill="#ffbe0b" font-size="19" font-weight="700" text-anchor="middle">Yₙ</text>
+<circle cx="436" cy="160" r="10" fill="#ffbe0b"/><text x="420" y="146" fill="#ffbe0b" font-size="20" font-weight="700" text-anchor="end">A</text>
+<circle cx="436" cy="480" r="10" fill="#ffbe0b"/><text x="452" y="516" fill="#ffbe0b" font-size="20" font-weight="700">A′ (π = πᵉ)</text>
+</svg>
+
+      </div>
+      <div class="col-text" style="flex:0.75;">
+        <div class="glass card">
+          <div>
+            <span class="card-num" style="color:var(--cobalt);">CÓMO SE LEE</span>
+            <span class="card-title" style="display:block; margin:8px 0 0;">Arriba se decide $Y$; abajo se ve qué pasa con la inflación</span>
+          </div>
+          <ul class="bul">
+            <li><strong>IS:</strong> demanda de bienes, $Y = C + I(Y, r+x) + G$.</li>
+            <li><strong>LM:</strong> horizontal; el banco central fija $r$.</li>
+            <li><strong>PC:</strong> corta el eje en $Y_n$ e indica si la inflación sube, baja o se mantiene.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- SLIDE 13: EL TIPO DE INTERÉS NEUTRAL O NATURAL (rn) · PROPORCIÓN ARMONIOSA -->
+  <div class="slide" data-slide="13">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow">BLOQUE 3: NÚCLEO ANALÍTICO</span>
+        <h2>El tipo neutral: el termostato de la economía</h2>
+      </div>
+      <span class="act">EQUILIBRIO MEDIO PLAZO</span>
+    </div>
+    <div class="row">
+      <div class="col-text">
+        <div class="glass card">
+          <div class="card-header-block">
+            <span class="card-num" style="color:var(--cobalt);">DEFINICIÓN</span>
+            <span class="card-title">La condición de medio plazo</span>
+          </div>
+          <p class="card-body">
+            El <strong>tipo neutral $r_n$</strong> es el tipo real que lleva la demanda justo al PIB potencial:
+          </p>
+          <div class="math-hl" style="margin: 4px 0 8px;">
+            $$Y(r_n + x, G, T) = Y_n$$
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div class="step-item" style="border-left: 3px solid var(--ok);">
+              <p class="card-body">
+                <strong>Con $r = r_n$:</strong> $Y = Y_n$ y la inflación se estabiliza en la meta, $\pi = \bar{\pi}$.
+              </p>
+            </div>
+            <div class="step-item" style="border-left: 3px solid var(--gold);">
+              <p class="card-body">
+                <strong>No es fijo:</strong> si sube $G$ o la confianza, la IS se desplaza a la derecha y $r_n$ aumenta.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-text">
+        <div class="glass card" style="border-color:var(--azure);">
+          <div class="card-header-block">
+            <span class="card-num" style="color:var(--azure);">EL AJUSTE</span>
+            <span class="card-title">¿Y si el banco central fija $r \lt r_n$?</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div class="step-item">
+              <p class="card-body">
+                <strong>1.</strong> El crédito barato empuja consumo e inversión: $Y > Y_n$.
+              </p>
+            </div>
+            <div class="step-item">
+              <p class="card-body">
+                <strong>2.</strong> Con brecha positiva, la inflación se acelera: $\Delta \pi > 0$.
+              </p>
+            </div>
+            <div class="step-item">
+              <p class="card-body">
+                <strong>3.</strong> Para frenarla, el banco central sube $r$ hasta $r_n$.
+              </p>
+            </div>
+          </div>
+          <div style="background:rgba(255,190,11,0.12); padding:12px 16px; border-radius:10px; border-left:4px solid var(--gold); margin-top:2px;">
+            <p class="card-body" style="color:var(--gold); font-weight:700; ">
+              El banco central actúa como un termostato que busca $r = r_n$.
+            </p>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ============================================================== -->
-  <!-- SLIDE 10: SUBIDA FOTOGRÁFICA MICROSOFT FORMS -->
-  <!-- ============================================================== -->
-  <div class="slide" data-slide="10">
+  <!-- SLIDE 14: BLOQUE 4 - TALLER Y LABORATORIO WEB CON QR AUTOCONTENIDO -->
+  <div class="slide roomy" data-slide="14">
     <div class="slide-header">
       <div class="header-titles">
-        <span class="eyebrow">FASE 5 · CAPTURA DIGITAL INSTANTÁNEA</span>
-        <h2>Subida de la Hoja de Respuestas (Microsoft Forms UPO)</h2>
+        <span class="eyebrow">BLOQUE 4: TALLER Y LABORATORIO WEB</span>
+        <h2>Laboratorio: el simulador IS-LM-PC</h2>
       </div>
-      <span class="act">ÚLTIMOS 2 MINUTOS</span>
+      <span class="act">LABORATORIO EN PAREJAS</span>
     </div>
     <div class="row">
-      <div class="col-text" style="flex:0 0 540px;">
-        <div class="glass card" style="border-left:4px solid var(--ok);">
-          <div class="card-title" style="color:var(--ok);">Instrucciones de Subida</div>
-          <div class="card-body">
-            1. Desbloquea tu móvil exclusivamente para escanear el QR.<br>
-            2. Haz una fotografía nítida con buena luz de tu hoja manuscrita.<br>
-            3. Escribe tu nombre y acrónimo UPO y pulsa <b>Enviar</b> antes de salir del aula.<br>
-            4. La corrección se procesará mediante IA multimodal y se cargará en tu <b>Pasaporte Digital</b>.
+      <div class="col-text" style="flex:1.2;">
+        <div class="glass card" style="border-color:var(--teal);">
+          <div>
+            <span class="card-num" style="color:var(--teal);">EN PAREJAS · 25 MIN</span>
+            <span class="card-title" style="display:block; margin:8px 0 0;">Abrid el simulador con el QR</span>
           </div>
+          
+          <div style="background:rgba(13,148,136,0.15); padding:22px 26px; border-radius:12px; border-left:4px solid var(--teal);">
+            <p class="card-body">
+              <strong>Tres controles:</strong></p>
+              <ul class="bul" style="margin-top:12px;">
+                <li><em>Expectativas:</em> alterna $\theta = 0$ y $\theta = 1$.</li>
+                <li><em>Tipo real $r$:</em> ponlo por debajo de $r_n$ y mira la inflación.</li>
+                <li><em>Gasto $G$:</em> súbelo y observa cómo se mueve $r_n$.</li>
+              </ul>
+          </div>
+          <p class="card-body" style="color:var(--cyan); font-family:var(--f-mono); font-size:16px;">
+            URL: https://mhidper.github.io/micro_apps/macro_simulador_sesion_13.html
+          </p>
         </div>
+      </div>
+      <div class="col-text" style="flex:0.8; align-items:center;">
+        <div class="glass card" style="border-color:var(--teal); text-align:center; padding:28px; width:100%;">
+          <span class="card-num" style="color:var(--teal);">ACCESO INMEDIATO</span>
+          <span class="card-title" style="display:block; margin:8px 0 0;">Escanear para abrir</span>
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAhwAAAIcAQAAAACVhUrRAAAACXBIWXMAAC4jAAAuIwF4pT92AAAERElEQVR4nO1dUbLbIAwEpv/2Dd79j9UbmBOoI4QEtpLXvhJncLw7b1pCsMZeWyO8EiRSGEZO4zZCgBEPcOIBTjzAiQc48QAnHuDEA5x4gBMPcOIBTi7ASTSs3LbOkLmvDlhDXI+DX34mY0iDxxfAiAc4ec7JQoIQAm3Nfbh/CyFHbvwuTrTuBu+MDCHBiAM4mZmTX9Zix1g2biwU8hrySrWzOFSO4iq0H/y6M0kw4gBOruE7BhL3WajGnqwxqLRp6stJMOIATt7KCf22d5kg07P4xd7EDrW+9Ux+CBjxACenxx3SRixt/strncVpvw3bRx/cHQ9wchtOclXOQnnBiV8cXzjWqDgg/fVjP/jlZzKENHa4AEY8wMnTuNPHEapBJzZ9oDRq5zHogNiHwMN2F05il7sJGmtqrke1gvZV6bFDJrycMaTB4wtg5C6ckOZuiKhOxnLkDE7RB+RjFQqyyghNf5vucsaQBo8vgJGP5yTUNOfGKVFOgy7sLDuvkTFb968kRnUkbfNcToIRB3Byru8Ey4HSzl9aCYG4Uikz4H5zOvjOY+CJ/XhOQnOBVmMT+uBiHnSo22k9iDtT3+IEI2drBbtwk4sEnePu7ab/uAPujgc4udOcLeiEbdFJmtaCyiSttTUYIe5c4RYnGDm3rmDZuP5Titk4s1OjiyR0ota2cWOhWBQ2gs72HfDE3oiTKFUEkbVoUa0t3IhAzW31l/7laM7LGUAaOVgBIzfSqEOnRYeiBrh1OnpIP4uDVjD7LU4wcu77ztL9BS1gk/giYUgX6/RpIPjOc+CJvVPcWVpWlA5Bp3OrlkhFfucatzjByNk6Gx3UtoIuidPJa32lAeZsj4En9i6cUKdOxxjNU7jCTbcvkI8yTI5CLeiFbvEY0uDxn6xRZ17mVuTorV/dJkJ026PAvuLxuih7ostJMOIATs7O71DoszYL+wVpw1aSRk4DqUyN/M53wBP78ZyEXTGbk9Sk08QBm931VXCoZ5v7FicYeQ8n1CV6JFtq6BfH2fK3887kvwAjHuDkHWsQSFW1Pu/TMqGa3NktSUDceQw8sXfaryBXWSDqq43VsPFbj+xkqPqA7Gbw0jNJMOIATi7gO1H+K/4iMlqtAhVNQCU4qReNp5xJghEHcHIBTshWXpPuV2Brdqwt6FYo6FxuussZQxo8vgBGbhZ3gu4ybXMz6bTpnEjWNqZuST3P5SQYcQAn7/0dhLUEoC9N+pRAY7tL1XCD953vgCf2jr+DELpw0yoKHk3eXnomCUYcwMnVOFnqK8+uiFp3bKsa9W7jgrkv58eAEQ9w8k+cxF4rOHwle4HaTqHIjT4FHrY7/g4CmRDd/wpPkxE2q3aj6S4nwYgDOHnHPjmMZbdDjmkIhx3bsD/b34An9uM5iY9+x+2HyPNcToIRB3DiAU48wIkHOPEAJx7gxAOceIATD3DiAU48XsLJH5Qr5eVtvlLCAAAAAElFTkSuQmCC" alt="QR Acceso" style="width:340px; height:340px; margin:10px auto; border-radius:12px; background:#fff; padding:8px; display:block;">
+          <span style="font-family:var(--f-mono); font-size:14px; color:var(--muted);">Acceso libre sin registro</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 15: BLOQUE 4 - EXPERIMENTO GUIADO EN PAREJAS -->
+  <div class="slide roomy" data-slide="15">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow">BLOQUE 4: TALLER Y LABORATORIO WEB</span>
+        <h2>Experimento: más gasto público y respuesta monetaria</h2>
+      </div>
+      <span class="act">SHOCKS MACROECONÓMICOS</span>
+    </div>
+    <div class="row">
+      <div class="col-text">
         <div class="glass card">
-          <div class="card-title">Solución Numérica Rápida de Autocomprobación</div>
-          <div class="card-body">
-            • $Y_n = 950 \implies u_n = 1 - 950/1000 = 5,0\%$.<br>
-            • Tipo neutral: $950 = 1050 - 2500 \cdot r_n \implies r_n = 4,0\%$.<br>
-            • Con $r = 1\%: Y = 1050 - 25 = 1025 \implies \text{Gap} = +75$.<br>
-            • Inflación anclada: $\pi_1 = 2\% + 0,01(75) = 2,75\%$.
+          <div>
+            <span class="card-num" style="color:var(--cobalt);">FASE 1 · CORTO PLAZO</span>
+            <span class="card-title" style="display:block; margin:8px 0 0;">Sube el gasto: $\Delta G > 0$</span>
+          </div>
+          <ol class="bul">
+            <li>La IS se desplaza a la derecha.</li>
+            <li>Con $r$ sin cambios, $Y' > Y_n$.</li>
+            <li>Brecha positiva: la inflación se acelera.</li>
+            <li>El nuevo tipo neutral es mayor: $r_n' > r_n$.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="col-text">
+        <div class="glass card" style="border-color:var(--azure);">
+          <div>
+            <span class="card-num" style="color:var(--azure);">FASE 2 · MEDIO PLAZO</span>
+            <span class="card-title" style="display:block; margin:8px 0 0;">El banco central cierra la brecha</span>
+          </div>
+          <ol class="bul">
+            <li>Sube el tipo real hasta $r = r_n'$.</li>
+            <li>La inversión se enfría y el PIB vuelve a $Y_n$.</li>
+            <li><strong>Efecto expulsión:</strong> mismo PIB, con más $G$ y menos inversión privada.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 16: BLOQUE 5 - CÓDIGO DESCLASIFICADO (TRAMPAS DE EXAMEN) -->
+  <div class="slide roomy" data-slide="16">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow">BLOQUE 5: CÓDIGO DESCLASIFICADO</span>
+        <h2>Tres trampas de examen</h2>
+      </div>
+      <span class="act">NAIRU · IS-LM-PC</span>
+    </div>
+    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:26px; margin:30px 0 20px; flex:1;">
+      <div class="glass card" style="border-top: 5px solid var(--crimson); padding:34px 30px; justify-content:center; gap:22px;">
+        <span class="card-num" style="color:var(--crimson);">TRAMPA 1</span>
+        <span class="card-title">Confundir nivel y variación</span>
+        <p class="card-body">
+          <span style="color:#fb7185">✗</span> «Con paro bajo la NAIRU, la inflación es alta».<br><br>
+          <span style="color:var(--ok)">✓</span> Con $\theta = 1$, si $u \lt u_n$ la inflación <strong>se acelera</strong> cada periodo. Solo es constante con $u = u_n$.
+        </p>
+      </div>
+      <div class="glass card" style="border-top: 5px solid var(--gold); padding:34px 30px; justify-content:center; gap:22px;">
+        <span class="card-num" style="color:var(--gold);">TRAMPA 2</span>
+        <span class="card-title">Creer que $r_n$ es fijo</span>
+        <p class="card-body">
+          <span style="color:#fb7185">✗</span> «$r_n$ es un número dado».<br><br>
+          <span style="color:var(--ok)">✓</span> Depende de la IS. Si sube $G$, bajan $T$ o cae la prima $x$, <strong>$r_n$ sube</strong>.
+        </p>
+      </div>
+      <div class="glass card" style="border-top: 5px solid var(--cobalt); padding:34px 30px; justify-content:center; gap:22px;">
+        <span class="card-num" style="color:var(--cobalt);">TRAMPA 3</span>
+        <span class="card-title">El gasto público a medio plazo</span>
+        <p class="card-body">
+          <span style="color:#fb7185">✗</span> «Más gasto eleva el PIB para siempre».<br><br>
+          <span style="color:var(--ok)">✓</span> A medio plazo $Y$ vuelve a $Y_n$: <strong>tipos más altos</strong> y menos inversión privada.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 17: BLOQUE 5 - RETO MANUSCRITO INDIVIDUAL DE EXAMEN -->
+  <div class="slide roomy" data-slide="17">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow">BLOQUE 5: RETO MANUSCRITO DE CIERRE</span>
+        <h2>Reto individual: 10 minutos a mano</h2>
+      </div>
+      <span class="act">EVALUACIÓN CONTINUA IN SITU</span>
+    </div>
+    <div class="row">
+      <div class="col-text" style="flex:1;">
+        <div class="glass card" style="border-color:var(--gold); background:rgba(255,190,11,0.08);">
+          <div>
+            <span class="card-num" style="color:var(--gold);">ENUNCIADO CUANTITATIVO</span>
+            <span class="card-title" style="display:block; margin:8px 0 0;">Economía cerrada</span>
+            
+          </div>
+          <div class="math-hl" style="border-left-color:var(--gold);">
+            $$\text{IS: } Y = 940 - 250(r + x) + 0{,}5G - 0{,}5T$$
+          </div>
+          <ul class="bul">
+            <li>$L = 1.000$, $m = 0{,}20$, $z = 0{,}08$, $\alpha = 4$</li>
+            <li>$x = 0{,}02$, $G = 600$, $T = 600$</li>
+            <li>$Y = N$</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-text" style="flex:1;">
+        <div class="glass card" style="border-color:var(--azure);">
+          <div>
+            <span class="card-num" style="color:var(--azure);">APARTADOS</span>
+            <span class="card-title" style="display:block; margin:8px 0 0;">Resuelve en una hoja</span>
+          </div>
+          <ol class="bul">
+            <li>Calcule $u_n$ y $Y_n$.</li>
+            <li>Escriba la curva PC en función de $(Y - Y_n)$.</li>
+            <li>Calcule el tipo neutral $r_n$.</li>
+            <li>Con $r = 1\%$ y $\theta = 1$, calcule $\Delta \pi$ cada año.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 18: BLOQUE 5 - SUBIDA INSTANTÁNEA Y PASAPORTE CON QR AUTOCONTENIDO -->
+  <div class="slide roomy" data-slide="18">
+    <div class="slide-header">
+      <div class="header-titles">
+        <span class="eyebrow">BLOQUE 5: CIERRE DE SESIÓN</span>
+        <h2>Entrega: foto de tu hoja por QR</h2>
+      </div>
+      <span class="act">ENTREGA OFICIAL (2 MIN)</span>
+    </div>
+    <div class="row">
+      <div class="col-text" style="flex:1.2;">
+        <div class="glass card">
+          <div>
+            <span class="card-num" style="color:var(--cobalt);">PASAPORTE DE EVALUACIÓN CONTINUA</span>
+            <span class="card-title" style="display:block; margin:8px 0 0;">Tres pasos</span>
+          </div>
+          <ol class="bul">
+            <li>Foto nítida con nombre, apellidos y DNI visibles.</li>
+            <li>Entra en Forms con tu cuenta <code>@alu.upo.es</code> y adjúntala.</li>
+            <li>Las entregas correctas suman sellos y bonificaciones para el examen final.</li>
+          </ol>
+          <div style="background:rgba(52,211,153,0.15); padding:12px 18px; border-radius:10px; border-left:4px solid var(--ok);">
+            <p class="card-body" style="color:var(--ok); font-weight:700; ">
+              Gracias por vuestra participación.
+            </p>
           </div>
         </div>
       </div>
-      <div class="col-fig">
-        <div class="glass" style="width:100%; height:100%; padding:24px; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:16px;">
-          <!-- QR oficial del Forms UPO cargado desde la media de la conversación -->
-          <div style="background:#fff; padding:16px; border-radius:16px; display:flex; justify-content:center; align-items:center; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
-            <img src="figuras y gráficos/qr_forms_sesion_13.png" style="width:230px; height:230px; object-fit:contain;" alt="QR Forms">
-          </div>
-          <div style="font-family:var(--f-mono); font-size:14px; color:var(--gold); text-align:center;">
-            <b>CÓDIGO QR OFICIAL: SUBIDA FORMS SESIÓN 13</b><br>
-            <span style="font-size:12px; color:var(--muted);">Captura activa hasta el final de la clase</span>
-          </div>
+      <div class="col-text" style="flex:0.8; align-items:center;">
+        <div class="glass card" style="border-color:var(--gold); text-align:center; padding:28px; width:100%;">
+          <span class="card-num" style="color:var(--gold);">FORMULARIO FORMS UPO</span>
+          <span class="card-title" style="display:block; margin:8px 0 0;">Escanear para subir</span>
+          <img src="data:image/png;base64,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p3MCBAgQIECAAAECJwgIICegeyQBAtcWMD0BAgQIELiygABy5e2bnQABAgQIXEvAtAQINBAQQBosQQsECBAgQIAAAQIE1hb4NZ0A8svCTwQIECBAgAABAgQI7CwggOwMrDyBZwHnBAgQIECAAIErCwggV96+2QkQIHAtAdMSIECAQAMBAaTBErRAgAABAgQIEFhbwHQEfgkIIL8s/ESAAAECBAgQIECAwM4CZQFk27ab42eDGY0q3sEuc3eZRR+PvysVHhU1Kt7Tij661ODxuIkuHhV9VNR41PnsbKU+KmapqPHZJurvqpilokbFZPqoUHysURZAHss6I0CAQDsBDREgQIAAAQINBASQBkvQAgECBAgQWFvAdAQIEPglIID8svATAQIECBAgQIAAgbUEGk4jgDRcipYIECBAgAABAgQIrCoggKy6WXM9CzgnQIAAAQIECBBoICCANFiCFggQILC2gOkIECBAgMAvAQHkl4WfCBAgQIAAAQJrCZiGQEMBAaThUrREgAABAgQIECBAYFWBqwSQVfdnLgIECBAgQIAAAQJTCQggU61LswRmFNAzAQIECBAgQOCXgADyy8JPBAgQIEBgLQHTECBAoKGAANJwKVoiQIAAAQIECBCYW0D3fxYQQP5s4xsCBAgQIECAAAECBIoFBJBiUOWeBZwTIECAAAECBAgQ+CUggPyy8BMBAgTWEjANAQIECBBoKCCANFyKlggQIECAAIG5BXRPgMCfBf4/AAAA//9WSKnRAAAABklEQVQDAE/FS41i9R79AAAAAElFTkSuQmCC" alt="QR Forms Reto" style="width:340px; height:340px; margin:10px auto; border-radius:12px; background:#fff; padding:8px; display:block;">
+          <span style="font-family:var(--f-mono); font-size:14px; color:var(--muted);">Cierre de entrega: 11:00 h</span>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Barra de progreso y HUD -->
-  <div class="progress-bar" id="progressBar"></div>
+  <div class="progress-bar" id="progress"></div>
   <div class="hud">
-    <span id="slideCounter">1 / 10</span>
-    <span>[← / → / Espacio] Navegación</span>
+    <span id="slide-num">01 / 18</span>
+    <span>•</span>
+    <span>UPO · MACROECONOMÍA</span>
+    <button class="hud-btn" id="btn-fs" onclick="toggleFullScreen()" title="Pantalla Completa (F / F11)">⛶ Pantalla Completa</button>
   </div>
 </div>
 
 <script>
-// Lógica de control de diapositivas y renderizado interactivo
-var currentSlide = 1;
-var totalSlides = 10;
-var currentTheta = 0;
+// Manejo de diapositivas
+const slides = document.querySelectorAll('.slide');
+const totalSlides = slides.length;
+let currentSlide = 1;
 
-function updateSlide(idx) {
-  if (idx < 1) idx = 1;
-  if (idx > totalSlides) idx = totalSlides;
-  currentSlide = idx;
+function updateSlide(target) {
+  if (target < 1) target = 1;
+  if (target > totalSlides) target = totalSlides;
+  currentSlide = target;
 
-  var slides = document.querySelectorAll('.slide');
-  slides.forEach(function(s) { s.classList.remove('active'); });
+  slides.forEach((s, idx) => {
+    s.classList.toggle('active', (idx + 1) === currentSlide);
+  });
 
-  var target = document.querySelector('.slide[data-slide="' + idx + '"]');
-  if (target) target.classList.add('active');
+  const progress = document.getElementById('progress');
+  if (progress) {
+    progress.style.width = ((currentSlide / totalSlides) * 100) + '%';
+  }
 
-  var pct = ((idx - 1) / (totalSlides - 1)) * 100;
-  document.getElementById('progressBar').style.width = pct + '%';
-  document.getElementById('slideCounter').textContent = idx + ' / ' + totalSlides;
-
-  if (idx === 3) {
-    drawExpectativas();
+  const numEl = document.getElementById('slide-num');
+  if (numEl) {
+    numEl.textContent = (currentSlide < 10 ? '0' + currentSlide : currentSlide) + ' / ' + (totalSlides < 10 ? '0' + totalSlides : totalSlides);
   }
 }
 
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
-    e.preventDefault();
-    updateSlide(currentSlide + 1);
-  } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
-    e.preventDefault();
-    updateSlide(currentSlide - 1);
+
+// ---- Pasos dentro de una diapositiva (data-steps): el pasador avanza etapa a etapa ----
+const H_CLIP = {"1": 622, "2": 622, "3": 932, "4": 982, "5": 1347};
+let curStep = 0, clipAnim = null;
+function stepsOf(n){ const s = slides[n-1]; return s ? (+s.dataset.steps || 0) : 0; }
+function animateClip(r, toW, dur){
+  if (!r) return;
+  if (clipAnim) cancelAnimationFrame(clipAnim);
+  const from = +r.getAttribute('width'), t0 = performance.now();
+  const ease = t => t < .5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2) / 2;
+  const tick = now => { const t = Math.min(1, (now - t0) / dur);
+    r.setAttribute('width', from + (toW - from) * ease(t));
+    if (t < 1) clipAnim = requestAnimationFrame(tick); };
+  clipAnim = requestAnimationFrame(tick);
+}
+function setStep(k, instant){
+  const s = slides[currentSlide-1]; curStep = k;
+  s.querySelectorAll('[data-stage]').forEach(el => el.classList.toggle('on', +el.dataset.stage <= k));
+  s.querySelectorAll('.h-dots i').forEach((d, i) => d.classList.toggle('on', i < k));
+  s.querySelectorAll('[data-reveal]').forEach(el => el.classList.toggle('revealed', k >= +el.dataset.reveal));
+  s.querySelectorAll('[data-only]').forEach(el => el.classList.toggle('on', +el.dataset.only === k));
+  const cr = s.querySelector('.step-clip');
+  if (cr && s.dataset.clip) { const cw = JSON.parse(s.dataset.clip)[k]; if (cw !== undefined) animateClip(cr, cw, instant ? 1 : 1400); }
+}
+function goNext(){
+  const m = stepsOf(currentSlide);
+  if (m && curStep < m) { setStep(curStep + 1); return; }
+  if (currentSlide >= totalSlides) return;
+  updateSlide(currentSlide + 1);
+  if (stepsOf(currentSlide)) { const r=slides[currentSlide-1].querySelector('.step-clip'); if (r) r.setAttribute('width', 0); setStep(1); }
+}
+function goPrev(){
+  const m = stepsOf(currentSlide);
+  if (m && curStep > 1) { setStep(curStep - 1); return; }
+  if (currentSlide <= 1) return;
+  updateSlide(currentSlide - 1);
+  if (stepsOf(currentSlide)) setStep(stepsOf(currentSlide), true);
+}
+
+// Pantalla Completa
+function toggleFullScreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(err => console.log(err));
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  }
+}
+
+// Teclado
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ' || e.key === 'ArrowDown') {
+    e.preventDefault(); goNext();
+  } else if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'ArrowUp') {
+    e.preventDefault(); goPrev();
   } else if (e.key === 'Home') {
     updateSlide(1);
   } else if (e.key === 'End') {
     updateSlide(totalSlides);
+  } else if (e.key === 'f' || e.key === 'F') {
+    toggleFullScreen();
   }
 });
 
-function setExpectativa(theta) {
-  currentTheta = theta;
-  document.getElementById('btnAncladas').classList.toggle('active', theta === 0);
-  document.getElementById('btnAdaptativas').classList.toggle('active', theta === 1);
-  drawExpectativas();
-}
+// Click lateral para pantallas táctiles
+window.addEventListener('click', (e) => {
+  if (e.target.closest('button') || e.target.closest('a') || e.target.closest('input')) return;
+  const x = e.clientX / window.innerWidth;
+  if (x > 0.75) goNext();
+  else if (x < 0.25) goPrev();
+});
 
-function drawExpectativas() {
-  var svg = document.getElementById('svgExpectativas');
-  if (!svg) return;
-
-  var W = 680, H = 400;
-  var ml = 60, mr = 30, mt = 30, mb = 50;
-  var pw = W - ml - mr, ph = H - mt - mb;
-
-  function X(t) { return ml + (t / 5) * pw; }
-  function Y(val) { return mt + (1 - (val / 11)) * ph; }
-
-  var pi0 = 2.0;
-  var delta = 1.6;
-  var anios = [0, 1, 2, 3, 4, 5];
-  var data = [];
-
-  if (currentTheta === 0) {
-    // Ancladas
-    data = [2.0, 3.6, 3.6, 3.6, 3.6, 3.6];
-  } else {
-    // Adaptativas
-    data = [2.0, 3.6, 5.2, 6.8, 8.4, 10.0];
-  }
-
-  var s = '';
-  // Grid lines
-  for (var v = 0; v <= 10; v += 2) {
-    s += '<line x1="' + ml + '" y1="' + Y(v) + '" x2="' + (ml + pw) + '" y2="' + Y(v) + '" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>';
-    s += '<text x="' + (ml - 10) + '" y="' + (Y(v) + 4) + '" fill="#8faec4" font-size="12" font-family="JetBrains Mono" text-anchor="end">' + v + '%</text>';
-  }
-  anios.forEach(function(t) {
-    s += '<line x1="' + X(t) + '" y1="' + mt + '" x2="' + X(t) + '" y2="' + (mt + ph) + '" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>';
-    s += '<text x="' + X(t) + '" y="' + (mt + ph + 22) + '" fill="#8faec4" font-size="12" font-family="JetBrains Mono" text-anchor="middle">Año ' + t + '</text>';
-  });
-
-  // Meta 2%
-  s += '<line x1="' + ml + '" y1="' + Y(2.0) + '" x2="' + (ml + pw) + '" y2="' + Y(2.0) + '" stroke="#64748b" stroke-width="1.8" stroke-dasharray="5 4"/>';
-  s += '<text x="' + (ml + pw - 6) + '" y="' + (Y(2.0) - 8) + '" fill="#94a3b8" font-size="11.5" font-family="JetBrains Mono" text-anchor="end">Meta de Inflación (2%)</text>';
-
-  // Data path
-  var pathD = data.map(function(val, idx) {
-    return (idx === 0 ? 'M' : 'L') + X(idx).toFixed(1) + ',' + Y(val).toFixed(1);
-  }).join(' ');
-
-  var col = currentTheta === 0 ? '#00f2fe' : '#e11d48';
-  s += '<path d="' + pathD + '" fill="none" stroke="' + col + '" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>';
-
-  // Points
-  data.forEach(function(val, idx) {
-    s += '<circle cx="' + X(idx) + '" cy="' + Y(val) + '" r="6" fill="' + col + '" stroke="#fff" stroke-width="2"/>';
-    s += '<text x="' + X(idx) + '" y="' + (Y(val) - 12) + '" fill="' + col + '" font-size="13" font-weight="700" font-family="JetBrains Mono" text-anchor="middle">' + val.toFixed(1) + '%</text>';
-  });
-
-  svg.innerHTML = s;
-}
-
-// Auto-ajuste de escala para cualquier pantalla
+// Escalado responsive con margen de seguridad del 96%
 function resizeStage() {
-  var stage = document.getElementById('stage');
-  var sw = window.innerWidth, sh = window.innerHeight;
-  var scale = Math.min(sw / 1600, sh / 900);
-  stage.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
+  const stage = document.getElementById('stage');
+  if (!stage) return;
+  const scale = Math.min((window.innerWidth * 0.98) / 1600, (window.innerHeight * 0.98) / 900);
+  stage.style.transform = `translate(-50%, -50%) scale(${scale})`;
 }
 window.addEventListener('resize', resizeStage);
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', () => {
   resizeStage();
-  if (typeof renderMathInElement !== 'undefined') {
+  updateSlide(1);
+  slides.forEach((s,i)=>{ if (+s.dataset.steps) s.querySelectorAll('[data-stage]').forEach(el=>el.classList.add('on')); });
+  if (window.renderMathInElement) {
     renderMathInElement(document.body, {
       delimiters: [
         {left: '$$', right: '$$', display: true},
         {left: '$', right: '$', display: false}
-      ]
+      ],
+      throwOnError: false
     });
   }
 });
+
+// Simulador interactivo de expectativas en Slide 8
+function setRegime(regime) {
+  const btn0 = document.getElementById('btn-anchored');
+  const btn1 = document.getElementById('btn-adaptive');
+  const path = document.getElementById('nairu-path');
+  const leg = document.getElementById('nairu-legend');
+  const p1 = document.getElementById('p1');
+  const p2 = document.getElementById('p2');
+  const p3 = document.getElementById('p3');
+  const p4 = document.getElementById('p4');
+
+  if (regime === 0) {
+    btn0.classList.add('active');
+    btn1.classList.remove('active');
+    path.setAttribute('d', 'M 80 280 L 220 200 L 360 200 L 500 200 L 640 200');
+    path.setAttribute('stroke', '#056caa');
+    p1.setAttribute('cy', '200');
+    p2.setAttribute('cy', '200');
+    p3.setAttribute('cy', '200');
+    p4.setAttribute('cy', '200');
+    leg.textContent = "θ = 0: la inflación se queda en el 4%";
+    leg.setAttribute('fill', '#00f2fe');
+    leg.setAttribute('y', '175'); leg.setAttribute('x', '230');
+  } else {
+    btn1.classList.add('active');
+    btn0.classList.remove('active');
+    path.setAttribute('d', 'M 80 280 L 220 200 L 360 140 L 500 90 L 640 50');
+    path.setAttribute('stroke', '#e11d48');
+    p1.setAttribute('cy', '200');
+    p2.setAttribute('cy', '140');
+    p3.setAttribute('cy', '90');
+    p4.setAttribute('cy', '50');
+    leg.textContent = "θ = 1: la inflación se acelera cada año";
+    leg.setAttribute('fill', '#e11d48');
+    leg.setAttribute('y', '60'); leg.setAttribute('x', '200');
+  }
+}
 </script>
 </body>
 </html>
-
