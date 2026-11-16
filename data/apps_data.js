@@ -111,6 +111,19 @@ window.DOCENCIA_APPS = {
         url: "epd3_laboratorio.html"
       },
       {
+        id: "psll_epd4_lab",
+        type: "simulator",
+        category: "activas",
+        icon: "💼",
+        iconBg: "#EAF4EE",
+        iconColor: "#113927",
+        title: "Laboratorio EPD 4: Programa Emplea-T y Talento 45+",
+        desc: "Auditoría empírica IECA/EPA (2014-2024), simulador financiero de subvenciones a 24 meses (Orden 03/10/2024, BOJA), contraste con Talento 45+ y sellado criptográfico en equipo.",
+        meta: "Laboratorio oficial de prácticas · 90 min",
+        session: "Prácticas EPD 4",
+        url: "epd4_laboratorio.html"
+      },
+      {
         id: "psll_mercado_1",
         type: "quiz",
         category: "mercado",
