@@ -751,6 +751,11 @@
       color: #475569;
       border: 1px solid #E2E8F0;
     }
+    .status-bloqueado {
+      background: #FEE2E2;
+      color: #991B1B;
+      border: 1px solid #F87171;
+    }
     .status-justificado {
       background: #E8F4EC;
       color: #113927;
@@ -1431,10 +1436,20 @@
           const navBtn = document.createElement('button');
           navBtn.className = 'nav-tab-btn';
           navBtn.dataset.tabTarget = `tab-${ses.id}`;
+          const isBlocked = (ses.estado || '').toLowerCase().includes('bloquead') || (ses.estado || '').toLowerCase().includes('ia');
           const isJustif = (ses.estado || '').toLowerCase().includes('justifica') || ses.es_justificada;
+          let badgeStyle = '';
+          let badgeText = `${ses.puntos_obtenidos} pts`;
+          if (isBlocked) {
+            badgeStyle = 'background: #FEE2E2; color: #991B1B; font-weight: 700; border: 1px solid #F87171;';
+            badgeText = 'Bloqueado';
+          } else if (isJustif) {
+            badgeStyle = 'background: #E8F4EC; color: #113927;';
+            badgeText = 'Justif.';
+          }
           navBtn.innerHTML = `
             <span>${ses.titulo_corto}</span>
-            <span class="tab-badge" style="${isJustif ? 'background: #E8F4EC; color: #113927;' : ''}">${isJustif ? 'Justif.' : ses.puntos_obtenidos + ' pts'}</span>
+            <span class="tab-badge" style="${badgeStyle}">${badgeText}</span>
           `;
           navBtn.addEventListener('click', () => switchMainTab(`tab-${ses.id}`));
           mainTabsNav.appendChild(navBtn);
@@ -1865,6 +1880,7 @@
 
       function getStatusClass(estado) {
         const est = (estado || '').toLowerCase();
+        if (est.includes('bloquead') || est.includes('ia')) return 'status-bloqueado';
         if (est.includes('justifica')) return 'status-justificado';
         if (est.includes('sobresaliente')) return 'status-sobresaliente';
         if (est.includes('apto') && !est.includes('no')) return 'status-apto';
