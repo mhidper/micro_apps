@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>EPD 5 · Taller Integrador y Clínica de Informes Técnicos | PSLL UPO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --psll-pine: #113927;
+    --psll-pine-dark: #0B2419;
+    --psll-sage: #76927A;
+    --psll-coral: #E98F71;
+    --psll-coral-dark: #C86D51;
+    --psll-mint: #F4F8F5;
+    --psll-ink: #2F3A30;
+    --psll-peach: #EDB090;
+    --bg-card: #FFFFFF;
+    --border-color: #C2D8C9;
+    --color-green: #2E7D32;
+    --color-amber: #F57F17;
+    --color-red: #D32F2F;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: linear-gradient(135deg, #113927 0%, #1a4a35 55%, #295e45 100%);
+    color: var(--psll-ink);
+    padding: 16px 10px;
+    min-height: 100vh;
+  }
+  .app-container {
+    background: var(--bg-card);
+    border-radius: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 22px;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.25);
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 14px;
+    margin-bottom: 18px;
+  }
+  .brand-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.4rem;
+    color: var(--psll-pine);
+    font-weight: 800;
+  }
+  .brand-sub {
+    font-size: 0.85rem;
+    color: var(--psll-sage);
+    font-weight: 600;
+  }
+  .badge-session {
+    background: var(--psll-mint);
+    border: 1px solid var(--border-color);
+    color: var(--psll-pine);
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+  .tabs-nav {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    background: var(--psll-mint);
+    padding: 6px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    overflow-x: auto;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 10px 14px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--psll-ink);
+    cursor: pointer;
+    transition: 0.2s;
+    white-space: nowrap;
+  }
+  .tab-btn.active {
+    background: var(--psll-pine);
+    color: #FFFFFF;
+  }
+  .tab-pane {
+    display: none;
+  }
+  .tab-pane.active {
+    display: block;
+  }
+  .card-box {
+    background: var(--psll-mint);
+    border: 1.5px solid var(--border-color);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 18px;
+  }
+  .card-title {
+    font-family: 'Outfit', sans-serif;
+    color: var(--psll-pine);
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  @media(max-width: 800px) {
+    .grid-2 { grid-template-columns: 1fr; }
+  }
+  /* CHECKLIST DE RÚBRICA */
+  .rubric-item {
+    background: #FFFFFF;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .rubric-item:hover {
+    border-color: var(--psll-coral);
+    background: #FFFAF8;
+  }
+  .rubric-check {
+    margin-top: 3px;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--psll-coral);
+    cursor: pointer;
+  }
+  .rubric-text {
+    flex: 1;
+    font-size: 0.88rem;
+    line-height: 1.4;
+  }
+  .rubric-weight {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--psll-coral);
+    background: var(--psll-mint);
+    padding: 2px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+  .score-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--psll-pine);
+    color: #FFFFFF;
+    border-radius: 12px;
+    padding: 14px 20px;
+    margin-top: 14px;
+  }
+  .score-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--psll-coral);
+  }
+  /* SEMÁFORO DE TIEMPOS */
+  .traffic-display {
+    text-align: center;
+    padding: 24px;
+    background: #FFFFFF;
+    border-radius: 16px;
+    border: 2px solid var(--border-color);
+    margin-bottom: 16px;
+  }
+  .traffic-light {
+    display: inline-flex;
+    gap: 14px;
+    background: #222;
+    padding: 10px 18px;
+    border-radius: 30px;
+    margin-bottom: 14px;
+  }
+  .lamp {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    opacity: 0.25;
+    transition: 0.3s;
+  }
+  .lamp.green { background: #00E676; }
+  .lamp.amber { background: #FFD600; }
+  .lamp.red { background: #FF1744; }
+  .lamp.active { opacity: 1; box-shadow: 0 0 16px currentColor; }
+  
+  .time-clock {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--psll-pine);
+    margin: 8px 0;
+  }
+  .speaker-badge {
+    display: inline-block;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--psll-coral);
+    background: var(--psll-mint);
+    border: 1px solid var(--border-color);
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+  }
+  .timer-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .btn-timer {
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .btn-start { background: var(--psll-coral); color: #fff; }
+  .btn-start:hover { background: var(--psll-coral-dark); }
+  .btn-next { background: var(--psll-pine); color: #fff; }
+  .btn-next:hover { background: var(--psll-pine-dark); }
+  .btn-reset { background: var(--psll-mint); color: var(--psll-ink); border: 1px solid var(--border-color); }
+
+  /* SELLADO Y VISTO BUENO */
+  .form-group {
+    margin-bottom: 14px;
+  }
+  .form-label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--psll-ink);
+    margin-bottom: 6px;
+  }
+  .form-input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    font-size: 0.95rem;
+    color: var(--psll-ink);
+    font-family: inherit;
+  }
+  .btn-seal {
+    width: 100%;
+    background: var(--psll-coral);
+    color: #FFFFFF;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s;
+    margin-top: 10px;
+  }
+  .btn-seal:hover { background: var(--psll-coral-dark); }
+  .seal-certificate {
+    display: none;
+    background: #FFFFFF;
+    border: 2px solid var(--psll-pine);
+    border-radius: 14px;
+    padding: 20px;
+    margin-top: 18px;
+    text-align: center;
+  }
+  .cert-token {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--psll-coral);
+    margin: 10px 0;
+  }
+  /* Router de Sesiones Modular */
+  nav.session-router {
+    background: #FFFFFF;
+    border-bottom: 2px solid var(--border-color);
+    padding: 10px 14px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    margin-bottom: 18px;
+  }
+  .router-tab {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--psll-ink);
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .router-tab:hover {
+    background: var(--psll-mint);
+    color: var(--psll-pine);
+  }
+  .router-tab.active {
+    background: var(--psll-mint);
+    color: var(--psll-pine);
+    border-color: var(--border-color);
+    font-weight: 700;
+  }
+  .router-tab.disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    background: transparent !important;
+    color: #94A3B8 !important;
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- Router de Sesiones Modular -->
+  <nav class="session-router">
+    <a href="epd_laboratorio.html" class="router-tab">🏠 Panel de Sesiones</a>
+    <a href="epd_laboratorio.html?sesion=1" class="router-tab">📦 Sesión 01 (Cerrada)</a>
+    <a href="epd2_laboratorio.html" class="router-tab">📦 Sesión 02: Gobernanza UE y FSE+ (Cerrada)</a>
+    <a href="epd3_laboratorio.html" class="router-tab">📦 Sesión 03: PAE en la OCDE (Cerrada)</a>
+    <a href="epd4_laboratorio.html" class="router-tab">📦 Sesión 04: Incentivos Emplea-T (Cerrada)</a>
+    <a href="epd5_laboratorio.html" class="router-tab active" style="font-weight: 700; color: var(--psll-pine);">🟢 Sesión 05: Clínica de Informes (Activa)</a>
+    <div class="router-tab disabled" title="Se desbloqueará en Semana 12">🔒 Sesión 06: Auditoría Cruzada y Cierre</div>
+  </nav>
+
+  <header>
+    <div>
+      <div class="brand-title">PSLL · Taller Integrador y Clínica de Informes</div>
+      <div class="brand-sub">Consolidación de Bloques 1-4, Calibración de Rúbrica y Preparación de la Auditoría Cruzada (EPD 6)</div>
+    </div>
+    <div class="badge-session">EPD 5 · Laboratorio Informático</div>
+  </header>
+
+  <!-- PESTAÑAS NAVEGACIÓN -->
+  <div class="tabs-nav">
+    <button class="tab-btn active" onclick="openTab(0)">📋 1. Ensamblaje de Bloques</button>
+    <button class="tab-btn" onclick="openTab(1)">✅ 2. Validador de Rúbrica</button>
+    <button class="tab-btn" onclick="openTab(2)">🔍 3. Protocolo de Auditoría Cruzada (EPD 6)</button>
+    <button class="tab-btn" onclick="openTab(3)">✍️ 4. Visto Bueno y Sellado</button>
+  </div>
+
+  <!-- PESTAÑA 1: ENSAMBLAJE DE BLOQUES -->
+  <div class="tab-pane active" id="pane0">
+    <div class="card-box">
+      <div class="card-title">📂 Arquitectura del Informe Final Integrado (12–16 Páginas)</div>
+      <p style="font-size: 0.9rem; line-height: 1.45; margin-bottom: 14px;">
+        Un informe técnico de consultoría laboral no es un 'copia-pega' de archivos sueltos. Debe existir una <strong>cadena lógica de causalidad</strong>: el diagnóstico empírico justifica la necesidad de los fondos europeos, y los fallos de diseño de las ayudas justifican vuestras propuestas de reforma.
+      </p>
+
+      <div class="grid-2">
+        <div style="background: #fff; padding: 14px; border-radius: 10px; border: 1px solid var(--border-color);">
+          <strong style="color: var(--psll-pine); font-size: 0.95rem;">Bloque 1 · Diagnóstico Empírico (EPA / Eurostat)</strong>
+          <ul style="font-size: 0.85rem; line-height: 1.4; margin: 8px 0 0 18px; color: var(--psll-ink);">
+            <li>Tasa de paro de la cohorte asignada (45-54 o 55+ años) en Andalucía vs. España vs. UE.</li>
+            <li>Peso relativo de los parados de larga (>12m) y muy larga duración (>24m).</li>
+            <li>Gráficos oficiales comentados en texto (evitar imágenes flotantes sin análisis).</li>
+          </ul>
+        </div>
+
+        <div style="background: #fff; padding: 14px; border-radius: 10px; border: 1px solid var(--border-color);">
+          <strong style="color: var(--psll-pine); font-size: 0.95rem;">Bloque 2 · Marco Europeo y FSE+ 2021-2027</strong>
+          <ul style="font-size: 0.85rem; line-height: 1.4; margin: 8px 0 0 18px; color: var(--psll-ink);">
+            <li>Alineación con los Principios 4 y 8 del Pilar Europeo de Derechos Sociales.</li>
+            <li>Objetivos Específicos del FSE+ (OE 1 sobre acceso al empleo o OE 3 sobre formación).</li>
+            <li>Tasa de cofinanciación autonómica en Andalucía (85% FSE+ / 15% Junta de Andalucía).</li>
+          </ul>
+        </div>
+
+        <div style="background: #fff; padding: 14px; border-radius: 10px; border: 1px solid var(--border-color);">
+          <strong style="color: var(--psll-pine); font-size: 0.95rem;">Bloque 3 · Evaluación Técnica de Programas</strong>
+          <ul style="font-size: 0.85rem; line-height: 1.4; margin: 8px 0 0 18px; color: var(--psll-ink);">
+            <li>Análisis de la Orden de 3 de octubre de 2024 (Emplea-T: Línea 1 vs. Línea 2).</li>
+            <li>Estimación analítica del Coste Neto por empleo descontando el peso muerto.</li>
+            <li>Efectos colaterales: sustitución, desplazamiento, estigma y 'creaming'.</li>
+          </ul>
+        </div>
+
+        <div style="background: #fff; padding: 14px; border-radius: 10px; border: 1px solid var(--border-color);">
+          <strong style="color: var(--psll-coral); font-size: 0.95rem;">Bloque 4 · Conclusiones y Propuestas (Redacción Conjunta)</strong>
+          <ul style="font-size: 0.85rem; line-height: 1.4; margin: 8px 0 0 18px; color: var(--psll-ink);">
+            <li>Síntesis ejecutiva de fortalezas y debilidades de las políticas actuales.</li>
+            <li>Batería de 3 recomendaciones concretas dirigidas al SAE, SEPE y tejido empresarial.</li>
+            <li>Tabla formal de responsabilidades nominativas por estudiante en página 2.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PESTAÑA 2: VALIDADOR DE RÚBRICA -->
+  <div class="tab-pane" id="pane1">
+    <div class="card-box">
+      <div class="card-title">✅ Checklist de Calidad Editorial y Científica (Rúbrica Oficial)</div>
+      <p style="font-size: 0.88rem; margin-bottom: 14px;">
+        Marcad cada elemento verificado en vuestro borrador consolidado. El sistema calcula la puntuación estimada sobre <strong>1,00 punto neto</strong> del Informe Escrito.
+      </p>
+
+      <div class="rubric-item" onclick="toggleCheck('c1')">
+        <input type="checkbox" id="c1" class="rubric-check" onchange="calcScore()">
+        <div class="rubric-text">
+          <strong>1. Coherencia Transversal:</strong> El diagnóstico empírico del Bloque 1 justifica exactamente las prioridades del Bloque 2 y el colectivo beneficiario en Emplea-T.
+        </div>
+        <div class="rubric-weight">0,15 pt</div>
+      </div>
+
+      <div class="rubric-item" onclick="toggleCheck('c2')">
+        <input type="checkbox" id="c2" class="rubric-check" onchange="calcScore()">
+        <div class="rubric-text">
+          <strong>2. Rigor Estadístico y Fuentes:</strong> Gráficos legibles con fuentes oficiales en el pie (EPA-INE / Eurostat LFS), año de referencia y cohortes correctas.
+        </div>
+        <div class="rubric-weight">0,15 pt</div>
+      </div>
+
+      <div class="rubric-item" onclick="toggleCheck('c3')">
+        <input type="checkbox" id="c3" class="rubric-check" onchange="calcScore()">
+        <div class="rubric-text">
+          <strong>3. Trazabilidad FSE+:</strong> Se especifica el Objetivo Específico del Reglamento (UE) 2021/1057 y la tasa de cofinanciación del 85% para Andalucía.
+        </div>
+        <div class="rubric-weight">0,15 pt</div>
+      </div>
+
+      <div class="rubric-item" onclick="toggleCheck('c4')">
+        <input type="checkbox" id="c4" class="rubric-check" onchange="calcScore()">
+        <div class="rubric-text">
+          <strong>4. Juicio Crítico en Emplea-T:</strong> No se limita a resumir el BOJA; calcula el coste neto por empleo y cuantifica peso muerto y sustitución.
+        </div>
+        <div class="rubric-weight">0,20 pt</div>
+      </div>
+
+      <div class="rubric-item" onclick="toggleCheck('c5')">
+        <input type="checkbox" id="c5" class="rubric-check" onchange="calcScore()">
+        <div class="rubric-text">
+          <strong>5. Recomendaciones de Reforma (Bloque 4):</strong> Al menos 3 propuestas aplicadas, operativas y fundamentadas para el SAE/SEPE.
+        </div>
+        <div class="rubric-weight">0,20 pt</div>
+      </div>
+
+      <div class="rubric-item" onclick="toggleCheck('c6')">
+        <input type="checkbox" id="c6" class="rubric-check" onchange="calcScore()">
+        <div class="rubric-text">
+          <strong>6. Maquetación y Tabla Nominativa:</strong> Formato homologado PSLL (Calibri 11 pt, interlineado 1,15) con la tabla de reparto de tareas en página 2.
+        </div>
+        <div class="rubric-weight">0,15 pt</div>
+      </div>
+
+      <div class="score-banner">
+        <div>
+          <div style="font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: var(--psll-sage);">Puntuación Estimada del Informe Escrito</div>
+          <div style="font-size: 0.82rem; color: #fff;">Sujeto a la revisión y visto bueno docente en el aula</div>
+        </div>
+        <div class="score-num" id="lblScore">0,00 / 1,00 pt</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PESTAÑA 3: PROTOCOLO DE AUDITORÍA CRUZADA -->
+  <div class="tab-pane" id="pane2">
+    <div class="card-box">
+      <div class="card-title">🔍 Protocolo y Rúbrica de Auditoría Técnica Cruzada (EPD 6 · 0,50 pt)</div>
+      <p style="font-size: 0.88rem; margin-bottom: 14px; line-height: 1.45;">
+        En la sesión EPD 6 <strong>no habrá exposiciones orales</strong>. Vuestro equipo actuará como <strong>Comité Técnico Evaluador del Servicio Andaluz de Empleo (SAE)</strong>. Recibiréis el informe anónimo de otro equipo y emitiréis un <strong>Dictamen de Auditoría Crítica</strong> evaluando 4 dimensiones esenciales (0 a 125 pts cada una = 500 pts / 0,50 pt):
+      </p>
+
+      <div class="grid-2" style="margin-bottom: 16px;">
+        <div style="background: #fff; border: 1.5px solid var(--border-color); border-radius: 12px; padding: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <strong style="color: var(--psll-pine); font-size: 0.92rem;">1. Rigor Estadístico y EPA</strong>
+            <span class="rubric-weight">125 pts</span>
+          </div>
+          <p style="font-size: 0.82rem; color: var(--psll-ink); line-height: 1.35;">
+            ¿Las tasas de paro y actividad corresponden a su cohorte asignada? ¿Se analiza la duración (>12m y >24m)? ¿Hay contraste riguroso Andalucía vs. España vs. UE?
+          </p>
+        </div>
+
+        <div style="background: #fff; border: 1.5px solid var(--border-color); border-radius: 12px; padding: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <strong style="color: var(--psll-pine); font-size: 0.92rem;">2. Gobernanza y Financiación FSE+</strong>
+            <span class="rubric-weight">125 pts</span>
+          </div>
+          <p style="font-size: 0.82rem; color: var(--psll-ink); line-height: 1.35;">
+            ¿Se citan los Principios del Pilar Europeo de Derechos Sociales? ¿Se identifican los Objetivos Específicos del FSE+? ¿Consta la cofinanciación autonómica del 85%?
+          </p>
+        </div>
+
+        <div style="background: #fff; border: 1.5px solid var(--border-color); border-radius: 12px; padding: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <strong style="color: var(--psll-pine); font-size: 0.92rem;">3. Evaluación Cuantitativa de Emplea-T</strong>
+            <span class="rubric-weight">125 pts</span>
+          </div>
+          <p style="font-size: 0.82rem; color: var(--psll-ink); line-height: 1.35;">
+            ¿Se desglosa la Orden de 3 de octubre de 2024? ¿Se calcula el coste neto descontando el peso muerto? ¿Se evalúan los efectos de sustitución, estigma y peso muerto?
+          </p>
+        </div>
+
+        <div style="background: #fff; border: 1.5px solid var(--border-color); border-radius: 12px; padding: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <strong style="color: var(--psll-pine); font-size: 0.92rem;">4. Viabilidad de las 3 Propuestas</strong>
+            <span class="rubric-weight">125 pts</span>
+          </div>
+          <p style="font-size: 0.82rem; color: var(--psll-ink); line-height: 1.35;">
+            ¿Son 3 medidas realistas y aplicables en el SAE? ¿Tienen presupuesto estimativo y cronograma? ¿Aportan soluciones reales a las deficiencias detectadas?
+          </p>
+        </div>
+      </div>
+
+      <div style="background: #FFFFFF; border: 1.5px solid var(--psll-pine); border-radius: 12px; padding: 16px;">
+        <h4 style="font-family: 'Outfit'; color: var(--psll-pine); font-size: 1rem; margin-bottom: 8px;">💡 ¿Cómo se evalúa a vuestro equipo como Auditores?</h4>
+        <p style="font-size: 0.85rem; color: var(--psll-ink); line-height: 1.45;">
+          <strong>Vuestra nota de 0,50 pt dependerá de vuestra capacidad crítica como evaluadores:</strong><br>
+          • <strong>0,25 pt · Detección de Incoherencias:</strong> Rigor al contrastar si las afirmaciones y números del informe analizado son ciertos o si contienen errores teóricos o de cálculo.<br>
+          • <strong>0,25 pt · Propuestas de Mejora y Ecuanimidad:</strong> Justificación técnica de las correcciones, aportación de alternativas viables y ausencia de condescendencia acrítica.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PESTAÑA 4: VISTO BUENO Y SELLADO -->
+  <div class="tab-pane" id="pane3">
+    <div class="card-box">
+      <div class="card-title">✍️ Validación Docente y Sello de Habilitación para EPD 6</div>
+      <p style="font-size: 0.88rem; margin-bottom: 14px;">
+        Cumplimentad los datos de vuestro equipo y mostrad esta pantalla al profesor cuando revise vuestro puesto de trabajo en la clínica:
+      </p>
+
+      <div class="grid-2">
+        <div>
+          <div class="form-group">
+            <label class="form-label">Código de Equipo:</label>
+            <input type="text" class="form-input" id="inCodEquipo" placeholder="Ej: PSLL-EPD5-8421" value="PSLL-EPD5-">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Acrónimo del Responsable (@alu.upo.es):</label>
+            <input type="text" class="form-input" id="inAcronimo" placeholder="Ej: jmonsan">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Integrantes del Equipo presentes:</label>
+            <input type="text" class="form-input" id="inMiembros" placeholder="Nombre de los 2 o 3 integrantes">
+          </div>
+          <button class="btn-seal" onclick="sellarBorrador()">📥 Generar Comprobante de Visto Bueno</button>
+        </div>
+
+        <div>
+          <div class="seal-certificate" id="certBox">
+            <h3 style="font-family: 'Outfit'; color: var(--psll-pine); font-size: 1.25rem;">VISTO BUENO DOCENTE · APTO ENTREGA EPD 6</h3>
+            <p style="font-size: 0.82rem; color: var(--psll-sage); margin-top: 4px;">Proyecto EPD · Políticas Sociolaborales y de Empleo (UPO)</p>
+            <div class="cert-token" id="certToken">PSLL-EPD5-0000</div>
+            <p style="font-size: 0.82rem; color: var(--psll-ink); line-height: 1.45;" id="certInfo">
+              Borrador verificado con éxito.<br>Habilitado para depósito final en Aula Virtual y participación en la Auditoría Técnica Cruzada.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openTab(idx) {
+  const tabs = document.querySelectorAll('.tab-btn');
+  const panes = document.querySelectorAll('.tab-pane');
+  tabs.forEach((t, i) => t.classList.toggle('active', i === idx));
+  panes.forEach((p, i) => p.classList.toggle('active', i === idx));
+}
+
+function toggleCheck(id) {
+  const chk = document.getElementById(id);
+  chk.checked = !chk.checked;
+  calcScore();
+}
+
+function calcScore() {
+  const weights = [0.15, 0.15, 0.15, 0.20, 0.20, 0.15];
+  let total = 0;
+  for (let i = 1; i <= 6; i++) {
+    if (document.getElementById('c' + i).checked) {
+      total += weights[i - 1];
+    }
+  }
+  document.getElementById('lblScore').innerText = total.toFixed(2).replace('.', ',') + " / 1,00 pt";
+}
+
+// LÓGICA TEMPORIZADOR Y SEMÁFORO (10 MINUTOS)
+let timeRemaining = 600; // 10 min
+let timerId = null;
+let currentPhase = 1; // 1: Bloque 1 (0-3 min), 2: Bloque 2 (3-6 min), 3: Bloque 3 (6-9 min), 4: Conclusiones (9-10 min)
+
+function updateTraffic() {
+  const clock = document.getElementById('clockText');
+  const spk = document.getElementById('lblSpeaker');
+  const info = document.getElementById('lblPhaseInfo');
+  const lG = document.getElementById('lampG');
+  const lA = document.getElementById('lampA');
+  const lR = document.getElementById('lampR');
+
+  const elapsed = 600 - timeRemaining;
+  const mins = Math.floor(timeRemaining / 60);
+  const secs = timeRemaining % 60;
+  clock.innerText = (mins < 10 ? "0" : "") + mins + ":" + (secs < 10 ? "0" : "") + secs;
+
+  // Fases por minutos transcurridos
+  if (elapsed < 180) { // 0 a 3 min
+    currentPhase = 1;
+    spk.innerText = "Ponente 1: Bloque 1 (Diagnóstico EPA)";
+    info.innerText = "Fase 1: Minuto 00:00 a 03:00 · Diagnóstico y cifras clave";
+  } else if (elapsed < 360) { // 3 a 6 min
+    currentPhase = 2;
+    spk.innerText = "Ponente 2: Bloque 2 (Marco FSE+ y Gobernanza)";
+    info.innerText = "Fase 2: Minuto 03:00 a 06:00 · Gobernanza europea y fondos FSE+";
+  } else if (elapsed < 540) { // 6 a 9 min
+    currentPhase = 3;
+    spk.innerText = "Ponente 3: Bloque 3 (Emplea-T y Evaluación PAE)";
+    info.innerText = "Fase 3: Minuto 06:00 a 09:00 · Evaluación de incentivos y coste neto";
+  } else { // 9 a 10 min
+    currentPhase = 4;
+    spk.innerText = "Equipo al Completo: Bloque 4 (Conclusiones y Reformas)";
+    info.innerText = "Fase 4: Minuto 09:00 a 10:00 · Batería de propuestas y cierre";
+  }
+
+  // Semáforo
+  lG.classList.remove('active');
+  lA.classList.remove('active');
+  lR.classList.remove('active');
+
+  // Aviso amarillo cuando faltan 30s para el cambio de fase o fin
+  const phaseRemaining = (currentPhase < 4) ? (180 - (elapsed % 180)) : timeRemaining;
+
+  if (timeRemaining <= 0) {
+    lR.classList.add('active');
+    clock.style.color = "#FF1744";
+    info.innerText = "¡TIEMPO AGOTADO! El tribunal corta la exposición.";
+  } else if (phaseRemaining <= 30) {
+    lA.classList.add('active');
+    clock.style.color = "#FFB300";
+  } else {
+    lG.classList.add('active');
+    clock.style.color = "#113927";
+  }
+}
+
+function toggleTimer() {
+  const btn = document.getElementById('btnToggle');
+  if (timerId) {
+    clearInterval(timerId);
+    timerId = null;
+    btn.innerText = "▶ Reanudar Ensayo";
+  } else {
+    timerId = setInterval(() => {
+      if (timeRemaining > 0) {
+        timeRemaining--;
+        updateTraffic();
+      } else {
+        clearInterval(timerId);
+        timerId = null;
+        btn.innerText = "▶ Iniciar Ensayo";
+      }
+    }, 1000);
+    btn.innerText = "⏸ Pausar Ensayo";
+  }
+}
+
+function nextSpeaker() {
+  // Salta al siguiente hito de 3 minutos
+  const elapsed = 600 - timeRemaining;
+  if (elapsed < 180) timeRemaining = 600 - 180;
+  else if (elapsed < 360) timeRemaining = 600 - 360;
+  else if (elapsed < 540) timeRemaining = 600 - 540;
+  else timeRemaining = 0;
+  updateTraffic();
+}
+
+function resetTimer() {
+  clearInterval(timerId);
+  timerId = null;
+  timeRemaining = 600;
+  document.getElementById('btnToggle').innerText = "▶ Iniciar Ensayo";
+  updateTraffic();
+}
+
+// SELLADO
+function sellarBorrador() {
+  const cod = document.getElementById('inCodEquipo').value.trim();
+  const acr = document.getElementById('inAcronimo').value.trim();
+  const box = document.getElementById('certBox');
+  const tok = document.getElementById('certToken');
+  const inf = document.getElementById('certInfo');
+
+  const fullToken = (cod.length > 10 ? cod : ("PSLL-EPD5-" + Math.floor(1000 + Math.random() * 9000)));
+  tok.innerText = fullToken;
+  inf.innerHTML = `<strong>Equipo Validado:</strong> ${acr || "Equipo PSLL"}<br>Borrador apto para la defensa pública en EPD 6.<br>Fecha: ${new Date().toLocaleDateString('es-ES')} · Aula Informática UPO`;
+  box.style.display = 'block';
+}
+</script>
+</body>
+</html>
