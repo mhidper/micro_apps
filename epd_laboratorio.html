@@ -4406,15 +4406,13 @@
       checkActivationState();
       setTimeout(renderKaTeXInDocument, 300);
       const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('sesion') === '1') {
+      if (urlParams.get('sesion') === '1' || urlParams.get('consulta') === '1') {
         const savedUser = localStorage.getItem('psll_auth_user');
-        if (savedUser && DB_USERS[savedUser]) {
-          currentSession.username = savedUser;
-          currentSession.fullName = DB_USERS[savedUser];
-          openEPD1Workspace();
-        } else {
-          openLoginView(1);
-        }
+        const fallbackUser = (savedUser && DB_USERS[savedUser]) ? savedUser : Object.keys(DB_USERS)[0];
+        currentSession.username = fallbackUser;
+        currentSession.fullName = DB_USERS[fallbackUser] || 'Modo Consulta EPD 5';
+        currentSession.userCode = getEPDCode(fallbackUser);
+        openEPD1Workspace();
       }
     });
   </script>
