@@ -6643,8 +6643,10 @@
           btn.disabled = false;
         }
         window.print();
-      
-      // Modo Consulta Directa desde EPD 5 (?consulta=1): salta login y seleccion de companeros
+      });
+    }
+  
+    window.addEventListener('DOMContentLoaded', () => {
       if (new URLSearchParams(window.location.search).get('consulta') === '1') {
         const savedU = localStorage.getItem('psll_auth_user');
         const u = (savedU && typeof DB_USERS !== 'undefined' && DB_USERS[savedU]) ? savedU : (typeof DB_USERS !== 'undefined' ? Object.keys(DB_USERS)[0] : 'consulta');
@@ -6660,7 +6662,6 @@
         }
       }
     });
-    }
   </script>
 </body>
 

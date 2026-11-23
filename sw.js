@@ -1,12 +1,12 @@
-/* Service Worker · Micro-Apps Docentes
+﻿/* Service Worker Â· Micro-Apps Docentes
    - Precacheo de todo el "shell" y las micro-apps para uso offline.
    - Estrategia: network-first para HTML y datos (el contenido cambia a
-     menudo, así las actualizaciones ganan con red); cache-first para el
-     resto (CSS, fuentes, imágenes).
-   - La activación de la versión nueva la decide el usuario (aviso en la
-     app) mediante el mensaje SKIP_WAITING: nunca se queda con una versión
+     menudo, asÃ­ las actualizaciones ganan con red); cache-first para el
+     resto (CSS, fuentes, imÃ¡genes).
+   - La activaciÃ³n de la versiÃ³n nueva la decide el usuario (aviso en la
+     app) mediante el mensaje SKIP_WAITING: nunca se queda con una versiÃ³n
      antigua ni interrumpe sin avisar. */
-const CACHE = 'mh-microapps-v25';
+const CACHE = 'mh-microapps-v26';
 
 const PRECACHE = [
   './', './index.html', './theme.css', './fonts.css',
@@ -16,7 +16,7 @@ const PRECACHE = [
   './data/calificaciones_cifradas.js',
   './pasaporte_psll.html',
   './data/calificaciones_cifradas_psll.js',
-  // Práctica EPD de Macroeconomía (ejercicios ilimitados)
+  // PrÃ¡ctica EPD de MacroeconomÃ­a (ejercicios ilimitados)
   './practica_macro/', './practica_macro/index.html', './practica_macro/estilo.css',
   './practica_macro/core.js', './practica_macro/epd1.js', './practica_macro/epd2.js',
   './practica_macro/epd3.js', './practica_macro/epd4.js', './practica_macro/epd5.js', './practica_macro/examen.js', './practica_macro/cuenta.js', './practica_macro/config.js', './practica_macro/app.js',
