@@ -4405,6 +4405,17 @@
     window.addEventListener('DOMContentLoaded', () => {
       checkActivationState();
       setTimeout(renderKaTeXInDocument, 300);
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('sesion') === '1') {
+        const savedUser = localStorage.getItem('psll_auth_user');
+        if (savedUser && DB_USERS[savedUser]) {
+          currentSession.username = savedUser;
+          currentSession.fullName = DB_USERS[savedUser];
+          openEPD1Workspace();
+        } else {
+          openLoginView(1);
+        }
+      }
     });
   </script>
 </body>
