@@ -6,7 +6,7 @@
    - La activación de la versión nueva la decide el usuario (aviso en la
      app) mediante el mensaje SKIP_WAITING: nunca se queda con una versión
      antigua ni interrumpe sin avisar. */
-const CACHE = 'mh-microapps-v22';
+const CACHE = 'mh-microapps-v23';
 
 const PRECACHE = [
   './', './index.html', './theme.css', './fonts.css',
