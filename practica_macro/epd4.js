@@ -98,7 +98,7 @@
             eq('N<sub>n</sub> = L · (1 − u<sub>n</sub>) = ' + e0(L) + ' · (1 − ' + e4(un0) + ') = ' + e0(L) + ' · ' + e4(1 - un0) + ' ≈ <b>' + e2(Nn0) + ' miles</b>') +
             '<p>El desempleo correspondiente es U<sub>n</sub> = L · u<sub>n</sub> = ' + e0(L) + ' · ' + e4(un0) + ' ≈ ' + e2(Un0) + ' miles de personas.</p>'
         }),
-        { sep: 'Reforma laboral: reducción de prestaciones por desempleo' },
+        { tipo: 'sep', html: '<p><b>Reforma laboral: reducción de prestaciones por desempleo</b></p>' },
         num('d', 'Suponga que una reforma reduce z a ' + fmt(z1, 1) + '. ¿Cuál es el nuevo salario real fijado por las empresas?', wp0, {
           dec: 4, unidad: '',
           pista: 'Las prestaciones z sólo entran en la ecuación WS. La curva PS depende únicamente de A y m, por lo que el salario real permanece constante.',
@@ -131,7 +131,7 @@
               '<p>3. Para que los trabajadores vuelvan a percibir ese salario real con una curva WS deprimida, la tasa de desempleo debe reducirse hasta ' + p(un1_pct) + '%, aumentando el empleo natural.</p>'
           }
         ),
-        { sep: 'Shock de oferta adverso: subida en el precio del petróleo' },
+        { tipo: 'sep', html: '<p><b>Shock de oferta adverso: subida en el precio del petróleo</b></p>' },
         num('g', 'Partiendo de la situación inicial, suponga que el encarecimiento de materias primas eleva el margen a m = ' + fmt(m1, 2) + '. Nuevo salario real (W / P):', wp_oil, {
           dec: 4, unidad: '',
           pista: 'Calcule W/P = A / (1 + m) con el nuevo valor de margen m = ' + fmt(m1, 2) + '.',
@@ -268,7 +268,7 @@
           explica: '<p>A través de la función de producción lineal Y = A · N con A = ' + fmt(A0, 1) + ':</p>' +
             eq('Y<sub>n</sub> = A · N<sub>n</sub> = ' + fmt(A0, 1) + ' · ' + e2(Nn0) + ' = <b>' + e2(Yn0) + ' unidades</b>')
         }),
-        { sep: 'Choque tecnológico: la productividad A aumenta un +' + crec_A + '% (pasa a A = ' + fmt(A1, 2) + ')' },
+        { tipo: 'sep', html: '<p><b>' + 'Choque tecnológico: la productividad A aumenta un +' + crec_A + '% (pasa a A = ' + fmt(A1, 2) + ')' + '</b></p>' },
         num('e', 'Nuevo salario real ofrecido por las empresas tras el avance técnico:', wp1, {
           dec: 4, unidad: '',
           pista: 'Con A = ' + fmt(A1, 2) + ', el nuevo salario real soportado por la regla de precios es (W/P) = A / (1 + m).',
